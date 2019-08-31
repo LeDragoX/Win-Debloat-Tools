@@ -4,7 +4,7 @@
 Creators Update. Anything may happen, be prepared. I'll look into relevant
 changes and recent issues when the update is released / pushed on to everyone.
 
-This project collects Powershell scripts which help to *debloat* Windows 10,
+This project collects PowerShell scripts which help to *debloat* Windows 10,
 tweak common settings and install basic software components.
 
 I test these scripts on a Windows 10 Professional 64-Bit (English) virtual
@@ -56,9 +56,9 @@ Unblock PowerShell scripts and modules within this directory:
 5. Run `disable-windows-defender.ps1` one more time.
 6. `PS > Restart-Computer`
 
-## Startmenu
+## Start menu
 
-In the past I included small fixes to make the startmenu more usable, like
+In the past I included small fixes to make the start menu more usable, like
 removing default tiles, disabling web search and so on. This is no longer the
 case since I am that fed up with it. This fucking menu breaks for apparently
 know reason, is slow, is a pain to configure / script and even shows ads out of
@@ -72,9 +72,9 @@ is Back], but stop using that shit.
 
 ## Known Issues
 
-### Startmenu Search
+### Start menu Search
 
-After running the scripts, the startmenu search-box may no longer work on newly
+After running the scripts, the start menu search-box may no longer work on newly
 created accounts. It seems like there is an issue with account initilization
 that is triggered when disabling the GeoLocation service. Following workaround
 has been discovered by BK from Atlanta:
@@ -93,10 +93,10 @@ functional.
 If you are deploying images with MDT and running these scripts, the sysprep
 step will hang unless `dmwappushserivce` is active.
 
-### XBox Wireless Adapter
+### Xbox Wireless Adapter
 
-Apprently running the stock `remove-default-apps` script will cause XBox
-Wireless Adapters to stop functioning. I suspenc one should not remove the XBox
+Apprently running the stock `remove-default-apps` script will cause Xbox
+Wireless Adapters to stop functioning. I suspenc one should not remove the Xbox
 App when wanting to use one. But I haven't confirmed this yet, and there is a
 workaround to re-enable it afterwards. See
 [#78](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78).
@@ -104,7 +104,7 @@ workaround to re-enable it afterwards. See
 ### Issues with Skype
 
 Some of the domains blocked by adding them to the hosts-file are required for
-Skype. I highly disencourage using Skype, however some people may not have
+Skype. I highly discourage using Skype, however some people may not have
 the option to use an alternative. See the
 [#79](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79).
 
