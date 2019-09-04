@@ -105,7 +105,7 @@ $domains = @(
     "secure.flashtalking.com"
     "services.wes.df.telemetry.microsoft.com"
     "settings-sandbox.data.microsoft.com"
-    "settings-win.data.microsoft.com"
+    #"settings-win.data.microsoft.com"       # may cause issues with Windows Updates
     "sls.update.microsoft.com.akadns.net"
     #"sls.update.microsoft.com.nsatc.net"    # may cause issues with Windows Updates
     "sqm.df.telemetry.microsoft.com"
