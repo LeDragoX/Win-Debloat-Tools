@@ -61,7 +61,7 @@ Unblock PowerShell scripts and modules within this directory:
 In the past I included small fixes to make the start menu more usable, like
 removing default tiles, disabling web search and so on. This is no longer the
 case since I am that fed up with it. This fucking menu breaks for apparently
-know reason, is slow, is a pain to configure / script and even shows ads out of
+no reason, is slow, is a pain to configure / script and even shows ads out of
 the box!
 
 Please replace it with something better, either use [Classic Shell] or [Start
@@ -75,7 +75,7 @@ is Back], but stop using that shit.
 ### Start menu Search
 
 After running the scripts, the start menu search-box may no longer work on newly
-created accounts. It seems like there is an issue with account initilization
+created accounts. It seems like there is an issue with account initialization
 that is triggered when disabling the GeoLocation service. Following workaround
 has been discovered by BK from Atlanta:
 
@@ -96,7 +96,7 @@ step will hang unless `dmwappushserivce` is active.
 ### Xbox Wireless Adapter
 
 Apprently running the stock `remove-default-apps` script will cause Xbox
-Wireless Adapters to stop functioning. I suspenc one should not remove the Xbox
+Wireless Adapters to stop functioning. I suspect one should not remove the Xbox
 App when wanting to use one. But I haven't confirmed this yet, and there is a
 workaround to re-enable it afterwards. See
 [#78](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78).
