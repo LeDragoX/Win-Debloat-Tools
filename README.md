@@ -38,8 +38,7 @@ Enable execution of PowerShell scripts:
 
 Unblock PowerShell scripts and modules within this directory:
 
-    PS > ls -Recurse *.ps1 | Unblock-File
-    PS > ls -Recurse *.psm1 | Unblock-File
+    PS > ls -Recurse *.ps*1 | Unblock-File
 
 ## Usage
 
