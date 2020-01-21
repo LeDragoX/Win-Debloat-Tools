@@ -14,6 +14,9 @@ Write-Output "Disabling telemetry via Group Policies"
 force-mkdir "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
 Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "AllowTelemetry" 0
 
+# Entries related to Akamai have been reported to cause issues with Widevine
+# DRM.
+
 Write-Output "Adding telemetry domains to hosts file"
 $hosts_file = "$env:systemroot\System32\drivers\etc\hosts"
 $domains = @(
