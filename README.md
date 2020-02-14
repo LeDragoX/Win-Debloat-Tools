@@ -11,6 +11,9 @@ automate this phase of their setup. If this profile does not fit you, I
 recommend using a different (more interactive) tool -- and there are a lot of
 them out there.
 
+Also note that gaming related apps and services will be removed / disabled. If
+you intend to use your system for gaming, adjust the scripts accordingly.
+
 **There is no undo**, I recommend only using these scripts on a fresh
 installation (including Windows Updates). Test everything after running them
 before doing anything else. Also there is no guarantee that everything will
