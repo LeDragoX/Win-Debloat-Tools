@@ -107,6 +107,7 @@ $apps = @(
     "PandoraMediaInc.29680B314EFC2"
     "Playtika.CaesarsSlotsFreeCasino"
     "ShazamEntertainmentLtd.Shazam"
+    "SlingTVLLC.SlingTV"
     "SpotifyAB.SpotifyMusic"
     #"TheNewYorkTimes.NYTCrossword"
     "ThumbmunkeysLtd.PhototasticCollage"
