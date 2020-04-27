@@ -45,13 +45,15 @@ Unblock PowerShell scripts and modules within this directory:
 
 ## Usage
 
+Scripts can be run individually, pick what you need.
+
 1. Install all available updates for your system.
 2. Edit the scripts to fit your need.
-3. Run the scripts from a PowerShell with administrator privileges (Explorer
+3. Run the scripts you want to apply from a PowerShell with administrator privileges (Explorer
    `Files > Open Windows PowerShell > Open Windows PowerShell as
    administrator`)
 4. `PS > Restart-Computer`
-5. Run `disable-windows-defender.ps1` one more time.
+5. Run `disable-windows-defender.ps1` one more time if you ran it in step 3
 6. `PS > Restart-Computer`
 
 ## Start menu
