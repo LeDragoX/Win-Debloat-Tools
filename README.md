@@ -64,10 +64,10 @@ case since I am that fed up with it. This fucking menu breaks for apparently
 no reason, is slow, is a pain to configure / script and even shows ads out of
 the box!
 
-Please replace it with something better, either use [Classic Shell] or [Start
+Please replace it with something better, either use [Open Shell] or [Start
 is Back], but stop using that shit.
 
-[Classic Shell]: <http://www.classicshell.net/>
+[Open Shell]: <https://open-shell.github.io/Open-Shell-Menu/>
 [Start is Back]: <http://startisback.com/>
 
 ## Known Issues
