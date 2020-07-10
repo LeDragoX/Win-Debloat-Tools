@@ -1,5 +1,9 @@
 # Debloat Windows 10
 
+**Windows 10 2004 Update:**
+The default configuration of the scripts break the System Settings app.
+See [issue 254](https://github.com/W4RH4WK/Debloat-Windows-10/issues/254) for more information.
+
 This project collects PowerShell scripts which help to *debloat* Windows 10,
 tweak common settings and install basic software components.
 
