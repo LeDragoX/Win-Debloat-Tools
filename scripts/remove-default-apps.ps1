@@ -102,7 +102,6 @@ $apps = @(
     "Flipboard.Flipboard"
     "GAMELOFTSA.Asphalt8Airborne"
     "KeeperSecurityInc.Keeper"
-    "Microsoft.BingNews"
     "NORDCURRENT.COOKINGFEVER"
     "PandoraMediaInc.29680B314EFC2"
     "Playtika.CaesarsSlotsFreeCasino"
