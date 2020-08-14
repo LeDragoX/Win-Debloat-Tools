@@ -1,9 +1,5 @@
 # Debloat Windows 10
 
-**Windows 10 2004 Update:**
-The default configuration of the scripts break the System Settings app.
-See [issue 254](https://github.com/W4RH4WK/Debloat-Windows-10/issues/254) for more information.
-
 This project collects PowerShell scripts which help to *debloat* Windows 10,
 tweak common settings and install basic software components.
 
@@ -15,17 +11,17 @@ automate this phase of their setup. If this profile does not fit you, I
 recommend using a different (more interactive) tool -- and there are a lot of
 them out there.
 
-Also note that gaming related apps and services will be removed / disabled. If
+Also, note that gaming-related apps and services will be removed/disabled. If
 you intend to use your system for gaming, adjust the scripts accordingly.
 
 **There is no undo**, I recommend only using these scripts on a fresh
 installation (including Windows Updates). Test everything after running them
-before doing anything else. Also there is no guarantee that everything will
+before doing anything else. Also, there is no guarantee that everything will
 work after future updates since I cannot predict what Microsoft will do next.
 
 ## Interactivity
 
-The scripts are designed to run without any user-interaction. Modify them
+The scripts are designed to run without any user interaction. Modify them
 beforehand. If you want a more interactive approach check out
 [DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from
 [10se1ucgo](https://github.com/10se1ucgo).
@@ -64,7 +60,7 @@ Scripts can be run individually, pick what you need.
 
 In the past I included small fixes to make the start menu more usable, like
 removing default tiles, disabling web search and so on. This is no longer the
-case since I am that fed up with it. This fucking menu breaks for apparently
+case since I am fed up with it. This fucking menu breaks for apparently
 no reason, is slow, is a pain to configure / script and even shows ads out of
 the box!
 
@@ -99,7 +95,7 @@ step will hang unless `dmwappushserivce` is active.
 
 ### Xbox Wireless Adapter
 
-Apprently running the stock `remove-default-apps` script will cause Xbox
+Apparently running the stock `remove-default-apps` script will cause Xbox
 Wireless Adapters to stop functioning. I suspect one should not remove the Xbox
 App when wanting to use one. But I haven't confirmed this yet, and there is a
 workaround to re-enable it afterwards. See
@@ -119,7 +115,7 @@ Ensure *Windows Biometric Service* is running. See
 
 ## Liability
 
-**All scripts are provided as is and you use them at your own risk.**
+**All scripts are provided as-is and you use them at your own risk.**
 
 ## Contribute
 
@@ -140,7 +136,7 @@ send me a pull request.
     "THE BEER-WARE LICENSE" (Revision 42):
 
     As long as you retain this notice you can do whatever you want with this
-    stuff. If we meet some day, and you think this stuff is worth it, you can
+    stuff. If we meet someday, and you think this stuff is worth it, you can
     buy us a beer in return.
 
     This project is distributed in the hope that it will be useful, but WITHOUT
