@@ -16,7 +16,7 @@ $services = @(
     "WbioSrvc"                                 # Windows Biometric Service (required for Fingerprint reader / facial detection)
     #"WlanSvc"                                 # WLAN AutoConfig
     "WMPNetworkSvc"                            # Windows Media Player Network Sharing Service
-    "wscsvc"                                   # Windows Security Center Service
+    #"wscsvc"                                  # Windows Security Center Service
     #"WSearch"                                 # Windows Search
     "XblAuthManager"                           # Xbox Live Auth Manager
     "XblGameSave"                              # Xbox Live Game Save Service
