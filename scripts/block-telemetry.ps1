@@ -14,13 +14,21 @@ Write-Output "Disabling telemetry via Group Policies"
 force-mkdir "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
 Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "AllowTelemetry" 0
 
-# Entries related to Akamai have been reported to cause issues with Widevine
-# DRM.
-
 Write-Output "Adding telemetry domains to hosts file"
 $hosts_file = "$env:systemroot\System32\drivers\etc\hosts"
 $domains = @(
-    "184-86-53-99.deploy.static.akamaitechnologies.com"
+	"tonec.com" #To remove IDM piracy message
+	"www.tonec.com" #To remove IDM piracy message
+	"registeridm.com" #To remove IDM piracy message
+	"www.registeridm.com" #To remove IDM piracy message
+	"secure.registeridm.com" #To remove IDM piracy message
+	"internetdownloadmanager.com" #To remove IDM piracy message
+	"www.internetdownloadmanager.com" #To remove IDM piracy message
+	"secure.internetdownloadmanager.com" #To remove IDM piracy message
+	"mirror.internetdownloadmanager.com" #To remove IDM piracy message
+	"mirror2.internetdownloadmanager.com" #To remove IDM piracy message
+	"mirror3.internetdownloadmanager.com" #To remove IDM piracy message
+    "184-86-53-99.deploy.static.akamaitechnologies.com" 
     "a-0001.a-msedge.net"
     "a-0002.a-msedge.net"
     "a-0003.a-msedge.net"
@@ -108,7 +116,7 @@ $domains = @(
     "secure.flashtalking.com"
     "services.wes.df.telemetry.microsoft.com"
     "settings-sandbox.data.microsoft.com"
-    #"settings-win.data.microsoft.com"       # may cause issues with Windows Updates
+    "settings-win.data.microsoft.com"
     "sls.update.microsoft.com.akadns.net"
     #"sls.update.microsoft.com.nsatc.net"    # may cause issues with Windows Updates
     "sqm.df.telemetry.microsoft.com"
@@ -137,7 +145,7 @@ $domains = @(
     "watson.telemetry.microsoft.com"
     "watson.telemetry.microsoft.com.nsatc.net"
     "wes.df.telemetry.microsoft.com"
-    "win10.ipv6.microsoft.com"
+    #"win10.ipv6.microsoft.com"
     "www.bingads.microsoft.com"
     "www.go.microsoft.akadns.net"
     "www.msftncsi.com"
@@ -155,9 +163,9 @@ $domains = @(
     "e3843.g.akamaiedge.net"
     "flightingserviceweurope.cloudapp.net"
     #"sls.update.microsoft.com"                 # may cause issues with Windows Updates
-    "static.ads-twitter.com"                    # may cause issues with Twitter login
+    "static.ads-twitter.com"
     "www-google-analytics.l.google.com"
-    "p.static.ads-twitter.com"                  # may cause issues with Twitter login
+    "p.static.ads-twitter.com"
     "hubspot.net.edge.net"
     "e9483.a.akamaiedge.net"
 
@@ -211,10 +219,10 @@ $ips = @(
     "184.86.53.99"
     "2.22.61.43"
     "2.22.61.66"
-    "204.79.197.200"
+    #"204.79.197.200" #Blocks cortana voice search
     "23.218.212.69"
     "65.39.117.230"
-    "65.52.108.33"   # Causes problems with Microsoft Store
+    #"65.52.108.33"   #Prevent Microsoft Store from downloading apps
     "65.55.108.23"
     "64.4.54.254"
 )
