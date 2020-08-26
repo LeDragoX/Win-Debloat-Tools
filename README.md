@@ -1,4 +1,4 @@
-# Debloat Windows 10
+# Debloat Windows 10-One-Click
 
 This project collects PowerShell scripts which help to *debloat* Windows 10,
 tweak common settings and install basic software components.
