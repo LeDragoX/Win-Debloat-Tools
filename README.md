@@ -1,5 +1,6 @@
 <h1>
-    <img width=40px src="https://cdn.icon-icons.com/icons2/843/PNG/512/Windows_icon-icons.com_67026.png"> Debloat-Win10-One-Click <img width=40px src="https://cdn.icon-icons.com/icons2/92/PNG/256/cmd_16549.png">
+    <img width=40px src="https://cdn.icon-icons.com/icons2/843/PNG/512/Windows_icon-icons.com_67026.png"> Debloat-Win10-One-Click 
+    <img width=40px src="https://cdn.icon-icons.com/icons2/92/PNG/256/cmd_16549.png">
 </h1>
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
@@ -15,25 +16,17 @@ you'll probably want the most recent version anyway.
 
 This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10) 
 that was made for debloat and tweak Windows 10 for better performance and less issues, 
-i've done some changes so it won't annoy by unninstalled apps, and keeps stability for games.
+i've done some changes so it won't annoy by unninstalled apps, and keeps stability for games and daily drive.
 
 **There is (maybe) a undo**, because i did a restoration point script before 
 doing everything. 
 **Use on a fresh windows install to note the differences, and if something breaks, 
 you can rely on a pre-made restoration point.**
 
-## Interactivity
-
-The scripts are designed to run without any user interaction. Modify them
-beforehand. If you want a more interactive approach check out:
-- [DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from [10se1ucgo](https://github.com/10se1ucgo).
-- [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex).
-- [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech).
-
 ## Usage
 
 This is kinda simple, just run the ´Script-Win10.bat´ file, click yes, and there you go, but, 
-if you're seeing so many errors, then stop and do whats in 
+if you're seeing errors, then stop and do whats in 
 [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
 
 Scripts can be run individually, pick what you need.
@@ -76,6 +69,13 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [maci0](https://github.com/maci0)
 - [narutards](https://github.com/narutards)
 - [tumpio](https://github.com/tumpio)
+
+## Interactivity
+
+The scripts are designed to run without any user interaction. Modify them
+beforehand. If you want a more interactive approach check out:
+- [DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from [10se1ucgo](https://github.com/10se1ucgo).
+- [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex).
 
 ## License
 
