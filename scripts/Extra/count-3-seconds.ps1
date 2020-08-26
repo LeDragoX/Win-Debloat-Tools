@@ -1,0 +1,1 @@
+1..3 | ForEach {Start-Sleep -Seconds $_ ; "$_ seconds"}

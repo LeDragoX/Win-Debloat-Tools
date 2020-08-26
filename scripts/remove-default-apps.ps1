@@ -41,20 +41,21 @@ $apps = @(
     "Microsoft.WindowsPhone"
     "Microsoft.WindowsSoundRecorder"
     #"Microsoft.WindowsStore"   # can't be re-installed
-    "Microsoft.Xbox.TCUI"
-    "Microsoft.XboxApp"
-    "Microsoft.XboxGameOverlay"
-    "Microsoft.XboxGamingOverlay"
-    "Microsoft.XboxSpeechToTextOverlay"
+    #"Microsoft.Xbox.TCUI"
+    #"Microsoft.XboxApp"
+    #"Microsoft.XboxGameOverlay"
+    #"Microsoft.XboxGamingOverlay"
+    #"Microsoft.XboxSpeechToTextOverlay"
     "Microsoft.YourPhone"
     "Microsoft.ZuneMusic"
     "Microsoft.ZuneVideo"
-
+    
+    
     # Threshold 2 apps
     "Microsoft.CommsPhone"
     "Microsoft.ConnectivityStore"
     "Microsoft.GetHelp"
-    "Microsoft.Getstarted"
+    #"Microsoft.Getstarted"
     "Microsoft.Messaging"
     "Microsoft.Office.Sway"
     "Microsoft.OneConnect"
@@ -66,20 +67,20 @@ $apps = @(
 
     #Redstone apps
     "Microsoft.BingFoodAndDrink"
-    "Microsoft.BingHealthAndFitness"
     "Microsoft.BingTravel"
+    "Microsoft.BingHealthAndFitness"
     "Microsoft.WindowsReadingList"
 
     # Redstone 5 apps
     "Microsoft.MixedReality.Portal"
     "Microsoft.ScreenSketch"
     "Microsoft.XboxGamingOverlay"
-    "Microsoft.YourPhone"
+    #"Microsoft.YourPhone"
 
     # non-Microsoft
     "2FE3CB00.PicsArt-PhotoStudio"
     "46928bounde.EclipseManager"
-    "4DF9E0F8.Netflix"
+    #"4DF9E0F8.Netflix"
     "613EBCEA.PolarrPhotoEditorAcademicEdition"
     "6Wunderkinder.Wunderlist"
     "7EE7776C.LinkedInforWindows"
@@ -106,7 +107,7 @@ $apps = @(
     "Playtika.CaesarsSlotsFreeCasino"
     "ShazamEntertainmentLtd.Shazam"
     "SlingTVLLC.SlingTV"
-    "SpotifyAB.SpotifyMusic"
+    #"SpotifyAB.SpotifyMusic"
     #"TheNewYorkTimes.NYTCrossword"
     "ThumbmunkeysLtd.PhototasticCollage"
     "TuneIn.TuneInRadio"
@@ -169,4 +170,3 @@ Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" "AutoDownload"
 # Prevents "Suggested Applications" returning
 force-mkdir "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1
-
