@@ -26,15 +26,15 @@ you can rely on a pre-made restoration point.**
 
 The scripts are designed to run without any user interaction. Modify them
 beforehand. If you want a more interactive approach check out:
-- [DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from
-[10se1ucgo](https://github.com/10se1ucgo).
+- [DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from [10se1ucgo](https://github.com/10se1ucgo).
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex).
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech).
 
 ## Usage
 
 This is kinda simple, just run the ´Script-Win10.bat´ file, click yes, and there you go, but, 
-if you're seeing so many errors, then stop and do whats in [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
+if you're seeing so many errors, then stop and do whats in 
+[**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
 
 Scripts can be run individually, pick what you need.
 
