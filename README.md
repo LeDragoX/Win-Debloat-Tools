@@ -13,23 +13,30 @@ you'll probably want the most recent version anyway.
 
 ## Resume
 
-This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10) that was made for debloat and tweak Windows 10 for better performance and less issues, i've done some changes so it won't annoy by unninstalled apps, and keeps stability for games.
+This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10) 
+that was made for debloat and tweak Windows 10 for better performance and less issues, 
+i've done some changes so it won't annoy by unninstalled apps, and keeps stability for games.
 
 **There is (maybe) a undo**, because i did a restoration point script before 
-doing everything.
-I recommend only using these scripts on a fresh
-installation (including Windows Updates). Test everything after running them
-before doing anything else. Also, there is no guarantee that everything will
-work after future updates since I cannot predict what Microsoft will do next.
+doing everything. 
+**Use on a fresh windows install to note the differences, and if something breaks, 
+you can rely on a pre-made restoration point.**
 
 ## Interactivity
 
 The scripts are designed to run without any user interaction. Modify them
-beforehand. If you want a more interactive approach check out
+beforehand. If you want a more interactive approach check out:
 - [DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from
 [10se1ucgo](https://github.com/10se1ucgo).
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex).
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech).
+
+## Usage
+
+This is kinda simple, just run the ´Script-Win10.bat´ file, click yes, and there you go, but, 
+if you're seeing so many errors, then stop and do whats in [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#usage).
+
+Scripts can be run individually, pick what you need.
 
 ## Execution
 If the `Script-Win10.bat` do not make that automatically, follow these steps.
@@ -41,19 +48,6 @@ Enable execution of PowerShell scripts:
 Unblock PowerShell scripts and modules within this directory:
 
     PS> ls -Recurse *.ps*1 | Unblock-File
-
-## Usage
-
-Scripts can be run individually, pick what you need.
-
-1. Install all available updates for your system.
-2. Edit the scripts to fit your need.
-3. Run the scripts you want to apply from a PowerShell with administrator privileges (Explorer
-   `Files > Open Windows PowerShell > Open Windows PowerShell as
-   administrator`)
-4. `PS > Restart-Computer`
-5. Run `disable-windows-defender.ps1` one more time if you ran it in step 3
-6. `PS > Restart-Computer`
 
 ## Start menu
 
@@ -69,48 +63,13 @@ is Back], but stop using that shit.
 [Open Shell]: <https://open-shell.github.io/Open-Shell-Menu/>
 [Start is Back]: <http://startisback.com/>
 
-## Known Issues
+## Known Issues 
 
-### Start menu Search
-
-After running the scripts, the start menu search-box may no longer work on newly
-created accounts. It seems like there is an issue with account initialization
-that is triggered when disabling the GeoLocation service. Following workaround
-has been discovered by BK from Atlanta:
-
-1. Delete registry key `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\lfsvc\TriggerInfo\3`
-2. Re-enable GeoLocation service (set startup type to `Automatic`)
-3. Reboot
-4. Login with the account having the stated issue
-5. Start Cortana and set your preferences accordingly (web search and whatnot)
-
-You may now disable the GeoLocation service again, the search box should remain
-functional.
-
-### Sysprep will hang
-
-If you are deploying images with MDT and running these scripts, the sysprep
-step will hang unless `dmwappushserivce` is active.
-
-### Xbox Wireless Adapter
-
-Apparently running the stock `remove-default-apps` script will cause Xbox
-Wireless Adapters to stop functioning. I suspect one should not remove the Xbox
-App when wanting to use one. But I haven't confirmed this yet, and there is a
-workaround to re-enable it afterwards. See
-[#78](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78).
-
-### Issues with Skype
-
-Some of the domains blocked by adding them to the hosts-file are required for
-Skype. I highly discourage using Skype, however some people may not have
-the option to use an alternative. See the
-[#79](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79).
-
-### Fingerprint Reader / Facial Detection not Working
-
-Ensure *Windows Biometric Service* is running. See
-[#189](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189).
+- ~Start menu Search~ (Fixed i think)
+- ~Sysprep will hang~? (Don't know whats that)
+- ~Xbox Wireless Adapter~ (Fixed)
+- Issues with Skype (will be deleted)
+- Fingerprint Reader / Facial Detection not Working (I don't recommend using that)
 
 ## Liability
 
@@ -118,8 +77,8 @@ Ensure *Windows Biometric Service* is running. See
 
 ## Contribute
 
-I would be happy to extend the collection of scripts. Just open an issue or
-send me a pull request.
+I would be happy to extend the collection of scripts. 
+Just open an issue or send me a pull request.
 
 ### Thanks To
 
