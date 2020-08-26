@@ -1,0 +1,9 @@
+This software is provided free of charge by Winaero.com but Sergey Tkachenko, called futher as "author", retains copyright. You are not allowed to make any copies or redistribute this software including but not limited to making the software available for download or making this software part of a software CD or any other media compilation. For the exception case you should contact the author directly via email to get the permission. 
+
+You are not allowed to sell or to rent this software. You are not allowed to reverse engineer this software.
+
+This software is distributed 'as-is', without any express or implied warranty. The author is not responsible for possible damage, which is caused by use of the software.
+
+You can get more information on the software homepage:
+http://winaero.com
+E-mail: hb860@live.ru
