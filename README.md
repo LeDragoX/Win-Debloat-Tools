@@ -7,7 +7,7 @@
 Code located in the `master` branch is always considered under development, but
 you'll probably want the most recent version anyway.
 
-- [Download [zip]](https://github.com/LeDragoX/Debloat-Windows-10-One-Click/archive/master.zip)
+- [Download [zip]](https://github.com/LeDragoX/Debloat-Win10-One-Click/archive/master.zip)
 
 ## Resume
 
