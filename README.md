@@ -13,19 +13,7 @@ you'll probably want the most recent version anyway.
 
 ## Resume
 
-This project collects PowerShell scripts which help to *debloat* Windows 10,
-tweak common settings and install basic software components.
-
-I test these scripts on a Windows 10 Professional 64-Bit (English/Brazilian) virtual
-machine. Please let me know if you encounter any issues. Home Edition and
-different languages are not supported. These scripts are intended for
-tech-savvy administrators, who know what they are doing and just want to
-automate this phase of their setup. If this profile does not fit you, I
-recommend using a different (more interactive) tool -- and there are a lot of
-them out there.
-
-Also, note that gaming-related apps and services will be removed/disabled. If
-you intend to use your system for gaming, adjust the scripts accordingly.
+This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10) that was made for debloat and tweak Windows 10 for better performance and less issues, i've done some changes so it won't annoy by unninstalled apps, and keeps stability for games.
 
 **There is (maybe) a undo**, because i did a restoration point script before 
 doing everything.
