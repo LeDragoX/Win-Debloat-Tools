@@ -14,7 +14,9 @@ them out there.
 Also, note that gaming-related apps and services will be removed/disabled. If
 you intend to use your system for gaming, adjust the scripts accordingly.
 
-**There is no undo**, I recommend only using these scripts on a fresh
+**There is (maybe) a undo**, because i did a restoration point script before 
+doing everything.
+I recommend only using these scripts on a fresh
 installation (including Windows Updates). Test everything after running them
 before doing anything else. Also, there is no guarantee that everything will
 work after future updates since I cannot predict what Microsoft will do next.
@@ -31,9 +33,10 @@ beforehand. If you want a more interactive approach check out
 Code located in the `master` branch is always considered under development, but
 you'll probably want the most recent version anyway.
 
-- [Download [zip]](https://github.com/W4RH4WK/Debloat-Windows-10/archive/master.zip)
+- [Download [zip]](https://github.com/LeDragoX/Debloat-Windows-10-One-Click/archive/master.zip)
 
 ## Execution
+    If the `Script-Win10.bat` do not make that automatically, follow these steps.
 
 Enable execution of PowerShell scripts:
 
@@ -133,12 +136,29 @@ send me a pull request.
 
 ## License
 
-    "THE BEER-WARE LICENSE" (Revision 42):
+    "The Unlicense License"
 
-    As long as you retain this notice you can do whatever you want with this
-    stuff. If we meet someday, and you think this stuff is worth it, you can
-    buy us a beer in return.
+    This is free and unencumbered software released into the public domain.
 
-    This project is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.
+    Anyone is free to copy, modify, publish, use, compile, sell, or
+    distribute this software, either in source code form or as a compiled
+    binary, for any purpose, commercial or non-commercial, and by any
+    means.
+
+    In jurisdictions that recognize copyright laws, the author or authors
+    of this software dedicate any and all copyright interest in the
+    software to the public domain. We make this dedication for the benefit
+    of the public at large and to the detriment of our heirs and
+    successors. We intend this dedication to be an overt act of
+    relinquishment in perpetuity of all present and future rights to this
+    software under copyright law.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+    OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+    ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+    OTHER DEALINGS IN THE SOFTWARE.
+
+    For more information, please refer to <http://unlicense.org/>
