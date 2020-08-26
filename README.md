@@ -5,6 +5,8 @@
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
 
+**All scripts are provided as-is and you use them at your own risk.**
+
 ## Download Latest Version
 
 Code located in the `master` branch is always considered under development, but
@@ -50,10 +52,6 @@ Unblock PowerShell scripts and modules within this directory:
 - [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (will be deleted)
 - [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189)
 (I don't recommend using that)
-
-## Liability
-
-**All scripts are provided as-is and you use them at your own risk.**
 
 ## Contribute
 
