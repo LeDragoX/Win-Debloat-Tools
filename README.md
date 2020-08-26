@@ -38,7 +38,7 @@ you'll probably want the most recent version anyway.
 - [Download [zip]](https://github.com/LeDragoX/Debloat-Windows-10-One-Click/archive/master.zip)
 
 ## Execution
-    If the `Script-Win10.bat` do not make that automatically, follow these steps.
+If the `Script-Win10.bat` do not make that automatically, follow these steps.
 
 Enable execution of PowerShell scripts:
 
