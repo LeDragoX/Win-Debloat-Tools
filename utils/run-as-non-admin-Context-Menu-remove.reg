@@ -1,0 +1,6 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers]
+"C:\\example\\application.exe"=-
+
+[-HKEY_CLASSES_ROOT\*\shell\forcerunasinvoker]
