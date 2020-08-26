@@ -82,6 +82,7 @@ Just open an issue or send me a pull request.
 
 ### Thanks To
 
+- [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10) (For his project ^^)
 - [10se1ucgo](https://github.com/10se1ucgo)
 - [Plumebit](https://github.com/Plumebit)
 - [aramboi](https://github.com/aramboi)
