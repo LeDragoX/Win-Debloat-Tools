@@ -2,6 +2,15 @@
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
 
+## Download Latest Version
+
+Code located in the `master` branch is always considered under development, but
+you'll probably want the most recent version anyway.
+
+- [Download [zip]](https://github.com/LeDragoX/Debloat-Windows-10-One-Click/archive/master.zip)
+
+## Resume
+
 This project collects PowerShell scripts which help to *debloat* Windows 10,
 tweak common settings and install basic software components.
 
@@ -31,13 +40,6 @@ beforehand. If you want a more interactive approach check out
 [10se1ucgo](https://github.com/10se1ucgo).
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex).
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech).
-
-## Download Latest Version
-
-Code located in the `master` branch is always considered under development, but
-you'll probably want the most recent version anyway.
-
-- [Download [zip]](https://github.com/LeDragoX/Debloat-Windows-10-One-Click/archive/master.zip)
 
 ## Execution
 If the `Script-Win10.bat` do not make that automatically, follow these steps.
