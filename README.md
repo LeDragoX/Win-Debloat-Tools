@@ -25,7 +25,7 @@ you can rely on a pre-made restoration point.**
 
 ## Usage
 
-This is kinda simple, just run the ´Script-Win10.bat´ file, click yes, and there you go, but, 
+This is kinda simple, just run the `Script-Win10.bat` file, click yes, and there you go, but, 
 if you're seeing errors, then stop and do whats in 
 [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
 
