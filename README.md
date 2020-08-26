@@ -1,4 +1,4 @@
-# Debloat-Win10-One-Click a
+# Debloat-Win10-One-Click
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
 
