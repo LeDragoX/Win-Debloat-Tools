@@ -41,27 +41,13 @@ Scripts can be run individually, pick what you need.
 ## Execution
 If the `Script-Win10.bat` do not make that automatically, follow these steps.
 
-Enable execution of PowerShell scripts:
+Open the Powershell as admin and Enable execution of PowerShell scripts:
 
     PS> Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 
 Unblock PowerShell scripts and modules within this directory:
 
     PS> ls -Recurse *.ps*1 | Unblock-File
-
-## Start menu
-
-In the past I included small fixes to make the start menu more usable, like
-removing default tiles, disabling web search and so on. This is no longer the
-case since I am fed up with it. This fucking menu breaks for apparently
-no reason, is slow, is a pain to configure / script and even shows ads out of
-the box!
-
-Please replace it with something better, either use [Open Shell] or [Start
-is Back], but stop using that shit.
-
-[Open Shell]: <https://open-shell.github.io/Open-Shell-Menu/>
-[Start is Back]: <http://startisback.com/>
 
 ## Known Issues 
 
