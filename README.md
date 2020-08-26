@@ -27,8 +27,10 @@ work after future updates since I cannot predict what Microsoft will do next.
 
 The scripts are designed to run without any user interaction. Modify them
 beforehand. If you want a more interactive approach check out
-[DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from
+- [DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from
 [10se1ucgo](https://github.com/10se1ucgo).
+- [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex)
+- [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech)
 
 ## Download Latest Version
 
