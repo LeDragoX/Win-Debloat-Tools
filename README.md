@@ -53,9 +53,10 @@ Unblock PowerShell scripts and modules within this directory:
 
 - ~Start menu Search~ (Fixed i think)
 - ~Sysprep will hang~? (Don't know whats that)
-- ~Xbox Wireless Adapter~ (Fixed)
-- Issues with Skype (will be deleted)
-- Fingerprint Reader / Facial Detection not Working (I don't recommend using that)
+- [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed)
+- [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (will be deleted)
+- [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189)
+(I don't recommend using that)
 
 ## Liability
 
@@ -64,7 +65,7 @@ Unblock PowerShell scripts and modules within this directory:
 ## Contribute
 
 I would be happy to extend the collection of scripts. 
-Just open an issue or send me a pull request.
+Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 ### Thanks To
 
