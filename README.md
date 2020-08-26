@@ -34,7 +34,7 @@ beforehand. If you want a more interactive approach check out:
 ## Usage
 
 This is kinda simple, just run the ´Script-Win10.bat´ file, click yes, and there you go, but, 
-if you're seeing so many errors, then stop and do whats in [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#usage).
+if you're seeing so many errors, then stop and do whats in [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
 
 Scripts can be run individually, pick what you need.
 
