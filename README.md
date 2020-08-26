@@ -5,7 +5,7 @@
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
 
---> **All scripts are provided as-is and you use them at your own risk.** <--
+==> **All scripts are provided as-is and you use them at your own risk.** <==
 
 ## Download Latest Version
 
