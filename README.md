@@ -5,7 +5,7 @@
 This project collects PowerShell scripts which help to *debloat* Windows 10,
 tweak common settings and install basic software components.
 
-I test these scripts on a Windows 10 Professional 64-Bit (English) virtual
+I test these scripts on a Windows 10 Professional 64-Bit (English/Brazilian) virtual
 machine. Please let me know if you encounter any issues. Home Edition and
 different languages are not supported. These scripts are intended for
 tech-savvy administrators, who know what they are doing and just want to
