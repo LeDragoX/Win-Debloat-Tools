@@ -1,6 +1,6 @@
 # Debloat Windows 10-One-Click
 
-# Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
+## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
 
 This project collects PowerShell scripts which help to *debloat* Windows 10,
 tweak common settings and install basic software components.
