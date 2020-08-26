@@ -20,7 +20,7 @@ This project is a modified version of [another project](https://github.com/W4RH4
 that was made for debloat and tweak Windows 10 for better performance and less issues, 
 i've done some changes so it won't annoy by unninstalled apps, and keeps stability for games and daily drive.
 
-**There is (maybe) a undo**, because i did a restoration point script before 
+**There is (if works) a undo**, because i did a restoration point script before 
 doing everything. 
 **Use on a fresh windows install to note the differences, and if something breaks, 
 you can rely on a pre-made restoration point.**
