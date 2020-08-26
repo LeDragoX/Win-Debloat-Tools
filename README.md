@@ -1,4 +1,6 @@
-# Debloat-Win10-One-Click 
+<h1>
+    <img width=50px src="https://img.icons8.com/cotton/2x/quill-pen.png"> Debloat-Win10-One-Click 
+</h1>
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
 
