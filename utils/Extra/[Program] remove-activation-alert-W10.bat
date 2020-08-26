@@ -27,7 +27,7 @@ REG ADD "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\sppsvc" /v Start /
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows" /v DisplayNotRet /t REG_DWORD /d 0
 REG ADD "HKEY_CURRENT_USER\Control Panel\Desktop" /v /t REG_DWORD /d 0
 
-@cd "..\Windows Debloater Programs\Remover alerta de Ativacao"
+@cd "..\..\Windows Debloater Programs\Activation-alert-remove"
 
 @pushd "My.WCP.W.E"
 "My_WCP_Watermark_Editor.exe"
@@ -35,3 +35,4 @@ REG ADD "HKEY_CURRENT_USER\Control Panel\Desktop" /v /t REG_DWORD /d 0
 
 @pushd "uwd"
 "uwd.exe"
+@popd
