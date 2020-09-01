@@ -29,8 +29,6 @@ REM echo "%SYSTEMROOT%\system32\wiashext.dll, 2" >> CreateShortcut.vbs REM Ícon
 REM echo "%SYSTEMROOT%\system32\comres.dll, 2" >> CreateShortcut.vbs REM Ícones de Ações
 REM echo "%SYSTEMROOT%\system32\comres.dll, 2" >> CreateShortcut.vbs REM Mais Ícones de Rede, Som e logo do Windows 8
 
-
-
 echo oLink.Save >> CreateShortcut.vbs
 cscript CreateShortcut.vbs
 del "%USERPROFILE%\Desktop\CreateShortcut.vbs"

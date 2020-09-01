@@ -9,11 +9,6 @@
 @echo This bat drive = %thisdrive%
 @echo This bat folder = %this%
 
-@pushd ..\scripts\Extra
-@PowerShell -NoProfile -ExecutionPolicy Bypass -file .\configurar-janela-cmd.ps1
-@popd
-
-
 @echo off & echo ---- Prepared ----
 @Echo ============================================
 @Echo Fix windows explorer opening with no reason
