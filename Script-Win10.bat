@@ -52,11 +52,11 @@
  setlocal & cd /d %~dp0
  if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
-
-
-
-@pushd scripts\Extra
-@PowerShell -NoProfile -ExecutionPolicy Bypass -file .\configurar-janela-cmd.ps1
+REM #
+REM #
+REM #
+@pushd lib
+@PowerShell -NoProfile -ExecutionPolicy Bypass -file .\config-cmd-window.ps1
 @popd & cls
 
 @ECHO =========================================================================================
@@ -70,6 +70,8 @@ pushd scripts
 @PowerShell ls
 @ECHO.
 
+cls && @ECHO ========================================================================================= && @ECHO all-in-one-tweaks.ps1 && @ECHO.
+PowerShell -NoProfile -ExecutionPolicy Bypass -file .\all-in-one-tweaks.ps1
 cls && @ECHO ========================================================================================= && @ECHO backup-system.ps1 && @ECHO.
 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\backup-system.ps1
 cls && @ECHO ========================================================================================= && @ECHO block-telemetry.ps1 && @ECHO.
@@ -84,8 +86,6 @@ cls && @ECHO ===================================================================
 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\optimize-windows-update.ps1
 cls && @ECHO ========================================================================================= && @ECHO remove-default-apps.ps1 && @ECHO.
 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\remove-default-apps.ps1
-cls && @ECHO ========================================================================================= && @ECHO remove-win10-bloat.ps1 && @ECHO.
-PowerShell -NoProfile -ExecutionPolicy Bypass -file .\remove-win10-bloat.ps1
 cls && @ECHO ========================================================================================= && @ECHO repair-100%-disk-usage.ps1 && @ECHO.
 PowerShell -NoProfile -ExecutionPolicy Bypass -file ".\repair-100%%-disk-usage.ps1"
 @REM PowerShell -NoProfile -ExecutionPolicy Bypass -file .\remove-onedrive.ps1
@@ -126,7 +126,7 @@ taskkill /F /IM explorer.exe
 
 @popd
 @echo Saindo em:
-@pushd scripts/Extra
+@pushd lib
 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\count-3-seconds.ps1
 @popd
 start /wait explorer.exe
