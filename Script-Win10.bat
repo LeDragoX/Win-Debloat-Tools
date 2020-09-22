@@ -129,7 +129,7 @@ start OOSU10.exe ooshutup10.cfg REM /quiet
 taskkill /F /IM explorer.exe
 
 @popd
-@echo Saindo em:
+@echo Quiting in:
 @pushd lib
 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\count-3-seconds.ps1
 @popd
