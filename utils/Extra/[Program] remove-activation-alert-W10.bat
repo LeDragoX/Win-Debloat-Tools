@@ -13,7 +13,8 @@
 taskkill /F /IM explorer.exe
 explorer.exe
 
-Powershell Write-Output "Tirando a mensagem irritante"
+cls
+Powershell Write-Output "Removing the annoying message"
 Powershell "Get-Service -Name sppsvc | Powershell Set-Service -StartupType Disabled"
 sc stop sppsvc
 

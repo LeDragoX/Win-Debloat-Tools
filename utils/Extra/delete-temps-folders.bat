@@ -10,7 +10,7 @@
 @echo This bat folder = %this%
 
 @echo off & echo ---- Prepared ----
-echo ----- Deletar pastas e arquivos Temporários -----
+echo ----- Delete temporary folders and files from Windows -----
 
 set sdrive=%SystemDrive%
 set src1=%SystemRoot%\Temp
