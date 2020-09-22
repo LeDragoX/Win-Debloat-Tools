@@ -65,7 +65,9 @@ REM #
 @ECHO.
 
 pushd scripts
+@PowerShell Get-ExecutionPolicy -List
 @PowerShell Set-ExecutionPolicy Unrestricted -Force -Scope CurrentUser
+@PowerShell Set-ExecutionPolicy Unrestricted -Force -Scope LocalMachine
 @PowerShell -NoProfile ls -Recurse *.ps*1 Unblock-File
 @PowerShell ls
 @ECHO.
@@ -120,7 +122,9 @@ REM ShutUp10 agora é PORTÁTIL
 start OOSU10.exe ooshutup10.cfg REM /quiet
 @popd
 
-@PowerShell Set-ExecutionPolicy Restricted -Force
+@PowerShell Get-ExecutionPolicy -List
+@PowerShell Set-ExecutionPolicy Unrestricted -Force -Scope CurrentUser
+@PowerShell Set-ExecutionPolicy Unrestricted -Force -Scope LocalMachine
 
 taskkill /F /IM explorer.exe
 
