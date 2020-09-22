@@ -110,8 +110,8 @@ regedit /s enable-photo-viewer.reg
 @REM If changing the programs folder move here!!!
 @pushd "Windows Debloater Programs"
 
-@echo [OPCIONAL] Pesquisas do Windows vão para o navegador principal
-@echo [OPCIONAL] "EdgeDeflector_install.exe" /S
+@echo [OPTIONAL] Windows searches go to the default Web Browser
+@echo [OPTIONAL] "EdgeDeflector_install.exe" /S
 
 @pushd "Winaero Tweaker"
 start WinaeroTweaker.exe
