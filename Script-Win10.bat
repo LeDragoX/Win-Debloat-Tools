@@ -123,8 +123,8 @@ start OOSU10.exe ooshutup10.cfg REM /quiet
 @popd
 
 @PowerShell Get-ExecutionPolicy -List
-@PowerShell Set-ExecutionPolicy Unrestricted -Force -Scope CurrentUser
-@PowerShell Set-ExecutionPolicy Unrestricted -Force -Scope LocalMachine
+@PowerShell Set-ExecutionPolicy Restricted -Force -Scope CurrentUser
+@PowerShell Set-ExecutionPolicy Restricted -Force -Scope LocalMachine
 
 taskkill /F /IM explorer.exe
 
