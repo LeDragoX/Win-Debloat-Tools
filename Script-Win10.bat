@@ -60,7 +60,7 @@ REM #
 @popd & cls
 
 @ECHO =========================================================================================
-@ECHO       Melhorar e Otimizar o Windows 10 (Feito por Plínio Larrubia A.K.A. LeDragoX)
+@ECHO       Improve and Optimize Windows 10 (Made by Plínio Larrubia A.K.A. LeDragoX)
 @ECHO =========================================================================================
 @ECHO.
 
@@ -101,13 +101,13 @@ bcdedit /set {default} bootmenupolicy legacy
 @echo Fix Windows Search Bar
 pushd "%systemroot%\System32" & Regsvr32.exe /s msimtf.dll & Regsvr32.exe /s msctf.dll & ctfmon.exe & popd
 
-@echo Adicionando Tema Escuro
+@echo Adding Dark Theme
 @pushd utils
 regedit /s dark-theme.reg
 regedit /s enable-photo-viewer.reg
 @popd
 
-@REM SE FOR MUDAR A PASTA DOS PROGRAMAS MEXA AQUI!!!
+@REM If changing the programs folder move here!!!
 @pushd "Windows Debloater Programs"
 
 @echo [OPCIONAL] Pesquisas do Windows vão para o navegador principal
@@ -117,7 +117,7 @@ regedit /s enable-photo-viewer.reg
 start WinaeroTweaker.exe
 @popd
 
-REM ShutUp10 agora é PORTÁTIL
+REM ShutUp10 is portable now
 @pushd "ShutUp10"
 start OOSU10.exe ooshutup10.cfg REM /quiet
 @popd

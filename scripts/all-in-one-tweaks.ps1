@@ -14,9 +14,9 @@ cmd.exe /c sc stop WSearch
 
 Write-Output "*** Disabling services at Startup ***"
 
-Get-Service -Name BITS | Set-Service -StartupType Automatic # - BITS: Transfere arquivos em segundo plano usando largura de banda de rede ociosa. Se o serviço estiver desabilitado, qualquer aplicativo que dependa do BITS, como o Windows Update ou o MSN Explorer, não poderá baixar programas e outras informações automaticamente.
+Get-Service -Name BITS | Set-Service -StartupType Automatic # - BITS: Transfer files in the background using idle network bandwidth. If the service is disabled, any application that depends on BITS, such as Windows Update or MSN Explorer, will not be able to download programs and other information automatically.
 Get-Service -Name DiagTrack | Set-Service -StartupType Disabled
-Get-Service -Name DPS | Set-Service -StartupType Automatic # - DPS: Esse serviço detecta problemas e diagnostica o PC (Importante)
+Get-Service -Name DPS | Set-Service -StartupType Automatic # - DPS: This service detects problems and diagnoses the PC (Important)
 Get-Service -Name diagnosticshub.standardcollector.service | Set-Service -StartupType Disabled
 Get-Service -Name dmwappushservice | Set-Service -StartupType Disabled
 # cmd.exe /c sc config RemoteRegistry start= disabled
@@ -66,7 +66,7 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v "AllowTelem
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" /v "Start" /t REG_DWORD /d 0 /f
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger" /v "Start" /t REG_DWORD /d 0 /f
 
-# Only remove if extremily necessary
+# Only remove if extremily necessary (Memory Compression)
 # disable-MMAgent -mc
 
 Write-Output "*** Disabling Superfetch ***"

@@ -17,4 +17,4 @@
 @sfc /scannow
 @dism.exe /online /cleanup-image /restorehealth
 
-@PowerShell Write-Output 'Restart your Computer!' 'Reinicie seu Computador!' | Msg * /time:3
+@PowerShell Write-Output 'Restart your Computer!' | Msg * /time:3
