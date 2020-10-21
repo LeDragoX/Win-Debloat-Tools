@@ -74,7 +74,7 @@ $apps = @(
     # Redstone 5 apps
     "Microsoft.MixedReality.Portal"
     "Microsoft.ScreenSketch"
-    "Microsoft.XboxGamingOverlay"
+    #"Microsoft.XboxGamingOverlay"
     #"Microsoft.YourPhone"
 
     # non-Microsoft
