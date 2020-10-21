@@ -65,9 +65,9 @@ REM #
 @ECHO.
 
 pushd scripts
-@PowerShell Get-ExecutionPolicy -List
 @PowerShell Set-ExecutionPolicy Unrestricted -Force -Scope CurrentUser
 @PowerShell Set-ExecutionPolicy Unrestricted -Force -Scope LocalMachine
+@PowerShell Get-ExecutionPolicy -List
 @PowerShell -NoProfile ls -Recurse *.ps*1 Unblock-File
 @PowerShell ls
 @ECHO.
@@ -88,9 +88,8 @@ cls && @ECHO ===================================================================
 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\optimize-windows-update.ps1
 cls && @ECHO ========================================================================================= && @ECHO remove-default-apps.ps1 && @ECHO.
 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\remove-default-apps.ps1
-cls && @ECHO ========================================================================================= && @ECHO repair-100%-disk-usage.ps1 && @ECHO.
-PowerShell -NoProfile -ExecutionPolicy Bypass -file ".\repair-100%%-disk-usage.ps1"
-@REM PowerShell -NoProfile -ExecutionPolicy Bypass -file .\remove-onedrive.ps1
+cls && @ECHO ========================================================================================= && @ECHO remove-onedrive.ps1 && @ECHO.
+PowerShell -NoProfile -ExecutionPolicy Bypass -file .\remove-onedrive.ps1
 
 popd
 cls && @ECHO ========================================================================================= && @ECHO ///***EXTRA***\\\ && @ECHO.
@@ -122,9 +121,9 @@ REM ShutUp10 is portable now
 start OOSU10.exe ooshutup10.cfg REM /quiet
 @popd
 
-@PowerShell Get-ExecutionPolicy -List
 @PowerShell Set-ExecutionPolicy Restricted -Force -Scope CurrentUser
 @PowerShell Set-ExecutionPolicy Restricted -Force -Scope LocalMachine
+@PowerShell Get-ExecutionPolicy -List
 
 taskkill /F /IM explorer.exe
 
