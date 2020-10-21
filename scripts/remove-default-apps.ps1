@@ -30,7 +30,7 @@ $apps = @(
     "Microsoft.Office.OneNote"
     "Microsoft.People"
     "Microsoft.Print3D"
-    "Microsoft.SkypeApp"
+    "Microsoft.SkypeApp"        # Who still uses Skype in this Era???
     "Microsoft.Wallet"
     #"Microsoft.Windows.Photos"
     "Microsoft.WindowsAlarms"
