@@ -56,7 +56,7 @@ REM #
 REM #
 REM #
 @pushd lib
-  @PowerShell -NoProfile -ExecutionPolicy Bypass -file .\config-cmd-window.ps1
+  @PowerShell -NoProfile -ExecutionPolicy Bypass -file .\setup-console-style-executable.ps1
 @popd & cls
 
 @ECHO =========================================================================================
