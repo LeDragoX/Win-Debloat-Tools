@@ -29,8 +29,11 @@ you can rely on a pre-made restoration point.**
 
 ## Usage
 
-This is kinda simple, just run the `Script-Win10.ps1` file, click yes, and there you go, but, 
-if you're seeing errors, then stop and do whats in 
+This is kinda simple, on the `Script-Win10.ps1` file,
+- Right click on it
+- Select "Run with Powershell"
+- Put your password and click yes, and there you go. 
+But, if you're seeing errors, then stop and do whats in 
 [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
 
 Scripts can be run individually, pick what you need.
