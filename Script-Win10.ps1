@@ -41,32 +41,35 @@ Function RunScripts {
     ls -Recurse *.ps*1 | Unblock-File
     
     Clear-Host
-    Write-Output "=========================================================================================" "backup-system.ps1"
+    Write-Output "|==================== backup-system.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
     Clear-Host
-    Write-Output "=========================================================================================" "all-in-one-tweaks.ps1"
+    Write-Output "|==================== all-in-one-tweaks.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
     Clear-Host
-    Write-Output "=========================================================================================" "block-telemetry.ps1"
+    Write-Output "|==================== block-telemetry.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"block-telemetry.ps1"
     Clear-Host
-    Write-Output "=========================================================================================" "disable-services.ps1"
+    Write-Output "|==================== disable-services.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"disable-services.ps1"
     Clear-Host
-    Write-Output "=========================================================================================" "fix-privacy-settings.ps1"
+    Write-Output "|==================== fix-privacy-settings.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
     Clear-Host
-    Write-Output "=========================================================================================" "optimize-user-interface.ps1"
+    Write-Output "|==================== optimize-user-interface.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
     Clear-Host
-    Write-Output "=========================================================================================" "optimize-windows-update.ps1"
+    Write-Output "|==================== optimize-windows-update.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-windows-update.ps1"
     Clear-Host
-    Write-Output "=========================================================================================" "remove-default-apps.ps1"
+    Write-Output "|==================== remove-default-apps.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-default-apps.ps1"
     Clear-Host
-    Write-Output "=========================================================================================" "remove-onedrive.ps1"
+    Write-Output "|==================== remove-onedrive.ps1 ====================|" ""
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
+    Clear-Host
+    Write-Output "|==================== fix-general-problems.ps1 ====================|" ""
+    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
     
     Pop-Location
 }
