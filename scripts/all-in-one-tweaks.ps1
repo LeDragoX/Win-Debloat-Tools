@@ -125,6 +125,40 @@ reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Ad
 # *** Show file extensions in Explorer ***
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "HideFileExt" /t  REG_DWORD /d 0 /f
 
-Write-Output "*** Misc. Tweaks ***"
+Write-Output "" "*** Misc. Tweaks ***" ""
+
+Write-Output "" "Bring back F8 for alternative Boot Modes"
+#cmd /c 
+bcdedit /set {default} bootmenupolicy legacy 
+
+Write-Output "" "Fix Windows Search Bar"
+Push-Location "$env:SystemRoot\System32"
+    .\Regsvr32.exe /s msimtf.dll | .\Regsvr32.exe /s msctf.dll | Start-Process -Verb RunAs .\ctfmon.exe
+Pop-Location
+
+Write-Output "" "Adding Dark Theme"
+Push-Location ..\utils
+  regedit /s dark-theme.reg
+  Write-Output "" "Enabling Photo viewer"
+  regedit /s enable-photo-viewer.reg
+Pop-Location
+
+# If changing the programs folder move here!!!
+Push-Location "..\Windows Debloater Programs"
+
+  Write-Output "[OPTIONAL] Windows searches go to the default Web Browser"
+  Write-Output "[OPTIONAL] "EdgeDeflector_install.exe" /S"
+
+  Push-Location "Winaero Tweaker"
+    Start-Process WinaeroTweaker.exe
+  Pop-Location
+
+  # ShutUp10 is portable now
+  Push-Location "ShutUp10"
+    Start-Process OOSU10.exe ooshutup10.cfg # /quiet
+  Pop-Location
+
+
+Pause
 
 Start-Process wsreset
