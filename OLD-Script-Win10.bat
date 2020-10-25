@@ -93,12 +93,8 @@ pushd scripts
 
 popd
 
-  @PowerShell Set-ExecutionPolicy Restricted -Force -Scope CurrentUser
-  @PowerShell Set-ExecutionPolicy Restricted -Force -Scope LocalMachine
-  @PowerShell Get-ExecutionPolicy -List
+@PowerShell Set-ExecutionPolicy Restricted -Force -Scope CurrentUser
+@PowerShell Set-ExecutionPolicy Restricted -Force -Scope LocalMachine
+@PowerShell Get-ExecutionPolicy -List
 
-@popd
-@echo Quiting in:
-@pushd lib
-  PowerShell -NoProfile -ExecutionPolicy Bypass -file .\count-x-seconds.ps1
-@popd
+PowerShell -NoProfile -ExecutionPolicy Bypass -file .\count-n-seconds-executable.ps1
