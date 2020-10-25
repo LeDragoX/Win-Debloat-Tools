@@ -29,14 +29,14 @@ you can rely on a pre-made restoration point.**
 
 ## Usage
 
-This is kinda simple, just run the `Script-Win10.bat` file, click yes, and there you go, but, 
+This is kinda simple, just run the `Script-Win10.ps1` file, click yes, and there you go, but, 
 if you're seeing errors, then stop and do whats in 
 [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
 
 Scripts can be run individually, pick what you need.
 
 ## Execution
-If the `Script-Win10.bat` do not make that automatically, follow these steps.
+If the `Script-Win10.ps1` or `OLD-Script-Win10.bat` do not make that automatically, follow these steps.
 
 Open the Powershell as admin and Enable execution of PowerShell scripts:
 

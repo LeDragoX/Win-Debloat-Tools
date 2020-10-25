@@ -158,7 +158,4 @@ Push-Location "..\Windows Debloater Programs"
     Start-Process OOSU10.exe ooshutup10.cfg # /quiet
   Pop-Location
 
-
-Pause
-
 Start-Process wsreset
