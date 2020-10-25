@@ -97,11 +97,8 @@ popd
   @PowerShell Set-ExecutionPolicy Restricted -Force -Scope LocalMachine
   @PowerShell Get-ExecutionPolicy -List
 
-  taskkill /F /IM explorer.exe
-
 @popd
 @echo Quiting in:
 @pushd lib
   PowerShell -NoProfile -ExecutionPolicy Bypass -file .\count-x-seconds.ps1
 @popd
-start /wait explorer.exe
