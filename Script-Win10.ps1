@@ -3,7 +3,7 @@ Function QuickPrivilegesElevation {
     if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds-executable.ps1
+Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\lib\setup-console-style.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\lib\simple-message-box.psm1
 
