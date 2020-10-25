@@ -4,6 +4,7 @@ Function QuickPrivilegesElevation {
 }
 
 Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds-executable.ps1
+Import-Module -DisableNameChecking $PSScriptRoot\lib\setup-console-style.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\lib\simple-message-box.psm1
 
 Write-Output "Original Folder $PSScriptRoot"
@@ -26,10 +27,6 @@ Function RestrictPermissions {
 }
 
 Function RunScripts {
-    Push-Location .\lib
-    ls -Recurse *.ps*1 | Unblock-File
-    PowerShell -NoProfile -ExecutionPolicy Unrestricted -file .\"config-cmd-window.ps1"
-    Pop-Location
     
     Clear-Host
     Write-Output "========================================================================================="
@@ -75,10 +72,11 @@ Function RunScripts {
 }
 # Your script here
 
-QuickPrivilegesElevation
-UnrestrictPermissions
+QuickPrivilegesElevation # Check admin rights
+UnrestrictPermissions # Unlock script usage
+SetupConsoleStyle # Give a new face to the Powershell console
 Write-Output ""
-RunScripts
+RunScripts # Run all scripts inside 'scripts' folder
 Write-Output ""
-RestrictPermissions
+RestrictPermissions # Lock script usage
 CountNseconds
