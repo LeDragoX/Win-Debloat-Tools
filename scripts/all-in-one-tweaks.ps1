@@ -1,4 +1,8 @@
 # Made by LeDragoX (Inspired on Baboo video) and someone else
+
+Write-Output "Original Folder $PSScriptRoot"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
+
 wmic diskdrive get caption,status
 
 Write-Output "*** Disabling some services ***"
@@ -128,7 +132,6 @@ reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Ad
 Write-Output "" "*** Misc. Tweaks ***" ""
 
 Write-Output "" "Bring back F8 for alternative Boot Modes"
-#cmd /c 
 bcdedit /set {default} bootmenupolicy legacy 
 
 Write-Output "" "Fix Windows Search Bar"
@@ -136,10 +139,10 @@ Push-Location "$env:SystemRoot\System32"
     .\Regsvr32.exe /s msimtf.dll | .\Regsvr32.exe /s msctf.dll | Start-Process -Verb RunAs .\ctfmon.exe
 Pop-Location
 
-Write-Output "" "Adding Dark Theme"
+Write-Output "" "Dark theme"
 Push-Location ..\utils
   regedit /s dark-theme.reg
-  Write-Output "" "Enabling Photo viewer"
+  Write-Output "" "Enabling photo viewer"
   regedit /s enable-photo-viewer.reg
 Pop-Location
 
@@ -153,9 +156,17 @@ Push-Location "..\Windows Debloater Programs"
     Start-Process WinaeroTweaker.exe
   Pop-Location
 
+ShowMessage -Title "Winaero Tweaker" -Message "1 - If showed click [I AGREE]
+2 - Click on the guide Tools >
+3 - Go on Import/Export Tweaks >
+4 - Import tweaks from a file >
+5 - hit Next > Browse... > Select 'Winaero_Tweaker_exported_configs.ini' >
+6 - Next > Finish (DON'T SPAM)
+7 - Close it"
+
   # ShutUp10 is portable now
   Push-Location "ShutUp10"
-    Start-Process OOSU10.exe ooshutup10.cfg # /quiet
+    Start-Process OOSU10.exe ooshutup10.cfg #/quiet
   Pop-Location
 
 Start-Process wsreset

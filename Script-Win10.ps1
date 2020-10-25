@@ -3,7 +3,9 @@ Function QuickPrivilegesElevation {
     if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-Import-Module -DisableNameChecking $PSScriptRoot\lib\count-x-seconds.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds-executable.ps1
+Import-Module -DisableNameChecking $PSScriptRoot\lib\simple-message-box.psm1
+
 Write-Output "Original Folder $PSScriptRoot"
 Write-Output ""
 Push-Location $PSScriptRoot
@@ -25,6 +27,7 @@ Function RestrictPermissions {
 
 Function RunScripts {
     Push-Location .\lib
+    ls -Recurse *.ps*1 | Unblock-File
     PowerShell -NoProfile -ExecutionPolicy Unrestricted -file .\"config-cmd-window.ps1"
     Pop-Location
     
@@ -35,6 +38,7 @@ Function RunScripts {
     Write-Output ""
     
     Push-Location .\scripts
+    ls -Recurse *.ps*1 | Unblock-File
     
     Clear-Host
     Write-Output "=========================================================================================" "backup-system.ps1"
@@ -74,4 +78,4 @@ Write-Output ""
 RunScripts
 Write-Output ""
 RestrictPermissions
-CountXseconds
+CountNseconds
