@@ -35,7 +35,7 @@ Function RunScripts {
     Write-Output ""
     
     Push-Location .\scripts
-    ls -Recurse *.ps*1 | Unblock-File
+    Get-ChildItem -Recurse *.ps*1 | Unblock-File
     
     Clear-Host
     Write-Output "|==================== backup-system.ps1 ====================|" ""
