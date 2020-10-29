@@ -1,15 +1,3 @@
-@echo ---- Preparation ----
-
-@set this=%~dp0
-@set thisdrive=%this:~0,2%
-
-%thisdrive%
-@cd %this%
-
-@echo This bat drive = %thisdrive%
-@echo This bat folder = %this%
-
-@echo off & echo ---- Prepared ----
 echo ----- Delete temporary folders and files from Windows -----
 
 set sdrive=%SystemDrive%
