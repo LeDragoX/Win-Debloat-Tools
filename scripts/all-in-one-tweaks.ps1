@@ -120,15 +120,14 @@ reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Ad
 # 1 = This PC, 2 = Quick access
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "LaunchTo" /t REG_DWORD /d 1 /f
 
-# NOW JUST SOME TWEAKS
 # *** Show hidden files in Explorer ***
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Hidden" /t REG_DWORD /d 1 /f
 
-# *** Show super hidden system files in Explorer ***
-# reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowSuperHidden" /t REG_DWORD /d 1 /f
-
 # *** Show file extensions in Explorer ***
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "HideFileExt" /t  REG_DWORD /d 0 /f
+
+# *** Show super hidden system files in Explorer ***
+# reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowSuperHidden" /t REG_DWORD /d 1 /f
 
 Write-Output "" "*** Misc. Tweaks ***" ""
 
@@ -142,20 +141,20 @@ Pop-Location
 
 Write-Output "" "Dark theme"
 Push-Location ..\utils
-  regedit /s dark-theme.reg
-  Write-Output "" "Enabling photo viewer"
-  regedit /s enable-photo-viewer.reg
+    regedit /s dark-theme.reg
+    Write-Output "" "Enabling photo viewer"
+    regedit /s enable-photo-viewer.reg
 Pop-Location
 
 # If changing the programs folder move here!!!
 Push-Location "..\Windows Debloater Programs"
 
-  Write-Output "[OPTIONAL] Windows searches go to the default Web Browser"
-  Write-Output "[OPTIONAL] "EdgeDeflector_install.exe" /S"
+    Write-Output "[OPTIONAL] Windows searches go to the default Web Browser"
+    Write-Output "[OPTIONAL] "EdgeDeflector_install.exe" /S"
 
-  Push-Location "Winaero Tweaker"
-    Start-Process WinaeroTweaker.exe
-  Pop-Location
+    Push-Location "Winaero Tweaker"
+        Start-Process WinaeroTweaker.exe
+    Pop-Location
 
 ShowMessage -Title "Winaero Tweaker" -Message "1 - If showed click [I AGREE]
 2 - Click on the guide Tools >
@@ -165,9 +164,18 @@ ShowMessage -Title "Winaero Tweaker" -Message "1 - If showed click [I AGREE]
 6 - Next > Finish (DON'T SPAM)
 7 - Close it"
 
-  # ShutUp10 is portable now
-  Push-Location "ShutUp10"
-    Start-Process OOSU10.exe ooshutup10.cfg #/quiet
-  Pop-Location
+    # ShutUp10 is portable now
+    Push-Location "ShutUp10"
+        Start-Process OOSU10.exe ooshutup10.cfg #/quiet
+    Pop-Location
+Pop-Location
+
+Write-Output "Solving DNS problems..."
+
+ipconfig /release
+ipconfig /renew
+ipconfig /flushdns
+
+Write-Output "DNS flushed!"
 
 Start-Process wsreset
