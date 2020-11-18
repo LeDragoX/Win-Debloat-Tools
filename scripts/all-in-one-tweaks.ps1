@@ -173,11 +173,9 @@ ShowMessage -Title "Winaero Tweaker" -Message "1 - If showed click [I AGREE]
 Pop-Location
 
 Write-Output "Solving DNS problems..."
-
 ipconfig /release
 ipconfig /renew
 ipconfig /flushdns
-
 Write-Output "DNS flushed!"
 
 Start-Process wsreset
