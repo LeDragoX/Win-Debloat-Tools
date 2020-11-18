@@ -134,16 +134,18 @@ Write-Output "" "*** Misc. Tweaks ***" ""
 Write-Output "" "Bring back F8 for alternative Boot Modes"
 bcdedit /set {default} bootmenupolicy legacy 
 
-Write-Output "" "Fix Windows Search Bar"
 Push-Location "$env:SystemRoot\System32"
+    Write-Output "" "Fix Windows Search Bar"
     .\Regsvr32.exe /s msimtf.dll | .\Regsvr32.exe /s msctf.dll | Start-Process -Verb RunAs .\ctfmon.exe
 Pop-Location
 
-Write-Output "" "Dark theme"
 Push-Location ..\utils
+    Write-Output "" "Dark theme"
     regedit /s dark-theme.reg
     Write-Output "" "Enabling photo viewer"
     regedit /s enable-photo-viewer.reg
+    Write-Output "" "Better task Manager viewing"
+    regedit /s task-manager-cfgs.reg
 Pop-Location
 
 # If changing the programs folder move here!!!
