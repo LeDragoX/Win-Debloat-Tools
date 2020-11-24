@@ -11,17 +11,17 @@ Write-Output "Original Folder $PSScriptRoot"
 Write-Output ""
 Push-Location $PSScriptRoot
 Function UnrestrictPermissions {
-    Set-ExecutionPolicy Unrestricted -Force -Scope Process
-    Set-ExecutionPolicy Unrestricted -Force -Scope CurrentUser
-    Set-ExecutionPolicy Unrestricted -Force -Scope LocalMachine
+    Set-ExecutionPolicy Unrestricted -Scope Process -Force
+    Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
+    Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force
     Get-ExecutionPolicy -List
     Write-Output ""
 }
 
 Function RestrictPermissions {
-    Set-ExecutionPolicy Restricted -Force -Scope Process
-    Set-ExecutionPolicy Restricted -Force -Scope CurrentUser
-    Set-ExecutionPolicy Restricted -Force -Scope LocalMachine
+    Set-ExecutionPolicy Restricted -Scope Process -Force
+    Set-ExecutionPolicy Restricted -Scope CurrentUser -Force
+    Set-ExecutionPolicy Restricted -Scope LocalMachine -Force
     Get-ExecutionPolicy -List
     Write-Output ""
 }
