@@ -43,7 +43,7 @@ If the `Script-Win10.ps1` or `OLD-Script-Win10.bat` do not make that automatical
 
 Open the Powershell as admin and Enable execution of PowerShell scripts:
 
-    PS> Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
+    PS> Set-ExecutionPolicy Unrestricted -Scope CurrentUser
 
 Unblock PowerShell scripts and modules within this directory:
 
