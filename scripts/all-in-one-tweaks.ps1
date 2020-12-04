@@ -1,5 +1,4 @@
-# Made by LeDragoX (Inspired on Baboo video) and someone else
-
+# Made by LeDragoX (Inspired on Baboo video) and matthewjberger https://gist.githubusercontent.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f/raw/b23fa065febed8a2d7c2f030fba6da381f640997/Remove-Windows10-Bloat.bat
 Write-Output "Original Folder $PSScriptRoot"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
 
