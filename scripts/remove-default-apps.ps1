@@ -35,7 +35,7 @@ $apps = @(
     #"Microsoft.Windows.Photos"
     "Microsoft.WindowsAlarms"
     #"Microsoft.WindowsCalculator"
-    "Microsoft.WindowsCamera"
+    #"Microsoft.WindowsCamera"  # People may use it
     "microsoft.windowscommunicationsapps"
     "Microsoft.WindowsMaps"
     "Microsoft.WindowsPhone"
@@ -54,7 +54,7 @@ $apps = @(
     "Microsoft.CommsPhone"
     "Microsoft.ConnectivityStore"
     "Microsoft.GetHelp"
-    #"Microsoft.Getstarted"
+    "Microsoft.Getstarted"
     "Microsoft.Messaging"
     "Microsoft.Office.Sway"
     "Microsoft.OneConnect"
@@ -131,8 +131,14 @@ $apps = @(
     "Microsoft.Advertising.Xaml"
 )
 
+foreach ($Bloat in $apps) {
+    Get-AppxPackage -Name $Bloat| Remove-AppxPackage
+    Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online
+    Write-Output "Sycnex Method: Trying to remove $Bloat."
+}
+
 foreach ($app in $apps) {
-    Write-Output "Trying to remove $app"
+    Write-Output "W4RHAWK Method: Trying to remove $app"
 
     Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
 
