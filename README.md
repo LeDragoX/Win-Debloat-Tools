@@ -1,5 +1,5 @@
 <h1>
-    <img width=40px src="https://cdn.icon-icons.com/icons2/843/PNG/512/Windows_icon-icons.com_67026.png"> Debloat-Win10-One-Click 
+e    <img width=40px src="https://cdn.icon-icons.com/icons2/843/PNG/512/Windows_icon-icons.com_67026.png"> DebloatWin10-OneClick 
     <img width=40px src="https://cdn.icon-icons.com/icons2/92/PNG/256/cmd_16549.png">
 </h1>
 
