@@ -143,8 +143,6 @@ Push-Location ..\utils
     regedit /s dark-theme.reg
     Write-Output "" "Enabling photo viewer"
     regedit /s enable-photo-viewer.reg
-    Write-Output "" "Better task Manager viewing"
-    regedit /s task-manager-cfgs.reg
 Pop-Location
 
 # If changing the programs folder move here!!!
