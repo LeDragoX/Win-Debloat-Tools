@@ -3,7 +3,7 @@
 # disable some accessibility features regarding keyboard input.  Additional
 # some UI elements will be changed.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
 
 Write-Output "Elevating priviledges for this process"

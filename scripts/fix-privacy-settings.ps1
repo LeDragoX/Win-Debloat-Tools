@@ -2,7 +2,7 @@
 # This script will try to fix many of the privacy settings for the user. This
 # is work in progress!
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
 
 Write-Output "Elevating priviledges for this process"
