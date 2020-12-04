@@ -13,7 +13,7 @@ cmd.exe /c sc stop diagnosticshub.standardcollector.service
 cmd.exe /c sc stop dmwappushservice
 cmd.exe /c sc stop SysMain
 cmd.exe /c sc stop WMPNetworkSvc
-cmd.exe /c sc stop WSearch
+cmd.exe /c sc start WSearch
 
 Write-Output "*** Disabling services at Startup ***"
 
@@ -26,7 +26,7 @@ Get-Service -Name dmwappushservice | Set-Service -StartupType Disabled
 Get-Service -Name SysMain | Set-Service -StartupType Disabled
 # cmd.exe /c sc config TrkWks start= disabled
 Get-Service -Name WMPNetworkSvc | Set-Service -StartupType Disabled
-Get-Service -Name WSearch | Set-Service -StartupType Disabled
+Get-Service -Name WSearch | Set-Service -StartupType Automatic # - Search local files on the Task Search bar
 
 Write-Output "*** Scheduled Tasks tweaks ***" 
 schtasks /Change /TN "Microsoft\Office\OfficeTelemetryAgentLogOn" /Disable
