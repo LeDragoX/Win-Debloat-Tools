@@ -74,7 +74,7 @@ Function RunScripts {
 
 QuickPrivilegesElevation # Check admin rights
 UnrestrictPermissions # Unlock script usage
-SetupConsoleStyle # Give a new face to the Powershell console
+SetupConsoleStyle # Give a hacky face to the Powershell console
 Write-Output ""
 RunScripts # Run all scripts inside 'scripts' folder
 Write-Output ""
