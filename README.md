@@ -25,14 +25,14 @@ i've done some changes so it won't annoy by unninstalled apps, and keeps stabili
 **There is (if works) a undo**, because i did a restoration point script before 
 doing everything. 
 **Use on a fresh windows install to note the differences, and if something breaks, 
-you can rely on a pre-made restoration point.**
+you can rely on a pre-made restoration point and the [`fix-general-problems.ps1`](scripts/fix-general-problems.ps1).**
 
 ## Usage
 
 This is kinda simple, on the `Script-Win10.ps1` file,
 - Right click on it
-- Select "Run with Powershell"
-- Put your password and click yes, and there you go. 
+- Select `Run with Powershell`
+- Put your password and click `Yes`, and there you go. 
 But, if you're seeing errors, then stop and do whats in 
 [**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
 
