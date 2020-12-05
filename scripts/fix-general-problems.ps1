@@ -1,19 +1,15 @@
-Write-Output "============================================"
-Write-Output ""
-Write-Output "Fix windows explorer opening with no reason"
-Write-Output ""
-Write-Output "============================================"
-Write-Output ""
+Write-Host "<============================================>"
+Write-Host "Fix windows explorer opening with no reason"
+Write-Host "<============================================>"
+Write-Host ""
 
 sfc /scannow
 dism.exe /online /cleanup-image /restorehealth
 
-Write-Output "=========================================="
-Write-Output ""
-Write-Output "This will Fix your Start Menu not opening"
-Write-Output ""
-Write-Output "=========================================="
-Write-Output ""
+Write-Host "<==========================================>"
+Write-Host "This will Fix your Start Menu not opening"
+Write-Host "<==========================================>"
+Write-Host ""
 
 taskkill /F /IM explorer.exe
 
@@ -22,4 +18,4 @@ Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentM
 
 Start-Process explorer
 
-Write-Output "Restart your Computer!" | Msg * /time:3
+Write-Host "Restart your Computer!" | Msg * /time:3
