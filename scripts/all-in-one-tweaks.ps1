@@ -150,8 +150,8 @@ Pop-Location
 # If changing the programs folder move here!!!
 Push-Location "..\Windows Debloater Programs"
 
-    Write-Output "[OPTIONAL] Windows searches go to the default Web Browser"
-    Write-Output "[OPTIONAL] "EdgeDeflector_install.exe" /S"
+    # Write-Output "[OPTIONAL] Windows searches go to the default Web Browser"
+    # Write-Output "[OPTIONAL] "EdgeDeflector_install.exe" /S"
 
     Push-Location "Winaero Tweaker"
         Start-Process WinaeroTweaker.exe
@@ -167,7 +167,7 @@ ShowMessage -Title "Winaero Tweaker" -Message "1 - If showed click [I AGREE]
 
     # ShutUp10 is portable now
     Push-Location "ShutUp10"
-        Start-Process OOSU10.exe ooshutup10.cfg #/quiet
+        Start-Process OOSU10.exe ooshutup10.cfg /quiet # quiet may be better?
     Pop-Location
 Pop-Location
 
