@@ -29,43 +29,43 @@ Function RestrictPermissions {
 Function RunScripts {
     
     Clear-Host
-    Write-Host "========================================================================================="
-    Write-Host "      Improve and Optimize Windows 10 (Made by Plínio Larrubia A.K.A. LeDragoX)"
-    Write-Host "========================================================================================="
+    Write-Host "<=========================================================================================>"
+    Write-Host "        Improve and Optimize Windows 10 (Made by Plínio Larrubia A.K.A. LeDragoX)"
+    Write-Host "<=========================================================================================>"
     Write-Host ""
     
     Push-Location .\scripts
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
     
     Clear-Host
-    Write-Host "|==================== backup-system.ps1 ====================|" ""
+    Write-Host "<==================== backup-system.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
     Clear-Host
-    Write-Host "|==================== all-in-one-tweaks.ps1 ====================|" ""
+    Write-Host "<==================== all-in-one-tweaks.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
     Clear-Host
-    Write-Host "|==================== block-telemetry.ps1 ====================|" ""
+    Write-Host "<==================== block-telemetry.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"block-telemetry.ps1"
     Clear-Host
-    Write-Host "|==================== disable-services.ps1 ====================|" ""
+    Write-Host "<==================== disable-services.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"disable-services.ps1"
     Clear-Host
-    Write-Host "|==================== fix-privacy-settings.ps1 ====================|" ""
+    Write-Host "<==================== fix-privacy-settings.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
     Clear-Host
-    Write-Host "|==================== optimize-user-interface.ps1 ====================|" ""
+    Write-Host "<==================== optimize-user-interface.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
     Clear-Host
-    Write-Host "|==================== optimize-windows-update.ps1 ====================|" ""
+    Write-Host "<==================== optimize-windows-update.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-windows-update.ps1"
     Clear-Host
-    Write-Host "|==================== remove-default-apps.ps1 ====================|" ""
+    Write-Host "<==================== remove-default-apps.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-default-apps.ps1"
     Clear-Host
-    Write-Host "|==================== remove-onedrive.ps1 ====================|" ""
+    Write-Host "<==================== remove-onedrive.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
     Clear-Host
-    Write-Host "|==================== fix-general-problems.ps1 ====================|" ""
+    Write-Host "<==================== fix-general-problems.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
     
     Pop-Location
