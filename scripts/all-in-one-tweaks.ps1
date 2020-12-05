@@ -143,6 +143,8 @@ Push-Location ..\utils
     regedit /s dark-theme.reg
     Write-Output "" "Enabling photo viewer"
     regedit /s enable-photo-viewer.reg
+    Write-Output "" "Lowering the RAM usage"
+    regedit /s lower-ram-usage.reg
 Pop-Location
 
 # If changing the programs folder move here!!!
