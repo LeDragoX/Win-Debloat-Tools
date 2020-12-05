@@ -1,3 +1,6 @@
+Write-Host "Original Folder $PSScriptRoot"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
+
 Write-Host "<============================================>"
 Write-Host "Fix windows explorer opening with no reason"
 Write-Host "<============================================>"
@@ -18,4 +21,4 @@ Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentM
 
 Start-Process explorer
 
-Write-Host "Restart your Computer!" | Msg * /time:3
+ShowMessage -Title "A message for you" -Message "Restart your computer!"
