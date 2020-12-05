@@ -39,7 +39,7 @@ But, if you're seeing errors, then stop and do whats in
 Scripts can be run individually, pick what you need.
 
 ## Execution
-If the `Script-Win10.ps1` or `OLD-Script-Win10.bat` do not make that automatically, follow these steps.
+If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 
 Open the Powershell as admin and Enable execution of PowerShell scripts:
 
