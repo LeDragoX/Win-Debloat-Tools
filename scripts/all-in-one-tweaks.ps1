@@ -1,5 +1,6 @@
 # Made by LeDragoX (Inspired on Baboo video) and matthewjberger https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
 Write-Host "Original Folder $PSScriptRoot"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
 
 wmic diskdrive get caption,status
@@ -136,12 +137,13 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search
 Write-Host "Disabling Background Apps..."
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
 
-Write-Host "Unlimit your network bandwitdh for all your system"
+Write-Host "Unlimit your network bandwitdh for all your system" # Based on this Chris video: https://youtu.be/7u1miYJmJ_4
+New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched" -Name "NonBestEffortLimit" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
 # Write-Host "Only remove if extremily necessary (Memory Compression)"
 # disable-MMAgent -mc
-
 
 Write-Host "Bring back F8 for alternative Boot Modes"
 bcdedit /set {default} bootmenupolicy legacy
