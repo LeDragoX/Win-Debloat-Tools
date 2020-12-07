@@ -64,9 +64,14 @@ Function RunScripts {
     Clear-Host
     Write-Host "<==================== remove-onedrive.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
+    
+    Write-Host "Updating Local Group Policies without a restart"
+    gpupdate
+
     Clear-Host
     Write-Host "<==================== fix-general-problems.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
+    ShowMessage -Title "A message for you" -Message "Restart your computer!"
     
     Pop-Location
 }
