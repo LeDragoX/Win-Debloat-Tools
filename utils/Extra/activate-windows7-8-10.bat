@@ -67,4 +67,6 @@ explorer "https://productkey.net"&goto halt
 :notsupported
 echo ======================================&echo.&echo Sorry! Your version is not supported.
 :halt
+
+echo Press any key to exit...
 pause >nul
