@@ -1,6 +1,7 @@
 function CountNseconds {
     param (
-        $Time = 3
+        $Time = 3,
+        $Msg = 'Closing in'
     )
-    $Time..0 | ForEach-Object {Start-Sleep -Seconds $_ ; "Closing in $_ seconds..."}
+    $Time..0 | ForEach-Object {Start-Sleep -Seconds 1 ; "$Msg $_ seconds..."}
 }
