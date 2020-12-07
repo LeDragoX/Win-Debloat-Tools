@@ -69,7 +69,7 @@ Function RunScripts {
     gpupdate
 
     ShowMessage -Title "Read carefully" -Message "This part is OPTIONAL, you can close the script now"
-    CountNseconds -Time 10 -Msg "The script will try to repair your Windows image in (e.g Blue Screen)"
+    CountNseconds -Time 10 -Msg "The script will try to repair your Windows image in (e.g. Blue Screen)"
     Clear-Host
     Write-Host "<==================== fix-general-problems.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
