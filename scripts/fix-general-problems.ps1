@@ -1,5 +1,4 @@
 Write-Host "Original Folder $PSScriptRoot"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
 
 Write-Host "<============================================>"
 Write-Host "Fix windows explorer opening with no reason"
@@ -20,5 +19,3 @@ REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /V En
 Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 
 Start-Process explorer
-
-ShowMessage -Title "A message for you" -Message "Restart your computer!"

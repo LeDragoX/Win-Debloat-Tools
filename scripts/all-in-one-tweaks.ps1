@@ -4,31 +4,37 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
 
 wmic diskdrive get caption,status
 
-Write-Host "*** Disabling some services ***"
+Write-Host "<==================== Re-enabling some services ====================>"
 
 Set-Service -Name BITS -Status Running
-Set-Service -Name DiagTrack -Status Stopped
 Set-Service -Name DPS -Status Running
+Set-Service -Name WSearch -Status Running
+
+Write-Host "<==================== Re-enabling services at Startup ====================>"
+
+Set-Service -Name BITS -StartupType Automatic       # - BITS: Transfer files in the background using idle network bandwidth. If the service is disabled, any application that depends on BITS, such as Windows Update or MSN Explorer, will not be able to download programs and other information automatically.
+Set-Service -Name DPS -StartupType Automatic        # - DPS: This service detects problems and diagnoses the PC (Important)
+Set-Service -Name WSearch -StartupType Automatic    # - Search local files on the Task Search bar
+
+Write-Host "<==================== Disabling some services ====================>"
+
+Set-Service -Name DiagTrack -Status Stopped
 Set-Service -Name diagnosticshub.standardcollector.service -Status Stopped
 Set-Service -Name dmwappushservice -Status Stopped
 Set-Service -Name SysMain -Status Stopped
 Set-Service -Name WMPNetworkSvc -Status Stopped
-Set-Service -Name WSearch -Status Running
 
-Write-Host "Disabling services at Startup..."
+Write-Host "<==================== Disabling services at Startup ====================>"
 
-Set-Service -Name BITS -StartupType Automatic                                     # - BITS: Transfer files in the background using idle network bandwidth. If the service is disabled, any application that depends on BITS, such as Windows Update or MSN Explorer, will not be able to download programs and other information automatically.
 Set-Service -Name DiagTrack -StartupType Disabled
-Set-Service -Name DPS -StartupType Automatic                                      # - DPS: This service detects problems and diagnoses the PC (Important)
 Set-Service -Name diagnosticshub.standardcollector.service -StartupType Disabled
 Set-Service -Name dmwappushservice -StartupType Disabled
 Set-Service -Name RemoteRegistry -StartupType Disabled
 Set-Service -Name SysMain -StartupType Disabled
 Set-Service -Name TrkWks -StartupType Disabled
 Set-Service -Name WMPNetworkSvc -StartupType Disabled
-Set-Service -Name WSearch -StartupType Automatic                                  # - Search local files on the Task Search bar
 
-Write-Host "*** Scheduled Tasks tweaks ***"
+Write-Host "<==================== Scheduled Tasks tweaks ====================>"
 
 Disable-ScheduledTask -TaskName "Microsoft\Office\OfficeTelemetryAgentLogOn"
 Disable-ScheduledTask -TaskName "Microsoft\Office\OfficeTelemetryAgentFallBack"
@@ -58,7 +64,9 @@ Disable-ScheduledTask -TaskName "Microsoft\Windows\Shell\FamilySafetyUpload"
 # Disable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting"
 # Disable-ScheduledTask -TaskName "Microsoft\Windows\WindowsUpdate\Automatic App Update"
 
-Write-Host "*** Remove Telemetry & Data Collection ***"
+Write-Host "<====================          Registry Tweaks           ====================>"
+Write-Host "<==================== Remove Telemetry & Data Collection ====================>"
+
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value 1
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" -Name "DontOfferThroughWUAU" -Type DWord -Value 1
@@ -68,27 +76,6 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Na
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger" -Name "Start" -Type DWord -Value 0
-
-# Write-Host "Only remove if extremily necessary (Memory Compression)"
-# disable-MMAgent -mc
-
-Write-Host "*** Disabling Superfetch ***"
-Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
-
-Write-Host "*** Disabling Remote Assistance ***"
-Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
-
-Write-Host "*** Repairing RAM high usage ***"
-Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
-
-Write-Host "*** Disabling Cortana ***"
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type DWord -Value 0
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCloudSearch" -Type DWord -Value 0
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWeb" -Type DWord -Value 0
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWord -Value 1
-
-Write-Host "*** Disabling Background Apps ***"
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
 
 Write-Host "Settings -> Privacy -> General -> Let apps use my advertising ID..."
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
@@ -101,19 +88,17 @@ Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "H
 
 Write-Host "WiFi Sense: HotSpot Sharing: Disable"
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value 0
-
 Write-Host "WiFi Sense: Shared HotSpot Auto-Connect: Disable"
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
 
 Write-Host "Change Windows Updates to 'Notify to schedule restart'"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
-
 Write-Host "Disable P2P Update downloads outside of local network"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
 
 Write-Host "*** Hide the search box from taskbar. You can still search by pressing the Win key and start typing what you're looking for ***"
 Write-Host "0 = hide completely, 1 = show only icon, 2 = show long search box"
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 1
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 1 # Changed
 
 Write-Host "*** Disable MRU lists (jump lists) of XAML apps in Start Menu ***"
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type DWord -Value 0
@@ -131,7 +116,32 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 # Write-Host "*** Show super hidden system files in Explorer ***"
 # Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 1
 
-Write-Host "*** Misc. Tweaks ***" ""
+Write-Host "<==================== My Tweaks ====================>"
+
+Write-Host "Disabling Superfetch..."
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
+
+Write-Host "Disabling Remote Assistance..."
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
+
+Write-Host "Repairing RAM high usage..."
+Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
+
+Write-Host "Disabling Cortana..."
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCloudSearch" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWeb" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWord -Value 1
+
+Write-Host "Disabling Background Apps..."
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
+
+Write-Host "Unlimit your network bandwitdh for all your system"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
+
+# Write-Host "Only remove if extremily necessary (Memory Compression)"
+# disable-MMAgent -mc
+
 
 Write-Host "Bring back F8 for alternative Boot Modes"
 bcdedit /set {default} bootmenupolicy legacy
