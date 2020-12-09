@@ -37,7 +37,7 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 - Copy and Paste this line:
 
 ```Powershell
-    PS> Set-ExecutionPolicy Unrestricted; ls -Recurse *.ps*1 | Unblock-File
+    Set-ExecutionPolicy Unrestricted; ls -Recurse *.ps*1 | Unblock-File
 ```
 
 - Type what matches 'Yes' on your language and hit Enter.
