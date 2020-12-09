@@ -7,9 +7,9 @@
 
 ## Warning
 
-==>__________*All scripts are provided as-is and you use them at your own risk.*__________<==
+==> _*All scripts are provided as-is and you use them at your own risk.*_ <==
 
-==> *The last part of `all-in-one-tweaks.ps1` will reset your internet, you were warned.* <==
+==> _*The last part of `all-in-one-tweaks.ps1` will reset your internet, you were warned.*_ <==
 
 ## Download Latest Version
 
