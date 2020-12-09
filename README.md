@@ -25,7 +25,7 @@ i've done some changes so it won't annoy by unninstalled apps, and keeps stabili
 **There is (if works) a undo**, because i did a restoration point script before 
 doing everything. 
 **Use on a fresh windows install to note the differences, and if something breaks, 
-you can rely on a pre-made restoration point and the [`fix-general-problems.ps1`](scripts/fix-general-problems.ps1).**
+you can rely on a pre-made restoration point and the `fix-general-problems.ps1`.**
 
 ## 1. How to use
 ### 1.1 - Requirements
@@ -36,7 +36,7 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
 - Copy and Paste this line:
 
-    PS> Set-ExecutionPolicy Unrestricted; ls -Recurse *.ps*1 | Unblock-File
+    ``PS> Set-ExecutionPolicy Unrestricted; ls -Recurse *.ps*1 | Unblock-File``
 
 - Type what matches 'Yes' on your language and hit Enter.
 
