@@ -44,7 +44,11 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 
 ### 1.2 - Running the Script
 #### - Method 1
-- Run the `Script-Win10.ps1` direct from the opened powershell or follow this method down here.
+- Run the `Script-Win10.ps1` direct from the opened powershell.
+```Powershell
+    .\"Win10Script.ps1"
+```
+- Or follow this method down here.
 #### - Method 2
 - On the `Script-Win10.ps1` file,
 - Right click on it
