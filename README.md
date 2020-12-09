@@ -15,8 +15,8 @@
 
 ## Download Latest Version
 
-Code located in the `master` branch is always considered under development, but
-you'll probably want the most recent version anyway.
+Code located in the `master` branch is always considered under development,
+but you'll probably want the most recent version anyway.
 
 - [Download [zip]](https://github.com/LeDragoX/DebloatWin10-OneClick/archive/master.zip)
 
@@ -29,6 +29,7 @@ for games and daily drive.
 
 **There is a undo (if works)**, because i did a restoration point script before
 doing everything.
+
 **Use on a fresh windows install to note the differences, and if something breaks,**
 **you can rely on a pre-made restoration point and the** `fix-general-problems.ps1`.
 
