@@ -191,8 +191,10 @@ Pop-Location
 Write-Host "Solving Network problems..."
 ipconfig /release
 ipconfig /release6
+Clear-Host
 Write-Host "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
 ipconfig /renew6 *Ethernet*
+Clear-Host
 Write-Host "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
 ipconfig /renew *Ethernet*
 ipconfig /flushdns
