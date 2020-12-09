@@ -25,7 +25,7 @@ i've done some changes so it won't annoy by unninstalled apps, and keeps stabili
 **There is (if works) a undo**, because i did a restoration point script before 
 doing everything. 
 **Use on a fresh windows install to note the differences, and if something breaks, 
-you can rely on a pre-made restoration point and the `fix-general-problems.ps1`.**
+you can rely on a pre-made restoration point and the** `fix-general-problems.ps1`.
 
 ## 1. How to use
 ### 1.1 - Requirements
