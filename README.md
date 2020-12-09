@@ -27,27 +27,32 @@ doing everything.
 **Use on a fresh windows install to note the differences, and if something breaks, 
 you can rely on a pre-made restoration point and the [`fix-general-problems.ps1`](scripts/fix-general-problems.ps1).**
 
-## Usage
+## 1. How to use
+### 1.1 - Requirements
 
-This is kinda simple, on the `Script-Win10.ps1` file,
-- Right click on it
-- Select `Run with Powershell`
-- Put your password and click `Yes`, and there you go. 
-But, if you're seeing errors, then stop and do whats in 
-[**Execution**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
-
-Scripts can be run individually, pick what you need.
-
-## Execution
 If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 
-Open the Powershell as admin and Enable execution of PowerShell scripts:
+- Open `RunPowershellHere.cmd` (For beginners) or the Powershell as admin.
+- Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
+- Copy and Paste this line:
 
-    PS> Set-ExecutionPolicy Unrestricted -Scope CurrentUser
+    PS> Set-ExecutionPolicy Unrestricted; ls -Recurse *.ps*1 | Unblock-File
 
-Unblock PowerShell scripts and modules within this directory:
+- Type what matches 'Yes' on your language and hit Enter.
 
-    PS> ls -Recurse *.ps*1 | Unblock-File
+### 1.2 - Running the Script
+
+#### Method 1
+- Run the `Script-Win10.ps1` direct from the opened powershell or follow this method down here.
+#### Method 2
+- On the `Script-Win10.ps1` file,
+- Right click on it
+- Select `Run with Powershell`
+- Click `Yes` and there you go. 
+But, if you're seeing errors, then stop and do whats in 
+[**Requirements**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
+
+Scripts can be run individually, pick what you need.
 
 ## Known Issues 
 
