@@ -5,11 +5,11 @@
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
 
-## Warning
+## Warning 
 
 ==> __*All scripts are provided as-is and you use them at your own risk.*__ <==
-
-==> __*The last part of `all-in-one-tweaks.ps1` will restart your internet connection for a while, you were warned.*__ <==
+==> __*The last part of `all-in-one-tweaks.ps1` will restart your internet connection for a while.*__ <==
+==> __*You were warned.*__ <==
 
 ## Download Latest Version
 
@@ -22,9 +22,10 @@ you'll probably want the most recent version anyway.
 
 This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10) 
 that was made for debloat and tweak Windows 10 for better performance and less issues, 
-i've done some changes so it won't annoy by unninstalled apps, and keeps stability for games and daily drive.
+i've done some changes so it won't annoy by unninstalled apps, and keeps stability 
+for games and daily drive.
 
-**There is (if works) a undo**, because i did a restoration point script before 
+**There is a undo (if works)**, because i did a restoration point script before 
 doing everything. 
 **Use on a fresh windows install to note the differences, and if something breaks, 
 you can rely on a pre-made restoration point and the** `fix-general-problems.ps1`.
@@ -41,7 +42,6 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 ```Powershell
     Set-ExecutionPolicy Unrestricted; ls -Recurse *.ps*1 | Unblock-File
 ```
-
 - Type what matches 'Yes' on your language and hit Enter.
 
 ### 1.2 - Running the Script
@@ -59,7 +59,7 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 But, if you're seeing errors, then stop and do whats in 
 [**Requirements**](#11---requirements).
 
-Scripts can be run individually, pick what you need.
+**Scripts can be run individually, pick what you need.**
 
 ## Known Issues 
 
