@@ -3,6 +3,14 @@ Write-Host "Original Folder $PSScriptRoot"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
 
+$Message = "1 - If showed click [I AGREE]
+2 - Click on the guide Tools >
+3 - Go on Import/Export Tweaks >
+4 - Import tweaks from a file >
+5 - hit Next > Browse... > Select 'Winaero_Tweaker_exported_configs.ini' >
+6 - Next > Finish (DON'T SPAM)
+7 - Close it"
+
 wmic diskdrive get caption,status
 
 Write-Host "<==================== Re-enabling some services ====================>"
@@ -173,23 +181,20 @@ Push-Location "..\Windows Debloater Programs"
         Start-Process WinaeroTweaker.exe
     Pop-Location
 
-ShowMessage -Title "Winaero Tweaker" -Message "1 - If showed click [I AGREE]
-2 - Click on the guide Tools >
-3 - Go on Import/Export Tweaks >
-4 - Import tweaks from a file >
-5 - hit Next > Browse... > Select 'Winaero_Tweaker_exported_configs.ini' >
-6 - Next > Finish (DON'T SPAM)
-7 - Close it"
-
-    # ShutUp10 is portable now
+    ShowMessage -Title "Winaero Tweaker" -Message $Message
+    Write-Host "Running ShutUp10 and applying configs..."
     Push-Location "ShutUp10"
         Start-Process OOSU10.exe ooshutup10.cfg /quiet # quiet may be better?
     Pop-Location
 Pop-Location
 
-Write-Host "Solving DNS problems..."
+Write-Host "Solving Network problems..."
 ipconfig /release
-ipconfig /renew
+ipconfig /release6
+Write-Host "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
+ipconfig /renew6 *Ethernet*
+Write-Host "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
+ipconfig /renew *Ethernet*
 ipconfig /flushdns
 Write-Host "DNS flushed!"
 
