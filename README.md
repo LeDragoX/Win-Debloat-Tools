@@ -14,7 +14,7 @@
 Code located in the `master` branch is always considered under development, but
 you'll probably want the most recent version anyway.
 
-- [Download [zip]](https://github.com/LeDragoX/Debloat-Win10-One-Click/archive/master.zip)
+- [Download [zip]](https://github.com/LeDragoX/DebloatWin10-OneClick/archive/master.zip)
 
 ## Resume
 
@@ -41,16 +41,15 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 - Type what matches 'Yes' on your language and hit Enter.
 
 ### 1.2 - Running the Script
-
-#### Method 1
+#### - Method 1
 - Run the `Script-Win10.ps1` direct from the opened powershell or follow this method down here.
-#### Method 2
+#### - Method 2
 - On the `Script-Win10.ps1` file,
 - Right click on it
 - Select `Run with Powershell`
 - Click `Yes` and there you go. 
 But, if you're seeing errors, then stop and do whats in 
-[**Requirements**](https://github.com/LeDragoX/Debloat-Win10-One-Click#execution).
+[**Requirements**](#11---requirements).
 
 Scripts can be run individually, pick what you need.
 
