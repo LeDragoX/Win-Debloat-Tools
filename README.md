@@ -62,7 +62,7 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 But, if you're seeing errors, then stop and do whats in 
 [**Requirements**](#11---requirements).
 
-**Scripts can be run individually, pick what you need.**
+**[Scripts](/scripts/) can be run individually, pick what you need.**
 
 ## Known Issues 
 
