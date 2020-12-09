@@ -22,15 +22,15 @@ you'll probably want the most recent version anyway.
 
 ## Resume
 
-This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10) 
-that was made for debloat and tweak Windows 10 for better performance and less issues, 
-i've done some changes so it won't annoy by unninstalled apps, and keeps stability 
+This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10)
+that was made for debloat and tweak Windows 10 for better performance and less issues,
+i've done some changes so it won't annoy by unninstalled apps, and keeps stability
 for games and daily drive.
 
-**There is a undo (if works)**, because i did a restoration point script before 
-doing everything. 
-**Use on a fresh windows install to note the differences, and if something breaks, 
-you can rely on a pre-made restoration point and the** `fix-general-problems.ps1`.
+**There is a undo (if works)**, because i did a restoration point script before
+doing everything.
+**Use on a fresh windows install to note the differences, and if something breaks,**
+**you can rely on a pre-made restoration point and the** `fix-general-problems.ps1`.
 
 ## 1. How to use
 ### 1.1 - Requirements
