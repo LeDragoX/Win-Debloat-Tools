@@ -1,6 +1,0 @@
-# Ignore .git files TEST
-.git/
-.git*
-
-# Ignore README.md
-README.md
