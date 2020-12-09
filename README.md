@@ -9,7 +9,7 @@
 
 ==> __*All scripts are provided as-is and you use them at your own risk.*__ <==
 
-==> __*The last part of `all-in-one-tweaks.ps1` will reset your internet, you were warned.*__ <==
+==> __*The last part of `all-in-one-tweaks.ps1` will restart your internet connection for a while, you were warned.*__ <==
 
 ## Download Latest Version
 
