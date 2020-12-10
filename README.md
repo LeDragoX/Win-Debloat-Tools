@@ -49,7 +49,7 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 
 ### 1.2 - Running the Script
 #### - Method 1
-- Run the `Script-Win10.ps1` direct from the opened powershell.
+- Run the `Script-Win10.ps1` from the opened powershell.
 ```Powershell
     .\"Win10Script.ps1"
 ```
@@ -58,9 +58,7 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 - On the `Script-Win10.ps1` file,
 - Right click on it
 - Select `Run with Powershell`
-- Click `Yes` and there you go. 
-But, if you're seeing errors, then stop and do whats in 
-[**Requirements**](#11---requirements).
+- Click `Yes` and there you go.
 
 **[Scripts](/scripts) can be run individually, pick what you need.**
 
