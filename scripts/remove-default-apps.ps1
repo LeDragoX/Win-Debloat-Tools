@@ -137,16 +137,6 @@ foreach ($Bloat in $apps) {
     Write-Output "Sycnex Method: Trying to remove $Bloat."
 }
 
-foreach ($app in $apps) {
-    Write-Output "W4RHAWK Method: Trying to remove $app"
-
-    Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
-
-    Get-AppXProvisionedPackage -Online |
-        Where-Object DisplayName -EQ $app |
-        Remove-AppxProvisionedPackage -Online
-}
-
 # Prevents Apps from re-installing
 $cdm = @(
     "ContentDeliveryAllowed"
