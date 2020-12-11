@@ -64,6 +64,10 @@ Function RunScripts {
     Clear-Host
     Write-Host "<==================== remove-onedrive.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
+
+    Clear-Host
+    Write-Host "<==================== install-optional-features.ps1 ====================>"
+    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"install-optional-features.ps1"
     
     Write-Host "Updating Local Group Policies without a restart"
     gpupdate
