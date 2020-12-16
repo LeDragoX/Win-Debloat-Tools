@@ -9,7 +9,7 @@ $Message = "1 - If showed click [I AGREE]
 4 - Import tweaks from a file >
 5 - hit Next > Browse... > Select 'Winaero_Tweaker_exported_configs.ini' >
 6 - Next > Finish (DON'T SPAM)
-7 - Close it"
+7 - Close it then OK"
 
 wmic diskdrive get caption,status
 
@@ -181,7 +181,7 @@ Push-Location "..\Windows Debloater Programs"
         Start-Process WinaeroTweaker.exe
     Pop-Location
 
-    ShowMessage -Title "Winaero Tweaker" -Message $Message
+    ShowMessage -Title "DON'T CLOSE YET" -Message $Message
     Write-Host "Running ShutUp10 and applying configs..."
     Push-Location "ShutUp10"
         Start-Process OOSU10.exe ooshutup10.cfg /quiet # quiet may be better?
