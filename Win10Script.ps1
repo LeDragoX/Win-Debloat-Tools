@@ -76,7 +76,7 @@ Function RunScripts {
 
     switch (ShowQuestion) {
         'Yes' {
-            Write-Host "YES"
+            Write-Host "You choose Yes."
 
             ShowQuestion -Title "Read carefully" -Message $Question
             Clear-Host
@@ -84,10 +84,10 @@ Function RunScripts {
             PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
         }
         'No' {
-            Write-Host "No = Cancel"
+            Write-Host "You choose No. (No = Cancel)"
         }
-        'Cancel' {
-            Write-Host "Cancel = No"
+        'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
+            Write-Host "You choose Cancel. (Cancel = No)"
         }
     }
 
