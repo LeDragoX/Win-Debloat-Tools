@@ -71,12 +71,27 @@ Function RunScripts {
     Write-Host "Updating Local Group Policies without a restart"
     gpupdate
 
-    ShowMessage -Title "Read carefully" -Message "This part is OPTIONAL, you can close the script now"
-    CountNseconds -Time 10 -Msg "The script will try to repair your Windows image in (e.g. Blue Screen)"
-    Clear-Host
-    Write-Host "<==================== fix-general-problems.ps1 ====================>"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
-    ShowMessage -Title "A message for you" -Message "Restart your computer!"
+    $Question = "This part is OPTIONAL, only do this if you want to repair your Windows.
+    Do you want to continue?"
+
+    switch (ShowQuestion) {
+        'Yes' {
+            Write-Host "YES"
+
+            ShowQuestion -Title "Read carefully" -Message $Question
+            Clear-Host
+            Write-Host "<==================== fix-general-problems.ps1 ====================>"
+            PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
+        }
+        'No' {
+            Write-Host "No = Cancel"
+        }
+        'Cancel' {
+            Write-Host "Cancel = No"
+        }
+    }
+
+    ShowMessage -Title "A message for you" -Message "If you want to see the changes restart your computer!"
     
     Pop-Location
 }
