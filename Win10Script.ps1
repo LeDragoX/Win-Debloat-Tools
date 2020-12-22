@@ -74,11 +74,10 @@ Function RunScripts {
     $Question = "This part is OPTIONAL, only do this if you want to repair your Windows.
     Do you want to continue?"
 
-    switch (ShowQuestion) {
+    switch (ShowQuestion -Title "Read carefully" -Message $Question) {
         'Yes' {
             Write-Host "You choose Yes."
 
-            ShowQuestion -Title "Read carefully" -Message $Question
             Clear-Host
             Write-Host "<==================== fix-general-problems.ps1 ====================>"
             PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
