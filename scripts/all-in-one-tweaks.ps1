@@ -13,6 +13,23 @@ $Message = "1 - If showed click [I AGREE]
 
 wmic diskdrive get caption,status
 
+# If changing the programs folder move here!!!
+Push-Location "..\Windows Debloater Programs"
+
+    # Write-Host "[OPTIONAL] Windows searches go to the default Web Browser"
+    # Write-Host "[OPTIONAL] "EdgeDeflector_install.exe" /S"
+
+    Push-Location "Winaero Tweaker"
+        Start-Process WinaeroTweaker.exe
+    Pop-Location
+
+    ShowMessage -Title "DON'T CLOSE YET" -Message $Message
+    Write-Host "Running ShutUp10 and applying configs..."
+    Push-Location "ShutUp10"
+        Start-Process OOSU10.exe ooshutup10.cfg /quiet # quiet may be better?
+    Pop-Location
+Pop-Location
+
 Write-Host "<==================== Re-enabling some services ====================>"
 
 Set-Service -Name BITS -Status Running
@@ -170,34 +187,3 @@ Push-Location ..\utils
     Write-Host "Lowering the RAM usage"
     regedit /s lower-ram-usage.reg
 Pop-Location
-
-# If changing the programs folder move here!!!
-Push-Location "..\Windows Debloater Programs"
-
-    # Write-Host "[OPTIONAL] Windows searches go to the default Web Browser"
-    # Write-Host "[OPTIONAL] "EdgeDeflector_install.exe" /S"
-
-    Push-Location "Winaero Tweaker"
-        Start-Process WinaeroTweaker.exe
-    Pop-Location
-
-    ShowMessage -Title "DON'T CLOSE YET" -Message $Message
-    Write-Host "Running ShutUp10 and applying configs..."
-    Push-Location "ShutUp10"
-        Start-Process OOSU10.exe ooshutup10.cfg /quiet # quiet may be better?
-    Pop-Location
-Pop-Location
-
-Write-Host "Solving Network problems..."
-ipconfig /release
-ipconfig /release6
-Clear-Host
-Write-Host "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
-ipconfig /renew6 *Ethernet*
-Clear-Host
-Write-Host "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
-ipconfig /renew *Ethernet*
-ipconfig /flushdns
-Write-Host "DNS flushed!"
-
-Start-Process wsreset
