@@ -104,4 +104,4 @@ RunScripts # Run all scripts inside 'scripts' folder
 Write-Host ""
 RestrictPermissions # Lock script usage
 CountNseconds
-exit
+Taskkill /F /IM $PID
