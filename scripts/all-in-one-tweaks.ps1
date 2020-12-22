@@ -26,7 +26,7 @@ Push-Location "..\Windows Debloater Programs"
     ShowMessage -Title "DON'T CLOSE YET" -Message $Message
     Write-Host "Running ShutUp10 and applying configs..."
     Push-Location "ShutUp10"
-        Start-Process OOSU10.exe ooshutup10.cfg /quiet # quiet may be better?
+    .\OOSU10.exe "ooshutup10.cfg" /quiet # quiet may be better?
     Pop-Location
 Pop-Location
 
