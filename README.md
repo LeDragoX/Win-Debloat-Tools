@@ -43,7 +43,7 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 - Copy and Paste this line on **Powershell**:
 
 ```Powershell
-    Set-ExecutionPolicy Unrestricted; ls -Recurse *.ps*1 | Unblock-File
+    Set-ExecutionPolicy Unrestricted -Scope CurrentUser; ls -Recurse .ps1 | Unblock-File
 ```
 - Type what matches 'Yes' on your language and hit Enter.
 
