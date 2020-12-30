@@ -42,12 +42,12 @@ If the `Script-Win10.ps1` do not make that automatically, follow these steps.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
 - Copy and Paste this line on **Powershell**:
 
-#### Easy way (Run once):
+#### 1.1.1 - Easy way (Run once):
 
 ```Powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\"Win10Script.ps1"
 ```
-#### Old way (For compatibility):
+#### 1.1.2 - Old way (For compatibility):
 
 ```Powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser; ls -Recurse .ps1 | Unblock-File
