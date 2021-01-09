@@ -172,7 +172,12 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched" -Name "NonBest
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
 Write-Host "Set the DNS from Google"
-Set-DNSClientServerAddress -interfaceIndex 12 -ServerAddresses ("8.8.8.8","8.8.4.4")
+Set-DNSClientServerAddress -interfaceIndex 12 -ServerAddresses ("8.8.8.8","8.8.4.4") # Ethernet
+Set-DNSClientServerAddress -interfaceIndex 15 -ServerAddresses ("8.8.8.8","8.8.4.4") # Ethernet
+Set-DNSClientServerAddress -interfaceIndex 17 -ServerAddresses ("8.8.8.8","8.8.4.4") # Wi-Fi
+Set-DNSClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses ("8.8.8.8","8.8.4.4")
+Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi" -ServerAddresses ("8.8.8.8","8.8.4.4")
+
 
 # Write-Host "Only remove if extremily necessary (Memory Compression)"
 # disable-MMAgent -mc
