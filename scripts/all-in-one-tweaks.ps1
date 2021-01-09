@@ -69,6 +69,7 @@ $DisableServices = @(
 
 foreach ($service in $DisableServices) {
     Write-Host "Disabling $service at Startup..."
+    Set-Service -Name $service -Status Stopped
     Set-Service -Name $service -StartupType Disabled
 }
 
