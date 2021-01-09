@@ -47,9 +47,6 @@ Function RunScripts {
     Write-Host "<==================== block-telemetry.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"block-telemetry.ps1"
     Clear-Host
-    Write-Host "<==================== disable-services.ps1 ====================>"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"disable-services.ps1"
-    Clear-Host
     Write-Host "<==================== fix-privacy-settings.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
     Clear-Host
