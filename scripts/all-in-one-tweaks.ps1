@@ -173,8 +173,6 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multi
 
 Write-Host "Set the DNS from Google"
 Set-DNSClientServerAddress -interfaceIndex 12 -ServerAddresses ("8.8.8.8","8.8.4.4") # Ethernet
-Set-DNSClientServerAddress -interfaceIndex 15 -ServerAddresses ("8.8.8.8","8.8.4.4") # Ethernet
-Set-DNSClientServerAddress -interfaceIndex 17 -ServerAddresses ("8.8.8.8","8.8.4.4") # Wi-Fi
 Set-DNSClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses ("8.8.8.8","8.8.4.4")
 Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi" -ServerAddresses ("8.8.8.8","8.8.4.4")
 
