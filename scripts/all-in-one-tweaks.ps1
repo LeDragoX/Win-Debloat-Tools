@@ -50,6 +50,8 @@ $DisableServices = @(
     "DiagTrack"                                 # Connected User Experiences and Telemetry
     "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
     "dmwappushservice"                          # Device Management Wireless Application Protocol (WAP)
+    "FontCache"                                 # Windows Font Cache Service
+    "GraphicsPerfSvc"                           # Graphics performance monitor service
     "lfsvc"                                     # Geolocation Service
     "MapsBroker"                                # Downloaded Maps Manager
     "ndu"                                       # Windows Network Data Usage Monitoring Driver
@@ -68,7 +70,7 @@ $DisableServices = @(
 )
 
 foreach ($service in $DisableServices) {
-    Write-Host "Disabling $service at Startup..."
+    Write-Host "Disabling $service now and at Startup..."
     Set-Service -Name $service -Status Stopped
     Set-Service -Name $service -StartupType Disabled
 }
