@@ -30,67 +30,85 @@ Push-Location "..\Windows Debloater Programs"
     Pop-Location
 Pop-Location
 
-Write-Host "<==================== Re-enabling some services ====================>"
-
-Set-Service -Name BITS -Status Running
-Set-Service -Name DPS -Status Running
-Set-Service -Name WSearch -Status Running
-
+Write-Host "<==================== 1/3 - [Services tweaks] ====================>"
 Write-Host "<==================== Re-enabling services at Startup ====================>"
 
-Set-Service -Name BITS -StartupType Automatic       # - BITS: Transfer files in the background using idle network bandwidth. If the service is disabled, any application that depends on BITS, such as Windows Update or MSN Explorer, will not be able to download programs and other information automatically.
-Set-Service -Name DPS -StartupType Automatic        # - DPS: This service detects problems and diagnoses the PC (Important)
-Set-Service -Name WSearch -StartupType Automatic    # - Search local files on the Task Search bar
+$EnableServices = @(
+    "BITS"                  # Background Intelligent Transfer Service
+    "DPS"                   # Diagnostic Policy Service
+    "WSearch"               # Windows Search
+)
 
-Write-Host "<==================== Disabling some services ====================>"
-
-Set-Service -Name DiagTrack -Status Stopped
-Set-Service -Name diagnosticshub.standardcollector.service -Status Stopped
-Set-Service -Name dmwappushservice -Status Stopped
-Set-Service -Name SysMain -Status Stopped
-Set-Service -Name WMPNetworkSvc -Status Stopped
+foreach ($service in $EnableServices) {
+    Write-Host "Re-enabling $service at Startup..."
+    Set-Service -Name $service -StartupType Automatic
+}
 
 Write-Host "<==================== Disabling services at Startup ====================>"
 
-Set-Service -Name DiagTrack -StartupType Disabled
-Set-Service -Name diagnosticshub.standardcollector.service -StartupType Disabled
-Set-Service -Name dmwappushservice -StartupType Disabled
-Set-Service -Name RemoteRegistry -StartupType Disabled
-Set-Service -Name SysMain -StartupType Disabled
-Set-Service -Name TrkWks -StartupType Disabled
-Set-Service -Name WMPNetworkSvc -StartupType Disabled
+$DisableServices = @(
+    "DiagTrack"                                 # Connected User Experiences and Telemetry
+    "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
+    "dmwappushservice"                          # Device Management Wireless Application Protocol (WAP)
+    "lfsvc"                                     # Geolocation Service
+    "MapsBroker"                                # Downloaded Maps Manager
+    "ndu"                                       # Windows Network Data Usage Monitoring Driver
+    "RemoteAccess"                              # Routing and Remote Access
+    "RemoteRegistry"                            # Remote Registry
+    "SysMain"                                   # SysMain / Superfetch
+    "TrkWks"                                    # Distributed Link Tracking Client
+    "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
+    "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service
 
-Write-Host "<==================== Scheduled Tasks tweaks ====================>"
+    # If you dont use Xbox Live and Games [DIY]
 
-Disable-ScheduledTask -TaskName "Microsoft\Office\OfficeTelemetryAgentLogOn"
-Disable-ScheduledTask -TaskName "Microsoft\Office\OfficeTelemetryAgentFallBack"
-Disable-ScheduledTask -TaskName "Microsoft\Office\Office 15 Subscription Heartbeat"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\ProgramDataUpdater"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\StartupAppTask"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Autochk\Proxy"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\Consolidator"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\Uploader"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Defrag\ScheduledDefrag"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Shell\FamilySafetyUpload"
+    # "XblAuthManager"                          # Xbox Live Auth Manager
+    # "XblGameSave"                             # Xbox Live Game Save Service
+    # "XboxNetApiSvc"                           # Xbox Live Networking Service
+)
 
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\AppID\SmartScreenSpecific"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\CloudExperienceHost\CreateObjectTask"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\DiskFootprint\Diagnostics" # *** Not sure if should be disabled, maybe related to S.M.A.R.T.
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\FileHistory\File History (maintenance mode)"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\Maintenance\WinSAT"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\NetTrace\GatherNetworkInfo"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\PI\Sqm-Tasks"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\SettingSync\BackgroundUploadTask" # The stubborn task can be Disabled using a simple bit change. I use a REG file for that (attached to this post).
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\Time Synchronization\ForceSynchronizeTime"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\Time Synchronization\SynchronizeTime"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting"
-# Disable-ScheduledTask -TaskName "Microsoft\Windows\WindowsUpdate\Automatic App Update"
+foreach ($service in $DisableServices) {
+    Write-Host "Disabling $service at Startup..."
+    Set-Service -Name $service -StartupType Disabled
+}
 
-Write-Host "<====================          Registry Tweaks           ====================>"
+Write-Host "<==================== 2/3 - [Scheduled Tasks tweaks] ====================>"
+
+$DisableScheduledTasks = @(
+    "Microsoft\Office\OfficeTelemetryAgentLogOn"
+    "Microsoft\Office\OfficeTelemetryAgentFallBack"
+    "Microsoft\Office\Office 15 Subscription Heartbeat"
+    "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser"
+    "Microsoft\Windows\Application Experience\ProgramDataUpdater"
+    "Microsoft\Windows\Application Experience\StartupAppTask"
+    "Microsoft\Windows\Autochk\Proxy"
+    "Microsoft\Windows\Customer Experience Improvement Program\Consolidator"
+    "Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask"
+    "Microsoft\Windows\Customer Experience Improvement Program\Uploader"
+    "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"
+    "Microsoft\Windows\Defrag\ScheduledDefrag"
+    "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"
+    "Microsoft\Windows\Shell\FamilySafetyUpload"
+    # "Microsoft\Windows\AppID\SmartScreenSpecific"
+    # "Microsoft\Windows\CloudExperienceHost\CreateObjectTask"
+    # "Microsoft\Windows\DiskFootprint\Diagnostics" # *** Not sure if should be disabled, maybe related to S.M.A.R.T.
+    # "Microsoft\Windows\FileHistory\File History (maintenance mode)"
+    # "Microsoft\Windows\Maintenance\WinSAT"
+    # "Microsoft\Windows\NetTrace\GatherNetworkInfo"
+    # "Microsoft\Windows\PI\Sqm-Tasks"
+    # "Microsoft\Windows\SettingSync\BackgroundUploadTask" # The stubborn task can be Disabled using a simple bit change. I use a REG file for that (attached to this post).
+    # "Microsoft\Windows\Time Synchronization\ForceSynchronizeTime"
+    # "Microsoft\Windows\Time Synchronization\SynchronizeTime"
+    # "Microsoft\Windows\Windows Error Reporting\QueueReporting"
+    # "Microsoft\Windows\WindowsUpdate\Automatic App Update"
+)
+
+foreach ($ScheduledTask in $DisableScheduledTasks) {
+    Write-Host "Disabling the $ScheduledTask Task..."
+    Disable-ScheduledTask -TaskName $ScheduledTask
+}
+
+Write-Host "<==================== 3/3 - [Registry Tweaks] ====================>"
 Write-Host "<==================== Remove Telemetry & Data Collection ====================>"
 
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value 1
