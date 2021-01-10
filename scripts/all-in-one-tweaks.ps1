@@ -277,7 +277,7 @@ Write-Host "Disable P2P Update downloads outside of local network"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
 
 Write-Host "*** Hide the search box from taskbar. You can still search by pressing the Win key and start typing what you're looking for ***"
-Write-Host "0 = hide completely, 1 = show only icon, 2 = show long search box"
+# "0 = hide completely, 1 = show only icon, 2 = show long search box"
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 
 Write-Host "*** Disable MRU lists (jump lists) of XAML apps in Start Menu ***"
