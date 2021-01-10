@@ -1,4 +1,8 @@
-# Made by LeDragoX (Inspired on Baboo video) and matthewjberger https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
+# Made by LeDragoX
+# Inspired on matthewjberger's script https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
+# Inspired on this Baboo video https://youtu.be/qWESrvP_uU8
+# Inspired on this AdamX video https://youtu.be/hQSkPmZRCjc
+
 Write-Host "Original Folder $PSScriptRoot"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
@@ -164,6 +168,9 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 # Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 1
 
 Write-Host "<==================== My Tweaks ====================>"
+
+Write-Host "Disable taskbar transparency."
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
 
 Write-Host "Hide the Task View from taskbar."
 Write-Host "0 = Hide Task view, 1 = Show Task view"
