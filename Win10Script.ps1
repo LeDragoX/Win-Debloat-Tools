@@ -65,9 +65,6 @@ Function RunScripts {
     Write-Host "<==================== install-gaming-features.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"install-gaming-features.ps1"
     
-    Write-Host "Updating Local Group Policies without a restart"
-    gpupdate
-
     $Question = "This part is OPTIONAL, only do this if you want to repair your Windows.
     Do you want to continue?"
 
