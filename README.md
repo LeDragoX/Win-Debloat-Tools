@@ -93,6 +93,12 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [narutards](https://github.com/narutards)
 - [tumpio](https://github.com/tumpio)
 
+### Who inspired me to improve more:
+
+- [Adamx's channel](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA)
+- [Baboo's channel](https://www.youtube.com/user/baboo)
+- [matthewjberger](https://gist.github.com/matthewjberger)
+
 ## Interactivity
 
 The scripts are designed to run without any user interaction. Modify them
