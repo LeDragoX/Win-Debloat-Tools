@@ -5,6 +5,11 @@ Write-Host "Fix windows explorer opening with no reason [Optional]"
 Write-Host "<============================================>"
 Write-Host ""
 
+Push-Location "$env:SystemRoot\System32"
+    Write-Host "Fix Windows Search Bar"
+    .\Regsvr32.exe /s msimtf.dll | .\Regsvr32.exe /s msctf.dll | Start-Process -Verb RunAs .\ctfmon.exe
+Pop-Location
+
 sfc /scannow
 dism.exe /online /cleanup-image /restorehealth
 
