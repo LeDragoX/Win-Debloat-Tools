@@ -327,10 +327,6 @@ Set-DNSClientServerAddress -interfaceIndex 12 -ServerAddresses ("8.8.8.8","8.8.4
 Set-DNSClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses ("8.8.8.8","8.8.4.4")
 Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi" -ServerAddresses ("8.8.8.8","8.8.4.4")
 
-# TODO: REMOVE THESE
-# Write-Host "Only remove if extremily necessary (Memory Compression)"
-# disable-MMAgent -mc
-
 Write-Host "Bring back F8 for alternative Boot Modes"
 bcdedit /set {default} bootmenupolicy legacy
 bcdedit /set `{current`} bootmenupolicy Legacy
