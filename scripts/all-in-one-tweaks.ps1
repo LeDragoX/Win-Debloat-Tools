@@ -335,12 +335,6 @@ Write-Host "Bring back F8 for alternative Boot Modes"
 bcdedit /set {default} bootmenupolicy legacy
 bcdedit /set `{current`} bootmenupolicy Legacy
 
-# TODO: moving to fix general problems
-Push-Location "$env:SystemRoot\System32"
-    Write-Host "Fix Windows Search Bar"
-    .\Regsvr32.exe /s msimtf.dll | .\Regsvr32.exe /s msctf.dll | Start-Process -Verb RunAs .\ctfmon.exe
-Pop-Location
-
 Push-Location ..\utils
     Write-Host "Dark theme"
     regedit /s dark-theme.reg
