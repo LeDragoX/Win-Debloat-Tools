@@ -20,9 +20,6 @@ wmic diskdrive get caption,status
 # If changing the programs folder move here!!!
 Push-Location "..\Windows Debloater Programs"
 
-    # Write-Host "[OPTIONAL] Windows searches go to the default Web Browser"
-    # Write-Host "[OPTIONAL] "EdgeDeflector_install.exe" /S"
-
     Push-Location "Winaero Tweaker"
         Start-Process WinaeroTweaker.exe
     Pop-Location
