@@ -180,7 +180,7 @@ $ContentDeliveryManagerBlock = @(
 )
 
 foreach ($RegistryName in $ContentDeliveryManagerBlock) {
-    Write-Host "Tweaking the $RegistryName on Registry"
+    Write-Host "Tweaking $RegistryName on Registry"
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $RegistryName -Type DWord -Value 0
 }
 
@@ -275,7 +275,7 @@ $CloudContentRegsToOne = @(
 )
 
 foreach ($RegistryName in $CloudContentRegsToOne) {
-    Write-Host "Tweaking the $RegistryName on Registry"
+    Write-Host "Tweaking $RegistryName on Registry"
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name $RegistryName -Type DWord -Value 1
 }
 
@@ -296,14 +296,14 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQ
 Write-Host "- SmartScreen Filter for Store Apps: Disable"
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
 
-Write-Host "WiFi Sense: HotSpot Sharing: Disable"
+Write-Host "- WiFi Sense: HotSpot Sharing: Disable"
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value 0
-Write-Host "WiFi Sense: Shared HotSpot Auto-Connect: Disable"
+Write-Host "- WiFi Sense: Shared HotSpot Auto-Connect: Disable"
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
 
-Write-Host "Change Windows Updates to 'Notify to schedule restart'"
+Write-Host "- Change Windows Updates to 'Notify to schedule restart'"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
-Write-Host "Disable P2P Update downloads outside of local network"
+Write-Host "- Disable P2P Update downloads outside of local network"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
 
 Write-Host "*** Hide the search box from taskbar. You can still search by pressing the Win key and start typing what you're looking for ***"
@@ -333,12 +333,12 @@ $ExplorerRegsToOne = @(
 )
 
 foreach ($RegistryName in $ExplorerRegsToZero) {
-    Write-Host "Tweaking the $RegistryName on Registry..."
+    Write-Host "Tweaking $RegistryName on Registry..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name $RegistryName -Type DWord -Value 0
 }
 
 foreach ($RegistryName in $ExplorerRegsToOne) {
-    Write-Host "Tweaking the $RegistryName on Registry..."
+    Write-Host "Tweaking $RegistryName on Registry..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name $RegistryName -Type DWord -Value 1
 }
 
@@ -359,12 +359,12 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWeb" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWord -Value 1
 
-Write-Host "Unlimit your network bandwitdh for all your system" # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
+Write-Host "Unlimiting your network bandwitdh for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
 New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched" -Name "NonBestEffortLimit" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-Write-Host "Set the DNS from Google"
+Write-Host "Setting up the DNS from Google..."
 Set-DNSClientServerAddress -interfaceIndex 12 -ServerAddresses ("8.8.8.8","8.8.4.4") # Ethernet
 Set-DNSClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses ("8.8.8.8","8.8.4.4")
 Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi" -ServerAddresses ("8.8.8.8","8.8.4.4")
