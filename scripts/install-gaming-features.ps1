@@ -17,7 +17,7 @@ foreach ($Feature in $FeatureName) {
     $FeatureDetails = $(Get-WindowsOptionalFeature -Online -FeatureName $Feature)
     
     Write-Host "Checking if $Feature was already installed..."
-    Write-Host "$Feature is" $FeatureDetails.State
+    Write-Host "$Feature status:" $FeatureDetails.State
     if ($FeatureDetails.State -like ("Enabled")) {
         Write-Host "$Feature already installed! Skipping..."
     }
