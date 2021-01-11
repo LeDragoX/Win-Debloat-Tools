@@ -94,12 +94,12 @@ Function RunScripts {
 # Your script here
 
 QuickPrivilegesElevation # Check admin rights
-PrepareRun
+PrepareRun # Import modules from lib and Push to the script directory
 UnrestrictPermissions # Unlock script usage
 SetupConsoleStyle # Give a hacky face to the Powershell console
 Write-Host ""
 RunScripts # Run all scripts inside 'scripts' folder
 Write-Host ""
 RestrictPermissions # Lock script usage
-CountNseconds
-Taskkill /F /IM $PID
+CountNseconds # Count 3 seconds then exit
+Taskkill /F /IM $PID # Kill this task by PID because it won't exit with the command 'exit'
