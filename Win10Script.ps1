@@ -3,7 +3,7 @@ Function QuickPrivilegesElevation {
     if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function PrepareRun {
+Function PrepareRun {
     Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds.psm1
     Import-Module -DisableNameChecking $PSScriptRoot\lib\setup-console-style.psm1
     Import-Module -DisableNameChecking $PSScriptRoot\lib\simple-message-box.psm1
@@ -43,27 +43,35 @@ Function RunScripts {
     Clear-Host
     Write-Host "<==================== backup-system.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
+    # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
     Write-Host "<==================== all-in-one-tweaks.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
+    # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
     Write-Host "<==================== block-telemetry.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"block-telemetry.ps1"
+    # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
     Write-Host "<==================== fix-privacy-settings.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
+    # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
     Write-Host "<==================== optimize-user-interface.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
+    # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
     Write-Host "<==================== optimize-windows-update.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-windows-update.ps1"
+    # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
     Write-Host "<==================== remove-default-apps.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-default-apps.ps1"
+    # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
     Write-Host "<==================== remove-onedrive.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
+    # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
     Write-Host "<==================== install-gaming-features.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"install-gaming-features.ps1"
@@ -101,5 +109,6 @@ Write-Host ""
 RunScripts # Run all scripts inside 'scripts' folder
 Write-Host ""
 RestrictPermissions # Lock script usage
-CountNseconds # Count 3 seconds then exit
+Write-Host ""
+CountNseconds # Count 3 seconds (default) then exit
 Taskkill /F /IM $PID # Kill this task by PID because it won't exit with the command 'exit'
