@@ -18,7 +18,7 @@ $Message = "1 - If showed click [I AGREE]
 wmic diskdrive get caption,status
 
 # If changing the programs folder move here!!!
-Push-Location "..\Windows Debloater Programs"
+Push-Location "..\Debloat-Softwares"
 
     Push-Location "Winaero Tweaker"
         Start-Process WinaeroTweaker.exe
