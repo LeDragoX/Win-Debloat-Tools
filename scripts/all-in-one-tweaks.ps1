@@ -290,7 +290,7 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 Write-Host "*** Show file extensions in Explorer ***"
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Type DWord -Value 0
 
-# Write-Host "*** Show super hidden system files in Explorer ***"
+# Write-Host "*** Show super hidden system files in Explorer ***" # This might be useful for someone
 # Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 1
 
 Write-Host "<==================== My Tweaks ====================>"
