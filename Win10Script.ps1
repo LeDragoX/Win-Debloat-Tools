@@ -3,13 +3,16 @@ Function QuickPrivilegesElevation {
     if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\lib\setup-console-style.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\lib\simple-message-box.psm1
+function PrepareRun {
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds.psm1
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\setup-console-style.psm1
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\simple-message-box.psm1
 
-Write-Host "Original Folder $PSScriptRoot"
-Write-Host ""
-Push-Location $PSScriptRoot
+    Write-Host "Original Folder $PSScriptRoot"
+    Write-Host ""
+    Push-Location $PSScriptRoot
+}
+
 Function UnrestrictPermissions {
     Set-ExecutionPolicy Unrestricted -Scope Process -Force
     Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
@@ -91,6 +94,7 @@ Function RunScripts {
 # Your script here
 
 QuickPrivilegesElevation # Check admin rights
+PrepareRun
 UnrestrictPermissions # Unlock script usage
 SetupConsoleStyle # Give a hacky face to the Powershell console
 Write-Host ""
