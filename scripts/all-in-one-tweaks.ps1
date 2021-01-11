@@ -35,19 +35,19 @@ Write-Host "<==================== 1/3 - [Services tweaks] ====================>"
 Write-Host "<==================== Re-enabling services at Startup ====================>"
 
 $EnableServices = @(
-    "BITS"                  # Background Intelligent Transfer Service
-    "DPS"                   # Diagnostic Policy Service
-    "WSearch"               # Windows Search
+    "DPS"                                       # Diagnostic Policy Service
+    "WSearch"                                   # Windows Search
 )
-
-foreach ($service in $EnableServices) {
-    Write-Host "Re-enabling $service at Startup..."
-    Set-Service -Name $service -StartupType Automatic
+    
+foreach ($Service in $EnableServices) {
+    Write-Host "Re-enabling $Service at Startup..."
+    Set-Service -Name $Service -StartupType Automatic
 }
 
 Write-Host "<==================== Disabling services at Startup ====================>"
 
 $DisableServices = @(
+    "BITS"                                      # Background Intelligent Transfer Service
     "DiagTrack"                                 # Connected User Experiences and Telemetry
     "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
     "dmwappushservice"                          # Device Management Wireless Application Protocol (WAP)
@@ -56,6 +56,7 @@ $DisableServices = @(
     "lfsvc"                                     # Geolocation Service
     "MapsBroker"                                # Downloaded Maps Manager
     "ndu"                                       # Windows Network Data Usage Monitoring Driver
+    "PcaSvc"                                    # Program Compatibility Assistant (PCA)
     "RemoteAccess"                              # Routing and Remote Access
     "RemoteRegistry"                            # Remote Registry
     "SysMain"                                   # SysMain / Superfetch
@@ -63,17 +64,43 @@ $DisableServices = @(
     "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
     "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service
 
-    # If you dont use Xbox Live and Games [DIY]
+    # <==========[DIY]==========> (Remove the # to Disable)
 
-    # "XblAuthManager"                          # Xbox Live Auth Manager
-    # "XblGameSave"                             # Xbox Live Game Save Service
-    # "XboxNetApiSvc"                           # Xbox Live Networking Service
+    #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
+    #"SharedAccess"                             # Internet Connection Sharing (ICS)
+    #"stisvc"                                   # Windows Image Acquisition (WIA)
+    #"WlanSvc"                                  # WLAN AutoConfig
+    #"Wecsvc"                                   # Windows Event Collector
+    #"WerSvc"                                   # Windows Error Reporting Service
+    #"wscsvc"                                   # Windows Security Center Service
+    #"WdiServiceHost"                           # Diagnostic Service Host
+    #"WdiSystemHost"                            # Diagnostic System Host
+
+    # [DIY] If you don't use Bluetooth devices
+
+    #"BTAGService"                              # Bluetooth Audio Gateway Service
+    #"bthserv"                                  # Bluetooth Support Service
+
+    # [DIY] If you don't use a Printer
+
+    #"Spooler"                                  # Print Spooler
+    #"PrintNotify"                              # Printer Extensions and Notifications
+
+    # [DIY] If you don't use Xbox Live and Games
+
+    #"XblAuthManager"                           # Xbox Live Auth Manager
+    #"XblGameSave"                              # Xbox Live Game Save Service
+    #"XboxGipSvc"                               # Xbox Accessory Management Service
+    #"XboxNetApiSvc"                            # Xbox Live Networking Service
+
+    # Services which cannot be disabled
+    #"WdNisSvc"
 )
 
-foreach ($service in $DisableServices) {
-    Write-Host "Disabling $service now and at Startup..."
-    Set-Service -Name $service -Status Stopped
-    Set-Service -Name $service -StartupType Disabled
+foreach ($Service in $DisableServices) {
+    Write-Host "Disabling $Service now and at Startup..."
+    Set-Service -Name $Service -Status Stopped
+    Set-Service -Name $Service -StartupType Disabled
 }
 
 Write-Host "<==================== 2/3 - [Scheduled Tasks tweaks] ====================>"
@@ -152,8 +179,9 @@ $ContentDeliveryManagerBlock = @(
     "RemediationRequired"
 )
 
-foreach ($RegName in $ContentDeliveryManagerBlock) {
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $RegName -Type DWord -Value 0
+foreach ($RegistryName in $ContentDeliveryManagerBlock) {
+    Write-Host "Tweaking the $RegistryName on Registry"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $RegistryName -Type DWord -Value 0
 }
 
 Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\Subscriptions" -Recurse
@@ -190,22 +218,23 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineS
 
 Write-Host "-> Inking & Typing Personalization"
 
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value 0
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 1
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value 1
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value 0
 
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value 0
 
 Write-Host "-> Diagnostics & Feedback"
 
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
+Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "PeriodInNanoSeconds"
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack" -Name "ShowedToastAtLevel" -Type DWord -Value 1
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack\EventTranscriptKey" -Name "EnableEventTranscript" -Type DWord -Value 0
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 
 Write-Host "-> Location"
 
@@ -229,22 +258,26 @@ Write-Host "Disabling Background Apps..."
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
 
-Write-Host "Disable File Explorer Ads (OneDrive, New Features etc.)"
-
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value 0
-
 Write-Host "Disable Windows Spotlight Features"
 Write-Host "Disable Third Party Suggestions"
 Write-Host "Disable More Telemetry Features"
 
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightFeatures" -Type DWord -Value 1
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightWindowsWelcomeExperience" -Type DWord -Value 1
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightOnActionCenter" -Type DWord -Value 1
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightOnSettings" -Type DWord -Value 1
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableThirdPartySuggestions" -Type DWord -Value 1
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableTailoredExperiencesWithDiagnosticData" -Type DWord -Value 1
+
+$CloudContentRegsToOne = @(
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightFeatures" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightOnActionCenter" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightOnSettings" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightWindowsWelcomeExperience" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableTailoredExperiencesWithDiagnosticData" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableThirdPartySuggestions" -Type DWord -Value 1
+)
+
+foreach ($RegistryName in $CloudContentRegsToOne) {
+    Write-Host "Tweaking the $RegistryName on Registry"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name $RegistryName -Type DWord -Value 1
+}
 
 Write-Host "Disable Third Party Suggestions"
 Write-Host "Disable app suggestions on start"
@@ -277,27 +310,39 @@ Write-Host "*** Hide the search box from taskbar. You can still search by pressi
 # "0 = hide completely, 1 = show only icon, 2 = show long search box"
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 
-Write-Host "*** Disable MRU lists (jump lists) of XAML apps in Start Menu ***"
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_TrackDocs" -Type DWord -Value 0
+Write-Host "<==========[Explorer Tweaks]==========>"
 
-Write-Host "*** Set Windows Explorer to start on This PC instead of Quick Access ***"
-Write-Host "1 = This PC, 2 = Quick access"
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -Type DWord -Value 1
+$ExplorerRegsToZero = @(
+    # *** Show file extensions in Explorer ***
+    "HideFileExt"
+    # Disable File Explorer Ads (OneDrive, New Features etc.)
+    "ShowSyncProviderNotifications"
+    # Hide the Task View from taskbar. 0 = Hide Task view, 1 = Show Task view
+    "ShowTaskViewButton"
+    # *** Disable MRU lists (jump lists) of XAML apps in Start Menu ***
+    "Start_TrackDocs"
+    "Start_TrackProgs"
+)
+$ExplorerRegsToOne = @(
+    # *** Set Windows Explorer to start on This PC instead of Quick Access *** 1 = This PC, 2 = Quick access
+    "LaunchTo"
+    # *** Show hidden files in Explorer ***
+    "Hidden"
+    # Write-Host "*** Show super hidden system files in Explorer ***" # This might be useful for someone
+    # "ShowSuperHidden"
+)
 
-Write-Host "*** Show hidden files in Explorer ***"
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 1
+foreach ($RegistryName in $ExplorerRegsToZero) {
+    Write-Host "Tweaking the $RegistryName on Registry..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name $RegistryName -Type DWord -Value 0
+}
 
-Write-Host "*** Show file extensions in Explorer ***"
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Type DWord -Value 0
-
-# Write-Host "*** Show super hidden system files in Explorer ***" # This might be useful for someone
-# Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 1
+foreach ($RegistryName in $ExplorerRegsToOne) {
+    Write-Host "Tweaking the $RegistryName on Registry..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name $RegistryName -Type DWord -Value 1
+}
 
 Write-Host "<==================== My Tweaks ====================>"
-
-Write-Host "Hide the Task View from taskbar."
-Write-Host "0 = Hide Task view, 1 = Show Task view"
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
 
 Write-Host "Disabling Superfetch..."
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
