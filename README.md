@@ -95,6 +95,8 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 ### Who inspired me to improve more:
 
+- Special thanks to the [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've updated this script.
+
 - [Adamx's channel](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [this video](https://youtu.be/hQSkPmZRCjc) 
 - [Baboo's channel](https://www.youtube.com/user/baboo) - by [this video](https://youtu.be/qWESrvP_uU8)
 - [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - [gave me more corage to use powershell](https://www.youtube.com/watch?v=ER27pGt5wH0)

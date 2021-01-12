@@ -1,7 +1,7 @@
 # Made by LeDragoX
-# Inspired on matthewjberger's script https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
-# Inspired on this Baboo video https://youtu.be/qWESrvP_uU8
-# Inspired on this AdamX video https://youtu.be/hQSkPmZRCjc
+# Adapted from matthewjberger's script https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
+# Adapted from this Baboo video https://youtu.be/qWESrvP_uU8
+# Adapted from this AdamX video https://youtu.be/hQSkPmZRCjc
 
 Write-Host "Original Folder $PSScriptRoot"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
@@ -15,6 +15,7 @@ $Message = "1 - If showed click [I AGREE]
 6 - Next > Finish (DON'T SPAM)
 7 - Close it then OK"
 
+Write-Host "Your drives status:"
 wmic diskdrive get caption,status
 
 # If changing the programs folder move here!!!
@@ -40,7 +41,7 @@ $EnableServices = @(
 )
     
 foreach ($Service in $EnableServices) {
-    Write-Host "Re-enabling $Service at Startup..."
+    Write-Host "[Services] Re-enabling $Service at Startup..."
     Set-Service -Name $Service -StartupType Automatic
 }
 
@@ -98,7 +99,7 @@ $DisableServices = @(
 )
 
 foreach ($Service in $DisableServices) {
-    Write-Host "Disabling $Service now and at Startup..."
+    Write-Host "[Services] Stopping and Disabling $Service at Startup..."
     Set-Service -Name $Service -Status Stopped
     Set-Service -Name $Service -StartupType Disabled
 }
@@ -135,7 +136,7 @@ $DisableScheduledTasks = @(
 )
 
 foreach ($ScheduledTask in $DisableScheduledTasks) {
-    Write-Host "Disabling the $ScheduledTask Task..."
+    Write-Host "[TaskScheduler] Disabling the $ScheduledTask Task..."
     Disable-ScheduledTask -TaskName $ScheduledTask
 }
 
@@ -168,19 +169,19 @@ $ContentDeliveryManagerBlock = @(
     "RotatingLockScreenEnabled"
     # Disable Auto installation of unnecessary bloatware
     "ContentDeliveryAllowed"
+    "FeatureManagementEnabled"
     "OemPreInstalledAppsEnabled"
     "PreInstalledAppsEnabled"
     "PreInstalledAppsEverEnabled"
+    "RemediationRequired"
     "SilentInstalledAppsEnabled"
     "SoftLandingEnabled"
     "SubscribedContentEnabled"
-    "FeatureManagementEnabled"
     "SystemPaneSuggestionsEnabled"
-    "RemediationRequired"
 )
 
 foreach ($RegistryName in $ContentDeliveryManagerBlock) {
-    Write-Host "Tweaking $RegistryName on Registry"
+    Write-Host "[Registry] Setting $RegistryName value to 0..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $RegistryName -Type DWord -Value 0
 }
 
@@ -268,7 +269,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSe
 Write-Host "- Change Windows Updates to 'Notify to schedule restart'"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
 
-Write-Host "- Disable P2P Update downloads outside of local network"
+Write-Host "- Disable P2P Update downloads outside of local network | 0=off, 1=On but local network only, 2=On, local network private peering only, 3=On local network and Internet,99=simply download mode, 100=bypass mode"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
 
 Write-Host "Disable Windows Spotlight Features"
@@ -279,16 +280,16 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" 
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
 
 $CloudContentRegsToOne = @(
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightFeatures" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightOnActionCenter" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightOnSettings" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsSpotlightWindowsWelcomeExperience" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableTailoredExperiencesWithDiagnosticData" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableThirdPartySuggestions" -Type DWord -Value 1
+    "DisableWindowsSpotlightFeatures"
+    "DisableWindowsSpotlightOnActionCenter"
+    "DisableWindowsSpotlightOnSettings"
+    "DisableWindowsSpotlightWindowsWelcomeExperience"
+    "DisableTailoredExperiencesWithDiagnosticData"
+    "DisableThirdPartySuggestions"
 )
 
 foreach ($RegistryName in $CloudContentRegsToOne) {
-    Write-Host "Tweaking $RegistryName on Registry"
+    Write-Host "[Registry] Setting $RegistryName value to 1..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name $RegistryName -Type DWord -Value 1
 }
 
@@ -314,6 +315,10 @@ Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\Allo
 Write-Host "- WiFi Sense: Shared HotSpot Auto-Connect: Disable"
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
 
+Write-Host "<==========[TaskBar Tweaks]==========>"
+
+Write-Host "Hiding People icon..."
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
 
 Write-Host "*** Hide the search box from taskbar. You can still search by pressing the Win key and start typing what you're looking for ***"
 # "0 = hide completely, 1 = show only icon, 2 = show long search box"
@@ -342,12 +347,12 @@ $ExplorerRegsToOne = @(
 )
 
 foreach ($RegistryName in $ExplorerRegsToZero) {
-    Write-Host "Tweaking $RegistryName on Registry..."
+    Write-Host "[Registry] Setting $RegistryName value to 0..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name $RegistryName -Type DWord -Value 0
 }
 
 foreach ($RegistryName in $ExplorerRegsToOne) {
-    Write-Host "Tweaking $RegistryName on Registry..."
+    Write-Host "[Registry] Setting $RegistryName value to 1..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name $RegistryName -Type DWord -Value 1
 }
 
