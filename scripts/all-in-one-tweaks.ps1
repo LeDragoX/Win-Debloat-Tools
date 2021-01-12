@@ -258,6 +258,19 @@ Write-Host "Disabling Background Apps..."
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
 
+Write-Host "<==========[Update & Security Section]==========>"
+
+Write-Host "-> Windows Update"
+
+Write-Host "Assure automatic driver update is ENABLED"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 1
+
+Write-Host "- Change Windows Updates to 'Notify to schedule restart'"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
+
+Write-Host "- Disable P2P Update downloads outside of local network"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
+
 Write-Host "Disable Windows Spotlight Features"
 Write-Host "Disable Third Party Suggestions"
 Write-Host "Disable More Telemetry Features"
@@ -301,10 +314,6 @@ Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\Allo
 Write-Host "- WiFi Sense: Shared HotSpot Auto-Connect: Disable"
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
 
-Write-Host "- Change Windows Updates to 'Notify to schedule restart'"
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
-Write-Host "- Disable P2P Update downloads outside of local network"
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
 
 Write-Host "*** Hide the search box from taskbar. You can still search by pressing the Win key and start typing what you're looking for ***"
 # "0 = hide completely, 1 = show only icon, 2 = show long search box"

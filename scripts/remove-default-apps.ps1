@@ -46,7 +46,6 @@ $apps = @(
     #"Microsoft.XboxGameOverlay"
     #"Microsoft.XboxGamingOverlay"
     #"Microsoft.XboxSpeechToTextOverlay"
-    "Microsoft.YourPhone"
     "Microsoft.ZuneMusic"
     "Microsoft.ZuneVideo"
 
@@ -74,7 +73,7 @@ $apps = @(
     "Microsoft.MixedReality.Portal"
     "Microsoft.ScreenSketch"
     #"Microsoft.XboxGamingOverlay"
-    #"Microsoft.YourPhone"
+    "Microsoft.YourPhone"
 
     # non-Microsoft
     "2FE3CB00.PicsArt-PhotoStudio"
@@ -107,7 +106,7 @@ $apps = @(
     "ShazamEntertainmentLtd.Shazam"
     "SlingTVLLC.SlingTV"
     #"SpotifyAB.SpotifyMusic"
-    #"TheNewYorkTimes.NYTCrossword"
+    "TheNewYorkTimes.NYTCrossword"
     "ThumbmunkeysLtd.PhototasticCollage"
     "TuneIn.TuneInRadio"
     "WinZipComputing.WinZipUniversal"
@@ -132,9 +131,9 @@ $apps = @(
 )
 
 foreach ($Bloat in $apps) {
+    Write-Output "Sycnex Method: Trying to remove $Bloat."
     Get-AppxPackage -Name $Bloat| Remove-AppxPackage
     Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online
-    Write-Output "Sycnex Method: Trying to remove $Bloat."
 }
 
 # Prevents Apps from re-installing
