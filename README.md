@@ -1,6 +1,6 @@
 <h1>
-    <img width=40px src="https://cdn.icon-icons.com/icons2/843/PNG/512/Windows_icon-icons.com_67026.png"> Win10 Smart Debloat 
-    <img width=40px src="https://cdn.icon-icons.com/icons2/92/PNG/256/cmd_16549.png">
+    <img width=30px src="https://cdn.icon-icons.com/icons2/843/PNG/512/Windows_icon-icons.com_67026.png"> Win10 Smart Debloat 
+    <img width=30px src="https://cdn.icon-icons.com/icons2/92/PNG/256/cmd_16549.png">
 </h1>
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
