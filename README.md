@@ -71,7 +71,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser; ls -Recurse .ps1 | Unblock-
 
 ## Known Issues 
 
-- ~Start menu Search~ (Fixed by activating `WSearch`)
+- ~Start menu Search~ (Fixed by enabling `WSearch`)
 - ~Sysprep will hang~? (Don't know what's that)
 - [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed)
 - [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` will be uninstalled)
