@@ -2,8 +2,8 @@
 # This script removes unwanted Apps that come with Windows. If you  do not want
 # to remove certain Apps comment out the corresponding lines below.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 
 Write-Output "Elevating privileges for this process"
 do {} until (Elevate-Privileges SeTakeOwnershipPrivilege)
@@ -19,7 +19,7 @@ $apps = @(
     "Microsoft.BingTranslator"
     "Microsoft.BingWeather"
     #"Microsoft.FreshPaint"
-    #"Microsoft.GamingServices"
+    "Microsoft.GamingServices"
     "Microsoft.Microsoft3DViewer"
     "Microsoft.MicrosoftOfficeHub"
     "Microsoft.MicrosoftPowerBIForWindows"
@@ -30,22 +30,23 @@ $apps = @(
     "Microsoft.Office.OneNote"
     "Microsoft.People"
     "Microsoft.Print3D"
-    "Microsoft.SkypeApp"        # Who still uses Skype in this Era???
+    "Microsoft.SkypeApp"
     "Microsoft.Wallet"
     #"Microsoft.Windows.Photos"
     "Microsoft.WindowsAlarms"
     #"Microsoft.WindowsCalculator"
-    #"Microsoft.WindowsCamera"  # People may use it
+    "Microsoft.WindowsCamera"
     "microsoft.windowscommunicationsapps"
     "Microsoft.WindowsMaps"
     "Microsoft.WindowsPhone"
     "Microsoft.WindowsSoundRecorder"
     #"Microsoft.WindowsStore"   # can't be re-installed
-    #"Microsoft.Xbox.TCUI"
-    #"Microsoft.XboxApp"
-    #"Microsoft.XboxGameOverlay"
-    #"Microsoft.XboxGamingOverlay"
-    #"Microsoft.XboxSpeechToTextOverlay"
+    "Microsoft.Xbox.TCUI"
+    "Microsoft.XboxApp"
+    "Microsoft.XboxGameOverlay"
+    "Microsoft.XboxGamingOverlay"
+    "Microsoft.XboxSpeechToTextOverlay"
+    "Microsoft.YourPhone"
     "Microsoft.ZuneMusic"
     "Microsoft.ZuneVideo"
 
@@ -72,13 +73,13 @@ $apps = @(
     # Redstone 5 apps
     "Microsoft.MixedReality.Portal"
     "Microsoft.ScreenSketch"
-    #"Microsoft.XboxGamingOverlay"
+    "Microsoft.XboxGamingOverlay"
     "Microsoft.YourPhone"
 
     # non-Microsoft
     "2FE3CB00.PicsArt-PhotoStudio"
     "46928bounde.EclipseManager"
-    #"4DF9E0F8.Netflix"
+    "4DF9E0F8.Netflix"
     "613EBCEA.PolarrPhotoEditorAcademicEdition"
     "6Wunderkinder.Wunderlist"
     "7EE7776C.LinkedInforWindows"
@@ -105,8 +106,8 @@ $apps = @(
     "Playtika.CaesarsSlotsFreeCasino"
     "ShazamEntertainmentLtd.Shazam"
     "SlingTVLLC.SlingTV"
-    #"SpotifyAB.SpotifyMusic"
-    "TheNewYorkTimes.NYTCrossword"
+    "SpotifyAB.SpotifyMusic"
+    #"TheNewYorkTimes.NYTCrossword"
     "ThumbmunkeysLtd.PhototasticCollage"
     "TuneIn.TuneInRadio"
     "WinZipComputing.WinZipUniversal"
@@ -130,10 +131,14 @@ $apps = @(
     "Microsoft.Advertising.Xaml"
 )
 
-foreach ($Bloat in $apps) {
-    Write-Output "Sycnex Method: Trying to remove $Bloat."
-    Get-AppxPackage -Name $Bloat| Remove-AppxPackage
-    Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online
+foreach ($app in $apps) {
+    Write-Output "Trying to remove $app"
+
+    Get-AppxPackage -Name $app -AllUsers | Remove-AppxPackage -AllUsers
+
+    Get-AppXProvisionedPackage -Online |
+        Where-Object DisplayName -EQ $app |
+        Remove-AppxProvisionedPackage -Online
 }
 
 # Prevents Apps from re-installing
