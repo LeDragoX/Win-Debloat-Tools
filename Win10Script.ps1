@@ -65,10 +65,6 @@ Function RunScripts {
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-windows-update.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    Write-Host "<==================== remove-default-apps.ps1 ====================>"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-default-apps.ps1"
-    # pause ### FOR DEBUGGING PURPOSES
-    Clear-Host
     Write-Host "<==================== remove-onedrive.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
     # pause ### FOR DEBUGGING PURPOSES
