@@ -179,7 +179,17 @@ function RunTweaksForRegistry {
     Write-Host "<==========[Personalization Section]==========>"
     
     Write-Host "-> Colors"
+
+    Write-Host "" # New line
+    Write-Host "<==========[TaskBar Tweaks]==========>"
     
+    Write-Host "Hiding People icon..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
+    
+    Write-Host "*** Hide the search box from taskbar ***"
+    # 0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+
     Write-Host "Disable taskbar transparency."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
     
@@ -362,16 +372,6 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value 0
     Write-Host "- WiFi Sense: Shared HotSpot Auto-Connect: Disable"
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
-    
-    Write-Host "" # New line
-    Write-Host "<==========[TaskBar Tweaks]==========>"
-    
-    Write-Host "Hiding People icon..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
-    
-    Write-Host "*** Hide the search box from taskbar. You can still search by pressing the Win key and start typing what you're looking for ***"
-    # 0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
     
     Write-Host "" # New line
     Write-Host "<==========[Explorer Tweaks]==========>"
