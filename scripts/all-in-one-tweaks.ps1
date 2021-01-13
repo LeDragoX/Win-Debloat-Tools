@@ -49,9 +49,50 @@ function RunDebloatSoftwares {
 
 }
 
+function RunTweaksForScheduledTasks {
+
+    Write-Host "<==================== 1/4 - [Scheduled Tasks tweaks] ====================>"
+    
+    $DisableScheduledTasks = @(
+        "Microsoft\Office\OfficeTelemetryAgentLogOn"
+        "Microsoft\Office\OfficeTelemetryAgentFallBack"
+        "Microsoft\Office\Office 15 Subscription Heartbeat"
+        "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser"
+        "Microsoft\Windows\Application Experience\ProgramDataUpdater"
+        "Microsoft\Windows\Application Experience\StartupAppTask"
+        "Microsoft\Windows\Autochk\Proxy"
+        "Microsoft\Windows\Customer Experience Improvement Program\Consolidator"
+        "Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask"
+        "Microsoft\Windows\Customer Experience Improvement Program\Uploader"
+        "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"
+        "Microsoft\Windows\Defrag\ScheduledDefrag"
+        "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"
+        "Microsoft\Windows\Shell\FamilySafetyUpload"
+        # "Microsoft\Windows\AppID\SmartScreenSpecific"
+        # "Microsoft\Windows\CloudExperienceHost\CreateObjectTask"
+        # "Microsoft\Windows\DiskFootprint\Diagnostics" # *** Not sure if should be disabled, maybe related to S.M.A.R.T.
+        # "Microsoft\Windows\FileHistory\File History (maintenance mode)"
+        # "Microsoft\Windows\Maintenance\WinSAT"
+        # "Microsoft\Windows\NetTrace\GatherNetworkInfo"
+        # "Microsoft\Windows\PI\Sqm-Tasks"
+        # "Microsoft\Windows\SettingSync\BackgroundUploadTask" # The stubborn task can be Disabled using a simple bit change. I use a REG file for that (attached to this post).
+        # "Microsoft\Windows\Time Synchronization\ForceSynchronizeTime"
+        # "Microsoft\Windows\Time Synchronization\SynchronizeTime"
+        # "Microsoft\Windows\Windows Error Reporting\QueueReporting"
+        # "Microsoft\Windows\WindowsUpdate\Automatic App Update"
+    )
+    
+    foreach ($ScheduledTask in $DisableScheduledTasks) {
+        Write-Host "[TaskScheduler] Disabling the $ScheduledTask Task..."
+        Disable-ScheduledTask -TaskName $ScheduledTask
+    }
+
+}
+
+
 function RunTweaksForService {
 
-    Write-Host "<====================     1/3 - [Services tweaks]     ====================>"
+    Write-Host "<====================     2/4 - [Services tweaks]     ====================>"
     Write-Host "<==================== Re-enabling services at Startup ====================>"
     
     $EnableServices = @(
@@ -126,49 +167,9 @@ function RunTweaksForService {
 
 }
 
-function RunTweaksForScheduledTasks {
-
-    Write-Host "<==================== 2/3 - [Scheduled Tasks tweaks] ====================>"
-    
-    $DisableScheduledTasks = @(
-        "Microsoft\Office\OfficeTelemetryAgentLogOn"
-        "Microsoft\Office\OfficeTelemetryAgentFallBack"
-        "Microsoft\Office\Office 15 Subscription Heartbeat"
-        "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser"
-        "Microsoft\Windows\Application Experience\ProgramDataUpdater"
-        "Microsoft\Windows\Application Experience\StartupAppTask"
-        "Microsoft\Windows\Autochk\Proxy"
-        "Microsoft\Windows\Customer Experience Improvement Program\Consolidator"
-        "Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask"
-        "Microsoft\Windows\Customer Experience Improvement Program\Uploader"
-        "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"
-        "Microsoft\Windows\Defrag\ScheduledDefrag"
-        "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"
-        "Microsoft\Windows\Shell\FamilySafetyUpload"
-        # "Microsoft\Windows\AppID\SmartScreenSpecific"
-        # "Microsoft\Windows\CloudExperienceHost\CreateObjectTask"
-        # "Microsoft\Windows\DiskFootprint\Diagnostics" # *** Not sure if should be disabled, maybe related to S.M.A.R.T.
-        # "Microsoft\Windows\FileHistory\File History (maintenance mode)"
-        # "Microsoft\Windows\Maintenance\WinSAT"
-        # "Microsoft\Windows\NetTrace\GatherNetworkInfo"
-        # "Microsoft\Windows\PI\Sqm-Tasks"
-        # "Microsoft\Windows\SettingSync\BackgroundUploadTask" # The stubborn task can be Disabled using a simple bit change. I use a REG file for that (attached to this post).
-        # "Microsoft\Windows\Time Synchronization\ForceSynchronizeTime"
-        # "Microsoft\Windows\Time Synchronization\SynchronizeTime"
-        # "Microsoft\Windows\Windows Error Reporting\QueueReporting"
-        # "Microsoft\Windows\WindowsUpdate\Automatic App Update"
-    )
-    
-    foreach ($ScheduledTask in $DisableScheduledTasks) {
-        Write-Host "[TaskScheduler] Disabling the $ScheduledTask Task..."
-        Disable-ScheduledTask -TaskName $ScheduledTask
-    }
-
-}
-
 function RunTweaksForRegistry {
 
-    Write-Host "<==================== 3/3 - [Registry Tweaks] ====================>"
+    Write-Host "<==================== 3/4 - [Registry Tweaks] ====================>"
     Write-Host "<==================== Remove Telemetry & Data Collection ====================>"
     
     Write-Host "<==========[Personalization Section]==========>"
@@ -179,12 +180,10 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
     
     Write-Host "-> ? & ? & Start & Lockscreen"
-    Write-Host "Disable Show me suggested content in the settings app."
     Write-Host "Disable Show me the windows welcome experience after updates."
-    Write-Host "Disable Show suggestions in start."
     Write-Host "Disable Get fun facts and tips, etc. on lock screen."
     
-    $ContentDeliveryManagerBlock = @(
+    $ContentDeliveryManagerKeysToZero = @(
         "SubscribedContent-310093Enabled"
         "SubscribedContent-314559Enabled"
         "SubscribedContent-314563Enabled"
@@ -195,7 +194,7 @@ function RunTweaksForRegistry {
         "SubscribedContent-353698Enabled"
         "RotatingLockScreenOverlayEnabled"
         "RotatingLockScreenEnabled"
-        # Disable Auto installation of unnecessary bloatware
+        # Prevents Apps from re-installing
         "ContentDeliveryAllowed"
         "FeatureManagementEnabled"
         "OemPreInstalledAppsEnabled"
@@ -207,16 +206,18 @@ function RunTweaksForRegistry {
         "SubscribedContentEnabled"
         "SystemPaneSuggestionsEnabled"
     )
-    
-    foreach ($RegistryName in $ContentDeliveryManagerBlock) {
-        Write-Host "[Registry] Setting $RegistryName value to 0..."
-        Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $RegistryName -Type DWord -Value 0
+            
+    foreach ($Name in $ContentDeliveryManagerKeysToZero) {
+        Write-Host "[Registry] Setting $Name value to 0..."
+        Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $Name -Type DWord -Value 0
     }
-    
+
+    Write-Host "Disable Show me suggested content in the settings app."
     If (Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\Subscriptions") {
         Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\Subscriptions" -Recurse
     }
     
+    Write-Host "Disable Show suggestions in start."
     If (Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps") {
         Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps" -Recurse
     }
@@ -308,10 +309,14 @@ function RunTweaksForRegistry {
     Write-Host "- Disable P2P Update downloads outside of local network | 0=off, 1=On but local network only, 2=On, local network private peering only, 3=On local network and Internet,99=simply download mode, 100=bypass mode"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
     
+    If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        New-FolderForced -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    }
+
     Write-Host "Disable Windows Spotlight Features"
     Write-Host "Disable Third Party Suggestions"
     Write-Host "Disable More Telemetry Features"
-    
+
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
     
@@ -324,9 +329,9 @@ function RunTweaksForRegistry {
         "DisableThirdPartySuggestions"
     )
     
-    foreach ($RegistryName in $CloudContentRegsToOne) {
-        Write-Host "[Registry] Setting $RegistryName value to 1..."
-        Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name $RegistryName -Type DWord -Value 1
+    foreach ($Name in $CloudContentRegsToOne) {
+        Write-Host "[Registry] Setting $Name value to 1..."
+        Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name $Name -Type DWord -Value 1
     }
     
     Write-Host "Disable Third Party Suggestions"
@@ -357,12 +362,13 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
     
     Write-Host "*** Hide the search box from taskbar. You can still search by pressing the Win key and start typing what you're looking for ***"
-    # "0 = hide completely, 1 = show only icon, 2 = show long search box"
+    # 0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
     
     Write-Host "<==========[Explorer Tweaks]==========>"
-    
-    $ExplorerRegsToZero = @(
+
+    $Path = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    $ExplorerKeysToZero = @(
         # *** Show file extensions in Explorer ***
         "HideFileExt"
         # Disable File Explorer Ads (OneDrive, New Features etc.)
@@ -373,23 +379,23 @@ function RunTweaksForRegistry {
         "Start_TrackDocs"
         "Start_TrackProgs"
     )
-    $ExplorerRegsToOne = @(
+    $ExplorerKeysToOne = @(
         # *** Set Windows Explorer to start on This PC instead of Quick Access *** 1 = This PC, 2 = Quick access
         "LaunchTo"
         # *** Show hidden files in Explorer ***
         "Hidden"
-        # Write-Host "*** Show super hidden system files in Explorer ***" # This might be useful for someone
-        # "ShowSuperHidden"
+        # *** Show super hidden system files in Explorer ***
+        #"ShowSuperHidden"
     )
     
-    foreach ($RegistryName in $ExplorerRegsToZero) {
-        Write-Host "[Registry] Setting $RegistryName value to 0..."
-        Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name $RegistryName -Type DWord -Value 0
+    foreach ($Name in $ExplorerKeysToZero) {
+        Write-Host "[Registry] Setting $Name value to 0..."
+        Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 0
     }
     
-    foreach ($RegistryName in $ExplorerRegsToOne) {
-        Write-Host "[Registry] Setting $RegistryName value to 1..."
-        Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name $RegistryName -Type DWord -Value 1
+    foreach ($Name in $ExplorerKeysToOne) {
+        Write-Host "[Registry] Setting $Name value to 1..."
+        Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 1
     }
 
 }
@@ -397,9 +403,6 @@ function RunTweaksForRegistry {
 function RunPersonalTweaks {
 
     Write-Host "<==================== My Tweaks ====================>"
-    
-    Write-Host "Setting time to UTC..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 1
     
     Write-Host "Disabling Superfetch..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
@@ -410,16 +413,36 @@ function RunPersonalTweaks {
     Write-Host "Repairing high RAM usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
     
-    Write-Host "Disabling Cortana..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCortana" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "AllowCloudSearch" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "ConnectedSearchUseWeb" -Type DWord -Value 0
+    Write-Host "<==========[Disabling Cortana]==========>"
+
+    $Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
+    $CortanaDisableToZero = @(
+        "AllowCortana"
+        "AllowCloudSearch"
+        "ConnectedSearchUseWeb"
+    )
+
+    foreach ($Name in $CortanaDisableToZero) {
+        Write-Host "[Registry] Setting $Name value to 0..."
+        Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 0
+    }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWord -Value 1
+
+    Write-Host "Disable Windows Store apps Automatic Updates"
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore")) {
+        New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" "AutoDownload" 2
     
     Write-Host "Unlimiting your network bandwitdh for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
-    New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched")) {
+        New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
+    }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
+
+    Write-Host "Setting time to UTC..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 1
     
     Write-Host "Setting up the DNS from Google..."
     Set-DNSClientServerAddress -interfaceIndex 12 -ServerAddresses ("8.8.8.8","8.8.4.4") # Ethernet
@@ -432,8 +455,149 @@ function RunPersonalTweaks {
 
 }
 
+function RemoveBloatwareApps {
+
+    Write-Host "<==================== 4/4 - [Remove Bloatware Apps] ====================>"
+
+    $Apps = @(
+        # [Alphabetic order] Default Windows 10 apps
+        "Microsoft.3DBuilder"
+        "Microsoft.Appconnector"
+        "Microsoft.BingFinance"
+        "Microsoft.BingFoodAndDrink"
+        "Microsoft.BingHealthAndFitness"
+        "Microsoft.BingNews"
+        "Microsoft.BingSports"
+        "Microsoft.BingTranslator"
+        "Microsoft.BingTravel"
+        "Microsoft.BingWeather"
+        "Microsoft.CommsPhone"
+        "Microsoft.ConnectivityStore"
+        "Microsoft.GetHelp"
+        "Microsoft.Getstarted"
+        "Microsoft.Messaging"
+        "Microsoft.Microsoft3DViewer"
+        "Microsoft.MicrosoftOfficeHub"
+        "Microsoft.MicrosoftPowerBIForWindows"
+        "Microsoft.MicrosoftSolitaireCollection"
+        "Microsoft.MinecraftUWP"
+        "Microsoft.MixedReality.Portal"
+        "Microsoft.NetworkSpeedTest"
+        "Microsoft.Office.OneNote"
+        "Microsoft.Office.Sway"
+        "Microsoft.OneConnect"
+        "Microsoft.People"
+        "Microsoft.Print3D"
+        "Microsoft.ScreenSketch"
+        "Microsoft.SkypeApp"                        # Who still uses Skype? Use Discord
+        "Microsoft.Wallet"
+        "Microsoft.WindowsAlarms"
+        "microsoft.windowscommunicationsapps"
+        "Microsoft.WindowsFeedbackHub"
+        "Microsoft.WindowsMaps"
+        "Microsoft.WindowsPhone"
+        "Microsoft.WindowsReadingList"
+        "Microsoft.WindowsSoundRecorder"
+        "Microsoft.YourPhone"
+        "Microsoft.ZuneMusic"
+        "Microsoft.ZuneVideo"
+        
+        # 3rd party Apps
+        "*ACGMediaPlayer*"
+        "*ActiproSoftwareLLC*"
+        "*AdobePhotoshopExpress*"
+        "*Asphalt8Airborne*"
+        "*AutodeskSketchBook*"
+        "*BubbleWitch3Saga*"
+        "*CaesarsSlotsFreeCasino*"
+        "*CandyCrush*"
+        "*COOKINGFEVER*"
+        "*CyberLinkMediaSuiteEssentials*"
+        "*DisneyMagicKingdoms*"
+        "*Dolby*"
+        "*DrawboardPDF*"
+        "*Duolingo-LearnLanguagesforFree*"
+        "*EclipseManager*"
+        "*Facebook*"
+        "*FarmVille2CountryEscape*"
+        "*FitbitCoach*"
+        "*Flipboard*"
+        "*HiddenCity*"
+        "*Hulu*"
+        "*iHeartRadio*"
+        "*Keeper*"
+        "*LinkedInforWindows*"
+        "*MarchofEmpires*"
+        "*NYTCrossword*"
+        "*OneCalendar*"
+        "*PandoraMediaInc*"
+        "*PhototasticCollage*"
+        "*PicsArt-PhotoStudio*"
+        "*Plex*"  
+        "*PolarrPhotoEditorAcademicEdition*"
+        "*RoyalRevolt*"
+        "*Shazam*"
+        "*SlingTV*"
+        "*Speed Test*"
+        "*Sway*"
+        "*TuneInRadio*"
+        "*Twitter*"
+        "*Viber*"
+        "*WinZipUniversal*"
+        "*Wunderlist*"
+        "*XING*"
+        
+        # Apps which other apps depend on
+        "Microsoft.Advertising.Xaml"
+
+        # <==========[DIY]==========> (Remove the # to Debloat)
+
+        # [DIY] Default apps i'll keep
+
+        #"Microsoft.FreshPaint"
+        #"Microsoft.GamingServices"
+        #"Microsoft.MicrosoftStickyNotes"           # Productivity
+        #"Microsoft.MSPaint"                        # Where every artist truly start as a kid
+        #"Microsoft.WindowsCalculator"              # A basic need
+        #"Microsoft.WindowsCamera"                  # People may use it
+        #"Microsoft.Windows.Photos"                 # Reproduce GIFs
+        
+        # [DIY] Xbox Apps and Dependencies
+        
+        #"Microsoft.Xbox.TCUI"
+        #"Microsoft.XboxApp"
+        #"Microsoft.XboxGameOverlay"
+        #"Microsoft.XboxGamingOverlay"
+        #"Microsoft.XboxSpeechToTextOverlay"
+        
+        # [DIY] Common Streaming services
+        
+        #"*Netflix*"
+        #"*SpotifyMusic*"
+
+        #"Microsoft.WindowsStore"                   # can't be re-installed
+
+        # Apps which cannot be removed using Remove-AppxPackage
+        #"Microsoft.BioEnrollment"
+        #"Microsoft.MicrosoftEdge"
+        #"Microsoft.Windows.Cortana"
+        #"Microsoft.WindowsFeedback"
+        #"Microsoft.XboxGameCallableUI"
+        #"Microsoft.XboxIdentityProvider"
+        #"Windows.ContactSupport"
+    )
+
+    foreach ($Bloat in $Apps) {
+        Write-Output "Trying to remove $Bloat ..."
+        Get-AppxPackage -Name $Bloat| Remove-AppxPackage
+        Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online
+    }
+
+}
+
 RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal configs.
 RunTweaksForScheduledTasks  # Disable Scheduled Tasks that causes slowdowns
-RunTweaksForRegistry        # Disable Registries that causes slowdowns
 RunTweaksForService         # Enable essential Services and Disable bloating Services
+RunTweaksForRegistry        # Disable Registries that causes slowdowns
 RunPersonalTweaks           # The icing on the cake, last and useful optimizations
+RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
