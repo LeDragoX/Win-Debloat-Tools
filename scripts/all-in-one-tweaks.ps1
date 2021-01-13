@@ -23,7 +23,7 @@ function RunDebloatSoftwares {
     wmic diskdrive get caption,status
     
     # If changing the programs folder move here!!!
-    Push-Location "..\Debloat-Softwares"
+    Push-Location "..\lib\Debloat-Softwares"
     
         Push-Location "Winaero Tweaker"
             Start-Process WinaeroTweaker.exe
