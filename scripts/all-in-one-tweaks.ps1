@@ -51,6 +51,7 @@ function RunDebloatSoftwares {
 
 function RunTweaksForScheduledTasks {
 
+    Write-Host "" # New line
     Write-Host "<==================== 1/4 - [Scheduled Tasks tweaks] ====================>"
     
     $DisableScheduledTasks = @(
@@ -89,9 +90,9 @@ function RunTweaksForScheduledTasks {
 
 }
 
-
 function RunTweaksForService {
 
+    Write-Host "" # New line
     Write-Host "<====================     2/4 - [Services tweaks]     ====================>"
     Write-Host "<==================== Re-enabling services at Startup ====================>"
     
@@ -107,6 +108,7 @@ function RunTweaksForService {
         Set-Service -Name $Service -StartupType Automatic
     }
     
+    Write-Host "" # New line
     Write-Host "<==================== Disabling services at Startup ====================>"
     
     $DisableServices = @(
@@ -169,9 +171,11 @@ function RunTweaksForService {
 
 function RunTweaksForRegistry {
 
+    Write-Host "" # New line
     Write-Host "<==================== 3/4 - [Registry Tweaks] ====================>"
     Write-Host "<==================== Remove Telemetry & Data Collection ====================>"
     
+    Write-Host "" # New line
     Write-Host "<==========[Personalization Section]==========>"
     
     Write-Host "-> Colors"
@@ -222,6 +226,7 @@ function RunTweaksForRegistry {
         Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps" -Recurse
     }
     
+    Write-Host "" # New line
     Write-Host "<==========[Gaming Section]==========>"
     
     Write-Host "Disable Game Bar & Game DVR..."
@@ -237,6 +242,7 @@ function RunTweaksForRegistry {
     Write-Host "Enable Hardware Accelerated GPU Scheduling... (Windows 10 2004 + NVIDIA 10 Series Above + AMD 5000 and Above)"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
     
+    Write-Host "" # New line
     Write-Host "<==========[Privacy Section]==========>"
     
     Write-Host "-> General"
@@ -296,6 +302,7 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
     
+    Write-Host "" # New line
     Write-Host "<==========[Update & Security Section]==========>"
     
     Write-Host "-> Windows Update"
@@ -356,6 +363,7 @@ function RunTweaksForRegistry {
     Write-Host "- WiFi Sense: Shared HotSpot Auto-Connect: Disable"
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
     
+    Write-Host "" # New line
     Write-Host "<==========[TaskBar Tweaks]==========>"
     
     Write-Host "Hiding People icon..."
@@ -365,6 +373,7 @@ function RunTweaksForRegistry {
     # 0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
     
+    Write-Host "" # New line
     Write-Host "<==========[Explorer Tweaks]==========>"
 
     $Path = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
@@ -402,6 +411,7 @@ function RunTweaksForRegistry {
 
 function RunPersonalTweaks {
 
+    Write-Host "" # New line
     Write-Host "<==================== My Tweaks ====================>"
     
     Write-Host "Disabling Superfetch..."
@@ -413,6 +423,7 @@ function RunPersonalTweaks {
     Write-Host "Repairing high RAM usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
     
+    Write-Host "" # New line
     Write-Host "<==========[Disabling Cortana]==========>"
 
     $Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
@@ -457,6 +468,7 @@ function RunPersonalTweaks {
 
 function RemoveBloatwareApps {
 
+    Write-Host "" # New line
     Write-Host "<==================== 4/4 - [Remove Bloatware Apps] ====================>"
 
     $Apps = @(
