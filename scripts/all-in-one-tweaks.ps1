@@ -36,6 +36,7 @@ Write-Host "<==================== 1/3 - [Services tweaks] ====================>"
 Write-Host "<==================== Re-enabling services at Startup ====================>"
 
 $EnableServices = @(
+    "BITS"                                      # Background Intelligent Transfer Service
     "DPS"                                       # Diagnostic Policy Service
     "WSearch"                                   # Windows Search
 )
@@ -48,7 +49,6 @@ foreach ($Service in $EnableServices) {
 Write-Host "<==================== Disabling services at Startup ====================>"
 
 $DisableServices = @(
-    "BITS"                                      # Background Intelligent Transfer Service
     "DiagTrack"                                 # Connected User Experiences and Telemetry
     "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
     "dmwappushservice"                          # Device Management Wireless Application Protocol (WAP)
@@ -185,8 +185,13 @@ foreach ($RegistryName in $ContentDeliveryManagerBlock) {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $RegistryName -Type DWord -Value 0
 }
 
-Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\Subscriptions" -Recurse
-Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps" -Recurse
+If (Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\Subscriptions") {
+    Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\Subscriptions" -Recurse
+}
+
+If (Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps") {
+    Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps" -Recurse
+}
 
 Write-Host "<==========[Gaming Section]==========>"
 
@@ -227,6 +232,9 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDat
 
 Write-Host "-> Diagnostics & Feedback"
 
+If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) {
+    New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+}
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
 Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "PeriodInNanoSeconds"
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack" -Name "ShowedToastAtLevel" -Type DWord -Value 1
@@ -270,7 +278,7 @@ Write-Host "- Change Windows Updates to 'Notify to schedule restart'"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
 
 Write-Host "- Disable P2P Update downloads outside of local network | 0=off, 1=On but local network only, 2=On, local network private peering only, 3=On local network and Internet,99=simply download mode, 100=bypass mode"
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 0
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
 
 Write-Host "Disable Windows Spotlight Features"
 Write-Host "Disable Third Party Suggestions"
@@ -357,6 +365,9 @@ foreach ($RegistryName in $ExplorerRegsToOne) {
 }
 
 Write-Host "<==================== My Tweaks ====================>"
+
+Write-Host "Setting time to UTC..."
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 1
 
 Write-Host "Disabling Superfetch..."
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
