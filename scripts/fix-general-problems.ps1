@@ -1,7 +1,14 @@
 Write-Host "Original Folder $PSScriptRoot"
 
+Write-Host "<==========================================>"
+Write-Host "            Resetting the MS Store"
+Write-Host "<==========================================>"
+Write-Host ""
+
+Start-Process wsreset
+
 Write-Host "<============================================>"
-Write-Host "Fix windows explorer opening with no reason [Optional]"
+Write-Host "            Fix Windows Explorer"
 Write-Host "<============================================>"
 Write-Host ""
 
@@ -14,14 +21,7 @@ sfc /scannow
 dism.exe /online /cleanup-image /restorehealth
 
 Write-Host "<==========================================>"
-Write-Host "Resetting the MS Store [Optional]"
-Write-Host "<==========================================>"
-Write-Host ""
-
-Start-Process wsreset
-
-Write-Host "<==========================================>"
-Write-Host "This will Fix your Start Menu not opening [Optional]"
+Write-Host "This will Fix your Start Menu not opening"
 Write-Host "<==========================================>"
 Write-Host ""
 
