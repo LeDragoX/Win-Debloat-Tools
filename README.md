@@ -71,11 +71,11 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser; ls -Recurse .ps1 | Unblock-
 
 ## Known Issues 
 
-- ~Start menu Search~ (Fixed by Activating WSearch)
+- ~Start menu Search~ (Fixed by activating `WSearch`)
 - ~Sysprep will hang~? (Don't know what's that)
 - [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed)
 - [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (will be deleted)
-- [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189)(Will be disabled)
+- [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` will be disabled)
 
 ## Contribute
 
