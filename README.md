@@ -73,7 +73,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser; ls -Recurse .ps1 | Unblock-
 
 - ~Start menu Search~ (Fixed by enabling `WSearch` service)
 - ~Sysprep will hang~ ...? (Don't know what's that)
-- [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed)
+- [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
 - [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` app will be uninstalled)
 - [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
 
