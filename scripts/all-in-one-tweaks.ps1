@@ -29,7 +29,7 @@ function RunDebloatSoftwares {
             Start-Process WinaeroTweaker.exe
         Pop-Location
     
-        CountNseconds # Count 3 seconds (default) then exit
+        CountNseconds -Time 2 -Msg "Waiting" # Count 2 seconds then exit
         ShowMessage -Title "DON'T CLOSE YET" -Message $Message
     
         Write-Host "Running ShutUp10 and applying configs..."
