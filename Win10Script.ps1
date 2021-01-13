@@ -14,6 +14,7 @@ Function PrepareRun {
 }
 
 Function UnrestrictPermissions {
+    Write-Host "Receiving permissions to run scripts"
     Set-ExecutionPolicy Unrestricted -Scope Process -Force
     Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
     Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force
@@ -22,6 +23,7 @@ Function UnrestrictPermissions {
 }
 
 Function RestrictPermissions {
+    Write-Host "Denying permissions to run scripts"
     Set-ExecutionPolicy Restricted -Scope Process -Force
     Set-ExecutionPolicy Restricted -Scope CurrentUser -Force
     Set-ExecutionPolicy Restricted -Scope LocalMachine -Force
