@@ -8,20 +8,24 @@ Write-Host ""
 Start-Process wsreset
 
 Write-Host "<============================================>"
-Write-Host "            Fix Windows Explorer"
+Write-Host "             Fix Windows Taskbar"
 Write-Host "<============================================>"
 Write-Host ""
 
 Push-Location "$env:SystemRoot\System32"
-    Write-Host "Fix Windows Search Bar"
     .\Regsvr32.exe /s msimtf.dll | .\Regsvr32.exe /s msctf.dll | Start-Process -Verb RunAs .\ctfmon.exe
 Pop-Location
+
+Write-Host "<============================================>"
+Write-Host "        Fix Windows Registry and Image"
+Write-Host "<============================================>"
+Write-Host ""
 
 sfc /scannow
 dism.exe /online /cleanup-image /restorehealth
 
 Write-Host "<==========================================>"
-Write-Host "This will Fix your Start Menu not opening"
+Write-Host " This will Re-register all your apps"
 Write-Host "<==========================================>"
 Write-Host ""
 
@@ -30,7 +34,11 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 Start-Process explorer
 
-Write-Host "Solving Network problems..."
+Write-Host "<==========================================>"
+Write-Host "           Solving Network problems"
+Write-Host "<==========================================>"
+Write-Host ""
+
 ipconfig /release
 ipconfig /release6
 Clear-Host
