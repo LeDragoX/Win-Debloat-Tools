@@ -638,6 +638,6 @@ function RemoveBloatwareApps {
 RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal configs.
 RunTweaksForScheduledTasks  # Disable Scheduled Tasks that causes slowdowns
 RunTweaksForService         # Enable essential Services and Disable bloating Services
-#RunTweaksForRegistry        # Disable Registries that causes slowdowns
+RunTweaksForRegistry        # Disable Registries that causes slowdowns
 RunPersonalTweaks           # The icing on the cake, last and useful optimizations
 RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
