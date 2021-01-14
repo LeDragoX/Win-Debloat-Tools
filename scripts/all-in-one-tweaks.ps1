@@ -4,6 +4,7 @@
 # Adapted from this AdamX video https://youtu.be/hQSkPmZRCjc
 
 Write-Host "Original Folder $PSScriptRoot"
+Import-Module BitsTransfer # To enable file downloading
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\count-n-seconds.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
@@ -34,7 +35,10 @@ function RunDebloatSoftwares {
     
         Write-Host "Running ShutUp10 and applying configs..."
         Push-Location "ShutUp10"
-        .\OOSU10.exe "ooshutup10.cfg" /quiet # quiet may be better?
+        Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination OOSU10.exe
+        .\OOSU10.exe "ooshutup10.cfg" /quiet    # quiet may be better?
+        del "OOSU10.exe"                        # Leave no traces
+        del "OOSU10.ini"                        # Leave no traces
         Pop-Location
     Pop-Location
     
