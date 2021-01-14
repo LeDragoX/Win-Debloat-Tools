@@ -176,6 +176,22 @@ function RunTweaksForRegistry {
     Write-Host "<==================== Remove Telemetry & Data Collection ====================>"
     
     Write-Host "" # New line
+    Write-Host "<==========[System Section]==========>"
+
+    Write-Host "-> Multitasking"
+
+    Write-Host "Disable Edge multi tabs showing on Alt + Tab..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
+
+    Write-Host "" # New line
+    Write-Host "<==========[Devices Section]==========>"
+
+    Write-Host "-> Bluetooth & other devices"
+
+    Write-Host "Enable driver download over metered connections..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value 1
+
+    Write-Host "" # New line
     Write-Host "<==========[Personalization Section]==========>"
     
     Write-Host "-> Colors"
