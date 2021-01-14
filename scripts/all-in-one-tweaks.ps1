@@ -198,24 +198,12 @@ function RunTweaksForRegistry {
     Write-Host "<==========[Personalization Section]==========>"
     
     Write-Host "-> Colors"
-
-    Write-Host "" # New line
-    Write-Host "<==========[TaskBar Tweaks]==========>"
-    
-    Write-Host "Hiding People icon..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
-    
-    Write-Host "*** Hide the search box from taskbar ***"
-    # 0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
-
-    Write-Host "Disable taskbar transparency."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
     
     Write-Host "-> ? & ? & Start & Lockscreen"
     Write-Host "Disable Show me the windows welcome experience after updates."
     Write-Host "Disable Get fun facts and tips, etc. on lock screen."
     
+    $Path = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
     $ContentDeliveryManagerKeysToZero = @(
         "SubscribedContent-310093Enabled"
         "SubscribedContent-314559Enabled"
@@ -241,8 +229,9 @@ function RunTweaksForRegistry {
     )
             
     foreach ($Name in $ContentDeliveryManagerKeysToZero) {
-        Write-Host "[Registry] Setting $Name value to 0..."
-        Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name $Name -Type DWord -Value 0
+        Write-Host "[Registry] From Path: [$Path]"
+        Write-Host "[Registry] Setting $Name value: 0"
+        Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 0
     }
 
     Write-Host "Disable Show me suggested content in the settings app."
@@ -356,6 +345,7 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
     
+    $Path = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
     $CloudContentRegsToOne = @(
         "DisableWindowsSpotlightFeatures"
         "DisableWindowsSpotlightOnActionCenter"
@@ -366,8 +356,9 @@ function RunTweaksForRegistry {
     )
     
     foreach ($Name in $CloudContentRegsToOne) {
-        Write-Host "[Registry] Setting $Name value to 1..."
-        Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name $Name -Type DWord -Value 1
+        Write-Host "[Registry] From Path: [$Path]"
+        Write-Host "[Registry] Setting $Name value: 1"
+        Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 1
     }
     
     Write-Host "Disable Third Party Suggestions"
@@ -401,8 +392,6 @@ function RunTweaksForRegistry {
         "HideFileExt"
         # Disable File Explorer Ads (OneDrive, New Features etc.)
         "ShowSyncProviderNotifications"
-        # Hide the Task View from taskbar. 0 = Hide Task view, 1 = Show Task view
-        "ShowTaskViewButton"
         # *** Disable MRU lists (jump lists) of XAML apps in Start Menu ***
         "Start_TrackDocs"
         "Start_TrackProgs"
@@ -417,12 +406,14 @@ function RunTweaksForRegistry {
     )
     
     foreach ($Name in $ExplorerKeysToZero) {
-        Write-Host "[Registry] Setting $Name value to 0..."
+        Write-Host "[Registry] From Path: [$Path]"
+        Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 0
     }
     
     foreach ($Name in $ExplorerKeysToOne) {
-        Write-Host "[Registry] Setting $Name value to 1..."
+        Write-Host "[Registry] From Path: [$Path]"
+        Write-Host "[Registry] Setting $Name value: 1"
         Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 1
     }
 
@@ -431,7 +422,24 @@ function RunTweaksForRegistry {
 function RunPersonalTweaks {
 
     Write-Host "" # New line
-    Write-Host "<==================== My Tweaks ====================>"
+    Write-Host "<==================== My Personal Tweaks ====================>"
+
+    Write-Host "" # New line
+    Write-Host "<==========[Personalization Section]==========>"
+    Write-Host "<==========[TaskBar Tweaks]==========>"
+    
+    Write-Host "*** Hide the search box from taskbar ***"
+    # 0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+
+    # Hide the Task View from taskbar. 0 = Hide Task view, 1 = Show Task view
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+
+    Write-Host "Hiding People icon..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
+
+    Write-Host "Disable taskbar transparency."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
     
     Write-Host "Disabling Superfetch..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
@@ -453,9 +461,11 @@ function RunPersonalTweaks {
     )
 
     foreach ($Name in $CortanaDisableToZero) {
-        Write-Host "[Registry] Setting $Name value to 0..."
+        Write-Host "[Registry] From Path: [$Path]"
+        Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 0
     }
+    
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWord -Value 1
 
     Write-Host "Disable Windows Store apps Automatic Updates"
@@ -629,6 +639,6 @@ function RemoveBloatwareApps {
 RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal configs.
 RunTweaksForScheduledTasks  # Disable Scheduled Tasks that causes slowdowns
 RunTweaksForService         # Enable essential Services and Disable bloating Services
-RunTweaksForRegistry        # Disable Registries that causes slowdowns
+#RunTweaksForRegistry        # Disable Registries that causes slowdowns
 RunPersonalTweaks           # The icing on the cake, last and useful optimizations
 RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
