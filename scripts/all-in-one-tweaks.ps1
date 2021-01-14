@@ -27,17 +27,17 @@ function RunDebloatSoftwares {
     Push-Location "..\lib\Debloat-Softwares"
     
         Push-Location "Winaero Tweaker"
-            Start-Process WinaeroTweaker.exe
+            Start-Process WinaeroTweaker.exe # Could not download it (Tried Start-BitsTransfer and WebClient, but nothing)
         Pop-Location
     
-        CountNseconds -Time 2 -Msg "Waiting" # Count 2 seconds then exit
+        CountNseconds -Time 2 -Msg "Waiting" # Count 2 seconds then show the Message
         ShowMessage -Title "DON'T CLOSE YET" -Message $Message
     
         Write-Host "Running ShutUp10 and applying configs..."
         Push-Location "ShutUp10"
-        Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination OOSU10.exe
-        Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # quiet may be better? # Wait until the process closes
-        Remove-Item "*.*" -Exclude "*.cfg" -Force                                       # Leave no traces
+        Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination "OOSU10.exe"
+        Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait   # quiet may be better? # Wait until the process closes
+        Remove-Item "*.*" -Exclude "*.cfg" -Force                                               # Leave no traces
         Pop-Location
     Pop-Location
     
