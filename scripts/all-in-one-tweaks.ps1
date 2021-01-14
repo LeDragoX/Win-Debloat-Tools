@@ -179,27 +179,11 @@ function RunTweaksForRegistry {
     Write-Host "<==================== Remove Telemetry & Data Collection ====================>"
     
     Write-Host "" # New line
-    Write-Host "<==========[System Section]==========>"
-
-    Write-Host "-> Multitasking"
-
-    Write-Host "Disable Edge multi tabs showing on Alt + Tab..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
-
-    Write-Host "" # New line
-    Write-Host "<==========[Devices Section]==========>"
-
-    Write-Host "-> Bluetooth & other devices"
-
-    Write-Host "Enable driver download over metered connections..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value 1
-
-    Write-Host "" # New line
     Write-Host "<==========[Personalization Section]==========>"
     
-    Write-Host "-> Colors"
+    Write-Host "--> Colors"
     
-    Write-Host "-> ? & ? & Start & Lockscreen"
+    Write-Host "--> ? & ? & Start & Lockscreen"
     Write-Host "Disable Show me the windows welcome experience after updates."
     Write-Host "Disable Get fun facts and tips, etc. on lock screen."
     
@@ -227,7 +211,6 @@ function RunTweaksForRegistry {
         "SubscribedContentEnabled"
         "SystemPaneSuggestionsEnabled"
     )
-            
     foreach ($Name in $ContentDeliveryManagerKeysToZero) {
         Write-Host "[Registry] From Path: [$Path]"
         Write-Host "[Registry] Setting $Name value: 0"
@@ -263,19 +246,19 @@ function RunTweaksForRegistry {
     Write-Host "" # New line
     Write-Host "<==========[Privacy Section]==========>"
     
-    Write-Host "-> General"
+    Write-Host "--> General"
     
-    Write-Host "Settings -> Privacy -> General -> Let apps use my advertising ID..."
+    Write-Host "Settings --> Privacy --> General --> Let apps use my advertising ID..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
     
-    Write-Host "- Let websites provide locally..."
+    Write-Host "Let websites provide locally..."
     Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
     
-    Write-Host "-> Speech"
+    Write-Host "--> Speech"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" -Name "HasAccepted" -Type DWord -Value 0
     
-    Write-Host "-> Inking & Typing Personalization"
+    Write-Host "--> Inking & Typing Personalization"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 1
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value 1
@@ -283,13 +266,15 @@ function RunTweaksForRegistry {
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value 0
     
-    Write-Host "-> Diagnostics & Feedback"
+    Write-Host "--> Diagnostics & Feedback"
     
     If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) {
         New-FolderForced -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
     }
+    If ((Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules\PeriodInNanoSeconds")){
+        Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "PeriodInNanoSeconds"
+    }
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
-    Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "PeriodInNanoSeconds"
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack" -Name "ShowedToastAtLevel" -Type DWord -Value 1
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack\EventTranscriptKey" -Name "EnableEventTranscript" -Type DWord -Value 0
@@ -298,23 +283,23 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     
-    Write-Host "-> Location"
+    Write-Host "--> Location"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
     
-    Write-Host "-> Notifications"
+    Write-Host "--> Notifications"
     
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" -Name "Value" -Value "Deny"
     
-    Write-Host "-> App Diagnostics"
+    Write-Host "--> App Diagnostics"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" -Name "Value" -Value "Allow" # Or Deny (Just testing to unbreak WU)
     
-    Write-Host "-> Account Info Access"
+    Write-Host "--> Account Info Access"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
     
-    Write-Host "-> Background Apps"
+    Write-Host "--> Background Apps"
     
     Write-Host "Disabling Background Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
@@ -323,25 +308,24 @@ function RunTweaksForRegistry {
     Write-Host "" # New line
     Write-Host "<==========[Update & Security Section]==========>"
     
-    Write-Host "-> Windows Update"
+    Write-Host "--> Windows Update"
     
     Write-Host "Assure automatic driver update is ENABLED"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 1
     
-    Write-Host "- Change Windows Updates to 'Notify to schedule restart'"
+    Write-Host "Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
     
-    Write-Host "- Disable P2P Update downloads outside of local network | 0=off, 1=On but local network only, 2=On, local network private peering only, 3=On local network and Internet,99=simply download mode, 100=bypass mode"
+    Write-Host "W. Update P2P downloads from Local Network only... (0 = Off, 1 = Local Network only, 2 = Local Network private peering only, 3 = Local Network and Internet, 99 = Simply Download mode, 100 = Bypass mode)"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
+        
+    Write-Host "Disable Windows Spotlight Features"
+    Write-Host "Disable Third Party Suggestions"
+    Write-Host "Disable More Telemetry Features"
     
     If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
         New-FolderForced -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
     }
-
-    Write-Host "Disable Windows Spotlight Features"
-    Write-Host "Disable Third Party Suggestions"
-    Write-Host "Disable More Telemetry Features"
-
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
     
@@ -354,7 +338,6 @@ function RunTweaksForRegistry {
         "DisableTailoredExperiencesWithDiagnosticData"
         "DisableThirdPartySuggestions"
     )
-    
     foreach ($Name in $CloudContentRegsToOne) {
         Write-Host "[Registry] From Path: [$Path]"
         Write-Host "[Registry] Setting $Name value: 1"
@@ -375,12 +358,12 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger" -Name "Start" -Type DWord -Value 0
     
-    Write-Host "- SmartScreen Filter for Store Apps: Disable"
+    Write-Host "SmartScreen Filter for Store Apps: Disable"
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
     
-    Write-Host "- WiFi Sense: HotSpot Sharing: Disable"
+    Write-Host "WiFi Sense: HotSpot Sharing: Disable"
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value 0
-    Write-Host "- WiFi Sense: Shared HotSpot Auto-Connect: Disable"
+    Write-Host "WiFi Sense: Shared HotSpot Auto-Connect: Disable"
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
     
     Write-Host "" # New line
@@ -404,13 +387,11 @@ function RunTweaksForRegistry {
         # *** Show super hidden system files in Explorer ***
         #"ShowSuperHidden"
     )
-    
     foreach ($Name in $ExplorerKeysToZero) {
         Write-Host "[Registry] From Path: [$Path]"
         Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 0
     }
-    
     foreach ($Name in $ExplorerKeysToOne) {
         Write-Host "[Registry] From Path: [$Path]"
         Write-Host "[Registry] Setting $Name value: 1"
@@ -440,6 +421,24 @@ function RunPersonalTweaks {
 
     Write-Host "Disable taskbar transparency."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
+
+    Write-Host "" # New line
+    Write-Host "<==========[System Section]==========>"
+
+    Write-Host "--> Multitasking"
+
+    Write-Host "Disable Edge multi tabs showing on Alt + Tab..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
+
+    Write-Host "" # New line
+    Write-Host "<==========[Devices Section]==========>"
+
+    Write-Host "--> Bluetooth & other devices"
+
+    Write-Host "Enable driver download over metered connections..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value 1
+    
+    Write-Host "<==========[Performance Tweaks]==========>"
     
     Write-Host "Disabling Superfetch..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
