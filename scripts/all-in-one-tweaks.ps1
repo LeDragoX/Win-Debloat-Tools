@@ -36,9 +36,9 @@ function RunDebloatSoftwares {
         Write-Host "Running ShutUp10 and applying configs..."
         Push-Location "ShutUp10"
         Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination OOSU10.exe
-        .\OOSU10.exe "ooshutup10.cfg" /quiet    # quiet may be better?
-        del "OOSU10.exe"                        # Leave no traces
-        del "OOSU10.ini"                        # Leave no traces
+        Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" # quiet may be better?
+        CountNseconds -Time 1 -Msg "Waiting"                                            # Wait until the process closes
+        Remove-Item "*.*" -Exclude "*.cfg" -Force                                       # Leave no traces
         Pop-Location
     Pop-Location
     
