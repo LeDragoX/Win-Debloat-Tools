@@ -117,7 +117,12 @@ and finally, applying an option of the Windows Configurations and searching the 
 
 ### Screenshot
 
-![alt](./lib/images/Grab-the-current-tweak-on-registry-with-Procmon64.png)
+![Grab the current tweak on registry with Procmon64.exe](./lib/images/Grab-the-current-tweak-on-registry-with-Procmon64.png)
+
+After finding the right register Key, you just need to Right-Click and select `Jump To...` to get on its directory.
+
+![Showing on regedit](./lib/images/Showing-on-regedit.png)
+
 
 ## License
 
