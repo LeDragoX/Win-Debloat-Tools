@@ -51,10 +51,6 @@ Function RunScripts {
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    Write-Host "<==================== block-telemetry.ps1 ====================>"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"block-telemetry.ps1"
-    # pause ### FOR DEBUGGING PURPOSES
-    Clear-Host
     Write-Host "<==================== fix-privacy-settings.ps1 ====================>"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
     # pause ### FOR DEBUGGING PURPOSES

@@ -20,17 +20,6 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection
 Write-Output "Adding telemetry domains to hosts file"
 $hosts_file = "$env:systemroot\System32\drivers\etc\hosts"
 $domains = @(
-	"tonec.com" #To remove IDM DRM message
-	"www.tonec.com" #To remove IDM DRM message
-	"registeridm.com" #To remove IDM DRM message
-	"www.registeridm.com" #To remove IDM DRM message
-	"secure.registeridm.com" #To remove IDM DRM message
-	"internetdownloadmanager.com" #To remove IDM DRM message
-	"www.internetdownloadmanager.com" #To remove IDM DRM message
-	"secure.internetdownloadmanager.com" #To remove IDM DRM message
-	"mirror.internetdownloadmanager.com" #To remove IDM DRM message
-	"mirror2.internetdownloadmanager.com" #To remove IDM DRM message
-	"mirror3.internetdownloadmanager.com" #To remove IDM DRM message
     "184-86-53-99.deploy.static.akamaitechnologies.com"
     "a-0001.a-msedge.net"
     "a-0002.a-msedge.net"
