@@ -36,18 +36,17 @@ function RunDebloatSoftwares {
         Write-Host "Running ShutUp10 and applying configs..."
         Push-Location "ShutUp10"
         Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination OOSU10.exe
-        Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" # quiet may be better?
-        CountNseconds -Time 1 -Msg "Waiting"                                            # Wait until the process closes
+        Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # quiet may be better? # Wait until the process closes
         Remove-Item "*.*" -Exclude "*.cfg" -Force                                       # Leave no traces
         Pop-Location
     Pop-Location
     
     Push-Location "..\utils"
-        Write-Host "Dark theme"
+        Write-Host "Enabling Dark theme..."
         regedit /s dark-theme.reg
-        Write-Host "Enabling photo viewer"
+        Write-Host "Enabling photo viewer..."
         regedit /s enable-photo-viewer.reg
-        Write-Host "Lowering the RAM usage"
+        Write-Host "Lowering the RAM usage..."
         regedit /s lower-ram-usage.reg
     Pop-Location
 
