@@ -109,6 +109,16 @@ beforehand. If you want a more interactive approach check out:
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex).
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech).
 
+## How did i find specific Tweaks?
+
+By using [SysInternal Suite](https://docs.microsoft.com/pt-br/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
+i could track the `SystemSettings.exe` by filtering it per Process Name, then Clearing the list (Ctrl + X)
+and finally, applying an option of the Windows Configurations and searching the Registry Key inside `Procmon(64).exe`.
+
+### Screenshot
+
+<![alt](./lib/images/Grab-the-current-tweak-on-registry-with-Procmon64.png)>
+
 ## License
 
     "The Unlicense License"
