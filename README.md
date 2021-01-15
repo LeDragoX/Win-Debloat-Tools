@@ -43,7 +43,7 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 
 #### 1.1.1 - Easy way (Prepare and Run once):
 
-- Copy and Paste this line below on **Powershell**:
+- Copy and Paste this entire line below on **Powershell**:
 ```Powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\"Win10Script.ps1"
 ```
