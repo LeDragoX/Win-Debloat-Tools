@@ -467,8 +467,11 @@ function RunTweaksForRegistry {
         "HKCR:\Extensions\ContractId\Windows.ShareTarget\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
     )
     foreach ($Key in $KeysToDelete) {
+        if (!(Test-Path $Key)) { # Only remove if the Path exists
+            continue
+        }
         Write-Output "[Registry] Removing [$Key]..."
-        Remove-Item $Key -Recurse | Out-Null # This will not be debugged
+        Remove-Item $Key -Recurse # This will not be debugged
     }
 
 }
