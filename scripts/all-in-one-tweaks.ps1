@@ -1,7 +1,7 @@
 # Made by LeDragoX
 # Adapted from matthewjberger's script https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
 # Adapted from this Baboo video https://youtu.be/qWESrvP_uU8
-# Adapted from this AdamX video https://youtu.be/hQSkPmZRCjc
+# Adapted from this AdamX video's REG scripts https://youtu.be/hQSkPmZRCjc
 # Adapted from this ChrisTitus script https://github.com/ChrisTitusTech/win10script
 
 Write-Host "Original Folder $PSScriptRoot"
