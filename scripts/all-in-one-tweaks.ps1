@@ -188,7 +188,7 @@ function RunTweaksForRegistry {
     Write-Host "Disable Get fun facts and tips, etc. on lock screen."
     
     $Path = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-    $ContentDeliveryManagerKeysToZero = @(
+    $ContentDeliveryManagerDisableOnZero = @(
         "SubscribedContent-310093Enabled"
         "SubscribedContent-314559Enabled"
         "SubscribedContent-314563Enabled"
@@ -211,7 +211,7 @@ function RunTweaksForRegistry {
         "SubscribedContentEnabled"
         "SystemPaneSuggestionsEnabled"
     )
-    foreach ($Name in $ContentDeliveryManagerKeysToZero) {
+    foreach ($Name in $ContentDeliveryManagerDisableOnZero) {
         Write-Host "[Registry] From Path: [$Path]"
         Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 0
@@ -282,10 +282,24 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+
+    Write-Host "--> Activity History"
+
+    Write-Host "Disabling Activity History..."
+    $Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+    $ActivityHistoryDisableOnZero = @(
+        "EnableActivityFeed"
+        "PublishUserActivities"
+        "UploadUserActivities"
+    )
+    Set-ItemProperty -Path $Path -Name $ActivityHistoryDisableOnZero -Type DWORD -Value 0
     
     Write-Host "--> Location"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
     
     Write-Host "--> Notifications"
     
@@ -330,7 +344,7 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
     
     $Path = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-    $CloudContentRegsToOne = @(
+    $CloudContentDisableOnOne = @(
         "DisableWindowsSpotlightFeatures"
         "DisableWindowsSpotlightOnActionCenter"
         "DisableWindowsSpotlightOnSettings"
@@ -338,14 +352,13 @@ function RunTweaksForRegistry {
         "DisableTailoredExperiencesWithDiagnosticData"
         "DisableThirdPartySuggestions"
     )
-    foreach ($Name in $CloudContentRegsToOne) {
+    foreach ($Name in $CloudContentDisableOnOne) {
         Write-Host "[Registry] From Path: [$Path]"
         Write-Host "[Registry] Setting $Name value: 1"
         Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 1
     }
     
-    Write-Host "Disable Third Party Suggestions"
-    Write-Host "Disable app suggestions on start"
+    Write-Host "Disabling Apps Suggestions..."
     
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableThirdPartySuggestions" -Type DWord -Value 1
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
@@ -438,6 +451,7 @@ function RunPersonalTweaks {
     Write-Host "Enable driver download over metered connections..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value 1
     
+    Write-Host "" # New line
     Write-Host "<==========[Performance Tweaks]==========>"
     
     Write-Host "Disabling Superfetch..."
@@ -446,20 +460,27 @@ function RunPersonalTweaks {
     Write-Host "Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
     
-    Write-Host "Repairing high RAM usage..."
+    Write-Host "Repairing High RAM Usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
+
+    Write-Host "" # New line
+    Write-Host "<==========[Cortana Tweaks]==========>"
+
+    Write-Host "Disabling Bing Search in Start Menu..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWord -Value 0
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "CortanaConsent" -Type DWord -Value 0
     
     Write-Host "" # New line
     Write-Host "<==========[Disabling Cortana]==========>"
 
     $Path = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
-    $CortanaDisableToZero = @(
+    $CortanaDisableOnZero = @(
         "AllowCortana"
         "AllowCloudSearch"
         "ConnectedSearchUseWeb"
     )
 
-    foreach ($Name in $CortanaDisableToZero) {
+    foreach ($Name in $CortanaDisableOnZero) {
         Write-Host "[Registry] From Path: [$Path]"
         Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path $Path -Name $Name -Type DWord -Value 0
@@ -489,7 +510,6 @@ function RunPersonalTweaks {
     Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi*" -ServerAddresses ("8.8.8.8","8.8.4.4")
     
     Write-Host "Bring back F8 for alternative Boot Modes"
-    bcdedit /set {default} bootmenupolicy legacy
     bcdedit /set `{current`} bootmenupolicy Legacy
 
 }
