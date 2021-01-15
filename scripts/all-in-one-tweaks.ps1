@@ -741,7 +741,7 @@ function InstallGamingFeatures {
         }
         elseif ($FeatureDetails.State -like "Disabled") {
             Write-Host "Installing $Feature..."
-            Dism /Online /Enable-Feature /All /FeatureName:$Feature
+            Dism /Online /Enable-Feature /All /NoRestart /FeatureName:$Feature
         }
         Write-Host ""
     }
