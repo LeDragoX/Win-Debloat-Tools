@@ -193,9 +193,7 @@ function RunTweaksForRegistry {
     BeautyTitleTemplate -Text "Remove Telemetry & Data Collection"
 
     BeautySectionTemplate -Text "Personalization Section"
-    
-    CaptionTemplate -Text "Colors"
-    
+        
     CaptionTemplate -Text "? & ? & Start & Lockscreen"
     Write-Host "- Disabling Show me the windows welcome experience after updates..."
     Write-Host "- Disabling 'Get fun facts and tips, etc. on lock screen'..."
@@ -438,7 +436,7 @@ function RunTweaksForRegistry {
     BeautySectionTemplate -Text "These are the registry keys that it will delete."
         
     $KeysToDelete = @(
-        #Remove Background Tasks
+        # Remove Background Tasks
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\46928bounde.EclipseManager_2.2.4.51_neutral__a5h4egax66k6y"
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\Microsoft.MicrosoftOfficeHub_17.7909.7600.0_x64__8wekyb3d8bbwe"
@@ -446,31 +444,31 @@ function RunTweaksForRegistry {
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\Microsoft.XboxGameCallableUI_1000.15063.0.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\Microsoft.XboxGameCallableUI_1000.16299.15.0_neutral_neutral_cw5n1h2txyewy"
 
-        #Windows File
+        # Windows File
         "HKCR:\Extensions\ContractId\Windows.File\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
 
-        #Registry keys to delete if they aren't uninstalled by RemoveAppXPackage/RemoveAppXProvisionedPackage
+        # Registry keys to delete if they aren't uninstalled by RemoveAppXPackage/RemoveAppXProvisionedPackage
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\46928bounde.EclipseManager_2.2.4.51_neutral__a5h4egax66k6y"
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\Microsoft.PPIProjection_10.0.15063.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\Microsoft.XboxGameCallableUI_1000.15063.0.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\Microsoft.XboxGameCallableUI_1000.16299.15.0_neutral_neutral_cw5n1h2txyewy"
 
-        #Scheduled Tasks to delete
+        # Scheduled Tasks to delete
         "HKCR:\Extensions\ContractId\Windows.PreInstalledConfigTask\PackageId\Microsoft.MicrosoftOfficeHub_17.7909.7600.0_x64__8wekyb3d8bbwe"
             
-        #Windows Protocol Keys
+        # Windows Protocol Keys
         "HKCR:\Extensions\ContractId\Windows.Protocol\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
         "HKCR:\Extensions\ContractId\Windows.Protocol\PackageId\Microsoft.PPIProjection_10.0.15063.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.Protocol\PackageId\Microsoft.XboxGameCallableUI_1000.15063.0.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.Protocol\PackageId\Microsoft.XboxGameCallableUI_1000.16299.15.0_neutral_neutral_cw5n1h2txyewy"
                 
-        #Windows Share Target
+        # Windows Share Target
         "HKCR:\Extensions\ContractId\Windows.ShareTarget\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
     )
     foreach ($Key in $KeysToDelete) {
         Write-Output "[Registry] Removing [$Key]..."
-        Remove-Item $Key -Recurse
+        Remove-Item $Key -Recurse | Out-Null # This will not be debugged
     }
 
 }
@@ -491,14 +489,16 @@ function RunPersonalTweaks {
     Write-Host "- Hiding People icon..."
     Set-ItemProperty -Path "$PathToExplorer\People" -Name "PeopleBand" -Type DWord -Value 0
 
-    Write-Host "- Disabling taskbar transparency."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
-
     Write-Host "- Disabling Live Tiles..."
     if (!(Test-Path "$PathToLiveTiles")) {
         New-FolderForced -Path "$PathToLiveTiles"
     }
     Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value 1
+
+    CaptionTemplate -Text "Colors"
+
+    Write-Host "- Disabling taskbar transparency."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
 
     BeautySectionTemplate -Text "System Section"
 
