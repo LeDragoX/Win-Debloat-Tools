@@ -67,9 +67,6 @@ Function RunScripts {
     SimpleTitleTemplate -Text "remove-onedrive.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
     # pause ### FOR DEBUGGING PURPOSES
-    Clear-Host
-    SimpleTitleTemplate -Text "install-gaming-features.ps1"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"install-gaming-features.ps1"
     
     $Question = "This part is OPTIONAL, only do this if you want to repair your Windows.
     Do you want to continue?"
