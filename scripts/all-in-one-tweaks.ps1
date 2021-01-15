@@ -9,6 +9,19 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\count-n-seconds.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\simple-message-box.psm1
 
+# Initialize all Path variables used to Registry Tweaks
+$Global:PathToActivityHistory =         "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$Global:PathToCloudContent =            "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+$Global:PathToCortana =                 "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
+$Global:PathToContentDeliveryManager =  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+$Global:PathToDeliveryOptimization =    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization"
+$Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+$Global:PathToGameBar =                 "HKCU:\SOFTWARE\Microsoft\GameBar"
+$Global:PathToInputPersonalization =    "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+$Global:PathToSearch =                  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+$Global:PathToSiufRules =               "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+$Global:PathToWindowsUpdate =           "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
+
 function RunDebloatSoftwares {
 
     $Message = "1 - If showed click [I AGREE]
@@ -170,21 +183,6 @@ function RunTweaksForService {
         Set-Service -Name $Service -StartupType Disabled
     }
 
-}
-
-function InitPathVariables {
-    # Global variables = Global access
-    $Global:PathToActivityHistory =         "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
-    $Global:PathToCloudContent =            "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-    $Global:PathToCortana =                 "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
-    $Global:PathToContentDeliveryManager =  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-    $Global:PathToDeliveryOptimization =    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization"
-    $Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-    $Global:PathToGameBar =                 "HKCU:\SOFTWARE\Microsoft\GameBar"
-    $Global:PathToInputPersonalization =    "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
-    $Global:PathToSearch =                  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
-    $Global:PathToSiufRules =               "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
-    $Global:PathToWindowsUpdate =           "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 }
 
 function RunTweaksForRegistry {
@@ -685,7 +683,6 @@ function RemoveBloatwareApps {
 RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal configs.
 RunTweaksForScheduledTasks  # Disable Scheduled Tasks that causes slowdowns
 RunTweaksForService         # Enable essential Services and Disable bloating Services
-InitPathVariables           # Initialize all Path variables used to Registry Tweaks
 RunTweaksForRegistry        # Disable Registries that causes slowdowns
 RunPersonalTweaks           # The icing on the cake, last and useful optimizations
 RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
