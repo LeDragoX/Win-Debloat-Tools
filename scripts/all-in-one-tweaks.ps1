@@ -712,9 +712,43 @@ function RemoveBloatwareApps {
 
 }
 
+function InstallGamingFeatures {
+
+    TitleWithContinuousCounter -Text "Install additional features for Windows"
+    
+    # Dism /online /Get-Features #/Format:Table # To find all features
+    # Get-WindowsOptionalFeature -Online
+    
+    $FeatureName = @(
+        "NetFx3"
+        "NetFx4-AdvSrvs"
+        "NetFx4Extended-ASPNET45"
+        "IIS-ASPNET"
+        "IIS-ASPNET45"
+        "DirectPlay"
+    )
+    
+    foreach ($Feature in $FeatureName) {
+        $FeatureDetails = $(Get-WindowsOptionalFeature -Online -FeatureName $Feature)
+        
+        Write-Host "Checking if $Feature was already installed..."
+        Write-Host "$Feature Status:" $FeatureDetails.State
+        if ($FeatureDetails.State -like ("Enabled")) {
+            Write-Host "$Feature already installed! Skipping..."
+        }
+        elseif ($FeatureDetails.State -like "Disabled") {
+            Write-Host "Installing $Feature..."
+            Dism /Online /Enable-Feature /All /FeatureName:$Feature
+        }
+        Write-Host ""
+    }
+
+}
+
 RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal configs.
 RunTweaksForScheduledTasks  # Disable Scheduled Tasks that causes slowdowns
 RunTweaksForService         # Enable essential Services and Disable bloating Services
 RunTweaksForRegistry        # Disable Registries that causes slowdowns
 RunPersonalTweaks           # The icing on the cake, last and useful optimizations
 RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
+InstallGamingFeatures       # Enable features claimed as Optional on Windows, but actually, they are useful

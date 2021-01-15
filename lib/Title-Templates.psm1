@@ -25,7 +25,7 @@ function TitleWithContinuousCounter ([String] $Text = "TestTextCOUNTER") {
 	if ($null -eq $Counter) {
 		# Initialize Global variables
 		$Global:Counter = 0
-		$Global:TweakNum = 5
+		$Global:TweakNum = 6
 	}
 	$Global:Counter = $Counter + 1
 	SimpleTitleTemplate "( $Counter/$TweakNum ) - [$Text]"
