@@ -16,6 +16,8 @@ Function ShowMessage {
     [System.Windows.Forms.MessageBox]::Show($Message, $Title, [System.Windows.Forms.MessageBoxButtons]::OK,[System.Windows.Forms.MessageBoxIcon]::Information)
 }
 
+# Demo: ShowMessage -Title "Title" -Message "Message"
+
 function ShowQuestion {
     param (
         $Title = 'Insert title here',
@@ -29,3 +31,6 @@ function ShowQuestion {
 
     return $Answer
 }
+
+# Demo: $Question = ShowQuestion -Title "Title" -Message "Message"
+# Returns Yes or No or Cancel

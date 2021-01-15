@@ -4,9 +4,9 @@ Function QuickPrivilegesElevation {
 }
 
 Function PrepareRun {
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds.psm1
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\setup-console-style.psm1
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\simple-message-box.psm1
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\Count-N-Seconds.psm1
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\Setup-Console-Style.psm1
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\Simple-Message-Box.psm1
     Import-Module -DisableNameChecking $PSScriptRoot\lib\Title-Templates.psm1
 
     Write-Host "Original Folder $PSScriptRoot"
