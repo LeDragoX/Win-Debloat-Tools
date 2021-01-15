@@ -715,7 +715,7 @@ function RemoveBloatwareApps {
 
 }
 
-function InstallGamingFeatures {
+function EnableFeatures {
 
     TitleWithContinuousCounter -Text "Install additional features for Windows"
     
@@ -729,6 +729,9 @@ function InstallGamingFeatures {
         "IIS-ASPNET"
         "IIS-ASPNET45"
         "DirectPlay"
+        # WSL 2 Support Full Install
+        "Microsoft-Windows-Subsystem-Linux"
+        "VirtualMachinePlatform"
     )
     
     foreach ($Feature in $FeatureName) {
@@ -746,6 +749,14 @@ function InstallGamingFeatures {
         Write-Host ""
     }
 
+    # WSL 2 Setup Finish
+    Push-Location "$env:SystemDrive\"
+        Start-BitsTransfer -Source "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" -Destination "wsl_update_x64.msi"
+        Start-Process .\wsl_update_x64.msi '/q /norestart' -Wait
+    Pop-Location
+
+    wsl --set-default-version 2
+
 }
 
 RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal configs.
@@ -754,4 +765,4 @@ RunTweaksForService         # Enable essential Services and Disable bloating Ser
 RunTweaksForRegistry        # Disable Registries that causes slowdowns
 RunPersonalTweaks           # The icing on the cake, last and useful optimizations
 RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
-InstallGamingFeatures       # Enable features claimed as Optional on Windows, but actually, they are useful
+EnableFeatures              # Enable features claimed as Optional on Windows, but actually, they are useful
