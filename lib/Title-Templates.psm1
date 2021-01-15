@@ -19,6 +19,7 @@ function BeautySectionTemplate ([String] $Text = "TestText") {
 
 function CaptionTemplate ([String] $Text = "TestText") {
 	Write-Host "--> $Text"
+	Write-Host "" # Skip line
 }
 
 function TitleWithContinuousCounter ([String] $Text = "TestTextCOUNTER") {
