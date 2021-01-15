@@ -752,7 +752,7 @@ function EnableFeatures {
     # WSL 2 Setup Finish
     Push-Location "$env:SystemDrive\"
         Start-BitsTransfer -Source "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" -Destination "wsl_update_x64.msi"
-        Start-Process .\wsl_update_x64.msi '/q /norestart' -Wait
+        Start-Process -FilePath ".\wsl_update_x64.msi" -ArgumentList "/q", "/norestart" -Wait
         Remove-Item "wsl_update_x64.msi" -Force
     Pop-Location
 
