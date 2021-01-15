@@ -23,9 +23,9 @@ but you'll probably want the most recent version anyway.
 ## Resume
 
 This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10)
-that was made for debloat and tweak Windows 10 for better performance and less issues,
-i've done some changes so it won't annoy by unninstalled apps, and keeps stability
-for games and daily drive.
+that was made for *Debloat* and *Tweak* Windows 10 for *better performance* and *less issues*,
+i've done some changes so it unninstall Apps that are less used,
+this keeps *stability for games* and *daily drive*.
 
 **There is a undo (if works)**, because i did a restoration point script before
 doing everything.
@@ -36,36 +36,17 @@ doing everything.
 ## 1. How to use
 ### 1.1 - Requirements
 
-If the `Script-Win10.ps1` do not make that automatically, follow these steps.
+The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 
-- Open `RunPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
+- Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
-- Copy and Paste this line on **Powershell**:
+- Copy and Paste this line below on **Powershell**:
 
-#### 1.1.1 - Easy way (Run once):
+#### 1.1.1 - Easy way (Prepare and Run once):
 
 ```Powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\"Win10Script.ps1"
 ```
-#### 1.1.2 - Old way (For compatibility):
-
-```Powershell
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser; ls -Recurse .ps1 | Unblock-File
-```
-- Type what matches 'Yes' on your language and hit Enter.
-
-### 1.2 - Running the Script
-#### - Method 1
-- Run the `Script-Win10.ps1` from the opened powershell.
-```Powershell
-.\"Win10Script.ps1"
-```
-- Or follow this method down here.
-#### - Method 2
-- On the `Script-Win10.ps1` file,
-- Right click on it
-- Select `Run with Powershell`
-- Click `Yes` and there you go.
 
 **[Scripts](/scripts) can be run individually, pick what you need.**
 
@@ -98,7 +79,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 - [Adamx's channel](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [this video](https://youtu.be/hQSkPmZRCjc) 
 - [Baboo's channel](https://www.youtube.com/user/baboo) - by [this video](https://youtu.be/qWESrvP_uU8)
-- [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - gave me more confidence to mess with PowerShell by [this video](https://www.youtube.com/watch?v=ER27pGt5wH0)
+- [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - gave me more confidence to mess with PowerShell after [this video](https://www.youtube.com/watch?v=ER27pGt5wH0)
 - [matthewjberger](https://gist.github.com/matthewjberger) - by [this script](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f)
 
 ## Interactivity
