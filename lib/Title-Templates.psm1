@@ -30,3 +30,10 @@ function TitleWithContinuousCounter ([String] $Text = "TestTextCOUNTER") {
 	$Global:Counter = $Counter + 1
 	SimpleTitleTemplate "( $Counter/$TweakNum ) - [$Text]"
 }
+
+# Demo:
+# SimpleTitleTemplate -Text "Text"
+# BeautyTitleTemplate -Text "Text"
+# BeautySectionTemplate -Text "Text"
+# CaptionTemplate -Text "Text"
+# TitleWithContinuousCounter -Text "Text"

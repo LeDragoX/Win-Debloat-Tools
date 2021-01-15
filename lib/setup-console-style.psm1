@@ -4,3 +4,5 @@ function SetupConsoleStyle {
     # >NUL
     cmd /c color A
 }
+
+# Demo: SetupConsoleStyle
