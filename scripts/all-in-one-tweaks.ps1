@@ -20,8 +20,11 @@ $Global:PathToDeliveryOptimization =    "HKLM:\SOFTWARE\Microsoft\Windows\Curren
 $Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 $Global:PathToGameBar =                 "HKCU:\SOFTWARE\Microsoft\GameBar"
 $Global:PathToInputPersonalization =    "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+$Global:PathToLiveTiles =               "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+$Global:PathToPsched =                  "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
 $Global:PathToSearch =                  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 $Global:PathToSiufRules =               "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+$Global:PathToWindowsStore =            "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
 $Global:PathToWindowsUpdate =           "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
 function RunDebloatSoftwares {
@@ -347,7 +350,7 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
     
     Write-Host "+ Restricting Windows Update P2P downloads for Local Network only..."
-    Write-Host "(0 = Off, 1 = Local Network only, 2 = Local Network private peering only     )"
+    Write-Host "(0 = Off, 1 = Local Network only, 2 = Local Network private peering only      )"
     Write-Host "(3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
     If (!(Test-Path "$PathToDeliveryOptimization")) {
         New-FolderForced -Path "$PathToDeliveryOptimization"
@@ -393,7 +396,7 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger" -Name "Start" -Type DWord -Value 0
     
-    Write-Host "- Disabling 'SmartScreen Filter for Store Apps'..."
+    Write-Host "- Disabling 'SmartScreen Filter' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
     
     Write-Host "- Disabling 'WiFi Sense: HotSpot Sharing'..."
@@ -452,6 +455,12 @@ function RunPersonalTweaks {
     Write-Host "- Disabling taskbar transparency."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
 
+    Write-Host "- Disabling Live Tiles..."
+    if (!(Test-Path "$PathToLiveTiles")) {
+        New-FolderForced -Path "$PathToLiveTiles"
+    }
+    Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value 1
+
     BeautySectionTemplate -Text "System Section"
 
     CaptionTemplate -Text "Multitasking"
@@ -498,16 +507,16 @@ function RunPersonalTweaks {
     Set-ItemProperty -Path "$PathToCortana" -Name "DisableWebSearch" -Type DWord -Value 1
 
     Write-Host "- Disabling Windows Store apps Automatic Updates..."
-    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore")) {
-        New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+    If (!(Test-Path "$PathToWindowsStore")) {
+        New-FolderForced -Path "$PathToWindowsStore"
     }
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" -Name "AutoDownload" -Type DWord -Value 2
+    Set-ItemProperty -Path "$PathToWindowsStore" -Name "AutoDownload" -Type DWord -Value 2
     
     Write-Host "+ Unlimiting your network bandwitdh for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
-    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched")) {
-        New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
+    If (!(Test-Path "$PathToPsched")) {
+        New-FolderForced -Path "$PathToPsched"
     }
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched" -Name "NonBestEffortLimit" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
     Write-Host "+ Setting time to UTC..."
@@ -624,6 +633,7 @@ function RemoveBloatwareApps {
 
         #"Microsoft.FreshPaint"
         #"Microsoft.GamingServices"
+        #"Microsoft.MicrosoftEdge"
         #"Microsoft.MicrosoftStickyNotes"           # Productivity
         #"Microsoft.MSPaint"                        # Where every artist truly start as a kid
         #"Microsoft.WindowsCalculator"              # A basic need
@@ -637,6 +647,9 @@ function RemoveBloatwareApps {
         #"Microsoft.XboxGameOverlay"
         #"Microsoft.XboxGamingOverlay"
         #"Microsoft.XboxSpeechToTextOverlay"
+        # Apps which cannot be removed using Remove-AppxPackage from Xbox
+        #"Microsoft.XboxGameCallableUI"
+        #"Microsoft.XboxIdentityProvider"
         
         # [DIY] Common Streaming services
         
@@ -647,11 +660,8 @@ function RemoveBloatwareApps {
 
         # Apps which cannot be removed using Remove-AppxPackage
         #"Microsoft.BioEnrollment"
-        #"Microsoft.MicrosoftEdge"
         #"Microsoft.Windows.Cortana"
         #"Microsoft.WindowsFeedback"
-        #"Microsoft.XboxGameCallableUI"
-        #"Microsoft.XboxIdentityProvider"
         #"Windows.ContactSupport"
     )
 
