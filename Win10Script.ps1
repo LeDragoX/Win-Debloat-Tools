@@ -7,6 +7,7 @@ Function PrepareRun {
     Import-Module -DisableNameChecking $PSScriptRoot\lib\count-n-seconds.psm1
     Import-Module -DisableNameChecking $PSScriptRoot\lib\setup-console-style.psm1
     Import-Module -DisableNameChecking $PSScriptRoot\lib\simple-message-box.psm1
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\Title-Templates.psm1
 
     Write-Host "Original Folder $PSScriptRoot"
     Write-Host ""
@@ -43,31 +44,31 @@ Function RunScripts {
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
     
     Clear-Host
-    Write-Host "<==================== backup-system.ps1 ====================>"
+    SimpleTitleTemplate -Text "backup-system.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    Write-Host "<==================== all-in-one-tweaks.ps1 ====================>"
+    SimpleTitleTemplate -Text "all-in-one-tweaks.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    Write-Host "<==================== fix-privacy-settings.ps1 ====================>"
+    SimpleTitleTemplate -Text "fix-privacy-settings.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    Write-Host "<==================== optimize-user-interface.ps1 ====================>"
+    SimpleTitleTemplate -Text "optimize-user-interface.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    Write-Host "<==================== optimize-windows-update.ps1 ====================>"
+    SimpleTitleTemplate -Text "optimize-windows-update.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-windows-update.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    Write-Host "<==================== remove-onedrive.ps1 ====================>"
+    SimpleTitleTemplate -Text "remove-onedrive.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    Write-Host "<==================== install-gaming-features.ps1 ====================>"
+    SimpleTitleTemplate -Text "install-gaming-features.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"install-gaming-features.ps1"
     
     $Question = "This part is OPTIONAL, only do this if you want to repair your Windows.
@@ -78,7 +79,7 @@ Function RunScripts {
             Write-Host "You choose Yes."
 
             Clear-Host
-            Write-Host "<==================== fix-general-problems.ps1 ====================>"
+            SimpleTitleTemplate -Text "fix-general-problems.ps1"
             PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
         }
         'No' {
