@@ -42,11 +42,11 @@ function RunDebloatSoftwares {
     Pop-Location
     
     Push-Location "..\utils"
-        Write-Host "Enabling Dark theme..."
+        Write-Host "+ Enabling Dark theme..."
         regedit /s dark-theme.reg
-        Write-Host "Enabling photo viewer..."
+        Write-Host "+ Enabling photo viewer..."
         regedit /s enable-photo-viewer.reg
-        Write-Host "Lowering the RAM usage..."
+        Write-Host "+ Lowering the RAM usage..."
         regedit /s lower-ram-usage.reg
     Pop-Location
 
@@ -200,8 +200,8 @@ function RunTweaksForRegistry {
     Write-Host "--> Colors"
     
     Write-Host "--> ? & ? & Start & Lockscreen"
-    Write-Host "Disable Show me the windows welcome experience after updates."
-    Write-Host "Disable Get fun facts and tips, etc. on lock screen."
+    Write-Host "- Disabling Show me the windows welcome experience after updates..."
+    Write-Host "- Disabling 'Get fun facts and tips, etc. on lock screen'..."
     
     $ContentDeliveryManagerDisableOnZero = @(
         "SubscribedContent-310093Enabled"
@@ -229,15 +229,15 @@ function RunTweaksForRegistry {
     foreach ($Name in $ContentDeliveryManagerDisableOnZero) {
         Write-Host "[Registry] From Path: [$PathToContentDeliveryManager]"
         Write-Host "[Registry] Setting $Name value: 0"
-        Set-ItemProperty -Path $PathToContentDeliveryManager -Name $Name -Type DWord -Value 0
+        Set-ItemProperty -Path "$PathToContentDeliveryManager" -Name "$Name" -Type DWord -Value 0
     }
 
-    Write-Host "Disabling 'Suggested Content in the Settings App'..."
+    Write-Host "- Disabling 'Suggested Content in the Settings App'..."
     If (Test-Path "$PathToContentDeliveryManager\Subscriptions") {
         Remove-Item -Path "$PathToContentDeliveryManager\Subscriptions" -Recurse
     }
     
-    Write-Host "Disabling 'Show Suggestions in Start'..."
+    Write-Host "- Disabling 'Show Suggestions' in Start..."
     If (Test-Path "$PathToContentDeliveryManager\SuggestedApps") {
         Remove-Item -Path "$PathToContentDeliveryManager\SuggestedApps" -Recurse
     }
@@ -245,17 +245,17 @@ function RunTweaksForRegistry {
     Write-Host "" # New line
     Write-Host "<==========[Gaming Section]==========>"
     
-    Write-Host "Disable Game Bar & Game DVR..."
+    Write-Host "- Disabling Game Bar & Game DVR..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
     
-    Write-Host "Enable game mode..."
-    Set-ItemProperty -Path $PathToGameBar -Name "AllowAutoGameMode" -Type DWord -Value 1
-    Set-ItemProperty -Path $PathToGameBar -Name "AutoGameModeEnabled" -Type DWord -Value 1
+    Write-Host "+ Enabling game mode..."
+    Set-ItemProperty -Path "$PathToGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
     
-    Write-Host "Enable Hardware Accelerated GPU Scheduling... (Windows 10 2004 + NVIDIA 10 Series Above + AMD 5000 and Above)"
+    Write-Host "+ Enable Hardware Accelerated GPU Scheduling... (Windows 10 2004 + NVIDIA 10 Series Above + AMD 5000 and Above)"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
     
     Write-Host "" # New line
@@ -263,10 +263,10 @@ function RunTweaksForRegistry {
     
     Write-Host "--> General"
     
-    Write-Host "Settings --> Privacy --> General --> Let apps use my advertising ID..."
+    Write-Host "+ Settings --> Privacy --> General --> Let apps use my advertising ID..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
     
-    Write-Host "Let websites provide locally..."
+    Write-Host "+ Let websites provide locally..."
     Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
     
     Write-Host "--> Speech"
@@ -299,7 +299,7 @@ function RunTweaksForRegistry {
 
     Write-Host "--> Activity History"
 
-    Write-Host "Disabling Activity History..."
+    Write-Host "- Disabling Activity History..."
     $ActivityHistoryDisableOnZero = @(
         "EnableActivityFeed"
         "PublishUserActivities"
@@ -308,7 +308,7 @@ function RunTweaksForRegistry {
     foreach ($Name in $ActivityHistoryDisableOnZero) {
         Write-Host "[Registry] From Path: [$PathToActivityHistory]"
         Write-Host "[Registry] Setting $Name value: 1"
-        Set-ItemProperty -Path $PathToActivityHistory -Name $ActivityHistoryDisableOnZero -Type DWORD -Value 0
+        Set-ItemProperty -Path "$PathToActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value 0
     }
     
     Write-Host "--> Location"
@@ -334,7 +334,7 @@ function RunTweaksForRegistry {
     
     Write-Host "--> Background Apps"
     
-    Write-Host "Disabling Background Apps..."
+    Write-Host "- Disabling Background Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
     
@@ -343,20 +343,22 @@ function RunTweaksForRegistry {
     
     Write-Host "--> Windows Update"
     
-    Write-Output "Disable automatic download and installation of Windows updates"
-    New-FolderForced -Path $PathToWindowsUpdate
-    Set-ItemProperty -Path $PathToWindowsUpdate -Name "AUOptions" -Type DWORD -Value 2
-    Set-ItemProperty -Path $PathToWindowsUpdate -Name "NoAutoUpdate" -Type DWORD -Value 0
-    Set-ItemProperty -Path $PathToWindowsUpdate -Name "ScheduledInstallDay" -Type DWORD -Value 0
-    Set-ItemProperty -Path $PathToWindowsUpdate -Name "ScheduledInstallTime" -Type DWORD -Value 3
+    Write-Output "- Disabling Automatic Download and Installation of Windows Updates..."
+    New-FolderForced -Path "$PathToWindowsUpdate"
+    Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
+    Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
 
-    Write-Host "Assure automatic driver update is ENABLED"
+    Write-Host "+ Assuring automatic driver update is ENABLED..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 1
     
-    Write-Host "Change Windows Updates to 'Notify to schedule restart'..."
+    Write-Host "+ Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
     
-    Write-Host "W. Update P2P downloads from Local Network only... (0 = Off, 1 = Local Network only, 2 = Local Network private peering only, 3 = Local Network and Internet, 99 = Simply Download mode, 100 = Bypass mode)"
+    Write-Host "+ Restricting Windows Update P2P downloads for Local Network only..."
+    Write-Host "(0 = Off, 1 = Local Network only, 2 = Local Network private peering only     )"
+    Write-Host "(3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
     If (!(Test-Path "$PathToDeliveryOptimization")) {
         New-FolderForced -Path "$PathToDeliveryOptimization"
     }
@@ -365,9 +367,9 @@ function RunTweaksForRegistry {
     }
     Set-ItemProperty -Path "$PathToDeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
 
-    Write-Host "Disable Windows Spotlight Features"
-    Write-Host "Disable Third Party Suggestions"
-    Write-Host "Disable More Telemetry Features"
+    Write-Host "- Disabling Windows Spotlight Features..."
+    Write-Host "- Disabling Third Party Suggestions..."
+    Write-Host "- Disabling More Telemetry Features..."
     
     $CloudContentDisableOnOne = @(
         "DisableWindowsSpotlightFeatures"
@@ -380,7 +382,7 @@ function RunTweaksForRegistry {
     foreach ($Name in $CloudContentDisableOnOne) {
         Write-Host "[Registry] From Path: [$PathToCloudContent]"
         Write-Host "[Registry] Setting $Name value: 1"
-        Set-ItemProperty -Path $PathToCloudContent -Name $Name -Type DWord -Value 1
+        Set-ItemProperty -Path "$PathToCloudContent" -Name "$Name" -Type DWord -Value 1
     }
     If (!(Test-Path "$PathToCloudContent")) {
         New-FolderForced -Path "$PathToCloudContent"
@@ -388,7 +390,7 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "$PathToCloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
     Set-ItemProperty -Path "$PathToCloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
     
-    Write-Host "Disabling Apps Suggestions..."
+    Write-Host "- Disabling Apps Suggestions..."
     
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableThirdPartySuggestions" -Type DWord -Value 1
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
@@ -401,12 +403,12 @@ function RunTweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger" -Name "Start" -Type DWord -Value 0
     
-    Write-Host "SmartScreen Filter for Store Apps: Disable"
+    Write-Host "- Disabling 'SmartScreen Filter for Store Apps'..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
     
-    Write-Host "WiFi Sense: HotSpot Sharing: Disable"
+    Write-Host "- Disabling 'WiFi Sense: HotSpot Sharing'..."
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value 0
-    Write-Host "WiFi Sense: Shared HotSpot Auto-Connect: Disable"
+    Write-Host "- Disabling 'WiFi Sense: Shared HotSpot Auto-Connect'..."
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
     
     Write-Host "" # New line
@@ -432,12 +434,12 @@ function RunTweaksForRegistry {
     foreach ($Name in $ExplorerKeysToZero) {
         Write-Host "[Registry] From Path: [$PathToExplorer]"
         Write-Host "[Registry] Setting $Name value: 0"
-        Set-ItemProperty -Path $PathToExplorer -Name $Name -Type DWord -Value 0
+        Set-ItemProperty -Path "$PathToExplorer" -Name "$Name" -Type DWord -Value 0
     }
     foreach ($Name in $ExplorerKeysToOne) {
         Write-Host "[Registry] From Path: [$PathToExplorer]"
         Write-Host "[Registry] Setting $Name value: 1"
-        Set-ItemProperty -Path $PathToExplorer -Name $Name -Type DWord -Value 1
+        Set-ItemProperty -Path "$PathToExplorer" -Name "$Name" -Type DWord -Value 1
     }
 
 }
@@ -451,17 +453,16 @@ function RunPersonalTweaks {
     Write-Host "<==========[Personalization Section]==========>"
     Write-Host "<==========[TaskBar Tweaks]==========>"
     
-    Write-Host "*** Hide the search box from taskbar ***"
-    # 0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box
+    Write-Host "- Hiding the search box from taskbar... (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
     Set-ItemProperty -Path "$PathToSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 
-    # Hide the Task View from taskbar. 0 = Hide Task view, 1 = Show Task view
+    Write-Host "- Hiding the Task View from taskbar... (0 = Hide Task view, 1 = Show Task view)"
     Set-ItemProperty -Path "$PathToExplorer" -Name "ShowTaskViewButton" -Type DWord -Value 0
 
-    Write-Host "Hiding People icon..."
+    Write-Host "- Hiding People icon..."
     Set-ItemProperty -Path "$PathToExplorer\People" -Name "PeopleBand" -Type DWord -Value 0
 
-    Write-Host "Disable taskbar transparency."
+    Write-Host "- Disabling taskbar transparency."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
 
     Write-Host "" # New line
@@ -469,7 +470,7 @@ function RunPersonalTweaks {
 
     Write-Host "--> Multitasking"
 
-    Write-Host "Disable Edge multi tabs showing on Alt + Tab..."
+    Write-Host "- Disabling Edge multi tabs showing on Alt + Tab..."
     Set-ItemProperty -Path "$PathToExplorer" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
     Write-Host "" # New line
@@ -477,25 +478,25 @@ function RunPersonalTweaks {
 
     Write-Host "--> Bluetooth & other devices"
 
-    Write-Host "Enable driver download over metered connections..."
+    Write-Host "+ Enabling driver download over metered connections..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value 1
     
     Write-Host "" # New line
     Write-Host "<==========[Performance Tweaks]==========>"
     
-    Write-Host "Disabling Superfetch..."
+    Write-Host "- Disabling Superfetch..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
     
-    Write-Host "Disabling Remote Assistance..."
+    Write-Host "- Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
     
-    Write-Host "Repairing High RAM Usage..."
+    Write-Host "- Disabling Ndu High RAM Usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
 
     Write-Host "" # New line
     Write-Host "<==========[Cortana Tweaks]==========>"
 
-    Write-Host "Disabling Bing Search in Start Menu..."
+    Write-Host "- Disabling Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToSearch" -Name "BingSearchEnabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "$PathToSearch" -Name "CortanaConsent" -Type DWord -Value 0
     
@@ -510,32 +511,32 @@ function RunPersonalTweaks {
     foreach ($Name in $CortanaDisableOnZero) {
         Write-Host "[Registry] From Path: [$PathToCortana]"
         Write-Host "[Registry] Setting $Name value: 0"
-        Set-ItemProperty -Path $PathToCortana -Name $Name -Type DWord -Value 0
+        Set-ItemProperty -Path "$PathToCortana" -Name "$Name" -Type DWord -Value 0
     }
-    Set-ItemProperty -Path $PathToCortana -Name "DisableWebSearch" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCortana" -Name "DisableWebSearch" -Type DWord -Value 1
 
-    Write-Host "Disable Windows Store apps Automatic Updates"
+    Write-Host "- Disabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore")) {
         New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
     }
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" "AutoDownload" 2
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" -Name "AutoDownload" -Type DWord -Value 2
     
-    Write-Host "Unlimiting your network bandwitdh for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
+    Write-Host "+ Unlimiting your network bandwitdh for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched")) {
         New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Psched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    Write-Host "Setting time to UTC..."
+    Write-Host "+ Setting time to UTC..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 1
     
-    Write-Host "Setting up the DNS from Google..."
+    Write-Host "+ Setting up the DNS from Google..."
     Set-DNSClientServerAddress -interfaceIndex 12 -ServerAddresses ("8.8.8.8","8.8.4.4") # Ethernet
     Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("8.8.8.8","8.8.4.4")
     Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi*" -ServerAddresses ("8.8.8.8","8.8.4.4")
     
-    Write-Host "Bring back F8 for alternative Boot Modes"
+    Write-Host "+ Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
 
 }
