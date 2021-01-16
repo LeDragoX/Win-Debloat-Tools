@@ -3,7 +3,7 @@
     <img width=30px src="./lib/images/PowerShell-icon.png">
 </h1>
 
-## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
+## Adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
 
 ## Download Latest Version
 
