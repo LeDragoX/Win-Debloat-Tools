@@ -92,9 +92,7 @@ beforehand. If you want a more interactive approach check out:
 
 ## How did i find specific Tweaks?
 <details>
-<summary>
-    <h3>Screenshots</h3>
-</summary>
+    <summary>Screenshots</summary>
 
 By using [SysInternal Suite](https://docs.microsoft.com/pt-br/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
 i could track the `SystemSettings.exe` by filtering it per Process Name, then Clearing the list (Ctrl + X)
