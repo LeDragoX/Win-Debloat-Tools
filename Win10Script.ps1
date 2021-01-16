@@ -83,8 +83,8 @@ Function RunScripts {
         }
     }
 
-    
     Pop-Location
+    Clear-Host
 }
 # Your script here
 
