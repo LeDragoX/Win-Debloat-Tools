@@ -99,7 +99,7 @@ RestrictPermissions # Lock script usage
 Write-Host ""
 
 $Ask = "If you want to see the changes restart your computer!
-Do you want to Restart?"
+Do you want to Restart now?"
 
 switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
     'Yes' {
