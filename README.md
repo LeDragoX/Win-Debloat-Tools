@@ -55,7 +55,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - Enable Optional Features (including WSL 2) especially for Gaming;
 - [Default] Fix more Privacy problems via Registry and Commands; ([`fix-privacy-settings.ps1`](./scripts/fix-privacy-settings.ps1))
 - Optimize the Default Windows UI to look more Clean, and fixes the Mouse; ([`optimize-user-interface.ps1`](./scripts/optimize-user-interface.ps1))
-- [Default] Remove OneDrive completely from the System, re-install is possible via WinStore; ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
+- [Default] Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
 - [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`fix-general-problems.ps1`](./scripts/fix-general-problems.ps1))
 - In the End it Locks Script's Usage Permission. ([`Win10Script.ps1`](./Win10Script.ps1))
 
