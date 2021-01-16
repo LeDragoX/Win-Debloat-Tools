@@ -52,7 +52,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - Disable Telemetry and Data Collection via Registry
 - Apply my UI Personalization tweaks via Registry
 - Remove Bloatware Apps that comes with Windows 10, except from my choice
-- Enable Optional Features especially for gaming (including WSL 2)
+- Enable Optional Features (including WSL 2) especially for Gaming
 - [Default] Fix more Privacy problems via Registry and Commands ([`fix-privacy-settings.ps1`](./scripts/fix-privacy-settings.ps1))
 - Optimize the Default Windows UI to look more Clean, and fixes the Mouse ([`optimize-user-interface.ps1`](./scripts/optimize-user-interface.ps1))
 - [Default] Remove OneDrive completely from the System (Re-installable) ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
