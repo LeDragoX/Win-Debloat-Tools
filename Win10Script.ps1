@@ -64,10 +64,10 @@ Function RunScripts {
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     
-    $Question = "This part is OPTIONAL, only do this if you want to repair your Windows.
+    $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
     Do you want to continue?"
 
-    switch (ShowQuestion -Title "Read carefully" -Message $Question) {
+    switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         'Yes' {
             Write-Host "You choose Yes."
 
@@ -83,7 +83,6 @@ Function RunScripts {
         }
     }
 
-    ShowMessage -Title "A message for you" -Message "If you want to see the changes restart your computer!"
     
     Pop-Location
 }
@@ -98,5 +97,24 @@ RunScripts # Run all scripts inside 'scripts' folder
 Write-Host ""
 RestrictPermissions # Lock script usage
 Write-Host ""
+
+$Ask = "If you want to see the changes restart your computer!
+Do you want to Restart?"
+
+switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
+    'Yes' {
+        Write-Host "You choose Yes."
+        Restart-Computer        
+    }
+    'No' {
+        Write-Host "You choose to Restart later"
+        Write-Host "You choose No. (No = Cancel)"
+    }
+    'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
+        Write-Host "You choose to Restart later"
+        Write-Host "You choose Cancel. (Cancel = No)"
+    }
+}
+
 CountNseconds # Count 3 seconds (default) then exit
 Taskkill /F /IM $PID # Kill this task by PID because it won't exit with the command 'exit'
