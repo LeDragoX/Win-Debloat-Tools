@@ -43,6 +43,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 
 ## Script Features
 
+- Import all necessary Modules before Executing everything ([lib folder](lib/))
 - Make a Restore Point ([`backup-system.ps1`](./scripts/backup-system.ps1))
 - Run Winaero Tweaker and tell how to import my Profile ([`all-in-one-tweaks.ps1`](./scripts/all-in-one-tweaks.ps1))
 - Download OOShutUp10 and import my Configuration file
