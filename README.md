@@ -5,14 +5,6 @@
 
 ## Original Project from [W4RH4WK](https://github.com/W4RH4WK/Debloat-Windows-10)
 
-## Warning 
-
-==> __*All scripts are provided as-is and you use them at your own risk.*__ <==
-
-==> __*The last part of `fix-general-problems.ps1` will restart your internet connection for a while.*__ <==
-
-==> __*You were warned.*__ <==
-
 ## Download Latest Version
 
 Code located in the `master` branch is always considered under development,
@@ -23,25 +15,26 @@ but you'll probably want the most recent version anyway.
 ## Resume
 
 This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10)
-that was made for *Debloat* and *Tweak* Windows 10 for *better performance* and *less issues*,
+that was made for *Debloat* and *Tweak* Windows 10 for *better performance* and *less issues*.
 i've done some changes so it unninstall Apps that are less used,
 this keeps *stability for games* and *daily drive*.
+
+## Roll-Back
 
 **There is a undo (if works)**, because i did a restoration point script before
 doing everything.
 
 **Use on a fresh windows install to note the differences, and if something breaks,**
-**you can rely on a pre-made restoration point and the** `fix-general-problems.ps1`.
+**you can rely on a pre-made restoration point and the** [`fix-general-problems.ps1`](./scripts/fix-general-problems.ps1) file.
 
-## 1. How to use
-### 1.1 - Requirements
+## Usage Requirements
 
 The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 
 - Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
 
-#### 1.1.1 - Easy way (Prepare and Run once):
+### Easy way (Prepare and Run once):
 
 - Copy and Paste this entire line below on **Powershell**:
 ```Powershell
@@ -92,7 +85,7 @@ beforehand. If you want a more interactive approach check out:
 
 ## How did i find specific Tweaks?
 <details>
-    <summary>How To</summary>
+    <summary>How To (Advanced Users)</summary>
 
 By using [SysInternal Suite](https://docs.microsoft.com/pt-br/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
 i could track the `SystemSettings.exe` by filtering it per Process Name, then Clearing the list (Ctrl + X)
