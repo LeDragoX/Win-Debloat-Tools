@@ -60,7 +60,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - In the End it Locks Script's Usage Permission ([`Win10Script.ps1`](./Win10Script.ps1))
 
 * Default:  That means i didn't Modified the File
-* Optional: Means that you decided
+* Optional: Means that you decide what to do
 
 ## Known Issues 
 
