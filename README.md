@@ -92,7 +92,7 @@ beforehand. If you want a more interactive approach check out:
 
 ## How did i find specific Tweaks?
 <details>
-    <summary>Screenshots</summary>
+    <summary>How To</summary>
 
 By using [SysInternal Suite](https://docs.microsoft.com/pt-br/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
 i could track the `SystemSettings.exe` by filtering it per Process Name, then Clearing the list (Ctrl + X)
@@ -105,8 +105,6 @@ After finding the right register Key, you just need to Right-Click and select `J
 ![Showing on regedit](./lib/images/Showing-on-regedit.png)
 
 </details>
-
-
 
 ## License
 
