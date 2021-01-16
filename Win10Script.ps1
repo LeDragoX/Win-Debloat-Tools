@@ -60,10 +60,6 @@ Function RunScripts {
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
     # pause ### FOR DEBUGGING PURPOSES
     Clear-Host
-    SimpleTitleTemplate -Text "optimize-windows-update.ps1"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-windows-update.ps1"
-    # pause ### FOR DEBUGGING PURPOSES
-    Clear-Host
     SimpleTitleTemplate -Text "remove-onedrive.ps1"
     PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
     # pause ### FOR DEBUGGING PURPOSES
