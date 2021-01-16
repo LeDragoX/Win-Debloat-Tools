@@ -16,8 +16,6 @@ but you'll probably want the most recent version anyway.
 
 This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10)
 that was made for *Debloat* and *Tweak* Windows 10 for *better performance* and *less issues*.
-i've done some changes so it unninstall Apps that are less used,
-this keeps *stability for games* and *daily drive*.
 
 ## Roll-Back
 
@@ -42,6 +40,26 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 ```
 
 **[Scripts](/scripts) can be run individually, pick what you need.**
+
+## Script Features
+
+- Make a Restore Point ([`backup-system.ps1`](./scripts/backup-system.ps1))
+- Run Winaero Tweaker and tell how to import my Profile ([`all-in-one-tweaks.ps1`](./scripts/all-in-one-tweaks.ps1))
+- Download OOShutUp10 and import my Configuration file
+- Disable Telemetry from Scheduled Tasks and Optimize it
+- Re-Enable useful Services & Disable the Heavy ones
+- Disable Telemetry and Data Collection via Registry
+- Apply my UI Personalization tweaks via Registry
+- Remove Bloatware Apps that comes with Windows 10, except from my choice
+- Enable Optional Features especially for gaming (including WSL 2)
+- [Default] Fix more Privacy problems via Registry and Commands ([`fix-privacy-settings.ps1`](./scripts/fix-privacy-settings.ps1))
+- Optimize the Default Windows UI to look more Clean, and fixes the Mouse ([`optimize-user-interface.ps1`](./scripts/optimize-user-interface.ps1))
+- [Default] Remove OneDrive completely from the System (Re-installable) ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
+- [Optional] Try to Completely fix the Windows worst problems via Command Line ([`fix-general-problems.ps1`](./scripts/fix-general-problems.ps1))
+- In the End it Locks Script's Usage Permission ([`Win10Script.ps1`](./Win10Script.ps1))
+
+* Default:  That means i didn't Modified the File
+* Optional: Means that you decided
 
 ## Known Issues 
 
