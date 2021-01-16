@@ -92,19 +92,18 @@ beforehand. If you want a more interactive approach check out:
 
 ## How did i find specific Tweaks?
 <details>
+    <summary>Screenshots</summary>
 
 By using [SysInternal Suite](https://docs.microsoft.com/pt-br/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
 i could track the `SystemSettings.exe` by filtering it per Process Name, then Clearing the list (Ctrl + X)
 and finally, applying an option of the Windows Configurations and searching the Registry Key inside `Procmon(64).exe`.
 
-    <summary>
-        <h3>Screenshots</h3>
-    </summary>
-    ![Grab the current tweak on registry with Procmon64.exe](./lib/images/Grab-the-current-tweak-on-registry-with-Procmon64.png)
+![Grab the current tweak on registry with Procmon64.exe](./lib/images/Grab-the-current-tweak-on-registry-with-Procmon64.png)
 
-    After finding the right register Key, you just need to Right-Click and select `Jump To...` to get on its directory.
+After finding the right register Key, you just need to Right-Click and select `Jump To...` to get on its directory.
 
-    ![Showing on regedit](./lib/images/Showing-on-regedit.png)
+![Showing on regedit](./lib/images/Showing-on-regedit.png)
+
 </details>
 
 
