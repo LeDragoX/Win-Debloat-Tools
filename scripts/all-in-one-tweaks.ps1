@@ -735,10 +735,12 @@ function EnableFeatures {
         "IIS-ASPNET"
         "IIS-ASPNET45"
         "DirectPlay"
-        # WSL 2 Support Full Install
+        # WSL 2 Support Semi-Install
         "Microsoft-Windows-Subsystem-Linux"
         "VirtualMachinePlatform"
     )
+
+    wsl --set-default-version 2
     
     foreach ($Feature in $FeatureName) {
         $FeatureDetails = $(Get-WindowsOptionalFeature -Online -FeatureName $Feature)
@@ -754,16 +756,6 @@ function EnableFeatures {
         }
         Write-Host ""
     }
-
-    # WSL 2 Setup Finish
-    BeautySectionTemplate -Text "Downloading the required file to Install WSL2 (Needs Reboot and Re-Run)"
-    Push-Location "$env:SystemDrive\"
-        Start-BitsTransfer -Source "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" -Destination "wsl_update_x64.msi"
-        Start-Process -FilePath ".\wsl_update_x64.msi" -ArgumentList "/q", "/norestart" -Wait
-        Remove-Item "wsl_update_x64.msi" -Force
-    Pop-Location
-
-    wsl --set-default-version 2
 
 }
 
