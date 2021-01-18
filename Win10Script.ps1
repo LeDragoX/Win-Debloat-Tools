@@ -9,7 +9,7 @@ Function PrepareRun {
     Import-Module -DisableNameChecking $PSScriptRoot\lib\Simple-Message-Box.psm1
     Import-Module -DisableNameChecking $PSScriptRoot\lib\Title-Templates.psm1
 
-    Write-Host "Original Folder $PSScriptRoot"
+    Write-Host "Current Script Folder $PSScriptRoot"
     Write-Host ""
     Push-Location $PSScriptRoot
 }
