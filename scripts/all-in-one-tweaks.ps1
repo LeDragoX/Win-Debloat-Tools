@@ -76,7 +76,7 @@ function RunDebloatSoftwares {
 
 }
 
-function RunTweaksForScheduledTasks {
+function TweaksForScheduledTasks {
 
     TitleWithContinuousCounter -Text "Scheduled Tasks tweaks"
     
@@ -116,7 +116,7 @@ function RunTweaksForScheduledTasks {
 
 }
 
-function RunTweaksForService {
+function TweaksForService {
 
     TitleWithContinuousCounter -Text "Services tweaks"
     BeautyTitleTemplate -Text "Re-enabling services at Startup"
@@ -193,7 +193,7 @@ function RunTweaksForService {
 
 }
 
-function RunTweaksForRegistry {
+function TweaksForRegistry {
 
     TitleWithContinuousCounter -Text "Registry Tweaks"
     BeautyTitleTemplate -Text "Remove Telemetry & Data Collection"
@@ -482,7 +482,7 @@ function RunTweaksForRegistry {
 
 }
 
-function RunPersonalTweaks {
+function PersonalTweaks {
 
     TitleWithContinuousCounter -Text "My Personal Tweaks"
 
@@ -760,9 +760,9 @@ function EnableFeatures {
 }
 
 RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal configs.
-RunTweaksForScheduledTasks  # Disable Scheduled Tasks that causes slowdowns
-RunTweaksForService         # Enable essential Services and Disable bloating Services
-RunTweaksForRegistry        # Disable Registries that causes slowdowns
-RunPersonalTweaks           # The icing on the cake, last and useful optimizations
+TweaksForScheduledTasks     # Disable Scheduled Tasks that causes slowdowns
+TweaksForService            # Enable essential Services and Disable bloating Services
+TweaksForRegistry           # Disable Registries that causes slowdowns
+PersonalTweaks              # The icing on the cake, last and useful optimizations
 RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
 EnableFeatures              # Enable features claimed as Optional on Windows, but actually, they are useful
