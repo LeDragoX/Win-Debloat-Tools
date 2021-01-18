@@ -6,7 +6,7 @@
 # Adapted from this Sycnex script:                          https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
 
-Write-Host "Original Folder $PSScriptRoot"
+Write-Host "Current Script Folder $PSScriptRoot"
 Import-Module BitsTransfer # To enable file downloading
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Count-N-Seconds.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
