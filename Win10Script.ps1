@@ -80,6 +80,17 @@ Function RunScripts {
     Pop-Location
     Clear-Host
 }
+
+function Credits {
+
+    Clear-Host
+    Write-Host "<=========================================================================================>"
+    Write-Host "        Improve and Optimize Windows 10 (Made by Plínio Larrubia A.K.A. LeDragoX)"
+    Write-Host "<=========================================================================================>"
+    Write-Host ""
+    
+}
+
 # Your script here
 
 QuickPrivilegesElevation # Check admin rights
@@ -110,11 +121,6 @@ switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
     }
 }
 
-Clear-Host
-Write-Host "<=========================================================================================>"
-Write-Host "        Improve and Optimize Windows 10 (Made by Plínio Larrubia A.K.A. LeDragoX)"
-Write-Host "<=========================================================================================>"
-Write-Host ""
-
+Credits
 CountNseconds # Count 3 seconds (default) then exit
 Taskkill /F /IM $PID # Kill this task by PID because it won't exit with the command 'exit'
