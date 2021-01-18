@@ -1,9 +1,10 @@
 # Made by LeDragoX
-# Adapted from matthewjberger's script:         https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
-# Adapted from this Baboo video:                https://youtu.be/qWESrvP_uU8
-# Adapted from this AdamX video's REG scripts:  https://youtu.be/hQSkPmZRCjc
-# Adapted from this ChrisTitus script:          https://github.com/ChrisTitusTech/win10script
-# Adapted from this Sycnex script:              https://github.com/Sycnex/Windows10Debloater
+# Adapted from matthewjberger's script:                     https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
+# Adapted from this Baboo video:                            https://youtu.be/qWESrvP_uU8
+# Adapted from this AdamX video's REG scripts:              https://youtu.be/hQSkPmZRCjc
+# Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
+# Adapted from this Sycnex script:                          https://github.com/Sycnex/Windows10Debloater
+# Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
 
 Write-Host "Original Folder $PSScriptRoot"
 Import-Module BitsTransfer # To enable file downloading
@@ -18,7 +19,8 @@ $Global:PathToCloudContent =            "HKCU:\SOFTWARE\Policies\Microsoft\Windo
 $Global:PathToCortana =                 "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 $Global:PathToContentDeliveryManager =  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
 $Global:PathToDeliveryOptimization =    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization"
-$Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+$Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+$Global:PathToExplorerAdvanced =        "$PathToExplorer\Advanced"
 $Global:PathToGameBar =                 "HKCU:\SOFTWARE\Microsoft\GameBar"
 $Global:PathToInputPersonalization =    "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
 $Global:PathToLiveTiles =               "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
@@ -341,7 +343,7 @@ function TweaksForRegistry {
     
     CaptionTemplate -Text "Windows Update"
     
-    Write-Output "- Disabling Automatic Download and Installation of Windows Updates..."
+    Write-Host "- Disabling Automatic Download and Installation of Windows Updates..."
     New-FolderForced -Path "$PathToWindowsUpdate"
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value 0
@@ -429,14 +431,14 @@ function TweaksForRegistry {
         #"ShowSuperHidden"
     )
     foreach ($Name in $ExplorerKeysToZero) {
-        Write-Host "[Registry] From Path: [$PathToExplorer]"
+        Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
         Write-Host "[Registry] Setting $Name value: 0"
-        Set-ItemProperty -Path "$PathToExplorer" -Name "$Name" -Type DWord -Value 0
+        Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 0
     }
     foreach ($Name in $ExplorerKeysToOne) {
-        Write-Host "[Registry] From Path: [$PathToExplorer]"
+        Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
         Write-Host "[Registry] Setting $Name value: 1"
-        Set-ItemProperty -Path "$PathToExplorer" -Name "$Name" -Type DWord -Value 1
+        Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 1
     }
 
     BeautySectionTemplate -Text "These are the registry keys that it will delete."
@@ -476,9 +478,43 @@ function TweaksForRegistry {
         if (!(Test-Path $Key)) { # Only remove if the Path exists
             continue
         }
-        Write-Output "[Registry] Removing [$Key]..."
+        Write-Host "[Registry] Removing [$Key]..."
         Remove-Item $Key -Recurse # This will not be debugged
     }
+
+}
+
+function TweaksForSecurity {
+
+    TitleWithContinuousCounter -Text "Security Tweaks"
+
+    Write-Host "= Disabling SMB 1.0 protocol... (https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858)"
+    Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
+
+    # Enable strong cryptography for .NET Framework (version 4 and above)
+    Write-Host "+ Enabling .NET strong cryptography... (https://stackoverflow.com/questions/36265534/invoke-webrequest-ssl-fails)"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
+
+    Write-Host "- Disabling Autoplay..."
+    Set-ItemProperty -Path "$PathToExplorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
+
+    Write-Host "- Disabling Autorun for all Drives..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
+
+    Write-Host "- Disabling Search for App in Store for Unknown Extensions..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
+
+    # The "utils\Shutdown-Shortcut-To-Desktop.bat" file actually uses .vbs script, so, i'll make this optional
+    # [DIY] Disable Windows Script Host (execution of *.vbs scripts and alike)
+    #Write-Host "- Disabling Windows Script Host..."
+    #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
 
 }
 
@@ -493,16 +529,34 @@ function PersonalTweaks {
     Set-ItemProperty -Path "$PathToSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 
     Write-Host "- Hiding the Task View from taskbar... (0 = Hide Task view, 1 = Show Task view)"
-    Set-ItemProperty -Path "$PathToExplorer" -Name "ShowTaskViewButton" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
 
     Write-Host "- Hiding People icon..."
-    Set-ItemProperty -Path "$PathToExplorer\People" -Name "PeopleBand" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value 0
 
     Write-Host "- Disabling Live Tiles..."
     if (!(Test-Path "$PathToLiveTiles")) {
         New-FolderForced -Path "$PathToLiveTiles"
     }
     Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value 1
+
+    Write-Host "+ Showing all tray icons..."
+    Set-ItemProperty -Path "$PathToExplorer" -Name "EnableAutoTray" -Type DWord -Value 0
+
+    Write-Host "+ Showing This PC shortcut on desktop..."
+    If (!(Test-Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu")) {
+        New-Item -Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
+    If (!(Test-Path "$PathToExplorer\HideDesktopIcons\NewStartPanel")) {
+        New-Item -Path "$PathToExplorer\HideDesktopIcons\NewStartPanel" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToExplorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
+
+    # Disable creation of Thumbs.db thumbnail cache files
+    Write-Host "- Disabling creation of Thumbs.db..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbnailCache" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value 1
 
     CaptionTemplate -Text "Colors"
 
@@ -514,7 +568,7 @@ function PersonalTweaks {
     CaptionTemplate -Text "Multitasking"
 
     Write-Host "- Disabling Edge multi tabs showing on Alt + Tab..."
-    Set-ItemProperty -Path "$PathToExplorer" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
     BeautySectionTemplate -Text "Devices Section"
 
@@ -553,6 +607,21 @@ function PersonalTweaks {
         Set-ItemProperty -Path "$PathToCortana" -Name "$Name" -Type DWord -Value 0
     }
     Set-ItemProperty -Path "$PathToCortana" -Name "DisableWebSearch" -Type DWord -Value 1
+
+    # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
+    Write-Host "+ Showing task manager details..."
+    $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
+    Do {
+        Start-Sleep -Milliseconds 100
+        $preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+    } Until ($preferences)
+    Stop-Process $taskmgr
+    $preferences.Preferences[28] = 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+
+    Write-Host "+ Keep ENABLED Error reporting..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
+    Enable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting"
 
     Write-Host "- Disabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToWindowsStore")) {
@@ -714,7 +783,7 @@ function RemoveBloatwareApps {
     )
 
     foreach ($Bloat in $Apps) {
-        Write-Output "Trying to remove $Bloat ..."
+        Write-Host "Trying to remove $Bloat ..."
         Get-AppxPackage -Name $Bloat| Remove-AppxPackage
         Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online
     }
@@ -739,6 +808,12 @@ function EnableFeatures {
         "Microsoft-Windows-Subsystem-Linux"
         "VirtualMachinePlatform"
     )
+
+    If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
+        # 1607 needs developer mode to be enabled
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 1
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
+    }
 
     wsl --set-default-version 2
     
