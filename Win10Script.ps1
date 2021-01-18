@@ -34,12 +34,6 @@ Function RestrictPermissions {
 
 Function RunScripts {
     
-    Clear-Host
-    Write-Host "<=========================================================================================>"
-    Write-Host "        Improve and Optimize Windows 10 (Made by Plínio Larrubia A.K.A. LeDragoX)"
-    Write-Host "<=========================================================================================>"
-    Write-Host ""
-    
     Push-Location .\scripts
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
     
@@ -115,6 +109,12 @@ switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         Write-Host "You choose Cancel. (Cancel = No)"
     }
 }
+
+Clear-Host
+Write-Host "<=========================================================================================>"
+Write-Host "        Improve and Optimize Windows 10 (Made by Plínio Larrubia A.K.A. LeDragoX)"
+Write-Host "<=========================================================================================>"
+Write-Host ""
 
 CountNseconds # Count 3 seconds (default) then exit
 Taskkill /F /IM $PID # Kill this task by PID because it won't exit with the command 'exit'
