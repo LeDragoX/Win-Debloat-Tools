@@ -839,6 +839,7 @@ RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal conf
 TweaksForScheduledTasks     # Disable Scheduled Tasks that causes slowdowns
 TweaksForService            # Enable essential Services and Disable bloating Services
 TweaksForRegistry           # Disable Registries that causes slowdowns
+TweaksForSecurity           # Improve a little the Windows Security
 PersonalTweaks              # The icing on the cake, last and useful optimizations
 RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
 EnableFeatures              # Enable features claimed as Optional on Windows, but actually, they are useful
