@@ -86,7 +86,7 @@ function Credits {
 QuickPrivilegesElevation    # Check admin rights
 PrepareRun                  # Import modules from lib folder
 UnrestrictPermissions       # Unlock script usage
-SetupConsoleStyle           # Give a hacky face to the Powershell console
+SetupConsoleStyle           # Just fix the font on the PS console
 Write-Host ""
 RunScripts                  # Run all scripts inside 'scripts' folder
 Write-Host ""
