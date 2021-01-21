@@ -83,14 +83,14 @@ function Credits {
 
 # Your script here
 
-QuickPrivilegesElevation # Check admin rights
-PrepareRun # Import modules from lib folder
-UnrestrictPermissions # Unlock script usage
-SetupConsoleStyle # Give a hacky face to the Powershell console
+QuickPrivilegesElevation    # Check admin rights
+PrepareRun                  # Import modules from lib folder
+UnrestrictPermissions       # Unlock script usage
+SetupConsoleStyle           # Give a hacky face to the Powershell console
 Write-Host ""
-RunScripts # Run all scripts inside 'scripts' folder
+RunScripts                  # Run all scripts inside 'scripts' folder
 Write-Host ""
-RestrictPermissions # Lock script usage
+RestrictPermissions         # Lock script usage
 Write-Host ""
 
 $Ask = "If you want to see the changes restart your computer!
@@ -112,5 +112,5 @@ switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
 }
 
 Credits
-CountNseconds # Count 3 seconds (default) then exit
-Taskkill /F /IM $PID # Kill this task by PID because it won't exit with the command 'exit'
+CountNseconds               # Count 3 seconds (default) then exit
+Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
