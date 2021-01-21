@@ -50,6 +50,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - Disable Telemetry from Scheduled Tasks and Optimize it;
 - Re-Enable useful Services & Disable the Heavy ones;
 - Disable Telemetry and Data Collection via Registry;
+- Help improve the Security of Windows by a little;
 - Apply my UI Personalization tweaks via Registry;
 - Remove Bloatware Apps that comes with Windows 10, except from my choice;
 - Enable Optional Features (including WSL 2) especially for Gaming;
