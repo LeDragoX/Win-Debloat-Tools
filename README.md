@@ -125,7 +125,7 @@ After finding the right register Key, you just need to Right-Click and select `J
 
 ## License
 
-    "The MIT License"
+    MIT License
 
     Copyright (c) 2021 Plínio Larrubia
 
