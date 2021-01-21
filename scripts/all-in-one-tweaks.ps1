@@ -80,7 +80,7 @@ function RunDebloatSoftwares {
 
 function TweaksForScheduledTasks {
 
-    TitleWithContinuousCounter -Text "Scheduled Tasks tweaks"
+    TitleWithContinuousCounter -Text "Scheduled Tasks tweaks" -MaxNum 7
     
     $DisableScheduledTasks = @(
         "Microsoft\Office\OfficeTelemetryAgentLogOn"

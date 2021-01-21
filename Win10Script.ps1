@@ -1,40 +1,30 @@
-Function QuickPrivilegesElevation {
+function QuickPrivilegesElevation {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-Function PrepareRun {
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\Count-N-Seconds.psm1
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\Setup-Console-Style.psm1
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\Simple-Message-Box.psm1
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\Title-Templates.psm1
+function PrepareRun {
 
     Write-Host "Current Script Folder $PSScriptRoot"
     Write-Host ""
     Push-Location $PSScriptRoot
+	
+    Push-Location -Path .\lib
+        Get-ChildItem -Recurse *.ps*1 | Unblock-File
+    Pop-Location
+
+    #Import-Module -DisableNameChecking $PSScriptRoot\lib\"Check-OS-Info.psm1"		# Not Used
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Count-N-Seconds.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Set-Script-Policy.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Setup-Console-Style.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Simple-Message-Box.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Title-Templates.psm1"
+
 }
 
-Function UnrestrictPermissions {
-    Write-Host "Receiving permissions to run scripts"
-    Set-ExecutionPolicy Unrestricted -Scope Process -Force
-    Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
-    Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force
-    Get-ExecutionPolicy -List
-    Write-Host ""
-}
-
-Function RestrictPermissions {
-    Write-Host "Denying permissions to run scripts"
-    Set-ExecutionPolicy Restricted -Scope Process -Force
-    Set-ExecutionPolicy Restricted -Scope CurrentUser -Force
-    Set-ExecutionPolicy Restricted -Scope LocalMachine -Force
-    Get-ExecutionPolicy -List
-    Write-Host ""
-}
-
-Function RunScripts {
+function RunScripts {
     
-    Push-Location .\scripts
+    Push-Location -Path .\scripts
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
     
     Clear-Host
@@ -94,7 +84,7 @@ function Credits {
 # Your script here
 
 QuickPrivilegesElevation # Check admin rights
-PrepareRun # Import modules from lib and Push to the script directory
+PrepareRun # Import modules from lib folder
 UnrestrictPermissions # Unlock script usage
 SetupConsoleStyle # Give a hacky face to the Powershell console
 Write-Host ""
