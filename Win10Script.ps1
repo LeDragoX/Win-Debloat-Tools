@@ -16,7 +16,7 @@ function PrepareRun {
     #Import-Module -DisableNameChecking $PSScriptRoot\lib\"Check-OS-Info.psm1"		# Not Used
     Import-Module -DisableNameChecking $PSScriptRoot\lib\"Count-N-Seconds.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\lib\"Set-Script-Policy.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Setup-Console-Style.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Setup-Console-Style.psm1" # Make the Console look how i want
     Import-Module -DisableNameChecking $PSScriptRoot\lib\"Simple-Message-Box.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\lib\"Title-Templates.psm1"
 
