@@ -540,8 +540,8 @@ function PersonalTweaks {
     }
     Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value 1
 
-    Write-Host "+ Showing all tray icons..."
-    Set-ItemProperty -Path "$PathToExplorer" -Name "EnableAutoTray" -Type DWord -Value 0
+    Write-Host "= [Default] Enabling Auto tray icons..."
+    Set-ItemProperty -Path "$PathToExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
     Write-Host "+ Showing This PC shortcut on desktop..."
     If (!(Test-Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu")) {
