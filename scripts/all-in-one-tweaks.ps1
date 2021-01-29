@@ -488,6 +488,9 @@ function TweaksForSecurity {
 
     TitleWithContinuousCounter -Text "Security Tweaks"
 
+    Write-Host "+ Ensure your Windows Defender is ENABLED, if you already use an antivirus, this will make nothing."
+    Set-MpPreference -DisableRealtimeMonitoring $false -Force
+
     Write-Host "= Disabling SMB 1.0 protocol... (https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858)"
     Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 
