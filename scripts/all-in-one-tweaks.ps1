@@ -126,6 +126,7 @@ function TweaksForService {
     $EnableServices = @(
         "BITS"                                      # Background Intelligent Transfer Service
         "DPS"                                       # Diagnostic Policy Service
+        "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
         "WSearch"                                   # Windows Search
     )
         
@@ -152,7 +153,6 @@ function TweaksForService {
         "SysMain"                                   # SysMain / Superfetch
         "TrkWks"                                    # Distributed Link Tracking Client
         "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
-        "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service
     
         # <==========[DIY]==========> (Remove the # to Disable)
     
