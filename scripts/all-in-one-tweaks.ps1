@@ -149,10 +149,10 @@ function TweaksForService {
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
-        "SysMain"                                   # SysMain / Superfetch
+        "SysMain"                                   # SysMain / Superfetch (100% Disk)
         "TrkWks"                                    # Distributed Link Tracking Client
         "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
-        "WSearch"                                   # Windows Search
+        "WSearch"                                   # Windows Search (100% Disk)
 
         # <==========[DIY]==========> (Remove the # to Disable)
 
