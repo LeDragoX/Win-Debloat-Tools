@@ -127,7 +127,6 @@ function TweaksForService {
         "BITS"                                      # Background Intelligent Transfer Service
         "DPS"                                       # Diagnostic Policy Service
         "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
-        "WSearch"                                   # Windows Search
     )
         
     foreach ($Service in $EnableServices) {
@@ -137,7 +136,7 @@ function TweaksForService {
     }
     
     BeautyTitleTemplate -Text "Disabling services at Startup"
-    
+        
     $DisableServices = @(
         "DiagTrack"                                 # Connected User Experiences and Telemetry
         "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
@@ -153,9 +152,10 @@ function TweaksForService {
         "SysMain"                                   # SysMain / Superfetch
         "TrkWks"                                    # Distributed Link Tracking Client
         "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
-    
+        "WSearch"                                   # Windows Search
+
         # <==========[DIY]==========> (Remove the # to Disable)
-    
+
         #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
         #"SharedAccess"                             # Internet Connection Sharing (ICS)
         #"stisvc"                                   # Windows Image Acquisition (WIA)
@@ -165,24 +165,24 @@ function TweaksForService {
         #"wscsvc"                                   # Windows Security Center Service
         #"WdiServiceHost"                           # Diagnostic Service Host
         #"WdiSystemHost"                            # Diagnostic System Host
-    
+
         # [DIY] If you don't use Bluetooth devices
-    
+
         #"BTAGService"                              # Bluetooth Audio Gateway Service
         #"bthserv"                                  # Bluetooth Support Service
-    
+
         # [DIY] If you don't use a Printer
-    
+
         #"Spooler"                                  # Print Spooler
         #"PrintNotify"                              # Printer Extensions and Notifications
-    
+
         # [DIY] If you don't use Xbox Live and Games
-    
+
         #"XblAuthManager"                           # Xbox Live Auth Manager
         #"XblGameSave"                              # Xbox Live Game Save Service
         #"XboxGipSvc"                               # Xbox Accessory Management Service
         #"XboxNetApiSvc"                            # Xbox Live Networking Service
-    
+
         # Services which cannot be disabled
         #"WdNisSvc"
     )
