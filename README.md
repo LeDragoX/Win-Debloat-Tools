@@ -10,7 +10,9 @@
 Code located in the `master` branch is always considered under development,
 but you'll probably want the most recent version anyway.
 
-- [Download [zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip)
+|    Download    | Should work on |   Build   |      Editions     | Script version |
+|:--------------:|:--------------:|:---------:|:-----------------:|:--------------:|
+| [Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip) | 20H2 and Older | 19042.xxx |Home/Pro/Enterprise| **Always Latest** |
 
 ## Resume
 
