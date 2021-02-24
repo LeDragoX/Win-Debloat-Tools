@@ -55,7 +55,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - Help improve the Security of Windows by a little;
 - Apply my UI Personalization tweaks via Registry;
 - Remove Bloatware Apps that comes with Windows 10, except from my choice;
-- Enable Optional Features (including WSL 2) especially for Gaming;
+- Enable Optional Features especially for Gaming/Work (including WSL 2);
 - [Default] Fix more Privacy problems via Registry and Commands; ([`fix-privacy-settings.ps1`](./scripts/fix-privacy-settings.ps1))
 - Optimize the Default Windows UI to look more Clean, and fixes the Mouse; ([`optimize-user-interface.ps1`](./scripts/optimize-user-interface.ps1))
 - [Default] Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
