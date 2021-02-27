@@ -50,6 +50,7 @@ function RunDebloatSoftwares {
     Write-Host "+ [DIY] Running WinAero Tweaker..."
         Expand-Archive '.\Winaero Tweaker.zip'
         Push-Location "Winaero Tweaker"
+            Remove-Item ".\Winaero.url" -Force -Recurse # Web page Shortcut
             Start-Process -FilePath ".\WinaeroTweaker.exe" # Could not download it (Tried Start-BitsTransfer and WebClient, but nothing)
         Pop-Location
     
