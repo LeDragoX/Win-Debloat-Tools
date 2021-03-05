@@ -489,7 +489,7 @@ function TweaksForSecurity {
 
     TitleWithContinuousCounter -Text "Security Tweaks"
 
-    Write-Host "+ Ensure your Windows Defender is ENABLED, if you already use an antivirus, this will make nothing."
+    Write-Host "+ Ensure your Windows Defender is ENABLED, if you already use another antivirus, this will make nothing."
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
 
     Write-Host "= Disabling SMB 1.0 protocol... (https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858)"
@@ -517,6 +517,7 @@ function TweaksForSecurity {
 
     # Make Windows Defender run in Sandbox Mode (Will run on background MsMpEngCP.exe and MsMpEng.exe)
     # Why? https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
+    Write-Host "+ Enabling Windows Defender Sandbox mode... (if you already use another antivirus, this will make nothing)"
     setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 
     # The "utils\Shutdown-Shortcut-To-Desktop.bat" file actually uses .vbs script, so, i'll make this optional
