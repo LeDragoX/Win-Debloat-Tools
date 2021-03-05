@@ -56,7 +56,7 @@ sfc /scannow
 dism.exe /online /cleanup-image /restorehealth
 
 Write-Host "<==========================================>"
-Write-Host " This will Re-register all your apps"
+Write-Host "    This will Re-register all your apps"
 Write-Host "<==========================================>"
 Write-Host ""
 
