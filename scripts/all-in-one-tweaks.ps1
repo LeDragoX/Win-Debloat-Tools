@@ -515,6 +515,10 @@ function TweaksForSecurity {
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
 
+    # Make Windows Defender run in Sandbox Mode (Will run on background MsMpEngCP.exe and MsMpEng.exe)
+    # Why? https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
+    setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
+
     # The "utils\Shutdown-Shortcut-To-Desktop.bat" file actually uses .vbs script, so, i'll make this optional
     # [DIY] Disable Windows Script Host (execution of *.vbs scripts and alike)
     #Write-Host "- Disabling Windows Script Host..."
