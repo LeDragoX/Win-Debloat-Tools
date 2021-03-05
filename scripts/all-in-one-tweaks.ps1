@@ -807,15 +807,16 @@ function EnableFeatures {
     # Get-WindowsOptionalFeature -Online
     
     $FeatureName = @(
-        "NetFx3"
-        "NetFx4-AdvSrvs"
-        "NetFx4Extended-ASPNET45"
-        "IIS-ASPNET"
-        "IIS-ASPNET45"
-        "DirectPlay"
+        "Microsoft-Hyper-V-All"                 # Hyper-V - VT-d (Intel) / SVM (AMD) needed on BIOS
+        "NetFx3"                                # NET Framework 3.5
+        "NetFx4-AdvSrvs"                        # NET Framework 4
+        "NetFx4Extended-ASPNET45"               # NET Framework 4.x
+        "IIS-ASPNET"                            # ASP NET
+        "IIS-ASPNET45"                          # ASP NET 4.x
+        "DirectPlay"                            # Direct Play
         # WSL 2 Support Semi-Install
-        "Microsoft-Windows-Subsystem-Linux"
-        "VirtualMachinePlatform"
+        "Microsoft-Windows-Subsystem-Linux"     # WSL
+        "VirtualMachinePlatform"                # VM Platform
     )
     
     foreach ($Feature in $FeatureName) {
