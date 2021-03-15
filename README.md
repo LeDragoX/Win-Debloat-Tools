@@ -49,6 +49,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./scripts/backup-system.ps1))
 - Run WinAero Tweaker for Extra UI Customization and tell how to import my Profile; ([`all-in-one-tweaks.ps1`](./scripts/all-in-one-tweaks.ps1))
 - Download OOShutUp10 and import my Configuration file;
+- Download AdwCleaner and Run the latest version of for Virus/Adware scan;
 - Disable Telemetry from Scheduled Tasks and Optimize it;
 - Re-Enable useful Services & Disable the Heavy ones;
 - Disable Telemetry and Data Collection via Registry;
@@ -82,7 +83,9 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 ### Thanks To
 
 - [W4RH4WK](https://github.com/W4RH4WK) (For his project ^^)
-- [Sergey Tkachenko](https://winaero.com/) (*WinAero Tweaker Creator*)
+- [Sergey Tkachenko](https://winaero.com/) (*WinAero Tweaker Dev.*)
+- [O&O Software GmbH](https://www.oo-software.com/en/company) (*ShutUp10 Dev. Company*)
+- [MalwareBytes](https://br.malwarebytes.com/company/) (*AdwCleaner Dev. Company*)
 - [10se1ucgo](https://github.com/10se1ucgo)
 - [Plumebit](https://github.com/Plumebit)
 - [aramboi](https://github.com/aramboi)
