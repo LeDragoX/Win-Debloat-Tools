@@ -67,6 +67,7 @@ function RunDebloatSoftwares {
             Remove-Item "*.*" -Exclude "*.cfg" -Force                                               # Leave no traces
         Pop-Location
 
+        Write-Host "+ Running AdwCleaner to do a Quick Virus/Adware Scan..."
         Push-Location "AdwCleaner"
             Start-BitsTransfer -Source "https://downloads.malwarebytes.com/file/adwcleaner" -Destination "adwcleaner.exe"
             Start-Process -FilePath ".\adwcleaner.exe" -ArgumentList "/eula", "/clean", "/noreboot" -Wait
