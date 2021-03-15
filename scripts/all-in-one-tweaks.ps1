@@ -66,6 +66,12 @@ function RunDebloatSoftwares {
             Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait   # quiet may be better? # Wait until the process closes
             Remove-Item "*.*" -Exclude "*.cfg" -Force                                               # Leave no traces
         Pop-Location
+
+        Push-Location "AdwCleaner"
+            Start-BitsTransfer -Source "https://downloads.malwarebytes.com/file/adwcleaner" -Destination "adwcleaner.exe"
+            Start-Process -FilePath ".\adwcleaner.exe" -ArgumentList "/eula", "/clean", "/noreboot" -Wait
+            Remove-Item ".\adwcleaner.exe" -Force
+        Pop-Location
     Pop-Location
     
     Push-Location "..\utils"
@@ -520,7 +526,7 @@ function TweaksForSecurity {
     Write-Host "+ Enabling Windows Defender Sandbox mode... (if you already use another antivirus, this will make nothing)"
     setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 
-    # The "utils\Shutdown-Shortcut-To-Desktop.bat" file actually uses .vbs script, so, i'll make this optional
+    # The "OpenPowershellHere.cmd" file actually uses .vbs script, so, i'll make this optional
     # [DIY] Disable Windows Script Host (execution of *.vbs scripts and alike)
     #Write-Host "- Disabling Windows Script Host..."
     #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
