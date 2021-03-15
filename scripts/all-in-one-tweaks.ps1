@@ -90,6 +90,7 @@ function TweaksForScheduledTasks {
 
     TitleWithContinuousCounter -Text "Scheduled Tasks tweaks" -MaxNum 7
     
+    # Took from: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
     $DisableScheduledTasks = @(
         "Microsoft\Office\OfficeTelemetryAgentLogOn"
         "Microsoft\Office\OfficeTelemetryAgentFallBack"
@@ -104,19 +105,15 @@ function TweaksForScheduledTasks {
         "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"
         "Microsoft\Windows\Defrag\ScheduledDefrag"
         "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"
+        "Microsoft\Windows\Location\Notifications"
+        "Microsoft\Windows\Location\WindowsActionDialog"
+        "Microsoft\Windows\Maintenance\WinSAT"
+        "Microsoft\Windows\Maps\MapsToastTask"
+        "Microsoft\Windows\Maps\MapsUpdateTask"
+        "Microsoft\Windows\Retail Demo\CleanupOfflineContent"
+        "Microsoft\Windows\Shell\FamilySafetyMonitor"
+        "Microsoft\Windows\Shell\FamilySafetyRefreshTask"
         "Microsoft\Windows\Shell\FamilySafetyUpload"
-        # "Microsoft\Windows\AppID\SmartScreenSpecific"
-        # "Microsoft\Windows\CloudExperienceHost\CreateObjectTask"
-        # "Microsoft\Windows\DiskFootprint\Diagnostics" # *** Not sure if should be disabled, maybe related to S.M.A.R.T.
-        # "Microsoft\Windows\FileHistory\File History (maintenance mode)"
-        # "Microsoft\Windows\Maintenance\WinSAT"
-        # "Microsoft\Windows\NetTrace\GatherNetworkInfo"
-        # "Microsoft\Windows\PI\Sqm-Tasks"
-        # "Microsoft\Windows\SettingSync\BackgroundUploadTask" # The stubborn task can be Disabled using a simple bit change. I use a REG file for that (attached to this post).
-        # "Microsoft\Windows\Time Synchronization\ForceSynchronizeTime"
-        # "Microsoft\Windows\Time Synchronization\SynchronizeTime"
-        # "Microsoft\Windows\Windows Error Reporting\QueueReporting"
-        # "Microsoft\Windows\WindowsUpdate\Automatic App Update"
     )
     
     foreach ($ScheduledTask in $DisableScheduledTasks) {
@@ -800,8 +797,8 @@ function RemoveBloatwareApps {
 
     foreach ($Bloat in $Apps) {
         Write-Host "Trying to remove $Bloat ..."
-        Get-AppxPackage -Name $Bloat| Remove-AppxPackage
-        Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online
+        Get-AppxPackage -Name $Bloat| Remove-AppxPackage    # App
+        Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online  # Payload
     }
 
 }
@@ -831,7 +828,7 @@ function EnableFeatures {
         
         Write-Host "Checking if $Feature was already installed..."
         Write-Host "$Feature Status:" $FeatureDetails.State
-        if ($FeatureDetails.State -like ("Enabled")) {
+        if ($FeatureDetails.State -like "Enabled") {
             Write-Host "$Feature already installed! Skipping..."
         }
         elseif ($FeatureDetails.State -like "Disabled") {
