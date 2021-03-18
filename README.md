@@ -25,7 +25,7 @@ that was made for *Debloat* and *Tweak* Windows 10 for *better performance* and 
 doing everything.
 
 **Use on a fresh windows install to note the differences, and if something breaks,**
-**you can rely on a pre-made restoration point and the** [`fix-general-problems.ps1`](./scripts/fix-general-problems.ps1) file.
+**you can rely on a pre-made restoration point and the** [`repair-windows.ps1`](./scripts/repair-windows.ps1) file.
 
 ## Usage Requirements
 
@@ -57,7 +57,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - Run every Automated Tweaks scripts; (without interaction)
 - Run WinAero Tweaker to apply my profile and other "Manual" softwares; ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
-- [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./scripts/backup-system.ps1)) and ([`fix-general-problems.ps1`](./scripts/fix-general-problems.ps1))
+- [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./scripts/backup-system.ps1)) and ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
 - Apply Dark Mode or Light Mode exclusively from GUI; ([Dark](./utils/dark-theme.reg) and [Light](./utils/light-theme.reg))
 - Install Chocolatey and install Basic Softwares from my selection. ([`choco-sw-installer.ps1`](./scripts/choco-sw-installer.ps1) See Doc here: [Chocolatey-Softwares.md](scripts/Chocolatey-Softwares.md))
 
@@ -78,7 +78,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - [Default] Fix more Privacy problems via Registry and Commands; ([`fix-privacy-settings.ps1`](./scripts/fix-privacy-settings.ps1))
 - Optimize the Default Windows UI to look more Clean, and fixes the Mouse; ([`optimize-user-interface.ps1`](./scripts/optimize-user-interface.ps1))
 - [Default] Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
-- [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`fix-general-problems.ps1`](./scripts/fix-general-problems.ps1))
+- [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
 - In the End it Locks Script's Usage Permission. ([`Win10Script.ps1`](./Win10Script.ps1))
 
 ***Default**:  That means i didn't Modified the File.
@@ -123,7 +123,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 ## Interactivity
 
-The scripts are designed to run without any user interaction. Modify them
+The scripts are designed to run With/Without (GUI/CLI) any user interaction. Modify them
 beforehand. If you want a more interactive approach check out:
 - [DisableWinTracking](https://github.com/10se1ucgo/DisableWinTracking) from [10se1ucgo](https://github.com/10se1ucgo).
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex).

@@ -88,8 +88,8 @@ function RunScripts {
                 Write-Host "You choose Yes."
 
                 Clear-Host
-                SimpleTitleTemplate -Text "fix-general-problems.ps1"
-                PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
+                SimpleTitleTemplate -Text "repair-windows.ps1"
+                PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"repair-windows.ps1"
             }
             'No' {
                 Write-Host "You choose No. (No = Cancel)"

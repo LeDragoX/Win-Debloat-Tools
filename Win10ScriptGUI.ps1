@@ -168,7 +168,7 @@ function PrepareGUI {
 
     # Title Label 3 for Panel 3
     $TitleLabel3                        = New-Object system.Windows.Forms.Label
-    $TitleLabel3.text                   = "Software Install/Upg"
+    $TitleLabel3.text                   = "Software Install/Upg."
     $TitleLabel3.AutoSize               = $true
     $TitleLabel3.width                  = 25
     $TitleLabel3.height                 = 10
@@ -179,7 +179,7 @@ function PrepareGUI {
 
     # Button 6
     $ChocolateySwInstaller              = New-Object system.Windows.Forms.Button
-    $ChocolateySwInstaller.text         = "Choco SW Installer"
+    $ChocolateySwInstaller.text         = "Install Basic Programs"
     $ChocolateySwInstaller.width        = 200
     $ChocolateySwInstaller.height       = 70
     $ChocolateySwInstaller.location     = New-Object System.Drawing.Point(10,50)
@@ -262,8 +262,8 @@ function PrepareGUI {
                     Write-Host "You choose Yes."
     
                     Clear-Host
-                    SimpleTitleTemplate -Text "fix-general-problems.ps1"
-                    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
+                    SimpleTitleTemplate -Text "repair-windows.ps1"
+                    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"repair-windows.ps1"
                 }
                 'No' {
                     Write-Host "You choose No. (No = Cancel)"
