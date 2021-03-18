@@ -326,6 +326,7 @@ function PrepareGUI {
 
 }
 
+Clear-Host                  # Clear the Powershell before it got an Output
 QuickPrivilegesElevation    # Check admin rights
 PrepareRun                  # Import modules from lib folder
 UnrestrictPermissions       # Unlock script usage
