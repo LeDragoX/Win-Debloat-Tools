@@ -43,7 +43,7 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10Script.ps1"
 ```
 
-#### GUI ( WIP, Wihout Output working )
+#### GUI ( WIP, Without Output working )
 - Copy and Paste this entire line below on **Powershell**:
 ```Powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
