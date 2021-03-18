@@ -31,35 +31,13 @@ $Global:PathToWindowsStore =            "HKLM:\SOFTWARE\Policies\Microsoft\Windo
 $Global:PathToWindowsUpdate =           "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
 function RunDebloatSoftwares {
-
-    $Message = "[This is a DIY step]
-    1 - If showed click [I AGREE]
-    2 - Click on the guide Tools >
-    3 - Go on Import/Export Tweaks >
-    4 - Import tweaks from a file >
-    5 - hit Next > Browse... > Select 'My_Winaero_Profile.ini' >
-    6 - Next > Finish (DON'T SPAM)
-    7 - Close it then OK"
     
     BeautyTitleTemplate -Text "Your drives status:"
     wmic diskdrive get caption,status
     
     # If changing the programs folder move here!!!
     Push-Location "..\lib\Debloat-Softwares"
-    
-    Write-Host "+ [DIY] Running WinAero Tweaker..."
-        Expand-Archive '.\Winaero Tweaker.zip'
-        Push-Location "Winaero Tweaker"
-            Remove-Item ".\Winaero.url" -Force -Recurse # Web page Shortcut
-            Start-Process -FilePath ".\WinaeroTweaker.exe" # Could not download it (Tried Start-BitsTransfer and WebClient, but nothing)
-        Pop-Location
-    
-        CountNseconds -Time 2 -Msg "Waiting" # Count 2 seconds then show the Message
-        ShowMessage -Title "DON'T CLOSE YET" -Message $Message
-        Taskkill /F /IM "WinaeroTweaker.exe"
-        Taskkill /F /IM "WinaeroTweakerHelper.exe"
-        Remove-Item ".\Winaero Tweaker\" -Exclude "*.ini" -Force -Recurse
-    
+
         Write-Host "+ Running ShutUp10 and applying configs..."
         Push-Location "ShutUp10"
             Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination "OOSU10.exe"
@@ -73,6 +51,7 @@ function RunDebloatSoftwares {
             Start-Process -FilePath ".\adwcleaner.exe" -ArgumentList "/eula", "/clean", "/noreboot" -Wait
             Remove-Item ".\adwcleaner.exe" -Force
         Pop-Location
+
     Pop-Location
     
     Push-Location "..\utils"
@@ -849,7 +828,7 @@ function EnableFeatures {
 
 }
 
-RunDebloatSoftwares         # Run WinAeroTweaker and ShutUp10 with personal configs.
+RunDebloatSoftwares         # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
 TweaksForScheduledTasks     # Disable Scheduled Tasks that causes slowdowns
 TweaksForService            # Enable essential Services and Disable bloating Services
 TweaksForRegistry           # Disable Registries that causes slowdowns

@@ -22,50 +22,82 @@ function PrepareRun {
 
 }
 
-function RunScripts {
-    
-    Push-Location -Path .\scripts
-    Get-ChildItem -Recurse *.ps*1 | Unblock-File
-    
-    Clear-Host
-    SimpleTitleTemplate -Text "backup-system.ps1"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
-    # pause ### FOR DEBUGGING PURPOSES
-    Clear-Host
-    SimpleTitleTemplate -Text "all-in-one-tweaks.ps1"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
-    # pause ### FOR DEBUGGING PURPOSES
-    Clear-Host
-    SimpleTitleTemplate -Text "fix-privacy-settings.ps1"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
-    # pause ### FOR DEBUGGING PURPOSES
-    Clear-Host
-    SimpleTitleTemplate -Text "optimize-user-interface.ps1"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
-    # pause ### FOR DEBUGGING PURPOSES
-    Clear-Host
-    SimpleTitleTemplate -Text "remove-onedrive.ps1"
-    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
-    # pause ### FOR DEBUGGING PURPOSES
-    
-    $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
-    Do you want to continue?"
+function PromptPcRestart {
 
+    $Ask = "If you want to see the changes restart your computer!
+    Do you want to Restart now?"
+    
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         'Yes' {
             Write-Host "You choose Yes."
-
-            Clear-Host
-            SimpleTitleTemplate -Text "fix-general-problems.ps1"
-            PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
+            Restart-Computer        
         }
         'No' {
+            Write-Host "You choose to Restart later"
             Write-Host "You choose No. (No = Cancel)"
         }
         'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
+            Write-Host "You choose to Restart later"
             Write-Host "You choose Cancel. (Cancel = No)"
         }
     }
+    
+}
+
+function RunScripts {
+
+    Push-Location -Path .\scripts
+
+        Get-ChildItem -Recurse *.ps*1 | Unblock-File
+        
+        Clear-Host
+        SimpleTitleTemplate -Text "backup-system.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
+        Clear-Host
+        SimpleTitleTemplate -Text "manual-debloat-softwares.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"manual-debloat-softwares.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
+        Clear-Host
+        SimpleTitleTemplate -Text "all-in-one-tweaks.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
+        Clear-Host
+        SimpleTitleTemplate -Text "fix-privacy-settings.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
+        Clear-Host
+        SimpleTitleTemplate -Text "optimize-user-interface.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+        
+        Clear-Host
+        SimpleTitleTemplate -Text "remove-onedrive.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+        
+        $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
+        Do you want to continue?"
+
+        switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
+            'Yes' {
+                Write-Host "You choose Yes."
+
+                Clear-Host
+                SimpleTitleTemplate -Text "fix-general-problems.ps1"
+                PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-general-problems.ps1"
+            }
+            'No' {
+                Write-Host "You choose No. (No = Cancel)"
+            }
+            'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
+                Write-Host "You choose Cancel. (Cancel = No)"
+            }
+        }
 
     Pop-Location
     Clear-Host
@@ -93,23 +125,7 @@ Write-Host ""
 RestrictPermissions         # Lock script usage
 Write-Host ""
 
-$Ask = "If you want to see the changes restart your computer!
-Do you want to Restart now?"
-
-switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
-    'Yes' {
-        Write-Host "You choose Yes."
-        Restart-Computer        
-    }
-    'No' {
-        Write-Host "You choose to Restart later"
-        Write-Host "You choose No. (No = Cancel)"
-    }
-    'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
-        Write-Host "You choose to Restart later"
-        Write-Host "You choose Cancel. (Cancel = No)"
-    }
-}
+PromptPcRestart             # Prompt options to Restart the PC
 
 Credits
 CountNseconds               # Count 3 seconds (default) then exit

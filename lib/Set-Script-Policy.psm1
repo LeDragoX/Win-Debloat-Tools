@@ -1,5 +1,6 @@
 function UnrestrictPermissions {
     Write-Host "Receiving permissions to run scripts"
+    Write-Host "" # Skip Line
     Set-ExecutionPolicy Unrestricted -Scope Process -Force
     Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
     Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force
@@ -9,6 +10,7 @@ function UnrestrictPermissions {
 
 function RestrictPermissions {
     Write-Host "Denying permissions to run scripts"
+    Write-Host "" # Skip Line
     Set-ExecutionPolicy Restricted -Scope Process -Force
     Set-ExecutionPolicy Restricted -Scope CurrentUser -Force
     Set-ExecutionPolicy Restricted -Scope LocalMachine -Force
@@ -16,5 +18,5 @@ function RestrictPermissions {
     Write-Host "" # Skip Line
 }
 
-# UnrestrictPermissions to Unlock script usage
-# RestrictPermissions to Lock script usage
+# UnrestrictPermissions     # to Unlock script usage
+# RestrictPermissions       # to Lock script usage
