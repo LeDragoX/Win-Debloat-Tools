@@ -331,6 +331,7 @@ PrepareRun                  # Import modules from lib folder
 UnrestrictPermissions       # Unlock script usage
 SetupConsoleStyle           # Just fix the font on the PS console
 
+Write-Host "Oh yeah, there's a bug where i load a Script and nothing is Outputed..."
 PrepareGUI                  # Load the GUI
 
 PromptPcRestart             # Prompt options to Restart the PC
