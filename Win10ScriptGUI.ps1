@@ -53,7 +53,7 @@ function PrepareGUI {
     
     # Main Window:
     $Form                               = New-Object System.Windows.Forms.Form
-    $Form.Text                          = "Windows 10 Smart Debloat"
+    $Form.Text                          = "Windows 10 Smart Debloat - by LeDragoX"
     $Form.Size                          = New-Object System.Drawing.Size(854,480)
     $Form.StartPosition                 = 'CenterScreen' # Appears on the center
     $Form.FormBorderStyle               = 'FixedSingle' # Not adjustable
@@ -335,5 +335,4 @@ PrepareGUI                  # Load the GUI
 
 PromptPcRestart             # Prompt options to Restart the PC
 RestrictPermissions         # Lock script usage
-CountNseconds               # Count 3 seconds (default) then exit
 Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
