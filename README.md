@@ -41,14 +41,29 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10Script.ps1"
 ```
 
+#### GUI ( BETA/WIP )
+- Copy and Paste this entire line below on **Powershell**:
+```Powershell
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
+```
+
+
 **[Scripts](/scripts) can be run individually, pick what you need.**
+
+## GUI Script Features
+
+- Run every Automated Tweaks scripts; (without interaction)
+- Run WinAero Tweaker to apply my profile and other "Manual" softwares; ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
+- [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./scripts/backup-system.ps1)) and([`fix-general-problems.ps1`](./scripts/fix-general-problems.ps1))
+- Apply Dark Mode or Light Mode exclusively from GUI; ([Dark](./utils/dark-theme.reg) and [Light](./utils/light-theme.reg))
+- Install Chocolatey and install Basic Softwares from my selection. ([`choco-sw-installer.ps1`](./scripts/choco-sw-installer.ps1) See Doc here: [Chocolatey-Softwares.md](scripts/Chocolatey-Softwares.md))
 
 ## Script Features
 
 - Import all necessary Modules before Executing everything; ([lib folder](lib/))
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./scripts/backup-system.ps1))
-- Run WinAero Tweaker for Extra UI Customization and tell how to import my Profile; ([`all-in-one-tweaks.ps1`](./scripts/all-in-one-tweaks.ps1))
-- Download OOShutUp10 and import my Configuration file;
+- Run WinAero Tweaker for Extra UI Customization and tell how to import my Profile; ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
+- Download OOShutUp10 and import my Configuration file; ([`all-in-one-tweaks.ps1`](./scripts/all-in-one-tweaks.ps1))
 - Download AdwCleaner and Run the latest version of for Virus/Adware scan;
 - Disable Telemetry from Scheduled Tasks and Optimize it;
 - Re-Enable useful Services & Disable the Heavy ones;

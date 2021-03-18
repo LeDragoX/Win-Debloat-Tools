@@ -36,7 +36,7 @@ Write-Host "            Resetting the MS Store"
 Write-Host "<==========================================>"
 Write-Host ""
 
-Start-Process wsreset
+Start-Process wsreset -NoNewWindow
 
 Write-Host "<============================================>"
 Write-Host "             Fix Windows Taskbar"
