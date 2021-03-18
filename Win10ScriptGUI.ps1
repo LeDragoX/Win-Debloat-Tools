@@ -157,7 +157,7 @@ function PrepareGUI {
     $PictureBox1.width                  = 170
     $PictureBox1.height                 = 170
     $PictureBox1.location               = New-Object System.Drawing.Point(340,250)
-    $PictureBox1.imageLocation          = ".\lib\images\Script-Icon_2.png"
+    $PictureBox1.imageLocation          = ".\lib\images\Script-logo.png"
     $PictureBox1.SizeMode               = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 
     # Panel 3 to put Labels and Buttons
