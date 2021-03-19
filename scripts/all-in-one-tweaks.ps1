@@ -71,33 +71,46 @@ function TweaksForScheduledTasks {
     
     # Took from: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
     $DisableScheduledTasks = @(
-        "Microsoft\Office\OfficeTelemetryAgentLogOn"
-        "Microsoft\Office\OfficeTelemetryAgentFallBack"
-        "Microsoft\Office\Office 15 Subscription Heartbeat"
-        "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser"
-        "Microsoft\Windows\Application Experience\ProgramDataUpdater"
-        "Microsoft\Windows\Application Experience\StartupAppTask"
-        "Microsoft\Windows\Autochk\Proxy"
-        "Microsoft\Windows\Customer Experience Improvement Program\Consolidator"
-        "Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask"
-        "Microsoft\Windows\Customer Experience Improvement Program\Uploader"
-        "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"
-        "Microsoft\Windows\Defrag\ScheduledDefrag"
-        "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"
-        "Microsoft\Windows\Location\Notifications"
-        "Microsoft\Windows\Location\WindowsActionDialog"
-        "Microsoft\Windows\Maintenance\WinSAT"
-        "Microsoft\Windows\Maps\MapsToastTask"
-        "Microsoft\Windows\Maps\MapsUpdateTask"
-        "Microsoft\Windows\Retail Demo\CleanupOfflineContent"
-        "Microsoft\Windows\Shell\FamilySafetyMonitor"
-        "Microsoft\Windows\Shell\FamilySafetyRefreshTask"
-        "Microsoft\Windows\Shell\FamilySafetyUpload"
+        "\Microsoft\Office\OfficeTelemetryAgentLogOn"
+        "\Microsoft\Office\OfficeTelemetryAgentFallBack"
+        "\Microsoft\Office\Office 15 Subscription Heartbeat"
+        "\Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser"
+        "\Microsoft\Windows\Application Experience\ProgramDataUpdater"
+        "\Microsoft\Windows\Application Experience\StartupAppTask"
+        "\Microsoft\Windows\Autochk\Proxy"
+        "\Microsoft\Windows\Customer Experience Improvement Program\Consolidator"           # Recommended state for VDI use
+        "\Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask"         # Recommended state for VDI use
+        "\Microsoft\Windows\Customer Experience Improvement Program\Uploader"
+        "\Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"                # Recommended state for VDI use
+        "\Microsoft\Windows\Defrag\ScheduledDefrag"                                         # Recommended state for VDI use
+        "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"   
+        "\Microsoft\Windows\Location\Notifications"                                         # Recommended state for VDI use
+        "\Microsoft\Windows\Location\WindowsActionDialog"                                   # Recommended state for VDI use
+        "\Microsoft\Windows\Maintenance\WinSAT"                                             # Recommended state for VDI use
+        "\Microsoft\Windows\Maps\MapsToastTask"                                             # Recommended state for VDI use
+        "\Microsoft\Windows\Maps\MapsUpdateTask"                                            # Recommended state for VDI use
+        "\Microsoft\Windows\Mobile Broadband Accounts\MNO Metadata Parser"                  # Recommended state for VDI use
+        "\Microsoft\Windows\Power Efficiency Diagnostics\AnalyzeSystem"                     # Recommended state for VDI use
+        "\Microsoft\Windows\Retail Demo\CleanupOfflineContent"                              # Recommended state for VDI use
+        "\Microsoft\Windows\Shell\FamilySafetyMonitor"                                      # Recommended state for VDI use
+        "\Microsoft\Windows\Shell\FamilySafetyRefreshTask"                                  # Recommended state for VDI use
+        "\Microsoft\Windows\Shell\FamilySafetyUpload"
+        "\Microsoft\Windows\Windows Error Reporting\QueueReporting"                         # Recommended state for VDI use
+        "\Microsoft\Windows\Windows Media Sharing\UpdateLibrary"                            # Recommended state for VDI use
     )
     
     foreach ($ScheduledTask in $DisableScheduledTasks) {
         Write-Host "[TaskScheduler] Disabling the $ScheduledTask Task..."
         Disable-ScheduledTask -TaskName $ScheduledTask
+    }
+
+    $EnableScheduledTasks = @(
+        "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"    # Recommended state for VDI use BUT it's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
+    )
+
+    foreach ($ScheduledTask in $EnableScheduledTasks) {
+        Write-Host "[TaskScheduler] Enabling the $ScheduledTask Task..."
+        Enable-ScheduledTask -TaskName $ScheduledTask
     }
 
 }
@@ -503,6 +516,18 @@ function TweaksForSecurity {
     Write-Host "+ Enabling Windows Defender Sandbox mode... (if you already use another antivirus, this will make nothing)"
     setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 
+    # https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
+    Write-Host "+ Raising UAC level..."
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 5
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 1
+
+    # 
+    Write-Host "Enabling Meltdown (CVE-2017-5754) compatibility flag..."
+	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
+		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" | Out-Null
+	}
+	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
+
     # The "OpenPowershellHere.cmd" file actually uses .vbs script, so, i'll make this optional
     # [DIY] Disable Windows Script Host (execution of *.vbs scripts and alike)
     #Write-Host "- Disabling Windows Script Host..."
@@ -736,7 +761,7 @@ function RemoveBloatwareApps {
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"
 
-        # <==========[ DIY ]==========> (Remove the # to Debloat)
+        # <==========[ DIY ]==========> (Remove the # to Unninstall)
 
         # [DIY] Default apps i'll keep
 

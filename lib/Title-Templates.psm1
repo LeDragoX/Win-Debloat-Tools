@@ -1,24 +1,24 @@
 function SimpleTitleTemplate ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
-	Write-Host "<====================< $Text >====================>"
+	Write-Host "<====================< $Text >====================>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
 function BeautyTitleTemplate ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
-	Write-Host "<====================[ $Text ]====================>"
+	Write-Host "<====================[ $Text ]====================>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
 function BeautySectionTemplate ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
-	Write-Host "<==========[ $Text ]==========>"
+	Write-Host "<==========[ $Text ]==========>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
 
 function CaptionTemplate ([String] $Text = "Test Text") {
-	Write-Host "--> $Text"
+	Write-Host "--> $Text" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
