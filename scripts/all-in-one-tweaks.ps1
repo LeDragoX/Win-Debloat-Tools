@@ -539,6 +539,11 @@ function PersonalTweaks {
 
     TitleWithContinuousCounter -Text "My Personal Tweaks"
 
+    BeautySectionTemplate -Text "Windows Explorer Tweaks"
+
+    Write-Host "- Hiding Quick Access from Windows Explorer..."
+    Set-ItemProperty -Path "$PathToExplorer" -Name "ShowFrequent" -Type DWord -Value 0
+
     BeautySectionTemplate -Text "Personalization Section"
     BeautySectionTemplate -Text "TaskBar Tweaks"
     
@@ -572,8 +577,8 @@ function PersonalTweaks {
 
     # Disable creation of Thumbs.db thumbnail cache files
     Write-Host "- Disabling creation of Thumbs.db..."
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbnailCache" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value 1
 
     CaptionTemplate -Text "Colors"
 
