@@ -543,6 +543,8 @@ function PersonalTweaks {
 
     Write-Host "- Hiding Quick Access from Windows Explorer..."
     Set-ItemProperty -Path "$PathToExplorer" -Name "ShowFrequent" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToExplorer" -Name "ShowRecent" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToExplorer" -Name "HubMode" -Type DWord -Value 1
 
     BeautySectionTemplate -Text "Personalization Section"
     BeautySectionTemplate -Text "TaskBar Tweaks"
