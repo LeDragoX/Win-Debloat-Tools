@@ -123,6 +123,7 @@ function TweaksForService {
     $EnableServices = @(
         "BITS"                                      # Background Intelligent Transfer Service
         "DPS"                                       # Diagnostic Policy Service
+        "FontCache"                                 # Windows Font Cache Service
         "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
     )
         
@@ -138,7 +139,6 @@ function TweaksForService {
         "DiagTrack"                                 # Connected User Experiences and Telemetry
         "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
         "dmwappushservice"                          # Device Management Wireless Application Protocol (WAP)
-        "FontCache"                                 # Windows Font Cache Service
         "GraphicsPerfSvc"                           # Graphics performance monitor service
         "lfsvc"                                     # Geolocation Service
         "MapsBroker"                                # Downloaded Maps Manager
