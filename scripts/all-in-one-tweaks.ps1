@@ -488,11 +488,12 @@ function TweaksForSecurity {
     Write-Host "+ Ensure your Windows Defender is ENABLED, if you already use another antivirus, this will make nothing."
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
 
-    Write-Host "= Disabling SMB 1.0 protocol... (https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858)"
+    # https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858
+    Write-Host "= Disabling SMB 1.0 protocol..."
     Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 
-    # Enable strong cryptography for .NET Framework (version 4 and above)
-    Write-Host "+ Enabling .NET strong cryptography... (https://stackoverflow.com/questions/36265534/invoke-webrequest-ssl-fails)"
+    # Enable strong cryptography for .NET Framework (version 4 and above) - https://stackoverflow.com/questions/36265534/invoke-webrequest-ssl-fails
+    Write-Host "+ Enabling .NET strong cryptography..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
 
@@ -518,10 +519,12 @@ function TweaksForSecurity {
 
     # https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
     Write-Host "+ Raising UAC level..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System")) {
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" | Out-Null
+    }
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 5
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 1
 
-    # 
     Write-Host "Enabling Meltdown (CVE-2017-5754) compatibility flag..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
 		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" | Out-Null
