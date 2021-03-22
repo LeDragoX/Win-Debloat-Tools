@@ -674,6 +674,10 @@ function PersonalTweaks {
     Write-Host "+ Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
 
+    Write-Host "+ Fixing Xbox Game Bar FPS Counter... (LIMITED BY LANGUAGE)"
+    net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
+    net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
+
 }
 
 function RemoveBloatwareApps {
