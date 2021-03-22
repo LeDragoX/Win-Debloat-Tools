@@ -141,6 +141,7 @@ function PrepareGUI {
     $DarkMode.location                  = New-Object System.Drawing.Point(25,50)
     $DarkMode.Font                      = New-Object System.Drawing.Font('Arial',13)
     $DarkMode.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $DarkMode.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("#000000")
     $Panel2.Controls.Add($DarkMode)
     
     # Button 5
@@ -150,7 +151,8 @@ function PrepareGUI {
     $LightMode.height                   = 70
     $LightMode.location                 = New-Object System.Drawing.Point(25,140)
     $LightMode.Font                     = New-Object System.Drawing.Font('Arial',13)
-    $LightMode.ForeColor                = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $LightMode.ForeColor                = [System.Drawing.ColorTranslator]::FromHtml("#000000")
+    $LightMode.BackColor                = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
     $Panel2.Controls.Add($LightMode)
     
     $PictureBox1                        = New-Object system.Windows.Forms.PictureBox
