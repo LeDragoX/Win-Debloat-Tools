@@ -83,7 +83,7 @@ function PrepareGUI {
     $TitleLabel1.height                 = 10
     $TitleLabel1.location               = New-Object System.Drawing.Point(50,10)
     $TitleLabel1.Font                   = New-Object System.Drawing.Font('Arial',16)
-    $TitleLabel1.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $TitleLabel1.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#1fff00") # Green
     $Panel1.Controls.Add($TitleLabel1)
     
     # Button 1
@@ -93,7 +93,7 @@ function PrepareGUI {
     $automatedTweaks.height             = 70
     $automatedTweaks.location           = New-Object System.Drawing.Point(25,50)
     $automatedTweaks.Font               = New-Object System.Drawing.Font('Arial',13)
-    $automatedTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $automatedTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("#00ffff") # Light Blue
     $Panel1.Controls.Add($automatedTweaks)
     
     # Button 2
@@ -103,7 +103,7 @@ function PrepareGUI {
     $uiTweaks.height                    = 70
     $uiTweaks.location                  = New-Object System.Drawing.Point(25,140)
     $uiTweaks.Font                      = New-Object System.Drawing.Font('Arial',13)
-    $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee") # White
     $Panel1.Controls.Add($uiTweaks)
 
     # Button 3
@@ -130,7 +130,7 @@ function PrepareGUI {
     $TitleLabel2.height                 = 10
     $TitleLabel2.location               = New-Object System.Drawing.Point(10,10)
     $TitleLabel2.Font                   = New-Object System.Drawing.Font('Arial',16)
-    $TitleLabel2.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $TitleLabel2.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#1fff00")
     $Panel2.Controls.Add($TitleLabel2)    
 
     # Button 4
@@ -174,7 +174,7 @@ function PrepareGUI {
     $TitleLabel3.height                 = 10
     $TitleLabel3.location               = New-Object System.Drawing.Point(10,10)
     $TitleLabel3.Font                   = New-Object System.Drawing.Font('Arial',16)
-    $TitleLabel3.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $TitleLabel3.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#1fff00")
     $Panel3.Controls.Add($TitleLabel3)
 
     # Button 6
