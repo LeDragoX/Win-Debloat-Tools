@@ -48,6 +48,18 @@ function PromptPcRestart {
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 function PrepareGUI {
 
+    # <=== COLORS ===>
+
+    $Black      = "#000000"
+    $DarkGray   = "#111111"
+    $Green      = "#1fff00"
+    $LightBlue  = "#00ffff"
+    $LightGray  = "#eeeeee"
+    $WinBlue    = "#2376bc"
+    $WinDark    = "#252525"
+    $WinGray    = "#e6e6e6"
+    $White      = "#ffffff"
+
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
     
@@ -55,12 +67,12 @@ function PrepareGUI {
     $Form                               = New-Object System.Windows.Forms.Form
     $Form.Text                          = "Windows 10 Smart Debloat - by LeDragoX"
     $Form.Size                          = New-Object System.Drawing.Size(854,480)
-    $Form.StartPosition                 = 'CenterScreen' # Appears on the center
-    $Form.FormBorderStyle               = 'FixedSingle' # Not adjustable
-    $Form.MinimizeBox                   = $false # Remove the Minimize Button
-    $Form.MaximizeBox                   = $false # Remove the Maximize Button
+    $Form.StartPosition                 = 'CenterScreen'    # Appears on the center
+    $Form.FormBorderStyle               = 'FixedSingle'     # Not adjustable
+    $Form.MinimizeBox                   = $false            # Remove the Minimize Button
+    $Form.MaximizeBox                   = $false            # Remove the Maximize Button
     $Form.TopMost                       = $false
-    $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("#252525")
+    $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("$WinDark") # Windows Dark
     
     # Icon: https://stackoverflow.com/a/53377253
     $iconBase64                         = [Convert]::ToBase64String((Get-Content ".\lib\images\Windows-10-logo_icon.png" -Encoding Byte))
@@ -83,7 +95,7 @@ function PrepareGUI {
     $TitleLabel1.height                 = 10
     $TitleLabel1.location               = New-Object System.Drawing.Point(50,10)
     $TitleLabel1.Font                   = New-Object System.Drawing.Font('Arial',16)
-    $TitleLabel1.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#1fff00") # Green
+    $TitleLabel1.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$Green") # Green
     $Panel1.Controls.Add($TitleLabel1)
     
     # Button 1
@@ -93,7 +105,7 @@ function PrepareGUI {
     $automatedTweaks.height             = 70
     $automatedTweaks.location           = New-Object System.Drawing.Point(25,50)
     $automatedTweaks.Font               = New-Object System.Drawing.Font('Arial',13)
-    $automatedTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("#00ffff") # Light Blue
+    $automatedTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue") # Light Blue
     $Panel1.Controls.Add($automatedTweaks)
     
     # Button 2
@@ -103,7 +115,7 @@ function PrepareGUI {
     $uiTweaks.height                    = 70
     $uiTweaks.location                  = New-Object System.Drawing.Point(25,140)
     $uiTweaks.Font                      = New-Object System.Drawing.Font('Arial',13)
-    $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee") # White
+    $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray") # Light Gray
     $Panel1.Controls.Add($uiTweaks)
 
     # Button 3
@@ -113,7 +125,7 @@ function PrepareGUI {
     $FixProblems.height                    = 70
     $FixProblems.location                  = New-Object System.Drawing.Point(25,230)
     $FixProblems.Font                      = New-Object System.Drawing.Font('Arial',13)
-    $FixProblems.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $FixProblems.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel1.Controls.Add($FixProblems)    
 
     # Panel 2 to put Labels and Buttons
@@ -130,7 +142,7 @@ function PrepareGUI {
     $TitleLabel2.height                 = 10
     $TitleLabel2.location               = New-Object System.Drawing.Point(10,10)
     $TitleLabel2.Font                   = New-Object System.Drawing.Font('Arial',16)
-    $TitleLabel2.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#1fff00")
+    $TitleLabel2.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$Green")
     $Panel2.Controls.Add($TitleLabel2)    
 
     # Button 4
@@ -140,8 +152,8 @@ function PrepareGUI {
     $DarkMode.height                    = 70
     $DarkMode.location                  = New-Object System.Drawing.Point(25,50)
     $DarkMode.Font                      = New-Object System.Drawing.Font('Arial',13)
-    $DarkMode.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
-    $DarkMode.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("#000000")
+    $DarkMode.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$White")
+    $DarkMode.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("$Black")
     $Panel2.Controls.Add($DarkMode)
     
     # Button 5
@@ -151,8 +163,8 @@ function PrepareGUI {
     $LightMode.height                   = 70
     $LightMode.location                 = New-Object System.Drawing.Point(25,140)
     $LightMode.Font                     = New-Object System.Drawing.Font('Arial',13)
-    $LightMode.ForeColor                = [System.Drawing.ColorTranslator]::FromHtml("#000000")
-    $LightMode.BackColor                = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
+    $LightMode.ForeColor                = [System.Drawing.ColorTranslator]::FromHtml("$Black")
+    $LightMode.BackColor                = [System.Drawing.ColorTranslator]::FromHtml("$White")
     $Panel2.Controls.Add($LightMode)
     
     $PictureBox1                        = New-Object system.Windows.Forms.PictureBox
@@ -176,7 +188,7 @@ function PrepareGUI {
     $TitleLabel3.height                 = 10
     $TitleLabel3.location               = New-Object System.Drawing.Point(10,10)
     $TitleLabel3.Font                   = New-Object System.Drawing.Font('Arial',16)
-    $TitleLabel3.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("#1fff00")
+    $TitleLabel3.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$Green")
     $Panel3.Controls.Add($TitleLabel3)
 
     # Button 6
@@ -186,7 +198,7 @@ function PrepareGUI {
     $ChocolateySwInstaller.height       = 70
     $ChocolateySwInstaller.location     = New-Object System.Drawing.Point(10,50)
     $ChocolateySwInstaller.Font         = New-Object System.Drawing.Font('Arial',13)
-    $ChocolateySwInstaller.ForeColor    = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
+    $ChocolateySwInstaller.ForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel3.Controls.Add($ChocolateySwInstaller)    
     
     # Button 1 Mouse Click listener
@@ -288,6 +300,19 @@ function PrepareGUI {
             regedit /s dark-theme.reg
         Pop-Location
 
+        $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
+
+        $automatedTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
+        $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+        $FixProblems.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+        $ChocolateySwInstaller.ForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+
+        $automatedTweaks.BackColor          = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
+        $uiTweaks.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
+        $FixProblems.BackColor              = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
+        $ChocolateySwInstaller.BackColor    = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
+
+        $Form.Update()
     })
 
     # Button 5 Mouse Click listener
@@ -298,6 +323,19 @@ function PrepareGUI {
             regedit /s light-theme.reg
         Pop-Location
 
+        $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("$White")
+
+        $automatedTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("$WinBlue")
+        $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
+        $FixProblems.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
+        $ChocolateySwInstaller.ForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
+
+        $automatedTweaks.BackColor          = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
+        $uiTweaks.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
+        $FixProblems.BackColor              = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
+        $ChocolateySwInstaller.BackColor    = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
+
+        $Form.Update()
     })
 
     # Button 6 Mouse Click listener
