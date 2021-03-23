@@ -54,22 +54,17 @@ function RunScripts {
         SimpleTitleTemplate -Text "backup-system.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
         # pause ### FOR DEBUGGING PURPOSES
-
-        Clear-Host
-        SimpleTitleTemplate -Text "manual-debloat-softwares.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"manual-debloat-softwares.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-
+        
         Clear-Host
         SimpleTitleTemplate -Text "all-in-one-tweaks.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
         # pause ### FOR DEBUGGING PURPOSES
-
+        
         Clear-Host
         SimpleTitleTemplate -Text "fix-privacy-settings.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
         # pause ### FOR DEBUGGING PURPOSES
-
+        
         Clear-Host
         SimpleTitleTemplate -Text "optimize-user-interface.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
@@ -80,6 +75,11 @@ function RunScripts {
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
+        Clear-Host
+        SimpleTitleTemplate -Text "manual-debloat-softwares.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"manual-debloat-softwares.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
         $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
         Do you want to continue?"
 
