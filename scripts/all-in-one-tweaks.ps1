@@ -678,6 +678,21 @@ function PersonalTweaks {
     net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
+    Write-Host "+ Setting Power Plan to High Performance..."
+    try {
+        powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+    }
+    catch {
+        Write-Host "An Error Occurred:"
+        Write-Host "$_"
+        powercfg -duplicatescheme 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+        powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+    }
+
+    # Found on the registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\Default\PowerSchemes
+    Write-Host "Enabling (Not activating) the Ultimate Performance Power Plan..."
+    powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
+
     Write-Host "= Fix Hibernate not working..."
     powercfg -h -type reduced
 
