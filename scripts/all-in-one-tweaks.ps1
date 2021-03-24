@@ -567,7 +567,7 @@ function PersonalTweaks {
     }
     Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value 1
 
-    Write-Host "= [Default] Enabling Auto tray icons..."
+    Write-Host "= Enabling Auto tray icons..."
     Set-ItemProperty -Path "$PathToExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
     Write-Host "+ Showing This PC shortcut on desktop..."
@@ -691,11 +691,14 @@ function PersonalTweaks {
     }
 
     # Found on the registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\Default\PowerSchemes
-    Write-Host "Enabling (Not activating) the Ultimate Performance Power Plan..."
+    Write-Host "+ Enabling (Not activating) the Ultimate Performance Power Plan..."
     powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
 
     Write-Host "= Fix Hibernate not working..."
     powercfg -h -type reduced
+
+    Write-Host "= Enabling Memory Compression..."
+    Enable-MMAgent -MemoryCompression
 
 }
 
