@@ -410,29 +410,37 @@ function TweaksForRegistry {
     
     BeautySectionTemplate -Text "Explorer Tweaks"
 
-    $ExplorerKeysToZero = @(
-        # *** Show file extensions in Explorer ***
+    Write-Host "- Removing 3D Objects from This PC..."
+    Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
+    Remove-Item -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
+
+    $ExplorerAdvKeysToZero = @(
+        # Show Drives without Media
+        "HideDrivesWithNoMedia"
+        # Show file extensions in Explorer
         "HideFileExt"
         # Disable File Explorer Ads (OneDrive, New Features etc.)
         "ShowSyncProviderNotifications"
-        # *** Disable MRU lists (jump lists) of XAML apps in Start Menu ***
+        # Disable MRU lists (jump lists) of XAML apps in Start Menu
         "Start_TrackDocs"
         "Start_TrackProgs"
     )
-    $ExplorerKeysToOne = @(
-        # *** Set Windows Explorer to start on This PC instead of Quick Access *** 1 = This PC, 2 = Quick access
+    $ExplorerAdvKeysToOne = @(
+        # Disable Aero-Shake Minimize feature
+        "DisallowShaking"
+        # Set Windows Explorer to start on This PC instead of Quick Access (1 = This PC, 2 = Quick access)
         "LaunchTo"
-        # *** Show hidden files in Explorer ***
+        # Show hidden files in Explorer
         "Hidden"
-        # *** Show super hidden system files in Explorer ***
+        # Show super hidden system files in Explorer
         #"ShowSuperHidden"
     )
-    foreach ($Name in $ExplorerKeysToZero) {
+    foreach ($Name in $ExplorerAdvKeysToZero) {
         Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
         Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 0
     }
-    foreach ($Name in $ExplorerKeysToOne) {
+    foreach ($Name in $ExplorerAdvKeysToOne) {
         Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
         Write-Host "[Registry] Setting $Name value: 1"
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 1
