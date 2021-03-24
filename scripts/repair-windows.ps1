@@ -72,11 +72,13 @@ Write-Host ""
 
 ipconfig /release
 ipconfig /release6
-Clear-Host
 Write-Host "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
 ipconfig /renew6 *Ethernet*
-Clear-Host
 Write-Host "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
 ipconfig /renew *Ethernet*
+
+Write-Host "Flushing DNS..."
 ipconfig /flushdns
-Write-Host "DNS flushed!"
+
+Write-Host "Resetting Winsock..."
+netsh winsock reset
