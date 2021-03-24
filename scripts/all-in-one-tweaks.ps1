@@ -678,6 +678,9 @@ function PersonalTweaks {
     net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
+    Write-Host "= Fix Hibernate not working..."
+    powercfg -h -type reduced
+
 }
 
 function RemoveBloatwareApps {
