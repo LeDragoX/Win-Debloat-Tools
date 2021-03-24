@@ -679,10 +679,10 @@ function PersonalTweaks {
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
     Write-Host "+ Setting Power Plan to High Performance..."
-    try {
+    Try {
         powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
     }
-    catch {
+    Catch {
         Write-Host "An Error Occurred:"
         Write-Host "Reason: $_"
         Write-Host "Where: "$_.ScriptStackTrace
