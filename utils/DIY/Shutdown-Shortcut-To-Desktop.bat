@@ -3,7 +3,7 @@ echo Set oWS = WScript.CreateObject("WScript.Shell") > CreateShortcut.vbs
 echo sLinkFile = "%USERPROFILE%\Desktop\Desligar PC.lnk" >> CreateShortcut.vbs
 echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs
 echo oLink.TargetPath = "%SYSTEMROOT%\System32\shutdown.exe" >> CreateShortcut.vbs
-echo oLink.Arguments = "-s -t 0" >> CreateShortcut.vbs
+echo oLink.Arguments = "-s -f -t 0" >> CreateShortcut.vbs
 echo oLink.IconLocation = "%SYSTEMROOT%\System32\SHELL32.dll, 27" >> CreateShortcut.vbs REM 27 or 215 is the number of icon to shutdown in SHELL32.dll
 REM echo "%SYSTEMROOT%\system32\imageres.dll, 2" >> CreateShortcut.vbs REM Icons of Windows 10
 REM echo "%SYSTEMROOT%\system32\pifmgr.dll, 2" >> CreateShortcut.vbs REM Icons of Windows 95/98
