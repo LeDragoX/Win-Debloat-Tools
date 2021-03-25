@@ -487,6 +487,17 @@ function TweaksForRegistry {
         Remove-Item $Key -Recurse # This will not be debugged
     }
 
+    BeautySectionTemplate -Text "Performance Tweaks"
+    
+    Write-Host "- Disabling Superfetch..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
+    
+    Write-Host "- Disabling Remote Assistance..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
+    
+    Write-Host "- Disabling Ndu High RAM Usage..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
+
 }
 
 function TweaksForSecurity {
@@ -612,17 +623,6 @@ function PersonalTweaks {
     Write-Host "+ Enabling driver download over metered connections..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value 1
     
-    BeautySectionTemplate -Text "Performance Tweaks"
-    
-    Write-Host "- Disabling Superfetch..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
-    
-    Write-Host "- Disabling Remote Assistance..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
-    
-    Write-Host "- Disabling Ndu High RAM Usage..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
-
     BeautySectionTemplate -Text "Cortana Tweaks"
 
     Write-Host "- Disabling Bing Search in Start Menu..."
@@ -686,6 +686,11 @@ function PersonalTweaks {
     net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
+    Write-Host "= Enabling Memory Compression..."
+    Enable-MMAgent -MemoryCompression
+
+    BeautySectionTemplate -Text "Power Plan Tweaks"
+
     Write-Host "+ Setting Power Plan to High Performance..."
     Try {
         powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
@@ -704,9 +709,6 @@ function PersonalTweaks {
 
     Write-Host "= Fix Hibernate not working..."
     powercfg -h -type reduced
-
-    Write-Host "= Enabling Memory Compression..."
-    Enable-MMAgent -MemoryCompression
 
 }
 
