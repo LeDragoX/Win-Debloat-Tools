@@ -142,6 +142,7 @@ function InstallGamingPackages { # You Choose
             $GamingPackages = @(
                 "directx"           # DirectX End-User Runtimes
                 "discord.install"   # Discord
+                "dotnet"            # .NET
                 "dotnetfx"          # Microsoft .NET Framework (Latest)
                 "parsec"            # Parsec
                 "steam"             # Steam

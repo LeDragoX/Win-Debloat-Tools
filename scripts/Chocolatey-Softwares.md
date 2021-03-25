@@ -42,6 +42,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 
 - [DirectX](https://chocolatey.org/packages/directx);
 - [Discord](https://chocolatey.org/packages/discord.install);
+- [Microsoft .NET](https://chocolatey.org/packages/dotnet/5.0.4);
 - [Microsoft .NET Framework](https://chocolatey.org/packages/dotnetfx) (Latest); 
 - [Parsec](https://chocolatey.org/packages/parsec);
 - [Steam](https://chocolatey.org/packages/steam);
