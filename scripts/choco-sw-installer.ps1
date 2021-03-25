@@ -34,7 +34,7 @@ function InstallChocolatey {
     Write-Host "Setting up Full Chocolatey Install"
     Install-Package -Name Chocolatey -Force -ProviderName chocolatey
     # Install Chocolatey
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     choco upgrade all -y
     choco install chocolatey-core.extension -y #--force
     
@@ -75,7 +75,7 @@ function InstallPackages {
         choco install "chocolatey-misc-helpers.extension" -y    # intel-dsa Dependency
         choco install "dotnet4.7" -y                            # intel-dsa Dependency
         choco install "intel-dsa" -y                            # Intel® Driver & Support Assistant (Intel® DSA)
-        choco install "intel-graphics-driver" -y                # Intel Graphics Driver (latest)
+        #choco install "intel-graphics-driver" -y                # Intel Graphics Driver (latest)
 
     } elseif ($GPU.contains("NVIDIA")) {
 
@@ -83,7 +83,7 @@ function InstallPackages {
         choco install "geforce-experience" -y           # GeForce Experience (latest)
         choco feature enable -n=useRememberedArgumentsForUpgrades
         cinst geforce-game-ready-driver --package-parameters="'/dch'"
-        choco install "geforce-game-ready-driver" -y    # GeForce Game Ready Driver (latest)
+        #choco install "geforce-game-ready-driver" -y    # GeForce Game Ready Driver (latest)
 
     }
 
