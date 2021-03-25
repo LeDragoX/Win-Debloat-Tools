@@ -61,29 +61,38 @@ function InstallChocolatey {
 
 function InstallPackages {
 
-    # Install GPU drivers first
-    BeautyTitleTemplate -Text "Installing Graphics driver"
-
-    if ($GPU.contains("AMD")) {
+    # Install CPU drivers first
+    if ($CPU.contains("AMD")) {
         
-        BeautySectionTemplate -Text "Installing AMD drivers!"
+        BeautySectionTemplate -Text "Installing AMD chipset drivers!"
         Write-Host "Unfortunately, Chocolatey doesn't have a package for AMD"
-        
-	} elseif ($GPU.contains("Intel")) {
 
-        BeautySectionTemplate -Text "Installing Intel drivers!"
+	} elseif ($CPU.contains("Intel")) {
+
+        BeautySectionTemplate -Text "Installing Intel chipset drivers!"
         choco install "chocolatey-misc-helpers.extension" -y    # intel-dsa Dependency
         choco install "dotnet4.7" -y                            # intel-dsa Dependency
         choco install "intel-dsa" -y                            # Intel® Driver & Support Assistant (Intel® DSA)
-        #choco install "intel-graphics-driver" -y                # Intel Graphics Driver (latest)
+   
+    }
+    
+    # Install GPU drivers then
+    if ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
+        BeautyTitleTemplate -Text "AMD GPU, yay! (Doing nothing)"
+    }
+    
+    if ($GPU.contains("Intel")) {
+        BeautySectionTemplate -Text "Installing Intel Graphics driver!"
+        choco install "intel-graphics-driver" -y                # Intel Graphics Driver (latest)
+    }
 
-    } elseif ($GPU.contains("NVIDIA")) {
+    if ($GPU.contains("NVIDIA")) {
 
-        BeautySectionTemplate -Text "Installing NVIDIA drivers!"
-        choco install "geforce-experience" -y           # GeForce Experience (latest)
+        BeautySectionTemplate -Text "Installing NVIDIA Graphics driver!"
+        choco install "geforce-experience" -y                   # GeForce Experience (latest)
         choco feature enable -n=useRememberedArgumentsForUpgrades
         cinst geforce-game-ready-driver --package-parameters="'/dch'"
-        #choco install "geforce-game-ready-driver" -y    # GeForce Game Ready Driver (latest)
+        choco install "geforce-game-ready-driver" -y            # GeForce Game Ready Driver (latest)
 
     }
 
@@ -132,7 +141,9 @@ function InstallPackages {
 
 $Ask = "Do you plan to play Games on this Machine?
 All important Gaming clients and Required Game Softwares to Run Games will be installed.
-+ Discord included."
++ Discord
++ Parsec
++ Steam"
 function InstallGamingPackages { # You Choose
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
@@ -180,8 +191,9 @@ QuickPrivilegesElevation                # Check admin rights
 PrepareRun                              # Import modules from lib folder
 UnrestrictPermissions                   # Unlock script usage
 SetupConsoleStyle                       # Make the Console looks how i want
-$Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
-$GPU = DetectVideoCard                  # Detects the current GPU
+$Architecture   = CheckOSArchitecture   # Checks if the System is 32-bits or 64-bits or Something Else
+$CPU            = DetectCPU             # Detects the current CPU
+$GPU            = DetectGPU             # Detects the current GPU
 InstallChocolatey                       # Install Chocolatey on Powershell
 InstallPackages                         # Install the Showed Softwares
 InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
