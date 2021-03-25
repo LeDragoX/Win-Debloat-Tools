@@ -883,7 +883,7 @@ function EnableFeatures {
         }
         elseif ($FeatureDetails.State -like "Disabled") {
             Write-Host "Installing $Feature..."
-            Dism /Online /Enable-Feature /All /NoRestart /FeatureName:$Feature
+            Dism -Online -Enable-Feature -All -NoRestart -FeatureName:$Feature
         }
         Write-Host ""
     }
