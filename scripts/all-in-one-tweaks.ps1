@@ -8,11 +8,13 @@
 
 Write-Host "Current Script Folder $PSScriptRoot"
 Import-Module BitsTransfer # To enable file downloading
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Check-OS-Info.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Count-N-Seconds.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Simple-Message-Box.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 
+$CPU = DetectCPU
 # Initialize all Path variables used to Registry Tweaks
 $Global:PathToActivityHistory =         "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
 $Global:PathToCloudContent =            "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
@@ -546,9 +548,13 @@ function TweaksForSecurity {
 
     Write-Host "Enabling Meltdown (CVE-2017-5754) compatibility flag..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
-		New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" | Out-Null
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" | Out-Null
 	}
-	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
+    if ($CPU.contains("Intel")) {
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
+    } elseif ($CPU.contains("AMD")) {
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 1
+    }
 
     # The "OpenPowershellHere.cmd" file actually uses .vbs script, so, i'll make this optional
     # [DIY] Disable Windows Script Host (execution of *.vbs scripts and alike)
