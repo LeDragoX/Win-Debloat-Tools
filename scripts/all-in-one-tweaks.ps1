@@ -26,6 +26,7 @@ $Global:PathToExplorerAdvanced =        "$PathToExplorer\Advanced"
 $Global:PathToGameBar =                 "HKCU:\SOFTWARE\Microsoft\GameBar"
 $Global:PathToInputPersonalization =    "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
 $Global:PathToLiveTiles =               "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+$Global:PathToMicrosoftEdge =           "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
 $Global:PathToPsched =                  "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
 $Global:PathToSearch =                  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 $Global:PathToSiufRules =               "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
@@ -401,10 +402,7 @@ function TweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Name "DisableUAR" -Type DWord -Value 1
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger" -Name "Start" -Type DWord -Value 0
-    
-    Write-Host "- Disabling 'SmartScreen Filter' for Store Apps..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
-    
+        
     Write-Host "- Disabling 'WiFi Sense: HotSpot Sharing'..."
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value 0
     Write-Host "- Disabling 'WiFi Sense: Shared HotSpot Auto-Connect'..."
@@ -523,13 +521,13 @@ function TweaksForSecurity {
 
     Write-Host "- Disabling Autorun for all Drives..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
-        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Force | Out-Null
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
 
     Write-Host "- Disabling Search for App in Store for Unknown Extensions..."
     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
-        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
 
@@ -541,20 +539,29 @@ function TweaksForSecurity {
     # https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
     Write-Host "+ Raising UAC level..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System")) {
-        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" | Out-Null
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null
     }
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 5
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 1
 
-    Write-Host "Enabling Meltdown (CVE-2017-5754) compatibility flag..."
+    Write-Host "+ Enabling Meltdown (CVE-2017-5754) compatibility flag..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
-        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" | Out-Null
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Force | Out-Null
 	}
     if ($CPU.contains("Intel")) {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
     } else {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 1
     }
+
+    Write-Host "+ Enabling 'SmartScreen' for Microsoft Edge..."
+    If (!(Test-Path "$PathToMicrosoftEdge\PhishingFilter")) {
+        New-Item -Path "$PathToMicrosoftEdge\PhishingFilter" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToMicrosoftEdge\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 1
+
+    Write-Host "+ Enabling 'SmartScreen' for Store Apps..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
 
     # The "OpenPowershellHere.cmd" file actually uses .vbs script, so, i'll make this optional
     # [DIY] Disable Windows Script Host (execution of *.vbs scripts and alike)
