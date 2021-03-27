@@ -677,6 +677,17 @@ function PersonalTweaks {
     Set-ItemProperty -Path "$PathToPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
+    BeautySectionTemplate -Text "Network & Internet Section"
+    CaptionTemplate -Text "Proxy"
+
+    # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
+    Write-Host "- Fixing Edge slowdown by NOT Automatically Detecting Settings..."
+    $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
+    $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings
+    $data[8] = 3
+    
+    Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data    
+
     Write-Host "+ Setting time to UTC..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 1
     
