@@ -367,6 +367,9 @@ function TweaksForRegistry {
     }
     Set-ItemProperty -Path "$PathToDeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
 
+    Write-Host "+ Enabling Automatic Recommended Troubleshooting, then notify me..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsMitigation" -Name "UserPreference" -Type DWord -Value 3
+
     Write-Host "- Disabling Windows Spotlight Features..."
     Write-Host "- Disabling Third Party Suggestions..."
     Write-Host "- Disabling More Telemetry Features..."
