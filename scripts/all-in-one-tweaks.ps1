@@ -367,6 +367,8 @@ function TweaksForRegistry {
     }
     Set-ItemProperty -Path "$PathToDeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
 
+    CaptionTemplate -Text "Troubleshooting"
+
     Write-Host "+ Enabling Automatic Recommended Troubleshooting, then notify me..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsMitigation" -Name "UserPreference" -Type DWord -Value 3
 
