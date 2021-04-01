@@ -24,16 +24,14 @@ function Caption1 ([String] $Text = "Test Text") {
 
 function Title1Counter ([String] $Text = "Test Text COUNTER", [Int] $MaxNum = $Global:MaxNum) {
 
-	if (!($MaxNum -eq $null)) {
-		# Initialize Global variables
-		$Global:MaxNum = $MaxNum
-	}
+	$Global:MaxNum = $MaxNum
+	
 	if ($Counter -eq $null) {
 		# Initialize Global variables
 		$Global:Counter = 0
 	}
 	$Global:Counter = $Counter + 1
-	Title1 "( $Counter/$Global:MaxNum ) - [$Text]"
+	Title1 "( $Counter/$MaxNum ) - [$Text]"
 }
 
 # Demo:
