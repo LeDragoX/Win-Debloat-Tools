@@ -35,7 +35,7 @@ $Global:PathToWindowsUpdate =           "HKLM:\SOFTWARE\Wow6432Node\Policies\Mic
 
 function RunDebloatSoftwares {
     
-    BeautyTitleTemplate -Text "Your drives status:"
+    Title1 -Text "Your drives status:"
     wmic diskdrive get caption,status
     
     # If changing the programs folder move here!!!
@@ -70,7 +70,7 @@ function RunDebloatSoftwares {
 
 function TweaksForScheduledTasks {
 
-    TitleWithContinuousCounter -Text "Scheduled Tasks tweaks" -MaxNum 7
+    Title1Counter -Text "Scheduled Tasks tweaks" -MaxNum 7
     
     # Took from: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
     $DisableScheduledTasks = @(
@@ -120,8 +120,8 @@ function TweaksForScheduledTasks {
 
 function TweaksForService {
 
-    TitleWithContinuousCounter -Text "Services tweaks"
-    BeautyTitleTemplate -Text "Re-enabling services at Startup"
+    Title1Counter -Text "Services tweaks"
+    Title1 -Text "Re-enabling services at Startup"
     
     $EnableServices = @(
         "BITS"                                      # Background Intelligent Transfer Service
@@ -136,7 +136,7 @@ function TweaksForService {
         Set-Service -Name $Service -StartupType Automatic
     }
     
-    BeautyTitleTemplate -Text "Disabling services at Startup"
+    Title1 -Text "Disabling services at Startup"
         
     $DisableServices = @(
         "DiagTrack"                                 # Connected User Experiences and Telemetry
@@ -197,12 +197,12 @@ function TweaksForService {
 
 function TweaksForRegistry {
 
-    TitleWithContinuousCounter -Text "Registry Tweaks"
-    BeautyTitleTemplate -Text "Remove Telemetry & Data Collection"
+    Title1Counter -Text "Registry Tweaks"
+    Title1 -Text "Remove Telemetry & Data Collection"
 
-    BeautySectionTemplate -Text "Personalization Section"
+    Section1 -Text "Personalization Section"
         
-    CaptionTemplate -Text "? & ? & Start & Lockscreen"
+    Caption1 -Text "? & ? & Start & Lockscreen"
     Write-Host "- Disabling Show me the windows welcome experience after updates..."
     Write-Host "- Disabling 'Get fun facts and tips, etc. on lock screen'..."
     
@@ -245,7 +245,7 @@ function TweaksForRegistry {
         Remove-Item -Path "$PathToContentDeliveryManager\SuggestedApps" -Recurse
     }
     
-    BeautySectionTemplate -Text "Gaming Section"
+    Section1 -Text "Gaming Section"
     
     Write-Host "- Disabling Game Bar & Game DVR..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
@@ -260,9 +260,9 @@ function TweaksForRegistry {
     Write-Host "+ Enable Hardware Accelerated GPU Scheduling... (Windows 10 2004 + NVIDIA 10 Series Above + AMD 5000 and Above)"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
     
-    BeautySectionTemplate -Text "Privacy Section"
+    Section1 -Text "Privacy Section"
     
-    CaptionTemplate -Text "General"
+    Caption1 -Text "General"
     
     Write-Host "+ Settings --> Privacy --> General --> Let apps use my advertising ID..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
@@ -270,18 +270,18 @@ function TweaksForRegistry {
     Write-Host "+ Let websites provide locally..."
     Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
     
-    CaptionTemplate -Text "Speech"
+    Caption1 -Text "Speech"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" -Name "HasAccepted" -Type DWord -Value 0
     
-    CaptionTemplate -Text "Inking & Typing Personalization"
+    Caption1 -Text "Inking & Typing Personalization"
     
     Set-ItemProperty -Path "$PathToInputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value 0
     Set-ItemProperty -Path "$PathToInputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToInputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value 1
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value 0
     
-    CaptionTemplate -Text "Diagnostics & Feedback"
+    Caption1 -Text "Diagnostics & Feedback"
     
     If (!(Test-Path "$PathToSiufRules")) {
         New-FolderForced -Path "$PathToSiufRules"
@@ -298,7 +298,7 @@ function TweaksForRegistry {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 
-    CaptionTemplate -Text "Activity History"
+    Caption1 -Text "Activity History"
 
     Write-Host "- Disabling Activity History..."
     $ActivityHistoryDisableOnZero = @(
@@ -312,36 +312,36 @@ function TweaksForRegistry {
         Set-ItemProperty -Path "$PathToActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value 0
     }
     
-    CaptionTemplate -Text "Location"
+    Caption1 -Text "Location"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
     
-    CaptionTemplate -Text "Notifications"
+    Caption1 -Text "Notifications"
     
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" -Name "Value" -Value "Deny"
     
-    CaptionTemplate -Text "App Diagnostics"
+    Caption1 -Text "App Diagnostics"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" -Name "Value" -Value "Deny"
     
-    CaptionTemplate -Text "Account Info Access"
+    Caption1 -Text "Account Info Access"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
     
-    CaptionTemplate -Text "Background Apps"
+    Caption1 -Text "Background Apps"
     
     Write-Host "- Disabling Background Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
     
-    BeautySectionTemplate -Text "Update & Security Section"
+    Section1 -Text "Update & Security Section"
     
-    CaptionTemplate -Text "Windows Update"
+    Caption1 -Text "Windows Update"
     
     Write-Host "- Disabling Automatic Download and Installation of Windows Updates..."
     New-FolderForced -Path "$PathToWindowsUpdate"
@@ -367,7 +367,7 @@ function TweaksForRegistry {
     }
     Set-ItemProperty -Path "$PathToDeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
 
-    CaptionTemplate -Text "Troubleshooting"
+    Caption1 -Text "Troubleshooting"
 
     Write-Host "+ Enabling Automatic Recommended Troubleshooting, then notify me..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsMitigation" -Name "UserPreference" -Type DWord -Value 3
@@ -413,7 +413,7 @@ function TweaksForRegistry {
     Write-Host "- Disabling 'WiFi Sense: Shared HotSpot Auto-Connect'..."
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
     
-    BeautySectionTemplate -Text "Explorer Tweaks"
+    Section1 -Text "Explorer Tweaks"
 
     Write-Host "- Removing 3D Objects from This PC..."
     Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
@@ -451,7 +451,7 @@ function TweaksForRegistry {
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 1
     }
 
-    BeautySectionTemplate -Text "These are the registry keys that it will delete."
+    Section1 -Text "These are the registry keys that it will delete."
         
     $KeysToDelete = @(
         # Remove Background Tasks
@@ -492,7 +492,7 @@ function TweaksForRegistry {
         Remove-Item $Key -Recurse # This will not be debugged
     }
 
-    BeautySectionTemplate -Text "Performance Tweaks"
+    Section1 -Text "Performance Tweaks"
     
     Write-Host "- Disabling Superfetch..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
@@ -507,7 +507,7 @@ function TweaksForRegistry {
 
 function TweaksForSecurity {
 
-    TitleWithContinuousCounter -Text "Security Tweaks"
+    Title1Counter -Text "Security Tweaks"
 
     Write-Host "+ Ensure your Windows Defender is ENABLED, if you already use another antivirus, this will make nothing."
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
@@ -577,17 +577,17 @@ function TweaksForSecurity {
 
 function PersonalTweaks {
 
-    TitleWithContinuousCounter -Text "My Personal Tweaks"
+    Title1Counter -Text "My Personal Tweaks"
 
-    BeautySectionTemplate -Text "Windows Explorer Tweaks"
+    Section1 -Text "Windows Explorer Tweaks"
 
     Write-Host "- Hiding Quick Access from Windows Explorer..."
     Set-ItemProperty -Path "$PathToExplorer" -Name "ShowFrequent" -Type DWord -Value 0
     Set-ItemProperty -Path "$PathToExplorer" -Name "ShowRecent" -Type DWord -Value 0
     Set-ItemProperty -Path "$PathToExplorer" -Name "HubMode" -Type DWord -Value 1
 
-    BeautySectionTemplate -Text "Personalization Section"
-    BeautySectionTemplate -Text "TaskBar Tweaks"
+    Section1 -Text "Personalization Section"
+    Section1 -Text "TaskBar Tweaks"
     
     Write-Host "- Hiding the search box from taskbar... (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
     Set-ItemProperty -Path "$PathToSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
@@ -622,32 +622,32 @@ function PersonalTweaks {
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value 1
 
-    CaptionTemplate -Text "Colors"
+    Caption1 -Text "Colors"
 
     Write-Host "- Disabling taskbar transparency."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
 
-    BeautySectionTemplate -Text "System Section"
+    Section1 -Text "System Section"
 
-    CaptionTemplate -Text "Multitasking"
+    Caption1 -Text "Multitasking"
 
     Write-Host "- Disabling Edge multi tabs showing on Alt + Tab..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
-    BeautySectionTemplate -Text "Devices Section"
+    Section1 -Text "Devices Section"
 
-    CaptionTemplate -Text "Bluetooth & other devices"
+    Caption1 -Text "Bluetooth & other devices"
 
     Write-Host "+ Enabling driver download over metered connections..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value 1
     
-    BeautySectionTemplate -Text "Cortana Tweaks"
+    Section1 -Text "Cortana Tweaks"
 
     Write-Host "- Disabling Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToSearch" -Name "BingSearchEnabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "$PathToSearch" -Name "CortanaConsent" -Type DWord -Value 0
     
-    BeautySectionTemplate -Text "Disabling Cortana"
+    Section1 -Text "Disabling Cortana"
 
     $CortanaDisableOnZero = @(
         "AllowCortana"
@@ -689,8 +689,8 @@ function PersonalTweaks {
     Set-ItemProperty -Path "$PathToPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    BeautySectionTemplate -Text "Network & Internet Section"
-    CaptionTemplate -Text "Proxy"
+    Section1 -Text "Network & Internet Section"
+    Caption1 -Text "Proxy"
 
     # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
     Write-Host "- Fixing Edge slowdown by NOT Automatically Detecting Settings..."
@@ -718,7 +718,7 @@ function PersonalTweaks {
     Write-Host "= Enabling Memory Compression..."
     Enable-MMAgent -MemoryCompression
 
-    BeautySectionTemplate -Text "Power Plan Tweaks"
+    Section1 -Text "Power Plan Tweaks"
 
     Write-Host "+ Setting Power Plan to High Performance..."
     Try {
@@ -743,7 +743,7 @@ function PersonalTweaks {
 
 function RemoveBloatwareApps {
 
-    TitleWithContinuousCounter -Text "Remove Bloatware Apps"
+    Title1Counter -Text "Remove Bloatware Apps"
 
     $Apps = @(
         # [Alphabetic order] Default Windows 10 apps
@@ -884,7 +884,7 @@ function RemoveBloatwareApps {
 
 function EnableFeatures {
 
-    TitleWithContinuousCounter -Text "Install additional features for Windows"
+    Title1Counter -Text "Install additional features for Windows"
     
     # Dism /online /Get-Features #/Format:Table # To find all features
     # Get-WindowsOptionalFeature -Online

@@ -64,12 +64,12 @@ function InstallPackages {
     # Install CPU drivers first
     if ($CPU.contains("AMD")) {
         
-        BeautySectionTemplate -Text "Installing AMD chipset drivers!"
+        Section1 -Text "Installing AMD chipset drivers!"
         Write-Host "Unfortunately, Chocolatey doesn't have a package for AMD"
 
 	} elseif ($CPU.contains("Intel")) {
 
-        BeautySectionTemplate -Text "Installing Intel chipset drivers!"
+        Section1 -Text "Installing Intel chipset drivers!"
         choco install "chocolatey-misc-helpers.extension" -y    # intel-dsa Dependency
         choco install "dotnet4.7" -y                            # intel-dsa Dependency
         choco install "intel-dsa" -y                            # Intel® Driver & Support Assistant (Intel® DSA)
@@ -78,17 +78,17 @@ function InstallPackages {
     
     # Install GPU drivers then
     if ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
-        BeautyTitleTemplate -Text "AMD GPU, yay! (Doing nothing)"
+        Title1 -Text "AMD GPU, yay! (Doing nothing)"
     }
     
     if ($GPU.contains("Intel")) {
-        BeautySectionTemplate -Text "Installing Intel Graphics driver!"
+        Section1 -Text "Installing Intel Graphics driver!"
         choco install "intel-graphics-driver" -y                # Intel Graphics Driver (latest)
     }
 
     if ($GPU.contains("NVIDIA")) {
 
-        BeautySectionTemplate -Text "Installing NVIDIA Graphics driver!"
+        Section1 -Text "Installing NVIDIA Graphics driver!"
         choco install "geforce-experience" -y                   # GeForce Experience (latest)
         choco feature enable -n=useRememberedArgumentsForUpgrades
         cinst geforce-game-ready-driver --package-parameters="'/dch'"
@@ -122,18 +122,18 @@ function InstallPackages {
     )
     $TotalPackagesLenght = $EssentialPackages.Length+1
 
-    BeautyTitleTemplate -Text "Installing Packages"
+    Title1 -Text "Installing Packages"
     foreach ($Package in $EssentialPackages) {
-        TitleWithContinuousCounter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
+        Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
         choco install $Package -y # --force
     }
 
     # For Java (JRE) correct installation
     if ($Architecture.contains("32-bits")) {
-        TitleWithContinuousCounter -Text "Installing: jre8 (32-bits)"
+        Title1Counter -Text "Installing: jre8 (32-bits)"
         choco install "jre8" -PackageParameters "/exclude:64" -y
     } elseif ($Architecture.contains("64-bits")) {
-        TitleWithContinuousCounter -Text "Installing: jre8 (64-bits)"
+        Title1Counter -Text "Installing: jre8 (64-bits)"
         choco install "jre8" -PackageParameters "/exclude:32" -y
     }
     
@@ -170,9 +170,9 @@ function InstallGamingPackages { # You Choose
             )
             $TotalPackagesLenght += $GamingPackages.Length
         
-            BeautyTitleTemplate -Text "Installing Packages"
+            Title1 -Text "Installing Packages"
             foreach ($Package in $GamingPackages) {
-                TitleWithContinuousCounter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
+                Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
                 choco install $Package -y # --force
             }
 
