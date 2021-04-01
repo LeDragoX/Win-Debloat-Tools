@@ -1,44 +1,44 @@
-function SimpleTitleTemplate ([String] $Text = "Test Text") {
-	Write-Host "" # Skip line
-	Write-Host "<====================< $Text >====================>" -ForegroundColor Cyan
-	Write-Host "" # Skip line
-}
-
-function BeautyTitleTemplate ([String] $Text = "Test Text") {
+function Title1 ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
 	Write-Host "<====================[ $Text ]====================>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
-function BeautySectionTemplate ([String] $Text = "Test Text") {
+function Title2 ([String] $Text = "Test Text") {
+	Write-Host "" # Skip line
+	Write-Host "<====================< $Text >====================>" -ForegroundColor Cyan
+	Write-Host "" # Skip line
+}
+
+function Section1 ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
 	Write-Host "<==========[ $Text ]==========>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
 
-function CaptionTemplate ([String] $Text = "Test Text") {
+function Caption1 ([String] $Text = "Test Text") {
 	Write-Host "--> $Text" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
-function TitleWithContinuousCounter ([String] $Text = "Test Text COUNTER", [Int] $MaxNum = $Global:MaxNum) {
+function Title1Counter ([String] $Text = "Test Text COUNTER", [Int] $MaxNum = $Global:MaxNum) {
 
-	if (!($null -eq $MaxNum)) {
+	if (!($MaxNum -eq $null)) {
 		# Initialize Global variables
 		$Global:MaxNum = $MaxNum
 	}
-	if ($null -eq $Counter) {
+	if ($Counter -eq $null) {
 		# Initialize Global variables
 		$Global:Counter = 0
 	}
 	$Global:Counter = $Counter + 1
-	SimpleTitleTemplate "( $Counter/$Global:MaxNum ) - [$Text]"
+	Title1 "( $Counter/$Global:MaxNum ) - [$Text]"
 }
 
 # Demo:
-# SimpleTitleTemplate -Text "Text"
-# BeautyTitleTemplate -Text "Text"
-# BeautySectionTemplate -Text "Text"
-# CaptionTemplate -Text "Text"
-# TitleWithContinuousCounter -Text "Text"
+# Title1 -Text "Text"
+# Title2 -Text "Text"
+# Section1 -Text "Text"
+# Caption1 -Text "Text"
+# Title1Counter -Text "Text" -MaxNum 100 # First time only insert MaxNum

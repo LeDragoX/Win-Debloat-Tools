@@ -51,32 +51,32 @@ function RunScripts {
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
         
         Clear-Host
-        SimpleTitleTemplate -Text "backup-system.ps1"
+        Title2 -Text "backup-system.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
         Clear-Host
-        SimpleTitleTemplate -Text "all-in-one-tweaks.ps1"
+        Title2 -Text "all-in-one-tweaks.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
         Clear-Host
-        SimpleTitleTemplate -Text "fix-privacy-settings.ps1"
+        Title2 -Text "fix-privacy-settings.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
         Clear-Host
-        SimpleTitleTemplate -Text "optimize-user-interface.ps1"
+        Title2 -Text "optimize-user-interface.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
         Clear-Host
-        SimpleTitleTemplate -Text "remove-onedrive.ps1"
+        Title2 -Text "remove-onedrive.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
         Clear-Host
-        SimpleTitleTemplate -Text "manual-debloat-softwares.ps1"
+        Title2 -Text "manual-debloat-softwares.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"manual-debloat-softwares.ps1"
         # pause ### FOR DEBUGGING PURPOSES
 
@@ -88,7 +88,7 @@ function RunScripts {
                 Write-Host "You choose Yes."
 
                 Clear-Host
-                SimpleTitleTemplate -Text "repair-windows.ps1"
+                Title2 -Text "repair-windows.ps1"
                 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"repair-windows.ps1"
             }
             'No' {
