@@ -26,7 +26,8 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 ## Softwares that'll be Installed:
 
 - Obviously, [Chocolatey](https://chocolatey.org/why-chocolatey) !!!
-- The Lastest Graphics driver of your GPU (Except AMD. See [Intel](https://chocolatey.org/packages/intel-graphics-driver), including [DSA](https://chocolatey.org/packages/intel-dsa) and [NVIDIA](https://chocolatey.org/packages/geforce-game-ready-driver), including [GeForce Experience](https://chocolatey.org/packages/geforce-experience));
+- The Latest CPU ([Intel only](https://community.chocolatey.org/packages/intel-dsa)) driver installer;
+- The Lastest Graphics driver of your GPU (Except AMD. See [Intel](https://chocolatey.org/packages/intel-graphics-driver) and [NVIDIA](https://chocolatey.org/packages/geforce-game-ready-driver), including [GeForce Experience](https://chocolatey.org/packages/geforce-experience));
 - [7-Zip](https://chocolatey.org/packages/7zip);
 - [Google Chrome](https://chocolatey.org/packages/GoogleChrome);
 - [Notepad++](https://chocolatey.org/packages/notepadplusplus.install);
@@ -53,7 +54,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - [Visual C++ Redistributable Packages for Visual Studio 2013](https://chocolatey.org/packages/vcredist2013)
 - [Microsoft Visual C++ Redistributable for Visual Studio 2015-2019](https://chocolatey.org/packages/vcredist140);
 
-### These listed now are OPTIONAL, if you want to install them, just remove the # ( DIY ;D ).
+### These listed below are OPTIONAL, if you want to install them, just remove the # ( DIY ;D ).
 
 - [Audacity](https://chocolatey.org/packages/audacity);
 - [Brave](https://chocolatey.org/packages/brave/1.19.86);
@@ -69,27 +70,3 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 #### DIY From the Gaming part:
 
 - [Origin](https://chocolatey.org/packages/origin).
-
-## LICENSE
-
-    MIT License
-
-    Copyright (c) 2021 Plínio Larrubia
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
