@@ -153,8 +153,9 @@ function InstallGamingPackages { # You Choose
             $GamingPackages = @(
                 "directx"           # DirectX End-User Runtimes
                 "discord.install"   # Discord
-                "dotnet"            # .NET
-                "dotnetfx"          # Microsoft .NET Framework (Latest)
+                "dotnet"            # Microsoft .NET (v5 +)
+                "dotnet-runtime"    # Microsoft .NET Runtime (v5 +)
+                "dotnetfx"          # Microsoft .NET Framework (Before v5)
                 "parsec"            # Parsec
                 "steam"             # Steam
                 "vcredist2005"      # Microsoft Visual C++ 2005 SP1 Redistributable Package
