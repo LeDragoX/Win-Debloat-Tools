@@ -143,7 +143,8 @@ $Ask = "Do you plan to play Games on this Machine?
 All important Gaming clients and Required Game Softwares to Run Games will be installed.
 + Discord
 + Parsec
-+ Steam"
++ Steam
++ Microsoft DX & .NET & C++ Packages"
 function InstallGamingPackages { # You Choose
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
@@ -174,7 +175,7 @@ function InstallGamingPackages { # You Choose
             Title1 -Text "Installing Packages"
             foreach ($Package in $GamingPackages) {
                 Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
-                choco install $Package -y # --force
+                choco install $Package -y # --force # to reinstall
             }
 
         }
