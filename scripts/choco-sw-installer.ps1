@@ -152,23 +152,23 @@ function InstallGamingPackages { # You Choose
 
             Write-Host "You choose Yes."
             $GamingPackages = @(
-                "directx"           # DirectX End-User Runtimes
-                "discord.install"   # Discord
-                "dotnet"            # Microsoft .NET (v5 +)
-                "dotnet-runtime"    # Microsoft .NET Runtime (v5 +)
-                "dotnetfx"          # Microsoft .NET Framework (Before v5)
-                "parsec"            # Parsec
-                "steam"             # Steam
-                "vcredist2005"      # Microsoft Visual C++ 2005 SP1 Redistributable Package
-                "vcredist2008"      # Microsoft Visual C++ 2008 SP1 Redistributable Package
-                "vcredist2010"      # Microsoft Visual C++ 2010 Redistributable Package
-                "vcredist2012"      # Microsoft Visual C++ 2012 Redistributable Package
-                "vcredist2013"      # Visual C++ Redistributable Packages for Visual Studio 2013
-                "vcredist140"       # Microsoft Visual C++ Redistributable for Visual Studio 2015-2019
+                "directx"               # DirectX End-User Runtimes
+                "discord.install"       # Discord
+                "dotnetfx"              # Microsoft .NET Framework (Before v5)
+                "dotnet"                # Microsoft .NET (v5 +)
+                "dotnet-desktopruntime" # Microsoft .NET Desktop Runtime (v5 +)
+                "parsec"                # Parsec
+                "steam"                 # Steam
+                "vcredist2005"          # Microsoft Visual C++ 2005 SP1 Redistributable Package
+                "vcredist2008"          # Microsoft Visual C++ 2008 SP1 Redistributable Package
+                "vcredist2010"          # Microsoft Visual C++ 2010 Redistributable Package
+                "vcredist2012"          # Microsoft Visual C++ 2012 Redistributable Package
+                "vcredist2013"          # Visual C++ Redistributable Packages for Visual Studio 2013
+                "vcredist140"           # Microsoft Visual C++ Redistributable for Visual Studio 2015-2019
                 
                 # [DIY] Remove the # if you want to install something.
 
-                #"origin"       # [DIY] I don't like Origin
+                #"origin"               # [DIY] I don't like Origin
             )
             $TotalPackagesLenght += $GamingPackages.Length
         
