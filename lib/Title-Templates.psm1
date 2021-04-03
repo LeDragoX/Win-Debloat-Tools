@@ -6,7 +6,7 @@ function Title1 ([String] $Text = "Test Text") {
 
 function Title2 ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
-	Write-Host "<====================< $Text >====================>" -ForegroundColor Cyan
+	Write-Host "<====================< $Text >====================>" -ForegroundColor Yellow
 	Write-Host "" # Skip line
 }
 
