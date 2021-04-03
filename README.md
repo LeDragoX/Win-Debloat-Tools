@@ -16,8 +16,8 @@ but you'll probably want the most recent version anyway.
 
 ## Resume
 
-This project is a modified version of [another project](https://github.com/W4RH4WK/Debloat-Windows-10)
-that was made for *Debloat* and *Tweak* Windows 10 for *better performance* and *less issues*.
+This is a improved version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10). 
+These scripts will Customize, Debloat and Improve Security/Performance on Windows 10.
 
 ## Roll-Back
 
