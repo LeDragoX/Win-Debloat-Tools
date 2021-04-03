@@ -193,7 +193,7 @@ function PrepareGUI {
 
     # Button 6
     $ChocolateySwInstaller              = New-Object system.Windows.Forms.Button
-    $ChocolateySwInstaller.text         = "Install Basic Programs"
+    $ChocolateySwInstaller.text         = "Install Basic Programs (Chocolatey)"
     $ChocolateySwInstaller.width        = 200
     $ChocolateySwInstaller.height       = 70
     $ChocolateySwInstaller.location     = New-Object System.Drawing.Point(10,50)
