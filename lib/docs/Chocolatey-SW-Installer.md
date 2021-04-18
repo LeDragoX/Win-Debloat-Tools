@@ -1,5 +1,5 @@
 <h1>
-    <img width=30px src="./../lib/images/Windows-10-logo.png"> Win10 Basic SW Install 
+    <img width=30px src="./../lib/images/Windows-10-logo.png"> Chocolatey Software Installer 
     <img width=30px src="./../lib/images/PowerShell-icon.png">
 </h1>
 
