@@ -1,6 +1,6 @@
 <h1>
-    <img width=30px src="./../lib/images/Windows-10-logo.png"> Chocolatey Software Installer 
-    <img width=30px src="./../lib/images/PowerShell-icon.png">
+    <img width=30px src="./../images/Windows-10-logo.png"> Chocolatey Software Installer 
+    <img width=30px src="./../images/PowerShell-icon.png">
 </h1>
 
 This was made to install all needed softwares on a Post-Install Windows.
