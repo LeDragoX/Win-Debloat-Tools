@@ -204,6 +204,7 @@ function PrepareGUI {
     # Button 1 Mouse Click listener
     $automatedTweaks.Add_Click({
 
+        $Global:NeedRestart = $true
         Push-Location -Path .\scripts
     
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
@@ -242,15 +243,16 @@ function PrepareGUI {
     # Button 2 Mouse Click listener
     $uiTweaks.Add_Click({
 
+        $Global:NeedRestart = $true
         Push-Location -Path .\scripts
-    
+        
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
+            
             Clear-Host
             Title2 -Text "manual-debloat-softwares.ps1"
             PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"manual-debloat-softwares.ps1"
             # pause ### FOR DEBUGGING PURPOSES
-
+        
         Pop-Location
         Write-Host "Done!"
 
@@ -259,6 +261,7 @@ function PrepareGUI {
     # Button 3 Mouse Click listener
     $FixProblems.Add_Click({
 
+        $Global:NeedRestart = $true
         Push-Location -Path .\scripts
     
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
@@ -373,8 +376,12 @@ UnrestrictPermissions       # Unlock script usage
 SetupConsoleStyle           # Just fix the font on the PS console
 
 Write-Host "Oh yeah, there's a bug where i load a Script and nothing is Outputed..."
+$Global:NeedRestart = $false
 PrepareGUI                  # Load the GUI
 
-PromptPcRestart             # Prompt options to Restart the PC
+if ($NeedRestart -eq $true) {
+    PromptPcRestart             # Prompt options to Restart the PC
+}
+
 RestrictPermissions         # Lock script usage
 Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
