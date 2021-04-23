@@ -65,7 +65,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - Import all necessary Modules before Executing everything; ([lib folder](lib/))
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./scripts/backup-system.ps1))
-- Run WinAero Tweaker for Extra UI Customization and tell how to import my Profile; ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
 - Download OOShutUp10 and import my Configuration file; ([`all-in-one-tweaks.ps1`](./scripts/all-in-one-tweaks.ps1))
 - Download AdwCleaner and Run the latest version of for Virus/Adware scan;
 - Disable Telemetry from Scheduled Tasks and Optimize it;
@@ -78,6 +77,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - [Default] Fix more Privacy problems via Registry and Commands; ([`fix-privacy-settings.ps1`](./scripts/fix-privacy-settings.ps1))
 - Optimize the Default Windows UI to look more Clean, and fixes the Mouse; ([`optimize-user-interface.ps1`](./scripts/optimize-user-interface.ps1))
 - [Default] Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
+- Run WinAero Tweaker for Extra UI Customization and tell how to import my Profile; ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
 - [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
 - In the End it Locks Script's Usage Permission. ([`Win10Script.ps1`](./Win10Script.ps1))
 
