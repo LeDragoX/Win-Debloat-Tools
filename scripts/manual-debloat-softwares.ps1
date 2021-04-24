@@ -28,7 +28,7 @@ function RunManualDebloatSoftwares {
         Pop-Location
         
         CountNseconds -Time 2 -Msg "Waiting" # Count 2 seconds then show the Message
-        ShowMessage -Title "DON'T CLOSE YET" -Message $Message
+        ShowMessage -Title "Close when finished" -Message $Message
         Taskkill /F /IM "WinaeroTweaker.exe"
         Taskkill /F /IM "WinaeroTweakerHelper.exe"
         Remove-Item ".\Winaero Tweaker\" -Exclude "*.ini" -Force -Recurse
