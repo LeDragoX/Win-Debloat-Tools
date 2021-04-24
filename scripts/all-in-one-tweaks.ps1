@@ -18,7 +18,6 @@ $CPU = DetectCPU
 # Initialize all Path variables used to Registry Tweaks
 $Global:PathToActivityHistory =         "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
 $Global:PathToCloudContent =            "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-$Global:PathToCortana =                 "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 $Global:PathToContentDeliveryManager =  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
 $Global:PathToDeliveryOptimization =    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization"
 $Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
@@ -57,15 +56,6 @@ function RunDebloatSoftwares {
 
     Pop-Location
     
-    Push-Location "..\utils"
-        Write-Host "+ Enabling Dark theme..."
-        regedit /s dark-theme.reg
-        Write-Host "+ Enabling photo viewer..."
-        regedit /s enable-photo-viewer.reg
-        Write-Host "+ Lowering the RAM usage..."
-        regedit /s lower-ram-usage.reg
-    Pop-Location
-
 }
 
 function TweaksForScheduledTasks {
@@ -579,6 +569,17 @@ function PersonalTweaks {
 
     Title1Counter -Text "My Personal Tweaks"
 
+    Push-Location "..\utils"
+        Write-Host "+ Enabling Dark theme..."
+        regedit /s dark-theme.reg
+        Write-Host "- Disabling Cortana..."
+        regedit /s disable-cortana.reg
+        Write-Host "+ Enabling photo viewer..."
+        regedit /s enable-photo-viewer.reg
+        Write-Host "+ Lowering the RAM usage..."
+        regedit /s lower-ram-usage.reg
+    Pop-Location
+
     Section1 -Text "Windows Explorer Tweaks"
 
     Write-Host "- Hiding Quick Access from Windows Explorer..."
@@ -646,20 +647,6 @@ function PersonalTweaks {
     Write-Host "- Disabling Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToSearch" -Name "BingSearchEnabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "$PathToSearch" -Name "CortanaConsent" -Type DWord -Value 0
-    
-    Section1 -Text "Disabling Cortana"
-
-    $CortanaDisableOnZero = @(
-        "AllowCortana"
-        "AllowCloudSearch"
-        "ConnectedSearchUseWeb"
-    )
-    foreach ($Name in $CortanaDisableOnZero) {
-        Write-Host "[Registry] From Path: [$PathToCortana]"
-        Write-Host "[Registry] Setting $Name value: 0"
-        Set-ItemProperty -Path "$PathToCortana" -Name "$Name" -Type DWord -Value 0
-    }
-    Set-ItemProperty -Path "$PathToCortana" -Name "DisableWebSearch" -Type DWord -Value 1
 
     # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
     Write-Host "+ Showing task manager details..."
