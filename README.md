@@ -36,20 +36,21 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 
 ### Easy way (Prepare and Run once):
 
-#### CLI (With Output working)
+#### GUI
+
+- Copy and Paste this entire line below on **Powershell**:
+```Powershell
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
+```
+![Script GUI](./lib/images/Script-GUI.png)
+*The `Automated Tweaks` button is the main one.*
+
+#### CLI
 
 - Copy and Paste this entire line below on **Powershell**:
 ```Powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10Script.ps1"
 ```
-
-#### GUI ( WIP, Without Output working )
-- Copy and Paste this entire line below on **Powershell**:
-```Powershell
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
-```
-
-![Script GUI](./lib/images/Script-GUI.png)
 
 **[Scripts](/scripts) can be run individually, pick what you need.**
 
