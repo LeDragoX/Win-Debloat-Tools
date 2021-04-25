@@ -720,11 +720,27 @@ function PersonalTweaks {
     }
 
     # Found on the registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\Default\PowerSchemes
-    Write-Host "+ Enabling (Not activating) the Ultimate Performance Power Plan..."
+    Write-Host "+ Enabling (Not setting) the Ultimate Performance Power Plan..."
     powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
 
     Write-Host "= Fix Hibernate not working..."
     powercfg -h -type reduced
+
+    Write-Host "+ Setting the Monitor Timeout to 10 min (AC = Alternating Current, DC = Direct Current)"
+    powercfg -Change Monitor-Timeout-AC 10
+    powercfg -Change Monitor-Timeout-DC 10
+
+    Write-Host "+ Setting the Disk Timeout to 10 min"
+    powercfg -Change Disk-Timeout-AC 10
+    powercfg -Change Disk-Timeout-DC 10
+
+    Write-Host "+ Setting the Standby Timeout to 10 min"
+    powercfg -Change Standby-Timeout-AC 10
+    powercfg -Change Standby-Timeout-DC 10
+
+    Write-Host "+ Setting the Hibernate Timeout to 10 min"
+    powercfg -Change Hibernate-Timeout-AC 10
+    powercfg -Change Hibernate-Timeout-DC 10
 
 }
 
