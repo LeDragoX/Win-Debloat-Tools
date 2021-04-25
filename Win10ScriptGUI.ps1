@@ -103,7 +103,7 @@ function PrepareGUI {
     $automatedTweaks.text               = "Automated Tweaks"
     $automatedTweaks.width              = 200
     $automatedTweaks.height             = 70
-    $automatedTweaks.location           = New-Object System.Drawing.Point(25,50)
+    $automatedTweaks.location           = New-Object System.Drawing.Point(25,40)
     $automatedTweaks.Font               = New-Object System.Drawing.Font('Arial',12)
     $automatedTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue") # Light Blue
     $Panel1.Controls.Add($automatedTweaks)
@@ -113,7 +113,7 @@ function PrepareGUI {
     $uiTweaks.text                      = "UI/UX Tweaks (WinAero)"
     $uiTweaks.width                     = 200
     $uiTweaks.height                    = 70
-    $uiTweaks.location                  = New-Object System.Drawing.Point(25,140)
+    $uiTweaks.location                  = New-Object System.Drawing.Point(25,130)
     $uiTweaks.Font                      = New-Object System.Drawing.Font('Arial',12)
     $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray") # Light Gray
     $Panel1.Controls.Add($uiTweaks)
@@ -123,7 +123,7 @@ function PrepareGUI {
     $FixProblems.text                   = "Fix Windows Problems"
     $FixProblems.width                  = 200
     $FixProblems.height                 = 70
-    $FixProblems.location               = New-Object System.Drawing.Point(25,230)
+    $FixProblems.location               = New-Object System.Drawing.Point(25,220)
     $FixProblems.Font                   = New-Object System.Drawing.Font('Arial',12)
     $FixProblems.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel1.Controls.Add($FixProblems)    
@@ -151,7 +151,7 @@ function PrepareGUI {
     $CaptionLabel1.AutoSize             = $true
     $CaptionLabel1.width                = 25
     $CaptionLabel1.height               = 10
-    $CaptionLabel1.location             = New-Object System.Drawing.Point(80,30)
+    $CaptionLabel1.location             = New-Object System.Drawing.Point(80,35)
     $CaptionLabel1.Font                 = New-Object System.Drawing.Font('Arial',14)
     $CaptionLabel1.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("$Green")
     $Panel2.Controls.Add($CaptionLabel1)    
@@ -161,7 +161,7 @@ function PrepareGUI {
     $DarkMode.text                      = "Dark Mode"
     $DarkMode.width                     = 200
     $DarkMode.height                    = 30
-    $DarkMode.location                  = New-Object System.Drawing.Point(25,60)
+    $DarkMode.location                  = New-Object System.Drawing.Point(25,65)
     $DarkMode.Font                      = New-Object System.Drawing.Font('Arial',12)
     $DarkMode.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$White")
     $DarkMode.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("$Black")
@@ -172,7 +172,7 @@ function PrepareGUI {
     $LightMode.text                     = "Light Mode"
     $LightMode.width                    = 200
     $LightMode.height                   = 30
-    $LightMode.location                 = New-Object System.Drawing.Point(25,95)
+    $LightMode.location                 = New-Object System.Drawing.Point(25,100)
     $LightMode.Font                     = New-Object System.Drawing.Font('Arial',12)
     $LightMode.ForeColor                = [System.Drawing.ColorTranslator]::FromHtml("$Black")
     $LightMode.BackColor                = [System.Drawing.ColorTranslator]::FromHtml("$White")
@@ -184,7 +184,7 @@ function PrepareGUI {
     $CaptionLabel2.AutoSize             = $true
     $CaptionLabel2.width                = 25
     $CaptionLabel2.height               = 10
-    $CaptionLabel2.location             = New-Object System.Drawing.Point(80,130)
+    $CaptionLabel2.location             = New-Object System.Drawing.Point(80,135)
     $CaptionLabel2.Font                 = New-Object System.Drawing.Font('Arial',14)
     $CaptionLabel2.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("$Green")
     $Panel2.Controls.Add($CaptionLabel2)
@@ -194,17 +194,17 @@ function PrepareGUI {
     $EnableCortana.text                      = "Enable"
     $EnableCortana.width                     = 200
     $EnableCortana.height                    = 30
-    $EnableCortana.location                  = New-Object System.Drawing.Point(25,160)
+    $EnableCortana.location                  = New-Object System.Drawing.Point(25,165)
     $EnableCortana.Font                      = New-Object System.Drawing.Font('Arial',12)
     $EnableCortana.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel2.Controls.Add($EnableCortana)
 
-    # Panel 2 ~> Button 3
+    # Panel 2 ~> Button 4
     $DisableCortana                           = New-Object system.Windows.Forms.Button
     $DisableCortana.text                      = "Disable"
     $DisableCortana.width                     = 200
     $DisableCortana.height                    = 30
-    $DisableCortana.location                  = New-Object System.Drawing.Point(25,195)
+    $DisableCortana.location                  = New-Object System.Drawing.Point(25,200)
     $DisableCortana.Font                      = New-Object System.Drawing.Font('Arial',12)
     $DisableCortana.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel2.Controls.Add($DisableCortana)
@@ -231,7 +231,7 @@ function PrepareGUI {
     $ChocolateySwInstaller.text         = "Install Basic Programs (Chocolatey)"
     $ChocolateySwInstaller.width        = 200
     $ChocolateySwInstaller.height       = 70
-    $ChocolateySwInstaller.location     = New-Object System.Drawing.Point(10,50)
+    $ChocolateySwInstaller.location     = New-Object System.Drawing.Point(10,40)
     $ChocolateySwInstaller.Font         = New-Object System.Drawing.Font('Arial',12)
     $ChocolateySwInstaller.ForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel3.Controls.Add($ChocolateySwInstaller)    
