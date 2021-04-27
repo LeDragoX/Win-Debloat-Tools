@@ -274,7 +274,7 @@ function TweaksForRegistry {
     Caption1 -Text "Diagnostics & Feedback"
     
     If (!(Test-Path "$PathToSiufRules")) {
-        New-FolderForced -Path "$PathToSiufRules"
+        New-Item -Path "$PathToSiufRules" -Force | Out-Null
     }
     If ((Test-Path "$PathToSiufRules\PeriodInNanoSeconds")){
         Remove-ItemProperty -Path "$PathToSiufRules" -Name "PeriodInNanoSeconds"
@@ -334,7 +334,9 @@ function TweaksForRegistry {
     Caption1 -Text "Windows Update"
     
     Write-Host "- Disabling Automatic Download and Installation of Windows Updates..."
-    New-FolderForced -Path "$PathToWindowsUpdate"
+    If (!(Test-Path "$PathToWindowsUpdate")) {
+        New-Item -Path "$PathToWindowsUpdate" -Force | Out-Null
+    }
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value 0
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
@@ -350,10 +352,10 @@ function TweaksForRegistry {
     Write-Host "(0 = Off, 1 = Local Network only, 2 = Local Network private peering only      )"
     Write-Host "(3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
     If (!(Test-Path "$PathToDeliveryOptimization")) {
-        New-FolderForced -Path "$PathToDeliveryOptimization"
+        New-Item -Path "$PathToDeliveryOptimization" -Force | Out-Null
     }
     If (!(Test-Path "$PathToDeliveryOptimization\Config")) {
-        New-FolderForced -Path "$PathToDeliveryOptimization\Config"
+        New-Item -Path "$PathToDeliveryOptimization\Config" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToDeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
 
@@ -380,7 +382,7 @@ function TweaksForRegistry {
         Set-ItemProperty -Path "$PathToCloudContent" -Name "$Name" -Type DWord -Value 1
     }
     If (!(Test-Path "$PathToCloudContent")) {
-        New-FolderForced -Path "$PathToCloudContent"
+        New-Item -Path "$PathToCloudContent" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToCloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
     Set-ItemProperty -Path "$PathToCloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
@@ -601,7 +603,7 @@ function PersonalTweaks {
 
     Write-Host "- Disabling Live Tiles..."
     if (!(Test-Path "$PathToLiveTiles")) {
-        New-FolderForced -Path "$PathToLiveTiles"
+        New-Item -Path "$PathToLiveTiles" -Force | Out-Null
     }
     Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value 1
 
@@ -665,13 +667,13 @@ function PersonalTweaks {
 
     Write-Host "- Disabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToWindowsStore")) {
-        New-FolderForced -Path "$PathToWindowsStore"
+        New-Item -Path "$PathToWindowsStore" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToWindowsStore" -Name "AutoDownload" -Type DWord -Value 2
     
     Write-Host "+ Unlimiting your network bandwitdh for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
     If (!(Test-Path "$PathToPsched")) {
-        New-FolderForced -Path "$PathToPsched"
+        New-Item -Path "$PathToPsched" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
