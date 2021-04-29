@@ -36,7 +36,7 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 
 ### Easy way (Prepare and Run once):
 
-#### GUI
+#### GUI (Advice - Some of the output still missing from the console, not something to worry about, just the % and ETA from some commands)
 
 - Copy and Paste this entire line below on **Powershell**:
 ```Powershell
