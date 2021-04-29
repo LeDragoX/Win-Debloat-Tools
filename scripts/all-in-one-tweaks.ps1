@@ -188,10 +188,9 @@ function TweaksForRegistry {
 
     Title1Counter -Text "Registry Tweaks"
     Title1 -Text "Remove Telemetry & Data Collection"
-
     Section1 -Text "Personalization Section"
-        
     Caption1 -Text "? & ? & Start & Lockscreen"
+
     Write-Host "- Disabling Show me the windows welcome experience after updates..."
     Write-Host "- Disabling 'Get fun facts and tips, etc. on lock screen'..."
     
@@ -246,18 +245,19 @@ function TweaksForRegistry {
     Set-ItemProperty -Path "$PathToGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
     
-    Section1 -Text "Display Section"
+    Section1 -Text "System Section"
+    Caption1 -Text "Display"
+
     Write-Host "+ Enable Hardware Accelerated GPU Scheduling... (Windows 10 2004 + NVIDIA 10 Series Above + AMD 5000 and Above)"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
     
     Section1 -Text "Privacy Section"
-    
     Caption1 -Text "General"
     
-    Write-Host "+ Settings --> Privacy --> General --> Let apps use my advertising ID..."
+    Write-Host "- Let apps use NOT my advertising ID..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
     
-    Write-Host "+ Let websites provide locally..."
+    Write-Host "- Let websites provide locally..."
     Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
     
     Caption1 -Text "Speech"
@@ -330,7 +330,6 @@ function TweaksForRegistry {
     Set-ItemProperty -Path "$PathToSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
     
     Section1 -Text "Update & Security Section"
-    
     Caption1 -Text "Windows Update"
     
     Write-Host "- Disabling Automatic Download and Installation of Windows Updates..."
@@ -443,7 +442,7 @@ function TweaksForRegistry {
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 1
     }
 
-    Section1 -Text "These are the registry keys that it will delete."
+    Section1 -Text "Deleting useless registry keys..."
         
     $KeysToDelete = @(
         # Remove Background Tasks
@@ -631,14 +630,12 @@ function PersonalTweaks {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
 
     Section1 -Text "System Section"
-
     Caption1 -Text "Multitasking"
 
     Write-Host "- Disabling Edge multi tabs showing on Alt + Tab..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
     Section1 -Text "Devices Section"
-
     Caption1 -Text "Bluetooth & other devices"
 
     Write-Host "+ Enabling driver download over metered connections..."
