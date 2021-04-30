@@ -723,7 +723,8 @@ function PersonalTweaks {
     powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
 
     Write-Host "= Fix Hibernate not working..."
-    powercfg -h -type reduced
+    powercfg -h on
+    powercfg -h -type full
 
     Write-Host "+ Setting the Monitor Timeout to 10 min (AC = Alternating Current, DC = Direct Current)"
     powercfg -Change Monitor-Timeout-AC 10
