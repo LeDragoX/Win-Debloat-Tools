@@ -232,25 +232,7 @@ function TweaksForRegistry {
     If (Test-Path "$PathToContentDeliveryManager\SuggestedApps") {
         Remove-Item -Path "$PathToContentDeliveryManager\SuggestedApps" -Recurse
     }
-    
-    Section1 -Text "Gaming Section"
-    
-    Write-Host "- Disabling Game Bar & Game DVR..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
-    
-    Write-Host "+ Enabling game mode..."
-    Set-ItemProperty -Path "$PathToGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
-    
-    Section1 -Text "System Section"
-    Caption1 -Text "Display"
-
-    Write-Host "+ Enable Hardware Accelerated GPU Scheduling... (Windows 10 2004 + NVIDIA 10 Series Above + AMD 5000 and Above)"
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
-    
+        
     Section1 -Text "Privacy Section"
     Caption1 -Text "General"
     
@@ -277,7 +259,7 @@ function TweaksForRegistry {
         New-Item -Path "$PathToSiufRules" -Force | Out-Null
     }
     If ((Test-Path "$PathToSiufRules\PeriodInNanoSeconds")){
-        Remove-ItemProperty -Path "$PathToSiufRules" -Name "PeriodInNanoSeconds"
+        Remove-ItemProperty -Path "$PathToSiufRules" -Name "PeriodInNanoSeconds" -Force
     }
     Set-ItemProperty -Path "$PathToSiufRules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack" -Name "ShowedToastAtLevel" -Type DWord -Value 1
@@ -298,7 +280,7 @@ function TweaksForRegistry {
     )
     foreach ($Name in $ActivityHistoryDisableOnZero) {
         Write-Host "[Registry] From Path: [$PathToActivityHistory]"
-        Write-Host "[Registry] Setting $Name value: 1"
+        Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path "$PathToActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value 0
     }
     
@@ -387,7 +369,6 @@ function TweaksForRegistry {
     Set-ItemProperty -Path "$PathToCloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
     
     Write-Host "- Disabling Apps Suggestions..."
-    
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableThirdPartySuggestions" -Type DWord -Value 1
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
     
@@ -404,6 +385,24 @@ function TweaksForRegistry {
     Write-Host "- Disabling 'WiFi Sense: Shared HotSpot Auto-Connect'..."
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
     
+    Section1 -Text "Gaming Section"
+    
+    Write-Host "- Disabling Game Bar & Game DVR..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
+    
+    Write-Host "+ Enabling game mode..."
+    Set-ItemProperty -Path "$PathToGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
+    
+    Section1 -Text "System Section"
+    Caption1 -Text "Display"
+
+    Write-Host "+ Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
+
     Section1 -Text "Explorer Tweaks"
 
     Write-Host "- Removing 3D Objects from This PC..."
@@ -480,19 +479,37 @@ function TweaksForRegistry {
             continue
         }
         Write-Host "[Registry] Removing [$Key]..."
-        Remove-Item $Key -Recurse # This will not be debugged
+        Remove-Item $Key -Recurse -Force # This will not be debugged
     }
+
+    # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
+    Write-Host "+ Showing task manager details..."
+    $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
+    Do {
+        Start-Sleep -Milliseconds 100
+        $preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+    } Until ($preferences)
+    Stop-Process $taskmgr
+    $preferences.Preferences[28] = 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
 
     Section1 -Text "Performance Tweaks"
     
-    Write-Host "- Disabling Superfetch..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name EnableSuperfetch -Type DWord -Value 0
+    Write-Host "- Disabling Superfetch and APPs Prelaunching..."
+    # Superfetch isn't SAME as Prefetcher (0 = Disable Superfetch, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnableSuperfetch" -Type DWord -Value 0
+    Disable-MMAgent -ApplicationPreLaunch
+    Write-Host "= Keep Prefetcher Optimization Enabled..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnablePrefetcher" -Type DWord -Value 3
     
     Write-Host "- Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
     
     Write-Host "- Disabling Ndu High RAM Usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
+
+    Write-Host "+ Splitting SVCHost processes to lower RAM usage..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value 4194304
 
 }
 
@@ -502,6 +519,17 @@ function TweaksForSecurity {
 
     Write-Host "+ Ensure your Windows Defender is ENABLED, if you already use another antivirus, this will make nothing."
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
+
+    Write-Host "+ Enabling Microsoft Defender Exploit Guard network protection... (if you already use another antivirus, this will make nothing)"
+    Set-MpPreference -EnableNetworkProtection Enabled -Force
+
+    Write-Host "+ Enabling detection for potentially unwanted applications and block them... (if you already use another antivirus, this will make nothing)"
+    Set-MpPreference -PUAProtection Enabled -Force
+
+    # Make Windows Defender run in Sandbox Mode (Will run on background MsMpEngCP.exe and MsMpEng.exe)
+    # Why? https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
+    Write-Host "+ Enabling Windows Defender Sandbox mode... (if you already use another antivirus, this will make nothing)"
+    setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 
     # https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858
     Write-Host "= Disabling SMB 1.0 protocol..."
@@ -527,11 +555,6 @@ function TweaksForSecurity {
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
 
-    # Make Windows Defender run in Sandbox Mode (Will run on background MsMpEngCP.exe and MsMpEng.exe)
-    # Why? https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
-    Write-Host "+ Enabling Windows Defender Sandbox mode... (if you already use another antivirus, this will make nothing)"
-    setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
-
     # https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
     Write-Host "+ Raising UAC level..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System")) {
@@ -544,7 +567,7 @@ function TweaksForSecurity {
 	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
         New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Force | Out-Null
 	}
-    if ($CPU.contains("Intel")) {
+    if ($CPU.contains("Intel" -or "ARM")) {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
     } else {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 1
@@ -577,8 +600,6 @@ function PersonalTweaks {
         regedit /s disable-cortana.reg
         Write-Host "+ Enabling photo viewer..."
         regedit /s enable-photo-viewer.reg
-        Write-Host "+ Lowering the RAM usage..."
-        regedit /s lower-ram-usage.reg
     Pop-Location
 
     Section1 -Text "Windows Explorer Tweaks"
@@ -647,17 +668,6 @@ function PersonalTweaks {
     Set-ItemProperty -Path "$PathToSearch" -Name "BingSearchEnabled" -Type DWord -Value 0
 	Set-ItemProperty -Path "$PathToSearch" -Name "CortanaConsent" -Type DWord -Value 0
 
-    # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
-    Write-Host "+ Showing task manager details..."
-    $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
-    Do {
-        Start-Sleep -Milliseconds 100
-        $preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
-    } Until ($preferences)
-    Stop-Process $taskmgr
-    $preferences.Preferences[28] = 0
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
-
     Write-Host "+ Keep ENABLED Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
     Enable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting"
@@ -683,7 +693,6 @@ function PersonalTweaks {
     $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
     $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings
     $data[8] = 3
-    
     Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data    
 
     Write-Host "+ Setting time to UTC..."
