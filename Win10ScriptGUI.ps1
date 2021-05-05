@@ -48,6 +48,9 @@ function PromptPcRestart {
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 function PrepareGUI {
 
+    $DoneTitle      = "Done"
+    $DoneMessage    = "Proccess Completed!"
+
     # <=== COLORS ===>
 
     $Black      = "#000000"
@@ -280,7 +283,7 @@ function PrepareGUI {
         Pop-Location
         Clear-Host
 
-        Write-Host "Done!"
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })    
 
     # Panel 1 ~> Button 2 Mouse Click listener
@@ -297,7 +300,7 @@ function PrepareGUI {
             # pause ### FOR DEBUGGING PURPOSES
         
         Pop-Location
-        Write-Host "Done!"
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
 
     })
 
@@ -334,7 +337,7 @@ function PrepareGUI {
             }
 
         Pop-Location
-        Write-Host "Done!"
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
 
     })
 
@@ -364,6 +367,7 @@ function PrepareGUI {
         $DisableCortana.BackColor           = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
 
         $Form.Update()
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })
 
     # Panel 2 ~> Button 2 Mouse Click listener
@@ -391,6 +395,7 @@ function PrepareGUI {
         $DisableCortana.BackColor           = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
 
         $Form.Update()
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })
 
     # Panel 2 ~> Button 3 Mouse Click listener
@@ -401,6 +406,7 @@ function PrepareGUI {
             regedit /s enable-cortana.reg
         Pop-Location
 
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })
     
     # Panel 2 ~> Button 4 Mouse Click listener
@@ -411,6 +417,7 @@ function PrepareGUI {
             regedit /s disable-cortana.reg
         Pop-Location
 
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })
 
     # Panel 3 ~> Button 1 Mouse Click listener
@@ -426,8 +433,8 @@ function PrepareGUI {
             # pause ### FOR DEBUGGING PURPOSES
 
         Pop-Location
-        Write-Host "Done!"
-
+        
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })
     
     # Add all Panels to the Form (Screen)
