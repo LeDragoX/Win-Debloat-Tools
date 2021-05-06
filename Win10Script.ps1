@@ -50,32 +50,26 @@ function RunScripts {
 
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
         
-        Clear-Host
         Title2 -Text "backup-system.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
-        Clear-Host
         Title2 -Text "all-in-one-tweaks.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
-        Clear-Host
         Title2 -Text "fix-privacy-settings.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
-        Clear-Host
         Title2 -Text "optimize-user-interface.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
-        Clear-Host
         Title2 -Text "remove-onedrive.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
-        Clear-Host
         Title2 -Text "manual-debloat-softwares.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"manual-debloat-softwares.ps1"
         # pause ### FOR DEBUGGING PURPOSES
@@ -87,7 +81,6 @@ function RunScripts {
             'Yes' {
                 Write-Host "You choose Yes."
 
-                Clear-Host
                 Title2 -Text "repair-windows.ps1"
                 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"repair-windows.ps1"
             }
@@ -100,7 +93,6 @@ function RunScripts {
         }
 
     Pop-Location
-    Clear-Host
 }
 
 function Credits {
