@@ -523,18 +523,18 @@ function TweaksForSecurity {
 
     Title1Counter -Text "Security Tweaks"
 
-    Write-Host "+ Ensure your Windows Defender is ENABLED, if you already use another antivirus, this will make nothing."
+    Write-Host "+ Ensure your Windows Defender is ENABLED, if you already use another antivirus, nothing will happen."
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
 
-    Write-Host "+ Enabling Microsoft Defender Exploit Guard network protection... (if you already use another antivirus, this will make nothing)"
+    Write-Host "+ Enabling Microsoft Defender Exploit Guard network protection... (if you already use another antivirus, nothing will happen)"
     Set-MpPreference -EnableNetworkProtection Enabled -Force
 
-    Write-Host "+ Enabling detection for potentially unwanted applications and block them... (if you already use another antivirus, this will make nothing)"
+    Write-Host "+ Enabling detection for potentially unwanted applications and block them... (if you already use another antivirus, nothing will happen)"
     Set-MpPreference -PUAProtection Enabled -Force
 
     # Make Windows Defender run in Sandbox Mode (Will run on background MsMpEngCP.exe and MsMpEng.exe)
     # Why? https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
-    Write-Host "+ Enabling Windows Defender Sandbox mode... (if you already use another antivirus, this will make nothing)"
+    Write-Host "+ Enabling Windows Defender Sandbox mode... (if you already use another antivirus, nothing will happen)"
     setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 
     # https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858
