@@ -3,7 +3,7 @@ function QuickPrivilegesElevation {
     if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function PrepareRun {
+function LoadLibs {
 
     Write-Host "Current Script Folder $PSScriptRoot"
     Write-Host ""
@@ -116,7 +116,7 @@ function Credits {
 # Your script here
 
 QuickPrivilegesElevation    # Check admin rights
-PrepareRun                  # Import modules from lib folder
+LoadLibs                    # Import modules from lib folder
 UnrestrictPermissions       # Unlock script usage
 SetupConsoleStyle           # Just fix the font on the PS console
 Write-Host ""
