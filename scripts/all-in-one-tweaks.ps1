@@ -184,7 +184,7 @@ function TweaksForService {
 
 }
 
-function TweaksForRegistry {
+function TweaksForPrivacyAndPerformance {
 
     Title1Counter -Text "Registry Tweaks"
     Title1 -Text "Remove Telemetry & Data Collection"
@@ -441,6 +441,23 @@ function TweaksForRegistry {
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 1
     }
 
+    Write-Host "+ Showing file transfer details..."
+	If (!(Test-Path "$PathToExplorer\OperationStatusManager")) {
+		New-Item -Path "$PathToExplorer\OperationStatusManager" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "$PathToExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 1
+
+    # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
+    Write-Host "+ Showing task manager details..."
+    $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
+    Do {
+        Start-Sleep -Milliseconds 100
+        $preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+    } Until ($preferences)
+    Stop-Process $taskmgr
+    $preferences.Preferences[28] = 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+    
     Section1 -Text "Deleting useless registry keys..."
         
     $KeysToDelete = @(
@@ -481,23 +498,6 @@ function TweaksForRegistry {
         Write-Host "[Registry] Removing [$Key]..."
         Remove-Item $Key -Recurse -Force # This will not be debugged
     }
-
-    Write-Host "+ Showing file transfer details..."
-	If (!(Test-Path "$PathToExplorer\OperationStatusManager")) {
-		New-Item -Path "$PathToExplorer\OperationStatusManager" -Force | Out-Null
-	}
-	Set-ItemProperty -Path "$PathToExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 1
-
-    # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
-    Write-Host "+ Showing task manager details..."
-    $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
-    Do {
-        Start-Sleep -Milliseconds 100
-        $preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
-    } Until ($preferences)
-    Stop-Process $taskmgr
-    $preferences.Preferences[28] = 0
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
 
     Section1 -Text "Performance Tweaks"
     
@@ -946,11 +946,11 @@ function EnableFeatures {
 
 }
 
-RunDebloatSoftwares         # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
-TweaksForScheduledTasks     # Disable Scheduled Tasks that causes slowdowns
-TweaksForService            # Enable essential Services and Disable bloating Services
-TweaksForRegistry           # Disable Registries that causes slowdowns
-TweaksForSecurity           # Improve a little the Windows Security
-PersonalTweaks              # The icing on the cake, last and useful optimizations
-RemoveBloatwareApps         # Remove the main Bloat from Pre-installed Apps
-EnableFeatures              # Enable features claimed as Optional on Windows, but actually, they are useful
+RunDebloatSoftwares             # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
+TweaksForScheduledTasks         # Disable Scheduled Tasks that causes slowdowns
+TweaksForService                # Enable essential Services and Disable bloating Services
+TweaksForPrivacyAndPerformance  # Disable Registries that causes slowdowns
+TweaksForSecurity               # Improve the Windows Security
+PersonalTweaks                  # The icing on the cake, last and useful optimizations
+RemoveBloatwareApps             # Remove the main Bloat from Pre-installed Apps
+EnableFeatures                  # Enable features claimed as Optional on Windows, but actually, they are useful

@@ -255,33 +255,27 @@ function PrepareGUI {
     
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             
-            Clear-Host
             Title2 -Text "backup-system.ps1"
             Import-Module -DisableNameChecking .\"backup-system.ps1"
             # pause ### FOR DEBUGGING PURPOSES
         
-            Clear-Host
             Title2 -Text "all-in-one-tweaks.ps1"
             Import-Module -DisableNameChecking .\"all-in-one-tweaks.ps1"
             # pause ### FOR DEBUGGING PURPOSES
     
-            Clear-Host
             Title2 -Text "fix-privacy-settings.ps1"
             Import-Module -DisableNameChecking .\"fix-privacy-settings.ps1"
             # pause ### FOR DEBUGGING PURPOSES
     
-            Clear-Host
             Title2 -Text "optimize-user-interface.ps1"
             Import-Module -DisableNameChecking .\"optimize-user-interface.ps1"
             # pause ### FOR DEBUGGING PURPOSES
             
-            Clear-Host
             Title2 -Text "remove-onedrive.ps1"
             Import-Module -DisableNameChecking .\"remove-onedrive.ps1"
             # pause ### FOR DEBUGGING PURPOSES
                 
         Pop-Location
-        Clear-Host
 
         ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })    
@@ -324,7 +318,6 @@ function PrepareGUI {
                 'Yes' {
                     Write-Host "You choose Yes."
     
-                    Clear-Host
                     Title2 -Text "repair-windows.ps1"
                     Import-Module -DisableNameChecking .\"repair-windows.ps1"
                 }
