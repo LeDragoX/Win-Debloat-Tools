@@ -178,15 +178,15 @@ function TweaksForService {
     
     foreach ($Service in $DisableServices) {
         Write-Host "[Services] Stopping and Disabling $Service at Startup..."
-        Set-Service -Name $Service -Status Stopped
-        Set-Service -Name $Service -StartupType Disabled
+        Set-Service -Name "$Service" -Status Stopped
+        Set-Service -Name "$Service" -StartupType Disabled
     }
 
 }
 
 function TweaksForPrivacyAndPerformance {
 
-    Title1Counter -Text "Registry Tweaks"
+    Title1Counter -Text "Privacy And Performance Tweaks"
     Title1 -Text "Remove Telemetry & Data Collection"
     Section1 -Text "Personalization Section"
     Caption1 -Text "? & ? & Start & Lockscreen"
