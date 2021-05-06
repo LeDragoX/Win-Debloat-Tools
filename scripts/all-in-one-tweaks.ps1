@@ -87,17 +87,17 @@ function TweaksForScheduledTasks {
         "\Microsoft\Windows\Shell\FamilySafetyMonitor"                                      # Recommended state for VDI use
         "\Microsoft\Windows\Shell\FamilySafetyRefreshTask"                                  # Recommended state for VDI use
         "\Microsoft\Windows\Shell\FamilySafetyUpload"
-        "\Microsoft\Windows\Windows Error Reporting\QueueReporting"                         # Recommended state for VDI use
         "\Microsoft\Windows\Windows Media Sharing\UpdateLibrary"                            # Recommended state for VDI use
-    )
-    
-    foreach ($ScheduledTask in $DisableScheduledTasks) {
-        Write-Host "[TaskScheduler] Disabling the $ScheduledTask Task..."
-        Disable-ScheduledTask -TaskName $ScheduledTask
-    }
-
-    $EnableScheduledTasks = @(
-        "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"    # Recommended state for VDI use BUT it's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
+        )
+        
+        foreach ($ScheduledTask in $DisableScheduledTasks) {
+            Write-Host "[TaskScheduler] Disabling the $ScheduledTask Task..."
+            Disable-ScheduledTask -TaskName $ScheduledTask
+        }
+        
+        $EnableScheduledTasks = @(
+            "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"            # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
+            "\Microsoft\Windows\Windows Error Reporting\QueueReporting"     # Windows Error Reporting event, needed most for compatibility updates incoming 
     )
 
     foreach ($ScheduledTask in $EnableScheduledTasks) {
@@ -676,7 +676,6 @@ function PersonalTweaks {
 
     Write-Host "+ Keep ENABLED Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
-    Enable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting"
 
     Write-Host "- Disabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToWindowsStore")) {
