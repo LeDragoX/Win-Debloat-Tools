@@ -949,7 +949,7 @@ function EnableFeatures {
 RunDebloatSoftwares             # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
 TweaksForScheduledTasks         # Disable Scheduled Tasks that causes slowdowns
 TweaksForService                # Enable essential Services and Disable bloating Services
-TweaksForPrivacyAndPerformance  # Disable Registries that causes slowdowns
+TweaksForPrivacyAndPerformance  # Disable Registries that causes slowdowns and privacy invasion
 TweaksForSecurity               # Improve the Windows Security
 PersonalTweaks                  # The icing on the cake, last and useful optimizations
 RemoveBloatwareApps             # Remove the main Bloat from Pre-installed Apps
