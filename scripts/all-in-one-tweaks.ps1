@@ -482,6 +482,12 @@ function TweaksForRegistry {
         Remove-Item $Key -Recurse -Force # This will not be debugged
     }
 
+    Write-Host "+ Showing file transfer details..."
+	If (!(Test-Path "$PathToExplorer\OperationStatusManager")) {
+		New-Item -Path "$PathToExplorer\OperationStatusManager" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "$PathToExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 1
+
     # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
     Write-Host "+ Showing task manager details..."
     $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
