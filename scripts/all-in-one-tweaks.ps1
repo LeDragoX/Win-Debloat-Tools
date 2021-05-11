@@ -502,11 +502,10 @@ function TweaksForPrivacyAndPerformance {
     Section1 -Text "Performance Tweaks"
     
     Write-Host "- Disabling Superfetch and APPs Prelaunching..."
-    # Superfetch isn't SAME as Prefetcher (0 = Disable Superfetch, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
+    # Superfetch is the SAME as Prefetcher, disable BOTH (0 = Disable Superfetch, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnableSuperfetch" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnablePrefetcher" -Type DWord -Value 0
     Disable-MMAgent -ApplicationPreLaunch
-    Write-Host "= Keep Prefetcher Optimization Enabled..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnablePrefetcher" -Type DWord -Value 3
     
     Write-Host "- Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
