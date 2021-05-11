@@ -42,7 +42,7 @@ function RunDebloatSoftwares {
         Write-Host "+ Running ShutUp10 and applying configs..."
         Push-Location "ShutUp10"
             Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination "OOSU10.exe"
-            Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait   # quiet may be better? # Wait until the process closes
+            Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait   # Wait until the process closes
             Remove-Item "*.*" -Exclude "*.cfg" -Force                                               # Leave no traces
         Pop-Location
 
@@ -513,6 +513,7 @@ function TweaksForPrivacyAndPerformance {
     Write-Host "- Disabling Ndu High RAM Usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
 
+    # https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
     Write-Host "+ Splitting SVCHost processes to lower RAM usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value 4194304
 
