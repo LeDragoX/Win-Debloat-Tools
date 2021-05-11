@@ -911,8 +911,6 @@ function EnableFeatures {
         "NetFx3"                                # NET Framework 3.5
         "NetFx4-AdvSrvs"                        # NET Framework 4
         "NetFx4Extended-ASPNET45"               # NET Framework 4.x
-        "IIS-ASPNET"                            # ASP NET
-        "IIS-ASPNET45"                          # ASP NET 4.x
         "DirectPlay"                            # Direct Play
         # WSL 2 Support Semi-Install
         "Microsoft-Windows-Subsystem-Linux"     # WSL
