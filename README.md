@@ -36,7 +36,7 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 
 ### Easy way (Prepare and Run once):
 
-#### GUI (Advice - Some of the output still missing from the console, not something to worry about, just the % and ETA from some commands)
+#### GUI
 
 - Copy and Paste this entire line below on **Powershell**:
 ```Powershell
@@ -45,7 +45,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ![Script GUI](./lib/images/Script-GUI.png)
 *The `Automated Tweaks` button is the main one.*
 
-#### CLI
+#### CLI (Advice - If you want FULL Output to be displayed on the console, use this version)
 
 - Copy and Paste this entire line below on **Powershell**:
 ```Powershell
