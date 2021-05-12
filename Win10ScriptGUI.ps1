@@ -78,7 +78,7 @@ function PrepareGUI {
     $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("$WinDark") # Windows Dark
     
     # Icon: https://stackoverflow.com/a/53377253
-    $iconBase64                         = [Convert]::ToBase64String((Get-Content ".\lib\images\Windows-10-logo_icon.png" -Encoding Byte))
+    $iconBase64                         = [Convert]::ToBase64String((Get-Content ".\lib\images\Script-icon.png" -Encoding Byte))
     $iconBytes                          = [Convert]::FromBase64String($iconBase64)
     $stream                             = New-Object IO.MemoryStream($iconBytes, 0, $iconBytes.Length)
     $stream.Write($iconBytes, 0, $iconBytes.Length);
@@ -103,7 +103,7 @@ function PrepareGUI {
     
     # Panel 1 ~> Button 1
     $automatedTweaks                    = New-Object system.Windows.Forms.Button
-    $automatedTweaks.text               = "Automated Tweaks"
+    $automatedTweaks.text               = "Apply Tweaks"
     $automatedTweaks.width              = 200
     $automatedTweaks.height             = 70
     $automatedTweaks.location           = New-Object System.Drawing.Point(25,40)
