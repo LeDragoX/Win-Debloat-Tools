@@ -103,7 +103,7 @@ function PrepareGUI {
     
     # Panel 1 ~> Button 1
     $automatedTweaks                    = New-Object system.Windows.Forms.Button
-    $automatedTweaks.text               = "Automated Tweaks"
+    $automatedTweaks.text               = "Apply Tweaks"
     $automatedTweaks.width              = 200
     $automatedTweaks.height             = 70
     $automatedTweaks.location           = New-Object System.Drawing.Point(25,40)
