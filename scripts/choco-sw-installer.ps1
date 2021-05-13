@@ -126,7 +126,7 @@ function InstallPackages {
     foreach ($Package in $EssentialPackages) {
         Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
         # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-        if ((Get-AppxPackage).Name -ilike "*$Package*"){
+        if ((Get-AppxPackage).Name -ilike "*$Package*") {
             Caption1 -Text "$Package already installed on MS Store! Skipping..."
             } else {
                 choco install $Package -y # --force
@@ -137,7 +137,8 @@ function InstallPackages {
     if ($Architecture.contains("32-bits")) {
         Title1Counter -Text "Installing: jre8 (32-bits)"
         choco install "jre8" -PackageParameters "/exclude:64" -y
-    } elseif ($Architecture.contains("64-bits")) {
+    } 
+    elseif ($Architecture.contains("64-bits")) {
         Title1Counter -Text "Installing: jre8 (64-bits)"
         choco install "jre8" -PackageParameters "/exclude:32" -y
     }
@@ -149,7 +150,7 @@ All important Gaming clients and Required Game Softwares to Run Games will be in
 + Discord
 + Parsec
 + Steam
-+ Microsoft DX & .NET & C++ Packages"
++ Microsoft DX & .NET & VC++ Packages"
 function InstallGamingPackages { # You Choose
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
