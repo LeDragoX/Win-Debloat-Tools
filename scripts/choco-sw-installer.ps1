@@ -125,7 +125,12 @@ function InstallPackages {
     Title1 -Text "Installing Packages"
     foreach ($Package in $EssentialPackages) {
         Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
-        choco install $Package -y # --force
+        # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+        if ((Get-AppxPackage).Name -ilike "*$Package*"){
+            Caption1 -Text "$Package already installed on MS Store! Skipping..."
+            } else {
+                choco install $Package -y # --force
+            }
     }
 
     # For Java (JRE) correct installation
