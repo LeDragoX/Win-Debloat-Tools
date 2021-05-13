@@ -506,6 +506,9 @@ function TweaksForPrivacyAndPerformance {
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnableSuperfetch" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnablePrefetcher" -Type DWord -Value 0
     Disable-MMAgent -ApplicationPreLaunch
+
+    Write-Host "= Enabling Memory Compression..."
+    Enable-MMAgent -MemoryCompression
     
     Write-Host "- Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
@@ -714,9 +717,6 @@ function PersonalTweaks {
     Write-Host "+ Fixing Xbox Game Bar FPS Counter... (LIMITED BY LANGUAGE)"
     net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
-
-    Write-Host "= Enabling Memory Compression..."
-    Enable-MMAgent -MemoryCompression
 
     Section1 -Text "Power Plan Tweaks"
 
