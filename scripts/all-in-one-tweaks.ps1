@@ -701,7 +701,7 @@ function PersonalTweaks {
     $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
     $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings
     $data[8] = 3
-    Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data    
+    Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data
 
     Write-Host "+ Setting time to UTC..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 1
