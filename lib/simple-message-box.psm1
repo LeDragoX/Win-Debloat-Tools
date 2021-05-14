@@ -18,7 +18,7 @@ Function ShowMessage {
 
 # Demo: ShowMessage -Title "Title" -Message "Message"
 
-function ShowQuestion {
+Function ShowQuestion {
     param (
         $Title = 'Insert title here',
         [array]$Message = 

@@ -1,10 +1,10 @@
 # Function to Check if a system is 32-bits or 64-bits or Something Else
-function CheckOSArchitecture {
+Function CheckOSArchitecture {
 	$Global:Architecture = wmic os get osarchitecture
-	if ($Architecture -like "*32 bits*") {
+	If ($Architecture -like "*32 bits*") {
         Write-Host "32-bits OS detected!"
         $Architecture = "32-bits"
-	} elseif ($Architecture -like "*64 bits*") {
+	} ElseIf ($Architecture -like "*64 bits*") {
         Write-Host "64-bits OS detected!"
         $Architecture = "64-bits"
     } else {
@@ -16,13 +16,13 @@ function CheckOSArchitecture {
 }
 
 # Function to detect the current CPU
-function DetectCPU() {
+Function DetectCPU() {
     # https://community.spiceworks.com/how_to/170332-how-to-get-cpu-information-in-windows-powershell
     $Global:CPU = Get-WmiObject -Class Win32_Processor -ComputerName. | Select-Object -Property [a-z]*
 
-    if ($CPU.Name.contains("AMD") -or $CPU.Name.contains("Radeon")) {
+    If ($CPU.Name.contains("AMD") -or $CPU.Name.contains("Radeon")) {
 		Write-Host "AMD CPU found!"
-	} elseif ($CPU.Name.contains("Intel")) {
+	} ElseIf ($CPU.Name.contains("Intel")) {
         Write-Host "Intel CPU found!"
 	} else {
         Write-Host "CPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
@@ -34,20 +34,20 @@ function DetectCPU() {
 
 
 # Function to detect the current GPU
-function DetectGPU() {
+Function DetectGPU() {
 	# https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
 	$ArrComputers = "."
 
-	foreach ($Computer in $ArrComputers) {
+	ForEach ($Computer in $ArrComputers) {
 		$Global:GPU = Get-WmiObject -Class Win32_VideoController -ComputerName $Computer
 		Write-Host "Video Info:" $Global:GPU.description
     }
     
-    if ($GPU.description.contains("AMD") -or $GPU.description.contains("Radeon")) {
+    If ($GPU.description.contains("AMD") -or $GPU.description.contains("Radeon")) {
 		Write-Host "AMD GPU found!"
-	} elseif ($GPU.description.contains("Intel")) {
+	} ElseIf ($GPU.description.contains("Intel")) {
         Write-Host "Intel GPU found!"
-	} elseif ($GPU.description.contains("NVIDIA")) {
+	} ElseIf ($GPU.description.contains("NVIDIA")) {
         Write-Host "NVIDIA GPU found!"
     } else {
         Write-Host "GPU_NOT_FOUND (NEW/CONFIDENTIAL?)"

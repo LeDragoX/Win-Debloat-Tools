@@ -1,37 +1,43 @@
-function Title1 ([String] $Text = "Test Text") {
+Function Title1 ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
 	Write-Host "<====================[ $Text ]====================>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
-function Title2 ([String] $Text = "Test Text") {
+Function Title2 ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
 	Write-Host "<====================< $Text >====================>" -ForegroundColor Yellow
 	Write-Host "" # Skip line
 }
 
-function Section1 ([String] $Text = "Test Text") {
+Function Section1 ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
 	Write-Host "<==========[ $Text ]==========>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
 
-function Caption1 ([String] $Text = "Test Text") {
+Function Caption1 ([String] $Text = "Test Text") {
 	Write-Host "--> $Text" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
-function Title1Counter ([String] $Text = "Test Text COUNTER", [Int] $MaxNum = $Global:MaxNum) {
+Function Title1Counter ([String] $Text = "Test Text COUNTER", [Int] $MaxNum = $Global:MaxNum) {
 
 	$Global:MaxNum = $MaxNum
 	
-	if ($Counter -eq $null) {
+	If ($Counter -eq $null) {
 		# Initialize Global variables
 		$Global:Counter = 0
 	}
 	$Global:Counter = $Counter + 1
 	Title1 "( $Counter/$MaxNum ) - [$Text]"
+
+	# Reset both when the Counter is the same as MaxNum and different from 0
+	If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {
+        $Global:Counter = 0
+		$Global:MaxNum	= 0
+	}
 }
 
 # Demo:
