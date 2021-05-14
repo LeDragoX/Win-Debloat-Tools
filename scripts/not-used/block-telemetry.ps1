@@ -85,13 +85,13 @@ $domains = @(
     "hostedocsp.globalsign.com"
     "i1.services.social.microsoft.com"
     "i1.services.social.microsoft.com.nsatc.net"
-    "ipv6.msftncsi.com"
-    "ipv6.msftncsi.com.edgesuite.net"
+    #"ipv6.msftncsi.com"                    # Issues may arise where Windows 10 thinks it doesn't have internet
+    #"ipv6.msftncsi.com.edgesuite.net"      # Issues may arise where Windows 10 thinks it doesn't have internet
     "lb1.www.ms.akadns.net"
     "live.rads.msn.com"
     "m.adnxs.com"
     "msedge.net"
-    "msftncsi.com"
+    #"msftncsi.com"
     "msnbot-65-55-108-23.search.msn.com"
     "msntest.serving-sys.com"
     "oca.telemetry.microsoft.com"
@@ -140,7 +140,7 @@ $domains = @(
     "win10.ipv6.microsoft.com"
     "www.bingads.microsoft.com"
     "www.go.microsoft.akadns.net"
-    "www.msftncsi.com"
+    #"www.msftncsi.com"                         # Issues may arise where Windows 10 thinks it doesn't have internet
     "client.wns.windows.com"
     #"wdcp.microsoft.com"                       # may cause issues with Windows Defender Cloud-based protection
     #"dns.msftncsi.com"                         # This causes Windows to think it doesn't have internet
@@ -214,7 +214,7 @@ $ips = @(
     "204.79.197.200"
     "23.218.212.69"
     "65.39.117.230"
-    #"65.52.108.33"   # Causes problems with Microsoft Store
+    "65.52.108.33"   # Causes problems with Microsoft Store
     "65.55.108.23"
     "64.4.54.254"
 )
