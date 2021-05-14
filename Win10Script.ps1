@@ -50,6 +50,7 @@ function RunScripts {
 
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
         
+        Clear-Host
         Title2 -Text "backup-system.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
         # pause ### FOR DEBUGGING PURPOSES
