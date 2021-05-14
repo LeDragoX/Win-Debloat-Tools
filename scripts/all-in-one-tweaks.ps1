@@ -16,6 +16,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 $CPU = DetectCPU
 # Initialize all Path variables used to Registry Tweaks
 $Global:PathToActivityHistory =         "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$Global:PathToAdvertisingInfoPol =      "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
 $Global:PathToCloudContent =            "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $Global:PathToContentDeliveryManager =  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
 $Global:PathToDeliveryOptimization =    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization"
@@ -32,14 +33,11 @@ $Global:PathToWindowsStore =            "HKLM:\SOFTWARE\Policies\Microsoft\Windo
 $Global:PathToWindowsUpdate =           "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
 function RunDebloatSoftwares {
-    
-    Title1 -Text "Your drives status:"
-    wmic diskdrive get caption,status
-    
+        
     # If changing the programs folder move here!!!
     Push-Location "..\lib\Debloat-Softwares"
 
-        Write-Host "+ Running ShutUp10 and applying configs..."
+        Write-Host "+ Running ShutUp10 and applying Recommended settings..."
         Push-Location "ShutUp10"
             Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination "OOSU10.exe"
             Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait   # Wait until the process closes
@@ -238,6 +236,10 @@ function TweaksForPrivacyAndPerformance {
     
     Write-Host "- Let apps use NOT my advertising ID..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
+	If (!(Test-Path "$PathToAdvertisingInfoPol")) {
+		New-Item -Path "$PathToAdvertisingInfoPol" -Force | Out-Null
+	}
+    Set-ItemProperty -Path "$PathToAdvertisingInfoPol" -Name "DisabledByGroupPolicy" -Type DWord -Value 1
     
     Write-Host "- Let websites provide locally..."
     Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value 1
@@ -516,7 +518,7 @@ function TweaksForPrivacyAndPerformance {
     Write-Host "- Disabling Ndu High RAM Usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
 
-    # https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
+    # Details: https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
     Write-Host "+ Splitting SVCHost processes to lower RAM usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value 4194304
 
@@ -535,12 +537,12 @@ function TweaksForSecurity {
     Write-Host "+ Enabling detection for potentially unwanted applications and block them... (if you already use another antivirus, nothing will happen)"
     Set-MpPreference -PUAProtection Enabled -Force
 
-    # Make Windows Defender run in Sandbox Mode (Will run on background MsMpEngCP.exe and MsMpEng.exe)
-    # Why? https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
+    # Make Windows Defender run in Sandbox Mode (MsMpEngCP.exe and MsMpEng.exe will run on background)
+    # Details: https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
     Write-Host "+ Enabling Windows Defender Sandbox mode... (if you already use another antivirus, nothing will happen)"
     setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 
-    # https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858
+    # Details: https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858
     Write-Host "= Disabling SMB 1.0 protocol..."
     Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 
@@ -564,7 +566,7 @@ function TweaksForSecurity {
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
 
-    # https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
+    # Details: https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
     Write-Host "+ Raising UAC level..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System")) {
         New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null
@@ -572,6 +574,7 @@ function TweaksForSecurity {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Type DWord -Value 5
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "PromptOnSecureDesktop" -Type DWord -Value 1
 
+    # Details: https://support.microsoft.com/en-us/help/4072699/january-3-2018-windows-security-updates-and-antivirus-software.
     Write-Host "+ Enabling Meltdown (CVE-2017-5754) compatibility flag..."
 	If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat")) {
         New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Force | Out-Null
@@ -591,9 +594,8 @@ function TweaksForSecurity {
     Write-Host "+ Enabling 'SmartScreen' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
 
-    # The "OpenPowershellHere.cmd" file actually uses .vbs script, so, i'll make this optional
-    # [DIY] Disable Windows Script Host (execution of *.vbs scripts and alike)
-    #Write-Host "- Disabling Windows Script Host..."
+    # [DIY] The "OpenPowershellHere.cmd" file actually uses .vbs script, so, i'll make this optional
+    #Write-Host "- Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
     #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
 
 }
