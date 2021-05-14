@@ -6,6 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 
 # Initialize all Path variables used to Registry Tweaks
 $Global:PathToAccessibility =           "HKCU:\Control Panel\Accessibility"
+$Global:PathToEdgeUserPol =             "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Edge"
 $Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
 $Global:PathToExplorerAdvanced =        "$PathToExplorer\Advanced"
 $Global:PathToLiveTiles =               "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
@@ -97,6 +98,14 @@ Function PersonalTweaks {
     Set-ItemProperty -Path "$PathToAccessibility\StickyKeys" -Name "Flags" -Value "506"
     Set-ItemProperty -Path "$PathToAccessibility\Keyboard Response" -Name "Flags" -Value "122"
     Set-ItemProperty -Path "$PathToAccessibility\ToggleKeys" -Name "Flags" -Value "58"
+
+    Section1 -Text "Microsoft Edge Policies"
+    Caption1 -Text "Privacy, search and services / Address bar and search"
+
+    Write-Host "= Show me search and site suggestions using my typed characters..."
+    Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "SearchSuggestEnabled" -Force
+    Write-Host "= Show me history and favorite suggestions and other data using my typed characters..."
+    Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "LocalProvidersEnabled" -Force
 
     Write-Host "+ Keep ENABLED Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
