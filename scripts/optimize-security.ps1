@@ -8,7 +8,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 $CPU = DetectCPU
 # Initialize all Path variables used to Registry Tweaks
 $Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToMicrosoftEdge =           "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
+$Global:PathToEdgeLMPol =           "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
 
 Function TweaksForSecurity {
 
@@ -72,10 +72,10 @@ Function TweaksForSecurity {
     }
 
     Write-Host "+ Enabling 'SmartScreen' for Microsoft Edge..."
-    If (!(Test-Path "$PathToMicrosoftEdge\PhishingFilter")) {
-        New-Item -Path "$PathToMicrosoftEdge\PhishingFilter" -Force | Out-Null
+    If (!(Test-Path "$PathToEdgeLMPol\PhishingFilter")) {
+        New-Item -Path "$PathToEdgeLMPol\PhishingFilter" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToMicrosoftEdge\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToEdgeLMPol\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 1
 
     Write-Host "+ Enabling 'SmartScreen' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
