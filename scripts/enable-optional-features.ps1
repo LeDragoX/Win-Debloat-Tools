@@ -2,7 +2,7 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 
-function EnableOptionalFeatures {
+Function EnableOptionalFeatures {
 
     Title1 -Text "Install additional features for Windows"
     
@@ -20,12 +20,12 @@ function EnableOptionalFeatures {
         "VirtualMachinePlatform"                # VM Platform
     )
     
-    foreach ($Feature in $FeatureName) {
+    ForEach ($Feature in $FeatureName) {
         $FeatureDetails = $(Get-WindowsOptionalFeature -Online -FeatureName $Feature)
         
         Write-Host "Checking if $Feature was already installed..."
         Write-Host "$Feature Status:" $FeatureDetails.State
-        if ($FeatureDetails.State -like "Enabled") {
+        If ($FeatureDetails.State -like "Enabled") {
             Write-Host "$Feature already installed! Skipping..."
         }
         elseif ($FeatureDetails.State -like "Disabled") {

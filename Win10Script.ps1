@@ -1,9 +1,9 @@
-function QuickPrivilegesElevation {
+Function QuickPrivilegesElevation {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
-    if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+    If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function LoadLibs {
+Function LoadLibs {
 
     Write-Host "Current Script Folder $PSScriptRoot"
     Write-Host ""
@@ -22,7 +22,7 @@ function LoadLibs {
 
 }
 
-function PromptPcRestart {
+Function PromptPcRestart {
 
     $Ask = "If you want to see the changes restart your computer!
     Do you want to Restart now?"
@@ -44,56 +44,33 @@ function PromptPcRestart {
     
 }
 
-function RunScripts {
+Function RunScripts {
 
     Push-Location -Path .\scripts
 
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
         
         Clear-Host
-        Title2 -Text "backup-system.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
+        $Scripts = @(
+            # [Recommended order] List of Scripts
+            "backup-system.ps1"
+            "silent-debloat-softwares.ps1"
+            "optimize-scheduled-tasks.ps1"
+            "optimize-services.ps1"
+            "remove-bloatware-apps.ps1"
+            "optimize-privacy-and-performance.ps1"
+            "personal-optimizations.ps1"
+            "optimize-security.ps1"
+            "enable-optional-features.ps1"
+            "remove-onedrive.ps1"
+            "manual-debloat-softwares.ps1"
+        )
         
-        Title2 -Text "silent-debloat-softwares.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"silent-debloat-softwares.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-        
-        Title2 -Text "optimize-scheduled-tasks.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-scheduled-tasks.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-        
-        Title2 -Text "optimize-services.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-services.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-
-        Title2 -Text "remove-bloatware-apps.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-bloatware-apps.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-
-        Title2 -Text "optimize-privacy-and-performance.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-privacy-and-performance.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-
-        Title2 -Text "personal-optimizations.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"personal-optimizations.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-
-        Title2 -Text "optimize-security.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-security.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-
-        Title2 -Text "enable-optional-features.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"enable-optional-features.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-
-        Title2 -Text "remove-onedrive.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
-        
-        Title2 -Text "manual-debloat-softwares.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"manual-debloat-softwares.ps1"
-        # pause ### FOR DEBUGGING PURPOSES
+        ForEach ($FileName in $Scripts) {
+            Title2 -Text "$FileName"
+            PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
+            # pause ### FOR DEBUGGING PURPOSES
+        }
 
         $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
         Do you want to continue?"
@@ -102,8 +79,15 @@ function RunScripts {
             'Yes' {
                 Write-Host "You choose Yes."
 
-                Title2 -Text "repair-windows.ps1"
-                PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"repair-windows.ps1"
+                $Scripts = @(
+                    # [Recommended order] List of Scripts
+                    "repair-windows.ps1"
+                )
+                ForEach ($FileName in $Scripts) {
+                    Title2 -Text "$FileName"
+                    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
+                    # pause ### FOR DEBUGGING PURPOSES
+                }
             }
             'No' {
                 Write-Host "You choose No. (No = Cancel)"
@@ -116,7 +100,7 @@ function RunScripts {
     Pop-Location
 }
 
-function Credits {
+Function Credits {
 
     Clear-Host
     Write-Host "<=========================================================================================>"
