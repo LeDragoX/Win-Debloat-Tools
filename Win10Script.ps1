@@ -55,18 +55,38 @@ function RunScripts {
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"backup-system.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
-        Title2 -Text "all-in-one-tweaks.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"all-in-one-tweaks.ps1"
+        Title2 -Text "silent-debloat-softwares.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"silent-debloat-softwares.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
-        Title2 -Text "fix-privacy-settings.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"fix-privacy-settings.ps1"
+        Title2 -Text "optimize-scheduled-tasks.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-scheduled-tasks.ps1"
         # pause ### FOR DEBUGGING PURPOSES
         
-        Title2 -Text "optimize-user-interface.ps1"
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-user-interface.ps1"
+        Title2 -Text "optimize-services.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-services.ps1"
         # pause ### FOR DEBUGGING PURPOSES
-        
+
+        Title2 -Text "remove-bloatware-apps.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-bloatware-apps.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
+        Title2 -Text "optimize-privacy-and-performance.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-privacy-and-performance.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
+        Title2 -Text "personal-optimizations.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"personal-optimizations.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
+        Title2 -Text "optimize-security.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"optimize-security.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
+        Title2 -Text "enable-optional-features.ps1"
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"enable-optional-features.ps1"
+        # pause ### FOR DEBUGGING PURPOSES
+
         Title2 -Text "remove-onedrive.ps1"
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"remove-onedrive.ps1"
         # pause ### FOR DEBUGGING PURPOSES

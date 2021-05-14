@@ -260,16 +260,36 @@ function PrepareGUI {
             Import-Module -DisableNameChecking .\"backup-system.ps1"
             # pause ### FOR DEBUGGING PURPOSES
         
-            Title2 -Text "all-in-one-tweaks.ps1"
-            Import-Module -DisableNameChecking .\"all-in-one-tweaks.ps1"
+            Title2 -Text "silent-debloat-softwares.ps1"
+            Import-Module -DisableNameChecking .\"silent-debloat-softwares.ps1"
             # pause ### FOR DEBUGGING PURPOSES
     
-            Title2 -Text "fix-privacy-settings.ps1"
-            Import-Module -DisableNameChecking .\"fix-privacy-settings.ps1"
+            Title2 -Text "optimize-scheduled-tasks.ps1"
+            Import-Module -DisableNameChecking .\"optimize-scheduled-tasks.ps1"
             # pause ### FOR DEBUGGING PURPOSES
     
-            Title2 -Text "optimize-user-interface.ps1"
-            Import-Module -DisableNameChecking .\"optimize-user-interface.ps1"
+            Title2 -Text "optimize-services.ps1"
+            Import-Module -DisableNameChecking .\"optimize-services.ps1"
+            # pause ### FOR DEBUGGING PURPOSES
+
+            Title2 -Text "remove-bloatware-apps.ps1"
+            Import-Module -DisableNameChecking .\"remove-bloatware-apps.ps1"
+            # pause ### FOR DEBUGGING PURPOSES
+
+            Title2 -Text "optimize-privacy-and-performance.ps1"
+            Import-Module -DisableNameChecking .\"optimize-privacy-and-performance.ps1"
+            # pause ### FOR DEBUGGING PURPOSES
+
+            Title2 -Text "personal-optimizations.ps1"
+            Import-Module -DisableNameChecking .\"personal-optimizations.ps1"
+            # pause ### FOR DEBUGGING PURPOSES
+
+            Title2 -Text "optimize-security.ps1"
+            Import-Module -DisableNameChecking .\"optimize-security.ps1"
+            # pause ### FOR DEBUGGING PURPOSES
+
+            Title2 -Text "enable-optional-features.ps1"
+            Import-Module -DisableNameChecking .\"enable-optional-features.ps1"
             # pause ### FOR DEBUGGING PURPOSES
             
             Title2 -Text "remove-onedrive.ps1"
