@@ -1,4 +1,4 @@
-function UnrestrictPermissions {
+Function UnrestrictPermissions {
     Write-Host "Receiving permissions to run scripts"
     Write-Host "" # Skip Line
     Set-ExecutionPolicy Unrestricted -Scope Process -Force
@@ -8,7 +8,7 @@ function UnrestrictPermissions {
     Write-Host "" # Skip Line
 }
 
-function RestrictPermissions {
+Function RestrictPermissions {
     Write-Host "Denying permissions to run scripts"
     Write-Host "" # Skip Line
     Set-ExecutionPolicy Restricted -Scope Process -Force
