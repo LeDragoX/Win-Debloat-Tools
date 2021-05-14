@@ -255,6 +255,7 @@ function PrepareGUI {
     
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             
+            Clear-Host
             Title2 -Text "backup-system.ps1"
             Import-Module -DisableNameChecking .\"backup-system.ps1"
             # pause ### FOR DEBUGGING PURPOSES
