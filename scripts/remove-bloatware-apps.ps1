@@ -131,7 +131,7 @@ Function RemoveBloatwareApps {
         #"Windows.ContactSupport"
     )
 
-    foreach ($Bloat in $Apps) {
+    ForEach ($Bloat in $Apps) {
         Write-Host "Trying to remove $Bloat ..."
         Get-AppxPackage -Name $Bloat| Remove-AppxPackage    # App
         Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online  # Payload

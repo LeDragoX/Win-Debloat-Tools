@@ -2,7 +2,7 @@ Write-Host "Current Script Folder $PSScriptRoot"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Count-N-Seconds.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Simple-Message-Box.psm1
 
-function RunManualDebloatSoftwares {
+Function RunManualDebloatSoftwares {
 
     $Message = "[This is a DIY step]
     1 - If showed click [I AGREE]

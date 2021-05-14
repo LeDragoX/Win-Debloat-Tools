@@ -1,9 +1,9 @@
-function QuickPrivilegesElevation {
+Function QuickPrivilegesElevation {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
-    if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+    If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function LoadLibs {
+Function LoadLibs {
 
     Write-Host "Current Script Folder $PSScriptRoot"
     Write-Host ""
@@ -22,7 +22,7 @@ function LoadLibs {
 
 }
 
-function PromptPcRestart {
+Function PromptPcRestart {
 
     $Ask = "If you want to see the changes restart your computer!
     Do you want to Restart now?"
@@ -46,7 +46,7 @@ function PromptPcRestart {
 
 # https://docs.microsoft.com/pt-br/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
-function PrepareGUI {
+Function PrepareGUI {
 
     $DoneTitle      = "Done"
     $DoneMessage    = "Proccess Completed!"
@@ -256,45 +256,25 @@ function PrepareGUI {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             
             Clear-Host
-            Title2 -Text "backup-system.ps1"
-            Import-Module -DisableNameChecking .\"backup-system.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
+            $Scripts = @(
+                # [Recommended order] List of Scripts
+                "backup-system.ps1"
+                "silent-debloat-softwares.ps1"
+                "optimize-scheduled-tasks.ps1"
+                "optimize-services.ps1"
+                "remove-bloatware-apps.ps1"
+                "optimize-privacy-and-performance.ps1"
+                "personal-optimizations.ps1"
+                "optimize-security.ps1"
+                "enable-optional-features.ps1"
+                "remove-onedrive.ps1"
+            )
         
-            Title2 -Text "silent-debloat-softwares.ps1"
-            Import-Module -DisableNameChecking .\"silent-debloat-softwares.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-    
-            Title2 -Text "optimize-scheduled-tasks.ps1"
-            Import-Module -DisableNameChecking .\"optimize-scheduled-tasks.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-    
-            Title2 -Text "optimize-services.ps1"
-            Import-Module -DisableNameChecking .\"optimize-services.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-
-            Title2 -Text "remove-bloatware-apps.ps1"
-            Import-Module -DisableNameChecking .\"remove-bloatware-apps.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-
-            Title2 -Text "optimize-privacy-and-performance.ps1"
-            Import-Module -DisableNameChecking .\"optimize-privacy-and-performance.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-
-            Title2 -Text "personal-optimizations.ps1"
-            Import-Module -DisableNameChecking .\"personal-optimizations.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-
-            Title2 -Text "optimize-security.ps1"
-            Import-Module -DisableNameChecking .\"optimize-security.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-
-            Title2 -Text "enable-optional-features.ps1"
-            Import-Module -DisableNameChecking .\"enable-optional-features.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-            
-            Title2 -Text "remove-onedrive.ps1"
-            Import-Module -DisableNameChecking .\"remove-onedrive.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
+            ForEach ($FileName in $Scripts) {
+                Title2 -Text "$FileName"
+                Import-Module -DisableNameChecking .\"$FileName"
+                # pause ### FOR DEBUGGING PURPOSES
+            }
                 
         Pop-Location
 
@@ -310,13 +290,20 @@ function PrepareGUI {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             
             Clear-Host
-            Title2 -Text "manual-debloat-softwares.ps1"
-            Import-Module -DisableNameChecking .\"manual-debloat-softwares.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
+            $Scripts = @(
+                # [Recommended order] List of Scripts
+                "manual-debloat-softwares.ps1"
+            )
+        
+            ForEach ($FileName in $Scripts) {
+                Title2 -Text "$FileName"
+                Import-Module -DisableNameChecking .\"$FileName"
+                # pause ### FOR DEBUGGING PURPOSES
+            }
         
         Pop-Location
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
 
+        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })
 
     # Panel 1 ~> Button 3 Mouse Click listener
@@ -328,31 +315,21 @@ function PrepareGUI {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             Clear-Host
-            Title2 -Text "backup-system.ps1"
-            Import-Module -DisableNameChecking .\"backup-system.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
-
-            $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
-            Do you want to continue?"
-    
-            switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
-                'Yes' {
-                    Write-Host "You choose Yes."
-    
-                    Title2 -Text "repair-windows.ps1"
-                    Import-Module -DisableNameChecking .\"repair-windows.ps1"
-                }
-                'No' {
-                    Write-Host "You choose No. (No = Cancel)"
-                }
-                'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
-                    Write-Host "You choose Cancel. (Cancel = No)"
-                }
+            $Scripts = @(
+                # [Recommended order] List of Scripts
+                "backup-system.ps1"
+                "repair-windows.ps1"
+            )
+        
+            ForEach ($FileName in $Scripts) {
+                Title2 -Text "$FileName"
+                Import-Module -DisableNameChecking .\"$FileName"
+                # pause ### FOR DEBUGGING PURPOSES
             }
 
         Pop-Location
+        
         ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-
     })
 
     # Panel 2 ~> Button 1 Mouse Click listener
@@ -442,9 +419,16 @@ function PrepareGUI {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             Clear-Host
-            Title2 -Text "choco-sw-installer.ps1"
-            Import-Module -DisableNameChecking .\"choco-sw-installer.ps1"
-            # pause ### FOR DEBUGGING PURPOSES
+            $Scripts = @(
+                # [Recommended order] List of Scripts
+                "choco-sw-installer.ps1"
+            )
+        
+            ForEach ($FileName in $Scripts) {
+                Title2 -Text "$FileName"
+                Import-Module -DisableNameChecking .\"$FileName"
+                # pause ### FOR DEBUGGING PURPOSES
+            }
 
         Pop-Location
         
@@ -471,7 +455,7 @@ SetupConsoleStyle           # Just fix the font on the PS console
 $Global:NeedRestart = $false
 PrepareGUI                  # Load the GUI
 
-if ($NeedRestart -eq $true) {
+If ($NeedRestart -eq $true) {
     PromptPcRestart             # Prompt options to Restart the PC
 }
 

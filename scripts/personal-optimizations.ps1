@@ -44,7 +44,7 @@ Function PersonalTweaks {
     Set-ItemProperty -Path "$PathToExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value 0
 
     Write-Host "- Disabling Live Tiles..."
-    if (!(Test-Path "$PathToLiveTiles")) {
+    If (!(Test-Path "$PathToLiveTiles")) {
         New-Item -Path "$PathToLiveTiles" -Force | Out-Null
     }
     Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value 1

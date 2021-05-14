@@ -55,7 +55,7 @@ Function TweaksForPrivacyAndPerformance {
         "SubscribedContentEnabled"
         "SystemPaneSuggestionsEnabled"
     )
-    foreach ($Name in $ContentDeliveryManagerDisableOnZero) {
+    ForEach ($Name in $ContentDeliveryManagerDisableOnZero) {
         Write-Host "[Registry] From Path: [$PathToContentDeliveryManager]"
         Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path "$PathToContentDeliveryManager" -Name "$Name" -Type DWord -Value 0
@@ -128,7 +128,7 @@ Function TweaksForPrivacyAndPerformance {
         "PublishUserActivities"
         "UploadUserActivities"
     )
-    foreach ($Name in $ActivityHistoryDisableOnZero) {
+    ForEach ($Name in $ActivityHistoryDisableOnZero) {
         Write-Host "[Registry] From Path: [$PathToActivityHistory]"
         Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path "$PathToActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value 0
@@ -207,7 +207,7 @@ Function TweaksForPrivacyAndPerformance {
         "DisableTailoredExperiencesWithDiagnosticData"
         "DisableThirdPartySuggestions"
     )
-    foreach ($Name in $CloudContentDisableOnOne) {
+    ForEach ($Name in $CloudContentDisableOnOne) {
         Write-Host "[Registry] From Path: [$PathToCloudContent]"
         Write-Host "[Registry] Setting $Name value: 1"
         Set-ItemProperty -Path "$PathToCloudContent" -Name "$Name" -Type DWord -Value 1
@@ -240,8 +240,8 @@ Function TweaksForPrivacyAndPerformance {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "Type" "LooselyCoupled"
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "Value" "Deny"
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "InitialAppValue" "Unspecified"
-    foreach ($key in (Get-ChildItem "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global")) {
-        if ($key.PSChildName -EQ "LooselyCoupled") {
+    ForEach ($key in (Get-ChildItem "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global")) {
+        If ($key.PSChildName -EQ "LooselyCoupled") {
             continue
         }
         Set-ItemProperty -Path ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "Type" "InterfaceClass"
@@ -294,12 +294,12 @@ Function TweaksForPrivacyAndPerformance {
         # Show super hidden system files in Explorer
         #"ShowSuperHidden"
     )
-    foreach ($Name in $ExplorerAdvKeysToZero) {
+    ForEach ($Name in $ExplorerAdvKeysToZero) {
         Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
         Write-Host "[Registry] Setting $Name value: 0"
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 0
     }
-    foreach ($Name in $ExplorerAdvKeysToOne) {
+    ForEach ($Name in $ExplorerAdvKeysToOne) {
         Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
         Write-Host "[Registry] Setting $Name value: 1"
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 1
@@ -322,7 +322,7 @@ Function TweaksForPrivacyAndPerformance {
     $preferences.Preferences[28] = 0
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
     
-    Section1 -Text "Deleting useless registry keys..."
+    Write-Host "Deleting useless registry keys..."
         
     $KeysToDelete = @(
         # Remove Background Tasks
@@ -355,8 +355,8 @@ Function TweaksForPrivacyAndPerformance {
         # Windows Share Target
         "HKCR:\Extensions\ContractId\Windows.ShareTarget\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
     )
-    foreach ($Key in $KeysToDelete) {
-        if (!(Test-Path $Key)) { # Only remove if the Path exists
+    ForEach ($Key in $KeysToDelete) {
+        If (!(Test-Path $Key)) { # Only remove if the Path exists
             continue
         }
         Write-Host "[Registry] Removing [$Key]..."
