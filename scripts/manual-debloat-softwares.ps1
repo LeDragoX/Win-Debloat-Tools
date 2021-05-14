@@ -1,10 +1,6 @@
-# Made by LeDragoX
-
 Write-Host "Current Script Folder $PSScriptRoot"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Count-N-Seconds.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Simple-Message-Box.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 
 function RunManualDebloatSoftwares {
 
@@ -18,7 +14,7 @@ function RunManualDebloatSoftwares {
     7 - Close it then OK"
         
     # If changing the programs folder move here!!!
-    Push-Location "..\lib\Debloat-Softwares"
+    Push-Location "..\lib\debloat-softwares"
     
         Write-Host "+ [DIY] Running WinAero Tweaker..."
         Expand-Archive '.\Winaero Tweaker.zip'

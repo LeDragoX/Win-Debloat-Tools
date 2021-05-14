@@ -56,7 +56,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ## GUI Script Features
 
-- Run every Automated Tweaks scripts; (without interaction)
+- Run every 'non-interactive' Tweak scripts;
 - Run WinAero Tweaker to apply my profile and other "Manual" softwares in the future (maybe); ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
 - [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./scripts/backup-system.ps1) and ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
 - Apply Dark Mode or Light Mode exclusively from GUI; ([Dark](./utils/dark-theme.reg) and [Light](./utils/light-theme.reg))
@@ -66,17 +66,15 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - Import all necessary Modules before Executing everything; ([lib folder](lib/))
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./scripts/backup-system.ps1))
-- Download OOShutUp10 and import my Configuration file; ([`all-in-one-tweaks.ps1`](./scripts/all-in-one-tweaks.ps1))
+- Download OOShutUp10 and import all Recommended settings; ([`silent-debloat-softwares.ps1`](./scripts/silent-debloat-softwares.ps1))
 - Download AdwCleaner and Run the latest version of for Virus/Adware scan;
-- Disable Telemetry from Scheduled Tasks and Optimize it;
-- Re-Enable useful Services & Disable the Heavy ones;
-- Disable Telemetry and Data Collection via Registry;
-- Help improve the Security of Windows by a little;
-- Apply my Performance & UI Personalization tweaks via Registry and Powershell commands;
-- Remove Bloatware Apps that comes with Windows 10, except from my choice;
-- Enable Optional Features especially for Gaming/Work (including WSL 2);
-- Fix more Privacy problems via Registry and Commands; ([`fix-privacy-settings.ps1`](./scripts/fix-privacy-settings.ps1))
-- Optimize the Default Windows UI to look more Clean, and fixes the Mouse; ([`optimize-user-interface.ps1`](./scripts/optimize-user-interface.ps1))
+- Disable Telemetry from Scheduled Tasks and Optimize it; ([`optimize-scheduled-tasks.ps1`](./scripts/optimize-scheduled-tasks.ps1))
+- Re-Enable useful Services & Disable the Heavy ones; ([`optimize-services.ps1`](./scripts/optimize-services.ps1))
+- Remove Bloatware Apps that comes with Windows 10, except from my choice; ([`remove-bloatware-apps.ps1`](./scripts/remove-bloatware-apps.ps1))
+- Optimize Privacy and Performance settings via Registry and Powershell commands; ([`optimize-privacy-and-performance.ps1`](./scripts/optimize-privacy-and-performance.ps1))
+- Apply General Personalization tweaks via Registry and Powershell commands; ([`personal-optimizations.ps1`](./scripts/personal-optimizations.ps1))
+- Help improve the Security of Windows by a little; ([`optimize-security.ps1`](./scripts/optimize-security.ps1))
+- Enable Optional Features especially for Gaming/Work (including WSL 2); ([`enable-optional-features.ps1`](./scripts/enable-optional-features.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
 - [Optional] Run WinAero Tweaker for Extra UI Customization and tell how to import my Profile; ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
 - [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
