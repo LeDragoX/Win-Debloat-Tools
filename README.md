@@ -43,7 +43,7 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
 ```
 ![Script GUI](./lib/images/Script-GUI.png)
-*The `Automated Tweaks` button is the main one.*
+*The `Apply Tweaks` button is the main one.*
 
 #### CLI (Advice - If you want FULL Output to be displayed on the console, use this version)
 
