@@ -50,7 +50,7 @@ Section1 -Text "Fix Windows Registry and Image"
 sfc /scannow
 dism.exe /online /cleanup-image /restorehealth
 
-Section1 -Text "This will Re-register all your apps"
+Section1 -Text "Re-register all your apps"
 
 taskkill /F /IM explorer.exe
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableXamlStartMenu" -Type Dword -Value 0
