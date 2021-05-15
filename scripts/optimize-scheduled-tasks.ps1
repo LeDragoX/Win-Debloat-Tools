@@ -40,7 +40,7 @@ Function TweaksForScheduledTasks {
         )
         
         ForEach ($ScheduledTask in $DisableScheduledTasks) {
-            Write-Host "[TaskScheduler] Disabling the $ScheduledTask Task..."
+            Write-Host "[-][TaskScheduler] Disabling the $ScheduledTask Task..."
             Disable-ScheduledTask -TaskName $ScheduledTask
         }
         
@@ -50,7 +50,7 @@ Function TweaksForScheduledTasks {
     )
 
     ForEach ($ScheduledTask in $EnableScheduledTasks) {
-        Write-Host "[TaskScheduler] Enabling the $ScheduledTask Task..."
+        Write-Host "[+][TaskScheduler] Enabling the $ScheduledTask Task..."
         Enable-ScheduledTask -TaskName $ScheduledTask
     }
 
