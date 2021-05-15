@@ -26,7 +26,7 @@ Function Title1Counter ([String] $Text = "Test Text COUNTER", [Int] $MaxNum = $G
 
 	$Global:MaxNum = $MaxNum
 	
-	If ($Counter -eq $null) {
+	If ($null -eq $Counter) {
 		# Initialize Global variables
 		$Global:Counter = 0
 	}
