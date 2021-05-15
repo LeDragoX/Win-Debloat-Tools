@@ -18,7 +18,7 @@ Function TweaksForServices {
     )
         
     ForEach ($Service in $EnableServices) {
-        Write-Host "[Services] Re-enabling $Service at Startup and Starting..."
+        Write-Host "[+][Services] Re-enabling $Service at Startup and Starting..."
         Set-Service -Name $Service -StartupType Automatic
         Set-Service -Name $Service -Status Running
     }
@@ -75,7 +75,7 @@ Function TweaksForServices {
     )
     
     ForEach ($Service in $DisableServices) {
-        Write-Host "[Services] Disabling $Service at Startup and Stopping..."
+        Write-Host "[-][Services] Disabling $Service at Startup and Stopping..."
         Set-Service -Name "$Service" -StartupType Disabled
         Set-Service -Name "$Service" -Status Stopped
     }
