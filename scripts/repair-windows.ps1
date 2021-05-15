@@ -37,8 +37,13 @@ Start-Process wsreset -NoNewWindow
 Section1 -Text "Fix Windows Taskbar"
 
 Push-Location "$env:SystemRoot\System32"
-    .\Regsvr32.exe /s msimtf.dll | .\Regsvr32.exe /s msctf.dll | Start-Process -Verb RunAs .\ctfmon.exe
+    .\Regsvr32.exe /s msimtf.dll 
+    .\Regsvr32.exe /s msctf.dll
+    Start-Process -Verb RunAs .\ctfmon.exe
 Pop-Location
+
+Section1 -Text "Remove 'Test Mode' Watermark"
+bcdedit -set TESTSIGNING OFF
 
 Section1 -Text "Fix Windows Registry and Image"
 
