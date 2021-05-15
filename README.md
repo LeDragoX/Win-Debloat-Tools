@@ -85,10 +85,27 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ## Known Issues 
 
 - Start menu Search (`WSearch` indexing service will be disabled)
+### Solution
+```Powershell
+Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
+```
+
 - Sysprep will hang (Not Tested)
 - [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
 - [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` app will be uninstalled)
 - [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
+### Solution
+```Powershell
+Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
+```
+
+- Bluestacks doesn't work with Hyper-V enabled
+### Solution
+```Powershell
+Dism -Online -Disable-Feature -NoRestart -FeatureName:"Microsoft-Hyper-V-All"
+Dism -Online -Disable-Feature -NoRestart -FeatureName:"HypervisorPlatform"
+Dism -Online -Disable-Feature -NoRestart -FeatureName:"VirtualMachinePlatform"
+```
 
 ## Contribute
 
