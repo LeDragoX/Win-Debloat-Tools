@@ -3,8 +3,8 @@
 # reboot, run it again (this time no errors should occur) followed by another
 # reboot.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\New-FolderForced.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\take-own.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\not-used\New-FolderForced.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\not-used\take-own.psm1
 
 Write-Output "Elevating priviledges for this process"
 do {} until (Elevate-Privileges SeTakeOwnershipPrivilege)
