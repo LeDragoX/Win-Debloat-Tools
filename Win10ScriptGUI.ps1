@@ -336,7 +336,7 @@ Function PrepareGUI {
     $DarkMode.Add_Click({
 
         Push-Location ".\utils"
-            Write-Host "+ Enabling Dark theme..."
+            Write-Host "[+] Enabling Dark theme..."
             regedit /s dark-theme.reg
         Pop-Location
 
@@ -365,7 +365,7 @@ Function PrepareGUI {
     $LightMode.Add_Click({
 
         Push-Location ".\utils"
-            Write-Host "+ Enabling Light theme..."
+            Write-Host "[+] Enabling Light theme..."
             regedit /s light-theme.reg
         Pop-Location
 
@@ -393,7 +393,7 @@ Function PrepareGUI {
     $EnableCortana.Add_Click({
 
         Push-Location ".\utils"
-            Write-Host "+ Enabling Cortana..."
+            Write-Host "[+] Enabling Cortana..."
             regedit /s enable-cortana.reg
         Pop-Location
 
@@ -404,7 +404,7 @@ Function PrepareGUI {
     $DisableCortana.Add_Click({
 
         Push-Location ".\utils"
-            Write-Host "- Disabling Cortana..."
+            Write-Host "[-] Disabling Cortana..."
             regedit /s disable-cortana.reg
         Pop-Location
 
