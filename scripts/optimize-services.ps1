@@ -8,7 +8,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 Function TweaksForServices {
 
     Title1 -Text "Services tweaks"
-    Section1 -Text "Re-enabling services at Startup"
+    Section1 -Text "Re-enabling Services"
     
     $EnableServices = @(
         "BITS"                                      # Background Intelligent Transfer Service
@@ -18,12 +18,12 @@ Function TweaksForServices {
     )
         
     ForEach ($Service in $EnableServices) {
-        Write-Host "[Services] Starting and re-enabling $Service at Startup..."
-        Set-Service -Name $Service -Status Running
+        Write-Host "[Services] Re-enabling $Service at Startup and Starting..."
         Set-Service -Name $Service -StartupType Automatic
+        Set-Service -Name $Service -Status Running
     }
     
-    Section1 -Text "Disabling services at Startup"
+    Section1 -Text "Disabling Services"
         
     $DisableServices = @(
         "DiagTrack"                                 # Connected User Experiences and Telemetry
@@ -75,9 +75,9 @@ Function TweaksForServices {
     )
     
     ForEach ($Service in $DisableServices) {
-        Write-Host "[Services] Stopping and Disabling $Service at Startup..."
-        Set-Service -Name "$Service" -Status Stopped
+        Write-Host "[Services] Disabling $Service at Startup and Stopping..."
         Set-Service -Name "$Service" -StartupType Disabled
+        Set-Service -Name "$Service" -Status Stopped
     }
 
 }
