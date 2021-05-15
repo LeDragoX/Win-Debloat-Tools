@@ -101,12 +101,6 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [Sergey Tkachenko](https://winaero.com/) (*WinAero Tweaker Dev.*)
 - [O&O Software GmbH](https://www.oo-software.com/en/company) (*ShutUp10 Dev. Company*)
 - [MalwareBytes](https://br.malwarebytes.com/company/) (*AdwCleaner Dev. Company*)
-- [10se1ucgo](https://github.com/10se1ucgo)
-- [Plumebit](https://github.com/Plumebit)
-- [aramboi](https://github.com/aramboi)
-- [maci0](https://github.com/maci0)
-- [narutards](https://github.com/narutards)
-- [tumpio](https://github.com/tumpio)
 
 ### Who inspired me to improve more:
 
