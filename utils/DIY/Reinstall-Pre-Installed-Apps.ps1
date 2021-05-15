@@ -6,20 +6,20 @@ $Packages = (get-item 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Appx\Appx
 $PackageFilter = $args[0]
 if ([string]::IsNullOrEmpty($PackageFilter))
 {
-	echo "No filter specified, attempting to re-register all provisioned apps."
+	Write-Output "No filter specified, attempting to re-register all provisioned apps."
 }
 else
 {
-	$Packages = $Packages | where {$_.Name -like $PackageFilter} 
+	$Packages = $Packages | Where-Object {$_.Name -like $PackageFilter} 
 
-	if ($Packages -eq $null)
+	if ($null -eq $Packages)
 	{
-		echo "No provisioned apps match the specified filter."
+		Write-Output "No provisioned apps match the specified filter."
 		exit
 	}
 	else
 	{
-		echo "Registering the provisioned apps that match $PackageFilter"
+		Write-Output "Registering the provisioned apps that match $PackageFilter"
 	}
 }
 
@@ -30,7 +30,7 @@ ForEach($Package in $Packages)
 	$PackagePath = [System.Environment]::ExpandEnvironmentVariables(($Package | Get-ItemProperty | Select-Object -ExpandProperty Path))
 
 	# register the package	
-	echo "Attempting to register package: $PackageName"
+	Write-Output "Attempting to register package: $PackageName"
 
 	Add-AppxPackage -register $PackagePath -DisableDevelopmentMode
 }
