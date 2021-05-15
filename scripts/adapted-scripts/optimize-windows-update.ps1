@@ -2,7 +2,7 @@
 # This script optimizes Windows updates by disabling automatic download and
 # seeding updates to other computers.
 #
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\New-FolderForced.psm1
 
 Write-Output "Disable automatic download and installation of Windows updates"
 New-FolderForced -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
