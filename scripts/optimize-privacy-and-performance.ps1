@@ -365,14 +365,14 @@ Function TweaksForPrivacyAndPerformance {
 
     Title1 -Text "Performance Tweaks"
     
+    Write-Host "= Enabling Memory Compression..."
+    Enable-MMAgent -MemoryCompression               # If this comes first than SysMain/Superfetch tweaks, Sysmain should be disabled
+
     Write-Host "- Disabling Superfetch and APPs Prelaunching..."
     # Superfetch is the SAME as Prefetcher, disable BOTH (0 = Disable Superfetch, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnableSuperfetch" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnablePrefetcher" -Type DWord -Value 0
     Disable-MMAgent -ApplicationPreLaunch
-
-    Write-Host "= Enabling Memory Compression..."
-    Enable-MMAgent -MemoryCompression
     
     Write-Host "- Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
