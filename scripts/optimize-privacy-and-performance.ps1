@@ -17,6 +17,7 @@ $Global:PathToExplorerAdvanced =        "$PathToExplorer\Advanced"
 $Global:PathToGameBar =                 "HKCU:\SOFTWARE\Microsoft\GameBar"
 $Global:PathToInputPersonalization =    "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
 $Global:PathToTIPC =                    "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
+$Global:PathToPrefetchParams =          "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
 $Global:PathToPsched =                  "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
 $Global:PathToSearch =                  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 $Global:PathToSiufRules =               "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
@@ -322,7 +323,7 @@ Function TweaksForPrivacyAndPerformance {
     $preferences.Preferences[28] = 0
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
     
-    Write-Host "Deleting useless registry keys..."
+    Write-Host "- Deleting useless registry keys..."
         
     $KeysToDelete = @(
         # Remove Background Tasks
@@ -356,24 +357,26 @@ Function TweaksForPrivacyAndPerformance {
         "HKCR:\Extensions\ContractId\Windows.ShareTarget\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
     )
     ForEach ($Key in $KeysToDelete) {
-        If (!(Test-Path $Key)) { # Only remove if the Path exists
-            continue
+        If ((Test-Path $Key)) {
+            Write-Host "[Registry] Removing [$Key]..."
+            Remove-Item $Key -Recurse -Force
         }
-        Write-Host "[Registry] Removing [$Key]..."
-        Remove-Item $Key -Recurse -Force # This will not be debugged
     }
 
     Title1 -Text "Performance Tweaks"
     
+    # As SysMain was already disabled on the Services, just need to remove it's key
+    Write-Host "- Disabling SysMain/Superfetch and APPs Prelaunching..."
+    If ((Test-Path "$PathToPrefetchParams")) {
+        Remove-ItemProperty -Path $PathToPrefetchParams -Name "EnableSuperfetch" -Force
+    }
+    # (0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
+    Set-ItemProperty -Path "$PathToPrefetchParams" -Name "EnablePrefetcher" -Type DWord -Value 0
+    Disable-MMAgent -ApplicationPreLaunch
+
     Write-Host "= Enabling Memory Compression..."
     Enable-MMAgent -MemoryCompression               # If this comes first than SysMain/Superfetch tweaks, Sysmain should be disabled
 
-    Write-Host "- Disabling Superfetch and APPs Prelaunching..."
-    # Superfetch is the SAME as Prefetcher, disable BOTH (0 = Disable Superfetch, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnableSuperfetch" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnablePrefetcher" -Type DWord -Value 0
-    Disable-MMAgent -ApplicationPreLaunch
-    
     Write-Host "- Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
     
