@@ -8,7 +8,7 @@
 # Please see the related issue:
 # <https://github.com/W4RH4WK/Debloat-Windows-10/issues/79>
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\New-FolderForced.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\not-used\New-FolderForced.psm1
 
 Write-Output "Disabling telemetry via Group Policies"
 New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"

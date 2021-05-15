@@ -3,7 +3,7 @@
 # of your system.  It should not be used unless you want to test out a few
 # things. It is named `experimental_unfuckery.ps1` for a reason.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\take-own.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\not-used\take-own.psm1
 
 Write-Output "Elevating priviledges for this process"
 do {} until (Elevate-Privileges SeTakeOwnershipPrivilege)
