@@ -8,7 +8,7 @@ echo oLink.IconLocation = "%SYSTEMROOT%\System32\SHELL32.dll, 27" >> CreateShort
 REM echo "%SYSTEMROOT%\system32\imageres.dll, 2" >> CreateShortcut.vbs REM Icons of Windows 10
 REM echo "%SYSTEMROOT%\system32\pifmgr.dll, 2" >> CreateShortcut.vbs REM Icons of Windows 95/98
 REM echo "%SYSTEMROOT%\explorer.exe, 2" >> CreateShortcut.vbs REM Icons of Windows Explorer
-REM echo "%SYSTEMROOT%\system32\accessibilitycpl.dll, 2" >> CreateShortcut.vbs REM Icons of Acessibilidade
+REM echo "%SYSTEMROOT%\system32\accessibilitycpl.dll, 2" >> CreateShortcut.vbs REM Icons of Accessibility
 REM echo "%SYSTEMROOT%\system32\ddores.dll, 2" >> CreateShortcut.vbs REM Icons of Hardware
 REM echo "%SYSTEMROOT%\system32\moricons.dll, 2" >> CreateShortcut.vbs REM Icons of MS-DOS
 REM echo "%SYSTEMROOT%\system32\mmcndmgr.dll, 2" >> CreateShortcut.vbs REM More Icons of Windows 95/98
@@ -17,17 +17,17 @@ REM echo "%SYSTEMROOT%\system32\netshell.dll, 2" >> CreateShortcut.vbs REM Icons
 REM echo "%SYSTEMROOT%\system32\netcenter.dll, 2" >> CreateShortcut.vbs REM More Icons of Network
 REM echo "%SYSTEMROOT%\system32\networkexplorer.dll, 2" >> CreateShortcut.vbs REM More Icons of Network and Printer
 REM echo "%SYSTEMROOT%\system32\pnidui.dll, 2" >> CreateShortcut.vbs REM More Icons of Status in Network
-REM echo "%SYSTEMROOT%\system32\sensorscpl.dll, 2" >> CreateShortcut.vbs REM Icons of diferentes Sensores
+REM echo "%SYSTEMROOT%\system32\sensorscpl.dll, 2" >> CreateShortcut.vbs REM Icons of Distinct Sensors
 REM echo "%SYSTEMROOT%\system32\setupapi.dll, 2" >> CreateShortcut.vbs REM Icons of Setup Wizard
-REM echo "%SYSTEMROOT%\system32\wmploc.dll, 2" >> CreateShortcut.vbs REM Icons of Multimídia
+REM echo "%SYSTEMROOT%\system32\wmploc.dll, 2" >> CreateShortcut.vbs REM Icons of Player
 REM echo "%SYSTEMROOT%\system32\system32\wpdshext.dll, 2" >> CreateShortcut.vbs REM Icons of Portable devices and Battery
-REM echo "%SYSTEMROOT%\system32\compstui.dll, 2" >> CreateShortcut.vbs REM Icons Clássicos of Printer, Phone and Email
-REM echo "%SYSTEMROOT%\system32\dmdskres.dll, 2" >> CreateShortcut.vbs REM Icons of Gerenciamento in Disk
-REM echo "%SYSTEMROOT%\system32\dsuiext.dll, 2" >> CreateShortcut.vbs REM Icons of Serviços in Network
+REM echo "%SYSTEMROOT%\system32\compstui.dll, 2" >> CreateShortcut.vbs REM Classic Icons of Printer, Phone and Email
+REM echo "%SYSTEMROOT%\system32\dmdskres.dll, 2" >> CreateShortcut.vbs REM Icons of Disk Management
+REM echo "%SYSTEMROOT%\system32\dsuiext.dll, 2" >> CreateShortcut.vbs REM Icons of Services in Network
 REM echo "%SYSTEMROOT%\system32\mstscax.dll, 2" >> CreateShortcut.vbs REM Icons of Remote Connection
 REM echo "%SYSTEMROOT%\system32\wiashext.dll, 2" >> CreateShortcut.vbs REM Icons of Hardware in Image
 REM echo "%SYSTEMROOT%\system32\comres.dll, 2" >> CreateShortcut.vbs REM Icons of Actions
-REM echo "%SYSTEMROOT%\system32\comres.dll, 2" >> CreateShortcut.vbs REM More Icons of Network, Som and logo from Windows 8
+REM echo "%SYSTEMROOT%\system32\comres.dll, 2" >> CreateShortcut.vbs REM More Icons of Network, Sound and logo from Windows 8
 
 echo oLink.Save >> CreateShortcut.vbs
 cscript CreateShortcut.vbs
