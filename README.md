@@ -84,22 +84,23 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ## Known Issues 
 
-- Start menu Search (`WSearch` indexing service will be disabled)
+1. Start menu Search (`WSearch` indexing service will be disabled)
+2. Sysprep will hang (Not Tested)
+3. [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
+4. [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` app will be uninstalled)
+5. [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
+6. Bluestacks doesn't work with Hyper-V enabled
+
 ### Solution 1
 ```Powershell
 Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
 
-- Sysprep will hang (Not Tested)
-- [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
-- [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` app will be uninstalled)
-- [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
 ### Solution 5
 ```Powershell
 Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
 
-- Bluestacks doesn't work with Hyper-V enabled
 ### Solution 6
 ```Powershell
 Dism -Online -Disable-Feature -NoRestart -FeatureName:"Microsoft-Hyper-V-All"
