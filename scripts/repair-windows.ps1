@@ -1,9 +1,8 @@
-Write-Host "Current Script Folder $PSScriptRoot"
+# Made by LeDragoX
 
-Write-Host "<==========================================>"
-Write-Host "          Resetting the Hosts file"
-Write-Host "<==========================================>"
-Write-Host ""
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
+
+Section1 -Text "Resetting the Hosts file"
 
 $RestoreHosts = "# Copyright (c) 1993-2009 Microsoft Corp.
 #
@@ -31,54 +30,39 @@ Push-Location "$env:SystemRoot\System32\drivers\etc"
     Write-Output $RestoreHosts > .\hosts
 Pop-Location
 
-Write-Host "<==========================================>"
-Write-Host "            Resetting the MS Store"
-Write-Host "<==========================================>"
-Write-Host ""
+Section1 -Text "Resetting the MS Store"
 
 Start-Process wsreset -NoNewWindow
 
-Write-Host "<============================================>"
-Write-Host "             Fix Windows Taskbar"
-Write-Host "<============================================>"
-Write-Host ""
+Section1 -Text "Fix Windows Taskbar"
 
 Push-Location "$env:SystemRoot\System32"
     .\Regsvr32.exe /s msimtf.dll | .\Regsvr32.exe /s msctf.dll | Start-Process -Verb RunAs .\ctfmon.exe
 Pop-Location
 
-Write-Host "<============================================>"
-Write-Host "        Fix Windows Registry and Image"
-Write-Host "<============================================>"
-Write-Host ""
+Section1 -Text "Fix Windows Registry and Image"
 
 sfc /scannow
 dism.exe /online /cleanup-image /restorehealth
 
-Write-Host "<==========================================>"
-Write-Host "    This will Re-register all your apps"
-Write-Host "<==========================================>"
-Write-Host ""
+Section1 -Text "This will Re-register all your apps"
 
 taskkill /F /IM explorer.exe
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableXamlStartMenu" -Type Dword -Value 0
 Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 Start-Process explorer
 
-Write-Host "<==========================================>"
-Write-Host "           Solving Network problems"
-Write-Host "<==========================================>"
-Write-Host ""
+Section1 -Text "Solving Network problems"
 
 ipconfig /release
 ipconfig /release6
-Write-Host "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
+Caption1 -Text "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
 ipconfig /renew6 *Ethernet*
-Write-Host "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
+Caption1 -Text "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
 ipconfig /renew *Ethernet*
 
-Write-Host "Flushing DNS..."
+Caption1 -Text "Flushing DNS..."
 ipconfig /flushdns
 
-Write-Host "Resetting Winsock..."
+Caption1 -Text "Resetting Winsock..."
 netsh winsock reset
