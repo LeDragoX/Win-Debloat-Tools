@@ -58,10 +58,10 @@ Function PrepareGUI {
     $Green      = "#1fff00"
     $LightBlue  = "#00ffff"
     $LightGray  = "#eeeeee"
+    $White      = "#ffffff"
     $WinBlue    = "#2376bc"
     $WinDark    = "#252525"
     $WinGray    = "#e6e6e6"
-    $White      = "#ffffff"
 
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
