@@ -261,9 +261,9 @@ Function PrepareGUI {
     
     # Image Logo from the Script
     $PictureBox1                        = New-Object system.Windows.Forms.PictureBox
-    $PictureBox1.width                  = 120
-    $PictureBox1.height                 = 120
-    $PictureBox1.location               = New-Object System.Drawing.Point(($MaxWidth*0.75), ($MaxHeight*0.6))
+    $PictureBox1.width                  = 150
+    $PictureBox1.height                 = 150
+    $PictureBox1.location               = New-Object System.Drawing.Point(($MaxWidth*0.72), ($MaxHeight*0.5))
     $PictureBox1.imageLocation          = ".\lib\images\Script-logo.png"
     $PictureBox1.SizeMode               = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 
@@ -274,6 +274,8 @@ Function PrepareGUI {
         Push-Location -Path .\scripts
     
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
+            $PictureBox1.imageLocation      = ".\lib\images\Script-logo2.png"
+            $Form.Update()    
             
             Clear-Host
             $Scripts = @(
@@ -461,7 +463,7 @@ Function PrepareGUI {
     # Show the Window
     [void]$Form.ShowDialog()
     
-    # when done, dispose of the form
+    # When done, dispose of the GUI
     $Form.Dispose()
 
 }
