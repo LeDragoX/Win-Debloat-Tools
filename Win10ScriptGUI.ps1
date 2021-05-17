@@ -142,13 +142,13 @@ Function PrepareGUI {
     $Panel1.Controls.Add($uiTweaks)
 
     # Panel 1 ~> Button 3
-    $RepairWindows                        = New-Object system.Windows.Forms.Button
-    $RepairWindows.text                   = "Repair Windows"
-    $RepairWindows.width                  = $ButtonWidth
-    $RepairWindows.height                 = $ButtonHeight
-    $RepairWindows.location               = New-Object System.Drawing.Point($ButtonX, 160)
-    $RepairWindows.Font                   = New-Object System.Drawing.Font('Arial', 12)
-    $RepairWindows.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+    $RepairWindows                      = New-Object system.Windows.Forms.Button
+    $RepairWindows.text                 = "Repair Windows"
+    $RepairWindows.width                = $ButtonWidth
+    $RepairWindows.height               = $ButtonHeight
+    $RepairWindows.location             = New-Object System.Drawing.Point($ButtonX, 160)
+    $RepairWindows.Font                 = New-Object System.Drawing.Font('Arial', 12)
+    $RepairWindows.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel1.Controls.Add($RepairWindows)    
 
     # Panel 2 to put Labels and Buttons
@@ -213,23 +213,23 @@ Function PrepareGUI {
     $Panel2.Controls.Add($CaptionLabel2)
 
     # Panel 2 ~> Button 3
-    $EnableCortana                           = New-Object system.Windows.Forms.Button
-    $EnableCortana.text                      = "Enable"
-    $EnableCortana.width                     = $ButtonWidth
-    $EnableCortana.height                    = $ButtonHeight
-    $EnableCortana.location                  = New-Object System.Drawing.Point($ButtonX, 165)
-    $EnableCortana.Font                      = New-Object System.Drawing.Font('Arial', 12)
-    $EnableCortana.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+    $EnableCortana                      = New-Object system.Windows.Forms.Button
+    $EnableCortana.text                 = "Enable"
+    $EnableCortana.width                = $ButtonWidth
+    $EnableCortana.height               = $ButtonHeight
+    $EnableCortana.location             = New-Object System.Drawing.Point($ButtonX, 165)
+    $EnableCortana.Font                 = New-Object System.Drawing.Font('Arial', 12)
+    $EnableCortana.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel2.Controls.Add($EnableCortana)
 
     # Panel 2 ~> Button 4
-    $DisableCortana                           = New-Object system.Windows.Forms.Button
-    $DisableCortana.text                      = "Disable"
-    $DisableCortana.width                     = $ButtonWidth
-    $DisableCortana.height                    = $ButtonHeight
-    $DisableCortana.location                  = New-Object System.Drawing.Point($ButtonX, 200)
-    $DisableCortana.Font                      = New-Object System.Drawing.Font('Arial', 12)
-    $DisableCortana.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+    $DisableCortana                     = New-Object system.Windows.Forms.Button
+    $DisableCortana.text                = "Disable"
+    $DisableCortana.width               = $ButtonWidth
+    $DisableCortana.height              = $ButtonHeight
+    $DisableCortana.location            = New-Object System.Drawing.Point($ButtonX, 200)
+    $DisableCortana.Font                = New-Object System.Drawing.Font('Arial', 12)
+    $DisableCortana.ForeColor           = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
     $Panel2.Controls.Add($DisableCortana)
     
     # Panel 3 to put Labels and Buttons
@@ -362,17 +362,17 @@ Function PrepareGUI {
 
         $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
 
-        $ApplyTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
+        $ApplyTweaks.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
         $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
-        $RepairWindows.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+        $RepairWindows.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
         $ChocolateySwInstaller.ForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
         $EnableCortana.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
         $DisableCortana.ForeColor           = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
 
 
-        $ApplyTweaks.BackColor          = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
+        $ApplyTweaks.BackColor              = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
         $uiTweaks.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
-        $RepairWindows.BackColor              = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
+        $RepairWindows.BackColor            = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
         $ChocolateySwInstaller.BackColor    = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
         $EnableCortana.BackColor            = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
         $DisableCortana.BackColor           = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
@@ -391,16 +391,16 @@ Function PrepareGUI {
 
         $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("$White")
 
-        $ApplyTweaks.ForeColor          = [System.Drawing.ColorTranslator]::FromHtml("$WinBlue")
+        $ApplyTweaks.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$WinBlue")
         $uiTweaks.ForeColor                 = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
-        $RepairWindows.ForeColor              = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
+        $RepairWindows.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
         $ChocolateySwInstaller.ForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
         $EnableCortana.ForeColor            = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
         $DisableCortana.ForeColor           = [System.Drawing.ColorTranslator]::FromHtml("$DarkGray")
 
-        $ApplyTweaks.BackColor          = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
+        $ApplyTweaks.BackColor              = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
         $uiTweaks.BackColor                 = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
-        $RepairWindows.BackColor              = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
+        $RepairWindows.BackColor            = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
         $ChocolateySwInstaller.BackColor    = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
         $EnableCortana.BackColor            = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
         $DisableCortana.BackColor           = [System.Drawing.ColorTranslator]::FromHtml("$WinGray")
