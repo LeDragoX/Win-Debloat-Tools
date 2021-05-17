@@ -94,7 +94,7 @@ Function PrepareGUI {
     $Form.FormBorderStyle               = 'FixedSingle'     # Not adjustable
     $Form.MinimizeBox                   = $true             # Remove the Minimize Button
     $Form.MaximizeBox                   = $false            # Remove the Maximize Button
-    $Form.TopMost                       = $true
+    $Form.TopMost                       = $false
     $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
     
     # Icon: https://stackoverflow.com/a/53377253
