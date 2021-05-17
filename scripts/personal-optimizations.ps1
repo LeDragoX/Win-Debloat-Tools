@@ -6,7 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 
 # Initialize all Path variables used to Registry Tweaks
 $Global:PathToAccessibility =           "HKCU:\Control Panel\Accessibility"
-$Global:PathToEdgeUserPol =             "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Edge"
+$Global:PathToEdgeUserPol =             "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
 $Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
 $Global:PathToExplorerAdvanced =        "$PathToExplorer\Advanced"
 $Global:PathToLiveTiles =               "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
