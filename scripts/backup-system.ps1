@@ -12,7 +12,7 @@ Function BackupHostsFile {
     $Global:PathToHostsFile = "$env:SystemRoot\System32\drivers\etc"
     
     Write-Host "Doing Backup on Hosts file..."
-    $Date = Get-Date -Format "MM-dd-yyyy_HH-mm"
+    $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
     Push-Location "$PathToHostsFile"
     
         If (!(Test-Path "$PathToHostsFile\Hosts_Backup")) {
