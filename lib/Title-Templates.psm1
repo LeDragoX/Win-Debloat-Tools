@@ -1,23 +1,47 @@
-Function Title1 ([String] $Text = "Test Text") {
+Function Title1 {
+
+	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    param (
+		[String]	$Text = "Title1 Text"
+    )
+
 	Write-Host "" # Skip line
 	Write-Host "<====================[ $Text ]====================>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
-Function Title2 ([String] $Text = "Test Text") {
+Function Title2 {
+
+	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    param (
+		[String]	$Text = "Title2 Text"
+    )
+
 	Write-Host "" # Skip line
 	Write-Host "<====================< $Text >====================>" -ForegroundColor Yellow
 	Write-Host "" # Skip line
 }
 
-Function Section1 ([String] $Text = "Test Text") {
+Function Section1 {
+
+	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    param (
+		[String]	$Text = "Section1 Text"
+    )
+
 	Write-Host "" # Skip line
 	Write-Host "<==========[ $Text ]==========>" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
 
 
-Function Caption1 ([String] $Text = "Test Text") {
+Function Caption1 {
+
+	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    param (
+		[String]	$Text = "Caption1 Text"
+    )
+
 	Write-Host "--> $Text" -ForegroundColor Cyan
 	Write-Host "" # Skip line
 }
@@ -26,7 +50,7 @@ Function Title1Counter {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-		[String]	$Text = "Test Text COUNTER", 
+		[String]	$Text = "Title1 COUNTER Text", 
 		[Int] 		$MaxNum = $Global:MaxNum
     )
 
