@@ -1,10 +1,10 @@
-function QuickPrivilegesElevation {
+Function QuickPrivilegesElevation {
 	# Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
-	if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 # Your script here
 
-function PrepareRun {
+Function PrepareRun {
 
     Push-Location -Path .\lib
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
@@ -23,7 +23,7 @@ function PrepareRun {
 
 }
 
-function InstallChocolatey {
+Function InstallChocolatey {
 
     # This function will use Windows package manager to bootstrap Chocolatey and install a list of packages.
 
@@ -50,7 +50,7 @@ function InstallChocolatey {
     }
     
     # If the Sched. Job already exists, delete
-    if (Get-ScheduledJob -Name $JobName) {
+    If (Get-ScheduledJob -Name $JobName) {
         Write-Host "ScheduledJob: $JobName FOUND! Deleting..."
         Unregister-ScheduledJob -Name $JobName
     }
@@ -59,15 +59,15 @@ function InstallChocolatey {
     
 }
 
-function InstallPackages {
+Function InstallPackages {
 
     # Install CPU drivers first
-    if ($CPU.contains("AMD")) {
+    If ($CPU.contains("AMD")) {
         
         Section1 -Text "Installing AMD chipset drivers!"
         Write-Host "Unfortunately, Chocolatey doesn't have a package for AMD"
 
-	} elseif ($CPU.contains("Intel")) {
+	} ElseIf ($CPU.contains("Intel")) {
 
         Section1 -Text "Installing Intel chipset drivers!"
         choco install "chocolatey-misc-helpers.extension" -y    # intel-dsa Dependency
@@ -77,16 +77,16 @@ function InstallPackages {
     }
     
     # Install GPU drivers then
-    if ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
+    If ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
         Title1 -Text "AMD GPU, yay! (Doing nothing)"
     }
     
-    if ($GPU.contains("Intel")) {
+    If ($GPU.contains("Intel")) {
         Section1 -Text "Installing Intel Graphics driver!"
         choco install "intel-graphics-driver" -y                # Intel Graphics Driver (latest)
     }
 
-    if ($GPU.contains("NVIDIA")) {
+    If ($GPU.contains("NVIDIA")) {
 
         Section1 -Text "Installing NVIDIA Graphics driver!"
         choco install "geforce-experience" -y                   # GeForce Experience (latest)
@@ -123,22 +123,22 @@ function InstallPackages {
     $TotalPackagesLenght = $EssentialPackages.Length+1
 
     Title1 -Text "Installing Packages"
-    foreach ($Package in $EssentialPackages) {
+    ForEach ($Package in $EssentialPackages) {
         Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
         # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-        if ((Get-AppxPackage).Name -ilike "*$Package*") {
+        If ((Get-AppxPackage).Name -ilike "*$Package*") {
             Caption1 -Text "$Package already installed on MS Store! Skipping..."
-            } else {
+            } Else {
                 choco install $Package -y # --force
             }
     }
 
     # For Java (JRE) correct installation
-    if ($Architecture.contains("32-bits")) {
+    If ($Architecture.contains("32-bits")) {
         Title1Counter -Text "Installing: jre8 (32-bits)"
         choco install "jre8" -PackageParameters "/exclude:64" -y
     } 
-    elseif ($Architecture.contains("64-bits")) {
+    ElseIf ($Architecture.contains("64-bits")) {
         Title1Counter -Text "Installing: jre8 (64-bits)"
         choco install "jre8" -PackageParameters "/exclude:32" -y
     }
@@ -151,7 +151,7 @@ All important Gaming clients and Required Game Softwares to Run Games will be in
 + Parsec
 + Steam
 + Microsoft DX & .NET & VC++ Packages"
-function InstallGamingPackages { # You Choose
+Function InstallGamingPackages { # You Choose
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         'Yes' {
@@ -179,7 +179,7 @@ function InstallGamingPackages { # You Choose
             $TotalPackagesLenght += $GamingPackages.Length
         
             Title1 -Text "Installing Packages"
-            foreach ($Package in $GamingPackages) {
+            ForEach ($Package in $GamingPackages) {
                 Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
                 choco install $Package -y # --force # to reinstall
             }
