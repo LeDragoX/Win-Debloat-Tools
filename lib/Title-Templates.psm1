@@ -46,11 +46,11 @@ Function Caption1 {
 	Write-Host "" # Skip line
 }
 
-Function Title1Counter {
+Function Title2Counter {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-		[String]	$Text = "Title1 COUNTER Text", 
+		[String]	$Text = "Title2 COUNTER Text", 
 		[Int] 		$MaxNum = $Global:MaxNum
     )
 
@@ -62,7 +62,7 @@ Function Title1Counter {
 	}
 	
 	$Global:Counter = $Counter + 1
-	Title1 "( $Counter/$MaxNum ) - [$Text]"
+	Title2 "( $Counter/$MaxNum ) - [$Text]"
 
 	# Reset both when the Counter is the same as MaxNum and different from 0
 	If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {

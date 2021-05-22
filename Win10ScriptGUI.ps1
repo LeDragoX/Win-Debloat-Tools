@@ -293,7 +293,7 @@ Function PrepareGUI {
             )
         
             ForEach ($FileName in $Scripts) {
-                Title2 -Text "$FileName"
+                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName"
                 # pause ### FOR DEBUGGING PURPOSES
             }
@@ -318,7 +318,7 @@ Function PrepareGUI {
             )
         
             ForEach ($FileName in $Scripts) {
-                Title2 -Text "$FileName"
+                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName"
                 # pause ### FOR DEBUGGING PURPOSES
             }
@@ -344,7 +344,7 @@ Function PrepareGUI {
             )
         
             ForEach ($FileName in $Scripts) {
-                Title2 -Text "$FileName"
+                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName"
                 # pause ### FOR DEBUGGING PURPOSES
             }
@@ -447,7 +447,7 @@ Function PrepareGUI {
             )
         
             ForEach ($FileName in $Scripts) {
-                Title2 -Text "$FileName"
+                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName"
                 # pause ### FOR DEBUGGING PURPOSES
             }

@@ -120,11 +120,12 @@ Function InstallPackages {
         #"sysinternals"             # Sys Internals Suite
         #"wireshark"                # Wire Shark
     )
-    $TotalPackagesLenght = $EssentialPackages.Length+1
+    $TotalPackagesLenght = $EssentialPackages.Length
+    $TotalPackagesLenght += 1
 
     Title1 -Text "Installing Packages"
     ForEach ($Package in $EssentialPackages) {
-        Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
+        Title2Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
         # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
         If ((Get-AppxPackage).Name -ilike "*$Package*") {
             Caption1 -Text "$Package already installed on MS Store! Skipping..."
@@ -135,11 +136,11 @@ Function InstallPackages {
 
     # For Java (JRE) correct installation
     If ($Architecture.contains("32-bits")) {
-        Title1Counter -Text "Installing: jre8 (32-bits)"
+        Title2Counter -Text "Installing: jre8 (32-bits)"
         choco install "jre8" -PackageParameters "/exclude:64" -y
     } 
     ElseIf ($Architecture.contains("64-bits")) {
-        Title1Counter -Text "Installing: jre8 (64-bits)"
+        Title2Counter -Text "Installing: jre8 (64-bits)"
         choco install "jre8" -PackageParameters "/exclude:32" -y
     }
     
@@ -176,11 +177,10 @@ Function InstallGamingPackages { # You Choose
 
                 #"origin"               # [DIY] I don't like Origin
             )
-            $TotalPackagesLenght += $GamingPackages.Length
         
             Title1 -Text "Installing Packages"
             ForEach ($Package in $GamingPackages) {
-                Title1Counter -Text "Installing: $Package" -MaxNum $TotalPackagesLenght
+                Title2Counter -Text "Installing: $Package" -MaxNum $GamingPackages.Length
                 choco install $Package -y # --force # to reinstall
             }
 
