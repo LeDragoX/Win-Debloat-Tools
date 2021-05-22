@@ -67,7 +67,7 @@ Function RunScripts {
         )
         
         ForEach ($FileName in $Scripts) {
-            Title2 -Text "$FileName"
+            Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
             PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
             # pause ### FOR DEBUGGING PURPOSES
         }
