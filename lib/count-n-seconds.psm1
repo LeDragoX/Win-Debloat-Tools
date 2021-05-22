@@ -1,8 +1,11 @@
 Function CountNseconds {
+    
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        $Time = 3,
-        $Msg = 'Exiting in'
+        [Int]       $Time = 3,
+        [String]    $Msg = "Exiting in"
     )
+
     $Time..0 | ForEach-Object {Start-Sleep -Seconds 1 ; "$Msg $_ seconds..."}
 }
 

@@ -22,7 +22,13 @@ Function Caption1 ([String] $Text = "Test Text") {
 	Write-Host "" # Skip line
 }
 
-Function Title1Counter ([String] $Text = "Test Text COUNTER", [Int] $MaxNum = $Global:MaxNum) {
+Function Title1Counter {
+
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    param (
+		[String]	$Text = "Test Text COUNTER", 
+		[Int] 		$MaxNum = $Global:MaxNum
+    )
 
 	$Global:MaxNum = $MaxNum
 	
@@ -30,6 +36,7 @@ Function Title1Counter ([String] $Text = "Test Text COUNTER", [Int] $MaxNum = $G
 		# Initialize Global variables
 		$Global:Counter = 0
 	}
+	
 	$Global:Counter = $Counter + 1
 	Title1 "( $Counter/$MaxNum ) - [$Text]"
 
