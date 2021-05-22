@@ -5,11 +5,13 @@ Function LoadSysForms {
 }
 
 Function ShowMessage {
+
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        $Title = 'Insert title here',
-        [array]$Message = 
-        'Crash
-         Bandicoot'
+        [String]    $Title = "Insert title here",
+        [Array]     $Message = 
+        "Crash
+         Bandicoot"
     )
 
     LoadSysForms
@@ -19,11 +21,12 @@ Function ShowMessage {
 # Demo: ShowMessage -Title "Title" -Message "Message"
 
 Function ShowQuestion {
+
     param (
-        $Title = 'Insert title here',
-        [array]$Message = 
-        'Crash
-         Bandicoot'
+        [String]    $Title = "Insert title here",
+        [Array]     $Message = 
+        "Crash
+         Bandicoot"
     )
 
     LoadSysForms
