@@ -77,7 +77,7 @@ Function TweaksForServices {
     
     ForEach ($Service in $DisableServices) {
         Write-Host "[-][Services] Stopping $Service..."
-        Set-Service -Name "$Service" -Status Stopped
+        Stop-Service -Name "$Service" -Force
         Write-Host "[-][Services] Disabling $Service at Startup..."
         Set-Service -Name "$Service" -StartupType Disabled
     }
