@@ -9,6 +9,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 # Initialize all Path variables used to Registry Tweaks
 $Global:PathToActivityHistory =         "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
 $Global:PathToAdvertisingInfoPol =      "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
+$Global:PathToAutoLogger =              "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
 $Global:PathToCloudContent =            "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $Global:PathToContentDeliveryManager =  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
 $Global:PathToDeliveryOptimization =    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization"
@@ -16,11 +17,13 @@ $Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\Curren
 $Global:PathToExplorerAdvanced =        "$PathToExplorer\Advanced"
 $Global:PathToGameBar =                 "HKCU:\SOFTWARE\Microsoft\GameBar"
 $Global:PathToInputPersonalization =    "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+$Global:PathToDeviceAccessGlobal =      "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
 $Global:PathToTIPC =                    "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
 $Global:PathToPrefetchParams =          "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
 $Global:PathToPsched =                  "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
 $Global:PathToSearch =                  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 $Global:PathToSiufRules =               "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+$Global:PathToWifiPol =                 "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
 $Global:PathToWindowsStore =            "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
 $Global:PathToWindowsUpdate =           "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
@@ -156,6 +159,21 @@ Function TweaksForPrivacyAndPerformance {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
     
+    Caption1 -Text "Other Devices"
+
+    # Disable sharing information with unpaired devices
+    Write-Host "[-] Denying device access..."
+    If (!(Test-Path "$PathToDeviceAccessGlobal\LooselyCoupled")) {
+        New-Item -Path "$PathToDeviceAccessGlobal\LooselyCoupled" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToDeviceAccessGlobal\LooselyCoupled" -Name "Value" -Value "Deny"
+    ForEach ($key in (Get-ChildItem "$PathToDeviceAccessGlobal")) {
+        If ($key.PSChildName -EQ "LooselyCoupled") {
+            continue
+        }
+        Set-ItemProperty -Path ("$PathToDeviceAccessGlobal\" + $key.PSChildName) -Name "Value" -Value "Deny"
+    }
+
     Caption1 -Text "Background Apps"
     
     Write-Host "[-] Disabling Background Apps..."
@@ -228,28 +246,26 @@ Function TweaksForPrivacyAndPerformance {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows" -Name "CEIPEnable" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Name "AITEnable" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Name "DisableUAR" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger\SQMLogger" -Name "Start" -Type DWord -Value 0
-        
-    Write-Host "[-] Disabling 'WiFi Sense: HotSpot Sharing'..."
-    Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value 0
-    Write-Host "[-] Disabling 'WiFi Sense: Shared HotSpot Auto-Connect'..."
-    Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
-    
-    # Disable sharing information with unpaired devices
-    Write-Output "- Denying device access..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "Type" "LooselyCoupled"
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "Value" "Deny"
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "InitialAppValue" "Unspecified"
-    ForEach ($key in (Get-ChildItem "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global")) {
-        If ($key.PSChildName -EQ "LooselyCoupled") {
-            continue
-        }
-        Set-ItemProperty -Path ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "Type" "InterfaceClass"
-        Set-ItemProperty -Path ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "Value" "Deny"
-        Set-ItemProperty -Path ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "InitialAppValue" "Unspecified"
-    }    
 
+    # Details: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004#windows-system-startup-event-traces-autologgers
+    If (!(Test-Path "$PathToAutoLogger\AutoLogger-Diagtrack-Listener")) {
+        New-Item -Path "$PathToAutoLogger\AutoLogger-Diagtrack-Listener" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToAutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToAutoLogger\SQMLogger" -Name "Start" -Type DWord -Value 0
+    
+    Write-Host "[-] Disabling 'WiFi Sense: HotSpot Sharing'..."
+    If (!(Test-Path "$PathToWifiPol\AllowWiFiHotSpotReporting")) {
+        New-Item -Path "$PathToWifiPol\AllowWiFiHotSpotReporting" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToWifiPol\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value 0
+    
+    Write-Host "[-] Disabling 'WiFi Sense: Shared HotSpot Auto-Connect'..."
+    If (!(Test-Path "$PathToWifiPol\AllowAutoConnectToWiFiSenseHotspots")) {
+        New-Item -Path "$PathToWifiPol\AllowAutoConnectToWiFiSenseHotspots" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToWifiPol\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value 0
+    
     Section1 -Text "Gaming Section"
     
     Write-Host "[-] Disabling Game Bar & Game DVR..."
@@ -367,7 +383,7 @@ Function TweaksForPrivacyAndPerformance {
     
     # As SysMain was already disabled on the Services, just need to remove it's key
     Write-Host "[-] Disabling SysMain/Superfetch and APPs Prelaunching..."
-    If ((Test-Path "$PathToPrefetchParams")) {
+    If ((Test-Path "$PathToPrefetchParams\EnableSuperfetch")) {
         Remove-ItemProperty -Path $PathToPrefetchParams -Name "EnableSuperfetch"
     }
     # (0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
