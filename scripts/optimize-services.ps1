@@ -33,7 +33,6 @@ Function TweaksForServices {
         "GraphicsPerfSvc"                           # Graphics performance monitor service
         "lfsvc"                                     # Geolocation Service
         "MapsBroker"                                # Downloaded Maps Manager
-        "ndu"                                       # Windows Network Data Usage Monitoring Driver
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
@@ -41,9 +40,9 @@ Function TweaksForServices {
         "TrkWks"                                    # Distributed Link Tracking Client
         "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
         "WSearch"                                   # Windows Search (100% Disk)
-
+        
         # <==========[DIY]==========> (Remove the # to Disable)
-
+        
         #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
         #"SharedAccess"                             # Internet Connection Sharing (ICS)
         #"stisvc"                                   # Windows Image Acquisition (WIA)
@@ -53,25 +52,26 @@ Function TweaksForServices {
         #"wscsvc"                                   # Windows Security Center Service
         #"WdiServiceHost"                           # Diagnostic Service Host
         #"WdiSystemHost"                            # Diagnostic System Host
-
+        
         # [DIY] If you don't use Bluetooth devices
-
+        
         #"BTAGService"                              # Bluetooth Audio Gateway Service
         #"bthserv"                                  # Bluetooth Support Service
-
+        
         # [DIY] If you don't use a Printer
-
+        
         #"Spooler"                                  # Print Spooler
         #"PrintNotify"                              # Printer Extensions and Notifications
-
+        
         # [DIY] If you don't use Xbox Live and Games
-
+        
         #"XblAuthManager"                           # Xbox Live Auth Manager
         #"XblGameSave"                              # Xbox Live Game Save Service
         #"XboxGipSvc"                               # Xbox Accessory Management Service
         #"XboxNetApiSvc"                            # Xbox Live Networking Service
-
+        
         # Services which cannot be disabled
+        #"ndu"                                       # Windows Network Data Usage Monitoring Driver
         #"WdNisSvc"
     )
     
