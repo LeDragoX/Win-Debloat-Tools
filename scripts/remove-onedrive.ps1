@@ -1,8 +1,8 @@
 #   Description:
 # This script will remove and disable OneDrive integration.
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\original\New-FolderForced.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\original\take-own.psm1"
 
 Write-Host "Kill OneDrive process"
 taskkill.exe /F /IM "OneDrive.exe"
