@@ -12,7 +12,7 @@ but you'll probably want the most recent version anyway.
 
 |    Download    | Should work on |   Build   |      Editions     | Script version |
 |:--------------:|:--------------:|:---------:|:-----------------:|:--------------:|
-| [Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip) | 21H1 and Older | 19043.xxx |Home/Pro/Enterprise| **Always Latest** |
+| [Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip) | 21H1 and Older | 19043.xxxx |Home/Pro/Enterprise| **Always Latest** |
 
 ## Resume
 
