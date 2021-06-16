@@ -5,13 +5,13 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
 
 # Initialize all Path variables used to Registry Tweaks
-$Global:PathToAccessibility =           "HKCU:\Control Panel\Accessibility"
-$Global:PathToEdgeUserPol =             "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
-$Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToExplorerAdvanced =        "$PathToExplorer\Advanced"
-$Global:PathToLiveTiles =               "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-$Global:PathToNewsAndInterest =         "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
-$Global:PathToSearch =                  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+$Global:PathToAccessibility             = "HKCU:\Control Panel\Accessibility"
+$Global:PathToEdgeUserPol               = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
+$Global:PathToExplorer                  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+$Global:PathToExplorerAdvanced          = "$PathToExplorer\Advanced"
+$Global:PathToLiveTiles                 = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+$Global:PathToNewsAndInterest           = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
+$Global:PathToSearch                    = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
 Function PersonalTweaks {
 
