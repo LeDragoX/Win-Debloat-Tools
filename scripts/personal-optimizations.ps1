@@ -10,6 +10,7 @@ $Global:PathToEdgeUserPol =             "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
 $Global:PathToExplorer =                "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
 $Global:PathToExplorerAdvanced =        "$PathToExplorer\Advanced"
 $Global:PathToLiveTiles =               "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+$Global:PathToNewsAndInterest =         "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
 $Global:PathToSearch =                  "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
 Function PersonalTweaks {
@@ -40,6 +41,12 @@ Function PersonalTweaks {
 
     Write-Host "[-] Hiding the Task View from taskbar... (0 = Hide Task view, 1 = Show Task view)"
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+
+    Write-Host "[-] Disabling Open on Hover from News and Interest from taskbar... (0 = Disable, 1 = Enable)"
+    Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value 0
+
+    Write-Host "[-] Disabling News and Interest from taskbar... (0 = Enable, 1 = Enable Icon only, 2 = Disable)"
+    Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
     Write-Host "[-] Hiding People icon..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value 0
