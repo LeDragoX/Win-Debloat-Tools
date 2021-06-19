@@ -5,20 +5,20 @@ Function QuickPrivilegesElevation {
 
 Function LoadLibs {
 
-    Write-Host "Current Script Folder $PSScriptRoot"
+    Write-Host "Current Script Folder $pwd"
     Write-Host ""
     Push-Location $PSScriptRoot
 	
     Push-Location -Path .\lib
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
-    Pop-Location
 
-    #Import-Module -DisableNameChecking $PSScriptRoot\lib\"Check-OS-Info.psm1"		# Not Used
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Count-N-Seconds.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Set-Script-Policy.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Setup-Console-Style.psm1" # Make the Console look how i want
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Simple-Message-Box.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\lib\"Title-Templates.psm1"
+        #Import-Module -DisableNameChecking .\"Check-OS-Info.psm1"      # Not Used
+        Import-Module -DisableNameChecking .\"Count-N-Seconds.psm1"
+        Import-Module -DisableNameChecking .\"Set-Script-Policy.psm1"
+        Import-Module -DisableNameChecking .\"Setup-Console-Style.psm1" # Make the Console look how i want
+        Import-Module -DisableNameChecking .\"Simple-Message-Box.psm1"
+        Import-Module -DisableNameChecking .\"Title-Templates.psm1"
+    Pop-Location
 
 }
 
