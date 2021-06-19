@@ -4,22 +4,22 @@ Function QuickPrivilegesElevation {
 }
 # Your script here
 
-Function PrepareRun {
+Function LoadLibs {
 
-    Push-Location -Path .\lib
-        Get-ChildItem -Recurse *.ps*1 | Unblock-File
-    Pop-Location
-
-    Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Check-OS-Info.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Count-N-Seconds.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Set-Script-Policy.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Setup-Console-Style.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Simple-Message-Box.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
-
-    Write-Host "Current Script Folder $PSScriptRoot"
+    Write-Host "Current Script Folder $pwd"
     Write-Host ""
     Push-Location $PSScriptRoot
+	
+    Push-Location -Path .\lib
+        Get-ChildItem -Recurse *.ps*1 | Unblock-File
+
+        #Import-Module -DisableNameChecking .\"Count-N-Seconds.psm1"    # Not Used
+        Import-Module -DisableNameChecking .\"Check-OS-Info.psm1"
+        Import-Module -DisableNameChecking .\"Set-Script-Policy.psm1"
+        Import-Module -DisableNameChecking .\"Setup-Console-Style.psm1" # Make the Console look how i want
+        Import-Module -DisableNameChecking .\"Simple-Message-Box.psm1"
+        Import-Module -DisableNameChecking .\"Title-Templates.psm1"
+    Pop-Location
 
 }
 
@@ -45,7 +45,7 @@ Function InstallChocolatey {
     $ScheduledJob = @{
         Name = $JobName
         ScriptBlock = {choco upgrade all -y}
-        Trigger = New-JobTrigger -Daily -At 00:00
+        Trigger = New-JobTrigger -Daily -At 12:00
         ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
     }
     
@@ -65,15 +65,18 @@ Function InstallPackages {
     If ($CPU.contains("AMD")) {
         
         Section1 -Text "Installing AMD chipset drivers!"
-        Write-Host "Unfortunately, Chocolatey doesn't have a package for AMD"
-
+        If ($CPU.contains("Ryzen")) {
+            Section1 -Text "You have a Ryzen CPU, installing Chipset driver for Ryzen processors!"
+            choco install "amd-ryzen-chipset" -y                # AMD Ryzen Chipset Drivers
+        }
+        
 	} ElseIf ($CPU.contains("Intel")) {
 
         Section1 -Text "Installing Intel chipset drivers!"
-        choco install "chocolatey-misc-helpers.extension" -y    # intel-dsa Dependency
-        choco install "dotnet4.7" -y                            # intel-dsa Dependency
+        choco install "chocolatey-misc-helpers.extension" -y    # Chocolatey Misc Helpers Extension ('intel-dsa' Dependency)
+        choco install "dotnet4.7" -y                            # Microsoft .NET Framework 4.7 ('intel-dsa' Dependency)
         choco install "intel-dsa" -y                            # Intel® Driver & Support Assistant (Intel® DSA)
-   
+
     }
     
     # Install GPU drivers then
@@ -99,6 +102,7 @@ Function InstallPackages {
     $EssentialPackages = @(
         "7zip.install"              # 7-Zip
         "googlechrome"              # Google Chrome
+        "gimp"                      # Gimp
         "notepadplusplus.install"   # Notepad++
         "onlyoffice"                # ONLYOffice Editors
         "qbittorrent"               # qBittorrent
@@ -129,19 +133,19 @@ Function InstallPackages {
         # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
         If ((Get-AppxPackage).Name -ilike "*$Package*") {
             Caption1 -Text "$Package already installed on MS Store! Skipping..."
-            } Else {
+        } Else {
                 choco install $Package -y # --force
-            }
+        }
     }
 
     # For Java (JRE) correct installation
     If ($Architecture.contains("32-bits")) {
         Title2Counter -Text "Installing: jre8 (32-bits)"
-        choco install "jre8" -PackageParameters "/exclude:64" -y
+        choco install "jre8" --params="'/exclude:64'" -y
     } 
     ElseIf ($Architecture.contains("64-bits")) {
         Title2Counter -Text "Installing: jre8 (64-bits)"
-        choco install "jre8" -PackageParameters "/exclude:32" -y
+        choco install "jre8" --params="'/exclude:32'" -y
     }
     
 }
