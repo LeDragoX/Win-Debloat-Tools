@@ -59,9 +59,10 @@ Function TweaksForPrivacyAndPerformance {
         "SubscribedContentEnabled"
         "SystemPaneSuggestionsEnabled"
     )
+
+    Write-Host "[Registry] From Path: [$PathToContentDeliveryManager]"
     ForEach ($Name in $ContentDeliveryManagerDisableOnZero) {
-        Write-Host "[Registry] From Path: [$PathToContentDeliveryManager]"
-        Write-Host "[Registry] Setting $Name value: 0"
+        Write-Host "[-] Disabling $($Name): 0"
         Set-ItemProperty -Path "$PathToContentDeliveryManager" -Name "$Name" -Type DWord -Value 0
     }
 
@@ -75,7 +76,7 @@ Function TweaksForPrivacyAndPerformance {
         Remove-Item -Path "$PathToContentDeliveryManager\SuggestedApps" -Recurse
     }
         
-    Section1 -Text "Privacy Section"
+    Section1 -Text "Privacy Section -> Windows Permissions"
     Caption1 -Text "General"
     
     Write-Host "[-] Let apps use NOT my advertising ID..."
@@ -101,20 +102,23 @@ Function TweaksForPrivacyAndPerformance {
     
     Caption1 -Text "Diagnostics & Feedback"
     
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack" -Name "ShowedToastAtLevel" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack\EventTranscriptKey" -Name "EnableEventTranscript" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Write-Host "@(0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
+    Write-Host "[-] Diagnostic Data (x64): 'Security'"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
-
+    
     Write-Host "[-] Don't send inking and typing data to Microsoft..."
     If (!(Test-Path "$PathToTIPC")) {
         New-Item -Path "$PathToTIPC" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToTIPC" -Name "Enabled" -Type DWord -Value 0
+    
+    Write-Host "[-] Disabling Tailored Experiences..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -Type DWord -Value 0
 
+    Write-Host "[-] Disabling View diagnostic data..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack\EventTranscriptKey" -Name "EnableEventTranscript" -Type DWord -Value 0
+    
     Write-Host "[-] Disabling feedback frequency"
     If (!(Test-Path "$PathToSiufRules")) {
         New-Item -Path "$PathToSiufRules" -Force | Out-Null
@@ -132,12 +136,14 @@ Function TweaksForPrivacyAndPerformance {
         "PublishUserActivities"
         "UploadUserActivities"
     )
+
+    Write-Host "[Registry] From Path: [$PathToActivityHistory]"
     ForEach ($Name in $ActivityHistoryDisableOnZero) {
-        Write-Host "[Registry] From Path: [$PathToActivityHistory]"
-        Write-Host "[Registry] Setting $Name value: 0"
+        Write-Host "[-] Disabling $($Name): 0"
         Set-ItemProperty -Path "$PathToActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value 0
     }
     
+    Section1 -Text "Privacy Section -> Apps Permissions"
     Caption1 -Text "Location"
     
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
@@ -198,9 +204,9 @@ Function TweaksForPrivacyAndPerformance {
     Write-Host "[+] Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
     
+    Write-Host "@(0 = Off, 1 = Local Network only, 2 = Local Network private peering only)"
+    Write-Host "@(3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
     Write-Host "[+] Restricting Windows Update P2P downloads for Local Network only..."
-    Write-Host "(0 = Off, 1 = Local Network only, 2 = Local Network private peering only      )"
-    Write-Host "(3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
     If (!(Test-Path "$PathToDeliveryOptimization")) {
         New-Item -Path "$PathToDeliveryOptimization" -Force | Out-Null
     }
@@ -223,12 +229,13 @@ Function TweaksForPrivacyAndPerformance {
         "DisableWindowsSpotlightOnActionCenter"
         "DisableWindowsSpotlightOnSettings"
         "DisableWindowsSpotlightWindowsWelcomeExperience"
-        "DisableTailoredExperiencesWithDiagnosticData"
+        "DisableTailoredExperiencesWithDiagnosticData"      # Tailored Experiences
         "DisableThirdPartySuggestions"
     )
+
+    Write-Host "[Registry] From Path: [$PathToCloudContent]"
     ForEach ($Name in $CloudContentDisableOnOne) {
-        Write-Host "[Registry] From Path: [$PathToCloudContent]"
-        Write-Host "[Registry] Setting $Name value: 1"
+        Write-Host "[-] Disabling $($Name): 1"
         Set-ItemProperty -Path "$PathToCloudContent" -Name "$Name" -Type DWord -Value 1
     }
     If (!(Test-Path "$PathToCloudContent")) {
@@ -311,14 +318,16 @@ Function TweaksForPrivacyAndPerformance {
         # Show super hidden system files in Explorer
         #"ShowSuperHidden"
     )
+
+    Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
     ForEach ($Name in $ExplorerAdvKeysToZero) {
-        Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
-        Write-Host "[Registry] Setting $Name value: 0"
+        Write-Host "[+] Setting $Name value: 0"
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 0
     }
+
+    Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
     ForEach ($Name in $ExplorerAdvKeysToOne) {
-        Write-Host "[Registry] From Path: [$PathToExplorerAdvanced]"
-        Write-Host "[Registry] Setting $Name value: 1"
+        Write-Host "[+] Setting $Name value: 1"
         Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "$Name" -Type DWord -Value 1
     }
 
@@ -349,32 +358,28 @@ Function TweaksForPrivacyAndPerformance {
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\Microsoft.PPIProjection_10.0.15063.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\Microsoft.XboxGameCallableUI_1000.15063.0.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\Microsoft.XboxGameCallableUI_1000.16299.15.0_neutral_neutral_cw5n1h2txyewy"
-
         # Windows File
         "HKCR:\Extensions\ContractId\Windows.File\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
-
         # Registry keys to delete if they aren't uninstalled by RemoveAppXPackage/RemoveAppXProvisionedPackage
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\46928bounde.EclipseManager_2.2.4.51_neutral__a5h4egax66k6y"
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\Microsoft.PPIProjection_10.0.15063.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\Microsoft.XboxGameCallableUI_1000.15063.0.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.Launch\PackageId\Microsoft.XboxGameCallableUI_1000.16299.15.0_neutral_neutral_cw5n1h2txyewy"
-
         # Scheduled Tasks to delete
         "HKCR:\Extensions\ContractId\Windows.PreInstalledConfigTask\PackageId\Microsoft.MicrosoftOfficeHub_17.7909.7600.0_x64__8wekyb3d8bbwe"
-            
         # Windows Protocol Keys
         "HKCR:\Extensions\ContractId\Windows.Protocol\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
         "HKCR:\Extensions\ContractId\Windows.Protocol\PackageId\Microsoft.PPIProjection_10.0.15063.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.Protocol\PackageId\Microsoft.XboxGameCallableUI_1000.15063.0.0_neutral_neutral_cw5n1h2txyewy"
         "HKCR:\Extensions\ContractId\Windows.Protocol\PackageId\Microsoft.XboxGameCallableUI_1000.16299.15.0_neutral_neutral_cw5n1h2txyewy"
-                
         # Windows Share Target
         "HKCR:\Extensions\ContractId\Windows.ShareTarget\PackageId\ActiproSoftwareLLC.562882FEEB491_2.6.18.18_neutral__24pqs290vpjk0"
     )
+
     ForEach ($Key in $KeysToDelete) {
         If ((Test-Path $Key)) {
-            Write-Host "[-][Registry] Removing [$Key]..."
+            Write-Host "[Registry] Removing Key: [$Key]..."
             Remove-Item $Key -Recurse
         }
     }
@@ -386,7 +391,7 @@ Function TweaksForPrivacyAndPerformance {
     #If ((Test-Path "$PathToPrefetchParams\EnableSuperfetch")) {
         #Remove-ItemProperty -Path $PathToPrefetchParams -Name "EnableSuperfetch"
     #}
-    # (0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
+    #Write-Host "@(0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
     #Set-ItemProperty -Path "$PathToPrefetchParams" -Name "EnablePrefetcher" -Type DWord -Value 0
     #Disable-MMAgent -ApplicationPreLaunch
 
