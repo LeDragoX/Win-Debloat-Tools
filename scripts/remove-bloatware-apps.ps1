@@ -36,7 +36,6 @@ Function RemoveBloatwareApps {
         "Microsoft.Wallet"
         "Microsoft.WindowsAlarms"
         "microsoft.windowscommunicationsapps"
-        "Microsoft.WindowsFeedbackHub"
         "Microsoft.WindowsMaps"
         "Microsoft.WindowsPhone"
         "Microsoft.WindowsReadingList"
@@ -122,7 +121,8 @@ Function RemoveBloatwareApps {
         #"*Netflix*"
         #"*SpotifyMusic*"
 
-        #"Microsoft.WindowsStore"                   # can't be re-installed
+        #"Microsoft.WindowsStore"                   # Can't be re-installed
+        #"Microsoft.WindowsFeedbackHub"             # Can't be re-installed
 
         # Apps which cannot be removed using Remove-AppxPackage
         #"Microsoft.BioEnrollment"
