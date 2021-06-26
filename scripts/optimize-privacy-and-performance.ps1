@@ -23,6 +23,8 @@ $Global:PathToPrefetchParams            = "HKLM:\SYSTEM\CurrentControlSet\Contro
 $Global:PathToPsched                    = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
 $Global:PathToSearch                    = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 $Global:PathToSiufRules                 = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+$Global:PathToTelemetryFake             = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
+$Global:PathToTelemetryReal             = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
 $Global:PathToWifiPol                   = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
 $Global:PathToWindowsStore              = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
 $Global:PathToWindowsUpdate             = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
@@ -104,8 +106,11 @@ Function TweaksForPrivacyAndPerformance {
     
     Write-Host "@(0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
     Write-Host "[-] Diagnostic Data (x64): 'Full Telemetry'"
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 3
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
+    If ((Test-Path "$PathToTelemetryFake")){
+        Remove-ItemProperty -Path "$PathToTelemetryFake" -Name "AllowTelemetry"
+    }
+    Set-ItemProperty -Path "$PathToTelemetryReal" -Name "AllowTelemetry" -Type DWord -Value 3
+    Set-ItemProperty -Path "$PathToTelemetryReal" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
     
     Write-Host "[-] Don't send inking and typing data to Microsoft..."
     If (!(Test-Path "$PathToTIPC")) {
