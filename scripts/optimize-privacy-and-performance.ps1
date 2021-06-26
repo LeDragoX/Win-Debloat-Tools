@@ -12,7 +12,7 @@ $Global:PathToAdvertisingInfoPol        = "HKLM:\SOFTWARE\Policies\Microsoft\Win
 $Global:PathToAutoLogger                = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
 $Global:PathToCloudContent              = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $Global:PathToContentDeliveryManager    = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-$Global:PathToDeliveryOptimization      = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization"
+$Global:PathToDeliveryOptimizationCfg   = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
 $Global:PathToExplorer                  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
 $Global:PathToExplorerAdvanced          = "$PathToExplorer\Advanced"
 $Global:PathToGameBar                   = "HKCU:\SOFTWARE\Microsoft\GameBar"
@@ -103,9 +103,9 @@ Function TweaksForPrivacyAndPerformance {
     Caption1 -Text "Diagnostics & Feedback"
     
     Write-Host "@(0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
-    Write-Host "[-] Diagnostic Data (x64): 'Security'"
+    Write-Host "[-] Diagnostic Data (x64): 'Full Telemetry'"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 3
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     
     Write-Host "[-] Don't send inking and typing data to Microsoft..."
     If (!(Test-Path "$PathToTIPC")) {
@@ -204,16 +204,13 @@ Function TweaksForPrivacyAndPerformance {
     Write-Host "[+] Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
     
+    If (!(Test-Path "$PathToDeliveryOptimizationCfg")) {
+        New-Item -Path "$PathToDeliveryOptimizationCfg" -Force | Out-Null
+    }
     Write-Host "@(0 = Off, 1 = Local Network only, 2 = Local Network private peering only)"
     Write-Host "@(3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
     Write-Host "[+] Restricting Windows Update P2P downloads for Local Network only..."
-    If (!(Test-Path "$PathToDeliveryOptimization")) {
-        New-Item -Path "$PathToDeliveryOptimization" -Force | Out-Null
-    }
-    If (!(Test-Path "$PathToDeliveryOptimization\Config")) {
-        New-Item -Path "$PathToDeliveryOptimization\Config" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToDeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToDeliveryOptimizationCfg" -Name "DODownloadMode" -Type DWord -Value 1
 
     Caption1 -Text "Troubleshooting"
 
