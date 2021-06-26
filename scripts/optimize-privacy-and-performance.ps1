@@ -204,12 +204,12 @@ Function TweaksForPrivacyAndPerformance {
     Write-Host "[+] Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
     
-    If (!(Test-Path "$PathToDeliveryOptimizationCfg")) {
-        New-Item -Path "$PathToDeliveryOptimizationCfg" -Force | Out-Null
-    }
     Write-Host "@(0 = Off, 1 = Local Network only, 2 = Local Network private peering only)"
     Write-Host "@(3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
     Write-Host "[+] Restricting Windows Update P2P downloads for Local Network only..."
+    If (!(Test-Path "$PathToDeliveryOptimizationCfg")) {
+        New-Item -Path "$PathToDeliveryOptimizationCfg" -Force | Out-Null
+    }
     Set-ItemProperty -Path "$PathToDeliveryOptimizationCfg" -Name "DODownloadMode" -Type DWord -Value 1
 
     Caption1 -Text "Troubleshooting"
@@ -384,11 +384,11 @@ Function TweaksForPrivacyAndPerformance {
     Title1 -Text "Performance Tweaks"
     
     # As SysMain was already disabled on the Services, just need to remove it's key
+    #Write-Host "@(0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
     #Write-Host "[-] Disabling SysMain/Superfetch and APPs Prelaunching..."
     #If ((Test-Path "$PathToPrefetchParams\EnableSuperfetch")) {
         #Remove-ItemProperty -Path $PathToPrefetchParams -Name "EnableSuperfetch"
     #}
-    #Write-Host "@(0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
     #Set-ItemProperty -Path "$PathToPrefetchParams" -Name "EnablePrefetcher" -Type DWord -Value 0
     #Disable-MMAgent -ApplicationPreLaunch
 
@@ -412,6 +412,7 @@ Function TweaksForPrivacyAndPerformance {
     Set-ItemProperty -Path "$PathToPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
+    Write-Host "@(2 = Disable, 4 = Enable)"
     Write-Host "[-] Disabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToWindowsStore")) {
         New-Item -Path "$PathToWindowsStore" -Force | Out-Null
