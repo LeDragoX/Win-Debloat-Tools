@@ -36,16 +36,20 @@ Function PersonalTweaks {
     Section1 -Text "Personalization"
     Section1 -Text "TaskBar Tweaks"
     
-    Write-Host "[-] Hiding the search box from taskbar... (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
+    Write-Host "@(0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
+    Write-Host "[-] Hiding the search box from taskbar..."
     Set-ItemProperty -Path "$PathToSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 
-    Write-Host "[-] Hiding the Task View from taskbar... (0 = Hide Task view, 1 = Show Task view)"
+    Write-Host "@(0 = Hide Task view, 1 = Show Task view)"
+    Write-Host "[-] Hiding the Task View from taskbar..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
 
-    Write-Host "[-] Disabling Open on Hover from News and Interest from taskbar... (0 = Disable, 1 = Enable)"
+    Write-Host "@(0 = Disable, 1 = Enable)"
+    Write-Host "[-] Disabling Open on Hover from News and Interest from taskbar..."
     Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value 0
 
-    Write-Host "[-] Disabling News and Interest from taskbar... (0 = Enable, 1 = Enable Icon only, 2 = Disable)"
+    Write-Host "@(0 = Enable, 1 = Enable Icon only, 2 = Disable)"
+    Write-Host "[-] Disabling News and Interest from taskbar..."
     Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
     Write-Host "[-] Hiding People icon..."
@@ -120,10 +124,10 @@ Function PersonalTweaks {
     Write-Host "[+] Setting time to UTC..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 1
     
-    Write-Host "[+] Setting up the DNS from Google..."
-    Set-DNSClientServerAddress -interfaceIndex 12 -ServerAddresses ("8.8.8.8","8.8.4.4") # Ethernet
-    Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("8.8.8.8","8.8.4.4")
-    Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi*" -ServerAddresses ("8.8.8.8","8.8.4.4")
+    Write-Host "[+] Setting up the DNS from Google (ipv4 and ipv6)..."
+    #Get-DnsClientServerAddress # To look up the current config.
+    Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("8.8.8.8","8.8.4.4"), ("2001:4860:4860::8888", "2001:4860:4860::8844")
+    Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi*" -ServerAddresses ("8.8.8.8","8.8.4.4"), ("2001:4860:4860::8888", "2001:4860:4860::8844")
     
     Write-Host "[+] Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
