@@ -121,8 +121,10 @@ Function RemoveBloatwareApps {
         #"*Netflix*"
         #"*SpotifyMusic*"
 
-        #"Microsoft.WindowsStore"                   # Can't be re-installed
-        #"Microsoft.WindowsFeedbackHub"             # Can't be re-installed
+        # [DIY] Can't be reinstalled
+
+        #"Microsoft.WindowsStore"
+        #"Microsoft.WindowsFeedbackHub"
 
         # Apps which cannot be removed using Remove-AppxPackage
         #"Microsoft.BioEnrollment"
