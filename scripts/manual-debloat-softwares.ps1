@@ -33,4 +33,4 @@ Function RunManualDebloatSoftwares {
     
 }
 
-RunManualDebloatSoftwares         # [DIY] Run WinAeroTweaker.
+RunManualDebloatSoftwares   # [DIY] Run WinAeroTweaker.

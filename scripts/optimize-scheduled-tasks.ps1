@@ -56,4 +56,4 @@ Function TweaksForScheduledTasks {
 
 }
 
-TweaksForScheduledTasks         # Disable Scheduled Tasks that causes slowdowns
+TweaksForScheduledTasks # Disable Scheduled Tasks that causes slowdowns

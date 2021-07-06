@@ -46,4 +46,4 @@ Function EnableOptionalFeatures {
 
 }
 
-EnableOptionalFeatures                  # Enable features claimed as Optional on Windows, but actually, they are useful
+EnableOptionalFeatures  # Enable features claimed as Optional on Windows, but actually, they are useful

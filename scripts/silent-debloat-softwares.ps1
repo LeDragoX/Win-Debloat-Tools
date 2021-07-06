@@ -25,4 +25,4 @@ Function RunDebloatSoftwares {
     
 }
 
-RunDebloatSoftwares             # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
+RunDebloatSoftwares # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
