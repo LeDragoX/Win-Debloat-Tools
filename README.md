@@ -137,8 +137,8 @@ beforehand. If you want a more interactive approach check out:
 
 ### Powershell (Sorted by complexity - Less to More)
 - [windows-debloat](https://github.com/kalaspuffar/windows-debloat) from [kalaspuffar](https://github.com/kalaspuffar);
-- [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex) (Recommended);
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech) (Recommended);
+- [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex);
 - [Windows 10 Sophia Script](https://github.com/farag2/Windows-10-Sophia-Script) from [farag2](https://github.com/farag2).
 
 ### Python
