@@ -86,4 +86,4 @@ Function TweaksForSecurity {
 
 }
 
-TweaksForSecurity               # Improve the Windows Security
+TweaksForSecurity   # Improve the Windows Security

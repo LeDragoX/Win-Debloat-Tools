@@ -160,4 +160,4 @@ Function PersonalTweaks {
 
 }
 
-PersonalTweaks                  # Personal UI, Network, Energy and Accessibility Optimizations
+PersonalTweaks  # Personal UI, Network, Energy and Accessibility Optimizations
