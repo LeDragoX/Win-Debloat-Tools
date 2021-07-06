@@ -1,6 +1,6 @@
 Write-Host "Current Script Folder $PSScriptRoot"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Count-N-Seconds.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Simple-Message-Box.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"count-n-seconds.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
 
 Function RunManualDebloatSoftwares {
 
