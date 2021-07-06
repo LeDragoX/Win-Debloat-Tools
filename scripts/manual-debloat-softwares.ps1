@@ -14,11 +14,11 @@ Function RunManualDebloatSoftwares {
     7 - Close it then OK"
         
     # If changing the programs folder move here!!!
-    Push-Location "..\lib\debloat-softwares"
+    Push-Location -Path "..\lib\debloat-softwares\"
     
         Write-Host "+ [DIY] Running WinAero Tweaker..."
         Expand-Archive '.\Winaero Tweaker.zip'
-        Push-Location "Winaero Tweaker"
+        Push-Location -Path "Winaero Tweaker\"
             Remove-Item ".\Winaero.url" -Force -Recurse # Web page Shortcut
             Start-Process -FilePath ".\WinaeroTweaker.exe" # Could not download it (Tried Start-BitsTransfer and WebClient, but nothing)
         Pop-Location
