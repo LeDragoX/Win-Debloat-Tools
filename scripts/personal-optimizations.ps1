@@ -2,7 +2,7 @@
 # Adapted from this Sycnex script:                          https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Initialize all Path variables used to Registry Tweaks
 $Global:PathToAccessibility             = "HKCU:\Control Panel\Accessibility"

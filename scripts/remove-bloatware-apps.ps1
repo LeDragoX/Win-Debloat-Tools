@@ -1,3 +1,5 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+
 Function RemoveBloatwareApps {
 
     Title1 -Text "Remove Bloatware Apps"

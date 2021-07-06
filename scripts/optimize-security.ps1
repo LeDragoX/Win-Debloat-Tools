@@ -2,8 +2,8 @@
 # Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
 # Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
 
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Check-OS-Info.psm1
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\Title-Templates.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 $CPU = DetectCPU
 # Initialize all Path variables used to Registry Tweaks

@@ -13,12 +13,12 @@ Function LoadLibs {
     Push-Location -Path .\lib
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
-        #Import-Module -DisableNameChecking .\"Count-N-Seconds.psm1"    # Not Used
-        Import-Module -DisableNameChecking .\"Check-OS-Info.psm1"
-        Import-Module -DisableNameChecking .\"Set-Script-Policy.psm1"
-        Import-Module -DisableNameChecking .\"Setup-Console-Style.psm1" # Make the Console look how i want
-        Import-Module -DisableNameChecking .\"Simple-Message-Box.psm1"
-        Import-Module -DisableNameChecking .\"Title-Templates.psm1"
+        #Import-Module -DisableNameChecking .\"count-n-seconds.psm1"    # Not Used
+        Import-Module -DisableNameChecking .\"check-os-info.psm1"
+        Import-Module -DisableNameChecking .\"set-script-policy.psm1"
+        Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
+        Import-Module -DisableNameChecking .\"simple-message-box.psm1"
+        Import-Module -DisableNameChecking .\"title-templates.psm1"
     Pop-Location
 
 }
