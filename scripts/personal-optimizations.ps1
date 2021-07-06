@@ -36,19 +36,19 @@ Function PersonalTweaks {
     Section1 -Text "Personalization"
     Section1 -Text "TaskBar Tweaks"
     
-    Write-Host "@(0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
+    Write-Host "[@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
     Write-Host "[-] Hiding the search box from taskbar..."
     Set-ItemProperty -Path "$PathToSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 
-    Write-Host "@(0 = Hide Task view, 1 = Show Task view)"
+    Write-Host "[@] (0 = Hide Task view, 1 = Show Task view)"
     Write-Host "[-] Hiding the Task View from taskbar..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
 
-    Write-Host "@(0 = Disable, 1 = Enable)"
+    Write-Host "[@] (0 = Disable, 1 = Enable)"
     Write-Host "[-] Disabling Open on Hover from News and Interest from taskbar..."
     Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value 0
 
-    Write-Host "@(0 = Enable, 1 = Enable Icon only, 2 = Disable)"
+    Write-Host "[@] (0 = Enable, 1 = Enable Icon only, 2 = Disable)"
     Write-Host "[-] Disabling News and Interest from taskbar..."
     Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
