@@ -143,4 +143,4 @@ Function RemoveBloatwareApps {
 
 }
 
-RemoveBloatwareApps             # Remove the main Bloat from Pre-installed Apps
+RemoveBloatwareApps # Remove the main Bloat from Pre-installed Apps
