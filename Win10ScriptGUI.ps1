@@ -54,6 +54,7 @@ Function PrepareGUI {
 
     # <=== WHEN DONE BUTTON ===>
 
+    $Global:NeedRestart = $false
     $DoneTitle          = "Done"
     $DoneMessage        = "Proccess Completed!"
 
@@ -77,15 +78,10 @@ Function PrepareGUI {
 
     # <=== COLORS ===>
 
-    $Black              = "#000000"
-    $DarkGray           = "#111111"
     $Green              = "#1fff00"
     $LightBlue          = "#00ffff"
     $LightGray          = "#eeeeee"
-    $White              = "#ffffff"
-    $WinBlue            = "#2376bc"
     $WinDark            = "#252525"
-    $WinGray            = "#e6e6e6"
 
     # <=== TEMPLATE UI ELEMENTS ===>
 
@@ -303,14 +299,13 @@ Function PrepareGUI {
     # Panel 1 ~> Button 1 Mouse Click listener
     $ApplyTweaks.Add_Click({
 
-        $Global:NeedRestart = $true
         Push-Location -Path .\scripts
-    
+        
+            Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $PictureBox1.imageLocation  = ".\lib\images\Script-logo2.png"
             $Form.Update()    
             
-            Clear-Host
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "backup-system.ps1"
@@ -330,20 +325,17 @@ Function PrepareGUI {
                 Import-Module -DisableNameChecking .\"$FileName"
                 #pause ### FOR DEBUGGING PURPOSES
             }
-                
         Pop-Location
 
+        $Global:NeedRestart = $true
         ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })    
 
     # Panel 1 ~> Button 2 Mouse Click listener
     $uiTweaks.Add_Click({
 
-        $Global:NeedRestart = $true
         Push-Location -Path .\scripts
-        
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
-            
             Clear-Host
             $Scripts = @(
                 # [Recommended order] List of Scripts
@@ -355,21 +347,18 @@ Function PrepareGUI {
                 Import-Module -DisableNameChecking .\"$FileName"
                 #pause ### FOR DEBUGGING PURPOSES
             }
-        
         Pop-Location
 
+        $Global:NeedRestart = $true
         ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
     })
 
     # Panel 1 ~> Button 3 Mouse Click listener
     $RepairWindows.Add_Click({
 
-        $Global:NeedRestart = $true
         Push-Location -Path .\scripts
-    
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
             Clear-Host
+            Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "backup-system.ps1"
@@ -381,7 +370,6 @@ Function PrepareGUI {
                 Import-Module -DisableNameChecking .\"$FileName"
                 #pause ### FOR DEBUGGING PURPOSES
             }
-
         Pop-Location
         
         ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -436,9 +424,8 @@ Function PrepareGUI {
 
         Push-Location -Path .\scripts
     
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
             Clear-Host
+            Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "choco-sw-installer.ps1"
@@ -472,11 +459,11 @@ LoadLibs                    # Import modules from lib folder
 UnrestrictPermissions       # Unlock script usage
 SetupConsoleStyle           # Just fix the font on the PS console
 
-$Global:NeedRestart = $false
-PrepareGUI                  # Load the GUI
+PrepareGUI   # Load the GUI
 
-If ($NeedRestart -eq $true) {
-    PromptPcRestart             # Prompt options to Restart the PC
+Write-Verbose "Restart: $Global:NeedRestart"
+If ($Global:NeedRestart -eq $true) {
+    PromptPcRestart         # Prompt options to Restart the PC
 }
 
 RestrictPermissions         # Lock script usage
