@@ -104,7 +104,7 @@ Function TweaksForPrivacyAndPerformance {
     
     Caption1 -Text "Diagnostics & Feedback"
     
-    Write-Host "@(0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
+    Write-Host "[@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
     Write-Host "[-] Diagnostic Data (x64): 'Full Telemetry'"
     If ((Test-Path "$PathToTelemetryFake")){
         Remove-ItemProperty -Path "$PathToTelemetryFake" -Name "AllowTelemetry"
@@ -209,8 +209,8 @@ Function TweaksForPrivacyAndPerformance {
     Write-Host "[+] Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
     
-    Write-Host "@(0 = Off, 1 = Local Network only, 2 = Local Network private peering only)"
-    Write-Host "@(3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
+    Write-Host "[@] (0 = Off, 1 = Local Network only, 2 = Local Network private peering only)"
+    Write-Host "[@] (3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
     Write-Host "[+] Restricting Windows Update P2P downloads for Local Network only..."
     If (!(Test-Path "$PathToDeliveryOptimizationCfg")) {
         New-Item -Path "$PathToDeliveryOptimizationCfg" -Force | Out-Null
@@ -296,8 +296,12 @@ Function TweaksForPrivacyAndPerformance {
     Section1 -Text "Explorer Tweaks"
 
     Write-Host "[-] Removing 3D Objects from This PC..."
-    Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
-    Remove-Item -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}"
+    If (Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
+        Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
+    }
+    If (Test-Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
+        Remove-Item -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
+    }
 
     $ExplorerAdvKeysToZero = @(
         # Show Drives without Media
@@ -389,7 +393,7 @@ Function TweaksForPrivacyAndPerformance {
     Title1 -Text "Performance Tweaks"
     
     # As SysMain was already disabled on the Services, just need to remove it's key
-    #Write-Host "@(0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
+    #Write-Host "[@] (0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
     #Write-Host "[-] Disabling SysMain/Superfetch and APPs Prelaunching..."
     #If ((Test-Path "$PathToPrefetchParams\EnableSuperfetch")) {
         #Remove-ItemProperty -Path $PathToPrefetchParams -Name "EnableSuperfetch"
@@ -417,7 +421,7 @@ Function TweaksForPrivacyAndPerformance {
     Set-ItemProperty -Path "$PathToPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    Write-Host "@(2 = Disable, 4 = Enable)"
+    Write-Host "[@] (2 = Disable, 4 = Enable)"
     Write-Host "[-] Disabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToWindowsStore")) {
         New-Item -Path "$PathToWindowsStore" -Force | Out-Null
