@@ -17,7 +17,7 @@ Function PersonalTweaks {
 
     Title1 -Text "My Personal Tweaks"
 
-    Push-Location "..\utils"
+    Push-Location -Path "..\utils\"
         Write-Host "[+] Enabling Dark theme..."
         regedit /s dark-theme.reg
         Write-Host "[-] Disabling Cortana..."

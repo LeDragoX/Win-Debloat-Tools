@@ -8,9 +8,9 @@ Function LoadLibs {
 
     Write-Host "Current Script Folder $pwd"
     Write-Host ""
-    Push-Location $PSScriptRoot
+    Push-Location -Path "$PSScriptRoot"
 	
-    Push-Location -Path .\lib
+    Push-Location -Path "lib\"
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
         #Import-Module -DisableNameChecking .\"count-n-seconds.psm1"    # Not Used

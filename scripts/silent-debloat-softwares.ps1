@@ -5,10 +5,10 @@ Import-Module BitsTransfer              # To enable file downloading
 Function RunDebloatSoftwares {
         
     # If changing the programs folder move here!!!
-    Push-Location "..\lib\debloat-softwares"
+    Push-Location -Path "..\lib\debloat-softwares\"
 
         Write-Host "[+] Running ShutUp10 and applying Recommended settings..."
-        Push-Location "ShutUp10"
+        Push-Location -Path "ShutUp10\"
             Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination "OOSU10.exe"
             Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait   # Wait until the process closes
             Remove-Item "*.*" -Exclude "*.cfg" -Force                                               # Leave no traces

@@ -26,7 +26,7 @@ $RestoreHosts = "# Copyright (c) 1993-2009 Microsoft Corp.
 #    127.0.0.1       localhost
 #    ::1             localhost"
 
-Push-Location "$env:SystemRoot\System32\drivers\etc"
+Push-Location -Path "$env:SystemRoot\System32\drivers\etc\"
     Write-Output $RestoreHosts > .\hosts
 Pop-Location
 
@@ -36,7 +36,7 @@ Start-Process wsreset -NoNewWindow
 
 Section1 -Text "Fix Windows Taskbar"
 
-Push-Location "$env:SystemRoot\System32"
+Push-Location -Path "$env:SystemRoot\System32\"
     .\Regsvr32.exe /s msimtf.dll 
     .\Regsvr32.exe /s msctf.dll
     Start-Process -Verb RunAs .\ctfmon.exe
