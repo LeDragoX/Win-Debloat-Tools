@@ -7,9 +7,9 @@ Function LoadLibs {
 
     Write-Host "Current Script Folder $pwd"
     Write-Host ""
-    Push-Location $PSScriptRoot
+    Push-Location "$PSScriptRoot"
 	
-    Push-Location -Path .\lib
+    Push-Location -Path "lib\"
         Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
         #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
@@ -52,40 +52,52 @@ Function PrepareGUI {
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
 
-    # <=== WHEN DONE BUTTON ===>
+    # <=== AFTER PROCESS ===>
 
     $Global:NeedRestart = $false
     $DoneTitle          = "Done"
     $DoneMessage        = "Proccess Completed!"
 
-    # <=== SIZES ===>
+    # <=== SIZES LAYOUT ===>
 
+    # To Forms
     $MaxWidth           = 854
     $MaxHeight          = 480
-    [int]$PanelWidth    = ($MaxWidth/3) # 284
+    # To Panels
+    $CurrentPanelIndex  = -2
+    $NumOfPanels        = 3
+    [int]$PanelWidth    = ($MaxWidth/$NumOfPanels) # 284
+    # To Labels
     $LabelWidth         = 25
     $LabelHeight        = 10
+    # To Buttons
     $ButtonWidth        = 150
     $ButtonHeight       = 30
     $BigButtonHeight    = 70
 
-    # <=== LOCATIONS ===>
+    # <=== LOCATIONS LAYOUT ===>
 
     [int]$TitleLabelX   = $PanelWidth*0.15
     [int]$TitleLabelY   = $MaxHeight*0.01
     [int]$CaptionLabelX = $PanelWidth*0.25
     [int]$ButtonX       = $PanelWidth*0.15
 
-    # <=== COLORS ===>
+    # <=== COLORS PALLETE ===>
 
     $Green              = "#1fff00"
     $LightBlue          = "#00ffff"
     $LightGray          = "#eeeeee"
     $WinDark            = "#252525"
 
-    # <=== TEMPLATE UI ELEMENTS ===>
+    # <=== GUI ELEMENT LAYOUT ===>
 
-    # Title Label Template
+    # Panel Layout
+
+    $CurrentPanelIndex++ # -1
+    $PWidth     = $PanelWidth
+    $PHeight    = $MaxHeight
+
+    # Title Label Layout
 
     $TLAutoSize     = $true
     $TLwidth        = $LabelWidth
@@ -94,7 +106,7 @@ Function PrepareGUI {
     $TLFont         = New-Object System.Drawing.Font('Arial', 16, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
     $TLForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
-    # Caption Label Template
+    # Caption Label Layout
 
     $CLAutoSize     = $true
     $CLwidth        = $LabelWidth
@@ -102,7 +114,7 @@ Function PrepareGUI {
     $CLFont         = New-Object System.Drawing.Font('Arial', 14)
     $CLForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
-    # Big Button Template
+    # Big Button Layout
 
     $BBwidth        = $ButtonWidth
     $BBheight       = $BigButtonHeight
@@ -110,12 +122,14 @@ Function PrepareGUI {
     $BBFont         = New-Object System.Drawing.Font('Arial', 12, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
     $BBForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
 
-    # Small Button Template
+    # Small Button Layout
 
     $SBwidth        = $ButtonWidth
     $SBheight       = $ButtonHeight
     $SBFont         = New-Object System.Drawing.Font('Arial', 12)
     $SBForeColor    = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+
+    # <=== DISPLAYED GUI ===>
 
     # Main Window:
     $Form                               = New-Object System.Windows.Forms.Form
@@ -129,29 +143,32 @@ Function PrepareGUI {
     $Form.BackColor                     = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
     
     # Icon: https://stackoverflow.com/a/53377253
-    $iconBase64                         = [Convert]::ToBase64String((Get-Content ".\lib\images\Script-icon.png" -Encoding Byte))
-    $iconBytes                          = [Convert]::FromBase64String($iconBase64)
-    $stream                             = New-Object IO.MemoryStream($iconBytes, 0, $iconBytes.Length)
+    $iconBase64 = [Convert]::ToBase64String((Get-Content ".\lib\images\Script-icon.png" -Encoding Byte))
+    $iconBytes  = [Convert]::FromBase64String($iconBase64)
+    $stream     = New-Object IO.MemoryStream($iconBytes, 0, $iconBytes.Length)
     $stream.Write($iconBytes, 0, $iconBytes.Length);
-    $Form.Icon                          = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -Argument $stream).GetHIcon())
+    $Form.Icon  = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -Argument $stream).GetHIcon())
     
     # Panel 1 to put Labels and Buttons
-    $Panel1                             = New-Object system.Windows.Forms.Panel
-    $Panel1.width                       = $PanelWidth
-    $Panel1.height                      = $MaxHeight
-    $Panel1.location                    = New-Object System.Drawing.Point(($PanelWidth*0),0)
+    $CurrentPanelIndex++    # 0
+    $Panel1             = New-Object system.Windows.Forms.Panel
+    $Panel1.width       = $PWidth
+    $Panel1.height      = $PHeight
+    $Panel1.location    = New-Object System.Drawing.Point(($PWidth*$CurrentPanelIndex), 0)
     
     # Panel 2 to put Labels and Buttons
-    $Panel2                             = New-Object system.Windows.Forms.Panel
-    $Panel2.width                       = $PanelWidth
-    $Panel2.height                      = $MaxHeight
-    $Panel2.location                    = New-Object System.Drawing.Point(($PanelWidth*1), 0)
+    $CurrentPanelIndex++
+    $Panel2             = New-Object system.Windows.Forms.Panel
+    $Panel2.width       = $PWidth
+    $Panel2.height      = $PHeight
+    $Panel2.location    = New-Object System.Drawing.Point(($PWidth*$CurrentPanelIndex), 0)
 
     # Panel 3 to put Labels and Buttons
-    $Panel3                             = New-Object system.Windows.Forms.Panel
-    $Panel3.width                       = $PanelWidth
-    $Panel3.height                      = $MaxHeight-[int]($MaxHeight*0.5)
-    $Panel3.location                    = New-Object System.Drawing.Point(($PanelWidth*2), 0)
+    $CurrentPanelIndex++
+    $Panel3             = New-Object system.Windows.Forms.Panel
+    $Panel3.width       = $PanelWidth
+    $Panel3.height      = $MaxHeight-[int]($MaxHeight*0.5)
+    $Panel3.location    = New-Object System.Drawing.Point(($PWidth*$CurrentPanelIndex), 0)
 
     # Panel 1 ~> Title Label 1
     $TitleLabel1                        = New-Object system.Windows.Forms.Label
@@ -208,7 +225,7 @@ Function PrepareGUI {
     $CaptionLabel2.ForeColor            = $CLForeColor
     $Panel2.Controls.Add($CaptionLabel2)
     
-    # Panel 1 ~> Button 1
+    # Panel 1 ~> Button 1 (Big)
     $ApplyTweaks                        = New-Object system.Windows.Forms.Button
     $ApplyTweaks.text                   = "Apply Tweaks"
     $ApplyTweaks.width                  = $BBwidth
@@ -278,7 +295,7 @@ Function PrepareGUI {
     $DisableCortana.ForeColor           = $SBForeColor
     $Panel2.Controls.Add($DisableCortana)
     
-    # Panel 3 ~> Button 1
+    # Panel 3 ~> Button 1 (Big)
     $ChocolateySwInstaller              = New-Object system.Windows.Forms.Button
     $ChocolateySwInstaller.text         = "Install Basic Programs (Chocolatey)"
     $ChocolateySwInstaller.width        = $BBwidth
@@ -296,10 +313,12 @@ Function PrepareGUI {
     $PictureBox1.imageLocation          = ".\lib\images\Script-logo.png"
     $PictureBox1.SizeMode               = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 
+    # <=== CLICK EVENTS ===>
+
     # Panel 1 ~> Button 1 Mouse Click listener
     $ApplyTweaks.Add_Click({
 
-        Push-Location -Path .\scripts
+        Push-Location -Path "scripts\"
         
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
@@ -334,7 +353,7 @@ Function PrepareGUI {
     # Panel 1 ~> Button 2 Mouse Click listener
     $uiTweaks.Add_Click({
 
-        Push-Location -Path .\scripts
+        Push-Location -Path "scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             Clear-Host
             $Scripts = @(
@@ -356,7 +375,7 @@ Function PrepareGUI {
     # Panel 1 ~> Button 3 Mouse Click listener
     $RepairWindows.Add_Click({
 
-        Push-Location -Path .\scripts
+        Push-Location -Path "scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
@@ -400,7 +419,7 @@ Function PrepareGUI {
     # Panel 2 ~> Button 3 Mouse Click listener
     $EnableCortana.Add_Click({
 
-        Push-Location ".\utils"
+        Push-Location "utils\"
             Write-Host "[+] Enabling Cortana..."
             regedit /s enable-cortana.reg
         Pop-Location
@@ -411,7 +430,7 @@ Function PrepareGUI {
     # Panel 2 ~> Button 4 Mouse Click listener
     $DisableCortana.Add_Click({
 
-        Push-Location ".\utils"
+        Push-Location "utils\"
             Write-Host "[-] Disabling Cortana..."
             regedit /s disable-cortana.reg
         Pop-Location
@@ -422,7 +441,7 @@ Function PrepareGUI {
     # Panel 3 ~> Button 1 Mouse Click listener
     $ChocolateySwInstaller.Add_Click({
 
-        Push-Location -Path .\scripts
+        Push-Location -Path "scripts\"
     
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
