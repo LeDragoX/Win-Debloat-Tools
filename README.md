@@ -148,7 +148,7 @@ beforehand. If you want a more interactive approach check out:
 <details>
     <summary>How To (Advanced Users)</summary>
 
-By using [SysInternal Suite](https://docs.microsoft.com/pt-br/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
+By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
 i could track the `SystemSettings.exe` by filtering it per Process Name, then `Clearing the list (Ctrl + X)`
 (But make sure it is `Capturing the Events (Ctrl + E)`) and finally, applying an option of the Windows Configurations
 and searching the Registry Key inside `Procmon(64).exe`.
