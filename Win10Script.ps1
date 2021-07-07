@@ -10,14 +10,14 @@ Function LoadLibs {
     Push-Location -Path "$PSScriptRoot"
 	
     Push-Location -Path "lib\"
-        Get-ChildItem -Recurse *.ps*1 | Unblock-File
+    Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
-        #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
-        Import-Module -DisableNameChecking .\"count-n-seconds.psm1"
-        Import-Module -DisableNameChecking .\"set-script-policy.psm1"
-        Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
-        Import-Module -DisableNameChecking .\"simple-message-box.psm1"
-        Import-Module -DisableNameChecking .\"title-templates.psm1"
+    #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
+    Import-Module -DisableNameChecking .\"count-n-seconds.psm1"
+    Import-Module -DisableNameChecking .\"set-script-policy.psm1"
+    Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
+    Import-Module -DisableNameChecking .\"simple-message-box.psm1"
+    Import-Module -DisableNameChecking .\"title-templates.psm1"
     Pop-Location
 
 }
@@ -36,7 +36,8 @@ Function PromptPcRestart {
             Write-Host "You choose to Restart later"
             Write-Host "You choose No. (No = Cancel)"
         }
-        'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
+        'Cancel' {
+            # With Yes, No and Cancel, the user can press Esc to exit
             Write-Host "You choose to Restart later"
             Write-Host "You choose Cancel. (Cancel = No)"
         }
@@ -48,54 +49,55 @@ Function RunScripts {
 
     Push-Location -Path "scripts\"
 
-        Get-ChildItem -Recurse *.ps*1 | Unblock-File
+    Get-ChildItem -Recurse *.ps*1 | Unblock-File
         
-        Clear-Host
-        $Scripts = @(
-            # [Recommended order] List of Scripts
-            "backup-system.ps1"
-            "silent-debloat-softwares.ps1"
-            "optimize-scheduled-tasks.ps1"
-            "optimize-services.ps1"
-            "remove-bloatware-apps.ps1"
-            "optimize-privacy-and-performance.ps1"
-            "personal-optimizations.ps1"
-            "optimize-security.ps1"
-            "enable-optional-features.ps1"
-            "remove-onedrive.ps1"
-            "manual-debloat-softwares.ps1"
-        )
+    Clear-Host
+    $Scripts = @(
+        # [Recommended order] List of Scripts
+        "backup-system.ps1"
+        "silent-debloat-softwares.ps1"
+        "optimize-scheduled-tasks.ps1"
+        "optimize-services.ps1"
+        "remove-bloatware-apps.ps1"
+        "optimize-privacy-and-performance.ps1"
+        "personal-optimizations.ps1"
+        "optimize-security.ps1"
+        "enable-optional-features.ps1"
+        "remove-onedrive.ps1"
+        "manual-debloat-softwares.ps1"
+    )
         
-        ForEach ($FileName in $Scripts) {
-            Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
-            PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
-            # pause ### FOR DEBUGGING PURPOSES
-        }
+    ForEach ($FileName in $Scripts) {
+        Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
+        # pause ### FOR DEBUGGING PURPOSES
+    }
 
-        $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
+    $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
         Do you want to continue?"
 
-        switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
-            'Yes' {
-                Write-Host "You choose Yes."
+    switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
+        'Yes' {
+            Write-Host "You choose Yes."
 
-                $Scripts = @(
-                    # [Recommended order] List of Scripts
-                    "repair-windows.ps1"
-                )
-                ForEach ($FileName in $Scripts) {
-                    Title2 -Text "$FileName"
-                    PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
-                    # pause ### FOR DEBUGGING PURPOSES
-                }
-            }
-            'No' {
-                Write-Host "You choose No. (No = Cancel)"
-            }
-            'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
-                Write-Host "You choose Cancel. (Cancel = No)"
+            $Scripts = @(
+                # [Recommended order] List of Scripts
+                "repair-windows.ps1"
+            )
+            ForEach ($FileName in $Scripts) {
+                Title2 -Text "$FileName"
+                PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
+                # pause ### FOR DEBUGGING PURPOSES
             }
         }
+        'No' {
+            Write-Host "You choose No. (No = Cancel)"
+        }
+        'Cancel' {
+            # With Yes, No and Cancel, the user can press Esc to exit
+            Write-Host "You choose Cancel. (Cancel = No)"
+        }
+    }
 
     Pop-Location
 }

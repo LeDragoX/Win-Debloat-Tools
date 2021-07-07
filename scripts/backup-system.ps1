@@ -15,13 +15,13 @@ Function BackupHostsFile {
     $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
     Push-Location "$PathToHostsFile"
     
-        If (!(Test-Path "$PathToHostsFile\Hosts_Backup")) {
-            Write-Host "Backup folder not found! Creating a new one..."
-            mkdir -Path "$PathToHostsFile\Hosts_Backup"
-        }
-        Push-Location "Hosts_Backup"
-            Copy-Item -Path ".\..\hosts" -Destination "hosts_".Insert(6, $Date)
-        Pop-Location
+    If (!(Test-Path "$PathToHostsFile\Hosts_Backup")) {
+        Write-Host "Backup folder not found! Creating a new one..."
+        mkdir -Path "$PathToHostsFile\Hosts_Backup"
+    }
+    Push-Location "Hosts_Backup"
+    Copy-Item -Path ".\..\hosts" -Destination "hosts_".Insert(6, $Date)
+    Pop-Location
     Pop-Location
     
 }

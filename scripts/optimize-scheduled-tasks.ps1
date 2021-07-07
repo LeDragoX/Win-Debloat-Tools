@@ -37,16 +37,16 @@ Function TweaksForScheduledTasks {
         "\Microsoft\Windows\Shell\FamilySafetyRefreshTask"                                  # Recommended state for VDI use
         "\Microsoft\Windows\Shell\FamilySafetyUpload"
         "\Microsoft\Windows\Windows Media Sharing\UpdateLibrary"                            # Recommended state for VDI use
-        )
+    )
         
-        ForEach ($ScheduledTask in $DisableScheduledTasks) {
-            Write-Host "[-][TaskScheduler] Disabling the $ScheduledTask Task..."
-            Disable-ScheduledTask -TaskName $ScheduledTask
-        }
+    ForEach ($ScheduledTask in $DisableScheduledTasks) {
+        Write-Host "[-][TaskScheduler] Disabling the $ScheduledTask Task..."
+        Disable-ScheduledTask -TaskName $ScheduledTask
+    }
         
-        $EnableScheduledTasks = @(
-            "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"            # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
-            "\Microsoft\Windows\Windows Error Reporting\QueueReporting"     # Windows Error Reporting event, needed most for compatibility updates incoming 
+    $EnableScheduledTasks = @(
+        "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"            # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
+        "\Microsoft\Windows\Windows Error Reporting\QueueReporting"     # Windows Error Reporting event, needed most for compatibility updates incoming 
     )
 
     ForEach ($ScheduledTask in $EnableScheduledTasks) {

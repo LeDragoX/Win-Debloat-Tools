@@ -10,14 +10,14 @@ Function LoadLibs {
     Push-Location "$PSScriptRoot"
 	
     Push-Location -Path "lib\"
-        Get-ChildItem -Recurse *.ps*1 | Unblock-File
+    Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
-        #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
-        Import-Module -DisableNameChecking .\"count-n-seconds.psm1"
-        Import-Module -DisableNameChecking .\"set-script-policy.psm1"
-        Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
-        Import-Module -DisableNameChecking .\"simple-message-box.psm1"
-        Import-Module -DisableNameChecking .\"title-templates.psm1"
+    #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
+    Import-Module -DisableNameChecking .\"count-n-seconds.psm1"
+    Import-Module -DisableNameChecking .\"set-script-policy.psm1"
+    Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
+    Import-Module -DisableNameChecking .\"simple-message-box.psm1"
+    Import-Module -DisableNameChecking .\"title-templates.psm1"
     Pop-Location
 
 }
@@ -36,7 +36,8 @@ Function PromptPcRestart {
             Write-Host "You choose to Restart later"
             Write-Host "You choose No. (No = Cancel)"
         }
-        'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
+        'Cancel' {
+            # With Yes, No and Cancel, the user can press Esc to exit
             Write-Host "You choose to Restart later"
             Write-Host "You choose Cancel. (Cancel = No)"
         }
@@ -55,8 +56,8 @@ Function PrepareGUI {
     # <=== AFTER PROCESS ===>
 
     $Global:NeedRestart = $false
-    $DoneTitle          = "Done"
-    $DoneMessage        = "Proccess Completed!"
+    $DoneTitle   = "Done"
+    $DoneMessage = "Proccess Completed!"
 
     # <=== SIZES LAYOUT ===>
 
@@ -66,10 +67,10 @@ Function PrepareGUI {
     # To Panels
     $CurrentPanelIndex = -2
     $NumOfPanels       = 3
-    [int]$PanelWidth   = ($MaxWidth/$NumOfPanels) # 284
+    [int]$PanelWidth   = ($MaxWidth / $NumOfPanels) # 284
     # To Labels
-    $LabelWidth      = 25
-    $LabelHeight     = 10
+    $LabelWidth  = 25
+    $LabelHeight = 10
     # To Buttons
     $ButtonWidth     = 150
     $ButtonHeight    = 30
@@ -77,12 +78,12 @@ Function PrepareGUI {
 
     # <=== LOCATIONS LAYOUT ===>
 
-    [int]$TitleLabelX   = $PanelWidth*0.15
-    [int]$TitleLabelY   = $MaxHeight*0.01
-    [int]$CaptionLabelX = $PanelWidth*0.25
-    [int]$ButtonX       = $PanelWidth*0.15
+    [int]$TitleLabelX   = $PanelWidth * 0.15
+    [int]$TitleLabelY   = $MaxHeight * 0.01
+    [int]$CaptionLabelX = $PanelWidth * 0.25
+    [int]$ButtonX       = $PanelWidth * 0.15
 
-    # <=== COLORS PALLETE ===>
+    # <=== COLOR PALETTE ===>
 
     $Green     = "#1fff00"
     $LightBlue = "#00ffff"
@@ -99,7 +100,7 @@ Function PrepareGUI {
 
     # Title Label Layout
 
-    $TLAutoSize  = $true
+    $TLAutoSize = $true
     $TLWidth     = $LabelWidth
     $TLHeight    = $LabelHeight
     $TLLocation  = New-Object System.Drawing.Point($TitleLabelX, $TitleLabelY)
@@ -154,21 +155,21 @@ Function PrepareGUI {
     $Panel1          = New-Object system.Windows.Forms.Panel
     $Panel1.width    = $PWidth
     $Panel1.height   = $PHeight
-    $Panel1.location = New-Object System.Drawing.Point(($PWidth*$CurrentPanelIndex), 0)
+    $Panel1.location = New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0)
     
     # Panel 2 to put Labels and Buttons
     $CurrentPanelIndex++
     $Panel2          = New-Object system.Windows.Forms.Panel
     $Panel2.width    = $PWidth
     $Panel2.height   = $PHeight
-    $Panel2.location = New-Object System.Drawing.Point(($PWidth*$CurrentPanelIndex), 0)
+    $Panel2.location = New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0)
 
     # Panel 3 to put Labels and Buttons
     $CurrentPanelIndex++
     $Panel3          = New-Object system.Windows.Forms.Panel
     $Panel3.width    = $PanelWidth
-    $Panel3.height   = $MaxHeight-[int]($MaxHeight*0.5)
-    $Panel3.location = New-Object System.Drawing.Point(($PWidth*$CurrentPanelIndex), 0)
+    $Panel3.height   = $MaxHeight - [int]($MaxHeight * 0.5)
+    $Panel3.location = New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0)
 
     # Panel 1 ~> Title Label 1
     $TitleLabel1           = New-Object system.Windows.Forms.Label
@@ -303,23 +304,22 @@ Function PrepareGUI {
     $ChocolateySwInstaller.location  = $BBLocation
     $ChocolateySwInstaller.Font      = $BBFont
     $ChocolateySwInstaller.ForeColor = $BBForeColor
-    $Panel3.Controls.Add($ChocolateySwInstaller)    
+    $Panel3.Controls.Add($ChocolateySwInstaller)
     
     # Image Logo from the Script
     $PictureBox1               = New-Object system.Windows.Forms.PictureBox
     $PictureBox1.width         = 150
     $PictureBox1.height        = 150
-    $PictureBox1.location      = New-Object System.Drawing.Point(($MaxWidth*0.72), ($MaxHeight*0.5))
+    $PictureBox1.location      = New-Object System.Drawing.Point(($MaxWidth * 0.72), ($MaxHeight * 0.5))
     $PictureBox1.imageLocation = ".\lib\images\Script-logo.png"
     $PictureBox1.SizeMode      = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 
     # <=== CLICK EVENTS ===>
 
     # Panel 1 ~> Button 1 Mouse Click listener
-    $ApplyTweaks.Add_Click({
+    $ApplyTweaks.Add_Click( {
 
-        Push-Location -Path "scripts\"
-        
+            Push-Location -Path "scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $PictureBox1.imageLocation = ".\lib\images\Script-logo2.png"
@@ -344,18 +344,18 @@ Function PrepareGUI {
                 Import-Module -DisableNameChecking .\"$FileName"
                 #pause ### FOR DEBUGGING PURPOSES
             }
-        Pop-Location
+            Pop-Location
 
-        $Global:NeedRestart = $true
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    })    
+            $Global:NeedRestart = $true
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })    
 
     # Panel 1 ~> Button 2 Mouse Click listener
-    $uiTweaks.Add_Click({
+    $uiTweaks.Add_Click( {
 
-        Push-Location -Path "scripts\"
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
+            Push-Location -Path "scripts\"
             Clear-Host
+            Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "manual-debloat-softwares.ps1"
@@ -366,16 +366,16 @@ Function PrepareGUI {
                 Import-Module -DisableNameChecking .\"$FileName"
                 #pause ### FOR DEBUGGING PURPOSES
             }
-        Pop-Location
+            Pop-Location
 
-        $Global:NeedRestart = $true
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    })
+            $Global:NeedRestart = $true
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
 
     # Panel 1 ~> Button 3 Mouse Click listener
-    $RepairWindows.Add_Click({
+    $RepairWindows.Add_Click( {
 
-        Push-Location -Path "scripts\"
+            Push-Location -Path "scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
@@ -389,60 +389,59 @@ Function PrepareGUI {
                 Import-Module -DisableNameChecking .\"$FileName"
                 #pause ### FOR DEBUGGING PURPOSES
             }
-        Pop-Location
+            Pop-Location
         
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    })
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
 
     # Panel 2 ~> Button 1 Mouse Click listener
-    $DarkMode.Add_Click({
+    $DarkMode.Add_Click( {
 
-        Push-Location "utils\"
+            Push-Location "utils\"
             Write-Host "[+] Enabling Dark theme..."
             regedit /s dark-theme.reg
-        Pop-Location
+            Pop-Location
 
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    })
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
 
     # Panel 2 ~> Button 2 Mouse Click listener
-    $LightMode.Add_Click({
+    $LightMode.Add_Click( {
 
-        Push-Location "utils\"
+            Push-Location "utils\"
             Write-Host "[+] Enabling Light theme..."
             regedit /s light-theme.reg
-        Pop-Location
+            Pop-Location
 
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    })
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
 
     # Panel 2 ~> Button 3 Mouse Click listener
-    $EnableCortana.Add_Click({
+    $EnableCortana.Add_Click( {
 
-        Push-Location "utils\"
+            Push-Location "utils\"
             Write-Host "[+] Enabling Cortana..."
             regedit /s enable-cortana.reg
-        Pop-Location
+            Pop-Location
 
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    })
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
     
     # Panel 2 ~> Button 4 Mouse Click listener
-    $DisableCortana.Add_Click({
+    $DisableCortana.Add_Click( {
 
-        Push-Location "utils\"
+            Push-Location "utils\"
             Write-Host "[-] Disabling Cortana..."
             regedit /s disable-cortana.reg
-        Pop-Location
+            Pop-Location
 
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    })
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
 
     # Panel 3 ~> Button 1 Mouse Click listener
-    $ChocolateySwInstaller.Add_Click({
+    $ChocolateySwInstaller.Add_Click( {
 
-        Push-Location -Path "scripts\"
-    
+            Push-Location -Path "scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
@@ -456,13 +455,13 @@ Function PrepareGUI {
                 #pause ### FOR DEBUGGING PURPOSES
             }
 
-        Pop-Location
+            Pop-Location
         
-        ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    })
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
     
     # Add all Panels to the Form (Screen)
-    $Form.controls.AddRange(@($Panel1,$Panel2,$Panel3,$Panel4,$PictureBox1))
+    $Form.controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $PictureBox1))
     
     # Show the Window
     [void]$Form.ShowDialog()

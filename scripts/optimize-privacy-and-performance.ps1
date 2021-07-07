@@ -7,27 +7,27 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Initialize all Path variables used to Registry Tweaks
-$Global:PathToActivityHistory           = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
-$Global:PathToAdvertisingInfoPol        = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
-$Global:PathToAutoLogger                = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
-$Global:PathToCloudContent              = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-$Global:PathToContentDeliveryManager    = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-$Global:PathToDeliveryOptimizationCfg   = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
-$Global:PathToExplorer                  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToExplorerAdvanced          = "$PathToExplorer\Advanced"
-$Global:PathToGameBar                   = "HKCU:\SOFTWARE\Microsoft\GameBar"
-$Global:PathToInputPersonalization      = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
-$Global:PathToDeviceAccessGlobal        = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
-$Global:PathToTIPC                      = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
-$Global:PathToPrefetchParams            = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
-$Global:PathToPsched                    = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
-$Global:PathToSearch                    = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
-$Global:PathToSiufRules                 = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
-$Global:PathToTelemetryFake             = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
-$Global:PathToTelemetryReal             = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
-$Global:PathToWifiPol                   = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
-$Global:PathToWindowsStore              = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
-$Global:PathToWindowsUpdate             = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
+$Global:PathToActivityHistory         = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$Global:PathToAdvertisingInfoPol      = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
+$Global:PathToAutoLogger              = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
+$Global:PathToCloudContent            = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+$Global:PathToContentDeliveryManager  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+$Global:PathToDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
+$Global:PathToExplorer                = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+$Global:PathToExplorerAdvanced        = "$PathToExplorer\Advanced"
+$Global:PathToGameBar                 = "HKCU:\SOFTWARE\Microsoft\GameBar"
+$Global:PathToInputPersonalization    = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+$Global:PathToDeviceAccessGlobal      = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
+$Global:PathToTIPC                    = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
+$Global:PathToPrefetchParams          = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
+$Global:PathToPsched                  = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
+$Global:PathToSearch                  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+$Global:PathToSiufRules               = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+$Global:PathToTelemetryFake           = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
+$Global:PathToTelemetryReal           = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+$Global:PathToWifiPol                 = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
+$Global:PathToWindowsStore            = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+$Global:PathToWindowsUpdate           = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
 Function TweaksForPrivacyAndPerformance {
 
@@ -83,9 +83,9 @@ Function TweaksForPrivacyAndPerformance {
     
     Write-Host "[-] Let apps use NOT my advertising ID..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
-	If (!(Test-Path "$PathToAdvertisingInfoPol")) {
-		New-Item -Path "$PathToAdvertisingInfoPol" -Force | Out-Null
-	}
+    If (!(Test-Path "$PathToAdvertisingInfoPol")) {
+        New-Item -Path "$PathToAdvertisingInfoPol" -Force | Out-Null
+    }
     Set-ItemProperty -Path "$PathToAdvertisingInfoPol" -Name "DisabledByGroupPolicy" -Type DWord -Value 1
     
     Write-Host "[-] Don't 'Let websites provide locally relevant content by accessing my language list'..."
@@ -106,7 +106,7 @@ Function TweaksForPrivacyAndPerformance {
     
     Write-Host "[@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
     Write-Host "[-] Diagnostic Data (x64): 'Full Telemetry'"
-    If ((Test-Path "$PathToTelemetryFake")){
+    If ((Test-Path "$PathToTelemetryFake")) {
         Remove-ItemProperty -Path "$PathToTelemetryFake" -Name "AllowTelemetry"
     }
     Set-ItemProperty -Path "$PathToTelemetryReal" -Name "AllowTelemetry" -Type DWord -Value 3
@@ -128,7 +128,7 @@ Function TweaksForPrivacyAndPerformance {
     If (!(Test-Path "$PathToSiufRules")) {
         New-Item -Path "$PathToSiufRules" -Force | Out-Null
     }
-    If ((Test-Path "$PathToSiufRules\PeriodInNanoSeconds")){
+    If ((Test-Path "$PathToSiufRules\PeriodInNanoSeconds")) {
         Remove-ItemProperty -Path "$PathToSiufRules" -Name "PeriodInNanoSeconds"
     }
     Set-ItemProperty -Path "$PathToSiufRules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
@@ -338,10 +338,10 @@ Function TweaksForPrivacyAndPerformance {
     }
 
     Write-Host "[+] Showing file transfer details..."
-	If (!(Test-Path "$PathToExplorer\OperationStatusManager")) {
-		New-Item -Path "$PathToExplorer\OperationStatusManager" -Force | Out-Null
-	}
-	Set-ItemProperty -Path "$PathToExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 1
+    If (!(Test-Path "$PathToExplorer\OperationStatusManager")) {
+        New-Item -Path "$PathToExplorer\OperationStatusManager" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 1
 
     # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
     Write-Host "[+] Showing task manager details..."
@@ -396,7 +396,7 @@ Function TweaksForPrivacyAndPerformance {
     #Write-Host "[@] (0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
     #Write-Host "[-] Disabling SysMain/Superfetch and APPs Prelaunching..."
     #If ((Test-Path "$PathToPrefetchParams\EnableSuperfetch")) {
-        #Remove-ItemProperty -Path $PathToPrefetchParams -Name "EnableSuperfetch"
+    #Remove-ItemProperty -Path $PathToPrefetchParams -Name "EnableSuperfetch"
     #}
     #Set-ItemProperty -Path "$PathToPrefetchParams" -Name "EnablePrefetcher" -Type DWord -Value 0
     #Disable-MMAgent -ApplicationPreLaunch
