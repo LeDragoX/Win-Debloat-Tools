@@ -25,8 +25,8 @@ Thanks to raydric, this function should be used instead of `mkdir -force`.
 function New-FolderForced {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
-		[Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-		[string]
+        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [string]
         $Path
     )
 

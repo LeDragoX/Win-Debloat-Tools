@@ -5,25 +5,25 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Initialize all Path variables used to Registry Tweaks
-$Global:PathToAccessibility             = "HKCU:\Control Panel\Accessibility"
-$Global:PathToEdgeUserPol               = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
-$Global:PathToExplorer                  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToExplorerAdvanced          = "$PathToExplorer\Advanced"
-$Global:PathToLiveTiles                 = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-$Global:PathToNewsAndInterest           = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
-$Global:PathToSearch                    = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+$Global:PathToAccessibility    = "HKCU:\Control Panel\Accessibility"
+$Global:PathToEdgeUserPol      = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
+$Global:PathToExplorer         = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+$Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
+$Global:PathToLiveTiles        = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+$Global:PathToNewsAndInterest  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
+$Global:PathToSearch           = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
 Function PersonalTweaks {
 
     Title1 -Text "My Personal Tweaks"
 
     Push-Location -Path "..\utils\"
-        Write-Host "[+] Enabling Dark theme..."
-        regedit /s dark-theme.reg
-        Write-Host "[-] Disabling Cortana..."
-        regedit /s disable-cortana.reg
-        Write-Host "[+] Enabling photo viewer..."
-        regedit /s enable-photo-viewer.reg
+    Write-Host "[+] Enabling Dark theme..."
+    regedit /s dark-theme.reg
+    Write-Host "[-] Disabling Cortana..."
+    regedit /s disable-cortana.reg
+    Write-Host "[+] Enabling photo viewer..."
+    regedit /s enable-photo-viewer.reg
     Pop-Location
 
     Section1 -Text "Windows Explorer Tweaks"
@@ -100,7 +100,7 @@ Function PersonalTweaks {
 
     Write-Host "[-] Disabling Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToSearch" -Name "BingSearchEnabled" -Type DWord -Value 0
-	Set-ItemProperty -Path "$PathToSearch" -Name "CortanaConsent" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToSearch" -Name "CortanaConsent" -Type DWord -Value 0
 
     Section1 -Text "Ease of Access"
     Caption1 -Text "Keyboard"
@@ -126,8 +126,8 @@ Function PersonalTweaks {
     
     Write-Host "[+] Setting up the DNS from Google (ipv4 and ipv6)..."
     #Get-DnsClientServerAddress # To look up the current config.
-    Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("8.8.8.8","8.8.4.4"), ("2001:4860:4860::8888", "2001:4860:4860::8844")
-    Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi*" -ServerAddresses ("8.8.8.8","8.8.4.4"), ("2001:4860:4860::8888", "2001:4860:4860::8844")
+    Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("8.8.8.8", "8.8.4.4"), ("2001:4860:4860::8888", "2001:4860:4860::8844")
+    Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi*" -ServerAddresses ("8.8.8.8", "8.8.4.4"), ("2001:4860:4860::8888", "2001:4860:4860::8844")
     
     Write-Host "[+] Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy

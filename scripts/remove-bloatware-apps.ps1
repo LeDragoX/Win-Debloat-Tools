@@ -137,7 +137,7 @@ Function RemoveBloatwareApps {
 
     ForEach ($Bloat in $Apps) {
         Write-Host "[-][UWP] Trying to remove $Bloat ..."
-        Get-AppxPackage -Name $Bloat| Remove-AppxPackage    # App
+        Get-AppxPackage -Name $Bloat | Remove-AppxPackage    # App
         Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online  # Payload
     }
 

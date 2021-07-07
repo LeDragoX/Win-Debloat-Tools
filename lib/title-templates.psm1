@@ -1,9 +1,9 @@
 Function Title1 {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
-    param (
+	param (
 		[String]	$Text = "Title1 Text"
-    )
+	)
 
 	Write-Host "" # Skip line
 	Write-Host "<====================[ $Text ]====================>" -ForegroundColor Cyan
@@ -13,9 +13,9 @@ Function Title1 {
 Function Title2 {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
-    param (
+	param (
 		[String]	$Text = "Title2 Text"
-    )
+	)
 
 	Write-Host "" # Skip line
 	Write-Host "<====================< $Text >====================>" -ForegroundColor Yellow
@@ -25,9 +25,9 @@ Function Title2 {
 Function Section1 {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
-    param (
+	param (
 		[String]	$Text = "Section1 Text"
-    )
+	)
 
 	Write-Host "" # Skip line
 	Write-Host "<==========[ $Text ]==========>" -ForegroundColor Cyan
@@ -38,9 +38,9 @@ Function Section1 {
 Function Caption1 {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
-    param (
+	param (
 		[String]	$Text = "Caption1 Text"
-    )
+	)
 
 	Write-Host "--> $Text" -ForegroundColor Cyan
 	Write-Host "" # Skip line
@@ -48,11 +48,11 @@ Function Caption1 {
 
 Function Title2Counter {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
-    param (
-		[String]	$Text = "Title2 COUNTER Text", 
+	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
+	param (
+		[String]	$Text 	= "Title2 COUNTER Text", 
 		[Int] 		$MaxNum = $Global:MaxNum
-    )
+	)
 
 	$Global:MaxNum = $MaxNum
 	
@@ -66,7 +66,7 @@ Function Title2Counter {
 
 	# Reset both when the Counter is the same as MaxNum and different from 0
 	If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {
-        $Global:Counter = 0
+		$Global:Counter = 0
 		$Global:MaxNum	= 0
 	}
 }

@@ -27,7 +27,7 @@ $RestoreHosts = "# Copyright (c) 1993-2009 Microsoft Corp.
 #    ::1             localhost"
 
 Push-Location -Path "$env:SystemRoot\System32\drivers\etc\"
-    Write-Output $RestoreHosts > .\hosts
+Write-Output $RestoreHosts > .\hosts
 Pop-Location
 
 Section1 -Text "Resetting the MS Store"
@@ -37,9 +37,9 @@ Start-Process wsreset -NoNewWindow
 Section1 -Text "Fix Windows Taskbar"
 
 Push-Location -Path "$env:SystemRoot\System32\"
-    .\Regsvr32.exe /s msimtf.dll 
-    .\Regsvr32.exe /s msctf.dll
-    Start-Process -Verb RunAs .\ctfmon.exe
+.\Regsvr32.exe /s msimtf.dll 
+.\Regsvr32.exe /s msctf.dll
+Start-Process -Verb RunAs .\ctfmon.exe
 Pop-Location
 
 Section1 -Text "Remove 'Test Mode' Watermark"
@@ -54,7 +54,7 @@ Section1 -Text "Re-register all your apps"
 
 taskkill /F /IM explorer.exe
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableXamlStartMenu" -Type Dword -Value 0
-Get-AppXPackage -AllUsers | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+Get-AppXPackage -AllUsers | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
 Start-Process explorer
 
 Section1 -Text "Solving Network problems"

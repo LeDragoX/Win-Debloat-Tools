@@ -1,6 +1,6 @@
 Function QuickPrivilegesElevation {
-	# Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
-	If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+    # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
+    If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 # Your script here
 
@@ -11,14 +11,14 @@ Function LoadLibs {
     Push-Location -Path "$PSScriptRoot"
 	
     Push-Location -Path "lib\"
-        Get-ChildItem -Recurse *.ps*1 | Unblock-File
+    Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
-        #Import-Module -DisableNameChecking .\"count-n-seconds.psm1"    # Not Used
-        Import-Module -DisableNameChecking .\"check-os-info.psm1"
-        Import-Module -DisableNameChecking .\"set-script-policy.psm1"
-        Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
-        Import-Module -DisableNameChecking .\"simple-message-box.psm1"
-        Import-Module -DisableNameChecking .\"title-templates.psm1"
+    #Import-Module -DisableNameChecking .\"count-n-seconds.psm1"    # Not Used
+    Import-Module -DisableNameChecking .\"check-os-info.psm1"
+    Import-Module -DisableNameChecking .\"set-script-policy.psm1"
+    Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
+    Import-Module -DisableNameChecking .\"simple-message-box.psm1"
+    Import-Module -DisableNameChecking .\"title-templates.psm1"
     Pop-Location
 
 }
@@ -43,9 +43,9 @@ Function InstallChocolatey {
     # Find it on "Microsoft\Windows\PowerShell\ScheduledJobs\Chocolatey Daily Upgrade"
     $JobName = "Chocolatey Daily Upgrade"
     $ScheduledJob = @{
-        Name = $JobName
-        ScriptBlock = {choco upgrade all -y}
-        Trigger = New-JobTrigger -Daily -At 12:00
+        Name               = $JobName
+        ScriptBlock        = { choco upgrade all -y }
+        Trigger            = New-JobTrigger -Daily -At 12:00
         ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
     }
     
@@ -70,7 +70,8 @@ Function InstallPackages {
             choco install "amd-ryzen-chipset" -y                # AMD Ryzen Chipset Drivers
         }
         
-	} ElseIf ($CPU.contains("Intel")) {
+    }
+    ElseIf ($CPU.contains("Intel")) {
 
         Section1 -Text "Installing Intel chipset drivers!"
         choco install "chocolatey-misc-helpers.extension" -y    # Chocolatey Misc Helpers Extension ('intel-dsa' Dependency)
@@ -133,8 +134,9 @@ Function InstallPackages {
         # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
         If ((Get-AppxPackage).Name -ilike "*$Package*") {
             Caption1 -Text "$Package already installed on MS Store! Skipping..."
-        } Else {
-                choco install $Package -y # --force
+        }
+        Else {
+            choco install $Package -y # --force
         }
     }
 
@@ -156,7 +158,8 @@ All important Gaming clients and Required Game Softwares to Run Games will be in
 + Parsec
 + Steam
 + Microsoft DX & .NET & VC++ Packages"
-Function InstallGamingPackages { # You Choose
+Function InstallGamingPackages {
+    # You Choose
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         'Yes' {
@@ -192,7 +195,8 @@ Function InstallGamingPackages { # You Choose
         'No' {
             Write-Host "You choose No. (No = Cancel)"
         }
-        'Cancel' { # With Yes, No and Cancel, the user can press Esc to exit
+        'Cancel' {
+            # With Yes, No and Cancel, the user can press Esc to exit
             Write-Host "You choose Cancel. (Cancel = No)"
         }
     }
@@ -203,9 +207,9 @@ QuickPrivilegesElevation                # Check admin rights
 LoadLibs                                # Import modules from lib folder
 UnrestrictPermissions                   # Unlock script usage
 SetupConsoleStyle                       # Make the Console looks how i want
-$Architecture   = CheckOSArchitecture   # Checks if the System is 32-bits or 64-bits or Something Else
-$CPU            = DetectCPU             # Detects the current CPU
-$GPU            = DetectGPU             # Detects the current GPU
+$Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
+$CPU          = DetectCPU               # Detects the current CPU
+$GPU          = DetectGPU               # Detects the current GPU
 InstallChocolatey                       # Install Chocolatey on Powershell
 InstallPackages                         # Install the Showed Softwares
 InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games

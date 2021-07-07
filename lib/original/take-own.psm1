@@ -52,7 +52,8 @@ function Takeown-Folder($path) {
     foreach ($item in Get-ChildItem $path) {
         if (Test-Path $item -PathType Container) {
             Takeown-Folder $item.FullName
-        } else {
+        }
+        else {
             Takeown-File $item.FullName
         }
     }
