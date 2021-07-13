@@ -26,7 +26,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 ## Softwares that'll be Installed:
 
 - Obviously, [Chocolatey](https://chocolatey.org/why-chocolatey) !!!
-- The Latest CPU ([Intel](https://community.chocolatey.org/packages/intel-dsa)) and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset) driver installer;
+- The Latest CPU ([Intel](https://community.chocolatey.org/packages/intel-dsa) and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
 - The Lastest Graphics driver of your GPU (Except AMD. See [Intel](https://community.chocolatey.org/packages/intel-graphics-driver) and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including [GeForce Experience](https://community.chocolatey.org/packages/geforce-experience));
 - [7-Zip](https://community.chocolatey.org/packages/7zip);
 - [Google Chrome](https://community.chocolatey.org/packages/GoogleChrome);
