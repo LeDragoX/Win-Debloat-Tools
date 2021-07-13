@@ -158,14 +158,14 @@ Function InstallGamingPackages {
     + Discord
     + Parsec
     + Steam
-    + Microsoft DX & .NET & VC++ Packages"
+    + Microsoft DirectX & .NET & VC++ Packages"
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         'Yes' {
 
             Write-Host "You choose Yes."
             $GamingPackages = @(
-                "directx"               # DirectX End-User Runtimes
+                "directx"               # DirectX End-User Runtime
                 "discord"               # Discord
                 "dotnetfx"              # Microsoft .NET Framework (Before v5)
                 "dotnet"                # Microsoft .NET (v5 +)
