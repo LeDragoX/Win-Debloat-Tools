@@ -31,7 +31,7 @@ Function DetectCPU() {
         $CPU = (Get-WmiObject -Class Win32_Processor -ComputerName. | Select-Object -Property [a-z]*)
     )
 
-    If ($CPU.Name.contains("AMD") -or $CPU.Name.contains("Radeon")) {
+    If ($CPU.Name.contains("AMD")) {
         Write-Host "AMD CPU found!"
     }
     ElseIf ($CPU.Name.contains("Intel")) {
@@ -41,7 +41,7 @@ Function DetectCPU() {
         Write-Host "CPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
     }
 
-    Write-Verbose "CPU = $($CPU.Name)"
+    Write-Host "CPU = $($CPU.Name)"
     return $CPU.Name
 }
 
@@ -73,6 +73,6 @@ Function DetectGPU() {
         Write-Host "GPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
     }
 
-    Write-Verbose "GPU = $($GPU.description)" 
+    Write-Host "GPU = $($GPU.description)" 
     return $GPU.description
 }
