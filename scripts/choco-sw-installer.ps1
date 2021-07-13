@@ -15,7 +15,6 @@ Function LoadLibs {
 
     #Import-Module -DisableNameChecking .\"count-n-seconds.psm1"    # Not Used
     Import-Module -DisableNameChecking .\"check-os-info.psm1"
-    Import-Module -DisableNameChecking .\"set-script-policy.psm1"
     Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
     Import-Module -DisableNameChecking .\"simple-message-box.psm1"
     Import-Module -DisableNameChecking .\"title-templates.psm1"
@@ -38,7 +37,7 @@ Function InstallChocolatey {
     choco upgrade all -y
     choco install chocolatey-core.extension -y #--force
     
-    Write-Host "Creating daily task to automatically upgrade Chocolatey packages"
+    Write-Host "Creating a daily task to automatically upgrade Chocolatey packages"
     # adapted from https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
     # Find it on "Microsoft\Windows\PowerShell\ScheduledJobs\Chocolatey Daily Upgrade"
     $JobName = "Chocolatey Daily Upgrade"
@@ -50,7 +49,7 @@ Function InstallChocolatey {
     }
     
     # If the Sched. Job already exists, delete
-    If (Get-ScheduledJob -Name $JobName) {
+    If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
         Write-Host "ScheduledJob: $JobName FOUND! Deleting..."
         Unregister-ScheduledJob -Name $JobName
     }
@@ -82,7 +81,7 @@ Function InstallPackages {
     
     # Install GPU drivers then
     If ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
-        Title1 -Text "AMD GPU, yay! (Doing nothing)"
+        Title1 -Text "AMD GPU, yay! (Skipping...)"
     }
     
     If ($GPU.contains("Intel")) {
@@ -152,21 +151,21 @@ Function InstallPackages {
     
 }
 
-$Ask = "Do you plan to play Games on this Machine?
-All important Gaming clients and Required Game Softwares to Run Games will be installed.
-+ Discord
-+ Parsec
-+ Steam
-+ Microsoft DX & .NET & VC++ Packages"
 Function InstallGamingPackages {
     # You Choose
+    $Ask = "Do you plan to play Games on this PC?
+    All important Gaming clients and Required Game Softwares to Run Games will be installed.
+    + Discord
+    + Parsec
+    + Steam
+    + Microsoft DirectX & .NET & VC++ Packages"
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         'Yes' {
 
             Write-Host "You choose Yes."
             $GamingPackages = @(
-                "directx"               # DirectX End-User Runtimes
+                "directx"               # DirectX End-User Runtime
                 "discord"               # Discord
                 "dotnetfx"              # Microsoft .NET Framework (Before v5)
                 "dotnet"                # Microsoft .NET (v5 +)
@@ -205,13 +204,11 @@ Function InstallGamingPackages {
 
 QuickPrivilegesElevation                # Check admin rights
 LoadLibs                                # Import modules from lib folder
-UnrestrictPermissions                   # Unlock script usage
 SetupConsoleStyle                       # Make the Console looks how i want
 $Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
-$CPU = DetectCPU               # Detects the current CPU
-$GPU = DetectGPU               # Detects the current GPU
+$CPU = DetectCPU                        # Detects the current CPU
+$GPU = DetectGPU                        # Detects the current GPU
 InstallChocolatey                       # Install Chocolatey on Powershell
 InstallPackages                         # Install the Showed Softwares
 InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
-RestrictPermissions                     # Lock script usage
 Taskkill /F /IM $PID                    # Kill this task by PID because it won't exit with the command 'exit'
