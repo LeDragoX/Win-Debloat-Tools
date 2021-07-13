@@ -155,7 +155,7 @@ Function InstallGamingPackages {
     # You Choose
     $Ask = "Do you plan to play Games on this PC?
     All important Gaming clients and Required Game Softwares to Run Games will be installed.
-    + Discord
+    + Discord (Will be closed, sorry for the inconvenience)
     + Parsec
     + Steam
     + Microsoft DirectX & .NET & VC++ Packages"
@@ -165,13 +165,13 @@ Function InstallGamingPackages {
 
             Write-Host "You choose Yes."
             $GamingPackages = @(
-                "directx"               # DirectX End-User Runtime
                 "discord"               # Discord
+                "parsec"                # Parsec
+                "steam"                 # Steam
+                "directx"               # DirectX End-User Runtime
                 "dotnetfx"              # Microsoft .NET Framework (Before v5)
                 "dotnet"                # Microsoft .NET (v5 +)
                 "dotnet-desktopruntime" # Microsoft .NET Desktop Runtime (v5 +)
-                "parsec"                # Parsec
-                "steam"                 # Steam
                 "vcredist2005"          # Microsoft Visual C++ 2005 SP1 Redistributable Package
                 "vcredist2008"          # Microsoft Visual C++ 2008 SP1 Redistributable Package
                 "vcredist2010"          # Microsoft Visual C++ 2010 Redistributable Package
@@ -185,6 +185,9 @@ Function InstallGamingPackages {
             )
         
             Title1 -Text "Installing Packages"
+
+            Caption1 -Text "Closing ONLY Discord, avoid future reinstalling"
+            taskkill.exe /F /IM "Discord.exe"
             ForEach ($Package in $GamingPackages) {
                 Title2Counter -Text "Installing: $Package" -MaxNum $GamingPackages.Length
                 choco install $Package -y # --force # to reinstall
