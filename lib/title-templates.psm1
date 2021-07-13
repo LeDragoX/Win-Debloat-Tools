@@ -14,7 +14,7 @@ Function Title2 {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
-		[String]	$Text = "Title2 Text"
+		[String] $Text = "Title2 Text"
 	)
 
 	Write-Host "" # Skip line
@@ -26,7 +26,7 @@ Function Section1 {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
-		[String]	$Text = "Section1 Text"
+		[String] $Text = "Section1 Text"
 	)
 
 	Write-Host "" # Skip line
@@ -39,7 +39,7 @@ Function Caption1 {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
-		[String]	$Text = "Caption1 Text"
+		[String] $Text = "Caption1 Text"
 	)
 
 	Write-Host "--> $Text" -ForegroundColor Cyan
@@ -50,8 +50,8 @@ Function Title2Counter {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
-		[String]	$Text 	= "Title2 COUNTER Text", 
-		[Int] 		$MaxNum = $Global:MaxNum
+		[String] $Text = "Title2 COUNTER Text", 
+		[Int] 	 $MaxNum = $Global:MaxNum
 	)
 
 	$Global:MaxNum = $MaxNum
@@ -64,7 +64,7 @@ Function Title2Counter {
 	$Global:Counter = $Counter + 1
 	Title2 "( $Counter/$MaxNum ) - [$Text]"
 
-	# Reset both when the Counter is the same as MaxNum and different from 0
+	# Reset both when the Counter is greater or equal than MaxNum and different from 0
 	If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {
 		$Global:Counter = 0
 		$Global:MaxNum	= 0
