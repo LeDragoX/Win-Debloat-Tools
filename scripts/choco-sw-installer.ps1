@@ -101,10 +101,10 @@ Function InstallPackages {
     }
 
     $EssentialPackages = @(
-        "7zip.install"              # 7-Zip
+        "7zip"                      # 7-Zip
         "googlechrome"              # Google Chrome
         "gimp"                      # Gimp
-        "notepadplusplus.install"   # Notepad++
+        "notepadplusplus"           # Notepad++
         "onlyoffice"                # ONLYOffice Editors
         "qbittorrent"               # qBittorrent
         "spotify"                   # Spotify
@@ -167,7 +167,7 @@ Function InstallGamingPackages {
             Write-Host "You choose Yes."
             $GamingPackages = @(
                 "directx"               # DirectX End-User Runtimes
-                "discord.install"       # Discord
+                "discord"               # Discord
                 "dotnetfx"              # Microsoft .NET Framework (Before v5)
                 "dotnet"                # Microsoft .NET (v5 +)
                 "dotnet-desktopruntime" # Microsoft .NET Desktop Runtime (v5 +)
@@ -208,8 +208,8 @@ LoadLibs                                # Import modules from lib folder
 UnrestrictPermissions                   # Unlock script usage
 SetupConsoleStyle                       # Make the Console looks how i want
 $Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
-$CPU          = DetectCPU               # Detects the current CPU
-$GPU          = DetectGPU               # Detects the current GPU
+$CPU = DetectCPU               # Detects the current CPU
+$GPU = DetectGPU               # Detects the current GPU
 InstallChocolatey                       # Install Chocolatey on Powershell
 InstallPackages                         # Install the Showed Softwares
 InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
