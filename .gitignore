@@ -11,3 +11,6 @@
 **/debloat-softwares/Winaero Tweaker/*.exe
 **/debloat-softwares/Winaero Tweaker/*.txt
 **/debloat-softwares/Winaero Tweaker/*.url
+
+# Ignore WSL2 moved files
+**.Identifier
