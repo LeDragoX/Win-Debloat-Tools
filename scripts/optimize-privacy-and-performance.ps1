@@ -7,27 +7,26 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Initialize all Path variables used to Registry Tweaks
-$Global:PathToActivityHistory         = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
-$Global:PathToAdvertisingInfoPol      = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
-$Global:PathToAutoLogger              = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
-$Global:PathToCloudContent            = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-$Global:PathToContentDeliveryManager  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+$Global:PathToActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$Global:PathToAdvertisingInfoPol = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
+$Global:PathToAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
+$Global:PathToCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+$Global:PathToContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
 $Global:PathToDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
-$Global:PathToExplorer                = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToExplorerAdvanced        = "$PathToExplorer\Advanced"
-$Global:PathToGameBar                 = "HKCU:\SOFTWARE\Microsoft\GameBar"
-$Global:PathToInputPersonalization    = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
-$Global:PathToDeviceAccessGlobal      = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
-$Global:PathToTIPC                    = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
-$Global:PathToPrefetchParams          = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
-$Global:PathToPsched                  = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
-$Global:PathToSearch                  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
-$Global:PathToSiufRules               = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
-$Global:PathToTelemetryFake           = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
-$Global:PathToTelemetryReal           = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
-$Global:PathToWifiPol                 = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
-$Global:PathToWindowsStore            = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
-$Global:PathToWindowsUpdate           = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
+$Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+$Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
+$Global:PathToGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
+$Global:PathToInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+$Global:PathToDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
+$Global:PathToTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
+$Global:PathToPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
+$Global:PathToPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
+$Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+$Global:PathToSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+$Global:PathToTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+$Global:PathToWifiPol = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
+$Global:PathToWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+$Global:PathToWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
 Function TweaksForPrivacyAndPerformance {
 
@@ -106,11 +105,8 @@ Function TweaksForPrivacyAndPerformance {
     
     Write-Host "[@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
     Write-Host "[-] Diagnostic Data (x64): 'Full Telemetry'"
-    If ((Test-Path "$PathToTelemetryFake")) {
-        Remove-ItemProperty -Path "$PathToTelemetryFake" -Name "AllowTelemetry"
-    }
-    Set-ItemProperty -Path "$PathToTelemetryReal" -Name "AllowTelemetry" -Type DWord -Value 3
-    Set-ItemProperty -Path "$PathToTelemetryReal" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToTelemetry" -Name "AllowTelemetry" -Type DWord -Value 3
+    Set-ItemProperty -Path "$PathToTelemetry" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
     
     Write-Host "[-] Don't send inking and typing data to Microsoft..."
     If (!(Test-Path "$PathToTIPC")) {
