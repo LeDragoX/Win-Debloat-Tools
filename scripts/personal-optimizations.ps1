@@ -5,13 +5,13 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Initialize all Path variables used to Registry Tweaks
-$Global:PathToAccessibility    = "HKCU:\Control Panel\Accessibility"
-$Global:PathToEdgeUserPol      = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
-$Global:PathToExplorer         = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+$Global:PathToAccessibility = "HKCU:\Control Panel\Accessibility"
+$Global:PathToEdgeUserPol = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
+$Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
 $Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
-$Global:PathToLiveTiles        = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-$Global:PathToNewsAndInterest  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
-$Global:PathToSearch           = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+$Global:PathToLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+$Global:PathToNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
+$Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
 Function PersonalTweaks {
 
@@ -35,6 +35,14 @@ Function PersonalTweaks {
 
     Section1 -Text "Personalization"
     Section1 -Text "TaskBar Tweaks"
+
+    Caption1 -Text "Windows 11 Only"
+
+    Write-Host "[@] (0 = Hide Widgets, 1 = Show Widgets)"
+    Write-Host "[-] Hiding Widgets from taskbar..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value 0
+    
+    Caption1 -Text "Windows 10 Compatible"
     
     Write-Host "[@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
     Write-Host "[-] Hiding the search box from taskbar..."
