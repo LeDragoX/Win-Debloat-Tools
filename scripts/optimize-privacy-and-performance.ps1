@@ -389,16 +389,9 @@ Function TweaksForPrivacyAndPerformance {
     Title1 -Text "Performance Tweaks"
     
     # As SysMain was already disabled on the Services, just need to remove it's key
-    #Write-Host "[@] (0 = Disable Prefetcher, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
-    #Write-Host "[-] Disabling SysMain/Superfetch and APPs Prelaunching..."
-    #If ((Test-Path "$PathToPrefetchParams\EnableSuperfetch")) {
-    #Remove-ItemProperty -Path $PathToPrefetchParams -Name "EnableSuperfetch"
-    #}
-    #Set-ItemProperty -Path "$PathToPrefetchParams" -Name "EnablePrefetcher" -Type DWord -Value 0
-    #Disable-MMAgent -ApplicationPreLaunch
-
-    #Write-Host "[=] Enabling Memory Compression..."
-    #Enable-MMAgent -MemoryCompression               # If this comes first than SysMain/Superfetch tweaks, Sysmain should be disabled
+    Write-Host "[@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
+    Write-Host "[-] Disabling SysMain/Superfetch..."
+    Set-ItemProperty -Path "$PathToPrefetchParams" -Name "EnableSuperfetch" -Type DWord -Value 0
 
     Write-Host "[-] Disabling Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
