@@ -12,12 +12,12 @@ but you'll probably want the most recent version anyway.
 
 |                                      Download                                      | Should work on |   Build    |      Editions       |  Script version   |
 | :--------------------------------------------------------------------------------: | :------------: | :--------: | :-----------------: | :---------------: |
-| [Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip) | 21H1 and Older | 19043.xxxx | Home/Pro/Enterprise | **Always Latest** |
+| [Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip) | 21H2 and Older | 22000.xxxx | Home/Pro/Enterprise | **Always Latest** |
 
 ## Resume
 
 This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10). 
-These scripts will Customize, Debloat and Improve Security/Performance on Windows 10.
+These scripts will Customize, Debloat and Improve Security/Performance on Windows 10/11.
 
 ## Roll-Back
 
