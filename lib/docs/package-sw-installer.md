@@ -3,11 +3,15 @@
     <img width=30px src="./../images/PowerShell-icon.png">
 </h1>
 
+## Resume
+
 This was made to install all needed softwares on a Post-Install Windows.
 You can modify it as you want.
 
 The best part is, if a Software was installed with Chocolatey,
 in this specific case, they'll upgrade automatically.
+
+<hr>
 
 ## Usage Requirements
 
@@ -15,13 +19,13 @@ The `pkg-sw-installer.ps1` do not make everything automatically, follow these st
 
 - Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
-
-### Easy way (Prepare and Run once):
-
 - Copy and Paste this entire line below on **Powershell**:
+  
 ```Powershell
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\scripts\"pkg-sw-installer.ps1"
 ```
+
+<hr>
 
 ## Softwares that'll be Installed:
 
