@@ -5,7 +5,8 @@ Function QuickPrivilegesElevation {
 
 Function LoadLibs {
 
-    Write-Host "Current Script Folder $pwd"
+    Write-Host "Your Current Folder $pwd"
+    Write-Host "Script Current Folder $PSScriptRoot"
     Write-Host ""
     Push-Location "$PSScriptRoot"
 	
