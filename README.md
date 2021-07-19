@@ -60,7 +60,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Run WinAero Tweaker to apply my profile and other "Manual" softwares in the future (maybe); ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
 - [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./scripts/backup-system.ps1) and ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
 - Apply Dark Mode or Light Mode exclusively from GUI; ([Dark](./utils/dark-theme.reg) and [Light](./utils/light-theme.reg))
-- Install Chocolatey and install Basic Softwares from my selection. See [Document](./lib/docs/Chocolatey-SW-Installer.md). ([`choco-sw-installer.ps1`](./scripts/choco-sw-installer.ps1))
+- Install Chocolatey and install Basic Softwares from my selection. See [Document](./lib/docs/package-sw-installer.md). ([`pkg-sw-installer.ps1`](./scripts/pkg-sw-installer.ps1))
 
 ## Script Features
 
