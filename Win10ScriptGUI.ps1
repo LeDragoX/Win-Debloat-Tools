@@ -297,14 +297,14 @@ Function PrepareGUI {
     $Panel2.Controls.Add($DisableCortana)
     
     # Panel 3 ~> Button 1 (Big)
-    $ChocolateySwInstaller           = New-Object system.Windows.Forms.Button
-    $ChocolateySwInstaller.text      = "Install Basic Programs (Chocolatey)"
-    $ChocolateySwInstaller.width     = $BBWidth
-    $ChocolateySwInstaller.height    = $BBHeight
-    $ChocolateySwInstaller.location  = $BBLocation
-    $ChocolateySwInstaller.Font      = $BBFont
-    $ChocolateySwInstaller.ForeColor = $BBForeColor
-    $Panel3.Controls.Add($ChocolateySwInstaller)
+    $PkgSwInstaller           = New-Object system.Windows.Forms.Button
+    $PkgSwInstaller.text      = "Install Basic Programs (Chocolatey)"
+    $PkgSwInstaller.width     = $BBWidth
+    $PkgSwInstaller.height    = $BBHeight
+    $PkgSwInstaller.location  = $BBLocation
+    $PkgSwInstaller.Font      = $BBFont
+    $PkgSwInstaller.ForeColor = $BBForeColor
+    $Panel3.Controls.Add($PkgSwInstaller)
     
     # Image Logo from the Script
     $PictureBox1               = New-Object system.Windows.Forms.PictureBox
@@ -439,14 +439,14 @@ Function PrepareGUI {
         })
 
     # Panel 3 ~> Button 1 Mouse Click listener
-    $ChocolateySwInstaller.Add_Click( {
+    $PkgSwInstaller.Add_Click( {
 
             Push-Location -Path "scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
                 # [Recommended order] List of Scripts
-                "choco-sw-installer.ps1"
+                "pkg-sw-installer.ps1"
             )
         
             ForEach ($FileName in $Scripts) {
