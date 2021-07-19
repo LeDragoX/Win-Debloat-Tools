@@ -1,5 +1,5 @@
 <h1>
-    <img width=30px src="./../images/Windows-10-logo.png"> Chocolatey Software Installer 
+    <img width=30px src="./../images/Windows-10-logo.png"> Package Software Installer 
     <img width=30px src="./../images/PowerShell-icon.png">
 </h1>
 
@@ -11,7 +11,7 @@ in this specific case, they'll upgrade automatically.
 
 ## Usage Requirements
 
-The `choco-sw-installer.ps1` do not make everything automatically, follow these steps.
+The `pkg-sw-installer.ps1` do not make everything automatically, follow these steps.
 
 - Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
@@ -20,7 +20,7 @@ The `choco-sw-installer.ps1` do not make everything automatically, follow these 
 
 - Copy and Paste this entire line below on **Powershell**:
 ```Powershell
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\scripts\"choco-sw-installer.ps1"
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\scripts\"pkg-sw-installer.ps1"
 ```
 
 ## Softwares that'll be Installed:
