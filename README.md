@@ -113,9 +113,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 5. [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
 6. Bluestacks doesn't work with Hyper-V enabled
 
-<hr>
-
-## Solutions
+### Solutions
 <details>
     <summary>CLICK TO SHOW CONTENT</summary>
 <p>Open PowerShell as admin and copy paste:</p>
