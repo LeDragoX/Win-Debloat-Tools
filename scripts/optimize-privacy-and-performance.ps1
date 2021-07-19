@@ -13,17 +13,18 @@ $Global:PathToAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogge
 $Global:PathToCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $Global:PathToContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
 $Global:PathToDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
+$Global:PathToDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
 $Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
+$Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced" # Must come after PathToExplorer
 $Global:PathToGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
 $Global:PathToInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
-$Global:PathToDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
-$Global:PathToTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
+$Global:PathToOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
 $Global:PathToPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
 $Global:PathToPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
 $Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 $Global:PathToSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
 $Global:PathToTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+$Global:PathToTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
 $Global:PathToWifiPol = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
 $Global:PathToWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
 $Global:PathToWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
@@ -92,7 +93,12 @@ Function TweaksForPrivacyAndPerformance {
     
     Caption1 -Text "Speech"
     
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" -Name "HasAccepted" -Type DWord -Value 0
+    Write-Host "[@] (0 = Decline, 1 = Accept)"
+    Write-Host "[-] Disabling Online Speech Recognition..."
+    If (!(Test-Path "$PathToOnlineSpeech")) {
+        New-Item -Path "$PathToOnlineSpeech" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 0
     
     Caption1 -Text "Inking & Typing Personalization"
     
