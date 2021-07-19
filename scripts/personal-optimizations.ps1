@@ -13,11 +13,12 @@ $Global:PathToLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVers
 $Global:PathToNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
 $Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
+
 Function PersonalTweaks {
 
     Title1 -Text "My Personal Tweaks"
 
-    Push-Location -Path "..\utils\"
+    Push-Location -Path "$PSScriptRoot\..\utils\"
     Write-Host "[+] Enabling Dark theme..."
     regedit /s dark-theme.reg
     Write-Host "[-] Disabling Cortana..."
@@ -122,9 +123,9 @@ Function PersonalTweaks {
     Caption1 -Text "Privacy, search and services / Address bar and search"
 
     Write-Host "[=] Show me search and site suggestions using my typed characters..."
-    Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "SearchSuggestEnabled" -Force
+    Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
     Write-Host "[=] Show me history and favorite suggestions and other data using my typed characters..."
-    Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "LocalProvidersEnabled" -Force
+    Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
 
     Write-Host "[+] Keep ENABLED Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
@@ -145,26 +146,28 @@ Function PersonalTweaks {
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
     Section1 -Text "Power Plan Tweaks"
+    $Time = 10
 
-    Write-Host "[=] Fix Hibernate not working..."
-    powercfg -h on
-    powercfg -h -type full
+    Write-Host "[=] Setting Hibernate size to full..."
+    powercfg -hibernate -type full
+    Write-Host "[-] Disabling Hibernate..."
+    powercfg -hibernate off
 
-    Write-Host "[+] Setting the Monitor Timeout to 10 min (AC = Alternating Current, DC = Direct Current)"
-    powercfg -Change Monitor-Timeout-AC 10
-    powercfg -Change Monitor-Timeout-DC 10
+    Write-Host "[+] Setting the Monitor Timeout to $Time min (AC = Alternating Current, DC = Direct Current)"
+    powercfg -Change Monitor-Timeout-AC $Time
+    powercfg -Change Monitor-Timeout-DC $Time
 
-    Write-Host "[+] Setting the Disk Timeout to 10 min"
-    powercfg -Change Disk-Timeout-AC 10
-    powercfg -Change Disk-Timeout-DC 10
+    Write-Host "[+] Setting the Disk Timeout to $Time min"
+    powercfg -Change Disk-Timeout-AC $Time
+    powercfg -Change Disk-Timeout-DC $Time
 
-    Write-Host "[+] Setting the Standby Timeout to 10 min"
-    powercfg -Change Standby-Timeout-AC 10
-    powercfg -Change Standby-Timeout-DC 10
+    Write-Host "[+] Setting the Standby Timeout to $Time min"
+    powercfg -Change Standby-Timeout-AC $Time
+    powercfg -Change Standby-Timeout-DC $Time
 
-    Write-Host "[+] Setting the Hibernate Timeout to 10 min"
-    powercfg -Change Hibernate-Timeout-AC 10
-    powercfg -Change Hibernate-Timeout-DC 10
+    Write-Host "[+] Setting the Hibernate Timeout to $Time min"
+    powercfg -Change Hibernate-Timeout-AC $Time
+    powercfg -Change Hibernate-Timeout-DC $Time
 
 }
 
