@@ -66,7 +66,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ## GUI Script Features
 <details>
-    <summary>CLICK TO SHOW CONTENT</summary>
+    <summary>Click to expand</summary>
 
 - `Apply Tweaks`: Run every 'non-interactive' Tweak scripts;
 - `UI/UX Tweaks`: Run WinAero Tweaker to apply my profile and other "Manual" softwares in the future (maybe); ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
@@ -80,7 +80,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ## Common Script Features
 <details>
-    <summary>CLICK TO SHOW CONTENT</summary>
+    <summary>Click to expand</summary>
 
 - Import all necessary Modules before Executing everything; ([lib folder](lib/))
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./scripts/backup-system.ps1))
@@ -115,7 +115,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ### Solutions
 <details>
-    <summary>CLICK TO SHOW CONTENT</summary>
+    <summary>Click to expand</summary>
 <p>Open PowerShell as admin and copy paste:</p>
 
 ### Solution 1
@@ -161,7 +161,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 ## More Debloat Scripts (Community)
 <details>
-    <summary>CLICK TO SHOW CONTENT</summary>
+    <summary>Click to expand</summary>
 <p>The scripts are designed to run With/Without (GUI/CLI) any user interaction. Modify them beforehand. If you want a more interactive approach check out:</p>
 
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech) (Recommended);
@@ -173,7 +173,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 ## How did i find specific Tweaks?
 <details>
-    <summary>CLICK TO SHOW CONTENT</summary>
+    <summary>Click to expand</summary>
 <p>How To (Advanced Users)</p>
 
 By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
