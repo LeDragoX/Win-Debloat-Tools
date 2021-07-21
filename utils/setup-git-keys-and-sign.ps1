@@ -129,7 +129,6 @@ function SetUpGit() {
     
     Write-Host "Moving all files to $gnupg_path"
     Copy-Item -Path "$gnupg_gen_path/*" -Destination "$gnupg_path/" -Recurse
-    Remove-Item -Path "$gnupg_path/*" -Exclude "*.key", "*.rev", "*.gpg", "*.gpg.pub", "*.kbx" -Recurse
 
     # Get the exact Key ID from the system
     $key_id = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
