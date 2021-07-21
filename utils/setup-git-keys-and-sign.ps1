@@ -120,7 +120,7 @@ function SetUpGit() {
     Write-Host "Then: $git_user_email [ENTER]" -ForegroundColor Green
     Write-Host "Then: Anything you want (Ex: Git Keys) [ENTER]" -ForegroundColor Green
     Write-Host "Then: O (Ok) [ENTER]" -ForegroundColor Green
-    Write-Host "Then: [your passphrase] and repeat [ENTER]" -ForegroundColor Green
+    Write-Host "Then: [your passphrase] [your passphrase again] [ENTER]" -ForegroundColor Green
     Write-Host ""
     gpg --full-generate-key
     
