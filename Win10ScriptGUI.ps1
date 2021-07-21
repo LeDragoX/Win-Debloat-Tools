@@ -145,7 +145,7 @@ Function PrepareGUI {
     $Form.BackColor       = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
     
     # Icon: https://stackoverflow.com/a/53377253
-    $iconBase64 = [Convert]::ToBase64String((Get-Content ".\lib\images\Script-icon.png" -Encoding Byte))
+    $iconBase64 = [Convert]::ToBase64String((Get-Content ".\lib\images\script-icon.png" -Encoding Byte))
     $iconBytes  = [Convert]::FromBase64String($iconBase64)
     $stream     = New-Object IO.MemoryStream($iconBytes, 0, $iconBytes.Length)
     $stream.Write($iconBytes, 0, $iconBytes.Length);
@@ -312,7 +312,7 @@ Function PrepareGUI {
     $PictureBox1.width         = 150
     $PictureBox1.height        = 150
     $PictureBox1.location      = New-Object System.Drawing.Point(($MaxWidth * 0.72), ($MaxHeight * 0.5))
-    $PictureBox1.imageLocation = ".\lib\images\Script-logo.png"
+    $PictureBox1.imageLocation = ".\lib\images\script-logo.png"
     $PictureBox1.SizeMode      = [System.Windows.Forms.PictureBoxSizeMode]::zoom
 
     # <=== CLICK EVENTS ===>
@@ -323,7 +323,7 @@ Function PrepareGUI {
             Push-Location -Path "scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
-            $PictureBox1.imageLocation = ".\lib\images\Script-logo2.png"
+            $PictureBox1.imageLocation = ".\lib\images\script-logo2.png"
             $Form.Update()    
             
             $Scripts = @(

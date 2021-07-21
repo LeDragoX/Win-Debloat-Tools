@@ -1,22 +1,22 @@
-<h1>
-    <img width=30px src="./lib/images/Windows-10-logo.png"> Win10 Smart Debloat 
-    <img width=30px src="./lib/images/PowerShell-icon.png">
+<h1 align="center">
+    <img width=30px src="./lib/images/windows-11-logo.png" style="vertical-align: bottom"> Win10 Smart Debloat 
+    <img width=30px src="./lib/images/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
-## Adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
+<h2 align="center">
 
-<hr>
+Adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
+
+</h2>
 
 ## Download Latest Version
 
 Code located in the `master` branch is always considered under development,
 but you'll probably want the most recent version anyway.
 
-|                                      Download                                      | Should work on |   Build    |      Editions       |  Script version   |
-| :--------------------------------------------------------------------------------: | :------------: | :--------: | :-----------------: | :---------------: |
-| [Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip) | 21H2 and Older | 22000.xxxx | Home/Pro/Enterprise | **Always Latest** |
-
-<hr>
+|                                       Download                                        | Should work on |   Build    |      Editions       |  Script version   |
+| :-----------------------------------------------------------------------------------: | :------------: | :--------: | :-----------------: | :---------------: |
+| [⬇️ Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip) | 21H2 and Older | 22000.xxxx | Home/Pro/Enterprise | **Always Latest** |
 
 ## Resume
 
@@ -25,8 +25,6 @@ These scripts will Customize, Debloat and Improve Security/Performance on Window
 
 **Disclaimer:** _If something breaks, it's under your responsibility._
 
-<hr>
-
 ## Roll-Back
 
 **There is a undo (if works)**, because i did a restoration point script before
@@ -34,8 +32,6 @@ doing everything.
 
 **Use on a fresh windows install to note the differences, and if something breaks,**
 **you can rely on a pre-made restoration point and the** [`repair-windows.ps1`](./scripts/repair-windows.ps1) file.
-
-<hr>
 
 ## Usage Requirements
 
@@ -52,7 +48,7 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
 ```
 
-![Script GUI](./lib/images/Script-GUI.png)
+![Script GUI](./lib/images/script-gui.png)
 _The `Apply Tweaks` button is the main one._
 
 ### **CLI Version** (Advice - If you want FULL Output to be displayed on the console, use this version)
@@ -64,8 +60,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ```
 
 **[Scripts](/scripts) can be run individually, pick what you need.**
-
-<hr>
 
 ## GUI Script Features
 
@@ -79,8 +73,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Install Basic Programs`: Install Chocolatey and install Basic Softwares from my selection. See [Document](./lib/docs/package-sw-installer.md). ([`pkg-sw-installer.ps1`](./scripts/pkg-sw-installer.ps1))
 
 </details>
-
-<hr>
 
 ## Common Script Features
 
@@ -107,13 +99,11 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 </details>
 
-<hr>
-
 ## Known Issues
 
 1. Start menu Search (`WSearch` indexing service will be disabled)
 2. Sysprep will hang (Not Tested)
-3. [~Xbox Wireless Adapter~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
+3. [~~Xbox Wireless Adapter~~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
 4. [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` app will be uninstalled)
 5. [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
 6. Bluestacks doesn't work with Hyper-V enabled
@@ -146,14 +136,10 @@ Dism -Online -Disable-Feature -NoRestart -FeatureName:"VirtualMachinePlatform"
 
 </details>
 
-<hr>
-
 ## Contribute
 
 I would be happy to extend the collection of scripts.
 Just open an issue or send me a pull request. (Yes, if its useful, you can).
-
-<hr>
 
 ## Credits
 
@@ -169,8 +155,6 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [this video](https://youtu.be/EfrT_Bvgles);
 - [matthewjberger](https://gist.github.com/matthewjberger) - by [this script](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
 
-<hr>
-
 ## More Debloat Scripts (Community)
 
 <details>
@@ -181,8 +165,6 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex);
 - [Windows 10 Sophia Script](https://github.com/farag2/Windows-10-Sophia-Script) from [farag2](https://github.com/farag2).
 </details>
-
-<hr>
 
 ## How did i find specific Tweaks?
 
@@ -195,15 +177,13 @@ i could track the `SystemSettings.exe` by filtering it per Process Name, then `C
 (But make sure it is `Capturing the Events (Ctrl + E)`) and finally, applying an option of the Windows Configurations
 and searching the Registry Key inside `Procmon(64).exe`.
 
-![Grab the current tweak on registry with Procmon64.exe](./lib/images/Grab-the-current-tweak-on-registry-with-Procmon64.png)
+![Grab the current tweak on registry with Procmon64.exe](./lib/images/grab-the-current-tweak-on-registry-with-procmon64.png)
 
 After finding the right register Key, you just need to Right-Click and select `Jump To... (Ctrl + J)` to get on its directory.
 
-![Showing on regedit](./lib/images/Showing-on-regedit.png)
+![Showing on regedit](./lib/images/showing-on-regedit.png)
 
 </details>
-
-<hr>
 
 ## License
 
