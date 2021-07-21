@@ -20,10 +20,10 @@ but you'll probably want the most recent version anyway.
 
 ## Resume
 
-This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10). 
+This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10).
 These scripts will Customize, Debloat and Improve Security/Performance on Windows 10/11.
 
-**Disclaimer:** *If something breaks, it's under your responsibility.*
+**Disclaimer:** _If something breaks, it's under your responsibility._
 
 <hr>
 
@@ -47,15 +47,18 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 ### **GUI Version**
 
 - Copy and Paste this entire line below on **Powershell**:
+
 ```ps1
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
 ```
+
 ![Script GUI](./lib/images/Script-GUI.png)
-*The `Apply Tweaks` button is the main one.*
+_The `Apply Tweaks` button is the main one._
 
 ### **CLI Version** (Advice - If you want FULL Output to be displayed on the console, use this version)
 
 - Copy and Paste this entire line below on **Powershell**:
+
 ```ps1
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10Script.ps1"
 ```
@@ -65,6 +68,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 <hr>
 
 ## GUI Script Features
+
 <details>
     <summary>Click to expand</summary>
 
@@ -79,6 +83,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 <hr>
 
 ## Common Script Features
+
 <details>
     <summary>Click to expand</summary>
 
@@ -98,13 +103,13 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
 - In the End it Locks Script's Usage Permission. ([`Win10Script.ps1`](./Win10Script.ps1))
 
-***Optional**: Means that you decide what to do.
+**\*Optional**: Means that you decide what to do.
 
 </details>
 
 <hr>
 
-## Known Issues 
+## Known Issues
 
 1. Start menu Search (`WSearch` indexing service will be disabled)
 2. Sysprep will hang (Not Tested)
@@ -114,31 +119,38 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 6. Bluestacks doesn't work with Hyper-V enabled
 
 ### Solutions
+
 <details>
     <summary>Click to expand</summary>
 <p>Open PowerShell as admin and copy paste:</p>
 
 ### Solution 1
+
 ```Powershell
 Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
+
 ### Solution 5
+
 ```Powershell
 Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
+
 ### Solution 6
+
 ```Powershell
 Dism -Online -Disable-Feature -NoRestart -FeatureName:"Microsoft-Hyper-V-All"
 Dism -Online -Disable-Feature -NoRestart -FeatureName:"HypervisorPlatform"
 Dism -Online -Disable-Feature -NoRestart -FeatureName:"VirtualMachinePlatform"
 ```
+
 </details>
 
 <hr>
 
 ## Contribute
 
-I would be happy to extend the collection of scripts. 
+I would be happy to extend the collection of scripts.
 Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 <hr>
@@ -148,9 +160,9 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - Special thanks to the [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
 
 - [W4RH4WK](https://github.com/W4RH4WK) (For his project ^^);
-- [Sergey Tkachenko](https://winaero.com/) (*WinAero Tweaker Dev.*);
-- [O&O Software GmbH](https://www.oo-software.com/en/company) (*ShutUp10 Company*);
-- [MalwareBytes](https://br.malwarebytes.com/company/) (*AdwCleaner Company*);
+- [Sergey Tkachenko](https://winaero.com/) (_WinAero Tweaker Dev._);
+- [O&O Software GmbH](https://www.oo-software.com/en/company) (_ShutUp10 Company_);
+- [MalwareBytes](https://br.malwarebytes.com/company/) (_AdwCleaner Company_);
 - [Adamx's channel](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [this video](https://youtu.be/hQSkPmZRCjc);
 - [Baboo's channel](https://www.youtube.com/user/baboo) - by [this video](https://youtu.be/qWESrvP_uU8);
 - [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - gave me more confidence to mess with PowerShell after [this LIVE](https://youtu.be/ER27pGt5wH0)
@@ -160,6 +172,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 <hr>
 
 ## More Debloat Scripts (Community)
+
 <details>
     <summary>Click to expand</summary>
 <p>The scripts are designed to run With/Without (GUI/CLI) any user interaction. Modify them beforehand. If you want a more interactive approach check out:</p>
@@ -172,6 +185,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 <hr>
 
 ## How did i find specific Tweaks?
+
 <details>
     <summary>Click to expand</summary>
 <p>How To (Advanced Users)</p>
