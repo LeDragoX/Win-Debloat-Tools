@@ -127,8 +127,10 @@ function SetUpGit() {
     #gpg --delete-secret-keys $git_user_name
     #gpg --delete-keys $git_user_name
     
-    Write-Host "Moving all files to $gnupg_path"
+    Write-Host "Copying all files to $gnupg_path"
     Copy-Item -Path "$gnupg_gen_path/*" -Destination "$gnupg_path/" -Recurse
+    Remove-Item -Path "$gnupg_path/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev"  -Recurse
+    Remove-Item -Path "$gnupg_path/trustdb.gpg"
 
     # Get the exact Key ID from the system
     $key_id = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
@@ -143,6 +145,7 @@ function SetUpGit() {
 
     if (!(($key_id -eq "") -or ($null -eq $key_id))) {
 
+      Write-Host ""
       Write-Host "key_id found: $key_id"
       # Register the Key ID found to git user
       git config --global user.signingkey "$key_id"
