@@ -99,11 +99,10 @@ function SetUpGit() {
   Push-Location "$gnupg_path"
 
   # GPG Key creation/import "check"
-  if (!((Test-Path "$gnupg_path/*$gnupg_file*") -or (Test-Path "$gnupg_path/*.asc*") -or (Test-Path "$gnupg_path/*.gpg*"))) {
+  if (!((Test-Path "$gnupg_path/*$gnupg_file*") -or (Test-Path "$gnupg_path/*.gpg*"))) {
 
     Write-Host ""
     Write-Host "$gnupg_path/*$gnupg_file* NOT Exists AND"
-    Write-Host "$gnupg_path/*.asc* NOT Exists AND"
     Write-Host "$gnupg_path/*.gpg* NOT Exists"
 
     Write-Host ""
@@ -141,7 +140,6 @@ function SetUpGit() {
 
     # Import GPG keys
     gpg --import *$gnupg_file*
-    gpg --import *.asc*
     gpg --import *.gpg*
 
     if (!(($key_id -eq "") -or ($null -eq $key_id))) {
@@ -174,7 +172,6 @@ function SetUpGit() {
 
     Write-Host ""
     Write-Host "$gnupg_path/*$gnupg_file* Exists OR"
-    Write-Host "$gnupg_path/*.asc* Exists OR"
     Write-Host "$gnupg_path/*.gpg* Exists OR"
 
   }
