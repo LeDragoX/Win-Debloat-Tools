@@ -1,6 +1,6 @@
 <h1 align="center">
     <img width=30px src="./lib/images/windows-11-logo.png" style="vertical-align: bottom"> Win10 Smart Debloat 
-    <img width=30px src="./lib/images/powerShell-icon.png" style="vertical-align: bottom">
+    <img width=30px src="./lib/images/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
 <h2 align="center">
