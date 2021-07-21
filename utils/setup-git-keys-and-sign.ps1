@@ -1,3 +1,8 @@
+function QuickPrivilegesElevation {
+    # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
+    If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+}
+
 function CheckGitUser() {
   [CmdletBinding()] #<<-- This turns a regular function into an advanced function
   param (
@@ -74,6 +79,9 @@ function SetUpGit() {
 
     ssh-keygen -t "$ssh_enc_type" -C "$git_user_email" -f "$ssh_path/$($ssh_file)"
 
+    Write-Host "Starting ssh-agent Service, this part is the reason to get admin permissions."
+    Start-Service -Name ssh-agent
+    Set-Service -Name ssh-agent -StartupType Automatic
     # Check if ssh-agent is running before adding
     ssh-agent.exe
 
@@ -187,6 +195,7 @@ function Main() {
   Write-Host "I've made this to be more productive and will not lose time setting keys on Windows" -ForegroundColor Green
   Write-Host "Make sure you got Git, OpenSSH and GnuPG installed already" -ForegroundColor Green
   Read-Host "Press Enter to continue..."
+  QuickPrivilegesElevation
   SetUpGit
 
 }
