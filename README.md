@@ -14,9 +14,13 @@ Adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
 Code located in the `master` branch is always considered under development,
 but you'll probably want the most recent version anyway.
 
+<div align="center">
+
 |                                       Download                                        | Should work on |   Build    | Editions |  Script version   |
 | :-----------------------------------------------------------------------------------: | :------------: | :--------: | :------: | :---------------: |
 | [⬇️ Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/master.zip) | 21H2 and Older | 22000.xxxx | Home/Pro | **Always Latest** |
+
+</div>
 
 ## Resume
 
