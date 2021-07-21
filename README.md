@@ -25,7 +25,7 @@ but you'll probably want the most recent version anyway.
 ## Resume
 
 This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10).
-These scripts will Customize, Debloat and Improve Security/Performance on Windows 10/11.
+These scripts will Customize, Debloat and Improve Security/Performance on Windows 10/Newer.
 
 **Disclaimer:** _If something breaks, it's under your responsibility._
 
