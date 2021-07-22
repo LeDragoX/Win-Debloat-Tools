@@ -1,9 +1,9 @@
-Function QuickPrivilegesElevation {
+Function QuickPrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-Function LoadLibs {
+Function LoadLibs() {
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Current Folder $PSScriptRoot"
@@ -23,7 +23,7 @@ Function LoadLibs {
 
 }
 
-Function PromptPcRestart {
+Function PromptPcRestart() {
 
     $Ask = "If you want to see the changes restart your computer!
     Do you want to Restart now?"
@@ -46,7 +46,7 @@ Function PromptPcRestart {
     
 }
 
-Function RunScripts {
+Function RunScripts() {
 
     Push-Location -Path "scripts\"
 
@@ -103,18 +103,6 @@ Function RunScripts {
     Pop-Location
 }
 
-Function Credits {
-
-    Clear-Host
-    Write-Host "<=========================================================================================>"
-    Write-Host "        Improve and Optimize Windows 10 (Made by Plínio Larrubia A.K.A. LeDragoX)"
-    Write-Host "<=========================================================================================>"
-    Write-Host ""
-    
-}
-
-# Your script here
-
 QuickPrivilegesElevation    # Check admin rights
 LoadLibs                    # Import modules from lib folder
 UnrestrictPermissions       # Unlock script usage
@@ -127,6 +115,4 @@ Write-Host ""
 
 PromptPcRestart             # Prompt options to Restart the PC
 
-Credits
-CountNseconds               # Count 3 seconds (default) then exit
 Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
