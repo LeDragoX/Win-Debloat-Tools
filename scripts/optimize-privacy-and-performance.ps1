@@ -196,13 +196,24 @@ Function TweaksForPrivacyAndPerformance {
     Section1 -Text "Update & Security Section"
     Caption1 -Text "Windows Update"
     
-    Write-Host "[-] Disabling Automatic Download and Installation of Windows Updates..."
     If (!(Test-Path "$PathToWindowsUpdate")) {
         New-Item -Path "$PathToWindowsUpdate" -Force | Out-Null
     }
+    Write-Host "[@] (2 = Notify before download, 3 = Automatically download and notify of installation)"
+    Write-Host "[@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)"
+    Write-Host "[-] Disabling Automatic Download and Installation of Windows Updates..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
+
+    Write-Host "[@] (0 = Enable Automatic Updates, 1 = Disable Automatic Updates)"
+    Write-Host "[-] Disabling Automatic Updates..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value 0
+
+    Write-Host "[@] (0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4))"
+    Write-Host "[-] Setting Scheduled Day to Every day..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
+    
+    Write-Host "[@] (0–23 = The time of day in 24-hour format)"
+    Write-Host "[-] Setting Scheduled time to 03h00m..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
 
     Write-Host "[+] Assuring automatic driver update is ENABLED..."
