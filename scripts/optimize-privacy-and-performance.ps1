@@ -211,7 +211,7 @@ Function TweaksForPrivacyAndPerformance {
     Write-Host "[@] (0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4))"
     Write-Host "[-] Setting Scheduled Day to Every day..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
-    
+
     Write-Host "[@] (0–23 = The time of day in 24-hour format)"
     Write-Host "[-] Setting Scheduled time to 03h00m..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
@@ -437,16 +437,8 @@ Function TweaksForPrivacyAndPerformance {
     Section1 -Text "Power Plan Tweaks"
 
     Write-Host "[+] Setting Power Plan to High Performance..."
-    Try {
-        powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-    }
-    Catch {
-        Write-Host "An Error Occurred:"
-        Write-Host "Reason: $_"
-        Write-Host "Where: "$_.ScriptStackTrace
-        powercfg -duplicatescheme 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-        powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-    }
+    powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+
     # Found on the registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\Default\PowerSchemes
     Write-Host "[+] Enabling (Not setting) the Ultimate Performance Power Plan..."
     powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
