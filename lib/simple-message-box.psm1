@@ -1,10 +1,13 @@
 # Reference: https://michlstechblog.info/blog/powershell-show-a-messagebox/#:~:text=Sometimes%20while%20a%20powershell%20script,NET%20Windows.
-Function LoadSysForms {
+Function LoadSysForms() {
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    param ()
+
     # Load assembly
     [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
 }
 
-Function ShowMessage {
+Function ShowMessage() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -20,7 +23,7 @@ Function ShowMessage {
 
 # Demo: ShowMessage -Title "Title" -Message "Message"
 
-Function ShowQuestion {
+Function ShowQuestion() {
 
     param (
         [String]    $Title = "Insert title here",

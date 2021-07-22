@@ -6,7 +6,7 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-Function TweaksForScheduledTasks {
+Function TweaksForScheduledTasks() {
 
     Title1 -Text "Scheduled Tasks tweaks"
     

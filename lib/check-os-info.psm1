@@ -1,5 +1,5 @@
-# Function to Check if a system is 32-bits or 64-bits or Something Else
-Function CheckOSArchitecture {
+# Function to() Check if a system is 32-bits or 64-bits or Something Else
+Function CheckOSArchitecture() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -22,7 +22,7 @@ Function CheckOSArchitecture {
     return $Architecture
 }
 
-# Function to detect the current CPU
+# Function to() detect the current CPU
 Function DetectCPU() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
@@ -45,12 +45,11 @@ Function DetectCPU() {
     return $CPU.Name
 }
 
-# Function to detect the current GPU
+# Function to() detect the current GPU
 Function DetectGPU() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
-    param (
-    )
+    param ()
 
     # https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
     $ArrComputers = "."

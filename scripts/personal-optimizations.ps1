@@ -14,7 +14,7 @@ $Global:PathToNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion
 $Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
 
-Function PersonalTweaks {
+Function PersonalTweaks() {
 
     Title1 -Text "My Personal Tweaks"
 

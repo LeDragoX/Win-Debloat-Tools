@@ -1,29 +1,13 @@
-Function QuickPrivilegesElevation {
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"setup-console-style.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Function QuickPrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
-# Your script here
 
-Function LoadLibs {
-
-    Write-Host "Your Current Folder $pwd"
-    Write-Host "Script Current Folder $PSScriptRoot"
-    Write-Host ""
-    Push-Location -Path "$PSScriptRoot"
-	
-    Push-Location -Path "..\lib\"
-    Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-    #Import-Module -DisableNameChecking .\"count-n-seconds.psm1"    # Not Used
-    Import-Module -DisableNameChecking .\"check-os-info.psm1"
-    Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
-    Import-Module -DisableNameChecking .\"simple-message-box.psm1"
-    Import-Module -DisableNameChecking .\"title-templates.psm1"
-    Pop-Location
-
-}
-
-Function InstallChocolatey {
+Function InstallChocolatey() {
 
     # This function will use Windows package manager to bootstrap Chocolatey and install a list of packages.
 
@@ -59,7 +43,7 @@ Function InstallChocolatey {
     
 }
 
-Function InstallPackages {
+Function InstallPackages() {
 
     # Install CPU drivers first
     If ($CPU.contains("AMD")) {
@@ -152,7 +136,7 @@ Function InstallPackages {
     
 }
 
-Function InstallGamingPackages {
+Function InstallGamingPackages() {
     # You Choose
     $Ask = "Do you plan to play Games on this PC?
     All important Gaming clients and Required Game Softwares to Run Games will be installed.
@@ -207,7 +191,6 @@ Function InstallGamingPackages {
 }
 
 QuickPrivilegesElevation                # Check admin rights
-LoadLibs                                # Import modules from lib folder
 SetupConsoleStyle                       # Make the Console looks how i want
 $Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
 $CPU = DetectCPU                        # Detects the current CPU
