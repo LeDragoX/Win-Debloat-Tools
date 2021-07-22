@@ -141,8 +141,8 @@ Function PrepareGUI {
     $Form = New-Object System.Windows.Forms.Form
     $Form.Text = "Windows 10 Smart Debloat - by LeDragoX"
     $Form.Size = New-Object System.Drawing.Size($MaxWidth, $MaxHeight)
-    $Form.StartPosition = 'CenterScreen'    # Appears on the center
-    $Form.FormBorderStyle = 'FixedSingle'     # Not adjustable
+    $Form.StartPosition = 'CenterScreen'  # Appears on the center
+    $Form.FormBorderStyle = 'FixedSingle' # Not adjustable
     $Form.MinimizeBox = $true             # Remove the Minimize Button
     $Form.MaximizeBox = $false            # Remove the Maximize Button
     $Form.TopMost = $false
@@ -482,10 +482,10 @@ LoadLibs                    # Import modules from lib folder
 UnrestrictPermissions       # Unlock script usage
 SetupConsoleStyle           # Just fix the font on the PS console
 
-PrepareGUI   # Load the GUI
+PrepareGUI                  # Load the GUI
 
 Write-Verbose "Restart: $Global:NeedRestart"
-If ($Global:NeedRestart -eq $true) {
+If ($Global:NeedRestart) {
     PromptPcRestart         # Prompt options to Restart the PC
 }
 
