@@ -76,6 +76,10 @@ Function PrepareGUI {
     $ButtonWidth     = 150
     $ButtonHeight    = 30
     $BigButtonHeight = 70
+    # To Fonts
+    $DocumentTitle2 = 16
+    $DocumentTitle3 = 14
+    $DocumentTitle4 = 12
 
     # <=== LOCATIONS LAYOUT ===>
 
@@ -102,33 +106,33 @@ Function PrepareGUI {
     # Title Label Layout
 
     $TLAutoSize = $true
-    $TLWidth     = $LabelWidth
-    $TLHeight    = $LabelHeight
-    $TLLocation  = New-Object System.Drawing.Point($TitleLabelX, $TitleLabelY)
-    $TLFont      = New-Object System.Drawing.Font('Arial', 16, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $TLWidth = $LabelWidth
+    $TLHeight = $LabelHeight
+    $TLLocation = New-Object System.Drawing.Point($TitleLabelX, $TitleLabelY)
+    $TLFont = New-Object System.Drawing.Font('Arial', $DocumentTitle2, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
     $TLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
     # Caption Label Layout
 
-    $CLAutoSize  = $true
-    $CLWidth     = $LabelWidth
-    $CLHeight    = $LabelHeight
-    $CLFont      = New-Object System.Drawing.Font('Arial', 14)
+    $CLAutoSize = $true
+    $CLWidth = $LabelWidth
+    $CLHeight = $LabelHeight
+    $CLFont = New-Object System.Drawing.Font('Arial', $DocumentTitle3)
     $CLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
     # Big Button Layout
 
-    $BBWidth     = $ButtonWidth
-    $BBHeight    = $BigButtonHeight
-    $BBLocation  = New-Object System.Drawing.Point($ButtonX, 40)
-    $BBFont      = New-Object System.Drawing.Font('Arial', 12, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+    $BBWidth = $ButtonWidth
+    $BBHeight = $BigButtonHeight
+    $BBLocation = New-Object System.Drawing.Point($ButtonX, 40)
+    $BBFont = New-Object System.Drawing.Font('Arial', $DocumentTitle4, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
     $BBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
 
     # Small Button Layout
 
-    $SBWidth     = $ButtonWidth
-    $SBHeight    = $ButtonHeight
-    $SBFont      = New-Object System.Drawing.Font('Arial', 12)
+    $SBWidth = $ButtonWidth
+    $SBHeight = $ButtonHeight
+    $SBFont = New-Object System.Drawing.Font('Arial', $DocumentTitle4)
     $SBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
 
     # <=== DISPLAYED GUI ===>
