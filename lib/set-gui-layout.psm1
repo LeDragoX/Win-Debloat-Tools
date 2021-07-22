@@ -1,4 +1,8 @@
 function SetGuiLayout() {
+
+  [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+  param ()
+
   # Loading System Libs
   Add-Type -AssemblyName System.Windows.Forms
   Add-Type -AssemblyName System.Drawing

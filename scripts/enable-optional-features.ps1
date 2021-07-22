@@ -1,8 +1,6 @@
-# Made by LeDragoX
-
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-Function EnableOptionalFeatures {
+Function EnableOptionalFeatures() {
 
     Title1 -Text "Install additional features for Windows"
     

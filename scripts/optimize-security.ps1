@@ -7,10 +7,10 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 $CPU = DetectCPU
 # Initialize all Path variables used to Registry Tweaks
-$Global:PathToExplorer  = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+$Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
 $Global:PathToEdgeLMPol = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
 
-Function TweaksForSecurity {
+Function TweaksForSecurity() {
 
     Title1 -Text "Security Tweaks"
 

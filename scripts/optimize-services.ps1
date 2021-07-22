@@ -5,7 +5,7 @@
 
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-Function TweaksForServices {
+Function TweaksForServices() {
 
     Title1 -Text "Services tweaks"
     Section1 -Text "Re-enabling Services"

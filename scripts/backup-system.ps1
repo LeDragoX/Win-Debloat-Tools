@@ -1,5 +1,5 @@
 # Made by LeDragoX inspired by Chris Titus Tech
-Function MakeRestorePoint {
+Function MakeRestorePoint() {
 
     Write-Host "Enabling system drive Restore Point..."
     Enable-ComputerRestore -Drive "$env:SystemDrive\" 
@@ -7,9 +7,9 @@ Function MakeRestorePoint {
     
 }
 
-Function BackupHostsFile {
+Function BackupHostsFile() {
 
-    $Global:PathToHostsFile = "$env:SystemRoot\System32\drivers\etc"
+    $PathToHostsFile = "$env:SystemRoot\System32\drivers\etc"
     
     Write-Host "Doing Backup on Hosts file..."
     $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"

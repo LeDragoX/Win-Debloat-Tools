@@ -1,4 +1,4 @@
-Function CountNseconds {
+Function CountNseconds() {
     
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (

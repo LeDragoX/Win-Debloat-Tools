@@ -1,5 +1,3 @@
-# Made by LeDragoX
-
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 Section1 -Text "Resetting the Hosts file"

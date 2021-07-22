@@ -29,7 +29,7 @@ $Global:PathToWifiPol = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
 $Global:PathToWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
 $Global:PathToWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
-Function TweaksForPrivacyAndPerformance {
+Function TweaksForPrivacyAndPerformance() {
 
     Title1 -Text "Privacy And Performance Tweaks"
     Section1 -Text "Personalization Section"
