@@ -1,7 +1,7 @@
 # When extracted the debloat-softwares but not wiped
 
 # Adw Cleaner
-**/debloat-softwares/AdwCleaner/*
+**/debloat-softwares/adwcleaner.exe
 
 # Shut Up 10
 **/debloat-softwares/ShutUp10/*.exe
@@ -11,6 +11,9 @@
 **/debloat-softwares/Winaero Tweaker/*.exe
 **/debloat-softwares/Winaero Tweaker/*.txt
 **/debloat-softwares/Winaero Tweaker/*.url
+
+# Downloaded temporary files
+*.tmp
 
 # Ignore WSL2 moved files
 **.Identifier
