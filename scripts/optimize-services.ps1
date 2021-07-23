@@ -11,7 +11,6 @@ Function TweaksForServices() {
     Section1 -Text "Re-enabling Services"
     
     $EnableServices = @(
-        "BITS"                                      # Background Intelligent Transfer Service
         "DPS"                                       # Diagnostic Policy Service
         "FontCache"                                 # Windows Font Cache Service
         "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
@@ -27,6 +26,7 @@ Function TweaksForServices() {
     Section1 -Text "Disabling Services"
         
     $DisableServices = @(
+        "BITS"                                      # Background Intelligent Transfer Service
         "DiagTrack"                                 # Connected User Experiences and Telemetry
         "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
         "dmwappushservice"                          # Device Management Wireless Application Protocol (WAP)
