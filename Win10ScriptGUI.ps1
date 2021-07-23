@@ -375,7 +375,7 @@ Function PrepareGUI() {
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "install-package-managers.ps1"
-                "pkg-sw-installer.ps1"
+                "software-installer.ps1"
             )
         
             ForEach ($FileName in $Scripts) {
