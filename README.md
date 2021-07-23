@@ -15,13 +15,11 @@ Code located in the `main` branch is always considered under development,
 but you'll probably want the most recent version anyway.
 
 <div align="center">
-<h3>
 
-|                                      Download                                       | Should work on |   Build    | Editions |  Script version   |
-| :---------------------------------------------------------------------------------: | :------------: | :--------: | :------: | :---------------: |
-| [🚀 Download [Zip]](https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip) | 21H2 and Older | 22000.xxxx | Home/Pro | **Always Latest** |
+|                                           Download                                           | Should work on |   Build    | Editions | Powershell version |
+| :------------------------------------------------------------------------------------------: | :------------: | :--------: | :------: | :----------------: |
+| [<h3>🚀 Download [Zip]</h3>](https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip) | 21H2 and Older | 22000.xxxx | Home/Pro |        v5.1        |
 
-</h3>
 </div>
 
 ## Resume
