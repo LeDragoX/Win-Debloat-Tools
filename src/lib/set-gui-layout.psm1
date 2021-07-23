@@ -112,10 +112,10 @@ function SetGuiLayout() {
   $Global:ButtonHeight = 30
   $Global:BigButtonHeight = 70
   # To Fonts
-  $Global:DocumentTitle1 = 20
-  $Global:DocumentTitle2 = 16
-  $Global:DocumentTitle3 = 14
-  $Global:DocumentTitle4 = 12
+  $Global:TitleSize1 = 20
+  $Global:TitleSize2 = 16
+  $Global:TitleSize3 = 14
+  $Global:TitleSize4 = 12
 
   # <=== LOCATIONS LAYOUT ===>
 
@@ -146,7 +146,7 @@ function SetGuiLayout() {
   $Global:TLWidth = $LabelWidth
   $Global:TLHeight = $LabelHeight
   $Global:TLLocation = New-Object System.Drawing.Point($TitleLabelX, $TitleLabelY)
-  $Global:TLFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle1, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+  $Global:TLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize1, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
   $Global:TLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
   # Caption Label Layout
@@ -155,7 +155,7 @@ function SetGuiLayout() {
   $Global:CLWidth = $LabelWidth
   $Global:CLHeight = $LabelHeight
   $Global:CLLocation = New-Object System.Drawing.Point($CaptionLabelX, ($TitleLabelY + $TLFont.Size + 20)) # First only
-  $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle3)
+  $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize3)
   $Global:CLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
   # Big Button Layout
@@ -163,7 +163,7 @@ function SetGuiLayout() {
   $Global:BBWidth = $ButtonWidth
   $Global:BBHeight = $BigButtonHeight
   $Global:BBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # Should have only one
-  $Global:BBFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle4, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Italic))
+  $Global:BBFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize3, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Italic))
   $Global:BBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
 
   # Small Button Layout
@@ -171,7 +171,7 @@ function SetGuiLayout() {
   $Global:SBWidth = $ButtonWidth
   $Global:SBHeight = $ButtonHeight
   $Global:SBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # First only
-  $Global:SBFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle4)
+  $Global:SBFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize4)
   $Global:SBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
 
 }
