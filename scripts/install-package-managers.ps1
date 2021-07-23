@@ -65,7 +65,7 @@ function Main() {
   )
 
   if (!(Test-Path "$PSScriptRoot\..\tmp")) {
-    Write-Host "Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
+    Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
     mkdir "$PSScriptRoot\..\tmp" | Out-Null
   }
 
