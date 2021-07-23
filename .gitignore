@@ -10,12 +10,12 @@
 **/debloat-softwares/Winaero Tweaker/*.url
 
 # Temporary folder for downloaded stuff
-!/tmp/*.txt
-/tmp/*.exe
-/tmp/*.appxbundle
+!**/tmp/*.txt
+**/tmp/*.exe
+**/tmp/*.appxbundle
 
 # Downloaded temporary files
 *.tmp
 
 # Ignore WSL2 moved files
-**.Identifier
+*.Identifier

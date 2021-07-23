@@ -10,7 +10,7 @@ Function LoadLibs() {
     Write-Host ""
     Push-Location -Path "$PSScriptRoot"
 	
-    Push-Location -Path "lib\"
+    Push-Location -Path "src\lib\"
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
     #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
@@ -48,7 +48,7 @@ Function PromptPcRestart() {
 
 Function RunScripts() {
 
-    Push-Location -Path "scripts\"
+    Push-Location -Path "src\scripts\"
 
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
         
