@@ -219,7 +219,7 @@ Function PrepareGUI() {
     
     # Panel 3 ~> Button 1 (Big)
     $PkgSwInstaller = New-Object system.Windows.Forms.Button
-    $PkgSwInstaller.text = "Install Basic Programs (Chocolatey)"
+    $PkgSwInstaller.text = "Install Softwares (Winget/Choco)"
     $PkgSwInstaller.width = $BBWidth
     $PkgSwInstaller.height = $BBHeight
     $PkgSwInstaller.location = $BBLocation
@@ -374,6 +374,7 @@ Function PrepareGUI() {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
                 # [Recommended order] List of Scripts
+                "install-package-managers.ps1"
                 "pkg-sw-installer.ps1"
             )
         
