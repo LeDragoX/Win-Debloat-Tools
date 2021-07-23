@@ -21,7 +21,7 @@ Function RunDebloatSoftwares() {
     Write-Host "[+] Running ShutUp10 and applying Recommended settings..."
     Invoke-WebRequest -Uri "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -OutFile "OOSU10.exe"
     Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait   # Wait until the process closes
-    Remove-Item "*.*" -Exclude "*.cfg" -Force                                               # Leave no traces
+    Remove-Item "*.*" -Exclude "*.cfg", "*.txt" -Force                                               # Leave no traces
     
     Pop-Location
     Pop-Location
