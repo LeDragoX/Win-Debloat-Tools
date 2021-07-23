@@ -12,6 +12,9 @@
 **/debloat-softwares/Winaero Tweaker/*.txt
 **/debloat-softwares/Winaero Tweaker/*.url
 
+# Temporary folder for downloaded stuff
+**/tmp/
+
 # Downloaded temporary files
 *.tmp
 
