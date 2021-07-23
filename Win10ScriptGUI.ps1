@@ -10,7 +10,7 @@ Function LoadLibs() {
     Write-Host ""
     Push-Location "$PSScriptRoot"
 	
-    Push-Location -Path "lib\"
+    Push-Location -Path "src\lib\"
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
     #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
@@ -77,7 +77,7 @@ Function PrepareGUI() {
     $Form.TopMost = $false
 
     # Icon: https://stackoverflow.com/a/53377253
-    $iconBase64 = [Convert]::ToBase64String((Get-Content ".\lib\images\windows-11-logo.png" -Encoding Byte))
+    $iconBase64 = [Convert]::ToBase64String((Get-Content ".\src\lib\images\windows-11-logo.png" -Encoding Byte))
     $iconBytes = [Convert]::FromBase64String($iconBase64)
     $stream = New-Object IO.MemoryStream($iconBytes, 0, $iconBytes.Length)
     $stream.Write($iconBytes, 0, $iconBytes.Length);
@@ -231,7 +231,7 @@ Function PrepareGUI() {
     $PictureBox1.width = 150
     $PictureBox1.height = 150
     $PictureBox1.location = New-Object System.Drawing.Point(($MaxWidth * 0.72), ($MaxHeight * 0.5))
-    $PictureBox1.imageLocation = ".\lib\images\script-logo.png"
+    $PictureBox1.imageLocation = ".\src\lib\images\script-logo.png"
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 
     # Add all Panels to the Form (Screen)
@@ -246,7 +246,7 @@ Function PrepareGUI() {
     # Panel 1 ~> Button 1 Mouse Click listener
     $ApplyTweaks.Add_Click( {
 
-            Push-Location -Path "scripts\"
+            Push-Location -Path "src\scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
         
@@ -272,7 +272,7 @@ Function PrepareGUI() {
             }
             Pop-Location
 
-            $PictureBox1.imageLocation = ".\lib\images\script-logo2.png"
+            $PictureBox1.imageLocation = ".\src\lib\images\script-logo2.png"
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
 
@@ -283,7 +283,7 @@ Function PrepareGUI() {
     # Panel 1 ~> Button 2 Mouse Click listener
     $uiTweaks.Add_Click( {
 
-            Push-Location -Path "scripts\"
+            Push-Location -Path "src\scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
@@ -305,7 +305,7 @@ Function PrepareGUI() {
     # Panel 1 ~> Button 3 Mouse Click listener
     $RepairWindows.Add_Click( {
 
-            Push-Location -Path "scripts\"
+            Push-Location -Path "src\scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
@@ -327,7 +327,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 1 Mouse Click listener
     $DarkMode.Add_Click( {
 
-            Push-Location "utils\"
+            Push-Location "src\utils\"
             Write-Host "[+] Enabling Dark theme..."
             regedit /s dark-theme.reg
             Pop-Location
@@ -338,7 +338,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 2 Mouse Click listener
     $LightMode.Add_Click( {
 
-            Push-Location "utils\"
+            Push-Location "src\utils\"
             Write-Host "[+] Enabling Light theme..."
             regedit /s light-theme.reg
             Pop-Location
@@ -349,7 +349,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 3 Mouse Click listener
     $EnableCortana.Add_Click( {
 
-            Push-Location "utils\"
+            Push-Location "src\utils\"
             Write-Host "[+] Enabling Cortana..."
             regedit /s enable-cortana.reg
             Pop-Location
@@ -360,7 +360,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 4 Mouse Click listener
     $DisableCortana.Add_Click( {
 
-            Push-Location "utils\"
+            Push-Location "src\utils\"
             Write-Host "[-] Disabling Cortana..."
             regedit /s disable-cortana.reg
             Pop-Location
@@ -371,7 +371,7 @@ Function PrepareGUI() {
     # Panel 3 ~> Button 1 Mouse Click listener
     $PkgSwInstaller.Add_Click( {
 
-            Push-Location -Path "scripts\"
+            Push-Location -Path "src\scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
             $Scripts = @(
