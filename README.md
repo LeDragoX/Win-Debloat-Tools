@@ -16,9 +16,9 @@ but you'll probably want the most recent version anyway.
 
 <div align="center">
 
-|                                           Download                                           | Should work on |   Build    | Editions | Powershell version |
-| :------------------------------------------------------------------------------------------: | :------------: | :--------: | :------: | :----------------: |
-| [<h3>🚀 Download [Zip]</h3>](https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip) | 21H2 and Older | 22000.xxxx | Home/Pro |        v5.1        |
+|                                                Download                                                 | Should work on |   Build    | Editions | Powershell version |
+| :-----------------------------------------------------------------------------------------------------: | :------------: | :--------: | :------: | :----------------: |
+| <h3><a href="https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip">🚀 Download [Zip]</a></h3> | 21H2 and Older | 22000.xxxx | Home/Pro |        v5.1        |
 
 </div>
 
