@@ -73,8 +73,8 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Apply Tweaks`: Run every 'non-interactive' Tweak scripts;
 - `UI/UX Tweaks`: Run WinAero Tweaker to apply my profile and other "Manual" softwares in the future (maybe); ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
 - `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./scripts/backup-system.ps1) and ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
-- `Dark Mode & Light Mode`:Apply Dark Mode or Light Mode exclusively from GUI; ([Dark](./utils/dark-theme.reg) and [Light](./utils/light-theme.reg))
-- `Install Basic Programs`: Install Chocolatey and install Basic Softwares from my selection. See [Document](./lib/docs/package-sw-installer.md). ([`pkg-sw-installer.ps1`](./scripts/pkg-sw-installer.ps1))
+- `Dark Mode & Light Mode`: Apply Dark Mode or Light Mode exclusively from GUI; ([Dark](./utils/dark-theme.reg) and [Light](./utils/light-theme.reg))
+- `Install Softwares`: Install _Chocolatey/Winget_ and install basic Softwares from my selection. See [Document](./lib/docs/software-installer.md). ([`software-installer.ps1`](./scripts/software-installer.ps1))
 
 </details>
 
@@ -95,6 +95,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Help improve the Security of Windows by a little; ([`optimize-security.ps1`](./scripts/optimize-security.ps1))
 - Enable Optional Features especially for Gaming/Work (including WSL 2); ([`enable-optional-features.ps1`](./scripts/enable-optional-features.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./scripts/remove-onedrive.ps1))
+- Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./scripts/install-package-managers.ps1))
 - [Optional] Run WinAero Tweaker for Extra UI Customization and tell how to import my Profile; ([`manual-debloat-softwares.ps1`](./scripts/manual-debloat-softwares.ps1))
 - [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`repair-windows.ps1`](./scripts/repair-windows.ps1))
 - In the End it Locks Script's Usage Permission. ([`Win10Script.ps1`](./Win10Script.ps1))

@@ -1,6 +1,6 @@
 <h1>
-    <img width=30px src="./../images/Windows-10-logo.png"> Package Software Installer 
-    <img width=30px src="./../images/PowerShell-icon.png">
+    <img width=30px src="./../images/windows-11-logo.png"> Software Installer 
+    <img width=30px src="./../images/powershell-icon.png">
 </h1>
 
 ## Resume
@@ -15,21 +15,21 @@ in this specific case, they'll upgrade automatically.
 
 ## Usage Requirements
 
-The `pkg-sw-installer.ps1` do not make everything automatically, follow these steps.
+The `software-installer.ps1` do not make everything automatically, follow these steps.
 
 - Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
 - Copy and Paste this entire line below on **Powershell**:
-  
+
 ```Powershell
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\scripts\"pkg-sw-installer.ps1"
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\scripts\"software-installer.ps1"
 ```
 
 <hr>
 
 ## Softwares that'll be Installed:
 
-- Obviously, [Chocolatey](https://chocolatey.org/why-chocolatey) !!!
+- [Chocolatey](https://chocolatey.org/why-chocolatey) and [Winget](https://github.com/microsoft/winget-cli/blob/master/README.md) !!!
 - The Latest CPU ([Intel](https://community.chocolatey.org/packages/intel-dsa) and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
 - The Lastest Graphics driver of your GPU (Except AMD. See [Intel](https://community.chocolatey.org/packages/intel-graphics-driver) and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including [GeForce Experience](https://community.chocolatey.org/packages/geforce-experience));
 - [7-Zip](https://community.chocolatey.org/packages/7zip);
@@ -49,7 +49,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - [DirectX](https://community.chocolatey.org/packages/directx);
 - [Discord](https://community.chocolatey.org/packages/discord.install);
 - [Microsoft .NET](https://community.chocolatey.org/packages/dotnet/5.0.4);
-- [Microsoft .NET Framework](https://community.chocolatey.org/packages/dotnetfx) (Latest); 
+- [Microsoft .NET Framework](https://community.chocolatey.org/packages/dotnetfx) (Latest);
 - [Parsec](https://community.chocolatey.org/packages/parsec);
 - [Steam](https://community.chocolatey.org/packages/steam);
 - [Microsoft Visual C++ 2005 SP1 Redistributable Package](https://community.chocolatey.org/packages/vcredist2005);
