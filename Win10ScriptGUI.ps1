@@ -249,9 +249,6 @@ Function PrepareGUI() {
             Push-Location -Path "scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
-            $PictureBox1.imageLocation = ".\lib\images\script-logo2.png"
-            $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
-            $Form.Update()
         
             $Scripts = @(
                 # [Recommended order] List of Scripts
@@ -274,6 +271,10 @@ Function PrepareGUI() {
                 #pause ### FOR DEBUGGING PURPOSES
             }
             Pop-Location
+
+            $PictureBox1.imageLocation = ".\lib\images\script-logo2.png"
+            $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
+            $Form.Update()
 
             $Global:NeedRestart = $true
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
