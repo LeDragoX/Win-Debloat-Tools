@@ -184,6 +184,7 @@ Function TweaksForPrivacyAndPerformance() {
         If ($key.PSChildName -EQ "LooselyCoupled") {
             continue
         }
+        Write-Host "[+] Setting $($key.PSChildName) value to Deny..."
         Set-ItemProperty -Path ("$PathToDeviceAccessGlobal\" + $key.PSChildName) -Name "Value" -Value "Deny"
     }
 
@@ -212,7 +213,7 @@ Function TweaksForPrivacyAndPerformance() {
     Write-Host "[-] Setting Scheduled Day to Every day..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
 
-    Write-Host "[@] (0–23 = The time of day in 24-hour format)"
+    Write-Host "[@] (0-23 = The time of day in 24-hour format)"
     Write-Host "[-] Setting Scheduled time to 03h00m..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
 
