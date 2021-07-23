@@ -113,7 +113,6 @@ Function PrepareGUI() {
     $TitleLabel1.location = $TLLocation
     $TitleLabel1.Font = $TLFont
     $TitleLabel1.ForeColor = $TLForeColor
-    $Panel1.Controls.Add($TitleLabel1)
 
     # Panel 2 ~> Title Label 2
     $TitleLabel2 = New-Object system.Windows.Forms.Label
@@ -124,7 +123,6 @@ Function PrepareGUI() {
     $TitleLabel2.location = $TLLocation
     $TitleLabel2.Font = $TLFont
     $TitleLabel2.ForeColor = $TLForeColor
-    $Panel2.Controls.Add($TitleLabel2)
 
     # Panel 3 ~> Title Label 3
     $TitleLabel3 = New-Object system.Windows.Forms.Label
@@ -135,7 +133,6 @@ Function PrepareGUI() {
     $TitleLabel3.location = $TLLocation
     $TitleLabel3.Font = $TLFont
     $TitleLabel3.ForeColor = $TLForeColor
-    $Panel3.Controls.Add($TitleLabel3)
 
     # Panel 2 ~> Caption Label 1
     $CaptionLabel1 = New-Object system.Windows.Forms.Label
@@ -146,7 +143,6 @@ Function PrepareGUI() {
     $CaptionLabel1.height = $CLHeight
     $CaptionLabel1.Font = $CLFont
     $CaptionLabel1.ForeColor = $CLForeColor
-    $Panel2.Controls.Add($CaptionLabel1)
 
     # Panel 2 ~> Caption Label 2
     $CaptionLabel2 = New-Object system.Windows.Forms.Label
@@ -157,7 +153,6 @@ Function PrepareGUI() {
     $CaptionLabel2.height = $CLHeight
     $CaptionLabel2.Font = $CLFont
     $CaptionLabel2.ForeColor = $CLForeColor
-    $Panel2.Controls.Add($CaptionLabel2)
     
     # Panel 1 ~> Button 1 (Big)
     $ApplyTweaks = New-Object system.Windows.Forms.Button
@@ -167,7 +162,6 @@ Function PrepareGUI() {
     $ApplyTweaks.location = $BBLocation
     $ApplyTweaks.Font = $BBFont
     $ApplyTweaks.ForeColor = $BBForeColor
-    $Panel1.Controls.Add($ApplyTweaks)
     
     # Panel 1 ~> Button 2
     $uiTweaks = New-Object system.Windows.Forms.Button
@@ -177,7 +171,6 @@ Function PrepareGUI() {
     $uiTweaks.height = $SBHeight
     $uiTweaks.Font = $SBFont
     $uiTweaks.ForeColor = $SBForeColor
-    $Panel1.Controls.Add($uiTweaks)
 
     # Panel 1 ~> Button 3
     $RepairWindows = New-Object system.Windows.Forms.Button
@@ -187,7 +180,6 @@ Function PrepareGUI() {
     $RepairWindows.height = $SBHeight
     $RepairWindows.Font = $SBFont
     $RepairWindows.ForeColor = $SBForeColor
-    $Panel1.Controls.Add($RepairWindows)    
 
     # Panel 2 ~> Button 1
     $DarkMode = New-Object system.Windows.Forms.Button
@@ -197,7 +189,6 @@ Function PrepareGUI() {
     $DarkMode.height = $SBHeight
     $DarkMode.Font = $SBFont
     $DarkMode.ForeColor = $SBForeColor
-    $Panel2.Controls.Add($DarkMode)
     
     # Panel 2 ~> Button 2
     $LightMode = New-Object system.Windows.Forms.Button
@@ -207,7 +198,6 @@ Function PrepareGUI() {
     $LightMode.height = $SBHeight
     $LightMode.Font = $SBFont
     $LightMode.ForeColor = $SBForeColor
-    $Panel2.Controls.Add($LightMode)
 
     # Panel 2 ~> Button 3
     $EnableCortana = New-Object system.Windows.Forms.Button
@@ -217,7 +207,6 @@ Function PrepareGUI() {
     $EnableCortana.height = $SBHeight
     $EnableCortana.Font = $SBFont
     $EnableCortana.ForeColor = $SBForeColor
-    $Panel2.Controls.Add($EnableCortana)
 
     # Panel 2 ~> Button 4
     $DisableCortana = New-Object system.Windows.Forms.Button
@@ -227,7 +216,6 @@ Function PrepareGUI() {
     $DisableCortana.height = $SBHeight
     $DisableCortana.Font = $SBFont
     $DisableCortana.ForeColor = $SBForeColor
-    $Panel2.Controls.Add($DisableCortana)
     
     # Panel 3 ~> Button 1 (Big)
     $PkgSwInstaller = New-Object system.Windows.Forms.Button
@@ -237,7 +225,6 @@ Function PrepareGUI() {
     $PkgSwInstaller.location = $BBLocation
     $PkgSwInstaller.Font = $BBFont
     $PkgSwInstaller.ForeColor = $BBForeColor
-    $Panel3.Controls.Add($PkgSwInstaller)
     
     # Image Logo from the Script
     $PictureBox1 = New-Object system.Windows.Forms.PictureBox
@@ -246,6 +233,13 @@ Function PrepareGUI() {
     $PictureBox1.location = New-Object System.Drawing.Point(($MaxWidth * 0.72), ($MaxHeight * 0.5))
     $PictureBox1.imageLocation = ".\lib\images\script-logo.png"
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
+
+    # Add all Panels to the Form (Screen)
+    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $PictureBox1))
+    # Add Elements to each Panel
+    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $uiTweaks, $RepairWindows))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $CaptionLabel1, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana))
+    $Panel3.Controls.AddRange(@($TitleLabel3, $PkgSwInstaller))
 
     # <=== CLICK EVENTS ===>
 
@@ -258,7 +252,7 @@ Function PrepareGUI() {
             $PictureBox1.imageLocation = ".\lib\images\script-logo2.png"
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
-                
+        
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "backup-system.ps1"
@@ -272,7 +266,7 @@ Function PrepareGUI() {
                 "enable-optional-features.ps1"
                 "remove-onedrive.ps1"
             )
-        
+    
             ForEach ($FileName in $Scripts) {
                 Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName"
@@ -393,10 +387,7 @@ Function PrepareGUI() {
         
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
         })
-    
-    # Add all Panels to the Form (Screen)
-    $Form.controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $PictureBox1))
-    
+        
     # Show the Window
     [void]$Form.ShowDialog()
     
