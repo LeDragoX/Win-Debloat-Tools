@@ -1,8 +1,5 @@
 # When extracted the debloat-softwares but not wiped
 
-# Adw Cleaner
-**/debloat-softwares/adwcleaner.exe
-
 # Shut Up 10
 **/debloat-softwares/ShutUp10/*.exe
 
@@ -13,7 +10,9 @@
 **/debloat-softwares/Winaero Tweaker/*.url
 
 # Temporary folder for downloaded stuff
-**/tmp/
+!/tmp/*.txt
+/tmp/*.exe
+/tmp/*.appxbundle
 
 # Downloaded temporary files
 *.tmp
