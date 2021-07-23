@@ -64,13 +64,18 @@ function Main() {
     { choco install chocolatey-core.extension -y } #--force
   )
 
+  if (!(Test-Path "$PSScriptRoot\..\tmp")) {
+    Write-Host "Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
+    mkdir "$PSScriptRoot\..\tmp" | Out-Null
+  }
+
   $WingetDownload = "https://github.com/microsoft/winget-cli/releases/download/v1.0.11692/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
   $WingetOutput = "$PSScriptRoot\..\tmp\winget-latest.appxbundle"
 
   $WingetParams = @(
     "Winget",
     { winget -v },
-    { Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Write-Host "Installing the package"; Add-AppxPackage -Path $WingetOutput; },
+    { Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Write-Host "Installing the package"; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path "$WingetOutput" },
     { winget upgrade --all },
     {}
   )
