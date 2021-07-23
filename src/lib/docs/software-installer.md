@@ -40,7 +40,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - [qBitTorrent](https://community.chocolatey.org/packages/qbittorrent);
 - [Spotify](https://community.chocolatey.org/packages/spotify);
 - [uBlock Origin for Chrome](https://community.chocolatey.org/packages/ublockorigin-chrome);
-- [WinRAR](https://community.chocolatey.org/packages/winrar) ( English only :/ );
+- [WinRAR](https://community.chocolatey.org/packages/winrar);
 - [VLC](https://community.chocolatey.org/packages/vlc);
 - [Java SE Runtime Environment](https://community.chocolatey.org/packages/jre8). (This matches with your OS Architecture and install the XX-bits only)
 
