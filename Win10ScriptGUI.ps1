@@ -15,7 +15,7 @@ Function LoadLibs() {
 
     #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
     Import-Module -DisableNameChecking .\"count-n-seconds.psm1"
-    Import-Module -DisableNameChecking .\"set-gui-layout.psm1"
+    Import-Module -DisableNameChecking .\"set-gui-layout.psm1"      # Set all variables used in GUI
     Import-Module -DisableNameChecking .\"set-script-policy.psm1"
     Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
     Import-Module -DisableNameChecking .\"simple-message-box.psm1"
@@ -137,7 +137,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Caption Label 1
     $CaptionLabel1 = New-Object system.Windows.Forms.Label
     $CaptionLabel1.text = "- Theme -"
-    $CaptionLabel1.location = New-Object System.Drawing.Point($CaptionLabelX, 35)
+    $CaptionLabel1.location = $CLLocation
     $CaptionLabel1.AutoSize = $CLAutoSize
     $CaptionLabel1.width = $CLWidth
     $CaptionLabel1.height = $CLHeight
@@ -147,7 +147,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Caption Label 2
     $CaptionLabel2 = New-Object system.Windows.Forms.Label
     $CaptionLabel2.text = "- Cortana -"
-    $CaptionLabel2.location = New-Object System.Drawing.Point($CaptionLabelX, 135)
+    $CaptionLabel2.location = New-Object System.Drawing.Point($CaptionLabelX, ($CaptionLabel1.Location.Y + 100))
     $CaptionLabel2.AutoSize = $CLAutoSize
     $CaptionLabel2.width = $CLWidth
     $CaptionLabel2.height = $CLHeight
@@ -166,7 +166,8 @@ Function PrepareGUI() {
     # Panel 1 ~> Button 2
     $uiTweaks = New-Object system.Windows.Forms.Button
     $uiTweaks.text = "UI/UX Tweaks"
-    $uiTweaks.location = New-Object System.Drawing.Point($ButtonX, 125)
+    $ButtonY = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + 5
+    $uiTweaks.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
     $uiTweaks.width = $SBWidth
     $uiTweaks.height = $SBHeight
     $uiTweaks.Font = $SBFont
@@ -175,7 +176,8 @@ Function PrepareGUI() {
     # Panel 1 ~> Button 3
     $RepairWindows = New-Object system.Windows.Forms.Button
     $RepairWindows.text = "Repair Windows"
-    $RepairWindows.location = New-Object System.Drawing.Point($ButtonX, 160)
+    $ButtonY += 35
+    $RepairWindows.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
     $RepairWindows.width = $SBWidth
     $RepairWindows.height = $SBHeight
     $RepairWindows.Font = $SBFont
@@ -184,7 +186,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 1
     $DarkMode = New-Object system.Windows.Forms.Button
     $DarkMode.text = "Dark Mode"
-    $DarkMode.location = New-Object System.Drawing.Point($ButtonX, 65)
+    $DarkMode.location = $SBLocation
     $DarkMode.width = $SBWidth
     $DarkMode.height = $SBHeight
     $DarkMode.Font = $SBFont
@@ -193,7 +195,8 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 2
     $LightMode = New-Object system.Windows.Forms.Button
     $LightMode.text = "Light Mode"
-    $LightMode.location = New-Object System.Drawing.Point($ButtonX, 100)
+    $ButtonY = $DarkMode.Location.Y + $DarkMode.Height + 5
+    $LightMode.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
     $LightMode.width = $SBWidth
     $LightMode.height = $SBHeight
     $LightMode.Font = $SBFont
@@ -202,7 +205,8 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 3
     $EnableCortana = New-Object system.Windows.Forms.Button
     $EnableCortana.text = "Enable"
-    $EnableCortana.location = New-Object System.Drawing.Point($ButtonX, 165)
+    $ButtonY += 65
+    $EnableCortana.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
     $EnableCortana.width = $SBWidth
     $EnableCortana.height = $SBHeight
     $EnableCortana.Font = $SBFont
@@ -211,7 +215,8 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 4
     $DisableCortana = New-Object system.Windows.Forms.Button
     $DisableCortana.text = "Disable"
-    $DisableCortana.location = New-Object System.Drawing.Point($ButtonX, 200)
+    $ButtonY += 35
+    $DisableCortana.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
     $DisableCortana.width = $SBWidth
     $DisableCortana.height = $SBHeight
     $DisableCortana.Font = $SBFont

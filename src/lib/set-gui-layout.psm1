@@ -6,27 +6,7 @@ function SetGuiLayout() {
   # Loading System Libs
   Add-Type -AssemblyName System.Windows.Forms
   Add-Type -AssemblyName System.Drawing
-
-  # <=== SIZES LAYOUT ===>
-
-  # To Forms
-  $Global:MaxWidth = 854
-  $Global:MaxHeight = 480
-  # To Panels
-  $Global:CurrentPanelIndex = -2
-  $Global:NumOfPanels = 3
-  [int]$Global:PanelWidth = ($MaxWidth / $NumOfPanels) # 284
-  # To Labels
-  $Global:LabelWidth = 25
-  $Global:LabelHeight = 10
-  # To Buttons
-  $Global:ButtonWidth = 150
-  $Global:ButtonHeight = 30
-  $Global:BigButtonHeight = 70
-  # To Fonts
-  $Global:DocumentTitle2 = 16
-  $Global:DocumentTitle3 = 14
-  $Global:DocumentTitle4 = 12
+  [System.Windows.Forms.Application]::EnableVisualStyles()  # Rounded Buttons :3
 
   # <=== FONTS ===>
     
@@ -113,14 +93,37 @@ function SetGuiLayout() {
     "Small Fonts", # 78
     "System", # 79
     "Terminal" # 80
-  )
+  )  
+
+  # <=== SIZES LAYOUT ===>
+
+  # To Forms
+  $Global:MaxWidth = 854
+  $Global:MaxHeight = 480
+  # To Panels
+  $Global:CurrentPanelIndex = -2
+  $Global:NumOfPanels = 3
+  [int]$Global:PanelWidth = ($MaxWidth / $NumOfPanels) # 284
+  # To Labels
+  $Global:LabelWidth = 25
+  $Global:LabelHeight = 70
+  # To Buttons
+  $Global:ButtonWidth = $PanelWidth * 0.7
+  $Global:ButtonHeight = 30
+  $Global:BigButtonHeight = 70
+  # To Fonts
+  $Global:DocumentTitle1 = 20
+  $Global:DocumentTitle2 = 16
+  $Global:DocumentTitle3 = 14
+  $Global:DocumentTitle4 = 12
 
   # <=== LOCATIONS LAYOUT ===>
 
-  [int]$Global:TitleLabelX = $PanelWidth * 0.15
+  [int]$Global:TitleLabelX = $PanelWidth * 0.07
   [int]$Global:TitleLabelY = $MaxHeight * 0.01
   [int]$Global:CaptionLabelX = $PanelWidth * 0.25
-  [int]$Global:ButtonX = $PanelWidth * 0.15
+  [int]$Global:ButtonX = $PanelWidth * 0.05
+  [int]$Global:FirstButtonY = $TitleLabelY + $LabelHeight
 
   # <=== COLOR PALETTE ===>
 
@@ -143,7 +146,7 @@ function SetGuiLayout() {
   $Global:TLWidth = $LabelWidth
   $Global:TLHeight = $LabelHeight
   $Global:TLLocation = New-Object System.Drawing.Point($TitleLabelX, $TitleLabelY)
-  $Global:TLFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle2, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+  $Global:TLFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle1, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
   $Global:TLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
   # Caption Label Layout
@@ -151,6 +154,7 @@ function SetGuiLayout() {
   $Global:CLAutoSize = $true
   $Global:CLWidth = $LabelWidth
   $Global:CLHeight = $LabelHeight
+  $Global:CLLocation = New-Object System.Drawing.Point($CaptionLabelX, ($TitleLabelY + $TLFont.Size + 20)) # First only
   $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle3)
   $Global:CLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
@@ -158,16 +162,17 @@ function SetGuiLayout() {
 
   $Global:BBWidth = $ButtonWidth
   $Global:BBHeight = $BigButtonHeight
-  $Global:BBLocation = New-Object System.Drawing.Point($ButtonX, 40)
-  $Global:BBFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle4, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
+  $Global:BBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # Should have only one
+  $Global:BBFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle4, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Italic))
   $Global:BBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
 
   # Small Button Layout
 
   $Global:SBWidth = $ButtonWidth
   $Global:SBHeight = $ButtonHeight
+  $Global:SBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # First only
   $Global:SBFont = New-Object System.Drawing.Font($Fonts[62], $DocumentTitle4)
   $Global:SBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
-                    
+
 }
 
