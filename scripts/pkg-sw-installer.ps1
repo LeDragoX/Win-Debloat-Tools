@@ -2,48 +2,13 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"setup-console-style.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-Function QuickPrivilegesElevation() {
+
+function QuickPrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-Function InstallChocolatey() {
-
-    # This function will use Windows package manager to bootstrap Chocolatey and install a list of packages.
-
-    # Adapted From https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1
-    Write-Host "Setting up Chocolatey software package manager"
-    Get-PackageProvider -Name chocolatey -Force
-    
-    Write-Host "Setting up Full Chocolatey Install"
-    Install-Package -Name Chocolatey -Force -ProviderName chocolatey
-    # Install Chocolatey
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    choco upgrade all -y
-    choco install chocolatey-core.extension -y #--force
-    
-    Write-Host "Creating a daily task to automatically upgrade Chocolatey packages"
-    # adapted from https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-    # Find it on "Microsoft\Windows\PowerShell\ScheduledJobs\Chocolatey Daily Upgrade"
-    $JobName = "Chocolatey Daily Upgrade"
-    $ScheduledJob = @{
-        Name               = $JobName
-        ScriptBlock        = { choco upgrade all -y }
-        Trigger            = New-JobTrigger -Daily -At 12:00
-        ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
-    }
-    
-    # If the Sched. Job already exists, delete
-    If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-        Write-Host "ScheduledJob: $JobName FOUND! Deleting..."
-        Unregister-ScheduledJob -Name $JobName
-    }
-    # Then register it again
-    Register-ScheduledJob @ScheduledJob
-    
-}
-
-Function InstallPackages() {
+function InstallPackages() {
 
     # Install CPU drivers first
     If ($CPU.contains("AMD")) {
@@ -127,16 +92,16 @@ Function InstallPackages() {
     # For Java (JRE) correct installation
     If ($Architecture.contains("32-bits")) {
         Title2Counter -Text "Installing: jre8 (32-bits)"
-        choco install "jre8" --params="'/exclude:64'" -y
+        choco install "jre8" --params="/exclude:64" -y
     } 
     ElseIf ($Architecture.contains("64-bits")) {
         Title2Counter -Text "Installing: jre8 (64-bits)"
-        choco install "jre8" --params="'/exclude:32'" -y
+        choco install "jre8" --params="/exclude:32" -y
     }
     
 }
 
-Function InstallGamingPackages() {
+function InstallGamingPackages() {
     # You Choose
     $Ask = "Do you plan to play Games on this PC?
     All important Gaming clients and Required Game Softwares to Run Games will be installed.
@@ -195,7 +160,6 @@ SetupConsoleStyle                       # Make the Console looks how i want
 $Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
 $CPU = DetectCPU                        # Detects the current CPU
 $GPU = DetectGPU                        # Detects the current GPU
-InstallChocolatey                       # Install Chocolatey on Powershell
 InstallPackages                         # Install the Showed Softwares
 InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
 Taskkill /F /IM $PID                    # Kill this task by PID because it won't exit with the command 'exit'
