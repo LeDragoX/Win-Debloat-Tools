@@ -265,6 +265,7 @@ Function PrepareGUI() {
                 "optimize-security.ps1"
                 "enable-optional-features.ps1"
                 "remove-onedrive.ps1"
+                "install-package-managers.ps1"
             )
     
             ForEach ($FileName in $Scripts) {
