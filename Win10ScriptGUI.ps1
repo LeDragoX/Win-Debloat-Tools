@@ -235,7 +235,7 @@ Function PrepareGUI() {
     $PictureBox1 = New-Object system.Windows.Forms.PictureBox
     $PictureBox1.width = 150
     $PictureBox1.height = 150
-    $PictureBox1.location = New-Object System.Drawing.Point(($MaxWidth * 0.72), ($MaxHeight * 0.5))
+    $PictureBox1.location = New-Object System.Drawing.Point(($MaxWidth * 0.74), ($MaxHeight * 0.5))
     $PictureBox1.imageLocation = ".\src\lib\images\script-logo.png"
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 

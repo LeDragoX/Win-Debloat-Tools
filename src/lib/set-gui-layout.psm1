@@ -108,7 +108,7 @@ function SetGuiLayout() {
   $Global:LabelWidth = 25
   $Global:LabelHeight = 70
   # To Buttons
-  $Global:ButtonWidth = $PanelWidth * 0.7
+  $Global:ButtonWidth = $PanelWidth * 0.84
   $Global:ButtonHeight = 30
   $Global:BigButtonHeight = 70
   # To Fonts
@@ -119,9 +119,9 @@ function SetGuiLayout() {
 
   # <=== LOCATIONS LAYOUT ===>
 
-  [int]$Global:TitleLabelX = $PanelWidth * 0.07
+  [int]$Global:TitleLabelX = $PanelWidth * 0.12
   [int]$Global:TitleLabelY = $MaxHeight * 0.01
-  [int]$Global:CaptionLabelX = $PanelWidth * 0.25
+  [int]$Global:CaptionLabelX = $PanelWidth * 0.29
   [int]$Global:ButtonX = $PanelWidth * 0.05
   [int]$Global:FirstButtonY = $TitleLabelY + $LabelHeight
 
