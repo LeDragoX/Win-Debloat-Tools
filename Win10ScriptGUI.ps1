@@ -84,165 +84,158 @@ Function PrepareGUI() {
     $Form.Icon = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -Argument $stream).GetHIcon())
     
     # Panel 1 to put Labels and Buttons
-    $CurrentPanelIndex++    # 0
     $Panel1 = New-Object system.Windows.Forms.Panel
-    $Panel1.width = $PWidth
-    $Panel1.height = $PHeight
-    $Panel1.location = New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0)
+    $Panel1.Width = $PWidth
+    $Panel1.Height = $PHeight
+    $Panel1.Location = Invoke-Expression "$PLocation"
     
     # Panel 2 to put Labels and Buttons
-    $CurrentPanelIndex++
     $Panel2 = New-Object system.Windows.Forms.Panel
-    $Panel2.width = $PWidth
-    $Panel2.height = $PHeight
-    $Panel2.location = New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0)
+    $Panel2.Width = $PWidth
+    $Panel2.Height = $PHeight
+    $Panel2.Location = Invoke-Expression "$PLocation"
 
     # Panel 3 to put Labels and Buttons
-    $CurrentPanelIndex++
     $Panel3 = New-Object system.Windows.Forms.Panel
-    $Panel3.width = $PanelWidth
-    $Panel3.height = $MaxHeight - [int]($MaxHeight * 0.5)
-    $Panel3.location = New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0)
+    $Panel3.Width = $PWidth
+    $Panel3.Height = $PHeight
+    $Panel3.Location = Invoke-Expression "$PLocation"
 
     # Panel 1 ~> Title Label 1
     $TitleLabel1 = New-Object system.Windows.Forms.Label
-    $TitleLabel1.text = "System Tweaks"
-    $TitleLabel1.AutoSize = $TLAutoSize
-    $TitleLabel1.width = $TLWidth
-    $TitleLabel1.height = $TLHeight
-    $TitleLabel1.location = $TLLocation
+    $TitleLabel1.Text = " System Tweaks"
+    $TitleLabel1.Width = $TLWidth
+    $TitleLabel1.Height = $TLHeight
+    $TitleLabel1.Location = $TLLocation
     $TitleLabel1.Font = $TLFont
     $TitleLabel1.ForeColor = $TLForeColor
 
     # Panel 2 ~> Title Label 2
     $TitleLabel2 = New-Object system.Windows.Forms.Label
-    $TitleLabel2.text = "Misc. Tweaks"
-    $TitleLabel2.AutoSize = $TLAutoSize
-    $TitleLabel2.width = $TLWidth
-    $TitleLabel2.height = $TLHeight
-    $TitleLabel2.location = $TLLocation
+    $TitleLabel2.Text = "    Customize"
+    $TitleLabel2.Width = $TLWidth
+    $TitleLabel2.Height = $TLHeight
+    $TitleLabel2.Location = $TLLocation
     $TitleLabel2.Font = $TLFont
     $TitleLabel2.ForeColor = $TLForeColor
 
     # Panel 3 ~> Title Label 3
     $TitleLabel3 = New-Object system.Windows.Forms.Label
-    $TitleLabel3.text = "Software Install"
-    $TitleLabel3.AutoSize = $TLAutoSize
-    $TitleLabel3.width = $TLWidth
-    $TitleLabel3.height = $TLHeight
-    $TitleLabel3.location = $TLLocation
+    $TitleLabel3.Text = "Software Install"
+    $TitleLabel3.Width = $TLWidth
+    $TitleLabel3.Height = $TLHeight
+    $TitleLabel3.Location = $TLLocation
     $TitleLabel3.Font = $TLFont
     $TitleLabel3.ForeColor = $TLForeColor
 
     # Panel 2 ~> Caption Label 1
     $CaptionLabel1 = New-Object system.Windows.Forms.Label
-    $CaptionLabel1.text = "- Theme -"
-    $CaptionLabel1.location = $CLLocation
-    $CaptionLabel1.AutoSize = $CLAutoSize
-    $CaptionLabel1.width = $CLWidth
-    $CaptionLabel1.height = $CLHeight
+    $CaptionLabel1.Text = "- Theme -"
+    $CaptionLabel1.Location = $CLLocation
+    $CaptionLabel1.Width = $CLWidth
+    $CaptionLabel1.Height = $CLHeight
     $CaptionLabel1.Font = $CLFont
     $CaptionLabel1.ForeColor = $CLForeColor
 
     # Panel 2 ~> Caption Label 2
     $CaptionLabel2 = New-Object system.Windows.Forms.Label
-    $CaptionLabel2.text = "- Cortana -"
-    $CaptionLabel2.location = New-Object System.Drawing.Point($CaptionLabelX, ($CaptionLabel1.Location.Y + 100))
-    $CaptionLabel2.AutoSize = $CLAutoSize
-    $CaptionLabel2.width = $CLWidth
-    $CaptionLabel2.height = $CLHeight
+    $CaptionLabel2.Text = "- Cortana -"
+    $NextYLocation = ($CaptionLabel1.Location.Y + (($ButtonHeight + $ButtonDistanceBetween) * 3))
+    $CaptionLabel2.Location = New-Object System.Drawing.Point($CaptionLabelX, $NextYLocation)
+    $CaptionLabel2.Width = $CLWidth
+    $CaptionLabel2.Height = $CLHeight
     $CaptionLabel2.Font = $CLFont
     $CaptionLabel2.ForeColor = $CLForeColor
     
     # Panel 1 ~> Button 1 (Big)
     $ApplyTweaks = New-Object system.Windows.Forms.Button
-    $ApplyTweaks.text = "Apply Tweaks"
-    $ApplyTweaks.width = $BBWidth
-    $ApplyTweaks.height = $BBHeight
-    $ApplyTweaks.location = $BBLocation
+    $ApplyTweaks.Text = "Apply Tweaks"
+    $ApplyTweaks.Width = $BBWidth
+    $ApplyTweaks.Height = $BBHeight
+    $ApplyTweaks.Location = $BBLocation
     $ApplyTweaks.Font = $BBFont
     $ApplyTweaks.ForeColor = $BBForeColor
     
     # Panel 1 ~> Button 2
-    $uiTweaks = New-Object system.Windows.Forms.Button
-    $uiTweaks.text = "UI/UX Tweaks"
-    $ButtonY = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + 5
-    $uiTweaks.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
-    $uiTweaks.width = $SBWidth
-    $uiTweaks.height = $SBHeight
-    $uiTweaks.Font = $SBFont
-    $uiTweaks.ForeColor = $SBForeColor
+    $UITweaks = New-Object system.Windows.Forms.Button
+    $UITweaks.Text = "UI/UX Tweaks"
+    $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $ButtonDistanceBetween
+    $UITweaks.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $UITweaks.Width = $SBWidth
+    $UITweaks.Height = $SBHeight
+    $UITweaks.Font = $SBFont
+    $UITweaks.ForeColor = $SBForeColor
 
     # Panel 1 ~> Button 3
     $RepairWindows = New-Object system.Windows.Forms.Button
-    $RepairWindows.text = "Repair Windows"
-    $ButtonY += 35
-    $RepairWindows.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
-    $RepairWindows.width = $SBWidth
-    $RepairWindows.height = $SBHeight
+    $RepairWindows.Text = "Repair Windows"
+    $NextYLocation = $UITweaks.Location.Y + $UITweaks.Height + $ButtonDistanceBetween
+    $RepairWindows.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $RepairWindows.Width = $SBWidth
+    $RepairWindows.Height = $SBHeight
     $RepairWindows.Font = $SBFont
     $RepairWindows.ForeColor = $SBForeColor
 
     # Panel 2 ~> Button 1
     $DarkMode = New-Object system.Windows.Forms.Button
-    $DarkMode.text = "Dark Mode"
-    $DarkMode.location = $SBLocation
-    $DarkMode.width = $SBWidth
-    $DarkMode.height = $SBHeight
+    $DarkMode.Text = "Dark Mode"
+    $DarkMode.Location = $SBLocation
+    $DarkMode.Width = $SBWidth
+    $DarkMode.Height = $SBHeight
     $DarkMode.Font = $SBFont
     $DarkMode.ForeColor = $SBForeColor
     
     # Panel 2 ~> Button 2
     $LightMode = New-Object system.Windows.Forms.Button
-    $LightMode.text = "Light Mode"
-    $ButtonY = $DarkMode.Location.Y + $DarkMode.Height + 5
-    $LightMode.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
-    $LightMode.width = $SBWidth
-    $LightMode.height = $SBHeight
+    $LightMode.Text = "Light Mode"
+    $NextYLocation = $DarkMode.Location.Y + $DarkMode.Height + $ButtonDistanceBetween
+    $LightMode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $LightMode.Width = $SBWidth
+    $LightMode.Height = $SBHeight
     $LightMode.Font = $SBFont
     $LightMode.ForeColor = $SBForeColor
 
     # Panel 2 ~> Button 3
     $EnableCortana = New-Object system.Windows.Forms.Button
-    $EnableCortana.text = "Enable"
-    $ButtonY += 65
-    $EnableCortana.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
-    $EnableCortana.width = $SBWidth
-    $EnableCortana.height = $SBHeight
+    $EnableCortana.Text = "Enable Cortana"
+    $NextYLocation = $CaptionLabel2.Location.Y + $CaptionLabel2.Height + $ButtonDistanceBetween
+    $EnableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $EnableCortana.Width = $SBWidth
+    $EnableCortana.Height = $SBHeight
     $EnableCortana.Font = $SBFont
     $EnableCortana.ForeColor = $SBForeColor
 
     # Panel 2 ~> Button 4
     $DisableCortana = New-Object system.Windows.Forms.Button
-    $DisableCortana.text = "Disable"
-    $ButtonY += 35
-    $DisableCortana.location = New-Object System.Drawing.Point($ButtonX, $ButtonY)
-    $DisableCortana.width = $SBWidth
-    $DisableCortana.height = $SBHeight
+    $DisableCortana.Text = "Disable Cortana"
+    $NextYLocation += 35
+    $DisableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $DisableCortana.Width = $SBWidth
+    $DisableCortana.Height = $SBHeight
     $DisableCortana.Font = $SBFont
     $DisableCortana.ForeColor = $SBForeColor
     
     # Panel 3 ~> Button 1 (Big)
     $PkgSwInstaller = New-Object system.Windows.Forms.Button
-    $PkgSwInstaller.text = "Install Softwares (Winget/Choco)"
-    $PkgSwInstaller.width = $BBWidth
-    $PkgSwInstaller.height = $BBHeight
-    $PkgSwInstaller.location = $BBLocation
+    $PkgSwInstaller.Text = "Install Softwares (Winget/Choco)"
+    $PkgSwInstaller.Width = $BBWidth
+    $PkgSwInstaller.Height = $BBHeight
+    $PkgSwInstaller.Location = $BBLocation
     $PkgSwInstaller.Font = $BBFont
     $PkgSwInstaller.ForeColor = $BBForeColor
     
     # Image Logo from the Script
     $PictureBox1 = New-Object system.Windows.Forms.PictureBox
-    $PictureBox1.width = 150
-    $PictureBox1.height = 150
-    $PictureBox1.location = New-Object System.Drawing.Point(($MaxWidth * 0.74), ($MaxHeight * 0.5))
+    $PictureBox1.Width = 150
+    $PictureBox1.Height = 150
+    $PictureBox1.Location = New-Object System.Drawing.Point((($PWidth * 0.72) - $PictureBox1.Width), (($PHeight * 0.90) - $PictureBox1.Height))
     $PictureBox1.imageLocation = ".\src\lib\images\script-logo.png"
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 
     # Add all Panels to the Form (Screen)
-    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $PictureBox1))
+    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
     # Add Elements to each Panel
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $uiTweaks, $RepairWindows))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $UITweaks, $RepairWindows, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $CaptionLabel1, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana))
     $Panel3.Controls.AddRange(@($TitleLabel3, $PkgSwInstaller))
 
@@ -286,7 +279,7 @@ Function PrepareGUI() {
         })    
 
     # Panel 1 ~> Button 2 Mouse Click listener
-    $uiTweaks.Add_Click( {
+    $UITweaks.Add_Click( {
 
             Push-Location -Path "src\scripts\"
             Clear-Host
