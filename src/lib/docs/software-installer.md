@@ -22,7 +22,7 @@ The `software-installer.ps1` do not make everything automatically, follow these 
 - Copy and Paste this entire line below on **Powershell**:
 
 ```Powershell
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\scripts\"software-installer.ps1"
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\src\scripts\"software-installer.ps1"
 ```
 
 <hr>
