@@ -404,18 +404,24 @@ Function PrepareGUI() {
 
 }
 
-Clear-Host                  # Clear the Powershell before it got an Output
-QuickPrivilegesElevation    # Check admin rights
-LoadLibs                    # Import modules from lib folder
-UnrestrictPermissions       # Unlock script usage
-SetupConsoleStyle           # Just fix the font on the PS console
+function Main () {
+    
+    Clear-Host                  # Clear the Powershell before it got an Output
+    QuickPrivilegesElevation    # Check admin rights
+    LoadLibs                    # Import modules from lib folder
+    UnrestrictPermissions       # Unlock script usage
+    SetupConsoleStyle           # Just fix the font on the PS console
+    
+    PrepareGUI                  # Load the GUI
+    
+    Write-Verbose "Restart: $Global:NeedRestart"
+    If ($Global:NeedRestart) {
+        PromptPcRestart         # Prompt options to Restart the PC
+    }
+    
+    RestrictPermissions         # Lock script usage
+    Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
 
-PrepareGUI                  # Load the GUI
-
-Write-Verbose "Restart: $Global:NeedRestart"
-If ($Global:NeedRestart) {
-    PromptPcRestart         # Prompt options to Restart the PC
 }
 
-RestrictPermissions         # Lock script usage
-Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
+Main

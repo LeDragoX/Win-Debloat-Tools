@@ -1,33 +1,10 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+
 # Adapted from these Baboo videos:                          https://youtu.be/qWESrvP_uU8
 # Adapted from this AdamX's video REG scripts:              https://youtu.be/hQSkPmZRCjc
 # Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
 # Adapted from this Sycnex script:                          https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
-
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-
-# Initialize all Path variables used to Registry Tweaks
-$Global:PathToActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
-$Global:PathToAdvertisingInfoPol = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
-$Global:PathToAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
-$Global:PathToCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-$Global:PathToContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-$Global:PathToDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
-$Global:PathToDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
-$Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced" # Must come after PathToExplorer
-$Global:PathToGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
-$Global:PathToInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
-$Global:PathToOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
-$Global:PathToPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
-$Global:PathToPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
-$Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
-$Global:PathToSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
-$Global:PathToTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
-$Global:PathToTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
-$Global:PathToWifiPol = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
-$Global:PathToWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
-$Global:PathToWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
 Function TweaksForPrivacyAndPerformance() {
 
@@ -456,4 +433,33 @@ Function TweaksForPrivacyAndPerformance() {
 
 }
 
-TweaksForPrivacyAndPerformance  # Disable Registries that causes slowdowns and privacy invasion
+function Main() {
+
+    # Initialize all Path variables used to Registry Tweaks
+    $Global:PathToActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+    $Global:PathToAdvertisingInfoPol = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
+    $Global:PathToAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
+    $Global:PathToCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    $Global:PathToContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+    $Global:PathToDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
+    $Global:PathToDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
+    $Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+    $Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced" # Must come after PathToExplorer
+    $Global:PathToGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
+    $Global:PathToInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+    $Global:PathToOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
+    $Global:PathToPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
+    $Global:PathToPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
+    $Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+    $Global:PathToSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
+    $Global:PathToTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+    $Global:PathToTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
+    $Global:PathToWifiPol = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
+    $Global:PathToWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+    $Global:PathToWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
+    
+    TweaksForPrivacyAndPerformance  # Disable Registries that causes slowdowns and privacy invasion
+
+}
+
+Main

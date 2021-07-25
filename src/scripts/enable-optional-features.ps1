@@ -45,4 +45,10 @@ Function EnableOptionalFeatures() {
 
 }
 
-EnableOptionalFeatures  # Enable features claimed as Optional on Windows, but actually, they are useful
+function Main() {
+
+    EnableOptionalFeatures  # Enable features claimed as Optional on Windows, but actually, they are useful
+
+}
+
+Main

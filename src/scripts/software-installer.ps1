@@ -16,16 +16,16 @@ function InstallPackages() {
         Section1 -Text "Installing AMD chipset drivers!"
         If ($CPU.contains("Ryzen")) {
             Section1 -Text "You have a Ryzen CPU, installing Chipset driver for Ryzen processors!"
-            choco install "amd-ryzen-chipset" -y                # AMD Ryzen Chipset Drivers
+            choco install -y "amd-ryzen-chipset"                # AMD Ryzen Chipset Drivers
         }
         
     }
     ElseIf ($CPU.contains("Intel")) {
 
         Section1 -Text "Installing Intel chipset drivers!"
-        choco install "chocolatey-misc-helpers.extension" -y    # Chocolatey Misc Helpers Extension ('intel-dsa' Dependency)
-        choco install "dotnet4.7" -y                            # Microsoft .NET Framework 4.7 ('intel-dsa' Dependency)
-        choco install "intel-dsa" -y                            # Intel® Driver & Support Assistant (Intel® DSA)
+        choco install -y "chocolatey-misc-helpers.extension"    # Chocolatey Misc Helpers Extension ('intel-dsa' Dependency)
+        choco install -y "dotnet4.7"                            # Microsoft .NET Framework 4.7 ('intel-dsa' Dependency)
+        choco install -y "intel-dsa"                            # Intel® Driver & Support Assistant (Intel® DSA)
 
     }
     
@@ -36,16 +36,16 @@ function InstallPackages() {
     
     If ($GPU.contains("Intel")) {
         Section1 -Text "Installing Intel Graphics driver!"
-        choco install "intel-graphics-driver" -y                # Intel Graphics Driver (latest)
+        choco install -y "intel-graphics-driver"                # Intel Graphics Driver (latest)
     }
 
     If ($GPU.contains("NVIDIA")) {
 
         Section1 -Text "Installing NVIDIA Graphics driver!"
-        choco install "geforce-experience" -y                   # GeForce Experience (latest)
+        choco install -y "geforce-experience"                   # GeForce Experience (latest)
         choco feature enable -n=useRememberedArgumentsForUpgrades
         cinst geforce-game-ready-driver --package-parameters="'/dch'"
-        choco install "geforce-game-ready-driver" -y            # GeForce Game Ready Driver (latest)
+        choco install -y "geforce-game-ready-driver"            # GeForce Game Ready Driver (latest)
 
     }
 
@@ -74,8 +74,7 @@ function InstallPackages() {
         #"sysinternals"             # Sys Internals Suite
         #"wireshark"                # Wire Shark
     )
-    $TotalPackagesLenght = $EssentialPackages.Length
-    $TotalPackagesLenght += 1
+    $TotalPackagesLenght = $EssentialPackages.Length + 1
 
     Title1 -Text "Installing Packages"
     ForEach ($Package in $EssentialPackages) {
@@ -85,18 +84,18 @@ function InstallPackages() {
             Caption1 -Text "$Package already installed on MS Store! Skipping..."
         }
         Else {
-            choco install $Package -y # --force
+            choco install -y $Package # --force
         }
     }
 
     # For Java (JRE) correct installation
     If ($Architecture.contains("32-bits")) {
         Title2Counter -Text "Installing: jre8 (32-bits)"
-        choco install "jre8" --params="/exclude:64" -y
+        choco install -y "jre8" --params="/exclude:64" 
     } 
     ElseIf ($Architecture.contains("64-bits")) {
         Title2Counter -Text "Installing: jre8 (64-bits)"
-        choco install "jre8" --params="/exclude:32" -y
+        choco install -y "jre8" --params="/exclude:32" 
     }
     
 }
@@ -140,7 +139,7 @@ function InstallGamingPackages() {
             taskkill.exe /F /IM "Discord.exe"
             ForEach ($Package in $GamingPackages) {
                 Title2Counter -Text "Installing: $Package" -MaxNum $GamingPackages.Length
-                choco install $Package -y # --force # to reinstall
+                choco install -y $Package  # --force # to reinstall
             }
 
         }
@@ -155,11 +154,17 @@ function InstallGamingPackages() {
 
 }
 
-QuickPrivilegesElevation                # Check admin rights
-SetupConsoleStyle                       # Make the Console looks how i want
-$Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
-$CPU = DetectCPU                        # Detects the current CPU
-$GPU = DetectGPU                        # Detects the current GPU
-InstallPackages                         # Install the Showed Softwares
-InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
-Taskkill /F /IM $PID                    # Kill this task by PID because it won't exit with the command 'exit'
+function Main() {
+
+    QuickPrivilegesElevation                # Check admin rights
+    SetupConsoleStyle                       # Make the Console looks how i want
+    $Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
+    $CPU = DetectCPU                        # Detects the current CPU
+    $GPU = DetectGPU                        # Detects the current GPU
+    InstallPackages                         # Install the Showed Softwares
+    InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
+    Taskkill /F /IM $PID                    # Kill this task by PID because it won't exit with the command 'exit'
+
+}
+
+Main

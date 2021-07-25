@@ -35,7 +35,7 @@ function Install-PackageManager() {
   }
 
   # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-  # Find it on "Microsoft\Windows\PowerShell\ScheduledJobs\{PackageManagerFullName} Daily Upgrade"
+  # Find it on Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\{PackageManagerFullName} Daily Upgrade"
   Write-Host "[+] Creating a daily task to automatically upgrade $PackageManagerFullName packages"
   $JobName = "$PackageManagerFullName Daily Upgrade"
   $ScheduledJob = @{
@@ -56,6 +56,7 @@ function Install-PackageManager() {
 }
 
 function Main() {
+
   $ChocolateyParams = @(
     "Chocolatey",
     { choco --version },
@@ -84,6 +85,7 @@ function Main() {
   Install-PackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -PostInstallBlock $ChocolateyParams[4]
   # Install Winget on Windows
   Install-PackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3]
+
 }
 
 Main

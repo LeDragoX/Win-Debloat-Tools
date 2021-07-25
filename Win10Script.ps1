@@ -104,16 +104,22 @@ Function RunScripts() {
     Pop-Location
 }
 
-QuickPrivilegesElevation    # Check admin rights
-LoadLibs                    # Import modules from lib folder
-UnrestrictPermissions       # Unlock script usage
-SetupConsoleStyle           # Just fix the font on the PS console
-Write-Host ""
-RunScripts                  # Run all scripts inside 'scripts' folder
-Write-Host ""
-RestrictPermissions         # Lock script usage
-Write-Host ""
+function Main() {
+    
+    QuickPrivilegesElevation    # Check admin rights
+    LoadLibs                    # Import modules from lib folder
+    UnrestrictPermissions       # Unlock script usage
+    SetupConsoleStyle           # Just fix the font on the PS console
+    Write-Host ""
+    RunScripts                  # Run all scripts inside 'scripts' folder
+    Write-Host ""
+    RestrictPermissions         # Lock script usage
+    Write-Host ""
+    
+    PromptPcRestart             # Prompt options to Restart the PC
+    
+    Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
+    
+}
 
-PromptPcRestart             # Prompt options to Restart the PC
-
-Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
+Main

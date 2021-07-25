@@ -1,18 +1,8 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+
 # Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
 # Adapted from this Sycnex script:                          https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
-
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-
-# Initialize all Path variables used to Registry Tweaks
-$Global:PathToAccessibility = "HKCU:\Control Panel\Accessibility"
-$Global:PathToEdgeUserPol = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
-$Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
-$Global:PathToLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-$Global:PathToNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
-$Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
-
 
 Function PersonalTweaks() {
 
@@ -171,4 +161,19 @@ Function PersonalTweaks() {
 
 }
 
-PersonalTweaks  # Personal UI, Network, Energy and Accessibility Optimizations
+function Main() {
+
+    # Initialize all Path variables used to Registry Tweaks
+    $Global:PathToAccessibility = "HKCU:\Control Panel\Accessibility"
+    $Global:PathToEdgeUserPol = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
+    $Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+    $Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
+    $Global:PathToLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+    $Global:PathToNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
+    $Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+    
+    PersonalTweaks  # Personal UI, Network, Energy and Accessibility Optimizations
+
+}
+
+Main
