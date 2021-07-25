@@ -53,6 +53,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ```
 
 ![Script GUI](./src/lib/images/script-gui.png)
+
 _The `Apply Tweaks` button is the main one._
 
 ### **CLI Version** (Advice - If you want FULL Output to be displayed on the console, use this version)
