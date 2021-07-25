@@ -1,14 +1,9 @@
-# Adapted from this Baboo video:                            https://youtu.be/xz3oXHleKoM
-# Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
-# Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
-
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-$CPU = DetectCPU
-# Initialize all Path variables used to Registry Tweaks
-$Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-$Global:PathToEdgeLMPol = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
+# Adapted from this Baboo video:                            https://youtu.be/xz3oXHleKoM
+# Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
+# Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
 
 Function TweaksForSecurity() {
 
@@ -88,4 +83,15 @@ Function TweaksForSecurity() {
 
 }
 
-TweaksForSecurity   # Improve the Windows Security
+function Main() {
+
+    $CPU = DetectCPU
+    # Initialize all Path variables used to Registry Tweaks
+    $Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+    $Global:PathToEdgeLMPol = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
+
+    TweaksForSecurity   # Improve the Windows Security
+    
+}
+
+Main

@@ -26,5 +26,11 @@ Function BackupHostsFile() {
     
 }
 
-MakeRestorePoint    # This makes a restoration point before the script begins
-BackupHostsFile     # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system
+function Main() {
+    
+    MakeRestorePoint # This makes a restoration point before the script begins
+    BackupHostsFile  # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system
+
+}
+
+Main

@@ -1,7 +1,9 @@
-#   Description:
+# Description:
 # This scripts places the "God Mode" folder on the current user's desktop.
 
-Write-Output @"
+function Main() {
+
+  Write-Output @"
 ###############################################################################
 #       _______  _______  ______     __   __  _______  ______   _______       #
 #      |       ||       ||      |   |  |_|  ||       ||      | |       |      #
@@ -15,5 +17,9 @@ Write-Output @"
 #                                                                             #
 ###############################################################################
 "@
-$DesktopPath = [Environment]::GetFolderPath("Desktop");
-mkdir "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}"
+  $DesktopPath = [Environment]::GetFolderPath("Desktop");
+  mkdir "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}"
+
+}
+
+Main

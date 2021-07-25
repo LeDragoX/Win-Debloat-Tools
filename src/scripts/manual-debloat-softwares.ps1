@@ -32,4 +32,10 @@ Function RunManualDebloatSoftwares() {
     
 }
 
-RunManualDebloatSoftwares   # [DIY] Run WinAeroTweaker.
+function Main() {
+    
+    RunManualDebloatSoftwares   # [DIY] Run WinAeroTweaker.
+
+}
+
+Main

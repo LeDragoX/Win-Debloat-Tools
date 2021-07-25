@@ -143,4 +143,10 @@ Function RemoveBloatwareApps() {
 
 }
 
-RemoveBloatwareApps # Remove the main Bloat from Pre-installed Apps
+function Main() {
+    
+    RemoveBloatwareApps # Remove the main Bloat from Pre-installed Apps
+
+}
+
+Main

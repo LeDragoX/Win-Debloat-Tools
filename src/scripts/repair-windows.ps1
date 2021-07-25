@@ -1,8 +1,10 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-Section1 -Text "Resetting the Hosts file"
+function RepairWindows() {
 
-$RestoreHosts = "# Copyright (c) 1993-2009 Microsoft Corp.
+  Section1 -Text "Resetting the Hosts file"
+
+  $RestoreHosts = "# Copyright (c) 1993-2009 Microsoft Corp.
 #
 # This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
 #
@@ -23,49 +25,59 @@ $RestoreHosts = "# Copyright (c) 1993-2009 Microsoft Corp.
 # localhost name resolution is handled within DNS itself.
 #    127.0.0.1       localhost
 #    ::1             localhost"
+  
+  Push-Location -Path "$env:SystemRoot\System32\drivers\etc\"
+  Write-Output $RestoreHosts > .\hosts
+  Pop-Location
+  
+  Section1 -Text "Resetting the MS Store"
+  
+  Start-Process wsreset -NoNewWindow
+  
+  Section1 -Text "Fix Windows Taskbar"
+  
+  Push-Location -Path "$env:SystemRoot\System32\"
+  .\Regsvr32.exe /s msimtf.dll 
+  .\Regsvr32.exe /s msctf.dll
+  Start-Process -Verb RunAs .\ctfmon.exe
+  Pop-Location
+  
+  Section1 -Text "Remove 'Test Mode' Watermark"
+  bcdedit -set TESTSIGNING OFF
+  
+  Section1 -Text "Fix Windows Registry and Image"
+  
+  sfc /scannow
+  dism.exe /online /cleanup-image /restorehealth
+  
+  Section1 -Text "Re-register all your apps"
+  
+  taskkill /F /IM explorer.exe
+  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableXamlStartMenu" -Type Dword -Value 0
+  Get-AppXPackage -AllUsers | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
+  Start-Process explorer
+  
+  Section1 -Text "Solving Network problems"
+  
+  ipconfig /release
+  ipconfig /release6
+  Caption1 -Text "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
+  ipconfig /renew6 *Ethernet*
+  Caption1 -Text "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
+  ipconfig /renew *Ethernet*
+  
+  Caption1 -Text "Flushing DNS..."
+  ipconfig /flushdns
+  
+  Caption1 -Text "Resetting Winsock..."
+  netsh winsock reset
 
-Push-Location -Path "$env:SystemRoot\System32\drivers\etc\"
-Write-Output $RestoreHosts > .\hosts
-Pop-Location
+}
 
-Section1 -Text "Resetting the MS Store"
+function Main() {
 
-Start-Process wsreset -NoNewWindow
+  RepairWindows
 
-Section1 -Text "Fix Windows Taskbar"
+}
 
-Push-Location -Path "$env:SystemRoot\System32\"
-.\Regsvr32.exe /s msimtf.dll 
-.\Regsvr32.exe /s msctf.dll
-Start-Process -Verb RunAs .\ctfmon.exe
-Pop-Location
-
-Section1 -Text "Remove 'Test Mode' Watermark"
-bcdedit -set TESTSIGNING OFF
-
-Section1 -Text "Fix Windows Registry and Image"
-
-sfc /scannow
-dism.exe /online /cleanup-image /restorehealth
-
-Section1 -Text "Re-register all your apps"
-
-taskkill /F /IM explorer.exe
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableXamlStartMenu" -Type Dword -Value 0
-Get-AppXPackage -AllUsers | ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml" }
-Start-Process explorer
-
-Section1 -Text "Solving Network problems"
-
-ipconfig /release
-ipconfig /release6
-Caption1 -Text "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
-ipconfig /renew6 *Ethernet*
-Caption1 -Text "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
-ipconfig /renew *Ethernet*
-
-Caption1 -Text "Flushing DNS..."
-ipconfig /flushdns
-
-Caption1 -Text "Resetting Winsock..."
-netsh winsock reset
+Main
