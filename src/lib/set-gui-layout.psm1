@@ -101,16 +101,18 @@ function SetGuiLayout() {
   $Global:MaxWidth = 854
   $Global:MaxHeight = 480
   # To Panels
-  $Global:CurrentPanelIndex = -2
+  $Global:CurrentPanelIndex = -1
   $Global:NumOfPanels = 3
   [int]$Global:PanelWidth = ($MaxWidth / $NumOfPanels) # 284
   # To Labels
-  $Global:LabelWidth = 25
-  $Global:LabelHeight = 70
+  $Global:LabelWidth = $PanelWidth
+  $Global:TitleLabelHeight = 35
+  $Global:CaptionLabelHeight = 20
   # To Buttons
   $Global:ButtonWidth = $PanelWidth * 0.84
   $Global:ButtonHeight = 30
-  $Global:BigButtonHeight = 70
+  $Global:ButtonDistanceBetween = 5
+  $Global:BigButtonHeight = ($ButtonHeight * 2) + $ButtonDistanceBetween
   # To Fonts
   $Global:TitleSize1 = 20
   $Global:TitleSize2 = 16
@@ -119,11 +121,11 @@ function SetGuiLayout() {
 
   # <=== LOCATIONS LAYOUT ===>
 
-  [int]$Global:TitleLabelX = $PanelWidth * 0.12
+  [int]$Global:TitleLabelX = $PanelWidth * 0.1
   [int]$Global:TitleLabelY = $MaxHeight * 0.01
   [int]$Global:CaptionLabelX = $PanelWidth * 0.29
   [int]$Global:ButtonX = $PanelWidth * 0.05
-  [int]$Global:FirstButtonY = $TitleLabelY + $LabelHeight
+  [int]$Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
 
   # <=== COLOR PALETTE ===>
 
@@ -136,15 +138,15 @@ function SetGuiLayout() {
 
   # Panel Layout
 
-  $Global:CurrentPanelIndex++ # -1
   $Global:PWidth = $PanelWidth
   $Global:PHeight = $MaxHeight
+  $Global:PLocation = { $CurrentPanelIndex++; New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0) }
 
   # Title Label Layout
 
   $Global:TLAutoSize = $true
   $Global:TLWidth = $LabelWidth
-  $Global:TLHeight = $LabelHeight
+  $Global:TLHeight = $TitleLabelHeight
   $Global:TLLocation = New-Object System.Drawing.Point($TitleLabelX, $TitleLabelY)
   $Global:TLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize1, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
   $Global:TLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
@@ -153,8 +155,8 @@ function SetGuiLayout() {
 
   $Global:CLAutoSize = $true
   $Global:CLWidth = $LabelWidth
-  $Global:CLHeight = $LabelHeight
-  $Global:CLLocation = New-Object System.Drawing.Point($CaptionLabelX, ($TitleLabelY + $TLFont.Size + 20)) # First only
+  $Global:CLHeight = $CaptionLabelHeight
+  $Global:CLLocation = New-Object System.Drawing.Point($CaptionLabelX, ($FirstButtonY - $CLHeight - $ButtonDistanceBetween)) # First only
   $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize3)
   $Global:CLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
