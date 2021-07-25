@@ -1,4 +1,4 @@
-<h1>
+<h1 align="center">
     <img width=30px src="./../images/windows-11-logo.png"> Software Installer 
     <img width=30px src="./../images/powershell-icon.png">
 </h1>
