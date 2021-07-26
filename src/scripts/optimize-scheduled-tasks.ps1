@@ -78,14 +78,26 @@ Function TweaksForScheduledTasks() {
 
 function Main() {
 
-    $EnableStatus = @("[-][TaskScheduler] Disabling", "[=][TaskScheduler] Enabling")
-    $Commands = @( { Disable-ScheduledTask -TaskName "$ScheduledTask" }, { Enable-ScheduledTask -TaskName "$ScheduledTask" })
+    $EnableStatus = @(
+        "[-][TaskScheduler] Disabling", 
+        "[=][TaskScheduler] Enabling"
+    )
+    $Commands = @(
+        { Disable-ScheduledTask -TaskName "$ScheduledTask" }, 
+        { Enable-ScheduledTask -TaskName "$ScheduledTask" }
+    )
 
     if (($Revert)) {
         Write-Warning "[<][TaskScheduler] Reverting: $Revert"
 
-        $EnableStatus = @("[<][TaskScheduler] Re-Enabling", "[<][TaskScheduler] Re-Disabling")
-        $Commands = @( { Enable-ScheduledTask -TaskName "$ScheduledTask" }, { Disable-ScheduledTask -TaskName "$ScheduledTask" })
+        $EnableStatus = @(
+            "[<][TaskScheduler] Re-Enabling", 
+            "[<][TaskScheduler] Re-Disabling"
+        )
+        $Commands = @(
+            { Enable-ScheduledTask -TaskName "$ScheduledTask" }, 
+            { Disable-ScheduledTask -TaskName "$ScheduledTask" }
+        )
       
     }
     
