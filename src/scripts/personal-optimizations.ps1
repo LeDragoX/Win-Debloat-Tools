@@ -9,61 +9,95 @@ Function PersonalTweaks() {
     Title1 -Text "My Personal Tweaks"
 
     Push-Location -Path "$PSScriptRoot\..\utils\"
-    Write-Host "[+] Enabling Dark theme..."
+    Write-Host "[+][Personal] Enabling Dark theme..."
     regedit /s dark-theme.reg
-    Write-Host "$($Status[0]) Cortana..."
+    Write-Host "$($EnableStatus[0]) Cortana..."
     regedit /s disable-cortana.reg
-    Write-Host "[+] Enabling photo viewer..."
+    Write-Host "[+][Personal] Enabling photo viewer..."
     regedit /s enable-photo-viewer.reg
     Pop-Location
 
     Section1 -Text "Windows Explorer Tweaks"
 
-    Write-Host "[-] Hiding Quick Access from Windows Explorer..."
+    Write-Host "[-][Personal] Hiding Quick Access from Windows Explorer..."
     Set-ItemProperty -Path "$PathToExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToExplorer" -Name "HubMode" -Type DWord -Value $One
 
+    Write-Host "[-][Priv&Perf] Removing 3D Objects from This PC..."
+    If (Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
+        Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
+    }
+    If (Test-Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
+        Remove-Item -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
+    }
+
+    Write-Host "$($EnableStatus[1]) Show Drives without Media..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
+
+    Write-Host "$($EnableStatus[0]) File Explorer Ads (OneDrive, New Features etc.)..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value $Zero
+
+    Write-Host "$($EnableStatus[0]) MRU lists (jump lists) of XAML apps in Start Menu..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value $Zero
+
+    Write-Host "$($EnableStatus[0]) Aero-Shake Minimize feature..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
+
+    Write-Host "[@] (1 = This PC, 2 = Quick access)"
+    Write-Host "$($EnableStatus[1]) Set Windows Explorer to start on This PC instead of Quick Access..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value $One
+
+    Write-Host "$($EnableStatus[1]) Show hidden files in Explorer..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "Hidden" -Type DWord -Value $One
+
+    Write-Host "$($EnableStatus[1]) Showing file transfer details..."
+    If (!(Test-Path "$PathToExplorer\OperationStatusManager")) {
+        New-Item -Path "$PathToExplorer\OperationStatusManager" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value $One
+
     Section1 -Text "Personalization"
-    Section1 -Text "TaskBar Tweaks"
-
-    Caption1 -Text "Windows 11 Only"
-
-    Write-Host "[@] (0 = Hide Widgets, 1 = Show Widgets)"
-    Write-Host "[-] Hiding Widgets from taskbar..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
+    Section1 -Text "Task Bar Tweaks"
     
-    Caption1 -Text "Windows 10 Compatible"
+    Caption1 -Text "Task Bar - Windows 10 Compatible"
     
     Write-Host "[@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
-    Write-Host "[-] Hiding the search box from taskbar..."
+    Write-Host "[-][Personal] Hiding the search box from taskbar..."
     Set-ItemProperty -Path "$PathToSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
     Write-Host "[@] (0 = Hide Task view, 1 = Show Task view)"
-    Write-Host "[-] Hiding the Task View from taskbar..."
+    Write-Host "[-][Personal] Hiding the Task View from taskbar..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
 
     Write-Host "[@] (0 = Disable, 1 = Enable)"
-    Write-Host "$($Status[0]) Open on Hover from News and Interest from taskbar..."
+    Write-Host "$($EnableStatus[0]) Open on Hover from News and Interest from taskbar..."
     Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
 
     Write-Host "[@] (0 = Enable, 1 = Enable Icon only, 2 = Disable)"
-    Write-Host "$($Status[0]) News and Interest from taskbar..."
+    Write-Host "$($EnableStatus[0]) News and Interest from taskbar..."
     Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
-    Write-Host "[-] Hiding People icon..."
+    Write-Host "[-][Personal] Hiding People icon..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value $Zero
 
-    Write-Host "$($Status[0]) Live Tiles..."
+    Write-Host "$($EnableStatus[0]) Live Tiles..."
     If (!(Test-Path "$PathToLiveTiles")) {
         New-Item -Path "$PathToLiveTiles" -Force | Out-Null
     }
     Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value $One
 
-    Write-Host "[=] Enabling Auto tray icons..."
+    Write-Host "[=][Personal] Enabling Auto tray icons..."
     Set-ItemProperty -Path "$PathToExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
-    Write-Host "[+] Showing This PC shortcut on desktop..."
+    Caption1 -Text "Task Bar - Windows 11 Only"
+
+    Write-Host "[@] (0 = Hide Widgets, 1 = Show Widgets)"
+    Write-Host "[-][Personal] Hiding Widgets from taskbar..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
+
+    Write-Host "[+][Personal] Showing This PC shortcut on desktop..."
     If (!(Test-Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu")) {
         New-Item -Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu" -Force | Out-Null
     }
@@ -74,37 +108,37 @@ Function PersonalTweaks() {
     Set-ItemProperty -Path "$PathToExplorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value $Zero
 
     # Disable creation of Thumbs.db thumbnail cache files
-    Write-Host "$($Status[0]) creation of Thumbs.db..."
+    Write-Host "$($EnableStatus[0]) creation of Thumbs.db..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Caption1 -Text "Colors"
 
-    Write-Host "$($Status[0]) taskbar transparency..."
+    Write-Host "$($EnableStatus[0]) taskbar transparency..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value $Zero
 
     Section1 -Text "System"
     Caption1 -Text "Multitasking"
 
-    Write-Host "$($Status[0]) Edge multi tabs showing on Alt + Tab..."
+    Write-Host "$($EnableStatus[0]) Edge multi tabs showing on Alt + Tab..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
     Section1 -Text "Devices"
     Caption1 -Text "Bluetooth & other devices"
 
-    Write-Host "$($Status[1]) driver download over metered connections..."
+    Write-Host "$($EnableStatus[1]) driver download over metered connections..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
     
     Section1 -Text "Cortana Tweaks"
 
-    Write-Host "$($Status[0]) Bing Search in Start Menu..."
+    Write-Host "$($EnableStatus[0]) Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
 
     Section1 -Text "Ease of Access"
     Caption1 -Text "Keyboard"
 
-    Write-Output "- Disabling Sticky Keys..."
+    Write-Output "[-][Personal] Disabling Sticky Keys..."
     Set-ItemProperty -Path "$PathToAccessibility\StickyKeys" -Name "Flags" -Value "506"
     Set-ItemProperty -Path "$PathToAccessibility\Keyboard Response" -Name "Flags" -Value "122"
     Set-ItemProperty -Path "$PathToAccessibility\ToggleKeys" -Name "Flags" -Value "58"
@@ -112,50 +146,50 @@ Function PersonalTweaks() {
     Section1 -Text "Microsoft Edge Policies"
     Caption1 -Text "Privacy, search and services / Address bar and search"
 
-    Write-Host "[=] Show me search and site suggestions using my typed characters..."
+    Write-Host "[=][Personal] Show me search and site suggestions using my typed characters..."
     Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
-    Write-Host "[=] Show me history and favorite suggestions and other data using my typed characters..."
+    Write-Host "[=][Personal] Show me history and favorite suggestions and other data using my typed characters..."
     Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
 
-    Write-Host "[+] Keep ENABLED Error reporting..."
+    Write-Host "$($EnableStatus[1]) Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value $Zero
 
-    Write-Host "$($Status[1]) Setting time to UTC..."
+    Write-Host "$($EnableStatus[1]) Setting time to UTC..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value $One
     
-    Write-Host "[+] Setting up the DNS from Google (ipv4 and ipv6)..."
+    Write-Host "[+][Personal] Setting up the DNS from Google (ipv4 and ipv6)..."
     #Get-DnsClientServerAddress # To look up the current config.
     Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("8.8.8.8", "8.8.4.4"), ("2001:4860:4860::8888", "2001:4860:4860::8844")
     Set-DNSClientServerAddress -InterfaceAlias "Wi-Fi*" -ServerAddresses ("8.8.8.8", "8.8.4.4"), ("2001:4860:4860::8888", "2001:4860:4860::8844")
     
-    Write-Host "[+] Bringing back F8 alternative Boot Modes..."
+    Write-Host "[+][Personal] Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
 
-    Write-Host "[+] Fixing Xbox Game Bar FPS Counter... (LIMITED BY LANGUAGE)"
+    Write-Host "[+][Personal] Fixing Xbox Game Bar FPS Counter... (LIMITED BY LANGUAGE)"
     net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
     Section1 -Text "Power Plan Tweaks"
     $Time = 10
 
-    Write-Host "[=] Setting Hibernate size to full..."
+    Write-Host "[=][Personal] Setting Hibernate size to full..."
     powercfg -hibernate -type full
-    Write-Host "[+] Enabling Hibernate..."
+    Write-Host "[-][Personal] Disabling Hibernate..."
     powercfg -hibernate off
 
-    Write-Host "[+] Setting the Monitor Timeout to $Time min (AC = Alternating Current, DC = Direct Current)"
+    Write-Host "[+][Personal] Setting the Monitor Timeout to $Time min (AC = Alternating Current, DC = Direct Current)"
     powercfg -Change Monitor-Timeout-AC $Time
     powercfg -Change Monitor-Timeout-DC $Time
 
-    Write-Host "[+] Setting the Disk Timeout to $Time min"
+    Write-Host "[+][Personal] Setting the Disk Timeout to $Time min"
     powercfg -Change Disk-Timeout-AC $Time
     powercfg -Change Disk-Timeout-DC $Time
 
-    Write-Host "[+] Setting the Standby Timeout to $Time min"
+    Write-Host "[+][Personal] Setting the Standby Timeout to $Time min"
     powercfg -Change Standby-Timeout-AC $Time
     powercfg -Change Standby-Timeout-DC $Time
 
-    Write-Host "[+] Setting the Hibernate Timeout to $Time min"
+    Write-Host "[+][Personal] Setting the Hibernate Timeout to $Time min"
     powercfg -Change Hibernate-Timeout-AC $Time
     powercfg -Change Hibernate-Timeout-DC $Time
 
@@ -172,16 +206,16 @@ function Main() {
     $Global:PathToNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
     $Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
-    $Global:Zero = 0
-    $Global:One = 1
-    $Global:Status = @("[-] Disabling", "[+] Enabling")
+    $Zero = 0
+    $One = 1
+    $EnableStatus = @("[-][Personal] Disabling", "[+][Personal] Enabling")
 
     if (($Revert)) {
-        Write-Host "[<] Reverting: $Revert"
+        Write-Host "[<][Personal] Reverting: $Revert"
 
-        $Global:Zero = 1
-        $Global:One = 0
-        $Global:Status = @("[<] Enabling", "[<] Disabling")
+        $Zero = 1
+        $One = 0
+        $EnableStatus = @("[<][Personal] Re-Enabling", "[<][Personal] Re-Disabling")
       
     }
     
