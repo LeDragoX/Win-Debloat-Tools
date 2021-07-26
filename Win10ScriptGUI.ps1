@@ -128,24 +128,14 @@ Function PrepareGUI() {
     $TitleLabel3.Font = $TLFont
     $TitleLabel3.ForeColor = $TLForeColor
 
-    # Panel 2 ~> Caption Label 1
+    # Panel 3 ~> Caption Label 1
     $CaptionLabel1 = New-Object system.Windows.Forms.Label
-    $CaptionLabel1.Text = "- Theme -"
+    $CaptionLabel1.Text = "Winget = Native"
     $CaptionLabel1.Location = $CLLocation
     $CaptionLabel1.Width = $CLWidth
     $CaptionLabel1.Height = $CLHeight
     $CaptionLabel1.Font = $CLFont
     $CaptionLabel1.ForeColor = $CLForeColor
-
-    # Panel 2 ~> Caption Label 2
-    $CaptionLabel2 = New-Object system.Windows.Forms.Label
-    $CaptionLabel2.Text = "- Cortana -"
-    $NextYLocation = ($CaptionLabel1.Location.Y + (($ButtonHeight + $DistanceBetweenButtons) * 3))
-    $CaptionLabel2.Location = New-Object System.Drawing.Point($CaptionLabelX, $NextYLocation)
-    $CaptionLabel2.Width = $CLWidth
-    $CaptionLabel2.Height = $CLHeight
-    $CaptionLabel2.Font = $CLFont
-    $CaptionLabel2.ForeColor = $CLForeColor
     
     # Panel 1 ~> Button 1 (Big)
     $ApplyTweaks = New-Object system.Windows.Forms.Button
@@ -166,16 +156,26 @@ Function PrepareGUI() {
     $RepairWindows.Font = $SBFont
     $RepairWindows.ForeColor = $SBForeColor
 
-    # Panel 2 ~> Button 1
+    # Panel 2 ~> Button 1 (Big)
+    $RevertScript = New-Object system.Windows.Forms.Button
+    $RevertScript.Text = "Revert Script (WIP)"
+    $RevertScript.Width = $BBWidth
+    $RevertScript.Height = $BBHeight
+    $RevertScript.Location = $BBLocation
+    $RevertScript.Font = $BBFont
+    $RevertScript.ForeColor = $BBForeColor    
+
+    # Panel 2 ~> Button 2
     $DarkMode = New-Object system.Windows.Forms.Button
     $DarkMode.Text = "Dark Mode"
-    $DarkMode.Location = $SBLocation
+    $NextYLocation = $RevertScript.Location.Y + $RevertScript.Height + $DistanceBetweenButtons
+    $DarkMode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $DarkMode.Width = $SBWidth
     $DarkMode.Height = $SBHeight
     $DarkMode.Font = $SBFont
     $DarkMode.ForeColor = $SBForeColor
     
-    # Panel 2 ~> Button 2
+    # Panel 2 ~> Button 3
     $LightMode = New-Object system.Windows.Forms.Button
     $LightMode.Text = "Light Mode"
     $NextYLocation = $DarkMode.Location.Y + $DarkMode.Height + $DistanceBetweenButtons
@@ -185,17 +185,17 @@ Function PrepareGUI() {
     $LightMode.Font = $SBFont
     $LightMode.ForeColor = $SBForeColor
 
-    # Panel 2 ~> Button 3
+    # Panel 2 ~> Button 4
     $EnableCortana = New-Object system.Windows.Forms.Button
     $EnableCortana.Text = "Enable Cortana"
-    $NextYLocation = $CaptionLabel2.Location.Y + $CaptionLabel2.Height + $DistanceBetweenButtons
+    $NextYLocation = $LightMode.Location.Y + $LightMode.Height + $DistanceBetweenButtons
     $EnableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $EnableCortana.Width = $SBWidth
     $EnableCortana.Height = $SBHeight
     $EnableCortana.Font = $SBFont
     $EnableCortana.ForeColor = $SBForeColor
 
-    # Panel 2 ~> Button 4
+    # Panel 2 ~> Button 5
     $DisableCortana = New-Object system.Windows.Forms.Button
     $DisableCortana.Text = "Disable Cortana"
     $NextYLocation += 35
@@ -226,8 +226,8 @@ Function PrepareGUI() {
     $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $CaptionLabel1, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana))
-    $Panel3.Controls.AddRange(@($TitleLabel3, $PkgSwInstaller))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana))
+    $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1, $PkgSwInstaller))
 
     # <=== CLICK EVENTS ===>
 
@@ -291,6 +291,30 @@ Function PrepareGUI() {
         })
 
     # Panel 2 ~> Button 1 Mouse Click listener
+    $RevertScript.Add_Click( {
+            Push-Location -Path "src\scripts\"
+            Clear-Host
+            Get-ChildItem -Recurse *.ps*1 | Unblock-File
+            $Global:Revert = $true
+
+            $Scripts = @(
+                # [Recommended order] List of Scripts
+                "optimize-privacy-and-performance.ps1"
+                "personal-optimizations.ps1"
+            )
+          
+            ForEach ($FileName in $Scripts) {
+                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+                Import-Module -DisableNameChecking .\"$FileName"
+            }
+          
+            $Global:Revert = $false
+            Pop-Location
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    # Panel 2 ~> Button 2 Mouse Click listener
     $DarkMode.Add_Click( {
 
             Push-Location "src\utils\"
@@ -301,7 +325,7 @@ Function PrepareGUI() {
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
-    # Panel 2 ~> Button 2 Mouse Click listener
+    # Panel 2 ~> Button 3 Mouse Click listener
     $LightMode.Add_Click( {
 
             Push-Location "src\utils\"
@@ -312,7 +336,7 @@ Function PrepareGUI() {
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
-    # Panel 2 ~> Button 3 Mouse Click listener
+    # Panel 2 ~> Button 4 Mouse Click listener
     $EnableCortana.Add_Click( {
 
             Push-Location "src\utils\"
@@ -323,7 +347,7 @@ Function PrepareGUI() {
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
         })
     
-    # Panel 2 ~> Button 4 Mouse Click listener
+    # Panel 2 ~> Button 5 Mouse Click listener
     $DisableCortana.Add_Click( {
 
             Push-Location "src\utils\"
