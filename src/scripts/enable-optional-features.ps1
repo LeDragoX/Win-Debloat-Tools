@@ -24,10 +24,10 @@ Function EnableOptionalFeatures() {
         Write-Host "Checking if $Feature was already installed..."
         Write-Host "$Feature Status:" $FeatureDetails.State
         If ($FeatureDetails.State -like "Enabled") {
-            Write-Host "[=] $Feature already installed! Skipping..."
+            Write-Host "[=][Feature] $Feature already installed! Skipping..."
         }
         ElseIf ($FeatureDetails.State -like "Disabled") {
-            Write-Host "[+] Installing $Feature..."
+            Write-Host "[+][Feature] Installing $Feature..."
             Dism -Online -Enable-Feature -All -NoRestart -FeatureName:$Feature
         }
         Write-Host ""
