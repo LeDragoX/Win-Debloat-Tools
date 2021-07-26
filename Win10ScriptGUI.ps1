@@ -6,8 +6,7 @@ function QuickPrivilegesElevation() {
 function LoadLibs() {
 
     Write-Host "Your Current Folder $pwd"
-    Write-Host "Script Current Folder $PSScriptRoot"
-    Write-Host ""
+    Write-Host "Script Root Folder $PSScriptRoot"
     Push-Location "$PSScriptRoot"
 	
     Push-Location -Path "src\lib\"
@@ -233,7 +232,7 @@ function PrepareGUI() {
             Push-Location -Path "src\scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
-        
+                
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "backup-system.ps1"
@@ -251,8 +250,7 @@ function PrepareGUI() {
     
             ForEach ($FileName in $Scripts) {
                 Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName"
-                #pause ### FOR DEBUGGING PURPOSES
+                Import-Module -DisableNameChecking .\"$FileName" -Force
             }
             Pop-Location
 
@@ -270,6 +268,7 @@ function PrepareGUI() {
             Push-Location -Path "src\scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
+            
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "backup-system.ps1"
@@ -278,8 +277,7 @@ function PrepareGUI() {
         
             ForEach ($FileName in $Scripts) {
                 Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName"
-                #pause ### FOR DEBUGGING PURPOSES
+                Import-Module -DisableNameChecking .\"$FileName" -Force
             }
             Pop-Location
         
@@ -291,20 +289,21 @@ function PrepareGUI() {
             Push-Location -Path "src\scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
+            
             $Global:Revert = $true
-
             $Scripts = @(
                 # [Recommended order] List of Scripts
+                "optimize-scheduled-tasks.ps1"
                 "optimize-privacy-and-performance.ps1"
                 "personal-optimizations.ps1"
             )
           
             ForEach ($FileName in $Scripts) {
                 Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName"
+                Import-Module -DisableNameChecking .\"$FileName" -Force
             }
-          
             $Global:Revert = $false
+          
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -360,6 +359,7 @@ function PrepareGUI() {
             Push-Location -Path "src\scripts\"
             Clear-Host
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
+        
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "install-package-managers.ps1"
@@ -368,8 +368,7 @@ function PrepareGUI() {
         
             ForEach ($FileName in $Scripts) {
                 Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName"
-                #pause ### FOR DEBUGGING PURPOSES
+                Import-Module -DisableNameChecking .\"$FileName" -Force
             }
 
             Pop-Location

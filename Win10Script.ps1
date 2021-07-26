@@ -6,7 +6,7 @@ function QuickPrivilegesElevation() {
 function LoadLibs() {
 
     Write-Host "Your Current Folder $pwd"
-    Write-Host "Script Current Folder $PSScriptRoot"
+    Write-Host "Script Root Folder $PSScriptRoot"
     Write-Host ""
     Push-Location -Path "$PSScriptRoot"
 	
@@ -71,7 +71,6 @@ function RunScripts() {
     ForEach ($FileName in $Scripts) {
         Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
-        # pause ### FOR DEBUGGING PURPOSES
     }
 
     $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
@@ -88,7 +87,6 @@ function RunScripts() {
             ForEach ($FileName in $Scripts) {
                 Title2 -Text "$FileName"
                 PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
-                # pause ### FOR DEBUGGING PURPOSES
             }
         }
         'No' {
