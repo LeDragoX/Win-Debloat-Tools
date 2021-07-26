@@ -91,13 +91,12 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Disable Telemetry from Scheduled Tasks and Optimize it; ([`optimize-scheduled-tasks.ps1`](./src/scripts/optimize-scheduled-tasks.ps1))
 - Re-Enable useful Services & Disable the Heavy ones; ([`optimize-services.ps1`](./src/scripts/optimize-services.ps1))
 - Remove Bloatware Apps that comes with Windows 10, except from my choice; ([`remove-bloatware-apps.ps1`](./src/scripts/remove-bloatware-apps.ps1))
-- Optimize Privacy and Performance settings via Registry and Powershell commands; ([`optimize-privacy-and-performance.ps1`](./src/scripts/optimize-privacy-and-performance.ps1))
+- Optimize Privacy and Performance settings disabling more telemetry stuff and changing GPOs; ([`optimize-privacy-and-performance.ps1`](./src/scripts/optimize-privacy-and-performance.ps1))
 - Apply General Personalization tweaks via Registry and Powershell commands; ([`personal-optimizations.ps1`](./src/scripts/personal-optimizations.ps1))
 - Help improve the Security of Windows by a little; ([`optimize-security.ps1`](./src/scripts/optimize-security.ps1))
 - Enable Optional Features especially for Gaming/Work (including WSL 2); ([`enable-optional-features.ps1`](./src/scripts/enable-optional-features.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
 - Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
-- [Optional] Run WinAero Tweaker for Extra UI Customization and tell how to import my Profile; ([`manual-debloat-softwares.ps1`](./src/scripts/manual-debloat-softwares.ps1))
 - [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
 - In the End it Locks Script's Usage Permission. (`Win10Script(GUI).ps1`)
 
@@ -152,7 +151,6 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - Special thanks to the [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
 
 - [W4RH4WK](https://github.com/W4RH4WK) (For his project ^^);
-- [Sergey Tkachenko](https://winaero.com/) (_WinAero Tweaker Dev._);
 - [O&O Software GmbH](https://www.oo-software.com/en/company) (_ShutUp10 Company_);
 - [MalwareBytes](https://br.malwarebytes.com/company/) (_AdwCleaner Company_);
 - [Adamx's channel](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [this video](https://youtu.be/hQSkPmZRCjc);
