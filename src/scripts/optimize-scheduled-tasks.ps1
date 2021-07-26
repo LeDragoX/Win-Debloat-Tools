@@ -9,6 +9,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 Function TweaksForScheduledTasks() {
 
     Title1 -Text "Scheduled Tasks tweaks"
+    Section1 -Text "Disabling Scheduled Tasks"
     
     # Took from: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
     $DisableScheduledTasks = @(
@@ -43,7 +44,7 @@ Function TweaksForScheduledTasks() {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
 
             Write-Host "$($EnableStatus[0]) the $ScheduledTask Task..."
-            Invoke-Expression "$($Command[0])"
+            Invoke-Expression "$($Commands[0])"
             
         }
         Else {
@@ -52,6 +53,7 @@ Function TweaksForScheduledTasks() {
 
         }
     }
+    Section1 -Text "Enabling Scheduled Tasks"
         
     $EnableScheduledTasks = @(
         "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"            # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
@@ -77,13 +79,13 @@ Function TweaksForScheduledTasks() {
 function Main() {
 
     $EnableStatus = @("[-][TaskScheduler] Disabling", "[=][TaskScheduler] Enabling")
-    $Command = @( { Disable-ScheduledTask -TaskName "$ScheduledTask" }, { Enable-ScheduledTask -TaskName "$ScheduledTask" })
+    $Commands = @( { Disable-ScheduledTask -TaskName "$ScheduledTask" }, { Enable-ScheduledTask -TaskName "$ScheduledTask" })
 
     if (($Revert)) {
         Write-Warning "[<][TaskScheduler] Reverting: $Revert"
 
         $EnableStatus = @("[<][TaskScheduler] Re-Enabling", "[<][TaskScheduler] Re-Disabling")
-        $Command = @( { Enable-ScheduledTask -TaskName "$ScheduledTask" }, { Disable-ScheduledTask -TaskName "$ScheduledTask" })
+        $Commands = @( { Enable-ScheduledTask -TaskName "$ScheduledTask" }, { Disable-ScheduledTask -TaskName "$ScheduledTask" })
       
     }
     
