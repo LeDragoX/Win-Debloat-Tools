@@ -1,9 +1,9 @@
-Function QuickPrivilegesElevation() {
+function QuickPrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-Function LoadLibs() {
+function LoadLibs() {
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Current Folder $PSScriptRoot"
@@ -24,7 +24,7 @@ Function LoadLibs() {
 
 }
 
-Function PromptPcRestart() {
+function PromptPcRestart() {
 
     $Ask = "If you want to see the changes restart your computer!
     Do you want to Restart now?"
@@ -49,7 +49,7 @@ Function PromptPcRestart() {
 
 # https://docs.microsoft.com/pt-br/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
-Function PrepareGUI() {
+function PrepareGUI() {
 
     SetGuiLayout # Load the GUI Layout
 
@@ -154,7 +154,7 @@ Function PrepareGUI() {
 
     # Panel 2 ~> Button 1 (Big)
     $RevertScript = New-Object system.Windows.Forms.Button
-    $RevertScript.Text = "Revert Script (WIP)"
+    $RevertScript.Text = "Revert Tweaks (WIP)"
     $RevertScript.Width = $BBWidth
     $RevertScript.Height = $BBHeight
     $RevertScript.Location = $BBLocation
@@ -385,7 +385,7 @@ Function PrepareGUI() {
 
 }
 
-function Main () {
+function Main() {
     
     Clear-Host                  # Clear the Powershell before it got an Output
     QuickPrivilegesElevation    # Check admin rights
