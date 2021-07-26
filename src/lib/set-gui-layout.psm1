@@ -111,8 +111,8 @@ function SetGuiLayout() {
   # To Buttons
   $Global:ButtonWidth = $PanelWidth * 0.84
   $Global:ButtonHeight = 30
-  $Global:ButtonDistanceBetween = 5
-  $Global:BigButtonHeight = ($ButtonHeight * 2) + $ButtonDistanceBetween
+  $Global:DistanceBetweenButtons = 5
+  $Global:BigButtonHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
   # To Fonts
   $Global:TitleSize1 = 20
   $Global:TitleSize2 = 16
@@ -156,7 +156,7 @@ function SetGuiLayout() {
   $Global:CLAutoSize = $true
   $Global:CLWidth = $LabelWidth
   $Global:CLHeight = $CaptionLabelHeight
-  $Global:CLLocation = New-Object System.Drawing.Point($CaptionLabelX, ($FirstButtonY - $CLHeight - $ButtonDistanceBetween)) # First only
+  $Global:CLLocation = New-Object System.Drawing.Point($CaptionLabelX, ($FirstButtonY - $CLHeight - $DistanceBetweenButtons)) # First only
   $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize3)
   $Global:CLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
