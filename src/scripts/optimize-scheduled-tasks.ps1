@@ -40,8 +40,17 @@ Function TweaksForScheduledTasks() {
     )
         
     ForEach ($ScheduledTask in $DisableScheduledTasks) {
-        Write-Host "[-][TaskScheduler] Disabling the $ScheduledTask Task..."
-        Disable-ScheduledTask -TaskName $ScheduledTask
+        If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
+
+            Write-Host "$($EnableStatus[0]) the $ScheduledTask Task..."
+            Invoke-Expression "$($Command[0])"
+            
+        }
+        Else {
+
+            Write-Warning "[?][TaskScheduler] $ScheduledTask was not found."
+
+        }
     }
         
     $EnableScheduledTasks = @(
@@ -50,13 +59,33 @@ Function TweaksForScheduledTasks() {
     )
 
     ForEach ($ScheduledTask in $EnableScheduledTasks) {
-        Write-Host "[+][TaskScheduler] Enabling the $ScheduledTask Task..."
-        Enable-ScheduledTask -TaskName $ScheduledTask
+        If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
+
+            Write-Host "[=][TaskScheduler] Enabling the $ScheduledTask Task..."
+            Enable-ScheduledTask -TaskName $ScheduledTask
+            
+        }
+        Else {
+
+            Write-Warning "[?][TaskScheduler] $ScheduledTask was not found."
+
+        }
     }
 
 }
 
 function Main() {
+
+    $EnableStatus = @("[-][TaskScheduler] Disabling", "[=][TaskScheduler] Enabling")
+    $Command = @( { Disable-ScheduledTask -TaskName "$ScheduledTask" }, { Enable-ScheduledTask -TaskName "$ScheduledTask" })
+
+    if (($Revert)) {
+        Write-Warning "[<][TaskScheduler] Reverting: $Revert"
+
+        $EnableStatus = @("[<][TaskScheduler] Re-Enabling", "[<][TaskScheduler] Re-Disabling")
+        $Command = @( { Enable-ScheduledTask -TaskName "$ScheduledTask" }, { Disable-ScheduledTask -TaskName "$ScheduledTask" })
+      
+    }
     
     TweaksForScheduledTasks # Disable Scheduled Tasks that causes slowdowns
 
