@@ -87,8 +87,8 @@ Function TweaksForPrivacyAndPerformance() {
     Caption1 -Text "Diagnostics & Feedback"
     
     Write-Host "[@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
-    Write-Host "[-] Diagnostic Data (x64): 'Full Telemetry'"
-    Set-ItemProperty -Path "$PathToTelemetry" -Name "AllowTelemetry" -Type DWord -Value 3
+    Write-Host "[-] Disabling telemetry..."
+    Set-ItemProperty -Path "$PathToTelemetry" -Name "AllowTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "$PathToTelemetry" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
     
     Write-Host "[-] Don't send inking and typing data to Microsoft..."
