@@ -157,19 +157,9 @@ Function PrepareGUI() {
     $ApplyTweaks.ForeColor = $BBForeColor
     
     # Panel 1 ~> Button 2
-    $UITweaks = New-Object system.Windows.Forms.Button
-    $UITweaks.Text = "UI/UX Tweaks"
-    $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
-    $UITweaks.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $UITweaks.Width = $SBWidth
-    $UITweaks.Height = $SBHeight
-    $UITweaks.Font = $SBFont
-    $UITweaks.ForeColor = $SBForeColor
-
-    # Panel 1 ~> Button 3
     $RepairWindows = New-Object system.Windows.Forms.Button
     $RepairWindows.Text = "Repair Windows"
-    $NextYLocation = $UITweaks.Location.Y + $UITweaks.Height + $DistanceBetweenButtons
+    $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
     $RepairWindows.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $RepairWindows.Width = $SBWidth
     $RepairWindows.Height = $SBHeight
@@ -235,7 +225,7 @@ Function PrepareGUI() {
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
     # Add Elements to each Panel
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $UITweaks, $RepairWindows, $PictureBox1))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $CaptionLabel1, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana))
     $Panel3.Controls.AddRange(@($TitleLabel3, $PkgSwInstaller))
 
@@ -279,28 +269,6 @@ Function PrepareGUI() {
         })    
 
     # Panel 1 ~> Button 2 Mouse Click listener
-    $UITweaks.Add_Click( {
-
-            Push-Location -Path "src\scripts\"
-            Clear-Host
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-            $Scripts = @(
-                # [Recommended order] List of Scripts
-                "manual-debloat-softwares.ps1"
-            )
-        
-            ForEach ($FileName in $Scripts) {
-                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName"
-                #pause ### FOR DEBUGGING PURPOSES
-            }
-            Pop-Location
-
-            $Global:NeedRestart = $true
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-        })
-
-    # Panel 1 ~> Button 3 Mouse Click listener
     $RepairWindows.Add_Click( {
 
             Push-Location -Path "src\scripts\"

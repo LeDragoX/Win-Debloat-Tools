@@ -66,7 +66,6 @@ Function RunScripts() {
         "enable-optional-features.ps1"
         "remove-onedrive.ps1"
         "install-package-managers.ps1"
-        "manual-debloat-softwares.ps1"
     )
         
     ForEach ($FileName in $Scripts) {
