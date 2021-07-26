@@ -77,11 +77,11 @@ Function PrepareGUI() {
     $Form.TopMost = $false
 
     # Icon: https://stackoverflow.com/a/53377253
-    $iconBase64 = [Convert]::ToBase64String((Get-Content ".\src\lib\images\windows-11-logo.png" -Encoding Byte))
-    $iconBytes = [Convert]::FromBase64String($iconBase64)
-    $stream = New-Object IO.MemoryStream($iconBytes, 0, $iconBytes.Length)
-    $stream.Write($iconBytes, 0, $iconBytes.Length);
-    $Form.Icon = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -Argument $stream).GetHIcon())
+    $IconBase64 = [Convert]::ToBase64String((Get-Content ".\src\lib\images\windows-11-logo.png" -Encoding Byte))
+    $IconBytes = [Convert]::FromBase64String($IconBase64)
+    $Stream = New-Object IO.MemoryStream($IconBytes, 0, $IconBytes.Length)
+    $Stream.Write($IconBytes, 0, $IconBytes.Length);
+    $Form.Icon = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -Argument $Stream).GetHIcon())
     
     # Panel 1 to put Labels and Buttons
     $Panel1 = New-Object system.Windows.Forms.Panel
@@ -140,7 +140,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Caption Label 2
     $CaptionLabel2 = New-Object system.Windows.Forms.Label
     $CaptionLabel2.Text = "- Cortana -"
-    $NextYLocation = ($CaptionLabel1.Location.Y + (($ButtonHeight + $ButtonDistanceBetween) * 3))
+    $NextYLocation = ($CaptionLabel1.Location.Y + (($ButtonHeight + $DistanceBetweenButtons) * 3))
     $CaptionLabel2.Location = New-Object System.Drawing.Point($CaptionLabelX, $NextYLocation)
     $CaptionLabel2.Width = $CLWidth
     $CaptionLabel2.Height = $CLHeight
@@ -159,7 +159,7 @@ Function PrepareGUI() {
     # Panel 1 ~> Button 2
     $UITweaks = New-Object system.Windows.Forms.Button
     $UITweaks.Text = "UI/UX Tweaks"
-    $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $ButtonDistanceBetween
+    $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
     $UITweaks.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $UITweaks.Width = $SBWidth
     $UITweaks.Height = $SBHeight
@@ -169,7 +169,7 @@ Function PrepareGUI() {
     # Panel 1 ~> Button 3
     $RepairWindows = New-Object system.Windows.Forms.Button
     $RepairWindows.Text = "Repair Windows"
-    $NextYLocation = $UITweaks.Location.Y + $UITweaks.Height + $ButtonDistanceBetween
+    $NextYLocation = $UITweaks.Location.Y + $UITweaks.Height + $DistanceBetweenButtons
     $RepairWindows.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $RepairWindows.Width = $SBWidth
     $RepairWindows.Height = $SBHeight
@@ -188,7 +188,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 2
     $LightMode = New-Object system.Windows.Forms.Button
     $LightMode.Text = "Light Mode"
-    $NextYLocation = $DarkMode.Location.Y + $DarkMode.Height + $ButtonDistanceBetween
+    $NextYLocation = $DarkMode.Location.Y + $DarkMode.Height + $DistanceBetweenButtons
     $LightMode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $LightMode.Width = $SBWidth
     $LightMode.Height = $SBHeight
@@ -198,7 +198,7 @@ Function PrepareGUI() {
     # Panel 2 ~> Button 3
     $EnableCortana = New-Object system.Windows.Forms.Button
     $EnableCortana.Text = "Enable Cortana"
-    $NextYLocation = $CaptionLabel2.Location.Y + $CaptionLabel2.Height + $ButtonDistanceBetween
+    $NextYLocation = $CaptionLabel2.Location.Y + $CaptionLabel2.Height + $DistanceBetweenButtons
     $EnableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $EnableCortana.Width = $SBWidth
     $EnableCortana.Height = $SBHeight
@@ -229,7 +229,7 @@ Function PrepareGUI() {
     $PictureBox1.Width = 150
     $PictureBox1.Height = 150
     $PictureBox1.Location = New-Object System.Drawing.Point((($PWidth * 0.72) - $PictureBox1.Width), (($PHeight * 0.90) - $PictureBox1.Height))
-    $PictureBox1.imageLocation = ".\src\lib\images\script-logo.png"
+    $PictureBox1.imageLocation = "$PSScriptRoot\src\lib\images\script-logo.png"
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 
     # Add all Panels to the Form (Screen)
@@ -270,7 +270,7 @@ Function PrepareGUI() {
             }
             Pop-Location
 
-            $PictureBox1.imageLocation = ".\src\lib\images\script-logo2.png"
+            $PictureBox1.imageLocation = "$PSScriptRoot\src\lib\images\script-logo2.png"
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
 
