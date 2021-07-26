@@ -193,4 +193,4 @@ After finding the right register Key, you just need to Right-Click and select `J
 
 ## License
 
-Check the License file [here](./LICENSE).
+Check the License file [here](LICENSE).
