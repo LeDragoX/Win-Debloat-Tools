@@ -51,10 +51,6 @@ Function PromptPcRestart() {
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 Function PrepareGUI() {
 
-    # Loading System Libs
-    Add-Type -AssemblyName System.Windows.Forms
-    Add-Type -AssemblyName System.Drawing
-
     SetGuiLayout # Load the GUI Layout
 
     # <=== AFTER PROCESS ===>
