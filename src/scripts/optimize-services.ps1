@@ -1,14 +1,13 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-# Adapted from these Baboo videos:                          https://youtu.be/qWESrvP_uU8
-# Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
-# Adapted from this matthewjberger's script:                https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
-# Adapted from this Sycnex script:                          https://github.com/Sycnex/Windows10Debloater
+# Adapted from this Baboo video:           https://youtu.be/qWESrvP_uU8
+# Adapted from this ChrisTitus script:       https://github.com/ChrisTitusTech/win10script
+# Adapted from this matthewjberger's script: https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
+# Adapted from this Sycnex script:           https://github.com/Sycnex/Windows10Debloater
 
 Function TweaksForServices() {
 
     Title1 -Text "Services tweaks"
-    
     Section1 -Text "Disabling Services"
         
     $DisableServices = @(
@@ -62,10 +61,15 @@ Function TweaksForServices() {
     )
     
     ForEach ($Service in $DisableServices) {
-        Write-Host "[-][Services] Stopping $Service..."
-        Stop-Service -Name "$Service" -Force
-        Write-Host "[-][Services] Disabling $Service at Startup..."
-        Set-Service -Name "$Service" -StartupType Disabled
+        If (($Revert -eq $true) -and ($Service -match "RemoteRegistry")) {
+            Write-Warning "[=][Services] Skipping $Service to avoiding a security breach..."
+            Continue
+        }
+
+        Write-Host "$($EnableStatus[2]) $Service..."
+        Invoke-Expression "$($Commands[2])"
+        Write-Host "$($EnableStatus[0]) $Service at Startup..."
+        Invoke-Expression "$($Commands[0])"
     }
 
     Section1 -Text "Re-enabling Services"
@@ -87,14 +91,34 @@ Function TweaksForServices() {
 
 function Main() {
 
-    $EnableStatus = @("[-][Services] Disabling", "[=][Services] Enabling")
-    $Command = @( { Disable-ScheduledTask -TaskName "$ScheduledTask" }, { Enable-ScheduledTask -TaskName "$ScheduledTask" })
+    $EnableStatus = @(
+        "[-][Services] Disabling",
+        "[=][Services] Re-Enabling",
+        "[-][Services] Stopping",
+        "[+][Services] Starting"
+    )
+    $Commands = @(
+        { Set-Service -Name "$Service" -StartupType Disabled },
+        { Set-Service -Name "$Service" -StartupType Automatic },
+        { Stop-Service -Name "$Service" -Force },
+        { Set-Service -Name $Service -Status Running }
+    )
 
     if (($Revert)) {
         Write-Warning "[<][Services] Reverting: $Revert"
 
-        $EnableStatus = @("[<][Services] Re-Enabling", "[<][Services] Re-Disabling")
-        $Command = @( { Enable-ScheduledTask -TaskName "$ScheduledTask" }, { Disable-ScheduledTask -TaskName "$ScheduledTask" })
+        $EnableStatus = @(
+            "[<][Services] Re-Enabling",
+            "[<][Services] Re-Disabling",
+            "[+][Services] Starting",
+            "[-][Services] Stopping"
+        )
+        $Commands = @(
+            { Set-Service -Name "$Service" -StartupType Automatic },
+            { Set-Service -Name "$Service" -StartupType Disabled },
+            { Set-Service -Name $Service -Status Running },
+            { Stop-Service -Name "$Service" -Force }
+        )
       
     }
     

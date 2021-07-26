@@ -294,6 +294,7 @@ function PrepareGUI() {
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "optimize-scheduled-tasks.ps1"
+                "optimize-services.ps1"
                 "optimize-privacy-and-performance.ps1"
                 "personal-optimizations.ps1"
             )
