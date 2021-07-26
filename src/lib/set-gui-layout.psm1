@@ -121,7 +121,7 @@ function SetGuiLayout() {
 
   # <=== LOCATIONS LAYOUT ===>
 
-  [int]$Global:TitleLabelX = $PanelWidth * 0.1
+  [int]$Global:TitleLabelX = $PanelWidth * 0.15
   [int]$Global:TitleLabelY = $MaxHeight * 0.01
   [int]$Global:CaptionLabelX = $PanelWidth * 0.29
   [int]$Global:ButtonX = $PanelWidth * 0.05
@@ -144,7 +144,6 @@ function SetGuiLayout() {
 
   # Title Label Layout
 
-  $Global:TLAutoSize = $true
   $Global:TLWidth = $LabelWidth
   $Global:TLHeight = $TitleLabelHeight
   $Global:TLLocation = New-Object System.Drawing.Point($TitleLabelX, $TitleLabelY)
@@ -153,11 +152,10 @@ function SetGuiLayout() {
 
   # Caption Label Layout
 
-  $Global:CLAutoSize = $true
   $Global:CLWidth = $LabelWidth
   $Global:CLHeight = $CaptionLabelHeight
   $Global:CLLocation = New-Object System.Drawing.Point($CaptionLabelX, ($FirstButtonY - $CLHeight - $DistanceBetweenButtons)) # First only
-  $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize3)
+  $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize4)
   $Global:CLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
   # Big Button Layout
