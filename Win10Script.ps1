@@ -1,9 +1,9 @@
-Function QuickPrivilegesElevation() {
+function QuickPrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-Function LoadLibs() {
+function LoadLibs() {
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Current Folder $PSScriptRoot"
@@ -23,7 +23,7 @@ Function LoadLibs() {
 
 }
 
-Function PromptPcRestart() {
+function PromptPcRestart() {
 
     $Ask = "If you want to see the changes restart your computer!
     Do you want to Restart now?"
@@ -46,7 +46,7 @@ Function PromptPcRestart() {
     
 }
 
-Function RunScripts() {
+function RunScripts() {
 
     Push-Location -Path "src\scripts\"
 
