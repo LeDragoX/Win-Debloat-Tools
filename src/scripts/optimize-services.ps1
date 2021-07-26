@@ -8,20 +8,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 Function TweaksForServices() {
 
     Title1 -Text "Services tweaks"
-    Section1 -Text "Re-enabling Services"
-    
-    $EnableServices = @(
-        "DPS"                                       # Diagnostic Policy Service
-        "FontCache"                                 # Windows Font Cache Service
-        "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
-    )
-        
-    ForEach ($Service in $EnableServices) {
-        Write-Host "[+][Services] Starting $Service..."
-        Set-Service -Name $Service -Status Running
-        Write-Host "[+][Services] Re-enabling $Service at Startup..."
-        Set-Service -Name $Service -StartupType Automatic
-    }
     
     Section1 -Text "Disabling Services"
         
@@ -82,9 +68,35 @@ Function TweaksForServices() {
         Set-Service -Name "$Service" -StartupType Disabled
     }
 
+    Section1 -Text "Re-enabling Services"
+    
+    $EnableServices = @(
+        "DPS"                                       # Diagnostic Policy Service
+        "FontCache"                                 # Windows Font Cache Service
+        "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
+    )
+        
+    ForEach ($Service in $EnableServices) {
+        Write-Host "[+][Services] Starting $Service..."
+        Set-Service -Name $Service -Status Running
+        Write-Host "[+][Services] Re-enabling $Service at Startup..."
+        Set-Service -Name $Service -StartupType Automatic
+    }
+
 }
 
 function Main() {
+
+    $EnableStatus = @("[-][Services] Disabling", "[=][Services] Enabling")
+    $Command = @( { Disable-ScheduledTask -TaskName "$ScheduledTask" }, { Enable-ScheduledTask -TaskName "$ScheduledTask" })
+
+    if (($Revert)) {
+        Write-Warning "[<][Services] Reverting: $Revert"
+
+        $EnableStatus = @("[<][Services] Re-Enabling", "[<][Services] Re-Disabling")
+        $Command = @( { Enable-ScheduledTask -TaskName "$ScheduledTask" }, { Disable-ScheduledTask -TaskName "$ScheduledTask" })
+      
+    }
     
     TweaksForServices   # Enable essential Services and Disable bloating Services
 
