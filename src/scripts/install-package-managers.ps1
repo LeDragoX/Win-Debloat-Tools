@@ -22,7 +22,7 @@ function Install-PackageManager() {
   }
   Catch {
 
-    Write-Host "[?] $PackageManagerFullName was not found."
+    Write-Warning "[?] $PackageManagerFullName was not found."
     Write-Host "[+] Setting up $PackageManagerFullName package manager"
 
     Invoke-Expression "$InstallCommandBlock"
