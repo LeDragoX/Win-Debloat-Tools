@@ -3,6 +3,7 @@ function SetGuiLayout() {
   [CmdletBinding()] #<<-- This turns a regular function into an advanced function
   param ()
 
+  Write-Host "[@] Loading GUI Layout..."
   # Loading System Libs
   Add-Type -AssemblyName System.Windows.Forms
   Add-Type -AssemblyName System.Drawing
