@@ -193,7 +193,7 @@ function PrepareGUI() {
     # Panel 2 ~> Button 5
     $DisableCortana = New-Object system.Windows.Forms.Button
     $DisableCortana.Text = "Disable Cortana"
-    $NextYLocation += 35
+    $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
     $DisableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $DisableCortana.Width = $SBWidth
     $DisableCortana.Height = $SBHeight
@@ -218,7 +218,7 @@ function PrepareGUI() {
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 
     # Add all Panels to the Form (Screen)
-    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
+    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3))
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana))
