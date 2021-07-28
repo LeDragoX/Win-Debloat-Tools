@@ -8,7 +8,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 Function TweaksForServices() {
 
     Title1 -Text "Services tweaks"
-    Section1 -Text "Disabling Services"
         
     $DisableServices = @(
         "BITS"                                      # Background Intelligent Transfer Service
@@ -18,6 +17,7 @@ Function TweaksForServices() {
         "GraphicsPerfSvc"                           # Graphics performance monitor service
         "lfsvc"                                     # Geolocation Service
         "MapsBroker"                                # Downloaded Maps Manager
+        "ndu"                                       # Windows Network Data Usage Monitoring Driver
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
@@ -28,6 +28,8 @@ Function TweaksForServices() {
         
         # <==========[DIY]==========> (Remove the # to Disable)
         
+        #"DPS"                                      # Diagnostic Policy Service
+        #"FontCache"                                # Windows Font Cache Service
         #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
         #"SharedAccess"                             # Internet Connection Sharing (ICS)
         #"stisvc"                                   # Windows Image Acquisition (WIA)
@@ -37,6 +39,7 @@ Function TweaksForServices() {
         #"wscsvc"                                   # Windows Security Center Service
         #"WdiServiceHost"                           # Diagnostic Service Host
         #"WdiSystemHost"                            # Diagnostic System Host
+        #"WMPNetworkSvc"                            # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
         
         # [DIY] If you don't use Bluetooth devices
         
@@ -56,7 +59,6 @@ Function TweaksForServices() {
         #"XboxNetApiSvc"                            # Xbox Live Networking Service
         
         # Services which cannot be disabled
-        #"ndu"                                       # Windows Network Data Usage Monitoring Driver
         #"WdNisSvc"
     )
     
@@ -70,21 +72,6 @@ Function TweaksForServices() {
         Invoke-Expression "$($Commands[2])"
         Write-Host "$($EnableStatus[0]) $Service at Startup..."
         Invoke-Expression "$($Commands[0])"
-    }
-
-    Section1 -Text "Re-enabling Services"
-    
-    $EnableServices = @(
-        "DPS"                                       # Diagnostic Policy Service
-        "FontCache"                                 # Windows Font Cache Service
-        "WMPNetworkSvc"                             # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
-    )
-        
-    ForEach ($Service in $EnableServices) {
-        Write-Host "[+][Services] Starting $Service..."
-        Set-Service -Name $Service -Status Running
-        Write-Host "[+][Services] Re-enabling $Service at Startup..."
-        Set-Service -Name $Service -StartupType Automatic
     }
 
 }
