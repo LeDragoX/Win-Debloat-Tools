@@ -72,10 +72,11 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
     <summary>Click to expand</summary>
 
 - `Apply Tweaks`: Run every 'non-interactive' Tweak scripts;
-- `UI/UX Tweaks`: Run WinAero Tweaker to apply my profile and other "Manual" softwares in the future (maybe); ([`manual-debloat-softwares.ps1`](./src/scripts/manual-debloat-softwares.ps1))
-- `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and ([`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
-- `Dark Mode & Light Mode`: Apply Dark Mode or Light Mode exclusively from GUI; ([Dark](./src/utils/dark-theme.reg) and [Light](./src/utils/light-theme.reg))
-- `Install Softwares`: Install _Chocolatey/Winget_ and install basic Softwares from my selection. See [Document](./src/lib/docs/software-installer.md). ([`install-package-managers.ps1`](src/scripts/install-package-managers.ps1) and [`software-installer.ps1`](./src/scripts/software-installer.ps1))
+- `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
+- `Revert Tweaks`: Re-apply some tweaks and revert all possible ones, covering the Scheduled Tasks, Services, Privacy and Performance and Personal Optimizations tweaks;
+- `Dark Mode & Light Mode`: Apply [Dark Mode](./src/utils/dark-theme.reg) or [Light Mode](./src/utils/light-theme.reg) exclusively from GUI;
+- `Enable Cortana & Disable Cortana`: Let you choose whether the cortana is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
+- `Install Softwares (Winget/Choco)`: Install _Chocolatey / Winget_ and install basic Softwares from my selection. See [Document](./src/lib/docs/software-installer.md). ([`install-package-managers.ps1`](src/scripts/install-package-managers.ps1) and [`software-installer.ps1`](./src/scripts/software-installer.ps1))
 
 </details>
 

@@ -153,7 +153,7 @@ function PrepareGUI() {
 
     # Panel 2 ~> Button 1 (Big)
     $RevertScript = New-Object system.Windows.Forms.Button
-    $RevertScript.Text = "Revert Tweaks (WIP)"
+    $RevertScript.Text = "Revert Tweaks"
     $RevertScript.Width = $BBWidth
     $RevertScript.Height = $BBHeight
     $RevertScript.Location = $BBLocation
