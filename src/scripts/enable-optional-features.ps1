@@ -7,18 +7,18 @@ Function EnableOptionalFeatures() {
     # Dism /online /Get-Features #/Format:Table # To find all features
     # Get-WindowsOptionalFeature -Online
     
-    $FeatureName = @(
+    $Features = @(
+        "DirectPlay"                            # Direct Play
         "Microsoft-Hyper-V-All"                 # Hyper-V (VT-d (Intel) / SVM (AMD) needed on BIOS)
         "NetFx3"                                # NET Framework 3.5
         "NetFx4-AdvSrvs"                        # NET Framework 4
         "NetFx4Extended-ASPNET45"               # NET Framework 4.x + ASPNET 4.x
-        "DirectPlay"                            # Direct Play
         # WSL 2 Support Semi-Install
         "Microsoft-Windows-Subsystem-Linux"     # WSL
         "VirtualMachinePlatform"                # VM Platform
     )
     
-    ForEach ($Feature in $FeatureName) {
+    ForEach ($Feature in $Features) {
         $FeatureDetails = $(Get-WindowsOptionalFeature -Online -FeatureName $Feature)
         
         Write-Host "Checking if $Feature was already installed..."
@@ -28,7 +28,7 @@ Function EnableOptionalFeatures() {
         }
         ElseIf ($FeatureDetails.State -like "Disabled") {
             Write-Host "[+][Feature] Installing $Feature..."
-            Dism -Online -Enable-Feature -All -NoRestart -FeatureName:$Feature
+            Enable-WindowsOptionalFeature -Online -NoRestart -FeatureName $Feature
         }
         Write-Host ""
     }
