@@ -1,9 +1,10 @@
 ---
 name: Bug Report
 about: Something doesn't work properly on Windows 10/+
-#title: ""
-#labels: ""
-#assignees: ""
+title: ''
+labels: bug
+assignees: ''
+
 ---
 
 ## Bug Report
