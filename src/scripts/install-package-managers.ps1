@@ -81,10 +81,10 @@ function Main() {
     {}
   )
 
-  # Install Chocolatey on Windows
-  Install-PackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -PostInstallBlock $ChocolateyParams[4]
   # Install Winget on Windows
   Install-PackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3]
+  # Install Chocolatey on Windows
+  Install-PackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -PostInstallBlock $ChocolateyParams[4]
 
 }
 
