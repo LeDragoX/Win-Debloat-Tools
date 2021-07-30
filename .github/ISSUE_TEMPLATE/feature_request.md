@@ -1,20 +1,24 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
+name: Feature Request
+about: Suggest a new feature for this script.
+#title: ""
+#labels: ""
+#assignees: ""
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Feature Request
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+(`If some section doesn't apply, use "N/A"`)<br>
+(`Lines between ( ) (parentheses) should be removed before posting.`)
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+### What feature are you requesting?
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+(`A clear and concise description of what you want to happen.`)
+
+### What alternatives have you found?
+
+(`A clear and concise description of any alternative solutions or features you've considered.`)
+
+### Why would it be useful?
+
+(`If this feature is for an [ End-User / Developer ], how does it benefit?`)
