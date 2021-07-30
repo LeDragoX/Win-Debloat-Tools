@@ -1,9 +1,9 @@
 ---
 name: Feature Request
 about: Suggest a new feature for this script.
-#title: ""
-#labels: ""
-#assignees: ""
+labels: enhancement
+# title: ""
+# assignees: ""
 ---
 
 ## Feature Request
