@@ -9,7 +9,7 @@ Adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
 
 </h2>
 
-## Download Latest Version
+## 🚀 Download Latest Version
 
 Code located in the `main` branch is always considered under development,
 but you'll probably want the most recent version anyway.
@@ -22,14 +22,14 @@ but you'll probably want the most recent version anyway.
 
 </div>
 
-## Resume
+## 📄 Resume
 
 This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10).
 These scripts will Customize, Debloat and Improve Security/Performance on Windows 10/Newer.
 
-**Disclaimer:** _If something breaks, it's under your responsibility._
+⚠️ **Disclaimer:** _If something breaks, it's under your responsibility._
 
-## Roll-Back
+## 🔄️ Roll-Back
 
 **There is a undo (if works)**, because i did a restoration point script before
 doing everything.
@@ -37,7 +37,7 @@ doing everything.
 **Use on a fresh windows install to note the differences, and if something breaks,**
 **you can rely on a pre-made restoration point and the** [`repair-windows.ps1`](./src/scripts/repair-windows.ps1) file.
 
-## Usage Requirements
+## ❗ Usage Requirements
 
 The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 
@@ -66,7 +66,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 **[Scripts](./src/scripts) can be run individually, pick what you need.**
 
-## GUI Script Features
+## ✅ GUI Script Features
 
 <details>
     <summary>Click to expand</summary>
@@ -80,7 +80,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 </details>
 
-## Common Script Features
+## ☑️ Common Script Features
 
 <details>
     <summary>Click to expand</summary>
@@ -105,7 +105,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 </details>
 
-## Known Issues
+## ❌ Known Issues
 
 1. Start menu Search (`WSearch` indexing service will be disabled)
 2. Sysprep will hang (Not Tested)
@@ -142,12 +142,12 @@ Dism -Online -Disable-Feature -NoRestart -FeatureName:"VirtualMachinePlatform"
 
 </details>
 
-## Contribute
+## ➕ Contribute
 
 I would be happy to extend the collection of scripts.
 Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
-## Credits
+## 🤍 Credits
 
 - Special thanks to the [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
 
@@ -160,7 +160,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [this video](https://youtu.be/EfrT_Bvgles);
 - [matthewjberger](https://gist.github.com/matthewjberger) - by [this script](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
 
-## More Debloat Scripts (Community)
+## 🏅 More Debloat Scripts (Community)
 
 <details>
     <summary>Click to expand</summary>
@@ -171,7 +171,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [Windows 10 Sophia Script](https://github.com/farag2/Windows-10-Sophia-Script) from [farag2](https://github.com/farag2).
 </details>
 
-## How did i find specific Tweaks?
+## 🔎 How did i find specific Tweaks?
 
 <details>
     <summary>Click to expand</summary>
@@ -190,6 +190,6 @@ After finding the right register Key, you just need to Right-Click and select `J
 
 </details>
 
-## License
+## 📝 License
 
 Check the License file [here](./LICENSE).
