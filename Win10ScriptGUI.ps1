@@ -363,7 +363,6 @@ function PrepareGUI() {
         
             $Scripts = @(
                 # [Recommended order] List of Scripts
-                "install-package-managers.ps1"
                 "install-drivers.ps1"
                 "install-softwares.ps1"
             )
@@ -394,6 +393,8 @@ function Main() {
     UnrestrictPermissions       # Unlock script usage
     SetupConsoleStyle           # Just fix the font on the PS console
     
+    # Install Winget and Chocolatey already on the start
+    Import-Module -DisableNameChecking .\"src\scripts\install-package-managers.ps1" -Force
     PrepareGUI                  # Load the GUI
     
     Write-Verbose "Restart: $Global:NeedRestart"
