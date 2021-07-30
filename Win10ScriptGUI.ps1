@@ -364,6 +364,7 @@ function PrepareGUI() {
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "install-package-managers.ps1"
+                "install-drivers.ps1"
                 "install-softwares.ps1"
             )
         
