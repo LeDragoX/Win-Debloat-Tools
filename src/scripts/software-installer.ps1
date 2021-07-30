@@ -8,7 +8,7 @@ function QuickPrivilegesElevation() {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function InstallPackages() {
+function InstallDrivers() {
 
     # Install CPU drivers first
     If ($CPU.contains("AMD")) {
@@ -19,46 +19,50 @@ function InstallPackages() {
             Caption1 -Text "Installing: amd-ryzen-chipset"
             choco install -y "amd-ryzen-chipset"                # AMD Ryzen Chipset Drivers
         }
-        
+            
     }
     ElseIf ($CPU.contains("Intel")) {
-
+    
         Section1 -Text "Installing Intel chipset drivers!"
-
+    
         Caption1 -Text "Installing: chocolatey-misc-helpers.extension"
         choco install -y "chocolatey-misc-helpers.extension"    # Chocolatey Misc Helpers Extension ('intel-dsa' Dependency)
-        
+            
         Caption1 -Text "Installing: dotnet4.7"
         choco install -y "dotnet4.7"                            # Microsoft .NET Framework 4.7 ('intel-dsa' Dependency)
-        
+            
         Caption1 -Text "Installing: intel-dsa"
         choco install -y "intel-dsa"                            # Intel® Driver & Support Assistant (Intel® DSA)
-
-    }
     
+    }
+        
     # Install GPU drivers then
     If ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
         Title1 -Text "AMD GPU, yay! (Skipping...)"
     }
-    
+        
     If ($GPU.contains("Intel")) {
         Section1 -Text "Installing Intel Graphics driver!"
         Caption1 -Text "Installing: intel-graphics-driver"
         choco install -y "intel-graphics-driver"                # Intel Graphics Driver (latest)
     }
-
+    
     If ($GPU.contains("NVIDIA")) {
-
+    
         Section1 -Text "Installing NVIDIA Graphics driver!"
         Caption1 -Text "Installing: geforce-experience"
         choco install -y "geforce-experience"                   # GeForce Experience (latest)
-
+    
         Caption1 -Text "Configuring 'geforce-game-ready-driver' for DCH..."
         choco feature enable -n=useRememberedArgumentsForUpgrades
         Caption1 -Text "Installing: geforce-game-ready-driver"
         choco install -y "geforce-game-ready-driver" --package-parameters="'/dch'" # GeForce Game Ready Driver (latest)
+    
+    }    
+    
+}
 
-    }
+function InstallPackages() {
 
     $EssentialPackages = @(
         "7zip"                      # 7-Zip
@@ -112,6 +116,7 @@ function InstallPackages() {
 }
 
 function InstallGamingPackages() {
+
     # You Choose
     $Ask = "Do you plan to play Games on this PC?
     All important Gaming clients and Required Game Softwares to Run Games will be installed.
@@ -146,7 +151,7 @@ function InstallGamingPackages() {
         
             Title1 -Text "Installing Packages"
 
-            Caption1 -Text "Closing ONLY Discord, avoid future reinstalling"
+            Caption1 -Text "Closing ONLY Discord, avoid reinstalling bug"
             taskkill.exe /F /IM "Discord.exe"
             ForEach ($Package in $GamingPackages) {
                 Title2Counter -Text "Installing: $Package" -MaxNum $GamingPackages.Length
@@ -172,6 +177,7 @@ function Main() {
     $Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
     $CPU = DetectCPU                        # Detects the current CPU
     $GPU = DetectGPU                        # Detects the current GPU
+    InstallDrivers                          # Install CPU & GPU Drivers (If applicable)
     InstallPackages                         # Install the Showed Softwares
     InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
 
