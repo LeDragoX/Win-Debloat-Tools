@@ -174,7 +174,6 @@ function Main() {
     $GPU = DetectGPU                        # Detects the current GPU
     InstallPackages                         # Install the Showed Softwares
     InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
-    Taskkill /F /IM $PID                    # Kill this task by PID because it won't exit with the command 'exit'
 
 }
 
