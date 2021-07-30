@@ -73,32 +73,6 @@ function RunScripts() {
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
     }
 
-    $Ask = "This part is OPTIONAL, only do this if you want to repair your Windows.
-        Do you want to continue?"
-
-    switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
-        'Yes' {
-            Write-Host "You choose Yes."
-
-            $Scripts = @(
-                # [Recommended order] List of Scripts
-                "repair-windows.ps1"
-            )
-            ForEach ($FileName in $Scripts) {
-                Title2 -Text "$FileName"
-                PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
-            }
-        }
-        'No' {
-            Write-Host "You choose No. (No = Cancel)"
-        }
-        'Cancel' {
-            # With Yes, No and Cancel, the user can press Esc to exit
-            Write-Host "You choose Cancel. (Cancel = No)"
-        }
-    }
-
-    Pop-Location
 }
 
 function Main() {

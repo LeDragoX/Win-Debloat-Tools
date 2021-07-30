@@ -98,7 +98,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Enable Optional Features especially for Gaming/Work (including WSL 2); ([`enable-optional-features.ps1`](./src/scripts/enable-optional-features.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
 - Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
-- [Optional] Try to Completely fix the Windows worst problems via Command Line; ([`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
 - In the End it Locks Script's Usage Permission. (`Win10Script(GUI).ps1`)
 
 **\*Optional**: Means that you decide what to do.
