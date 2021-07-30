@@ -1,10 +1,10 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-# Adapted from these Baboo videos:                          https://youtu.be/qWESrvP_uU8
-# Adapted from this AdamX's video REG scripts:              https://youtu.be/hQSkPmZRCjc
-# Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
-# Adapted from this Sycnex script:                          https://github.com/Sycnex/Windows10Debloater
-# Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
+# Adapted from these Baboo videos:                     https://youtu.be/qWESrvP_uU8
+# Adapted from this AdamX's video REG scripts:         https://youtu.be/hQSkPmZRCjc
+# Adapted from this ChrisTitus script:                 https://github.com/ChrisTitusTech/win10script
+# Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
+# Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
 Function TweaksForPrivacyAndPerformance() {
 
