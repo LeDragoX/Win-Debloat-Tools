@@ -1,9 +1,9 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-# Adapted from this Baboo video:                            https://youtu.be/xz3oXHleKoM
-# Adapted from this ChrisTitus script:                      https://github.com/ChrisTitusTech/win10script
-# Adapted from this kalaspuffar/Daniel Persson script:      https://github.com/kalaspuffar/windows-debloat
+# Adapted from this Baboo video:                       https://youtu.be/xz3oXHleKoM
+# Adapted from this ChrisTitus script:                 https://github.com/ChrisTitusTech/win10script
+# Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
 Function TweaksForSecurity() {
 

@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\original\New-FolderForced.psm1"
-Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\original\take-own.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"New-FolderForced.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"take-own.psm1"
 
 function RemoveOneDrive() {
     # Description:

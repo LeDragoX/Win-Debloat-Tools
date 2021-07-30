@@ -1,4 +1,4 @@
-# Adapted from this ChrisTitus script:  https://github.com/ChrisTitusTech/win10script
+# Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
 Function RunDebloatSoftwares() {
         
