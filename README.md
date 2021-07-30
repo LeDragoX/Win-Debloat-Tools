@@ -76,7 +76,9 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Revert Tweaks`: Re-apply some tweaks and revert all possible ones, covering the Scheduled Tasks, Services, Privacy and Performance and Personal Optimizations tweaks;
 - `Dark Mode & Light Mode`: Apply [Dark Mode](./src/utils/dark-theme.reg) or [Light Mode](./src/utils/light-theme.reg) exclusively from GUI;
 - `Enable Cortana & Disable Cortana`: Let you choose whether the cortana is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
-- `Install Softwares (Winget/Choco)`: Install _Chocolatey / Winget_ and install basic Softwares from my selection. See [Document](./src/lib/docs/install-softwares.md). ([`install-package-managers.ps1`](src/scripts/install-package-managers.ps1) and [`install-softwares.ps1`](./src/scripts/install-softwares.ps1))
+- `Install Softwares (Winget/Choco)`: Install _Chocolatey / Winget_, CPU and GPU drivers and install basic Softwares from my selection. See [Document](./src/lib/docs/install-softwares.md). ([`install-package-managers.ps1`](src/scripts/install-package-managers.ps1), [`install-drivers.ps1`](./src/scripts/install-drivers.ps1) and [`install-softwares.ps1`](./src/scripts/install-softwares.ps1)).
+  - The Latest CPU ([Intel](https://community.chocolatey.org/packages/intel-dsa) and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
+  - The Lastest Graphics driver of your GPU (Except AMD). See [Intel](https://community.chocolatey.org/packages/intel-graphics-driver) and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including [GeForce Experience](https://community.chocolatey.org/packages/geforce-experience));
 
 </details>
 

@@ -1,66 +1,8 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"setup-console-style.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function QuickPrivilegesElevation() {
-    # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
-    If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
-}
-
-function InstallDrivers() {
-
-    # Install CPU drivers first
-    If ($CPU.contains("AMD")) {
-        
-        Section1 -Text "Installing AMD chipset drivers!"
-        If ($CPU.contains("Ryzen")) {
-            Section1 -Text "You have a Ryzen CPU, installing Chipset driver for Ryzen processors!"
-            Caption1 -Text "Installing: amd-ryzen-chipset"
-            choco install -y "amd-ryzen-chipset"                # AMD Ryzen Chipset Drivers
-        }
-            
-    }
-    ElseIf ($CPU.contains("Intel")) {
-    
-        Section1 -Text "Installing Intel chipset drivers!"
-    
-        Caption1 -Text "Installing: chocolatey-misc-helpers.extension"
-        choco install -y "chocolatey-misc-helpers.extension"    # Chocolatey Misc Helpers Extension ('intel-dsa' Dependency)
-            
-        Caption1 -Text "Installing: dotnet4.7"
-        choco install -y "dotnet4.7"                            # Microsoft .NET Framework 4.7 ('intel-dsa' Dependency)
-            
-        Caption1 -Text "Installing: intel-dsa"
-        choco install -y "intel-dsa"                            # Intel® Driver & Support Assistant (Intel® DSA)
-    
-    }
-        
-    # Install GPU drivers then
-    If ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
-        Title1 -Text "AMD GPU, yay! (Skipping...)"
-    }
-        
-    If ($GPU.contains("Intel")) {
-        Section1 -Text "Installing Intel Graphics driver!"
-        Caption1 -Text "Installing: intel-graphics-driver"
-        choco install -y "intel-graphics-driver"                # Intel Graphics Driver (latest)
-    }
-    
-    If ($GPU.contains("NVIDIA")) {
-    
-        Section1 -Text "Installing NVIDIA Graphics driver!"
-        Caption1 -Text "Installing: geforce-experience"
-        choco install -y "geforce-experience"                   # GeForce Experience (latest)
-    
-        Caption1 -Text "Configuring 'geforce-game-ready-driver' for DCH..."
-        choco feature enable -n=useRememberedArgumentsForUpgrades
-        Caption1 -Text "Installing: geforce-game-ready-driver"
-        choco install -y "geforce-game-ready-driver" --package-parameters="'/dch'" # GeForce Game Ready Driver (latest)
-    
-    }    
-    
-}
+# Adapted from: https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1
 
 function InstallPackages() {
 
@@ -155,14 +97,10 @@ function InstallGamingPackages() {
 
 function Main() {
 
-    QuickPrivilegesElevation                # Check admin rights
-    SetupConsoleStyle                       # Make the Console looks how i want
-    $Architecture = CheckOSArchitecture     # Checks if the System is 32-bits or 64-bits or Something Else
-    $CPU = DetectCPU                        # Detects the current CPU
-    $GPU = DetectGPU                        # Detects the current GPU
-    InstallDrivers                          # Install CPU & GPU Drivers (If applicable)
-    InstallPackages                         # Install the Showed Softwares
-    InstallGamingPackages                   # Install the most important Gaming Clients and Required Softwares to Run Games
+    SetupConsoleStyle                   # Make the Console looks how i want
+    $Architecture = CheckOSArchitecture # Checks if the System is 32-bits or 64-bits or Something Else
+    InstallPackages                     # Install the Showed Softwares
+    InstallGamingPackages               # Install the most important Gaming Clients and Required Softwares to Run Games
 
 }
 
