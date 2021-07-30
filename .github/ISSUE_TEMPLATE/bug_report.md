@@ -1,9 +1,9 @@
 ---
 name: Bug Report
 about: Something doesn't work properly on Windows 10/+
-#title: ''
-#labels: ''
-#assignees: ''
+#title: ""
+#labels: ""
+#assignees: ""
 ---
 
 ## Bug Report
@@ -19,20 +19,20 @@ about: Something doesn't work properly on Windows 10/+
 
 Step-by-Step to reproduce the behavior:
 
-1. (e.g. Go to '...')
-2. (e.g. Click on '....')
-3. (e.g. Scroll down to '....')
-4. (e.g. See error)
+1. _(e.g. Go to '...')_
+2. _(e.g. Click on '....')_
+3. _(e.g. Scroll down to '....')_
+4. _(e.g. See error)_
 
-### Expected behavior
+### Expected behavior?
 
 (`A clear and concise description of what you expected to happen.`)
 
 ### Environment?
 
-- OS: (e.g. Windows 10)
-- Version: (e.g. 21H1)
-- Date executed: (e.g. 2021-06=07)
+- OS: _(e.g. Windows 10)_
+- Version: _(e.g. 21H1)_
+- Date executed: _(e.g. 2021-06=07)_
 
 ### Additional context?
 
