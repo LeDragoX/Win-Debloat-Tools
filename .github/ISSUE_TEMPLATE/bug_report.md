@@ -1,38 +1,39 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
+name: Bug Report
+about: Something doesn't work properly on Windows 10/+
+#title: ''
+#labels: ''
+#assignees: ''
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## Bug Report
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+(`If some section doesn't apply, use "N/A"`)<br>
+(`Lines between ( ) (parentheses) should be removed before posting.`)
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+### What's the issue you encountered?
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+(`A clear and concise description of what the bug is.`)
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+### How can this issue be reproduced?
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+Step-by-Step to reproduce the behavior:
 
-**Additional context**
-Add any other context about the problem here.
+1. (e.g. Go to '...')
+2. (e.g. Click on '....')
+3. (e.g. Scroll down to '....')
+4. (e.g. See error)
+
+### Expected behavior
+
+(`A clear and concise description of what you expected to happen.`)
+
+### Environment?
+
+- OS: (e.g. Windows 10)
+- Version: (e.g. 21H1)
+- Date executed: (e.g. 2021-06=07)
+
+### Additional context?
+
+(`Add any other context about the problem here.`)
