@@ -14,6 +14,7 @@ Function EnableOptionalFeatures() {
         "NetFx4-AdvSrvs"                        # NET Framework 4
         "NetFx4Extended-ASPNET45"               # NET Framework 4.x + ASPNET 4.x
         # WSL 2 Support Semi-Install
+        "HypervisorPlatform"
         "Microsoft-Windows-Subsystem-Linux"     # WSL
         "VirtualMachinePlatform"                # VM Platform
     )
