@@ -25,7 +25,7 @@ Function EnableOptionalFeatures() {
         Write-Host "Checking if $Feature was already installed..."
         Write-Host "$Feature Status:" $FeatureDetails.State
         If ($FeatureDetails.State -like "Enabled") {
-            Write-Host "[=][Feature] $Feature already installed! Skipping..."
+            Write-Host "[=][Feature] $Feature was already installed! Skipping..."
         }
         ElseIf ($FeatureDetails.State -like "Disabled") {
             Write-Host "[+][Feature] Installing $Feature..."
