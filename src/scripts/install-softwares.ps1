@@ -75,19 +75,6 @@ function InstallPackages() {
         "ublockorigin-chrome"       # uBlock Origin extension for Chrome
         "winrar"                    # English only
         "vlc"                       # VLC
-
-        # [DIY] Remove the # if you want to install something.
-
-        #"audacity"                 # Audacity
-        #"brave"                    # Brave Browser
-        #"firefox"                  # The person may likes Chrome
-        #"imgburn"                  # Img Burn
-        #"obs-studio"               # OBS Studio
-        #"paint.net"                # Paint.NET
-        #"python"                   # Python (Programming Language)
-        #"radmin-vpn"               # Radmin VPN
-        #"sysinternals"             # Sys Internals Suite
-        #"wireshark"                # Wire Shark
     )
     $TotalPackagesLenght = $EssentialPackages.Length + 1
 
@@ -143,10 +130,6 @@ function InstallGamingPackages() {
                 "vcredist2012"          # Microsoft Visual C++ 2012 Redistributable Package
                 "vcredist2013"          # Visual C++ Redistributable Packages for Visual Studio 2013
                 "vcredist140"           # Microsoft Visual C++ Redistributable for Visual Studio 2015-2019
-                
-                # [DIY] Remove the # if you want to install something.
-
-                #"origin"               # [DIY] I don't like Origin
             )
         
             Title1 -Text "Installing Packages"
