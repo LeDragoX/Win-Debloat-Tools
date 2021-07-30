@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img width=30px src="./../images/windows-11-logo.png"> Software Installer 
+    <img width=30px src="./../images/windows-11-logo.png"> Install Softwares 
     <img width=30px src="./../images/powershell-icon.png">
 </h1>
 
@@ -15,21 +15,20 @@ in this specific case, they'll upgrade automatically.
 
 ## Usage Requirements
 
-The `software-installer.ps1` do not make everything automatically, follow these steps.
+The `install-softwares.ps1` do not make everything automatically, follow these steps.
 
 - Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
 - Copy and Paste this entire line below on **Powershell**:
 
 ```Powershell
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\src\scripts\"software-installer.ps1"
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | Unblock-File; .\src\scripts\"install-softwares.ps1"
 ```
 
 <hr>
 
 ## Softwares that'll be Installed:
 
-- [Chocolatey](https://chocolatey.org/why-chocolatey) and [Winget](https://github.com/microsoft/winget-cli/blob/master/README.md) !!!
 - The Latest CPU ([Intel](https://community.chocolatey.org/packages/intel-dsa) and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
 - The Lastest Graphics driver of your GPU (Except AMD. See [Intel](https://community.chocolatey.org/packages/intel-graphics-driver) and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including [GeForce Experience](https://community.chocolatey.org/packages/geforce-experience));
 - [7-Zip](https://community.chocolatey.org/packages/7zip);
@@ -58,20 +57,3 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse .ps1 | U
 - [Microsoft Visual C++ 2012 Redistributable Package](https://community.chocolatey.org/packages/vcredist2012);
 - [Visual C++ Redistributable Packages for Visual Studio 2013](https://community.chocolatey.org/packages/vcredist2013)
 - [Microsoft Visual C++ Redistributable for Visual Studio 2015-2019](https://community.chocolatey.org/packages/vcredist140);
-
-### These listed below are OPTIONAL, if you want to install them, just remove the # ( DIY ;D ).
-
-- [Audacity](https://community.chocolatey.org/packages/audacity);
-- [Brave](https://community.chocolatey.org/packages/brave/1.19.86);
-- [Firefox](https://community.chocolatey.org/packages/Firefox);
-- [ImgBurn](https://community.chocolatey.org/packages/imgburn);
-- [OBS Studio](https://community.chocolatey.org/packages/obs-studio);
-- [Paint.NET](https://community.chocolatey.org/packages/paint.net);
-- [Python](https://community.chocolatey.org/packages/python/) (Latest);
-- [Radmin VPN](https://community.chocolatey.org/packages/radmin-vpn);
-- [Sys Internals](https://community.chocolatey.org/packages/sysinternals);
-- [Wireshark](https://community.chocolatey.org/packages/wireshark).
-
-#### DIY From the Gaming part:
-
-- [Origin](https://community.chocolatey.org/packages/origin).
