@@ -76,9 +76,11 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Revert Tweaks`: Re-apply some tweaks and revert all possible ones, covering the Scheduled Tasks, Services, Privacy and Performance and Personal Optimizations tweaks;
 - `Dark Mode & Light Mode`: Apply [Dark Mode](./src/utils/dark-theme.reg) or [Light Mode](./src/utils/light-theme.reg) exclusively from GUI;
 - `Enable Cortana & Disable Cortana`: Let you choose whether the cortana is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
-- `Install CPU/GPU Drivers (Winget/Chocolatey)`: Install CPU and GPU drivers. ([`install-drivers.ps1`](./src/scripts/install-drivers.ps1)).
+- `Install CPU/GPU Drivers (Winget/Chocolatey)`: Install CPU and GPU drivers. ([`install-drivers.ps1`](./src/scripts/install-drivers.ps1));
   - The Latest CPU (`Intel (Winget)` and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
   - The Lastest Graphics driver of your GPU (Except AMD). See `Intel (Winget)` and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including `GeForce Experience (Winget)`);
+- `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games. ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-install-gaming-dependencies.ps1));
+- Every software installation is explicitly showed;
 
 </details>
 
