@@ -99,18 +99,18 @@ function SetGuiLayout() {
   # <=== SIZES LAYOUT ===>
 
   # To Forms
-  $Global:MaxWidth = 960
-  $Global:MaxHeight = 540
+  $Global:MaxWidth = 1024
+  $Global:MaxHeight = 576
   # To Panels
   $Global:CurrentPanelIndex = -1
-  $Global:NumOfPanels = 3
+  $Global:NumOfPanels = 4
   [int]$Global:PanelWidth = ($MaxWidth / $NumOfPanels) # 284
   # To Labels
-  $Global:LabelWidth = $PanelWidth
+  $Global:LabelWidth = $PanelWidth + ($PanelWidth * 0.1)
   $Global:TitleLabelHeight = 35
   $Global:CaptionLabelHeight = 20
   # To Buttons
-  $Global:ButtonWidth = $PanelWidth * 0.84
+  $Global:ButtonWidth = $PanelWidth * 0.91
   $Global:ButtonHeight = 30
   $Global:DistanceBetweenButtons = 5
   $Global:BigButtonHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
@@ -122,10 +122,10 @@ function SetGuiLayout() {
 
   # <=== LOCATIONS LAYOUT ===>
 
-  [int]$Global:TitleLabelX = $PanelWidth * 0.15
+  [int]$Global:TitleLabelX = $PanelWidth * 0.0
   [int]$Global:TitleLabelY = $MaxHeight * 0.01
-  [int]$Global:CaptionLabelX = $PanelWidth * 0.29
-  [int]$Global:ButtonX = $PanelWidth * 0.05
+  [int]$Global:CaptionLabelX = $PanelWidth * 0.25
+  [int]$Global:ButtonX = $PanelWidth * 0.01
   [int]$Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
 
   # <=== COLOR PALETTE ===>
