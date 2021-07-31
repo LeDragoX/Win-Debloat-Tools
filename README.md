@@ -104,8 +104,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
 - In the End it Locks Script's Usage Permission. (`Win10Script(GUI).ps1`)
 
-**\*Optional**: Means that you decide what to do.
-
 </details>
 
 ## ❌ Known Issues
