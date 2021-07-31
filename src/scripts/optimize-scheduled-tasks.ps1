@@ -6,7 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-Function TweaksForScheduledTasks() {
+function TweaksForScheduledTasks() {
 
     Title1 -Text "Scheduled Tasks tweaks"
     Section1 -Text "Disabling Scheduled Tasks"

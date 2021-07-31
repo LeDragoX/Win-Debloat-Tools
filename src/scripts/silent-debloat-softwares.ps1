@@ -1,6 +1,6 @@
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
-Function RunDebloatSoftwares() {
+function RunDebloatSoftwares() {
         
     if (!(Test-Path "$PSScriptRoot\..\tmp")) {
         Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."

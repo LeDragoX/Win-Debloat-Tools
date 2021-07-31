@@ -11,13 +11,13 @@ function CheckGitUser() {
   )
 
   # Github email creation "check"
-  while ($git_user_property -eq "" -or $git_user_property -eq $null) {
+  While ($git_user_property -eq "" -or $git_user_property -eq $null) {
   
     Write-Host "Could not found 'git_user_property', is null or empty"
     $git_user_property = Read-Host "Please enter your git_user_property (For Real)"
 
     # Set your user email for git
-    if (!(($git_user_property -eq "") -or ($null -eq $git_user_property))) {
+    If (!(($git_user_property -eq "") -or ($null -eq $git_user_property))) {
   
       Write-Host "Setting your git user.$git_property_name to $git_user_property"
       git config --global user.$git_property_name "$git_user_property"
@@ -60,13 +60,13 @@ function SetUpGit() {
   $gnupg_file = "$($git_user_email)_$gnupg_enc_type"
 
   # Test Location
-  if (!(Test-Path "$ssh_path")) {
+  If (!(Test-Path "$ssh_path")) {
     mkdir "$ssh_path" | Out-Null
   }
   Push-Location "$ssh_path"
 
   # SSH Key creation/import "check"
-  if (!((Test-Path "$ssh_path/$ssh_file") -or (Test-Path "$ssh_path/$ssh_alt_file"))) {
+  If (!((Test-Path "$ssh_path/$ssh_file") -or (Test-Path "$ssh_path/$ssh_alt_file"))) {
 
     Write-Host ""
     Write-Host "$ssh_path/$ssh_alt_file NOT Exists AND"
@@ -74,7 +74,7 @@ function SetUpGit() {
     Write-Host "Using your email from git to create a SSH Key: $git_user_email"
     # Generate a new ssh key, passing every parameter as variables (Make sure to config git user.email first)
     Write-Host ""
-    Write-Host "I recommend you save your passphrase somewhere, in case if you don't remember"
+    Write-Host "I recommend you save your passphrase somewhere, in case If you don't remember"
     Write-Host ""
 
     ssh-keygen -t "$ssh_enc_type" -C "$git_user_email" -f "$ssh_path/$($ssh_file)"
@@ -82,7 +82,7 @@ function SetUpGit() {
     Write-Host "Starting ssh-agent Service, this part is the reason to get admin permissions."
     Start-Service -Name ssh-agent
     Set-Service -Name ssh-agent -StartupType Automatic
-    # Check if ssh-agent is running before adding
+    # Check If ssh-agent is running before adding
     ssh-agent.exe
 
     # Add your private key (One of these will pass) | Remind: No QUOTES in variables
@@ -90,7 +90,7 @@ function SetUpGit() {
     ssh-add $ssh_alt_file
 
   }
-  else {
+  Else {
 
     Write-Host ""
     Write-Host "$ssh_path/$ssh_file Exists OR"
@@ -101,13 +101,13 @@ function SetUpGit() {
   Pop-Location
   
   # Test Location
-  if (!(Test-Path "$gnupg_path")) {
+  If (!(Test-Path "$gnupg_path")) {
     mkdir "$gnupg_path" | Out-Null
   }
   Push-Location "$gnupg_path"
 
   # GPG Key creation/import "check"
-  if (!((Test-Path "$gnupg_path/*$gnupg_file*") -or (Test-Path "$gnupg_path/*.gpg*"))) {
+  If (!((Test-Path "$gnupg_path/*$gnupg_file*") -or (Test-Path "$gnupg_path/*.gpg*"))) {
 
     Write-Host ""
     Write-Host "$gnupg_path/*$gnupg_file* NOT Exists AND"
@@ -151,7 +151,7 @@ function SetUpGit() {
     gpg --import *$gnupg_file*
     gpg --import *.gpg*
 
-    if (!(($key_id -eq "") -or ($null -eq $key_id))) {
+    If (!(($key_id -eq "") -or ($null -eq $key_id))) {
 
       Write-Host ""
       Write-Host "key_id found: $key_id"
@@ -171,14 +171,14 @@ function SetUpGit() {
       Write-Host ""
 
     }
-    else {
+    Else {
 
       Write-Host "Failed to retrive your key_id: $key_id"
 
     }
 
   }
-  else {
+  Else {
 
     Write-Host ""
     Write-Host "$gnupg_path/*$gnupg_file* Exists OR"

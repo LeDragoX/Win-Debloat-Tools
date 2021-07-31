@@ -4,7 +4,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-Function PersonalTweaks() {
+function PersonalTweaks() {
 
     Title1 -Text "My Personal Tweaks"
 

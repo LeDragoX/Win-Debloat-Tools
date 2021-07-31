@@ -12,17 +12,17 @@ function Main() {
 
 	# Filter the list if provided a filter
 	$PackageFilter = $args[0]
-	if ([string]::IsNullOrEmpty($PackageFilter)) {
+	If ([string]::IsNullOrEmpty($PackageFilter)) {
 		Write-Host "No filter specified, attempting to re-register all provisioned apps."
 	}
-	else {
+	Else {
 		$Packages = $Packages | Where-Object { $_.Name -like $PackageFilter } 
 
-		if ($null -eq $Packages) {
+		If ($null -eq $Packages) {
 			Write-Host "No provisioned apps match the specified filter."
 			exit
 		}
-		else {
+		Else {
 			Write-Host "Registering the provisioned apps that match $PackageFilter"
 		}
 	}

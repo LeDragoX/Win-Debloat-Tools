@@ -5,7 +5,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this ChrisTitus script:                 https://github.com/ChrisTitusTech/win10script
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-Function TweaksForSecurity() {
+function TweaksForSecurity() {
 
     Title1 -Text "Security Tweaks"
 
