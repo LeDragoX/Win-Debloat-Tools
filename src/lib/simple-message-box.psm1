@@ -38,5 +38,6 @@ Function ShowQuestion() {
     return $Answer
 }
 
-# Demo: $Question = ShowQuestion -Title "Title" -Message "Message"
+# Example:
+# $Question = ShowQuestion -Title "Title" -Message "Message"
 # Returns Yes or No or Cancel

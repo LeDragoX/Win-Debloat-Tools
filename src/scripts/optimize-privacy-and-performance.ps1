@@ -89,6 +89,7 @@ Function TweaksForPrivacyAndPerformance() {
     Write-Host "[@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
     Write-Host "$($EnableStatus[0]) telemetry..."
     Set-ItemProperty -Path "$PathToTelemetry" -Name "AllowTelemetry" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToTelemetry2" -Name "AllowTelemetry" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToTelemetry" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value $Zero
     
     Write-Host "$($EnableStatus[0]) send inking and typing data to Microsoft..."
@@ -401,6 +402,7 @@ function Main() {
     $Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
     $Global:PathToSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
     $Global:PathToTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+    $Global:PathToTelemetry2 = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
     $Global:PathToTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
     $Global:PathToWifiPol = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
     $Global:PathToWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"

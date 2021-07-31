@@ -75,7 +75,7 @@ function Main() {
 
   $WingetParams = @(
     "Winget",
-    { winget -v },
+    { winget --version },
     { Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Write-Host "Installing the package"; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path "$WingetOutput" },
     { winget upgrade --all --silent },
     {}

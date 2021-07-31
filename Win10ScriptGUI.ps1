@@ -12,8 +12,7 @@ function LoadLibs() {
     Push-Location -Path "src\lib\"
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
-    #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
-    Import-Module -DisableNameChecking .\"count-n-seconds.psm1"
+    Import-Module -DisableNameChecking .\"install-package.psm1"     # Make software install with validation easier
     Import-Module -DisableNameChecking .\"set-gui-layout.psm1"      # Set all variables used in GUI
     Import-Module -DisableNameChecking .\"set-script-policy.psm1"
     Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
@@ -214,7 +213,27 @@ function PrepareGUI() {
     $DisableCortana.Height = $SBHeight
     $DisableCortana.Font = $SBFont
     $DisableCortana.ForeColor = $SBForeColor
-    
+
+    $NextYLocation = $DisableCortana.Location.Y + $DisableCortana.Height + $DistanceBetweenButtons
+    # Panel 2 ~> Button 6
+    $EnableTelemetry = New-Object system.Windows.Forms.Button
+    $EnableTelemetry.Text = "Enable Full Telemetry"
+    $EnableTelemetry.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $EnableTelemetry.Width = $SBWidth
+    $EnableTelemetry.Height = $SBHeight
+    $EnableTelemetry.Font = $SBFont
+    $EnableTelemetry.ForeColor = $SBForeColor
+
+    $NextYLocation = $EnableTelemetry.Location.Y + $EnableTelemetry.Height + $DistanceBetweenButtons
+    # Panel 2 ~> Button 7
+    $DisableTelemetry = New-Object system.Windows.Forms.Button
+    $DisableTelemetry.Text = "Disable Telemetry"
+    $DisableTelemetry.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $DisableTelemetry.Width = $SBWidth
+    $DisableTelemetry.Height = $SBHeight
+    $DisableTelemetry.Font = $SBFont
+    $DisableTelemetry.ForeColor = $SBForeColor
+
     # Panel 3 ~> Button 1 (Big)
     $InstallDrivers = New-Object system.Windows.Forms.Button
     $InstallDrivers.Text = "Install CPU/GPU Drivers (Winget/Chocolatey)"
@@ -405,7 +424,7 @@ function PrepareGUI() {
     $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry))
     $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1, $InstallDrivers, $InstallSoftwares, $BraveBrowser, $GoogleChrome, $MozillaFirefox, $7Zip, $WinRar, $VSCode, $NotepadPlusPlus, $OnlyOffice, $qBittorrent, $Vlc, $Gimp))
     $Panel4.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $Discord, $Steam, $Parsec, $ObsStudio, $Spotify))
 
@@ -544,6 +563,30 @@ function PrepareGUI() {
 
         })
 
+    # Panel 2 ~> Button 5 Mouse Click listener
+    $EnableTelemetry.Add_Click( {
+
+            Push-Location "src\utils\"
+            $FileName = "enable-telemetry.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Pop-Location
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
+    # Panel 2 ~> Button 5 Mouse Click listener
+    $DisableTelemetry.Add_Click( {
+
+            Push-Location "src\utils\"
+            $FileName = "disable-telemetry.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Pop-Location
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
     # Panel 3 ~> Button 1 Mouse Click listener
     $InstallDrivers.Add_Click( {
 
@@ -570,189 +613,134 @@ function PrepareGUI() {
     # Panel 3 ~> Button 2 Mouse Click listener
     $BraveBrowser.Add_Click( {
         
-            Title1 -Text "Installing: $($BraveBrowser.Text)"
-            $PackageName = "BraveSoftware.BraveBrowser"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($BraveBrowser.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $BraveBrowser.Text
+                PackageName  = "BraveSoftware.BraveBrowser"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-    
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-    
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+        
         })
 
     
     # Panel 3 ~> Button 3 Mouse Click listener
     $GoogleChrome.Add_Click( {
             
-            Title1 -Text "Installing: $($GoogleChrome.Text)"
-            $PackageName = "Google.Chrome"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($GoogleChrome.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $GoogleChrome.Text
+                PackageName  = "Google.Chrome"
+                InstallBlock = { winget install --silent $PackageName; choco install -y "ublockorigin-chrome" }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host; choco install -y "ublockorigin-chrome" | Out-Host # uBlock Origin extension for Chrome
-            }
-            
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
             
         })
 
     # Panel 3 ~> Button 4 Mouse Click listener
     $MozillaFirefox.Add_Click( {
             
-            Title1 -Text "Installing: $($MozillaFirefox.Text)"
-            $PackageName = "Mozilla.Firefox"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($MozillaFirefox.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $MozillaFirefox.Text
+                PackageName  = "Mozilla.Firefox"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-            
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
             
         })
         
     # Panel 3 ~> Button 5 Mouse Click listener
     $7Zip.Add_Click( {
         
-            Title1 -Text "Installing: $($7Zip.Text)"
-            $PackageName = "7zip.7zip"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($7Zip.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $7Zip.Text
+                PackageName  = "7zip.7zip"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-    
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
     
         })
 
     # Panel 3 ~> Button 6 Mouse Click listener
     $WinRar.Add_Click( {
             
-            Title1 -Text "Installing: $($WinRar.Text)"
-            $PackageName = "winrar"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($WinRar.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $WinRar.Text
+                PackageName  = "winrar"
+                InstallBlock = { choco install -y $PackageName }
             }
-            Else {
-                choco install -y "$PackageName" | Out-Host # uBlock Origin extension for Chrome
-            }
-        
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-        
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
         })
         
     # Panel 3 ~> Button 7 Mouse Click listener
     $VSCode.Add_Click( {
             
-            Title1 -Text "Installing: $($VSCode.Text)"
-            $PackageName = "Microsoft.VisualStudioCode"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($VSCode.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $VSCode.Text
+                PackageName  = "Microsoft.VisualStudioCode"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-        
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
         })
 
     # Panel 3 ~> Button 8 Mouse Click listener
     $NotepadPlusPlus.Add_Click( {
             
-            Title1 -Text "Installing: $($NotepadPlusPlus.Text)"
-            $PackageName = "Notepad++.Notepad++"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($NotepadPlusPlus.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $NotepadPlusPlus.Text
+                PackageName  = "Notepad++.Notepad++"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-            
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
         })
         
     # Panel 3 ~> Button 9 Mouse Click listener
     $OnlyOffice.Add_Click( {
             
-            Title1 -Text "Installing: $($OnlyOffice.Text)"
-            $PackageName = "ONLYOFFICE.DesktopEditors"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($OnlyOffice.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $OnlyOffice.Text
+                PackageName  = "ONLYOFFICE.DesktopEditors"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-            
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
         })
         
     # Panel 3 ~> Button 10 Mouse Click listener
     $qBittorrent.Add_Click( {
             
-            Title1 -Text "Installing: $($qBittorrent.Text)"
-            $PackageName = "qBittorrent.qBittorrent"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($qBittorrent.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $qBittorrent.Text
+                PackageName  = "qBittorrent.qBittorrent"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-            
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
         })
         
     # Panel 3 ~> Button 11 Mouse Click listener
     $Vlc.Add_Click( {
             
-            Title1 -Text "Installing: $($Vlc.Text)"
-            $PackageName = "VideoLAN.VLC"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($Vlc.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $Vlc.Text
+                PackageName  = "VideoLAN.VLC"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-            
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
         })
         
     # Panel 3 ~> Button 12 Mouse Click listener
     $Gimp.Add_Click( {
-            
-            Title1 -Text "Installing: $($Gimp.Text)"
-            $PackageName = "GIMP.GIMP"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($Gimp.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+
+            $InstallParams = @{
+                Name         = $Gimp.Text
+                PackageName  = "GIMP.GIMP"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-        
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-        
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+                    
         })
 
     # Panel 4 ~> Button 1 Mouse Click listener
@@ -780,85 +768,60 @@ function PrepareGUI() {
 
     # Panel 3 ~> Button 2 Mouse Click listener
     $Discord.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $Discord.Text
+                PackageName  = "Discord.Discord"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
-            Title1 -Text "Installing: $($Discord.Text)"
-            $PackageName = "Discord.Discord"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($Discord.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
-            }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-
         })
     # Panel 3 ~> Button 3 Mouse Click listener
     $Steam.Add_Click( {
-        
-            Title1 -Text "Installing: $($Steam.Text)"
-            $PackageName = "Valve.Steam"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($Steam.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
-            }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
 
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            $InstallParams = @{
+                Name         = $Steam.Text
+                PackageName  = "Valve.Steam"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
         })
 
     # Panel 3 ~> Button 4 Mouse Click listener
     $Parsec.Add_Click( {
         
-            Title1 -Text "Installing: $($Parsec.Text)"
-            $PackageName = "Parsec.Parsec"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($Parsec.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $Parsec.Text
+                PackageName  = "Parsec.Parsec"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-        
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
         })
 
     # Panel 3 ~> Button 5 Mouse Click listener
     $ObsStudio.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $ObsStudio.Text
+                PackageName  = "OBSProject.OBSStudio"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
-            Title1 -Text "Installing: $($ObsStudio.Text)"
-            $PackageName = "OBSProject.OBSStudio"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($ObsStudio.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
-            }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-
         })
 
     # Panel 3 ~> Button 6 Mouse Click listener
     $Spotify.Add_Click( {
             
-            Title1 -Text "Installing: $($Spotify.Text)"
-            $PackageName = "Spotify.Spotify"
-            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
-            If ((Get-AppxPackage).Name -ilike "*$($Spotify.Text)*") {
-                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            $InstallParams = @{
+                Name         = $Spotify.Text
+                PackageName  = "Spotify.Spotify"
+                InstallBlock = { winget install --silent $PackageName }
             }
-            Else {
-                winget install --silent $PackageName | Out-Host
-            }
-            
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
         })
             

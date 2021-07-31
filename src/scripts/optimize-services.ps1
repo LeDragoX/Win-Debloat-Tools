@@ -15,6 +15,8 @@ Function TweaksForServices() {
         "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
         "dmwappushservice"                          # Device Management Wireless Application Protocol (WAP)
         "GraphicsPerfSvc"                           # Graphics performance monitor service
+        "HomeGroupListener"                         # HomeGroup Listener
+        "HomeGroupProvider"                         # HomeGroup Provider
         "lfsvc"                                     # Geolocation Service
         "MapsBroker"                                # Downloaded Maps Manager
         "ndu"                                       # Windows Network Data Usage Monitoring Driver
@@ -86,7 +88,7 @@ function Main() {
     )
     $Commands = @(
         { Set-Service -Name "$Service" -StartupType Disabled },
-        { Set-Service -Name "$Service" -StartupType Automatic },
+        { Set-Service -Name "$Service" -StartupType Manual },
         { Stop-Service -Name "$Service" -Force },
         { Set-Service -Name $Service -Status Running }
     )
@@ -97,11 +99,11 @@ function Main() {
         $EnableStatus = @(
             "[<][Services] Re-Enabling",
             "[<][Services] Re-Disabling",
-            "[+][Services] Starting",
-            "[-][Services] Stopping"
+            "[<][Services] Starting",
+            "[<][Services] Stopping"
         )
         $Commands = @(
-            { Set-Service -Name "$Service" -StartupType Automatic },
+            { Set-Service -Name "$Service" -StartupType Manual },
             { Set-Service -Name "$Service" -StartupType Disabled },
             { Set-Service -Name $Service -Status Running },
             { Stop-Service -Name "$Service" -Force }

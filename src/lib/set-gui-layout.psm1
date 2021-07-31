@@ -176,4 +176,3 @@ function SetGuiLayout() {
   $Global:SBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
 
 }
-
