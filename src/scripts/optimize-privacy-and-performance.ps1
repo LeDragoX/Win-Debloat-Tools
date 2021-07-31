@@ -6,7 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-Function TweaksForPrivacyAndPerformance() {
+function TweaksForPrivacyAndPerformance() {
 
     Title1 -Text "Privacy And Performance Tweaks"
     Section1 -Text "Personalization Section"

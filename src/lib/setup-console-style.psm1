@@ -1,4 +1,4 @@
-Function SetupConsoleStyle() {
+function SetupConsoleStyle() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()
 
