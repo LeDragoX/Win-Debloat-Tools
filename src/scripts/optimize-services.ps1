@@ -65,17 +65,25 @@ function TweaksForServices() {
     )
     
     ForEach ($Service in $DisableServices) {
-        If (($Revert -eq $true) -and ($Service -match "RemoteRegistry")) {
-            Write-Warning "[=][Services] Skipping $Service to avoiding a security breach..."
-            Continue
+        If (Get-Service $Service -ErrorAction SilentlyContinue) {
+
+            If (($Revert -eq $true) -and ($Service -match "RemoteRegistry")) {
+                Write-Warning "[=][Services] Skipping $Service to avoiding a security breach..."
+                Continue
+            }
+    
+            Write-Host "$($EnableStatus[2]) $Service..."
+            Invoke-Expression "$($Commands[2])"
+            Write-Host "$($EnableStatus[0]) $Service at Startup..."
+            Invoke-Expression "$($Commands[0])"
+                
         }
+        Else {
 
-        Write-Host "$($EnableStatus[2]) $Service..."
-        Invoke-Expression "$($Commands[2])"
-        Write-Host "$($EnableStatus[0]) $Service at Startup..."
-        Invoke-Expression "$($Commands[0])"
+            Write-Warning "[?][Services] $Service was not found."
+
+        }
     }
-
 }
 
 function Main() {
