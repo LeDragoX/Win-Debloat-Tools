@@ -8,15 +8,16 @@ Function EnableOptionalFeatures() {
     # Get-WindowsOptionalFeature -Online
     
     $Features = @(
-        "DirectPlay"                            # Direct Play
-        "Microsoft-Hyper-V-All"                 # Hyper-V (VT-d (Intel) / SVM (AMD) needed on BIOS)
-        "NetFx3"                                # NET Framework 3.5
-        "NetFx4-AdvSrvs"                        # NET Framework 4
-        "NetFx4Extended-ASPNET45"               # NET Framework 4.x + ASPNET 4.x
+        "LegacyComponents"                  # Legacy Components
+        "DirectPlay"                        # Direct Play
+        "Microsoft-Hyper-V-All"             # Hyper-V (VT-d (Intel) / SVM (AMD) needed on BIOS)
+        "NetFx3"                            # NET Framework 3.5
+        "NetFx4-AdvSrvs"                    # NET Framework 4
+        "NetFx4Extended-ASPNET45"           # NET Framework 4.x + ASPNET 4.x
         # WSL 2 Support Semi-Install
-        "HypervisorPlatform"
-        "Microsoft-Windows-Subsystem-Linux"     # WSL
-        "VirtualMachinePlatform"                # VM Platform
+        "HypervisorPlatform"                # Hypervisor Platform from Windows
+        "Microsoft-Windows-Subsystem-Linux" # WSL
+        "VirtualMachinePlatform"            # VM Platform
     )
     
     ForEach ($Feature in $Features) {
