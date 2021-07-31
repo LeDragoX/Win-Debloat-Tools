@@ -109,11 +109,11 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ## ❌ Known Issues
 
 1. Start menu Search (`WSearch` indexing service will be disabled)
-2. Sysprep will hang (Not Tested)
-3. [~~Xbox Wireless Adapter~~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
-4. [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` app will be uninstalled)
-5. [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
-6. Bluestacks doesn't work with Hyper-V enabled
+2. [~~Xbox Wireless Adapter~~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
+3. [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` app will be uninstalled)
+4. [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
+5. Bluestacks doesn't work with Hyper-V enabled
+6. Sysprep will hang (Not Tested)
 
 ### Solutions
 
@@ -127,18 +127,31 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
 
-### Solution 5
+### Solution 2
+
+```Powershell
+Get-Service Xb* | Set-Service -StartupType Automatic -PassThru | Start-Service
+```
+
+### Solution 3
+
+```Powershell
+# Winget required first
+winget install --silent "Microsoft.Skype"
+```
+
+### Solution 4
 
 ```Powershell
 Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
 
-### Solution 6
+### Solution 5
 
 ```Powershell
-Dism -Online -Disable-Feature -NoRestart -FeatureName:"Microsoft-Hyper-V-All"
-Dism -Online -Disable-Feature -NoRestart -FeatureName:"HypervisorPlatform"
-Dism -Online -Disable-Feature -NoRestart -FeatureName:"VirtualMachinePlatform"
+Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "Microsoft-Hyper-V-All"
+Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "HypervisorPlatform"
+Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "VirtualMachinePlatform"
 ```
 
 </details>
