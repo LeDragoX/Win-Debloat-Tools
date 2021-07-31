@@ -420,7 +420,7 @@ function Main() {
         $EnableStatus = @("[<][Priv&Perf] Re-Enabling", "[<][Priv&Perf] Re-Disabling")
       
     }
-    
+
     TweaksForPrivacyAndPerformance  # Disable Registries that causes slowdowns and privacy invasion
 
 }
