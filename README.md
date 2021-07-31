@@ -27,7 +27,7 @@ but you'll probably want the most recent version anyway.
 This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10).
 These scripts will Customize, Debloat and Improve Security/Performance on Windows 10/+.
 
-⚠️ **Disclaimer:** _If something breaks, it's under your responsibility._
+⚠️ **Disclaimer:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
 
 ## 🔄️ Roll-Back
 
@@ -80,7 +80,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Install CPU/GPU Drivers (Winget/Chocolatey)`: Install CPU and GPU drivers. ([`install-drivers.ps1`](./src/scripts/install-drivers.ps1));
   - The Latest CPU (`Intel (Winget)` and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
   - The Lastest Graphics driver of your GPU (Except AMD). See `Intel (Winget)` and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including `GeForce Experience (Winget)`);
-- `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games. ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-install-gaming-dependencies.ps1));
+- `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games. ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-dependencies.ps1));
 - Every software installation is explicitly showed;
 
 </details>
