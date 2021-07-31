@@ -13,8 +13,6 @@ function LoadLibs() {
     Push-Location -Path "src\lib\"
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
-    #Import-Module -DisableNameChecking .\"check-os-info.psm1"      # Not Used
-    Import-Module -DisableNameChecking .\"count-n-seconds.psm1"
     Import-Module -DisableNameChecking .\"set-script-policy.psm1"
     Import-Module -DisableNameChecking .\"setup-console-style.psm1" # Make the Console look how i want
     Import-Module -DisableNameChecking .\"simple-message-box.psm1"

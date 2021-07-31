@@ -170,28 +170,28 @@ Function PersonalTweaks() {
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
     Section1 -Text "Power Plan Tweaks"
-    $Time = 10
+    $Timeout = 10
 
     Write-Host "[=][Personal] Setting Hibernate size to full..."
     powercfg -hibernate -type full
     Write-Host "[-][Personal] Disabling Hibernate..."
     powercfg -hibernate off
 
-    Write-Host "[+][Personal] Setting the Monitor Timeout to $Time min (AC = Alternating Current, DC = Direct Current)"
-    powercfg -Change Monitor-Timeout-AC $Time
-    powercfg -Change Monitor-Timeout-DC $Time
+    Write-Host "[+][Personal] Setting the Monitor Timeout to $Timeout min (AC = Alternating Current, DC = Direct Current)"
+    powercfg -Change Monitor-Timeout-AC $Timeout
+    powercfg -Change Monitor-Timeout-DC $Timeout
 
-    Write-Host "[+][Personal] Setting the Disk Timeout to $Time min"
-    powercfg -Change Disk-Timeout-AC $Time
-    powercfg -Change Disk-Timeout-DC $Time
+    Write-Host "[+][Personal] Setting the Disk Timeout to $Timeout min"
+    powercfg -Change Disk-Timeout-AC $Timeout
+    powercfg -Change Disk-Timeout-DC $Timeout
 
-    Write-Host "[+][Personal] Setting the Standby Timeout to $Time min"
-    powercfg -Change Standby-Timeout-AC $Time
-    powercfg -Change Standby-Timeout-DC $Time
+    Write-Host "[+][Personal] Setting the Standby Timeout to $Timeout min"
+    powercfg -Change Standby-Timeout-AC $Timeout
+    powercfg -Change Standby-Timeout-DC $Timeout
 
-    Write-Host "[+][Personal] Setting the Hibernate Timeout to $Time min"
-    powercfg -Change Hibernate-Timeout-AC $Time
-    powercfg -Change Hibernate-Timeout-DC $Time
+    Write-Host "[+][Personal] Setting the Hibernate Timeout to $Timeout min"
+    powercfg -Change Hibernate-Timeout-AC $Timeout
+    powercfg -Change Hibernate-Timeout-DC $Timeout
 
 }
 

@@ -18,7 +18,7 @@ but you'll probably want the most recent version anyway.
 
 |                                                Download                                                 | Version Supported | Build | Editions |                                        Powershell version                                         |
 | :-----------------------------------------------------------------------------------------------------: | :---------------: | :---: | :------: | :-----------------------------------------------------------------------------------------------: |
-| <h3><a href="https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip">🚀 Download [Zip]</a></h3> |  21H2 and Older   | 22000 | Home/Pro | <img width=20px src="./src/lib/images/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
+| <h3><a href="https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip">🚀 Download [Zip]</a></h3> |   21H2 or Older   | 22000 | Home/Pro | <img width=20px src="./src/lib/images/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
 
 </div>
 
@@ -76,6 +76,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Revert Tweaks`: Re-apply some tweaks and revert all possible ones, covering the Scheduled Tasks, Services, Privacy and Performance and Personal Optimizations tweaks;
 - `Dark Mode & Light Mode`: Apply [Dark Mode](./src/utils/dark-theme.reg) or [Light Mode](./src/utils/light-theme.reg) exclusively from GUI;
 - `Enable Cortana & Disable Cortana`: Let you choose whether the cortana is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
+- `Enable Full Telemetry & Disable Telemetry`: Let you choose whether the Telemetry is [FULL enabled](./src/utils/enable-telemetry.ps1) (For those who wants to join Windows insider) or [disabled](src/utils/disable-telemetry.ps1);
 - `Install CPU/GPU Drivers (Winget/Chocolatey)`: Install CPU and GPU drivers. ([`install-drivers.ps1`](./src/scripts/install-drivers.ps1));
   - The Latest CPU (`Intel (Winget)` and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
   - The Lastest Graphics driver of your GPU (Except AMD). See `Intel (Winget)` and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including `GeForce Experience (Winget)`);

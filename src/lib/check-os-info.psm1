@@ -1,5 +1,5 @@
-# Function to() Check if a system is 32-bits or 64-bits or Something Else
-Function CheckOSArchitecture() {
+# function to() Check if a system is 32-bits or 64-bits or Something Else
+function CheckOSArchitecture() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -14,7 +14,7 @@ Function CheckOSArchitecture() {
         Write-Host "64-bits OS detected!"
         $Architecture = "64-bits"
     }
-    else {
+    Else {
         Write-Host "ARCH_NOT_FOUND (ARM?) ... Couldn't identify the System Architecture. :/"
     }
 
@@ -22,8 +22,8 @@ Function CheckOSArchitecture() {
     return $Architecture
 }
 
-# Function to() detect the current CPU
-Function DetectCPU() {
+# function to() detect the current CPU
+function DetectCPU() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -37,7 +37,7 @@ Function DetectCPU() {
     ElseIf ($CPU.Name.contains("Intel")) {
         Write-Host "Intel CPU found!"
     }
-    else {
+    Else {
         Write-Host "CPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
     }
 
@@ -45,8 +45,8 @@ Function DetectCPU() {
     return $CPU.Name
 }
 
-# Function to() detect the current GPU
-Function DetectGPU() {
+# function to() detect the current GPU
+function DetectGPU() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()
@@ -68,7 +68,7 @@ Function DetectGPU() {
     ElseIf ($GPU.description.contains("NVIDIA")) {
         Write-Host "NVIDIA GPU found!"
     }
-    else {
+    Else {
         Write-Host "GPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
     }
 

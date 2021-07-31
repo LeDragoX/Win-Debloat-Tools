@@ -1,4 +1,4 @@
-Function Title1() {
+function Title1() {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
@@ -10,7 +10,7 @@ Function Title1() {
 	Write-Host "" # Skip line
 }
 
-Function Title2() {
+function Title2() {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
@@ -22,7 +22,7 @@ Function Title2() {
 	Write-Host "" # Skip line
 }
 
-Function Section1() {
+function Section1() {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
@@ -34,8 +34,7 @@ Function Section1() {
 	Write-Host "" # Skip line
 }
 
-
-Function Caption1() {
+function Caption1() {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
@@ -46,7 +45,7 @@ Function Caption1() {
 	Write-Host "" # Skip line
 }
 
-Function Title2Counter() {
+function Title2Counter() {
 
 	[CmdletBinding()] #<<-- This turns a regular function into an advanced function
 	param (
@@ -71,7 +70,7 @@ Function Title2Counter() {
 	}
 }
 
-# Demo:
+# Example:
 # Title1 -Text "Text"
 # Title2 -Text "Text"
 # Section1 -Text "Text"
