@@ -96,9 +96,15 @@ function PrepareGUI() {
     $Panel3.Height = $PHeight
     $Panel3.Location = Invoke-Expression "$PLocation"
 
+    # Panel 4 to put Labels and Buttons
+    $Panel4 = New-Object system.Windows.Forms.Panel
+    $Panel4.Width = $PWidth
+    $Panel4.Height = $PHeight
+    $Panel4.Location = Invoke-Expression "$PLocation"
+    
     # Panel 1 ~> Title Label 1
     $TitleLabel1 = New-Object system.Windows.Forms.Label
-    $TitleLabel1.Text = " System Tweaks"
+    $TitleLabel1.Text = "   System Tweaks"
     $TitleLabel1.Width = $TLWidth
     $TitleLabel1.Height = $TLHeight
     $TitleLabel1.Location = $TLLocation
@@ -107,7 +113,7 @@ function PrepareGUI() {
 
     # Panel 2 ~> Title Label 2
     $TitleLabel2 = New-Object system.Windows.Forms.Label
-    $TitleLabel2.Text = "    Customize"
+    $TitleLabel2.Text = "Customize Tweaks"
     $TitleLabel2.Width = $TLWidth
     $TitleLabel2.Height = $TLHeight
     $TitleLabel2.Location = $TLLocation
@@ -116,12 +122,21 @@ function PrepareGUI() {
 
     # Panel 3 ~> Title Label 3
     $TitleLabel3 = New-Object system.Windows.Forms.Label
-    $TitleLabel3.Text = "Software Install"
+    $TitleLabel3.Text = "   Software Install"
     $TitleLabel3.Width = $TLWidth
     $TitleLabel3.Height = $TLHeight
     $TitleLabel3.Location = $TLLocation
     $TitleLabel3.Font = $TLFont
     $TitleLabel3.ForeColor = $TLForeColor
+
+    # Panel 4 ~> Title Label 4
+    $TitleLabel4 = New-Object system.Windows.Forms.Label
+    $TitleLabel4.Text = " Software Install 2"
+    $TitleLabel4.Width = $TLWidth
+    $TitleLabel4.Height = $TLHeight
+    $TitleLabel4.Location = $TLLocation
+    $TitleLabel4.Font = $TLFont
+    $TitleLabel4.ForeColor = $TLForeColor
 
     # Panel 3 ~> Caption Label 1
     $CaptionLabel1 = New-Object system.Windows.Forms.Label
@@ -141,10 +156,10 @@ function PrepareGUI() {
     $ApplyTweaks.Font = $BBFont
     $ApplyTweaks.ForeColor = $BBForeColor
     
+    $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
     # Panel 1 ~> Button 2
     $RepairWindows = New-Object system.Windows.Forms.Button
     $RepairWindows.Text = "Repair Windows"
-    $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
     $RepairWindows.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $RepairWindows.Width = $SBWidth
     $RepairWindows.Height = $SBHeight
@@ -159,41 +174,41 @@ function PrepareGUI() {
     $RevertScript.Location = $BBLocation
     $RevertScript.Font = $BBFont
     $RevertScript.ForeColor = $BBForeColor    
-
+    
+    $NextYLocation = $RevertScript.Location.Y + $RevertScript.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button 2
     $DarkMode = New-Object system.Windows.Forms.Button
     $DarkMode.Text = "Dark Mode"
-    $NextYLocation = $RevertScript.Location.Y + $RevertScript.Height + $DistanceBetweenButtons
     $DarkMode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $DarkMode.Width = $SBWidth
     $DarkMode.Height = $SBHeight
     $DarkMode.Font = $SBFont
     $DarkMode.ForeColor = $SBForeColor
     
+    $NextYLocation = $DarkMode.Location.Y + $DarkMode.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button 3
     $LightMode = New-Object system.Windows.Forms.Button
     $LightMode.Text = "Light Mode"
-    $NextYLocation = $DarkMode.Location.Y + $DarkMode.Height + $DistanceBetweenButtons
     $LightMode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $LightMode.Width = $SBWidth
     $LightMode.Height = $SBHeight
     $LightMode.Font = $SBFont
     $LightMode.ForeColor = $SBForeColor
-
+    
+    $NextYLocation = $LightMode.Location.Y + $LightMode.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button 4
     $EnableCortana = New-Object system.Windows.Forms.Button
     $EnableCortana.Text = "Enable Cortana"
-    $NextYLocation = $LightMode.Location.Y + $LightMode.Height + $DistanceBetweenButtons
     $EnableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $EnableCortana.Width = $SBWidth
     $EnableCortana.Height = $SBHeight
     $EnableCortana.Font = $SBFont
     $EnableCortana.ForeColor = $SBForeColor
-
+    
+    $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button 5
     $DisableCortana = New-Object system.Windows.Forms.Button
     $DisableCortana.Text = "Disable Cortana"
-    $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
     $DisableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $DisableCortana.Width = $SBWidth
     $DisableCortana.Height = $SBHeight
@@ -201,14 +216,183 @@ function PrepareGUI() {
     $DisableCortana.ForeColor = $SBForeColor
     
     # Panel 3 ~> Button 1 (Big)
-    $PkgSwInstaller = New-Object system.Windows.Forms.Button
-    $PkgSwInstaller.Text = "Install Softwares (Winget/Choco)"
-    $PkgSwInstaller.Width = $BBWidth
-    $PkgSwInstaller.Height = $BBHeight
-    $PkgSwInstaller.Location = $BBLocation
-    $PkgSwInstaller.Font = $BBFont
-    $PkgSwInstaller.ForeColor = $BBForeColor
+    $InstallDrivers = New-Object system.Windows.Forms.Button
+    $InstallDrivers.Text = "Install CPU/GPU Drivers (Winget/Chocolatey)"
+    $InstallDrivers.Width = $BBWidth
+    $InstallDrivers.Height = $BBHeight
+    $InstallDrivers.Location = $BBLocation
+    $InstallDrivers.Font = $BBFont
+    $InstallDrivers.ForeColor = $BBForeColor
     
+    $NextYLocation = $InstallDrivers.Location.Y + $InstallDrivers.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 2
+    $BraveBrowser = New-Object system.Windows.Forms.Button
+    $BraveBrowser.Text = "Brave Browser"
+    $BraveBrowser.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $BraveBrowser.Width = $SBWidth
+    $BraveBrowser.Height = $SBHeight
+    $BraveBrowser.Font = $SBFont
+    $BraveBrowser.ForeColor = $SBForeColor
+    
+    $NextYLocation = $BraveBrowser.Location.Y + $BraveBrowser.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 3
+    $GoogleChrome = New-Object system.Windows.Forms.Button
+    $GoogleChrome.Text = "Google Chrome + uBlock"
+    $GoogleChrome.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $GoogleChrome.Width = $SBWidth
+    $GoogleChrome.Height = $SBHeight
+    $GoogleChrome.Font = $SBFont
+    $GoogleChrome.ForeColor = $SBForeColor
+
+    $NextYLocation = $GoogleChrome.Location.Y + $GoogleChrome.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 4
+    $MozillaFirefox = New-Object system.Windows.Forms.Button
+    $MozillaFirefox.Text = "Mozilla Firefox"
+    $MozillaFirefox.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $MozillaFirefox.Width = $SBWidth
+    $MozillaFirefox.Height = $SBHeight
+    $MozillaFirefox.Font = $SBFont
+    $MozillaFirefox.ForeColor = $SBForeColor
+
+    $NextYLocation = $MozillaFirefox.Location.Y + $MozillaFirefox.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 5
+    $7Zip = New-Object system.Windows.Forms.Button
+    $7Zip.Text = "7-Zip"
+    $7Zip.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $7Zip.Width = $SBWidth
+    $7Zip.Height = $SBHeight
+    $7Zip.Font = $SBFont
+    $7Zip.ForeColor = $SBForeColor
+    
+    $NextYLocation = $7Zip.Location.Y + $7Zip.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 6
+    $WinRar = New-Object system.Windows.Forms.Button
+    $WinRar.Text = "WinRar"
+    $WinRar.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $WinRar.Width = $SBWidth
+    $WinRar.Height = $SBHeight
+    $WinRar.Font = $SBFont
+    $WinRar.ForeColor = $SBForeColor
+    
+    $NextYLocation = $WinRar.Location.Y + $WinRar.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 7
+    $VSCode = New-Object system.Windows.Forms.Button
+    $VSCode.Text = "Visual Studio Code"
+    $VSCode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $VSCode.Width = $SBWidth
+    $VSCode.Height = $SBHeight
+    $VSCode.Font = $SBFont
+    $VSCode.ForeColor = $SBForeColor
+    
+    $NextYLocation = $VSCode.Location.Y + $VSCode.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 8
+    $NotepadPlusPlus = New-Object system.Windows.Forms.Button
+    $NotepadPlusPlus.Text = "Notepad++"
+    $NotepadPlusPlus.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $NotepadPlusPlus.Width = $SBWidth
+    $NotepadPlusPlus.Height = $SBHeight
+    $NotepadPlusPlus.Font = $SBFont
+    $NotepadPlusPlus.ForeColor = $SBForeColor
+
+    $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 9
+    $OnlyOffice = New-Object system.Windows.Forms.Button
+    $OnlyOffice.Text = "ONLYOFFICE DesktopEditors"
+    $OnlyOffice.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $OnlyOffice.Width = $SBWidth
+    $OnlyOffice.Height = $SBHeight
+    $OnlyOffice.Font = $SBFont
+    $OnlyOffice.ForeColor = $SBForeColor
+    
+    $NextYLocation = $OnlyOffice.Location.Y + $OnlyOffice.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 10
+    $qBittorrent = New-Object system.Windows.Forms.Button
+    $qBittorrent.Text = "qBittorrent"
+    $qBittorrent.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $qBittorrent.Width = $SBWidth
+    $qBittorrent.Height = $SBHeight
+    $qBittorrent.Font = $SBFont
+    $qBittorrent.ForeColor = $SBForeColor
+    
+    $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 11
+    $Vlc = New-Object system.Windows.Forms.Button
+    $Vlc.Text = "VideoLAN VLC"
+    $Vlc.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Vlc.Width = $SBWidth
+    $Vlc.Height = $SBHeight
+    $Vlc.Font = $SBFont
+    $Vlc.ForeColor = $SBForeColor
+    
+    $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
+    # Panel 3 ~> Button 12
+    $Gimp = New-Object system.Windows.Forms.Button
+    $Gimp.Text = "GIMP"
+    $Gimp.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Gimp.Width = $SBWidth
+    $Gimp.Height = $SBHeight
+    $Gimp.Font = $SBFont
+    $Gimp.ForeColor = $SBForeColor
+    
+    # Panel 4 ~> Button 1 (Big)
+    $InstallGamingDependencies = New-Object system.Windows.Forms.Button
+    $InstallGamingDependencies.Text = "Install Gaming Dependencies"
+    $InstallGamingDependencies.Width = $BBWidth
+    $InstallGamingDependencies.Height = $BBHeight
+    $InstallGamingDependencies.Location = $BBLocation
+    $InstallGamingDependencies.Font = $BBFont
+    $InstallGamingDependencies.ForeColor = $BBForeColor
+
+    $NextYLocation = $InstallGamingDependencies.Location.Y + $InstallGamingDependencies.Height + $DistanceBetweenButtons
+    # Panel 4 ~> Button 2
+    $Discord = New-Object system.Windows.Forms.Button
+    $Discord.Text = "Discord"
+    $Discord.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Discord.Width = $SBWidth
+    $Discord.Height = $SBHeight
+    $Discord.Font = $SBFont
+    $Discord.ForeColor = $SBForeColor
+
+    $NextYLocation = $Discord.Location.Y + $Discord.Height + $DistanceBetweenButtons
+    # Panel 4 ~> Button 3
+    $Steam = New-Object system.Windows.Forms.Button
+    $Steam.Text = "Steam"
+    $Steam.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Steam.Width = $SBWidth
+    $Steam.Height = $SBHeight
+    $Steam.Font = $SBFont
+    $Steam.ForeColor = $SBForeColor
+
+    $NextYLocation = $Steam.Location.Y + $Steam.Height + $DistanceBetweenButtons
+    # Panel 4 ~> Button 4
+    $Parsec = New-Object system.Windows.Forms.Button
+    $Parsec.Text = "Parsec"
+    $Parsec.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Parsec.Width = $SBWidth
+    $Parsec.Height = $SBHeight
+    $Parsec.Font = $SBFont
+    $Parsec.ForeColor = $SBForeColor
+
+    $NextYLocation = $Parsec.Location.Y + $Parsec.Height + $DistanceBetweenButtons
+    # Panel 4 ~> Button 5
+    $ObsStudio = New-Object system.Windows.Forms.Button
+    $ObsStudio.Text = "OBS Studio"
+    $ObsStudio.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $ObsStudio.Width = $SBWidth
+    $ObsStudio.Height = $SBHeight
+    $ObsStudio.Font = $SBFont
+    $ObsStudio.ForeColor = $SBForeColor
+
+    $NextYLocation = $ObsStudio.Location.Y + $ObsStudio.Height + $DistanceBetweenButtons
+    # Panel 4 ~> Button 6
+    $Spotify = New-Object system.Windows.Forms.Button
+    $Spotify.Text = "Spotify"
+    $Spotify.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Spotify.Width = $SBWidth
+    $Spotify.Height = $SBHeight
+    $Spotify.Font = $SBFont
+    $Spotify.ForeColor = $SBForeColor
+        
     # Image Logo from the Script
     $PictureBox1 = New-Object system.Windows.Forms.PictureBox
     $PictureBox1.Width = 150
@@ -218,11 +402,12 @@ function PrepareGUI() {
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 
     # Add all Panels to the Form (Screen)
-    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3))
+    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana))
-    $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1, $PkgSwInstaller))
+    $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1, $InstallDrivers, $InstallSoftwares, $BraveBrowser, $GoogleChrome, $MozillaFirefox, $7Zip, $WinRar, $VSCode, $NotepadPlusPlus, $OnlyOffice, $qBittorrent, $Vlc, $Gimp))
+    $Panel4.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $Discord, $Steam, $Parsec, $ObsStudio, $Spotify))
 
     # <=== CLICK EVENTS ===>
 
@@ -245,7 +430,6 @@ function PrepareGUI() {
                 "optimize-security.ps1"
                 "enable-optional-features.ps1"
                 "remove-onedrive.ps1"
-                "install-package-managers.ps1"
             )
     
             ForEach ($FileName in $Scripts) {
@@ -282,6 +466,7 @@ function PrepareGUI() {
             Pop-Location
         
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
         })
 
     # Panel 2 ~> Button 1 Mouse Click listener
@@ -308,6 +493,7 @@ function PrepareGUI() {
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
         })
 
     # Panel 2 ~> Button 2 Mouse Click listener
@@ -319,6 +505,7 @@ function PrepareGUI() {
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
         })
 
     # Panel 2 ~> Button 3 Mouse Click listener
@@ -330,6 +517,7 @@ function PrepareGUI() {
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
         })
 
     # Panel 2 ~> Button 4 Mouse Click listener
@@ -341,6 +529,7 @@ function PrepareGUI() {
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
         })
     
     # Panel 2 ~> Button 5 Mouse Click listener
@@ -352,10 +541,11 @@ function PrepareGUI() {
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
         })
 
     # Panel 3 ~> Button 1 Mouse Click listener
-    $PkgSwInstaller.Add_Click( {
+    $InstallDrivers.Add_Click( {
 
             Push-Location -Path "src\scripts\"
             Clear-Host
@@ -364,7 +554,6 @@ function PrepareGUI() {
             $Scripts = @(
                 # [Recommended order] List of Scripts
                 "install-drivers.ps1"
-                "install-softwares.ps1"
             )
         
             ForEach ($FileName in $Scripts) {
@@ -375,8 +564,304 @@ function PrepareGUI() {
             Pop-Location
         
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
+    # Panel 3 ~> Button 2 Mouse Click listener
+    $BraveBrowser.Add_Click( {
+        
+            Title1 -Text "Installing: $($BraveBrowser.Text)"
+            $PackageName = "BraveSoftware.BraveBrowser"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($BraveBrowser.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+    
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+    
+        })
+
+    
+    # Panel 3 ~> Button 3 Mouse Click listener
+    $GoogleChrome.Add_Click( {
+            
+            Title1 -Text "Installing: $($GoogleChrome.Text)"
+            $PackageName = "Google.Chrome"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($GoogleChrome.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host; choco install -y "ublockorigin-chrome" | Out-Host # uBlock Origin extension for Chrome
+            }
+            
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            
+        })
+
+    # Panel 3 ~> Button 4 Mouse Click listener
+    $MozillaFirefox.Add_Click( {
+            
+            Title1 -Text "Installing: $($MozillaFirefox.Text)"
+            $PackageName = "Mozilla.Firefox"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($MozillaFirefox.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+            
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            
         })
         
+    # Panel 3 ~> Button 5 Mouse Click listener
+    $7Zip.Add_Click( {
+        
+            Title1 -Text "Installing: $($7Zip.Text)"
+            $PackageName = "7zip.7zip"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($7Zip.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+    
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+    
+        })
+
+    # Panel 3 ~> Button 6 Mouse Click listener
+    $WinRar.Add_Click( {
+            
+            Title1 -Text "Installing: $($WinRar.Text)"
+            $PackageName = "winrar"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($WinRar.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                choco install -y "$PackageName" | Out-Host # uBlock Origin extension for Chrome
+            }
+        
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        
+        })
+        
+    # Panel 3 ~> Button 7 Mouse Click listener
+    $VSCode.Add_Click( {
+            
+            Title1 -Text "Installing: $($VSCode.Text)"
+            $PackageName = "Microsoft.VisualStudioCode"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($VSCode.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+        
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        
+        })
+
+    # Panel 3 ~> Button 8 Mouse Click listener
+    $NotepadPlusPlus.Add_Click( {
+            
+            Title1 -Text "Installing: $($NotepadPlusPlus.Text)"
+            $PackageName = "Notepad++.Notepad++"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($NotepadPlusPlus.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+            
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            
+        })
+        
+    # Panel 3 ~> Button 9 Mouse Click listener
+    $OnlyOffice.Add_Click( {
+            
+            Title1 -Text "Installing: $($OnlyOffice.Text)"
+            $PackageName = "ONLYOFFICE.DesktopEditors"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($OnlyOffice.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+            
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            
+        })
+        
+    # Panel 3 ~> Button 10 Mouse Click listener
+    $qBittorrent.Add_Click( {
+            
+            Title1 -Text "Installing: $($qBittorrent.Text)"
+            $PackageName = "qBittorrent.qBittorrent"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($qBittorrent.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+            
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            
+        })
+        
+    # Panel 3 ~> Button 11 Mouse Click listener
+    $Vlc.Add_Click( {
+            
+            Title1 -Text "Installing: $($Vlc.Text)"
+            $PackageName = "VideoLAN.VLC"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($Vlc.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+            
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            
+        })
+        
+    # Panel 3 ~> Button 12 Mouse Click listener
+    $Gimp.Add_Click( {
+            
+            Title1 -Text "Installing: $($Gimp.Text)"
+            $PackageName = "GIMP.GIMP"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($Gimp.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+        
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        
+        })
+
+    # Panel 4 ~> Button 1 Mouse Click listener
+    $InstallGamingDependencies.Add_Click( {
+
+            Push-Location -Path "src\scripts\"
+            Clear-Host
+            Get-ChildItem -Recurse *.ps*1 | Unblock-File
+    
+            $Scripts = @(
+                # [Recommended order] List of Scripts
+                "install-gaming-dependencies.ps1"
+            )
+    
+            ForEach ($FileName in $Scripts) {
+                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+                Import-Module -DisableNameChecking .\"$FileName" -Force
+            }
+
+            Pop-Location
+    
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
+    # Panel 3 ~> Button 2 Mouse Click listener
+    $Discord.Add_Click( {
+        
+            Title1 -Text "Installing: $($Discord.Text)"
+            $PackageName = "Discord.Discord"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($Discord.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+    # Panel 3 ~> Button 3 Mouse Click listener
+    $Steam.Add_Click( {
+        
+            Title1 -Text "Installing: $($Steam.Text)"
+            $PackageName = "Valve.Steam"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($Steam.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
+    # Panel 3 ~> Button 4 Mouse Click listener
+    $Parsec.Add_Click( {
+        
+            Title1 -Text "Installing: $($Parsec.Text)"
+            $PackageName = "Parsec.Parsec"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($Parsec.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+        
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        
+        })
+
+    # Panel 3 ~> Button 5 Mouse Click listener
+    $ObsStudio.Add_Click( {
+    
+            Title1 -Text "Installing: $($ObsStudio.Text)"
+            $PackageName = "OBSProject.OBSStudio"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($ObsStudio.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
+    # Panel 3 ~> Button 6 Mouse Click listener
+    $Spotify.Add_Click( {
+            
+            Title1 -Text "Installing: $($Spotify.Text)"
+            $PackageName = "Spotify.Spotify"
+            # Avoiding a softlock that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
+            If ((Get-AppxPackage).Name -ilike "*$($Spotify.Text)*") {
+                Caption1 -Text "$PackageName already installed on MS Store! Skipping..."
+            }
+            Else {
+                winget install --silent $PackageName | Out-Host
+            }
+            
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            
+        })
+            
     # Show the Window
     [void]$Form.ShowDialog()
     
