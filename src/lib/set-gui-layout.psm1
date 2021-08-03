@@ -99,8 +99,8 @@ function SetGuiLayout() {
   # <=== SIZES LAYOUT ===>
 
   # To Forms
-  $Global:MaxWidth = 1024
-  $Global:MaxHeight = 576
+  $Global:MaxWidth = 1280 * 0.8 # 1024
+  $Global:MaxHeight = 720 * 0.8 # 576
   # To Panels
   $Global:CurrentPanelIndex = -1
   $Global:NumOfPanels = 4
