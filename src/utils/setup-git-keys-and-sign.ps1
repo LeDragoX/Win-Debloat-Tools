@@ -1,4 +1,4 @@
-function QuickPrivilegesElevation {
+function QuickPrivilegesElevation() {
   # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
   If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
@@ -13,8 +13,8 @@ function CheckGitUser() {
   # Github email creation "check"
   While ($git_user_property -eq "" -or $git_user_property -eq $null) {
   
-    Write-Host "Could not found 'git_user_property', is null or empty"
-    $git_user_property = Read-Host "Please enter your git_user_property (For Real)"
+    Write-Host "Could not found 'user.$git_user_property', is null or empty"
+    $git_user_property = Read-Host "Please enter your $git_user_property (For git config --global)"
 
     # Set your user email for git
     If (!(($git_user_property -eq "") -or ($null -eq $git_user_property))) {
@@ -48,7 +48,7 @@ function SetUpGit() {
   $ssh_path = "~/.ssh"
   $ssh_enc_type = "ed25519"
   $ssh_file = "$($git_user_email)_id_$ssh_enc_type"
-  $ssh_alt_file = "id_$ssh_enc_type"  # Just a placeholder
+  $ssh_alt_file = "id_$ssh_enc_type" # Need to be checked
 
   # https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
   $gnupg_gen_path = "~/AppData/Roaming/gnupg"
@@ -65,8 +65,8 @@ function SetUpGit() {
   }
   Push-Location "$ssh_path"
 
-  # SSH Key creation/import "check"
-  If (!((Test-Path "$ssh_path/$ssh_file") -or (Test-Path "$ssh_path/$ssh_alt_file"))) {
+  # Check if SSH Key already exists
+  If (!((Test-Path "$ssh_path/$ssh_alt_file") -or (Test-Path "$ssh_path/$ssh_file"))) {
 
     Write-Host ""
     Write-Host "$ssh_path/$ssh_alt_file NOT Exists AND"
@@ -74,28 +74,30 @@ function SetUpGit() {
     Write-Host "Using your email from git to create a SSH Key: $git_user_email"
     # Generate a new ssh key, passing every parameter as variables (Make sure to config git user.email first)
     Write-Host ""
-    Write-Host "I recommend you save your passphrase somewhere, in case If you don't remember"
+    Write-Host "I recommend you save your passphrase somewhere, in case you don't remember"
     Write-Host ""
 
+    #          Encryption type    Command              Output file
     ssh-keygen -t "$ssh_enc_type" -C "$git_user_email" -f "$ssh_path/$($ssh_file)"
 
     Write-Host "Starting ssh-agent Service, this part is the reason to get admin permissions."
     Start-Service -Name ssh-agent
     Set-Service -Name ssh-agent -StartupType Automatic
-    # Check If ssh-agent is running before adding
+  
+    Write-Host "Check If ssh-agent is running before adding the keys"
     ssh-agent.exe
-
-    # Add your private key (One of these will pass) | Remind: No QUOTES in variables
+  
+    Write-Host "Add your private key (One of these will pass)" # Remind: No QUOTES in variables
     ssh-add $ssh_file
-    ssh-add $ssh_alt_file
+    ssh-add $ssh_alt_file  
 
   }
   Else {
-
+    
     Write-Host ""
     Write-Host "$ssh_path/$ssh_file Exists OR"
     Write-Host "$ssh_path/$ssh_alt_file Exists"
-
+    
   }
 
   Pop-Location
@@ -127,7 +129,8 @@ function SetUpGit() {
     Write-Host "Then: $git_user_email [ENTER]" -ForegroundColor Green
     Write-Host "Then: Anything you want (Ex: Git Keys) [ENTER]" -ForegroundColor Green
     Write-Host "Then: O (Ok) [ENTER]" -ForegroundColor Green
-    Write-Host "Then: [your passphrase] [your passphrase again] [ENTER]" -ForegroundColor Green
+    Write-Host "Then: [your passphrase] [ENTER]" -ForegroundColor Green
+    Write-Host "Then: [your passphrase again] [ENTER]" -ForegroundColor Green
     Write-Host ""
     gpg --full-generate-key
     
@@ -155,14 +158,13 @@ function SetUpGit() {
 
       Write-Host ""
       Write-Host "key_id found: $key_id"
-      # Register the Key ID found to git user
+      Write-Host "Registering the Key ID found to git user..."
       git config --global user.signingkey "$key_id"
       Write-Host "Your git user.signingkey now is: $(git config --global user.signingkey)"
 
       # Always commit with GPG signature
       Write-Host "Signed git commits enabled"
       git config --global commit.gpgsign true
-
 
       Write-Host "Copy and Paste the lines below on your"
       Write-Host "Github/Gitlab > Settings > SSH and GPG Keys > New GPG Key"
@@ -176,7 +178,6 @@ function SetUpGit() {
       Write-Host "Failed to retrive your key_id: $key_id"
 
     }
-
   }
   Else {
 
@@ -185,6 +186,7 @@ function SetUpGit() {
     Write-Host "$gnupg_path/*.gpg* Exists OR"
 
   }
+  
   Pop-Location
 
 }
@@ -195,10 +197,10 @@ function Main() {
   Write-Host "Before everything, your data will only be keep locally, only in YOUR PC" -ForegroundColor Green
   Write-Host "I've made this to be more productive and will not lose time setting keys on Windows" -ForegroundColor Green
   Write-Host "Make sure you got winget installed already" -ForegroundColor Green
+  Read-Host "Press Enter to continue..."
   Write-Host "Installing: Git and GnuPG..."
   winget install --silent Git.Git | Out-Host
   winget install --silent GnuPG.GnuPG | Out-Host
-  Read-Host "Press Enter to continue..."
   SetUpGit
 
 }
