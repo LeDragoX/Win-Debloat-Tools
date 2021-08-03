@@ -191,11 +191,14 @@ function SetUpGit() {
 
 function Main() {
 
+  QuickPrivilegesElevation
   Write-Host "Before everything, your data will only be keep locally, only in YOUR PC" -ForegroundColor Green
   Write-Host "I've made this to be more productive and will not lose time setting keys on Windows" -ForegroundColor Green
-  Write-Host "Make sure you got Git, OpenSSH and GnuPG installed already" -ForegroundColor Green
+  Write-Host "Make sure you got winget installed already" -ForegroundColor Green
+  Write-Host "Installing: Git and GnuPG..."
+  winget install --silent Git.Git | Out-Host
+  winget install --silent GnuPG.GnuPG | Out-Host
   Read-Host "Press Enter to continue..."
-  QuickPrivilegesElevation
   SetUpGit
 
 }
