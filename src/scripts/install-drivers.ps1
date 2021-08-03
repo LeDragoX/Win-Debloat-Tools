@@ -25,7 +25,8 @@ function InstallDrivers() {
       
   # Install GPU drivers then
   If ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
-    Title1 -Text "AMD GPU, yay! (Skipping...)"
+    Title1 -Text "AMD GPU, you will have to install Manually!"
+    Write-Host "Search for $GPU drivers."
   }
       
   If ($GPU.contains("Intel")) {
