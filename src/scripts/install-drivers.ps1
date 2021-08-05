@@ -32,6 +32,8 @@ function InstallDrivers() {
   If ($GPU.contains("Intel")) {
     Section1 -Text "Installing Intel Graphics driver!"
     Caption1 -Text "Installing: intel-graphics-driver"
+    choco install -y "chocolatey-fastanswers.extension" # Dependency
+    choco install -y "dependency-windows10"             # Dependency
     choco install -y "intel-graphics-driver" | Out-Host # Intel Graphics Driver (latest)
   }
   
