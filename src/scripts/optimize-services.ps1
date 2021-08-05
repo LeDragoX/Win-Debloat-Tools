@@ -20,6 +20,8 @@ function TweaksForServices() {
         "lfsvc"                                     # Geolocation Service
         "MapsBroker"                                # Downloaded Maps Manager
         "ndu"                                       # Windows Network Data Usage Monitoring Driver
+        "NvContainerLocalSystem"                    # NVIDIA LocalSystem Container
+        "NVDisplay.ContainerLocalSystem"            # NVIDIA Display Container LS
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
