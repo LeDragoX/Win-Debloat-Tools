@@ -72,8 +72,11 @@ function TweaksForServices() {
                 Continue
             }
     
-            Write-Host "$($EnableStatus[2]) $Service..."
-            Invoke-Expression "$($Commands[2])"
+            # Cause ndu get stuck
+            If (!($Service -eq "ndu")) {
+                Write-Host "$($EnableStatus[2]) $Service..."
+                Invoke-Expression "$($Commands[2])"
+            }
             Write-Host "$($EnableStatus[0]) $Service at Startup..."
             Invoke-Expression "$($Commands[0])"
                 
