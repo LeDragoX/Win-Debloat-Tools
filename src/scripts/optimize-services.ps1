@@ -33,7 +33,6 @@ function TweaksForServices() {
         # <==========[DIY]==========> (Remove the # to Disable)
         
         #"DPS"                                      # Diagnostic Policy Service
-        #"FontCache"                                # Windows Font Cache Service
         #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
         #"SharedAccess"                             # Internet Connection Sharing (ICS)
         #"stisvc"                                   # Windows Image Acquisition (WIA)
@@ -74,14 +73,9 @@ function TweaksForServices() {
                 Continue
             }
     
-            # Cause ndu get stuck
-            If (!($Service -eq "ndu")) {
-                Write-Host "$($EnableStatus[2]) $Service..."
-                Invoke-Expression "$($Commands[2])"
-            }
             Write-Host "$($EnableStatus[0]) $Service at Startup..."
             Invoke-Expression "$($Commands[0])"
-                
+
         }
         Else {
 
@@ -95,15 +89,11 @@ function Main() {
 
     $EnableStatus = @(
         "[-][Services] Disabling",
-        "[=][Services] Re-Enabling",
-        "[-][Services] Stopping",
-        "[+][Services] Starting"
+        "[=][Services] Re-Enabling"
     )
     $Commands = @(
         { Set-Service -Name "$Service" -StartupType Disabled },
-        { Set-Service -Name "$Service" -StartupType Manual },
-        { Stop-Service -Name "$Service" -Force },
-        { Set-Service -Name $Service -Status Running }
+        { Set-Service -Name "$Service" -StartupType Manual }
     )
 
     if (($Revert)) {
@@ -111,15 +101,11 @@ function Main() {
 
         $EnableStatus = @(
             "[<][Services] Re-Enabling",
-            "[<][Services] Re-Disabling",
-            "[<][Services] Starting",
-            "[<][Services] Stopping"
+            "[<][Services] Re-Disabling"
         )
         $Commands = @(
             { Set-Service -Name "$Service" -StartupType Manual },
-            { Set-Service -Name "$Service" -StartupType Disabled },
-            { Set-Service -Name $Service -Status Running },
-            { Stop-Service -Name "$Service" -Force }
+            { Set-Service -Name "$Service" -StartupType Disabled }
         )
       
     }
