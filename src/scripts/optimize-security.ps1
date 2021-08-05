@@ -71,18 +71,18 @@ function TweaksForSecurity() {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 1
     }
 
-    Write-Host "[+][Security] Enabling 'SmartScreen' for Microsoft Edge..."
+    Write-Host "[+][Security] Disabling 'SmartScreen' for Microsoft Edge..."
     If (!(Test-Path "$PathToEdgeLMPol\PhishingFilter")) {
         New-Item -Path "$PathToEdgeLMPol\PhishingFilter" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToEdgeLMPol\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToEdgeLMPol\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 0
 
     # Details: https://forums.malwarebytes.com/topic/246740-new-potentially-unwanted-modification-disablemrt/
     Write-Host "[+][Security] Enabling offer Malicious Software Removal Tool via Windows Update..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" -Name "DontOfferThroughWUAU" -Type DWord -Value 0
 
-    Write-Host "[+][Security] Enabling 'SmartScreen' for Store Apps..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
+    Write-Host "[+][Security] Disabling 'SmartScreen' for Store Apps..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
 
     # [DIY] The "OpenPowershellHere.cmd" file actually uses .vbs script, so, i'll make this optional
     #Write-Host "[-][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
