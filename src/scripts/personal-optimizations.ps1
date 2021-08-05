@@ -153,9 +153,6 @@ function PersonalTweaks() {
 
     Write-Host "$($EnableStatus[1]) Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value $Zero
-
-    Write-Host "$($EnableStatus[1]) Setting time to UTC..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value $One
     
     Write-Host "[+][Personal] Setting up the DNS from Google (ipv4 and ipv6)..."
     #Get-DnsClientServerAddress # To look up the current config.
