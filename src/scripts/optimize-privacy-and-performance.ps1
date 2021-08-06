@@ -6,7 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-function TweaksForPrivacyAndPerformance() {
+function OptimizePrivacyAndPerformance() {
 
     Title1 -Text "Privacy And Performance Tweaks"
     Section1 -Text "Personalization Section"
@@ -347,7 +347,7 @@ function TweaksForPrivacyAndPerformance() {
 
     # Details: https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
     Write-Host "[+][Priv&Perf] Splitting SVCHost processes to lower RAM usage..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value 4194304
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $(4 * 1mb)
 
     Write-Host "[+][Priv&Perf] Unlimiting your network bandwitdh for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
     If (!(Test-Path "$PathToPsched")) {
@@ -421,7 +421,7 @@ function Main() {
       
     }
 
-    TweaksForPrivacyAndPerformance  # Disable Registries that causes slowdowns and privacy invasion
+    OptimizePrivacyAndPerformance  # Disable Registries that causes slowdowns and privacy invasion
 
 }
 

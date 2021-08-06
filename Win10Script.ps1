@@ -59,9 +59,9 @@ function RunScripts() {
         "optimize-services.ps1"
         "remove-bloatware-apps.ps1"
         "optimize-privacy-and-performance.ps1"
-        "personal-optimizations.ps1"
+        "personal-tweaks.ps1"
         "optimize-security.ps1"
-        "enable-optional-features.ps1"
+        "optimize-optional-features.ps1"
         "remove-onedrive.ps1"
         "install-package-managers.ps1"
     )
