@@ -1,6 +1,6 @@
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
-function RunDebloatSoftwares() {
+function RunSilentDebloatSoftwares() {
         
     if (!(Test-Path "$PSScriptRoot\..\tmp")) {
         Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
@@ -30,7 +30,7 @@ function RunDebloatSoftwares() {
 
 function Main() {
     
-    RunDebloatSoftwares # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
+    RunSilentDebloatSoftwares # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
 
 }
 
