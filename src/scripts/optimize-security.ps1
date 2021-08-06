@@ -5,7 +5,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this ChrisTitus script:                 https://github.com/ChrisTitusTech/win10script
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-function TweaksForSecurity() {
+function OptimizeSecurity() {
 
     Title1 -Text "Security Tweaks"
 
@@ -98,7 +98,7 @@ function Main() {
     $Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
     $Global:PathToEdgeLMPol = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
 
-    TweaksForSecurity   # Improve the Windows Security
+    OptimizeSecurity   # Improve the Windows Security
     
 }
 

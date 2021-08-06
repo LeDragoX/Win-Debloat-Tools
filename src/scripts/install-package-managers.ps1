@@ -1,7 +1,7 @@
 # Adapted from: https://github.com/ChrisTitusTech/win10script/blob/master/win10debloat.ps1
 # Adapted from: https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1
 
-function Install-PackageManager() {
+function InstallPackageManager() {
   [CmdletBinding()]
   param (
     [String]	$PackageManagerFullName,
@@ -82,9 +82,9 @@ function Main() {
   )
 
   # Install Winget on Windows
-  Install-PackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3]
+  InstallPackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3]
   # Install Chocolatey on Windows
-  Install-PackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -PostInstallBlock $ChocolateyParams[4]
+  InstallPackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -PostInstallBlock $ChocolateyParams[4]
 
 }
 
