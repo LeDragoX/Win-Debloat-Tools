@@ -97,16 +97,6 @@ function PersonalTweaks() {
     Write-Host "[-][Personal] Hiding Widgets from taskbar..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
 
-    Write-Host "[+][Personal] Showing This PC shortcut on desktop..."
-    If (!(Test-Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu")) {
-        New-Item -Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToExplorer\HideDesktopIcons\ClassicStartMenu" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value $Zero
-    If (!(Test-Path "$PathToExplorer\HideDesktopIcons\NewStartPanel")) {
-        New-Item -Path "$PathToExplorer\HideDesktopIcons\NewStartPanel" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToExplorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value $Zero
-
     # Disable creation of Thumbs.db thumbnail cache files
     Write-Host "$($EnableStatus[0]) creation of Thumbs.db..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
