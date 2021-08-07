@@ -39,9 +39,9 @@ function OptimizePrivacyAndPerformance() {
         "SystemPaneSuggestionsEnabled"
     )
 
-    Write-Warning "[?][Priv&Perf] From Path: [$PathToContentDeliveryManager]"
+    Write-Warning "[?][Priv&Perf] From Path: [$PathToContentDeliveryManager]."
     ForEach ($Name in $ContentDeliveryManagerDisableOnZero) {
-        Write-Host "$($EnableStatus[0]) $($Name): $Zero"
+        Write-Host "$($EnableStatus[0]) $($Name): $Zero."
         Set-ItemProperty -Path "$PathToContentDeliveryManager" -Name "$Name" -Type DWord -Value $Zero
     }
 
@@ -104,7 +104,7 @@ function OptimizePrivacyAndPerformance() {
     Write-Host "$($EnableStatus[0]) View diagnostic data..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack\EventTranscriptKey" -Name "EnableEventTranscript" -Type DWord -Value $Zero
     
-    Write-Host "$($EnableStatus[0]) feedback frequency"
+    Write-Host "$($EnableStatus[0]) feedback frequency..."
     If (!(Test-Path "$PathToSiufRules")) {
         New-Item -Path "$PathToSiufRules" -Force | Out-Null
     }
@@ -122,9 +122,9 @@ function OptimizePrivacyAndPerformance() {
         "UploadUserActivities"
     )
 
-    Write-Warning "[?][Priv&Perf] From Path: [$PathToActivityHistory]"
+    Write-Warning "[?][Priv&Perf] From Path: [$PathToActivityHistory]."
     ForEach ($Name in $ActivityHistoryDisableOnZero) {
-        Write-Host "$($EnableStatus[0]) $($Name): $Zero"
+        Write-Host "$($EnableStatus[0]) $($Name): $Zero."
         Set-ItemProperty -Path "$PathToActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value $Zero
     }
     
@@ -162,7 +162,7 @@ function OptimizePrivacyAndPerformance() {
         If ($key.PSChildName -EQ "LooselyCoupled") {
             continue
         }
-        Write-Host "$($EnableStatus[1]) Setting $($key.PSChildName) value to Deny..."
+        Write-Host "$($EnableStatus[1]) Setting $($key.PSChildName) value to 'Deny'..."
         Set-ItemProperty -Path ("$PathToDeviceAccessGlobal\" + $key.PSChildName) -Name "Value" -Value "Deny"
     }
 
@@ -227,9 +227,9 @@ function OptimizePrivacyAndPerformance() {
         "DisableThirdPartySuggestions"
     )
 
-    Write-Warning "[?][Priv&Perf] From Path: [$PathToCloudContent]"
+    Write-Warning "[?][Priv&Perf] From Path: [$PathToCloudContent]."
     ForEach ($Name in $CloudContentDisableOnOne) {
-        Write-Host "$($EnableStatus[0]) $($Name): $One"
+        Write-Host "$($EnableStatus[0]) $($Name): $One."
         Set-ItemProperty -Path "$PathToCloudContent" -Name "$Name" -Type DWord -Value $One
     }
     If (!(Test-Path "$PathToCloudContent")) {
@@ -327,7 +327,7 @@ function OptimizePrivacyAndPerformance() {
 
     ForEach ($Key in $KeysToDelete) {
         If ((Test-Path $Key)) {
-            Write-Host "[Priv&Perf] Removing Key: [$Key]..."
+            Write-Host "[Priv&Perf] Removing Key: [$Key]."
             Remove-Item $Key -Recurse
         }
     }
@@ -416,7 +416,7 @@ function Main() {
     )
 
     if (($Revert)) {
-        Write-Warning "[<][Priv&Perf] Reverting: $Revert"
+        Write-Warning "[<][Priv&Perf] Reverting: $Revert."
 
         $Zero = 1
         $One = 0

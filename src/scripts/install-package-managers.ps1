@@ -23,12 +23,12 @@ function InstallPackageManager() {
   Catch {
 
     Write-Warning "[?] $PackageManagerFullName was not found."
-    Write-Host "[+] Setting up $PackageManagerFullName package manager"
+    Write-Host "[+] Setting up $PackageManagerFullName package manager."
 
     Invoke-Expression "$InstallCommandBlock"
 
     If ($PostInstallBlock) {
-      Write-Host "[+] Executing post install script: $PostInstallBlock"
+      Write-Host "[+] Executing post install script: $PostInstallBlock."
       Invoke-Expression "$PostInstallBlock"
     }
 
@@ -36,7 +36,7 @@ function InstallPackageManager() {
 
   # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
   # Find it on Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\{PackageManagerFullName} Daily Upgrade"
-  Write-Host "[+] Creating a daily task to automatically upgrade $PackageManagerFullName packages"
+  Write-Host "[+] Creating a daily task to automatically upgrade $PackageManagerFullName packages."
   $JobName = "$PackageManagerFullName Daily Upgrade"
   $ScheduledJob = @{
     Name               = $JobName
@@ -77,8 +77,7 @@ function Main() {
     "Winget",
     { winget --version },
     { Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Write-Host "Installing the package"; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path "$WingetOutput" },
-    { winget upgrade --all --silent },
-    {}
+    { winget upgrade --all --silent }
   )
 
   # Install Winget on Windows
