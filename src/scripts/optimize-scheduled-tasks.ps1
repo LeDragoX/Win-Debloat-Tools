@@ -57,14 +57,14 @@ function OptimizeScheduledTasks() {
         
     $EnableScheduledTasks = @(
         "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"            # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
-        "\Microsoft\Windows\Windows Error Reporting\QueueReporting"     # Windows Error Reporting event, needed most for compatibility updates incoming 
+        "\Microsoft\Windows\Windows Error Reporting\QueueReporting"     # Windows Error Reporting event, needed to improve compatibility with your hardware
     )
 
     ForEach ($ScheduledTask in $EnableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
 
-            Write-Host "[=][TaskScheduler] Enabling the $ScheduledTask Task..."
-            Enable-ScheduledTask -TaskName $ScheduledTask
+            Write-Host "[+][TaskScheduler] Enabling the $ScheduledTask Task..."
+            Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask
             
         }
         Else {
@@ -80,11 +80,11 @@ function Main() {
 
     $EnableStatus = @(
         "[-][TaskScheduler] Disabling", 
-        "[=][TaskScheduler] Enabling"
+        "[+][TaskScheduler] Enabling"
     )
     $Commands = @(
-        { Disable-ScheduledTask -TaskName "$ScheduledTask" }, 
-        { Enable-ScheduledTask -TaskName "$ScheduledTask" }
+        { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask }, # R* = Ready/Running Tasks
+        { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
     )
 
     if (($Revert)) {
@@ -95,8 +95,8 @@ function Main() {
             "[<][TaskScheduler] Re-Disabling"
         )
         $Commands = @(
-            { Enable-ScheduledTask -TaskName "$ScheduledTask" }, 
-            { Disable-ScheduledTask -TaskName "$ScheduledTask" }
+            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }, 
+            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
         )
       
     }

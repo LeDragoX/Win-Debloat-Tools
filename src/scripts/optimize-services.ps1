@@ -20,8 +20,7 @@ function OptimizeServices() {
         "lfsvc"                                     # Geolocation Service
         "MapsBroker"                                # Downloaded Maps Manager
         "ndu"                                       # Windows Network Data Usage Monitoring Driver
-        "NvContainerLocalSystem"                    # NVIDIA LocalSystem Container
-        "NVDisplay.ContainerLocalSystem"            # NVIDIA Display Container LS
+        "NvContainerLocalSystem"                    # NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
@@ -69,7 +68,7 @@ function OptimizeServices() {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
 
             If (($Revert -eq $true) -and ($Service -match "RemoteRegistry")) {
-                Write-Warning "[=][Services] Skipping $Service to avoiding a security breach..."
+                Write-Warning "[?][Services] Skipping $Service to avoiding a security breach..."
                 Continue
             }
     
@@ -89,11 +88,11 @@ function Main() {
 
     $EnableStatus = @(
         "[-][Services] Disabling",
-        "[=][Services] Re-Enabling"
+        "[+][Services] Enabling"
     )
     $Commands = @(
-        { Set-Service -Name "$Service" -StartupType Disabled },
-        { Set-Service -Name "$Service" -StartupType Manual }
+        { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
+        { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
     )
 
     if (($Revert)) {
@@ -104,8 +103,8 @@ function Main() {
             "[<][Services] Re-Disabling"
         )
         $Commands = @(
-            { Set-Service -Name "$Service" -StartupType Manual },
-            { Set-Service -Name "$Service" -StartupType Disabled }
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
         )
       
     }
