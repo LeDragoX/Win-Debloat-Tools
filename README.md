@@ -73,7 +73,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Apply Tweaks`: Run every 'non-interactive' Tweak scripts;
 - `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
-- `Revert Tweaks`: Re-apply some tweaks and revert all possible ones, covering the Scheduled Tasks, Services, Privacy and Performance and Personal Optimizations tweaks;
+- `Revert Tweaks`: Re-apply some tweaks and revert all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks;
 - `Dark Mode & Light Mode`: Apply [Dark Mode](./src/utils/dark-theme.reg) or [Light Mode](./src/utils/light-theme.reg) exclusively from GUI;
 - `Enable Cortana & Disable Cortana`: Let you choose whether the cortana is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
 - `Enable Full Telemetry & Disable Telemetry`: Let you choose whether the Telemetry is [FULL enabled](./src/utils/enable-telemetry.ps1) (For those who wants to join Windows insider) or [disabled](src/utils/disable-telemetry.ps1);
