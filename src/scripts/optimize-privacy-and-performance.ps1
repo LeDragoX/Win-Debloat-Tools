@@ -410,14 +410,20 @@ function Main() {
 
     $Zero = 0
     $One = 1
-    $EnableStatus = @("[-][Priv&Perf] Disabling", "[+][Priv&Perf] Enabling")
+    $EnableStatus = @(
+        "[-][Priv&Perf] Disabling",
+        "[+][Priv&Perf] Enabling"
+    )
 
     if (($Revert)) {
         Write-Warning "[<][Priv&Perf] Reverting: $Revert"
 
         $Zero = 1
         $One = 0
-        $EnableStatus = @("[<][Priv&Perf] Re-Enabling", "[<][Priv&Perf] Re-Disabling")
+        $EnableStatus = @(
+            "[<][Priv&Perf] Re-Enabling",
+            "[<][Priv&Perf] Re-Disabling"
+        )
       
     }
 

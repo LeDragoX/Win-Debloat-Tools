@@ -209,14 +209,20 @@ function Main() {
 
     $Zero = 0
     $One = 1
-    $EnableStatus = @("[-][Personal] Disabling", "[+][Personal] Enabling")
+    $EnableStatus = @(
+        "[-][Personal] Disabling",
+        "[+][Personal] Enabling"
+    )
 
     if (($Revert)) {
         Write-Host "[<][Personal] Reverting: $Revert"
 
         $Zero = 1
         $One = 0
-        $EnableStatus = @("[<][Personal] Re-Enabling", "[<][Personal] Re-Disabling")
+        $EnableStatus = @(
+            "[<][Personal] Re-Enabling",
+            "[<][Personal] Re-Disabling"
+        )
       
     }
     
