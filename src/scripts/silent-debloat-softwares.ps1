@@ -3,7 +3,7 @@
 function RunSilentDebloatSoftwares() {
         
     if (!(Test-Path "$PSScriptRoot\..\tmp")) {
-        Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
+        Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating one..."
         mkdir "$PSScriptRoot\..\tmp" | Out-Null
     }
 

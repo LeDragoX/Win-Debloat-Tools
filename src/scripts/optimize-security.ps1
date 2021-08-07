@@ -8,19 +8,20 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function OptimizeSecurity() {
 
     Title1 -Text "Security Tweaks"
+    Write-Warning "if you already use another antivirus, nothing will happen."
 
-    Write-Host "[+][Security] Ensure your Windows Defender is ENABLED, if you already use another antivirus, nothing will happen."
+    Write-Host "[+][Security] Ensure your Windows Defender is ENABLED."
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
 
-    Write-Host "[+][Security] Enabling Microsoft Defender Exploit Guard network protection... (if you already use another antivirus, nothing will happen)"
+    Write-Host "[+][Security] Enabling Microsoft Defender Exploit Guard network protection..."
     Set-MpPreference -EnableNetworkProtection Enabled -Force
 
-    Write-Host "[+][Security] Enabling detection for potentially unwanted applications and block them... (if you already use another antivirus, nothing will happen)"
+    Write-Host "[+][Security] Enabling detection for potentially unwanted applications and block them..."
     Set-MpPreference -PUAProtection Enabled -Force
 
     # Make Windows Defender run in Sandbox Mode (MsMpEngCP.exe and MsMpEng.exe will run on background)
     # Details: https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
-    Write-Host "[+][Security] Enabling Windows Defender Sandbox mode... (if you already use another antivirus, nothing will happen)"
+    Write-Host "[+][Security] Enabling Windows Defender Sandbox mode..."
     setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 
     # Details: https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858
@@ -84,7 +85,7 @@ function OptimizeSecurity() {
     Write-Host "[+][Security] Disabling 'SmartScreen' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
 
-    # [DIY] The "OpenPowershellHere.cmd" file actually uses .vbs script, so, i'll make this optional
+    Write-Warning "[DIY] The `OpenPowershellHere.cmd` file actually uses .vbs script, so i'll make this optional"
     #Write-Host "[-][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
     #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
 

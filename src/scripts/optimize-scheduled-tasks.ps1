@@ -88,7 +88,7 @@ function Main() {
     )
 
     if (($Revert)) {
-        Write-Warning "[<][TaskScheduler] Reverting: $Revert"
+        Write-Warning "[<][TaskScheduler] Reverting: $Revert."
 
         $EnableStatus = @(
             "[<][TaskScheduler] Re-Enabling", 

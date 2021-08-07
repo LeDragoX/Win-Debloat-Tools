@@ -156,7 +156,7 @@ function PersonalTweaks() {
     Write-Host "[+][Personal] Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
 
-    Write-Host "[+][Personal] Fixing Xbox Game Bar FPS Counter... (LIMITED BY LANGUAGE)"
+    Write-Host "[+][Personal] Fixing Xbox Game Bar FPS Counter (LIMITED BY LANGUAGE)..."
     net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
@@ -168,19 +168,19 @@ function PersonalTweaks() {
     Write-Host "[-][Personal] Disabling Hibernate..."
     powercfg -hibernate off
 
-    Write-Host "[+][Personal] Setting the Monitor Timeout to $Timeout min (AC = Alternating Current, DC = Direct Current)"
+    Write-Host "[+][Personal] Setting the Monitor Timeout to $Timeout min (AC = Alternating Current, DC = Direct Current)..."
     powercfg -Change Monitor-Timeout-AC $Timeout
     powercfg -Change Monitor-Timeout-DC $Timeout
 
-    Write-Host "[+][Personal] Setting the Disk Timeout to $Timeout min"
+    Write-Host "[+][Personal] Setting the Disk Timeout to $Timeout min..."
     powercfg -Change Disk-Timeout-AC $Timeout
     powercfg -Change Disk-Timeout-DC $Timeout
 
-    Write-Host "[+][Personal] Setting the Standby Timeout to $Timeout min"
+    Write-Host "[+][Personal] Setting the Standby Timeout to $Timeout min..."
     powercfg -Change Standby-Timeout-AC $Timeout
     powercfg -Change Standby-Timeout-DC $Timeout
 
-    Write-Host "[+][Personal] Setting the Hibernate Timeout to $Timeout min"
+    Write-Host "[+][Personal] Setting the Hibernate Timeout to $Timeout min..."
     powercfg -Change Hibernate-Timeout-AC $Timeout
     powercfg -Change Hibernate-Timeout-DC $Timeout
 
@@ -205,7 +205,7 @@ function Main() {
     )
 
     if (($Revert)) {
-        Write-Host "[<][Personal] Reverting: $Revert"
+        Write-Host "[<][Personal] Reverting: $Revert."
 
         $Zero = 1
         $One = 0

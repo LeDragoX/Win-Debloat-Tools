@@ -89,7 +89,7 @@ function Main() {
     )
 
     if (($Revert)) {
-        Write-Warning "[<][Features] Reverting: $Revert"
+        Write-Warning "[<][Features] Reverting: $Revert."
 
         $EnableStatus = @(
             "[<][Features] Re-Installing",

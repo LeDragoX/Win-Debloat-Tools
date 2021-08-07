@@ -23,7 +23,7 @@ function Main() {
 			exit
 		}
 		Else {
-			Write-Host "Registering the provisioned apps that match $PackageFilter"
+			Write-Host "Registering the provisioned apps that match $PackageFilter..."
 		}
 	}
 
@@ -33,7 +33,7 @@ function Main() {
 		$PackagePath = [System.Environment]::ExpandEnvironmentVariables(($Package | Get-ItemProperty | Select-Object -ExpandProperty Path))
 
 		# register the package	
-		Write-Host "Attempting to register package: $PackageName"
+		Write-Host "Attempting to register package: $PackageName."
 
 		Add-AppxPackage -register $PackagePath -DisableDevelopmentMode
 	}

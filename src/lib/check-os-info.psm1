@@ -18,7 +18,7 @@ function CheckOSArchitecture() {
         Write-Host "ARCH_NOT_FOUND (ARM?) ... Couldn't identify the System Architecture. :/"
     }
 
-    Write-Verbose "Architecture = $Architecture"
+    Write-Verbose "Architecture = $Architecture."
     return $Architecture
 }
 
@@ -38,10 +38,10 @@ function DetectCPU() {
         Write-Host "Intel CPU found!"
     }
     Else {
-        Write-Host "CPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
+        Write-Host "CPU_NOT_FOUND (NEW/CONFIDENTIAL?)."
     }
 
-    Write-Host "CPU = $($CPU.Name)"
+    Write-Host "CPU = $($CPU.Name)."
     return $CPU.Name
 }
 
@@ -56,7 +56,7 @@ function DetectGPU() {
 
     ForEach ($Computer in $ArrComputers) {
         $Global:GPU = Get-WmiObject -Class Win32_VideoController -ComputerName $Computer
-        Write-Verbose "Video Info: $($Global:GPU.description)" 
+        Write-Verbose "Video Info: $($Global:GPU.description)." 
     }
     
     If ($GPU.description.contains("AMD") -or $GPU.description.contains("Radeon")) {
@@ -72,6 +72,6 @@ function DetectGPU() {
         Write-Host "GPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
     }
 
-    Write-Host "GPU = $($GPU.description)" 
+    Write-Host "GPU = $($GPU.description)." 
     return $GPU.description
 }

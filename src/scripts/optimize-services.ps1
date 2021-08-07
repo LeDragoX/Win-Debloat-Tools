@@ -96,7 +96,7 @@ function Main() {
     )
 
     if (($Revert)) {
-        Write-Warning "[<][Services] Reverting: $Revert"
+        Write-Warning "[<][Services] Reverting: $Revert."
 
         $EnableStatus = @(
             "[<][Services] Re-Enabling",
