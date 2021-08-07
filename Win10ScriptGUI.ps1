@@ -439,15 +439,15 @@ function PrepareGUI() {
                 
             $Scripts = @(
                 # [Recommended order] List of Scripts
-                "backup-system.ps1"
-                "silent-debloat-softwares.ps1"
-                "optimize-scheduled-tasks.ps1"
-                "optimize-services.ps1"
-                "remove-bloatware-apps.ps1"
-                "optimize-privacy-and-performance.ps1"
-                "personal-tweaks.ps1"
-                "optimize-security.ps1"
-                "optimize-optional-features.ps1"
+                "backup-system.ps1",
+                "silent-debloat-softwares.ps1",
+                "optimize-scheduled-tasks.ps1",
+                "optimize-services.ps1",
+                "remove-bloatware-apps.ps1",
+                "optimize-privacy-and-performance.ps1",
+                "personal-tweaks.ps1",
+                "optimize-security.ps1",
+                "optimize-optional-features.ps1",
                 "remove-onedrive.ps1"
             )
     
@@ -474,7 +474,7 @@ function PrepareGUI() {
             
             $Scripts = @(
                 # [Recommended order] List of Scripts
-                "backup-system.ps1"
+                "backup-system.ps1",
                 "repair-windows.ps1"
             )
         
@@ -497,10 +497,11 @@ function PrepareGUI() {
             $Global:Revert = $true
             $Scripts = @(
                 # [Recommended order] List of Scripts
-                "optimize-scheduled-tasks.ps1"
-                "optimize-services.ps1"
-                "optimize-privacy-and-performance.ps1"
-                "personal-tweaks.ps1"
+                "optimize-scheduled-tasks.ps1",
+                "optimize-services.ps1",
+                "optimize-privacy-and-performance.ps1",
+                "personal-tweaks.ps1",
+                "optimize-optional-features.ps1"
             )
           
             ForEach ($FileName in $Scripts) {

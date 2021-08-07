@@ -11,6 +11,7 @@ function OptimizeOptionalFeatures() {
 
     $DisableFeatures = @(
         "FaxServicesClientPackage"             # Windows Fax and Scan
+        "IIS-*"                                # Internet Information Services
         "LegacyComponents"                     # Legacy Components
         "MediaPlayback"                        # Media Features
         "MicrosoftWindowsPowerShellV2"         # PowerShell 2.0
@@ -22,20 +23,21 @@ function OptimizeOptionalFeatures() {
 
     ForEach ($Feature in $DisableFeatures) {
 
-        $FeatureDetails = $(Get-WindowsOptionalFeature -Online -FeatureName $Feature)
-        
-        Write-Host "[?][Feature] $Feature Status:" $FeatureDetails.State
+        If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
 
-        If ($FeatureDetails.State -like "Enabled") {
+            Write-Host "$($EnableStatus[0]) $Feature..."
+            Invoke-Expression "$($Commands[0])"
 
-            Write-Host "[-][Feature] Uninstalling $Feature..."
-            Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName $Feature
+        }
+        Else {
+            
+            Write-Warning "[?][Features] $Feature was not found."
 
         }
     }
     
     $EnableFeatures = @(
-        "Microsoft-Hyper-V-All"             # Hyper-V (VT-d (Intel) / SVM (AMD) needed on BIOS)
+        "Microsoft-Hyper-V-All"             # Hyper-V (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
         "NetFx3"                            # NET Framework 3.5
         "NetFx4-AdvSrvs"                    # NET Framework 4
         "NetFx4Extended-ASPNET45"           # NET Framework 4.x + ASPNET 4.x
@@ -46,16 +48,17 @@ function OptimizeOptionalFeatures() {
     )
     
     ForEach ($Feature in $EnableFeatures) {
-        $FeatureDetails = $(Get-WindowsOptionalFeature -Online -FeatureName $Feature)
-        
-        Write-Host "[?][Feature] Checking if $Feature was already installed..."
-        Write-Host "[?][Feature] $Feature Status:" $FeatureDetails.State
 
-        If ($FeatureDetails.State -like "Disabled*") {
+        If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
 
-            Write-Host "[+][Feature] Installing $Feature..."
-            Enable-WindowsOptionalFeature -Online -NoRestart -FeatureName $Feature
+            Write-Host "[+][Features] Installing $Feature..."
+            Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
 
+        }
+        Else {
+
+            Write-Warning "[?][Features] $Feature was not found."
+            
         }
     }
 
@@ -71,6 +74,38 @@ function OptimizeOptionalFeatures() {
 }
 
 function Main() {
+
+    $EnableStatus = @(
+        "[-][Features] Uninstalling",
+        "[+][Features] Installing"
+    )
+    $FeatureState = @(
+        "Enabled",
+        "Disabled*"
+    )
+    $Commands = @(
+        { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[0])" | Disable-WindowsOptionalFeature -Online -NoRestart },
+        { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Enable-WindowsOptionalFeature -Online -NoRestart }
+    )
+
+    if (($Revert)) {
+        Write-Warning "[<][Features] Reverting: $Revert"
+
+        $EnableStatus = @(
+            "[<][Features] Re-Installing",
+            "[<][Features] Re-Uninstalling"
+        )
+        $FeatureState = @(
+            "Disabled*",
+            "Enabled"
+        )
+    
+        $Commands = @(
+            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Enable-WindowsOptionalFeature -Online -NoRestart },
+            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[0])" | Disable-WindowsOptionalFeature -Online -NoRestart }
+        )
+      
+    }
 
     OptimizeOptionalFeatures  # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
 
