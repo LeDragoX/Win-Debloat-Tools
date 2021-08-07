@@ -3,12 +3,6 @@
 # Shut Up 10
 **/debloat-softwares/ShutUp10/*.exe
 
-# Winaero Tweaker
-**/debloat-softwares/Winaero Tweaker/*.dll
-**/debloat-softwares/Winaero Tweaker/*.exe
-**/debloat-softwares/Winaero Tweaker/*.txt
-**/debloat-softwares/Winaero Tweaker/*.url
-
 # Temporary folder for downloaded stuff
 !**/tmp/*.txt
 **/tmp/*.exe
