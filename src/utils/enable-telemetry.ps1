@@ -14,6 +14,7 @@ function Main() {
   $Global:PathToTelemetry2 = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
 
   EnableTelemetry
+  
 }
 
 Main

@@ -234,6 +234,16 @@ function PrepareGUI() {
     $DisableTelemetry.Font = $SBFont
     $DisableTelemetry.ForeColor = $SBForeColor
 
+    $NextYLocation = $DisableTelemetry.Location.Y + $DisableTelemetry.Height + $DistanceBetweenButtons
+    # Panel 2 ~> Button 8
+    $InstallOneDrive = New-Object system.Windows.Forms.Button
+    $InstallOneDrive.Text = "Install OneDrive"
+    $InstallOneDrive.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $InstallOneDrive.Width = $SBWidth
+    $InstallOneDrive.Height = $SBHeight
+    $InstallOneDrive.Font = $SBFont
+    $InstallOneDrive.ForeColor = $SBForeColor
+
     # Panel 3 ~> Button 1 (Big)
     $InstallDrivers = New-Object system.Windows.Forms.Button
     $InstallDrivers.Text = "Install CPU/GPU Drivers (Winget/Chocolatey)"
@@ -424,7 +434,7 @@ function PrepareGUI() {
     $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry, $InstallOneDrive))
     $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1, $InstallDrivers, $InstallSoftwares, $BraveBrowser, $GoogleChrome, $MozillaFirefox, $7Zip, $WinRar, $VSCode, $NotepadPlusPlus, $OnlyOffice, $qBittorrent, $Vlc, $Gimp))
     $Panel4.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $Discord, $Steam, $Parsec, $ObsStudio, $Spotify))
 
@@ -564,7 +574,7 @@ function PrepareGUI() {
 
         })
 
-    # Panel 2 ~> Button 5 Mouse Click listener
+    # Panel 2 ~> Button 6 Mouse Click listener
     $EnableTelemetry.Add_Click( {
 
             Push-Location "src\utils\"
@@ -576,11 +586,23 @@ function PrepareGUI() {
 
         })
 
-    # Panel 2 ~> Button 5 Mouse Click listener
+    # Panel 2 ~> Button 7 Mouse Click listener
     $DisableTelemetry.Add_Click( {
 
             Push-Location "src\utils\"
             $FileName = "disable-telemetry.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Pop-Location
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
+    # Panel 2 ~> Button 8 Mouse Click listener
+    $InstallOneDrive.Add_Click( {
+
+            Push-Location "src\utils\"
+            $FileName = "install-onedrive.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
             Pop-Location
 
