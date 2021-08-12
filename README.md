@@ -109,10 +109,11 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ## ⚡ Troubleshooting
 
+> For each issue, expand the problem you're looking for,
+> and Open PowerShell as admin to copy paste it's content:
+
 <details>
 <summary>Start menu Search (<code>WSearch</code> indexing service will be disabled).</summary>
-
-> Open PowerShell as admin and copy paste:
 
 ```Powershell
 Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
@@ -122,8 +123,6 @@ Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Servi
 
 <details>
 <summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">Issues with Skype</a> (<code>Microsoft.SkypeApp</code> app will be uninstalled).</summary>
-
-> Open PowerShell as admin and copy paste:
 
 ```Powershell
 # Winget required first
@@ -135,8 +134,6 @@ winget install --silent "Microsoft.Skype"
 <details>
 <summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">Fingerprint Reader / Facial Detection not Working</a> (<code>WbioSrvc</code> service will be disabled).</summary>
 
-> Open PowerShell as admin and copy paste:
-
 ```Powershell
 Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
@@ -145,8 +142,6 @@ Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Serv
 
 <details>
 <summary>Bluestacks doesn't work with <code>Hyper-V</code> enabled.</summary>
-
-> Open PowerShell as admin and copy paste:
 
 ```Powershell
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "Microsoft-Hyper-V-All"
@@ -158,8 +153,6 @@ Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "VirtualMachinePl
 
 <details>
 <summary>Taskbar Widgets disappeared (Win11).</summary>
-
-> Open PowerShell as admin and copy paste:
 
 ```Powershell
 # Needs reboot to work properly
