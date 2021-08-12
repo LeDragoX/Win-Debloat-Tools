@@ -107,53 +107,71 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 </details>
 
-## ❌ Known Issues
-
-1. Start menu Search (`WSearch` indexing service will be disabled)
-2. [~~Xbox Wireless Adapter~~](https://github.com/W4RH4WK/Debloat-Windows-10/issues/78) (Fixed by not disabling the `XboxGipSvc` service)
-3. [Issues with Skype](https://github.com/W4RH4WK/Debloat-Windows-10/issues/79) (`Microsoft.SkypeApp` app will be uninstalled)
-4. [Fingerprint Reader / Facial Detection not Working](https://github.com/W4RH4WK/Debloat-Windows-10/issues/189) (`WbioSrvc` service will be disabled)
-5. Bluestacks doesn't work with Hyper-V enabled
-6. Sysprep will hang (Not Tested)
-
-### Solutions
+## ⚡ Troubleshooting
 
 <details>
-    <summary>Click to expand</summary>
-<p>Open PowerShell as admin and copy paste:</p>
+<summary>Start menu Search (<code>WSearch</code> indexing service will be disabled).</summary>
 
-### Solution 1
+> Open PowerShell as admin and copy paste:
 
 ```Powershell
 Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
 
-### Solution 2
+</details>
 
-```Powershell
-Get-Service Xb* | Set-Service -StartupType Automatic -PassThru | Start-Service
-```
+<details>
+<summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">Issues with Skype</a> (<code>Microsoft.SkypeApp</code> app will be uninstalled).</summary>
 
-### Solution 3
+> Open PowerShell as admin and copy paste:
 
 ```Powershell
 # Winget required first
 winget install --silent "Microsoft.Skype"
 ```
 
-### Solution 4
+</details>
+
+<details>
+<summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">Fingerprint Reader / Facial Detection not Working</a> (<code>WbioSrvc</code> service will be disabled).</summary>
+
+> Open PowerShell as admin and copy paste:
 
 ```Powershell
 Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
 
-### Solution 5
+</details>
+
+<details>
+<summary>Bluestacks doesn't work with <code>Hyper-V</code> enabled.</summary>
+
+> Open PowerShell as admin and copy paste:
 
 ```Powershell
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "Microsoft-Hyper-V-All"
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "HypervisorPlatform"
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "VirtualMachinePlatform"
 ```
+
+</details>
+
+<details>
+<summary>Taskbar Widgets disappeared (Win11).</summary>
+
+> Open PowerShell as admin and copy paste:
+
+```Powershell
+# Needs reboot to work properly
+Add-AppxPackage -register "$env:ProgramFiles\WindowsApps\*MicrosoftWindows.Client.WebExperience*\AppxManifest.xml" -DisableDevelopmentMode
+```
+
+</details>
+
+<details>
+<summary>Sysprep will hang (Not Tested).</summary>
+
+> _No solution yet, do a Google search_
 
 </details>
 
