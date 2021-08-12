@@ -27,15 +27,17 @@ but you'll probably want the most recent version anyway.
 This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10).
 These scripts will Customize, Debloat and Improve Security/Performance on Windows 10/+.
 
+_Use on a fresh windows install to note the differences._
+
 ⚠️ **Disclaimer:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
 
 ## 🔄️ Roll-Back
 
-**There is a undo (if works)**, because i did a restoration point script before
-doing everything.
+**If something breaks you can rely on:**.
 
-**Use on a fresh windows install to note the differences, and if something breaks,**
-**you can rely on a pre-made restoration point and the** [`repair-windows.ps1`](./src/scripts/repair-windows.ps1) file.
+1.  A restoration point;
+2.  The [`repair-windows.ps1`](./src/scripts/repair-windows.ps1) file or button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1);
+3.  If you want (almost) everything to it's original state, use the `Revert Tweaks` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1).
 
 ## ❗ Usage Requirements
 
