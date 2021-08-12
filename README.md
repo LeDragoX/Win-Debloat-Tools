@@ -154,7 +154,7 @@ Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "VirtualMachinePl
 </details>
 
 <details>
-<summary>Taskbar Widgets disappeared (Win11).</summary>
+<summary>Taskbar <code>Widgets</code> disappeared (Windows 11).</summary>
 
 ```Powershell
 # Needs reboot to work properly
