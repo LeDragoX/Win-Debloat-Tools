@@ -5,17 +5,17 @@ function RemoveBloatwareApps() {
     Title1 -Text "Remove Bloatware Apps"
 
     $Apps = @(
-        # [Alphabetic order] Default Windows 10 apps
-        "Microsoft.3DBuilder"                       # 3D Builder
+        # Default Windows 10 apps
+        "Microsoft.3DBuilder"                   # 3D Builder
         "Microsoft.Appconnector"
-        "Microsoft.BingFinance"                     # Finance
-        "Microsoft.BingFoodAndDrink"                # Food And Drink
-        "Microsoft.BingHealthAndFitness"            # Health And Fitness
-        "Microsoft.BingNews"                        # News
-        "Microsoft.BingSports"                      # Sports
-        "Microsoft.BingTranslator"                  # Translator
-        "Microsoft.BingTravel"                      # Travel
-        "Microsoft.BingWeather"                     # Weather
+        "Microsoft.BingFinance"                 # Finance
+        "Microsoft.BingFoodAndDrink"            # Food And Drink
+        "Microsoft.BingHealthAndFitness"        # Health And Fitness
+        "Microsoft.BingNews"                    # News
+        "Microsoft.BingSports"                  # Sports
+        "Microsoft.BingTranslator"              # Translator
+        "Microsoft.BingTravel"                  # Travel
+        "Microsoft.BingWeather"                 # Weather
         "Microsoft.CommsPhone"
         "Microsoft.ConnectivityStore"
         "Microsoft.GamingServices"
@@ -25,58 +25,58 @@ function RemoveBloatwareApps() {
         "Microsoft.Microsoft3DViewer"
         "Microsoft.MicrosoftOfficeHub"
         "Microsoft.MicrosoftPowerBIForWindows"
-        "Microsoft.MicrosoftSolitaireCollection"    # MS Solitaire
+        "Microsoft.MicrosoftSolitaireCollection"# MS Solitaire
         "Microsoft.MixedReality.Portal"
         "Microsoft.NetworkSpeedTest"
-        "Microsoft.Office.OneNote"                  # MS Office One Note
+        "Microsoft.Office.OneNote"              # MS Office One Note
         "Microsoft.Office.Sway"
         "Microsoft.OneConnect"
-        "Microsoft.People"                          # People
-        "Microsoft.MSPaint"                         # Paint 3D (Where every artist truly start as a kid, i mean, on original Paint, not this 3D)
-        "Microsoft.Print3D"                         # Print 3D
+        "Microsoft.People"                      # People
+        "Microsoft.MSPaint"                     # Paint 3D (Where every artist truly start as a kid, i mean, on original Paint, not this 3D)
+        "Microsoft.Print3D"                     # Print 3D
         "Microsoft.ScreenSketch"
-        "Microsoft.SkypeApp"                        # Skype (Who still uses Skype? Use Discord)
-        "Microsoft.Todos"                           # Microsoft To Do
+        "Microsoft.SkypeApp"                    # Skype (Who still uses Skype? Use Discord)
+        "Microsoft.Todos"                       # Microsoft To Do
         "Microsoft.Wallet"
-        "Microsoft.WindowsAlarms"                   # Alarms
+        "Microsoft.WindowsAlarms"               # Alarms
         "microsoft.windowscommunicationsapps"
-        "Microsoft.WindowsMaps"                     # Maps
+        "Microsoft.WindowsMaps"                 # Maps
         "Microsoft.WindowsPhone"
         "Microsoft.WindowsReadingList"
         "Microsoft.WindowsSoundRecorder"
-        "Microsoft.XboxApp"                         # Xbox Console Companion (Replaced by new App)
+        "Microsoft.XboxApp"                     # Xbox Console Companion (Replaced by new App)
         "Microsoft.XboxGameCallableUI"
         "Microsoft.XboxGameOverlay"
-        "Microsoft.XboxIdentityProvider"            # Xbox Dependency
+        "Microsoft.XboxIdentityProvider"        # Xbox Dependency
         "Microsoft.XboxSpeechToTextOverlay"
         "Microsoft.Xbox.TCUI"
-        "Microsoft.YourPhone"                       # Your Phone
+        "Microsoft.YourPhone"                   # Your Phone
         "Microsoft.ZuneMusic"
         "Microsoft.ZuneVideo"
 
-        # [Alphabetic order] Default Windows 11 apps
-        "MicrosoftWindows.Client.WebExperience"     # Taskbar Widgets
+        # Default Windows 11 apps
+        "MicrosoftWindows.Client.WebExperience" # Taskbar Widgets
         
-        # [Alphabetic order] 3rd party Apps
+        # 3rd party Apps
         "*ACGMediaPlayer*"
         "*ActiproSoftwareLLC*"
-        "*AdobePhotoshopExpress*"                   # Adobe Photoshop Express
-        "*Asphalt8Airborne*"                        # Asphalt 8 Airbone
+        "*AdobePhotoshopExpress*"               # Adobe Photoshop Express
+        "*Asphalt8Airborne*"                    # Asphalt 8 Airbone
         "*AutodeskSketchBook*"
-        "*BubbleWitch3Saga*"                        # Bubble Witch 3 Saga
+        "*BubbleWitch3Saga*"                    # Bubble Witch 3 Saga
         "*CaesarsSlotsFreeCasino*"
-        "*CandyCrush*"                              # Candy Crush
+        "*CandyCrush*"                          # Candy Crush
         "*COOKINGFEVER*"
         "*CyberLinkMediaSuiteEssentials*"
         "*DisneyMagicKingdoms*"
-        "*Dolby*"                                   # Dolby Products (Like Atmos)
+        "*Dolby*"                               # Dolby Products (Like Atmos)
         "*DrawboardPDF*"
-        "*Duolingo-LearnLanguagesforFree*"          # Duolingo
+        "*Duolingo-LearnLanguagesforFree*"      # Duolingo
         "*EclipseManager*"
-        "*Facebook*"                                # Facebook
+        "*Facebook*"                            # Facebook
         "*FarmVille2CountryEscape*"
         "*FitbitCoach*"
-        "*Flipboard*"
+        "*Flipboard*"                           # Flipboard
         "*HiddenCity*"
         "*Hulu*"
         "*iHeartRadio*"
@@ -88,7 +88,7 @@ function RemoveBloatwareApps() {
         "*PandoraMediaInc*"
         "*PhototasticCollage*"
         "*PicsArt-PhotoStudio*"
-        "*Plex*"
+        "*Plex*"                                # Plex
         "*PolarrPhotoEditorAcademicEdition*"
         "*RoyalRevolt*"                         # Royal Revolt
         "*Shazam*"
@@ -109,12 +109,13 @@ function RemoveBloatwareApps() {
 
         # [DIY] Default apps i'll keep
 
-        #"Microsoft.FreshPaint"
-        #"Microsoft.MicrosoftEdge"          # This browser finally became something
-        #"Microsoft.MicrosoftStickyNotes"   # Productivity
-        #"Microsoft.WindowsCalculator"      # How much is (98357489.253 x 5347658.845937) / 924 ?
-        #"Microsoft.WindowsCamera"          # Keep to test Camera
-        #"Microsoft.Windows.Photos"         # Reproduce GIFs
+        #"Microsoft.FreshPaint"             # Paint
+        #"Microsoft.MicrosoftEdge"          # Microsoft Edge
+        #"Microsoft.MicrosoftStickyNotes"   # Sticky Notes
+        #"Microsoft.WindowsCalculator"      # Calculator
+        #"Microsoft.WindowsCamera"          # Camera
+        #"Microsoft.WindowsFeedbackHub"     # Feedback Hub
+        #"Microsoft.Windows.Photos"         # Photos
         
         # [DIY] Xbox Apps and Dependencies
         
@@ -122,25 +123,24 @@ function RemoveBloatwareApps() {
         
         # [DIY] Common Streaming services
         
-        #"*Netflix*"
-        #"*SpotifyMusic*"
+        #"*Netflix*"                        # Netflix
+        #"*SpotifyMusic*"                   # Spotify
 
         # [DIY] Can't be reinstalled
 
-        #"Microsoft.WindowsStore"
-        #"Microsoft.WindowsFeedbackHub"
+        #"Microsoft.WindowsStore"           # Windows Store
 
         # Apps which cannot be removed using Remove-AppxPackage
         #"Microsoft.BioEnrollment"
-        #"Microsoft.Windows.Cortana"
-        #"Microsoft.WindowsFeedback"
+        #"Microsoft.Windows.Cortana"        # Cortana
+        #"Microsoft.WindowsFeedback"        # Feedback Module
         #"Windows.ContactSupport"
     )
 
     ForEach ($Bloat in $Apps) {
         Write-Host "[-][UWP] Trying to remove $Bloat ..."
-        Get-AppxPackage -AllUsers -Name $Bloat | Remove-AppxPackage    # App
-        Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online -AllUsers  # Payload
+        Get-AppxPackage -AllUsers -Name $Bloat | Remove-AppxPackage # App
+        Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online -AllUsers # Payload
     }
 
 }
