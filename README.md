@@ -33,9 +33,7 @@ _Use on a fresh windows install to note the differences._
 
 ## 🔄️ Roll-Back
 
-**There is a way to undo the script**.
-
-> If something breaks you can rely on:
+**If something breaks you can rely on:**.
 
 1.  A restoration point;
 2.  The [`repair-windows.ps1`](./src/scripts/repair-windows.ps1) file or button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1);
