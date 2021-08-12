@@ -53,6 +53,9 @@ function RemoveBloatwareApps() {
         "Microsoft.YourPhone"                       # Your Phone
         "Microsoft.ZuneMusic"
         "Microsoft.ZuneVideo"
+
+        # [Alphabetic order] Default Windows 11 apps
+        "MicrosoftWindows.Client.WebExperience"     # Taskbar Widgets
         
         # [Alphabetic order] 3rd party Apps
         "*ACGMediaPlayer*"
