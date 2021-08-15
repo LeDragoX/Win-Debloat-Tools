@@ -46,8 +46,8 @@ function PersonalTweaks() {
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
 
     Write-Host "[@] (1 = This PC, 2 = Quick access)"
-    Write-Host "$($EnableStatus[1]) Set Windows Explorer to start on This PC instead of Quick Access..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value $One
+    Write-Host "$[+][Personal] Setting Windows Explorer to start on This PC instead of Quick Access..."
+    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
 
     Write-Host "$($EnableStatus[1]) Show hidden files in Explorer..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "Hidden" -Type DWord -Value $One
