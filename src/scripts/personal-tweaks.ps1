@@ -110,7 +110,7 @@ function PersonalTweaks() {
     Section1 -Text "System"
     Caption1 -Text "Multitasking"
 
-    Write-Host "$($EnableStatus[0]) Edge multi tabs showing on Alt + Tab..."
+    Write-Host "[-][Personal] Disabling Edge multi tabs showing on Alt + Tab..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
     Section1 -Text "Devices"
