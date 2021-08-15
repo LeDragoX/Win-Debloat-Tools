@@ -33,7 +33,7 @@ Step-by-Step to reproduce the behavior:
 - System Specs:
   - OS: _(e.g. Windows 10)_
   - Version: _(e.g. 21H1)_
-- Date Executed: _(e.g. 2021-06=07)_
+- Date Executed: _(e.g. 2021-06-07)_
 
 ### Additional context?
 
