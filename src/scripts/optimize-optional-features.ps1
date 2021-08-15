@@ -103,8 +103,8 @@ function Main() {
         )
     
         $Commands = @(
-            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Enable-WindowsOptionalFeature -Online -NoRestart },
-            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[0])" | Disable-WindowsOptionalFeature -Online -NoRestart }
+            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[0])" | Enable-WindowsOptionalFeature -Online -NoRestart },
+            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Disable-WindowsOptionalFeature -Online -NoRestart }
         )
       
     }
