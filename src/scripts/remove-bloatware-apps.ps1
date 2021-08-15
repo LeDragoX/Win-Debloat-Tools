@@ -47,13 +47,12 @@ function RemoveBloatwareApps() {
         "Microsoft.XboxApp"                     # Xbox Console Companion (Replaced by new App)
         "Microsoft.XboxGameCallableUI"
         "Microsoft.XboxGameOverlay"
-        "Microsoft.XboxIdentityProvider"        # Xbox Dependency
         "Microsoft.XboxSpeechToTextOverlay"
         "Microsoft.Xbox.TCUI"
         "Microsoft.YourPhone"                   # Your Phone
         "Microsoft.ZuneMusic"
         "Microsoft.ZuneVideo"
-
+        
         # Default Windows 11 apps
         "MicrosoftWindows.Client.WebExperience" # Taskbar Widgets
         
@@ -104,11 +103,11 @@ function RemoveBloatwareApps() {
         
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"
-
+        
         # <==========[ DIY ]==========> (Remove the # to Unninstall)
-
+        
         # [DIY] Default apps i'll keep
-
+        
         #"Microsoft.FreshPaint"             # Paint
         #"Microsoft.MicrosoftEdge"          # Microsoft Edge
         #"Microsoft.MicrosoftStickyNotes"   # Sticky Notes
@@ -120,6 +119,7 @@ function RemoveBloatwareApps() {
         # [DIY] Xbox Apps and Dependencies
         
         #"Microsoft.XboxGamingOverlay"      # Xbox Game Bar
+        #"Microsoft.XboxIdentityProvider"   # Xbox Identity Provider (Xbox Dependency)
         
         # [DIY] Common Streaming services
         
