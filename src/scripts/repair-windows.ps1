@@ -32,23 +32,23 @@ function RepairWindows() {
   
   Section1 -Text "Resetting the MS Store"
   
-  Start-Process wsreset -NoNewWindow
+  Start-Process wsreset -NoNewWindow | Out-Host
   
   Section1 -Text "Fix Windows Taskbar"
   
   Push-Location -Path "$env:SystemRoot\System32\"
-  .\Regsvr32.exe /s msimtf.dll 
-  .\Regsvr32.exe /s msctf.dll
-  Start-Process -Verb RunAs .\ctfmon.exe
+  .\Regsvr32.exe /s msimtf.dll | Out-Host
+  .\Regsvr32.exe /s msctf.dll | Out-Host
+  Start-Process -Verb RunAs .\ctfmon.exe | Out-Host
   Pop-Location
   
   Section1 -Text "Remove 'Test Mode' Watermark"
-  bcdedit -set TESTSIGNING OFF
+  bcdedit -set TESTSIGNING OFF | Out-Host
   
   Section1 -Text "Fix Windows Registry and Image"
   
-  sfc /scannow
-  dism.exe /online /cleanup-image /restorehealth
+  sfc /scannow | Out-Host
+  dism.exe /online /cleanup-image /restorehealth | Out-Host
   
   Section1 -Text "Re-register all your apps"
   
@@ -59,18 +59,18 @@ function RepairWindows() {
   
   Section1 -Text "Solving Network problems"
   
-  ipconfig /release
-  ipconfig /release6
+  ipconfig /release | Out-Host
+  ipconfig /release6 | Out-Host
   Caption1 -Text "'ipconfig /renew6 *Ethernet*' - YOUR INTERNET MAY FALL DURING THIS, be patient..."
-  ipconfig /renew6 *Ethernet*
+  ipconfig /renew6 *Ethernet* | Out-Host
   Caption1 -Text "'ipconfig /renew *Ethernet*' - THIS MAY TAKE A TIME, be patient..."
-  ipconfig /renew *Ethernet*
+  ipconfig /renew *Ethernet* | Out-Host
   
   Caption1 -Text "Flushing DNS..."
-  ipconfig /flushdns
+  ipconfig /flushdns | Out-Host
   
   Caption1 -Text "Resetting Winsock..."
-  netsh winsock reset
+  netsh winsock reset | Out-Host
 
 }
 
