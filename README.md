@@ -33,7 +33,7 @@ _Use on a fresh windows install to note the differences._
 
 ## 🔄️ Roll-Back
 
-**If something breaks you can rely on:**.
+**If something breaks you can rely on:**
 
 1.  A restoration point;
 2.  The [`repair-windows.ps1`](./src/scripts/repair-windows.ps1) file or button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1);
@@ -109,13 +109,31 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 </details>
 
-## ⚡ Troubleshooting
+## ⚡ Troubleshooting Known Issues
 
 > For each issue, expand the problem you're looking for,
 > and Open PowerShell as admin to copy paste it's content:
 
 <details>
-<summary>Start menu Search (<code>WSearch</code> indexing service will be disabled).</summary>
+<summary>NVIDIA GeForce Experience <code>ERROR: 0x0003</code> (<code>NvContainerLocalSystem</code> service was disabled).</summary>
+
+```Powershell
+Get-Service NvContainerLocalSystem | Set-Service -StartupType Automatic -PassThru | Start-Service
+```
+
+</details>
+
+<details>
+<summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">Fingerprint Reader / Facial Detection not Working</a> (<code>WbioSrvc</code> service was disabled).</summary>
+
+```Powershell
+Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
+```
+
+</details>
+
+<details>
+<summary>Start menu Search (<code>WSearch</code> indexing service was disabled).</summary>
 
 ```Powershell
 Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
@@ -124,7 +142,7 @@ Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Servi
 </details>
 
 <details>
-<summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">Issues with Skype</a> (<code>Microsoft.SkypeApp</code> app will be uninstalled).</summary>
+<summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">Issues with Skype</a> (<code>Microsoft.SkypeApp</code> app was uninstalled).</summary>
 
 ```Powershell
 # Winget required first
@@ -134,10 +152,11 @@ winget install --silent "Microsoft.Skype"
 </details>
 
 <details>
-<summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">Fingerprint Reader / Facial Detection not Working</a> (<code>WbioSrvc</code> service will be disabled).</summary>
+<summary>Taskbar <code>Widgets</code> disappeared (Windows 11).</summary>
 
 ```Powershell
-Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
+# Needs reboot to work properly
+Add-AppxPackage -register "$env:ProgramFiles\WindowsApps\*MicrosoftWindows.Client.WebExperience*\AppxManifest.xml" -DisableDevelopmentMode
 ```
 
 </details>
@@ -149,16 +168,6 @@ Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Serv
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "Microsoft-Hyper-V-All"
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "HypervisorPlatform"
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "VirtualMachinePlatform"
-```
-
-</details>
-
-<details>
-<summary>Taskbar <code>Widgets</code> disappeared (Windows 11).</summary>
-
-```Powershell
-# Needs reboot to work properly
-Add-AppxPackage -register "$env:ProgramFiles\WindowsApps\*MicrosoftWindows.Client.WebExperience*\AppxManifest.xml" -DisableDevelopmentMode
 ```
 
 </details>
