@@ -335,25 +335,25 @@ function PrepareGUI() {
     
     $NextYLocation = $OnlyOffice.Location.Y + $OnlyOffice.Height + $DistanceBetweenButtons
     # Panel 3 ~> Button 10
-    $qBittorrent = New-Object system.Windows.Forms.Button
-    $qBittorrent.Text = "qBittorrent"
-    $qBittorrent.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $qBittorrent.Width = $SBWidth
-    $qBittorrent.Height = $SBHeight
-    $qBittorrent.Font = $SBFont
-    $qBittorrent.ForeColor = $SBForeColor
+    $LibreOffice = New-Object system.Windows.Forms.Button
+    $LibreOffice.Text = "LibreOffice"
+    $LibreOffice.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $LibreOffice.Width = $SBWidth
+    $LibreOffice.Height = $SBHeight
+    $LibreOffice.Font = $SBFont
+    $LibreOffice.ForeColor = $SBForeColor
     
-    $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
+    $NextYLocation = $LibreOffice.Location.Y + $LibreOffice.Height + $DistanceBetweenButtons
     # Panel 3 ~> Button 11
-    $Vlc = New-Object system.Windows.Forms.Button
-    $Vlc.Text = "VideoLAN VLC"
-    $Vlc.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Vlc.Width = $SBWidth
-    $Vlc.Height = $SBHeight
-    $Vlc.Font = $SBFont
-    $Vlc.ForeColor = $SBForeColor
+    $PaintNet = New-Object system.Windows.Forms.Button
+    $PaintNet.Text = "Paint.NET"
+    $PaintNet.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $PaintNet.Width = $SBWidth
+    $PaintNet.Height = $SBHeight
+    $PaintNet.Font = $SBFont
+    $PaintNet.ForeColor = $SBForeColor
     
-    $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
+    $NextYLocation = $PaintNet.Location.Y + $PaintNet.Height + $DistanceBetweenButtons
     # Panel 3 ~> Button 12
     $Gimp = New-Object system.Windows.Forms.Button
     $Gimp.Text = "GIMP"
@@ -421,6 +421,36 @@ function PrepareGUI() {
     $Spotify.Height = $SBHeight
     $Spotify.Font = $SBFont
     $Spotify.ForeColor = $SBForeColor
+
+    $NextYLocation = $Spotify.Location.Y + $Spotify.Height + $DistanceBetweenButtons
+    # Panel 4 ~> Button 7
+    $qBittorrent = New-Object system.Windows.Forms.Button
+    $qBittorrent.Text = "qBittorrent"
+    $qBittorrent.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $qBittorrent.Width = $SBWidth
+    $qBittorrent.Height = $SBHeight
+    $qBittorrent.Font = $SBFont
+    $qBittorrent.ForeColor = $SBForeColor
+    
+    $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
+    # Panel 4 ~> Button 8
+    $Vlc = New-Object system.Windows.Forms.Button
+    $Vlc.Text = "VideoLAN VLC"
+    $Vlc.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Vlc.Width = $SBWidth
+    $Vlc.Height = $SBHeight
+    $Vlc.Font = $SBFont
+    $Vlc.ForeColor = $SBForeColor
+
+    $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
+    # Panel 4 ~> Button 9
+    $MpcHc = New-Object system.Windows.Forms.Button
+    $MpcHc.Text = "Media Player Classic"
+    $MpcHc.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $MpcHc.Width = $SBWidth
+    $MpcHc.Height = $SBHeight
+    $MpcHc.Font = $SBFont
+    $MpcHc.ForeColor = $SBForeColor
         
     # Image Logo from the Script
     $PictureBox1 = New-Object system.Windows.Forms.PictureBox
@@ -435,8 +465,8 @@ function PrepareGUI() {
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry, $InstallOneDrive))
-    $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1, $InstallDrivers, $InstallSoftwares, $BraveBrowser, $GoogleChrome, $MozillaFirefox, $7Zip, $WinRar, $VSCode, $NotepadPlusPlus, $OnlyOffice, $qBittorrent, $Vlc, $Gimp))
-    $Panel4.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $Discord, $Steam, $Parsec, $ObsStudio, $Spotify))
+    $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1, $InstallDrivers, $InstallSoftwares, $BraveBrowser, $GoogleChrome, $MozillaFirefox, $7Zip, $WinRar, $VSCode, $NotepadPlusPlus, $OnlyOffice, $LibreOffice, $PaintNet, $Gimp))
+    $Panel4.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $Discord, $Steam, $Parsec, $ObsStudio, $Spotify, $qBittorrent, $Vlc, $MpcHc))
 
     # <=== CLICK EVENTS ===>
 
@@ -731,11 +761,11 @@ function PrepareGUI() {
         })
         
     # Panel 3 ~> Button 10 Mouse Click listener
-    $qBittorrent.Add_Click( {
+    $LibreOffice.Add_Click( {
             
             $InstallParams = @{
-                Name         = $qBittorrent.Text
-                PackageName  = "qBittorrent.qBittorrent"
+                Name         = $LibreOffice.Text
+                PackageName  = "LibreOffice.LibreOffice"
                 InstallBlock = { winget install --silent $PackageName }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
@@ -743,12 +773,12 @@ function PrepareGUI() {
         })
         
     # Panel 3 ~> Button 11 Mouse Click listener
-    $Vlc.Add_Click( {
+    $PaintNet.Add_Click( {
             
             $InstallParams = @{
-                Name         = $Vlc.Text
-                PackageName  = "VideoLAN.VLC"
-                InstallBlock = { winget install --silent $PackageName }
+                Name         = $PaintNet.Text
+                PackageName  = "paint.net"
+                InstallBlock = { choco install -y $PackageName }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
@@ -789,7 +819,7 @@ function PrepareGUI() {
 
         })
 
-    # Panel 3 ~> Button 2 Mouse Click listener
+    # Panel 4 ~> Button 2 Mouse Click listener
     $Discord.Add_Click( {
 
             $InstallParams = @{
@@ -800,7 +830,7 @@ function PrepareGUI() {
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
         })
-    # Panel 3 ~> Button 3 Mouse Click listener
+    # Panel 4 ~> Button 3 Mouse Click listener
     $Steam.Add_Click( {
 
             $InstallParams = @{
@@ -812,7 +842,7 @@ function PrepareGUI() {
 
         })
 
-    # Panel 3 ~> Button 4 Mouse Click listener
+    # Panel 4 ~> Button 4 Mouse Click listener
     $Parsec.Add_Click( {
         
             $InstallParams = @{
@@ -824,7 +854,7 @@ function PrepareGUI() {
         
         })
 
-    # Panel 3 ~> Button 5 Mouse Click listener
+    # Panel 4 ~> Button 5 Mouse Click listener
     $ObsStudio.Add_Click( {
 
             $InstallParams = @{
@@ -836,7 +866,7 @@ function PrepareGUI() {
     
         })
 
-    # Panel 3 ~> Button 6 Mouse Click listener
+    # Panel 4 ~> Button 6 Mouse Click listener
     $Spotify.Add_Click( {
             
             $InstallParams = @{
@@ -847,7 +877,43 @@ function PrepareGUI() {
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
         })
+
+    # Panel 4 ~> Button 7 Mouse Click listener
+    $qBittorrent.Add_Click( {
             
+            $InstallParams = @{
+                Name         = $qBittorrent.Text
+                PackageName  = "qBittorrent.qBittorrent"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+        
+        })
+    
+    # Panel 4 ~> Button 8 Mouse Click listener
+    $Vlc.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Vlc.Text
+                PackageName  = "VideoLAN.VLC"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+        
+        })
+
+    # Panel 4 ~> Button 9 Mouse Click listener
+    $MpcHc.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $MpcHc.Text
+                PackageName  = "clsid2.mpc-hc"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+    
+        })
+
     # Show the Window
     [void]$Form.ShowDialog()
     
