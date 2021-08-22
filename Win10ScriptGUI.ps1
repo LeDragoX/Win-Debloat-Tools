@@ -89,17 +89,27 @@ function PrepareGUI() {
     $Panel2.Height = $PHeight
     $Panel2.Location = Invoke-Expression "$PLocation"
 
-    # Panel 3 to put Labels and Buttons
+    # Panel 3 to put Title and Labels
     $Panel3 = New-Object system.Windows.Forms.Panel
-    $Panel3.Width = $PWidth
+    $Panel3.Width = ($PWidth * 2) + 1
     $Panel3.Height = $PHeight
     $Panel3.Location = Invoke-Expression "$PLocation"
+    $Panel3.HorizontalScroll.Enabled = $false
+    $Panel3.HorizontalScroll.Visible = $false
+    $Panel3.AutoScroll = $false
 
-    # Panel 4 to put Labels and Buttons
-    $Panel4 = New-Object system.Windows.Forms.Panel
-    $Panel4.Width = $PWidth
-    $Panel4.Height = $PHeight
-    $Panel4.Location = Invoke-Expression "$PLocation"
+    # Panel 3.1 to put Labels and Buttons
+    $Panel3_1 = New-Object system.Windows.Forms.Panel
+    $Panel3_1.Width = $PWidth
+    $Panel3_1.Height = $PHeight
+    $Panel3_1.Location = New-Object System.Drawing.Point(0 , 0)
+
+    # Panel 3.2 to put Labels and Buttons
+    $Panel3_2 = New-Object system.Windows.Forms.Panel
+    $Panel3_2.Width = $PWidth
+    $Panel3_2.Height = $PHeight
+    $CurrentPanelIndex++
+    $Panel3_2.Location = New-Object System.Drawing.Point($PWidth , 0)
     
     # Panel 1 ~> Title Label 1
     $TitleLabel1 = New-Object system.Windows.Forms.Label
@@ -121,27 +131,18 @@ function PrepareGUI() {
 
     # Panel 3 ~> Title Label 3
     $TitleLabel3 = New-Object system.Windows.Forms.Label
-    $TitleLabel3.Text = "   Software Install"
-    $TitleLabel3.Width = $TLWidth
+    $TitleLabel3.Text = "                 Software Install"
+    $TitleLabel3.Width = $TLWidth * 2
     $TitleLabel3.Height = $TLHeight
     $TitleLabel3.Location = $TLLocation
     $TitleLabel3.Font = $TLFont
     $TitleLabel3.ForeColor = $TLForeColor
 
-    # Panel 4 ~> Title Label 4
-    $TitleLabel4 = New-Object system.Windows.Forms.Label
-    $TitleLabel4.Text = " Software Install 2"
-    $TitleLabel4.Width = $TLWidth
-    $TitleLabel4.Height = $TLHeight
-    $TitleLabel4.Location = $TLLocation
-    $TitleLabel4.Font = $TLFont
-    $TitleLabel4.ForeColor = $TLForeColor
-
     # Panel 3 ~> Caption Label 1
     $CaptionLabel1 = New-Object system.Windows.Forms.Label
-    $CaptionLabel1.Text = "Winget = Native"
+    $CaptionLabel1.Text = "                        Winget = Native"
     $CaptionLabel1.Location = $CLLocation
-    $CaptionLabel1.Width = $CLWidth
+    $CaptionLabel1.Width = $CLWidth * 2
     $CaptionLabel1.Height = $CLHeight
     $CaptionLabel1.Font = $CLFont
     $CaptionLabel1.ForeColor = $CLForeColor
@@ -244,7 +245,7 @@ function PrepareGUI() {
     $InstallOneDrive.Font = $SBFont
     $InstallOneDrive.ForeColor = $SBForeColor
 
-    # Panel 3 ~> Button 1 (Big)
+    # Panel 3.1 ~> Button 1 (Big)
     $InstallDrivers = New-Object system.Windows.Forms.Button
     $InstallDrivers.Text = "Install CPU/GPU Drivers (Winget/Chocolatey)"
     $InstallDrivers.Width = $BBWidth
@@ -254,7 +255,7 @@ function PrepareGUI() {
     $InstallDrivers.ForeColor = $BBForeColor
     
     $NextYLocation = $InstallDrivers.Location.Y + $InstallDrivers.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 2
+    # Panel 3.1 ~> Button 2
     $BraveBrowser = New-Object system.Windows.Forms.Button
     $BraveBrowser.Text = "Brave Browser"
     $BraveBrowser.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -264,7 +265,7 @@ function PrepareGUI() {
     $BraveBrowser.ForeColor = $SBForeColor
     
     $NextYLocation = $BraveBrowser.Location.Y + $BraveBrowser.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 3
+    # Panel 3.1 ~> Button 3
     $GoogleChrome = New-Object system.Windows.Forms.Button
     $GoogleChrome.Text = "Google Chrome + uBlock"
     $GoogleChrome.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -274,7 +275,7 @@ function PrepareGUI() {
     $GoogleChrome.ForeColor = $SBForeColor
 
     $NextYLocation = $GoogleChrome.Location.Y + $GoogleChrome.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 4
+    # Panel 3.1 ~> Button 4
     $MozillaFirefox = New-Object system.Windows.Forms.Button
     $MozillaFirefox.Text = "Mozilla Firefox"
     $MozillaFirefox.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -284,7 +285,7 @@ function PrepareGUI() {
     $MozillaFirefox.ForeColor = $SBForeColor
 
     $NextYLocation = $MozillaFirefox.Location.Y + $MozillaFirefox.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 5
+    # Panel 3.1 ~> Button 5
     $7Zip = New-Object system.Windows.Forms.Button
     $7Zip.Text = "7-Zip"
     $7Zip.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -294,7 +295,7 @@ function PrepareGUI() {
     $7Zip.ForeColor = $SBForeColor
     
     $NextYLocation = $7Zip.Location.Y + $7Zip.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 6
+    # Panel 3.1 ~> Button 6
     $WinRar = New-Object system.Windows.Forms.Button
     $WinRar.Text = "WinRar"
     $WinRar.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -304,7 +305,7 @@ function PrepareGUI() {
     $WinRar.ForeColor = $SBForeColor
     
     $NextYLocation = $WinRar.Location.Y + $WinRar.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 7
+    # Panel 3.1 ~> Button 7
     $VSCode = New-Object system.Windows.Forms.Button
     $VSCode.Text = "Visual Studio Code"
     $VSCode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -314,7 +315,7 @@ function PrepareGUI() {
     $VSCode.ForeColor = $SBForeColor
     
     $NextYLocation = $VSCode.Location.Y + $VSCode.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 8
+    # Panel 3.1 ~> Button 8
     $NotepadPlusPlus = New-Object system.Windows.Forms.Button
     $NotepadPlusPlus.Text = "Notepad++"
     $NotepadPlusPlus.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -324,7 +325,7 @@ function PrepareGUI() {
     $NotepadPlusPlus.ForeColor = $SBForeColor
 
     $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 9
+    # Panel 3.1 ~> Button 9
     $OnlyOffice = New-Object system.Windows.Forms.Button
     $OnlyOffice.Text = "ONLYOFFICE DesktopEditors"
     $OnlyOffice.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -334,7 +335,7 @@ function PrepareGUI() {
     $OnlyOffice.ForeColor = $SBForeColor
     
     $NextYLocation = $OnlyOffice.Location.Y + $OnlyOffice.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 10
+    # Panel 3.1 ~> Button 10
     $LibreOffice = New-Object system.Windows.Forms.Button
     $LibreOffice.Text = "LibreOffice"
     $LibreOffice.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -344,7 +345,7 @@ function PrepareGUI() {
     $LibreOffice.ForeColor = $SBForeColor
     
     $NextYLocation = $LibreOffice.Location.Y + $LibreOffice.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 11
+    # Panel 3.1 ~> Button 11
     $PaintNet = New-Object system.Windows.Forms.Button
     $PaintNet.Text = "Paint.NET"
     $PaintNet.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -354,7 +355,7 @@ function PrepareGUI() {
     $PaintNet.ForeColor = $SBForeColor
     
     $NextYLocation = $PaintNet.Location.Y + $PaintNet.Height + $DistanceBetweenButtons
-    # Panel 3 ~> Button 12
+    # Panel 3.1 ~> Button 12
     $Gimp = New-Object system.Windows.Forms.Button
     $Gimp.Text = "GIMP"
     $Gimp.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -363,7 +364,7 @@ function PrepareGUI() {
     $Gimp.Font = $SBFont
     $Gimp.ForeColor = $SBForeColor
     
-    # Panel 4 ~> Button 1 (Big)
+    # Panel 3.2 ~> Button 1 (Big)
     $InstallGamingDependencies = New-Object system.Windows.Forms.Button
     $InstallGamingDependencies.Text = "Install Gaming Dependencies"
     $InstallGamingDependencies.Width = $BBWidth
@@ -373,7 +374,7 @@ function PrepareGUI() {
     $InstallGamingDependencies.ForeColor = $BBForeColor
 
     $NextYLocation = $InstallGamingDependencies.Location.Y + $InstallGamingDependencies.Height + $DistanceBetweenButtons
-    # Panel 4 ~> Button 2
+    # Panel 3.2 ~> Button 2
     $Discord = New-Object system.Windows.Forms.Button
     $Discord.Text = "Discord"
     $Discord.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -383,7 +384,7 @@ function PrepareGUI() {
     $Discord.ForeColor = $SBForeColor
 
     $NextYLocation = $Discord.Location.Y + $Discord.Height + $DistanceBetweenButtons
-    # Panel 4 ~> Button 3
+    # Panel 3.2 ~> Button 3
     $Steam = New-Object system.Windows.Forms.Button
     $Steam.Text = "Steam"
     $Steam.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -393,7 +394,7 @@ function PrepareGUI() {
     $Steam.ForeColor = $SBForeColor
 
     $NextYLocation = $Steam.Location.Y + $Steam.Height + $DistanceBetweenButtons
-    # Panel 4 ~> Button 4
+    # Panel 3.2 ~> Button 4
     $Parsec = New-Object system.Windows.Forms.Button
     $Parsec.Text = "Parsec"
     $Parsec.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -403,7 +404,7 @@ function PrepareGUI() {
     $Parsec.ForeColor = $SBForeColor
 
     $NextYLocation = $Parsec.Location.Y + $Parsec.Height + $DistanceBetweenButtons
-    # Panel 4 ~> Button 5
+    # Panel 3.2 ~> Button 5
     $ObsStudio = New-Object system.Windows.Forms.Button
     $ObsStudio.Text = "OBS Studio"
     $ObsStudio.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -413,7 +414,7 @@ function PrepareGUI() {
     $ObsStudio.ForeColor = $SBForeColor
 
     $NextYLocation = $ObsStudio.Location.Y + $ObsStudio.Height + $DistanceBetweenButtons
-    # Panel 4 ~> Button 6
+    # Panel 3.2 ~> Button 6
     $Spotify = New-Object system.Windows.Forms.Button
     $Spotify.Text = "Spotify"
     $Spotify.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -423,7 +424,7 @@ function PrepareGUI() {
     $Spotify.ForeColor = $SBForeColor
 
     $NextYLocation = $Spotify.Location.Y + $Spotify.Height + $DistanceBetweenButtons
-    # Panel 4 ~> Button 7
+    # Panel 3.2 ~> Button 7
     $qBittorrent = New-Object system.Windows.Forms.Button
     $qBittorrent.Text = "qBittorrent"
     $qBittorrent.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -433,7 +434,7 @@ function PrepareGUI() {
     $qBittorrent.ForeColor = $SBForeColor
     
     $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
-    # Panel 4 ~> Button 8
+    # Panel 3.2 ~> Button 8
     $Vlc = New-Object system.Windows.Forms.Button
     $Vlc.Text = "VideoLAN VLC"
     $Vlc.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -443,7 +444,7 @@ function PrepareGUI() {
     $Vlc.ForeColor = $SBForeColor
 
     $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
-    # Panel 4 ~> Button 9
+    # Panel 3.2 ~> Button 9
     $MpcHc = New-Object system.Windows.Forms.Button
     $MpcHc.Text = "Media Player Classic"
     $MpcHc.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -461,12 +462,14 @@ function PrepareGUI() {
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 
     # Add all Panels to the Form (Screen)
-    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
+    $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3))
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry, $InstallOneDrive))
-    $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1, $InstallDrivers, $InstallSoftwares, $BraveBrowser, $GoogleChrome, $MozillaFirefox, $7Zip, $WinRar, $VSCode, $NotepadPlusPlus, $OnlyOffice, $LibreOffice, $PaintNet, $Gimp))
-    $Panel4.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $Discord, $Steam, $Parsec, $ObsStudio, $Spotify, $qBittorrent, $Vlc, $MpcHc))
+    $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
+    $Panel3_1.Controls.AddRange(@($InstallDrivers, $BraveBrowser, $GoogleChrome, $MozillaFirefox, $7Zip, $WinRar, $VSCode, $NotepadPlusPlus, $OnlyOffice, $LibreOffice, $PaintNet, $Gimp))
+    $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $Discord, $Steam, $Parsec, $ObsStudio, $Spotify, $qBittorrent, $Vlc, $MpcHc))
+    $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
 
     # <=== CLICK EVENTS ===>
 
@@ -640,7 +643,7 @@ function PrepareGUI() {
 
         })
 
-    # Panel 3 ~> Button 1 Mouse Click listener
+    # Panel 3.1 ~> Button 1 Mouse Click listener
     $InstallDrivers.Add_Click( {
 
             Push-Location -Path "src\scripts\"
@@ -663,7 +666,7 @@ function PrepareGUI() {
 
         })
 
-    # Panel 3 ~> Button 2 Mouse Click listener
+    # Panel 3.1 ~> Button 2 Mouse Click listener
     $BraveBrowser.Add_Click( {
         
             $InstallParams = @{
@@ -676,7 +679,7 @@ function PrepareGUI() {
         })
 
     
-    # Panel 3 ~> Button 3 Mouse Click listener
+    # Panel 3.1 ~> Button 3 Mouse Click listener
     $GoogleChrome.Add_Click( {
             
             $InstallParams = @{
@@ -688,7 +691,7 @@ function PrepareGUI() {
             
         })
 
-    # Panel 3 ~> Button 4 Mouse Click listener
+    # Panel 3.1 ~> Button 4 Mouse Click listener
     $MozillaFirefox.Add_Click( {
             
             $InstallParams = @{
@@ -700,7 +703,7 @@ function PrepareGUI() {
             
         })
         
-    # Panel 3 ~> Button 5 Mouse Click listener
+    # Panel 3.1 ~> Button 5 Mouse Click listener
     $7Zip.Add_Click( {
         
             $InstallParams = @{
@@ -712,7 +715,7 @@ function PrepareGUI() {
     
         })
 
-    # Panel 3 ~> Button 6 Mouse Click listener
+    # Panel 3.1 ~> Button 6 Mouse Click listener
     $WinRar.Add_Click( {
             
             $InstallParams = @{
@@ -724,7 +727,7 @@ function PrepareGUI() {
 
         })
         
-    # Panel 3 ~> Button 7 Mouse Click listener
+    # Panel 3.1 ~> Button 7 Mouse Click listener
     $VSCode.Add_Click( {
             
             $InstallParams = @{
@@ -736,7 +739,7 @@ function PrepareGUI() {
         
         })
 
-    # Panel 3 ~> Button 8 Mouse Click listener
+    # Panel 3.1 ~> Button 8 Mouse Click listener
     $NotepadPlusPlus.Add_Click( {
             
             $InstallParams = @{
@@ -748,7 +751,7 @@ function PrepareGUI() {
             
         })
         
-    # Panel 3 ~> Button 9 Mouse Click listener
+    # Panel 3.1 ~> Button 9 Mouse Click listener
     $OnlyOffice.Add_Click( {
             
             $InstallParams = @{
@@ -760,7 +763,7 @@ function PrepareGUI() {
             
         })
         
-    # Panel 3 ~> Button 10 Mouse Click listener
+    # Panel 3.1 ~> Button 10 Mouse Click listener
     $LibreOffice.Add_Click( {
             
             $InstallParams = @{
@@ -772,7 +775,7 @@ function PrepareGUI() {
             
         })
         
-    # Panel 3 ~> Button 11 Mouse Click listener
+    # Panel 3.1 ~> Button 11 Mouse Click listener
     $PaintNet.Add_Click( {
             
             $InstallParams = @{
@@ -784,7 +787,7 @@ function PrepareGUI() {
             
         })
         
-    # Panel 3 ~> Button 12 Mouse Click listener
+    # Panel 3.1 ~> Button 12 Mouse Click listener
     $Gimp.Add_Click( {
 
             $InstallParams = @{
@@ -796,7 +799,7 @@ function PrepareGUI() {
                     
         })
 
-    # Panel 4 ~> Button 1 Mouse Click listener
+    # Panel 3.2 ~> Button 1 Mouse Click listener
     $InstallGamingDependencies.Add_Click( {
 
             Push-Location -Path "src\scripts\"
@@ -819,7 +822,7 @@ function PrepareGUI() {
 
         })
 
-    # Panel 4 ~> Button 2 Mouse Click listener
+    # Panel 3.2 ~> Button 2 Mouse Click listener
     $Discord.Add_Click( {
 
             $InstallParams = @{
@@ -830,7 +833,7 @@ function PrepareGUI() {
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
         })
-    # Panel 4 ~> Button 3 Mouse Click listener
+    # Panel 3.2 ~> Button 3 Mouse Click listener
     $Steam.Add_Click( {
 
             $InstallParams = @{
@@ -842,7 +845,7 @@ function PrepareGUI() {
 
         })
 
-    # Panel 4 ~> Button 4 Mouse Click listener
+    # Panel 3.2 ~> Button 4 Mouse Click listener
     $Parsec.Add_Click( {
         
             $InstallParams = @{
@@ -854,7 +857,7 @@ function PrepareGUI() {
         
         })
 
-    # Panel 4 ~> Button 5 Mouse Click listener
+    # Panel 3.2 ~> Button 5 Mouse Click listener
     $ObsStudio.Add_Click( {
 
             $InstallParams = @{
@@ -866,7 +869,7 @@ function PrepareGUI() {
     
         })
 
-    # Panel 4 ~> Button 6 Mouse Click listener
+    # Panel 3.2 ~> Button 6 Mouse Click listener
     $Spotify.Add_Click( {
             
             $InstallParams = @{
@@ -878,7 +881,7 @@ function PrepareGUI() {
             
         })
 
-    # Panel 4 ~> Button 7 Mouse Click listener
+    # Panel 3.2 ~> Button 7 Mouse Click listener
     $qBittorrent.Add_Click( {
             
             $InstallParams = @{
@@ -890,7 +893,7 @@ function PrepareGUI() {
         
         })
     
-    # Panel 4 ~> Button 8 Mouse Click listener
+    # Panel 3.2 ~> Button 8 Mouse Click listener
     $Vlc.Add_Click( {
         
             $InstallParams = @{
@@ -902,7 +905,7 @@ function PrepareGUI() {
         
         })
 
-    # Panel 4 ~> Button 9 Mouse Click listener
+    # Panel 3.2 ~> Button 9 Mouse Click listener
     $MpcHc.Add_Click( {
         
             $InstallParams = @{
