@@ -54,7 +54,7 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
 ```
 
-![Script GUI](./src/lib/images/script-gui.png)
+![Script GUI](./src/lib/images/script-gui.gif)
 
 _The `Apply Tweaks` button is the main one for debloating._
 
