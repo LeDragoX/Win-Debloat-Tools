@@ -141,7 +141,7 @@ function SetGuiLayout() {
   # Panel Layout
 
   $Global:PWidth = $PanelWidth
-  $Global:PHeight = $MaxHeight
+  $Global:PHeight = $MaxHeight - ($MaxHeight * 0.035)
   $Global:PLocation = { $CurrentPanelIndex++; New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0) }
 
   # Title Label Layout
