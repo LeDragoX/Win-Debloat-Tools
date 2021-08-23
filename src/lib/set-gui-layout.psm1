@@ -106,7 +106,7 @@ function SetGuiLayout() {
   $Global:NumOfPanels = 4
   [int]$Global:PanelWidth = ($MaxWidth / $NumOfPanels) # 284
   # To Labels
-  $Global:LabelWidth = $PanelWidth + ($PanelWidth * 0.1)
+  $Global:LabelWidth = $PanelWidth
   $Global:TitleLabelHeight = 35
   $Global:CaptionLabelHeight = 20
   # To Buttons
@@ -127,6 +127,7 @@ function SetGuiLayout() {
   [int]$Global:CaptionLabelX = $PanelWidth * 0.25
   [int]$Global:ButtonX = $PanelWidth * 0.01
   [int]$Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
+  $Global:TextAlign = "MiddleCenter"
 
   # <=== COLOR PALETTE ===>
 
@@ -153,9 +154,9 @@ function SetGuiLayout() {
 
   # Caption Label Layout
 
-  $Global:CLWidth = $LabelWidth
+  $Global:CLWidth = $LabelWidth - ($LabelWidth - $ButtonWidth)
   $Global:CLHeight = $CaptionLabelHeight
-  $Global:CLLocation = New-Object System.Drawing.Point($CaptionLabelX, ($FirstButtonY - $CLHeight - $DistanceBetweenButtons)) # First only
+  $Global:CLLocation = New-Object System.Drawing.Point(0, ($FirstButtonY - $CLHeight - $DistanceBetweenButtons)) # First only
   $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize4)
   $Global:CLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
