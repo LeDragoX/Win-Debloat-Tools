@@ -101,13 +101,13 @@ function PrepareGUI() {
     # Panel 3.1 to put Labels and Buttons
     $Panel3_1 = New-Object system.Windows.Forms.Panel
     $Panel3_1.Width = $PWidth
-    $Panel3_1.Height = $PHeight * 2.1
+    $Panel3_1.Height = $PHeight * 2.4
     $Panel3_1.Location = New-Object System.Drawing.Point(0 , 0)
 
     # Panel 3.2 to put Labels and Buttons
     $Panel3_2 = New-Object system.Windows.Forms.Panel
     $Panel3_2.Width = $PWidth
-    $Panel3_2.Height = $PHeight * 2.1
+    $Panel3_2.Height = $PHeight * 2.4
     $CurrentPanelIndex++
     $Panel3_2.Location = New-Object System.Drawing.Point($PWidth , 0)
     
@@ -485,16 +485,26 @@ function PrepareGUI() {
 
     $NextYLocation = $GitAndKeysSetup.Location.Y + $GitAndKeysSetup.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Button 19
-    $JavaJre = New-Object system.Windows.Forms.Button
-    $JavaJre.Text = "Java JRE"
-    $JavaJre.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $JavaJre.Width = $SBWidth
-    $JavaJre.Height = $SBHeight
-    $JavaJre.Font = $SBFont
-    $JavaJre.ForeColor = $SBForeColor
+    $JavaJRE = New-Object system.Windows.Forms.Button
+    $JavaJRE.Text = "Java JRE"
+    $JavaJRE.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $JavaJRE.Width = $SBWidth
+    $JavaJRE.Height = $SBHeight
+    $JavaJRE.Font = $SBFont
+    $JavaJRE.ForeColor = $SBForeColor
 
-    $NextYLocation = $JavaJre.Location.Y + $JavaJre.Height + $DistanceBetweenButtons
+    $NextYLocation = $JavaJRE.Location.Y + $JavaJRE.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Button 20
+    $JavaJDKs = New-Object system.Windows.Forms.Button
+    $JavaJDKs.Text = "AdoptOpenJDK 8, 11 and 16"
+    $JavaJDKs.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $JavaJDKs.Width = $SBWidth
+    $JavaJDKs.Height = $SBHeight
+    $JavaJDKs.Font = $SBFont
+    $JavaJDKs.ForeColor = $SBForeColor
+
+    $NextYLocation = $JavaJDKs.Location.Y + $JavaJDKs.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 21
     $NodeJsLts = New-Object system.Windows.Forms.Button
     $NodeJsLts.Text = "NodeJS LTS"
     $NodeJsLts.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -504,7 +514,7 @@ function PrepareGUI() {
     $NodeJsLts.ForeColor = $SBForeColor
 
     $NextYLocation = $NodeJsLts.Location.Y + $NodeJsLts.Height + $DistanceBetweenButtons
-    # Panel 3.1 ~> Button 21
+    # Panel 3.1 ~> Button 22
     $NodeJs = New-Object system.Windows.Forms.Button
     $NodeJs.Text = "NodeJS"
     $NodeJs.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -514,7 +524,7 @@ function PrepareGUI() {
     $NodeJs.ForeColor = $SBForeColor
 
     $NextYLocation = $NodeJs.Location.Y + $NodeJs.Height + $DistanceBetweenButtons
-    # Panel 3.1 ~> Button 22
+    # Panel 3.1 ~> Button 23
     $Python3 = New-Object system.Windows.Forms.Button
     $Python3.Text = "Python 3"
     $Python3.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -524,7 +534,7 @@ function PrepareGUI() {
     $Python3.ForeColor = $SBForeColor
 
     $NextYLocation = $Python3.Location.Y + $Python3.Height + $DistanceBetweenButtons
-    # Panel 3.1 ~> Button 23
+    # Panel 3.1 ~> Button 24
     $Ruby = New-Object system.Windows.Forms.Button
     $Ruby.Text = "Ruby with MSYS2"
     $Ruby.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -534,7 +544,7 @@ function PrepareGUI() {
     $Ruby.ForeColor = $SBForeColor
 
     $NextYLocation = $Ruby.Location.Y + $Ruby.Height + $DistanceBetweenButtons
-    # Panel 3.1 ~> Button 24
+    # Panel 3.1 ~> Button 25
     $AndroidStudio = New-Object system.Windows.Forms.Button
     $AndroidStudio.Text = "Android Studio"
     $AndroidStudio.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -797,7 +807,98 @@ function PrepareGUI() {
     $MpcHc.Height = $SBHeight
     $MpcHc.Font = $SBFont
     $MpcHc.ForeColor = $SBForeColor
-        
+
+    $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Caption Label 12
+    $CaptionLabel3_12 = New-Object system.Windows.Forms.Label
+    $CaptionLabel3_12.Text = "WSL (After Tweaks Only)"
+    $CaptionLabel3_12.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_12.Width = $CLWidth
+    $CaptionLabel3_12.Height = $CLHeight
+    $CaptionLabel3_12.Font = $CLFont
+    $CaptionLabel3_12.ForeColor = $CLForeColor
+    $CaptionLabel3_12.TextAlign = $TextAlign
+
+    $NextYLocation = $CaptionLabel3_12.Location.Y + $SBHeight + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 21
+    $Ubuntu = New-Object system.Windows.Forms.Button
+    $Ubuntu.Text = "Ubuntu"
+    $Ubuntu.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Ubuntu.Width = $SBWidth
+    $Ubuntu.Height = $SBHeight
+    $Ubuntu.Font = $SBFont
+    $Ubuntu.ForeColor = $SBForeColor
+
+    $NextYLocation = $Ubuntu.Location.Y + $Ubuntu.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 22
+    $Debian = New-Object system.Windows.Forms.Button
+    $Debian.Text = "Debian GNU/Linux"
+    $Debian.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Debian.Width = $SBWidth
+    $Debian.Height = $SBHeight
+    $Debian.Font = $SBFont
+    $Debian.ForeColor = $SBForeColor
+
+    $NextYLocation = $Debian.Location.Y + $Debian.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 23
+    $KaliLinux = New-Object system.Windows.Forms.Button
+    $KaliLinux.Text = "Kali Linux Rolling"
+    $KaliLinux.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $KaliLinux.Width = $SBWidth
+    $KaliLinux.Height = $SBHeight
+    $KaliLinux.Font = $SBFont
+    $KaliLinux.ForeColor = $SBForeColor
+
+    $NextYLocation = $KaliLinux.Location.Y + $KaliLinux.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 24
+    $OpenSuse = New-Object system.Windows.Forms.Button
+    $OpenSuse.Text = "Open SUSE 42"
+    $OpenSuse.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $OpenSuse.Width = $SBWidth
+    $OpenSuse.Height = $SBHeight
+    $OpenSuse.Font = $SBFont
+    $OpenSuse.ForeColor = $SBForeColor
+
+    $NextYLocation = $OpenSuse.Location.Y + $OpenSuse.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 25
+    $SLES = New-Object system.Windows.Forms.Button
+    $SLES.Text = "SLES v12"
+    $SLES.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $SLES.Width = $SBWidth
+    $SLES.Height = $SBHeight
+    $SLES.Font = $SBFont
+    $SLES.ForeColor = $SBForeColor
+
+    $NextYLocation = $SLES.Location.Y + $SLES.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 26
+    $Ubuntu16LTS = New-Object system.Windows.Forms.Button
+    $Ubuntu16LTS.Text = "Ubuntu 16.04 LTS"
+    $Ubuntu16LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Ubuntu16LTS.Width = $SBWidth
+    $Ubuntu16LTS.Height = $SBHeight
+    $Ubuntu16LTS.Font = $SBFont
+    $Ubuntu16LTS.ForeColor = $SBForeColor
+
+    $NextYLocation = $Ubuntu16LTS.Location.Y + $Ubuntu16LTS.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 27
+    $Ubuntu18LTS = New-Object system.Windows.Forms.Button
+    $Ubuntu18LTS.Text = "Ubuntu 18.04 LTS"
+    $Ubuntu18LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Ubuntu18LTS.Width = $SBWidth
+    $Ubuntu18LTS.Height = $SBHeight
+    $Ubuntu18LTS.Font = $SBFont
+    $Ubuntu18LTS.ForeColor = $SBForeColor
+
+    $NextYLocation = $Ubuntu18LTS.Location.Y + $Ubuntu18LTS.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 28
+    $Ubuntu20LTS = New-Object system.Windows.Forms.Button
+    $Ubuntu20LTS.Text = "Ubuntu 20.04 LTS"
+    $Ubuntu20LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Ubuntu20LTS.Width = $SBWidth
+    $Ubuntu20LTS.Height = $SBHeight
+    $Ubuntu20LTS.Font = $SBFont
+    $Ubuntu20LTS.ForeColor = $SBForeColor
+
     # Image Logo from the Script
     $PictureBox1 = New-Object system.Windows.Forms.PictureBox
     $PictureBox1.Width = 150
@@ -815,11 +916,12 @@ function PrepareGUI() {
     $Panel3_1.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRar, $CaptionLabel3_3, $OnlyOffice, $LibreOffice))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_5, $WindowsTerminal, $VSCode, $NotepadPlusPlus, $GitAndKeysSetup, $JavaJre, $NodeJsLts, $NodeJs, $Python3, $Ruby, $AndroidStudio))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_5, $WindowsTerminal, $VSCode, $NotepadPlusPlus, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Ruby, $AndroidStudio))
     $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_6, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_7, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_8, $Parsec, $TeamViewer, $CaptionLabel3_9, $ObsStudio, $StreamlabsObs))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_10, $qBittorrent, $CaptionLabel3_11, $Spotify, $Vlc, $MpcHc))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_12, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
     $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
 
     # <=== CLICK EVENTS ===>
@@ -1221,15 +1323,41 @@ function PrepareGUI() {
         })
 
     # Panel 3.1 Mouse Click listener
-    $JavaJre.Add_Click( {
+    $JavaJRE.Add_Click( {
         
             $InstallParams = @{
-                Name         = $JavaJre.Text
+                Name         = $JavaJRE.Text
                 PackageName  = "Oracle.JavaRuntimeEnvironment"
                 InstallBlock = { winget install --silent $PackageName }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $JavaJDKs.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = "AdoptOpenJDK 8"
+                PackageName  = "AdoptOpenJDK.OpenJDK.8" # Be vigilant as Eclipse Adoptium will become the newest owner
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+            $InstallParams = @{
+                Name         = "AdoptOpenJDK 11"
+                PackageName  = "AdoptOpenJDK.OpenJDK.11" # Be vigilant as Eclipse Adoptium will become the newest owner
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+            $InstallParams = @{
+                Name         = "AdoptOpenJDK 16"
+                PackageName  = "AdoptOpenJDK.OpenJDK.16" # Be vigilant as Eclipse Adoptium will become the newest owner
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
         })
 
     # Panel 3.1 Mouse Click listener
@@ -1529,6 +1657,102 @@ function PrepareGUI() {
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $Ubuntu.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Ubuntu.Text
+                PackageName  = "Ubuntu"
+                InstallBlock = { wsl --install --distribution $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $Debian.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Debian.Text
+                PackageName  = "Debian"
+                InstallBlock = { wsl --install --distribution $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $KaliLinux.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $KaliLinux.Text
+                PackageName  = "kali-linux"
+                InstallBlock = { wsl --install --distribution $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $OpenSuse.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $OpenSuse.Text
+                PackageName  = "openSUSE-42"
+                InstallBlock = { wsl --install --distribution $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $SLES.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $SLES.Text
+                PackageName  = "SLES-12"
+                InstallBlock = { wsl --install --distribution $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $Ubuntu16LTS.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Ubuntu16LTS.Text
+                PackageName  = "Ubuntu-16.04"
+                InstallBlock = { wsl --install --distribution $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $Ubuntu18LTS.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Ubuntu18LTS.Text
+                PackageName  = "Ubuntu-18.04"
+                InstallBlock = { wsl --install --distribution $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $Ubuntu20LTS.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Ubuntu20LTS.Text
+                PackageName  = "Ubuntu-20.04"
+                InstallBlock = { wsl --install --distribution $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
         })
 
     # Show the Window
