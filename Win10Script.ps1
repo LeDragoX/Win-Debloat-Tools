@@ -87,8 +87,6 @@ function Main() {
     
     PromptPcRestart             # Prompt options to Restart the PC
     
-    Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
-    
 }
 
 Main
