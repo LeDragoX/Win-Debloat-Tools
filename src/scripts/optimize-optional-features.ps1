@@ -71,7 +71,6 @@ function OptimizeOptionalFeatures() {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
     }
     wsl --set-default-version 2
-    wsl --list --online
 
 }
 
