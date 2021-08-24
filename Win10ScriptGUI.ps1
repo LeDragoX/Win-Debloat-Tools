@@ -101,13 +101,13 @@ function PrepareGUI() {
     # Panel 3.1 to put Labels and Buttons
     $Panel3_1 = New-Object system.Windows.Forms.Panel
     $Panel3_1.Width = $PWidth
-    $Panel3_1.Height = $PHeight * 2
+    $Panel3_1.Height = $PHeight * 2.1
     $Panel3_1.Location = New-Object System.Drawing.Point(0 , 0)
 
     # Panel 3.2 to put Labels and Buttons
     $Panel3_2 = New-Object system.Windows.Forms.Panel
     $Panel3_2.Width = $PWidth
-    $Panel3_2.Height = $PHeight * 2
+    $Panel3_2.Height = $PHeight * 2.1
     $CurrentPanelIndex++
     $Panel3_2.Location = New-Object System.Drawing.Point($PWidth , 0)
     
@@ -472,6 +472,76 @@ function PrepareGUI() {
     $NotepadPlusPlus.Height = $SBHeight
     $NotepadPlusPlus.Font = $SBFont
     $NotepadPlusPlus.ForeColor = $SBForeColor
+
+    $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 18
+    $GitAndKeysSetup = New-Object system.Windows.Forms.Button
+    $GitAndKeysSetup.Text = "Git and Keys Setup"
+    $GitAndKeysSetup.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $GitAndKeysSetup.Width = $SBWidth
+    $GitAndKeysSetup.Height = $SBHeight
+    $GitAndKeysSetup.Font = $SBFont
+    $GitAndKeysSetup.ForeColor = $SBForeColor
+
+    $NextYLocation = $GitAndKeysSetup.Location.Y + $GitAndKeysSetup.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 19
+    $JavaJre = New-Object system.Windows.Forms.Button
+    $JavaJre.Text = "Java JRE"
+    $JavaJre.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $JavaJre.Width = $SBWidth
+    $JavaJre.Height = $SBHeight
+    $JavaJre.Font = $SBFont
+    $JavaJre.ForeColor = $SBForeColor
+
+    $NextYLocation = $JavaJre.Location.Y + $JavaJre.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 20
+    $NodeJsLts = New-Object system.Windows.Forms.Button
+    $NodeJsLts.Text = "NodeJS LTS"
+    $NodeJsLts.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $NodeJsLts.Width = $SBWidth
+    $NodeJsLts.Height = $SBHeight
+    $NodeJsLts.Font = $SBFont
+    $NodeJsLts.ForeColor = $SBForeColor
+
+    $NextYLocation = $NodeJsLts.Location.Y + $NodeJsLts.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 21
+    $NodeJs = New-Object system.Windows.Forms.Button
+    $NodeJs.Text = "NodeJS"
+    $NodeJs.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $NodeJs.Width = $SBWidth
+    $NodeJs.Height = $SBHeight
+    $NodeJs.Font = $SBFont
+    $NodeJs.ForeColor = $SBForeColor
+
+    $NextYLocation = $NodeJs.Location.Y + $NodeJs.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 22
+    $Python3 = New-Object system.Windows.Forms.Button
+    $Python3.Text = "Python 3"
+    $Python3.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Python3.Width = $SBWidth
+    $Python3.Height = $SBHeight
+    $Python3.Font = $SBFont
+    $Python3.ForeColor = $SBForeColor
+
+    $NextYLocation = $Python3.Location.Y + $Python3.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 23
+    $Ruby = New-Object system.Windows.Forms.Button
+    $Ruby.Text = "Ruby with MSYS2"
+    $Ruby.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Ruby.Width = $SBWidth
+    $Ruby.Height = $SBHeight
+    $Ruby.Font = $SBFont
+    $Ruby.ForeColor = $SBForeColor
+
+    $NextYLocation = $Ruby.Location.Y + $Ruby.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 24
+    $AndroidStudio = New-Object system.Windows.Forms.Button
+    $AndroidStudio.Text = "Android Studio"
+    $AndroidStudio.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $AndroidStudio.Width = $SBWidth
+    $AndroidStudio.Height = $SBHeight
+    $AndroidStudio.Font = $SBFont
+    $AndroidStudio.ForeColor = $SBForeColor
     
     # Panel 3.2 ~> Button 1 (Big)
     $InstallGamingDependencies = New-Object system.Windows.Forms.Button
@@ -742,8 +812,14 @@ function PrepareGUI() {
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry, $InstallOneDrive))
     $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
-    $Panel3_1.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox, $CaptionLabel3_2, $7Zip, $WinRar, $CaptionLabel3_3, $CaptionLabel3_4, $OnlyOffice, $LibreOffice, $CaptionLabel3_5, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX, $WindowsTerminal, $VSCode, $NotepadPlusPlus))
-    $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_6, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat, $CaptionLabel3_7, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $CaptionLabel3_8, $Parsec, $TeamViewer, $CaptionLabel3_9, $ObsStudio, $StreamlabsObs, $CaptionLabel3_10, $qBittorrent, $CaptionLabel3_11, $Spotify, $Vlc, $MpcHc))
+    $Panel3_1.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRar, $CaptionLabel3_3, $OnlyOffice, $LibreOffice))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_5, $WindowsTerminal, $VSCode, $NotepadPlusPlus, $GitAndKeysSetup, $JavaJre, $NodeJsLts, $NodeJs, $Python3, $Ruby, $AndroidStudio))
+    $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_6, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_7, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_8, $Parsec, $TeamViewer, $CaptionLabel3_9, $ObsStudio, $StreamlabsObs))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_10, $qBittorrent, $CaptionLabel3_11, $Spotify, $Vlc, $MpcHc))
     $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
 
     # <=== CLICK EVENTS ===>
@@ -827,7 +903,6 @@ function PrepareGUI() {
                 Import-Module -DisableNameChecking .\"$FileName" -Force
             }
             $Global:Revert = $false
-          
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -934,7 +1009,6 @@ function PrepareGUI() {
                 Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName" -Force
             }
-
             Pop-Location
         
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -1132,6 +1206,90 @@ function PrepareGUI() {
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $GitAndKeysSetup.Add_Click( {
+        
+            Push-Location "src\utils\"
+            $FileName = "setup-git-keys-and-sign.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Pop-Location
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $JavaJre.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $JavaJre.Text
+                PackageName  = "Oracle.JavaRuntimeEnvironment"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+    
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $NodeJsLts.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $NodeJsLts.Text
+                PackageName  = "OpenJS.NodeJSLTS"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+    
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $NodeJs.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $NodeJs.Text
+                PackageName  = "OpenJS.NodeJS"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+    
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $Python3.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Python3.Text
+                PackageName  = "Python.Python.3"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+    
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $Ruby.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Ruby.Text
+                PackageName  = "RubyInstallerTeam.RubyWithDevKit"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $AndroidStudio.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $AndroidStudio.Text
+                PackageName  = "Google.AndroidStudio"
+                InstallBlock = { winget install --silent $PackageName }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
         })
 
     # Panel 3.2 Mouse Click listener
