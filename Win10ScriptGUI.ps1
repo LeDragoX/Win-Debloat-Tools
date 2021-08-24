@@ -1399,7 +1399,6 @@ function Main() {
     }
     
     RestrictPermissions         # Lock script usage
-    Taskkill /F /IM $PID        # Kill this task by PID because it won't exit with the command 'exit'
 
 }
 
