@@ -46,10 +46,13 @@ function PromptPcRestart() {
 
 function RunScripts() {
 
+    $DoneTitle = "Done"
+    $DoneMessage = "Proccess Completed!"
+    
     Push-Location -Path "src\scripts\"
-
+    
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
-        
+    
     Clear-Host
     $Scripts = @(
         # [Recommended order] List of Scripts
@@ -65,14 +68,17 @@ function RunScripts() {
         "remove-onedrive.ps1",
         "install-package-managers.ps1"
     )
-        
+
     ForEach ($FileName in $Scripts) {
         Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
     }
+    Pop-Location
+
+    ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
 
 }
-
+    
 function Main() {
     
     QuickPrivilegesElevation    # Check admin rights
