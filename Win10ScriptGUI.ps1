@@ -535,6 +535,16 @@ function PrepareGUI() {
 
     $NextYLocation = $Python3.Location.Y + $Python3.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Button 24
+    $Anaconda3 = New-Object system.Windows.Forms.Button
+    $Anaconda3.Text = "Anaconda 3"
+    $Anaconda3.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Anaconda3.Width = $SBWidth
+    $Anaconda3.Height = $SBHeight
+    $Anaconda3.Font = $SBFont
+    $Anaconda3.ForeColor = $SBForeColor
+
+    $NextYLocation = $Anaconda3.Location.Y + $Anaconda3.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 25
     $Ruby = New-Object system.Windows.Forms.Button
     $Ruby.Text = "Ruby with MSYS2"
     $Ruby.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -544,7 +554,7 @@ function PrepareGUI() {
     $Ruby.ForeColor = $SBForeColor
 
     $NextYLocation = $Ruby.Location.Y + $Ruby.Height + $DistanceBetweenButtons
-    # Panel 3.1 ~> Button 25
+    # Panel 3.1 ~> Button 26
     $AndroidStudio = New-Object system.Windows.Forms.Button
     $AndroidStudio.Text = "Android Studio"
     $AndroidStudio.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -552,6 +562,36 @@ function PrepareGUI() {
     $AndroidStudio.Height = $SBHeight
     $AndroidStudio.Font = $SBFont
     $AndroidStudio.ForeColor = $SBForeColor
+
+    $NextYLocation = $AndroidStudio.Location.Y + $AndroidStudio.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 27
+    $DockerDesktop = New-Object system.Windows.Forms.Button
+    $DockerDesktop.Text = "Docker Desktop"
+    $DockerDesktop.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $DockerDesktop.Width = $SBWidth
+    $DockerDesktop.Height = $SBHeight
+    $DockerDesktop.Font = $SBFont
+    $DockerDesktop.ForeColor = $SBForeColor
+
+    $NextYLocation = $DockerDesktop.Location.Y + $DockerDesktop.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 27
+    $PostgreSQL = New-Object system.Windows.Forms.Button
+    $PostgreSQL.Text = "PostgreSQL"
+    $PostgreSQL.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $PostgreSQL.Width = $SBWidth
+    $PostgreSQL.Height = $SBHeight
+    $PostgreSQL.Font = $SBFont
+    $PostgreSQL.ForeColor = $SBForeColor
+
+    $NextYLocation = $PostgreSQL.Location.Y + $PostgreSQL.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button 27
+    $MySQL = New-Object system.Windows.Forms.Button
+    $MySQL.Text = "MySQL"
+    $MySQL.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $MySQL.Width = $SBWidth
+    $MySQL.Height = $SBHeight
+    $MySQL.Font = $SBFont
+    $MySQL.ForeColor = $SBForeColor
     
     # Panel 3.2 ~> Button 1 (Big)
     $InstallGamingDependencies = New-Object system.Windows.Forms.Button
@@ -916,7 +956,7 @@ function PrepareGUI() {
     $Panel3_1.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRar, $CaptionLabel3_3, $OnlyOffice, $LibreOffice))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_5, $WindowsTerminal, $VSCode, $NotepadPlusPlus, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Ruby, $AndroidStudio))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_5, $WindowsTerminal, $VSCode, $NotepadPlusPlus, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL))
     $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_6, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_7, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_8, $Parsec, $TeamViewer, $CaptionLabel3_9, $ObsStudio, $StreamlabsObs))
@@ -1383,6 +1423,18 @@ function PrepareGUI() {
         })
 
     # Panel 3.1 Mouse Click listener
+    $Anaconda3.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $Anaconda3.Text
+                PackageName  = "Anaconda.Anaconda3"
+                InstallBlock = { winget install --silent $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.1 Mouse Click listener
     $Ruby.Add_Click( {
         
             $InstallParams = @{
@@ -1400,6 +1452,42 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $AndroidStudio.Text
                 PackageName  = "Google.AndroidStudio"
+                InstallBlock = { winget install --silent $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $DockerDesktop.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $DockerDesktop.Text
+                PackageName  = "Docker.DockerDesktop"
+                InstallBlock = { winget install --silent $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $PostgreSQL.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $PostgreSQL.Text
+                PackageName  = "PostgreSQL.PostgreSQL"
+                InstallBlock = { winget install --silent $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
+
+        })
+
+    # Panel 3.1 Mouse Click listener
+    $MySQL.Add_Click( {
+        
+            $InstallParams = @{
+                Name         = $MySQL.Text
+                PackageName  = "Oracle.MySQL"
                 InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
