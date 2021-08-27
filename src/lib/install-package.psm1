@@ -3,7 +3,7 @@ function InstallPackage() {
   [CmdletBinding()] #<<-- This turns a regular function into an advanced function
   param (
     [String]  $Name,
-    [String]  $PackageName,
+    [Array]   $PackageName,
     [String]  $InstallBlock
   )
 
@@ -16,7 +16,9 @@ function InstallPackage() {
     Write-Host "$PackageName already installed on MS Store! Skipping..." -ForegroundColor Cyan
   }
   Else {
-    Invoke-Expression "$InstallBlock" | Out-Host
+    ForEach ($Package in $PackageName) {
+      Invoke-Expression "$InstallBlock" | Out-Host
+    }
   }
 
   ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"

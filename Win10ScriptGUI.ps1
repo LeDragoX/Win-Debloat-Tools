@@ -1123,7 +1123,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $BraveBrowser.Text
                 PackageName  = "BraveSoftware.BraveBrowser"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
         
@@ -1136,7 +1136,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $GoogleChrome.Text
                 PackageName  = "Google.Chrome"
-                InstallBlock = { winget install --silent $PackageName; choco install -y "ublockorigin-chrome" }
+                InstallBlock = { winget install --silent $Package; choco install -y "ublockorigin-chrome" }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
             
@@ -1148,7 +1148,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $MozillaFirefox.Text
                 PackageName  = "Mozilla.Firefox"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
             
@@ -1160,7 +1160,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $7Zip.Text
                 PackageName  = "7zip.7zip"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
     
@@ -1172,7 +1172,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $WinRar.Text
                 PackageName  = "winrar"
-                InstallBlock = { choco install -y $PackageName }
+                InstallBlock = { choco install -y $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1184,7 +1184,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $OnlyOffice.Text
                 PackageName  = "ONLYOFFICE.DesktopEditors"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
@@ -1196,7 +1196,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $LibreOffice.Text
                 PackageName  = "LibreOffice.LibreOffice"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
@@ -1208,7 +1208,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $PaintNet.Text
                 PackageName  = "paint.net"
-                InstallBlock = { choco install -y $PackageName }
+                InstallBlock = { choco install -y $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
@@ -1220,7 +1220,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Gimp.Text
                 PackageName  = "GIMP.GIMP"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1232,7 +1232,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Inkscape.Text
                 PackageName  = "Inkscape.Inkscape"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1244,7 +1244,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $IrfanView.Text
                 PackageName  = "IrfanSkiljan.IrfanView"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1256,7 +1256,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Krita.Text
                 PackageName  = "KDE.Krita"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1268,7 +1268,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $ShareX.Text
                 PackageName  = "ShareX.ShareX"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1280,7 +1280,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $WindowsTerminal.Text
                 PackageName  = "Microsoft.WindowsTerminal"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1292,7 +1292,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $VSCode.Text
                 PackageName  = "Microsoft.VisualStudioCode"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1304,7 +1304,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $NotepadPlusPlus.Text
                 PackageName  = "Notepad++.Notepad++"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
@@ -1328,7 +1328,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $JavaJRE.Text
                 PackageName  = "Oracle.JavaRuntimeEnvironment"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1338,23 +1338,9 @@ function PrepareGUI() {
     $JavaJDKs.Add_Click( {
         
             $InstallParams = @{
-                Name         = "AdoptOpenJDK 8"
-                PackageName  = "AdoptOpenJDK.OpenJDK.8" # Be vigilant as Eclipse Adoptium will become the newest owner
-                InstallBlock = { winget install --silent $PackageName }
-            }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
-            $InstallParams = @{
-                Name         = "AdoptOpenJDK 11"
-                PackageName  = "AdoptOpenJDK.OpenJDK.11" # Be vigilant as Eclipse Adoptium will become the newest owner
-                InstallBlock = { winget install --silent $PackageName }
-            }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
-            $InstallParams = @{
-                Name         = "AdoptOpenJDK 16"
-                PackageName  = "AdoptOpenJDK.OpenJDK.16" # Be vigilant as Eclipse Adoptium will become the newest owner
-                InstallBlock = { winget install --silent $PackageName }
+                Name         = $JavaJDKs.Text
+                PackageName  = @("AdoptOpenJDK.OpenJDK.8", "AdoptOpenJDK.OpenJDK.11", "AdoptOpenJDK.OpenJDK.16") # Be vigilant as Eclipse Adoptium will become the newest owner
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
@@ -1366,7 +1352,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $NodeJsLts.Text
                 PackageName  = "OpenJS.NodeJSLTS"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1378,7 +1364,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $NodeJs.Text
                 PackageName  = "OpenJS.NodeJS"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1390,7 +1376,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Python3.Text
                 PackageName  = "Python.Python.3"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1402,7 +1388,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Ruby.Text
                 PackageName  = "RubyInstallerTeam.RubyWithDevKit"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1414,7 +1400,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $AndroidStudio.Text
                 PackageName  = "Google.AndroidStudio"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1449,7 +1435,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Discord.Text
                 PackageName  = "Discord.Discord"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
@@ -1461,7 +1447,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $MSTeams.Text
                 PackageName  = "Microsoft.Teams"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1473,7 +1459,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Slack.Text
                 PackageName  = "SlackTechnologies.Slack"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1485,7 +1471,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Zoom.Text
                 PackageName  = "Zoom.Zoom"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1497,7 +1483,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $RocketChat.Text
                 PackageName  = "RocketChat.RocketChat"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1509,7 +1495,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Steam.Text
                 PackageName  = "Valve.Steam"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1521,7 +1507,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $GogGalaxy.Text
                 PackageName  = "GOG.Galaxy"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1533,7 +1519,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $EpicGames.Text
                 PackageName  = "EpicGames.EpicGamesLauncher"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1545,7 +1531,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $EADesktop.Text
                 PackageName  = "ElectronicArts.EADesktop"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1557,7 +1543,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $UbisoftConnect.Text
                 PackageName  = "Ubisoft.Connect"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1569,7 +1555,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Parsec.Text
                 PackageName  = "Parsec.Parsec"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1581,7 +1567,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $TeamViewer.Text
                 PackageName  = "TeamViewer.TeamViewer"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1593,7 +1579,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $ObsStudio.Text
                 PackageName  = "OBSProject.OBSStudio"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1605,7 +1591,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $StreamlabsObs.Text
                 PackageName  = "Streamlabs.StreamlabsOBS"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1617,7 +1603,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $qBittorrent.Text
                 PackageName  = "qBittorrent.qBittorrent"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
         
@@ -1629,7 +1615,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Spotify.Text
                 PackageName  = "Spotify.Spotify"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
             
@@ -1641,7 +1627,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Vlc.Text
                 PackageName  = "VideoLAN.VLC"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
         
@@ -1653,7 +1639,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $MpcHc.Text
                 PackageName  = "clsid2.mpc-hc"
-                InstallBlock = { winget install --silent $PackageName }
+                InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
@@ -1665,7 +1651,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Ubuntu.Text
                 PackageName  = "Ubuntu"
-                InstallBlock = { wsl --install --distribution $PackageName }
+                InstallBlock = { wsl --install --distribution $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1677,7 +1663,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Debian.Text
                 PackageName  = "Debian"
-                InstallBlock = { wsl --install --distribution $PackageName }
+                InstallBlock = { wsl --install --distribution $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1689,7 +1675,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $KaliLinux.Text
                 PackageName  = "kali-linux"
-                InstallBlock = { wsl --install --distribution $PackageName }
+                InstallBlock = { wsl --install --distribution $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1701,7 +1687,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $OpenSuse.Text
                 PackageName  = "openSUSE-42"
-                InstallBlock = { wsl --install --distribution $PackageName }
+                InstallBlock = { wsl --install --distribution $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1713,7 +1699,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $SLES.Text
                 PackageName  = "SLES-12"
-                InstallBlock = { wsl --install --distribution $PackageName }
+                InstallBlock = { wsl --install --distribution $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1725,7 +1711,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Ubuntu16LTS.Text
                 PackageName  = "Ubuntu-16.04"
-                InstallBlock = { wsl --install --distribution $PackageName }
+                InstallBlock = { wsl --install --distribution $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1737,7 +1723,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Ubuntu18LTS.Text
                 PackageName  = "Ubuntu-18.04"
-                InstallBlock = { wsl --install --distribution $PackageName }
+                InstallBlock = { wsl --install --distribution $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
@@ -1749,7 +1735,7 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Ubuntu20LTS.Text
                 PackageName  = "Ubuntu-20.04"
-                InstallBlock = { wsl --install --distribution $PackageName }
+                InstallBlock = { wsl --install --distribution $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
 
