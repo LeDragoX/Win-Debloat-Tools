@@ -4,12 +4,13 @@
 function InstallPackageManager() {
   [CmdletBinding()]
   param (
-    [String]	$PackageManagerFullName,
-    [String]  $CheckExistenceBlock,
-    [String]  $InstallCommandBlock,
-    [String]	$UpdateScriptBlock,
+    [String]	    $PackageManagerFullName,
+    [String]      $CheckExistenceBlock,
+    [String]      $InstallCommandBlock,
+    [ScriptBlock]	$UpdateScriptBlock,
+    [String]      $Time,
     [Parameter(Mandatory = $false)]
-    [String]  $PostInstallBlock
+    [String]      $PostInstallBlock
   )
   
   Try {
@@ -40,8 +41,8 @@ function InstallPackageManager() {
   $JobName = "$PackageManagerFullName Daily Upgrade"
   $ScheduledJob = @{
     Name               = $JobName
-    ScriptBlock        = { $UpdateScriptBlock }
-    Trigger            = New-JobTrigger -Daily -At 12:00
+    ScriptBlock        = $UpdateScriptBlock
+    Trigger            = New-JobTrigger -Daily -At $Time
     ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
   }
   
@@ -51,19 +52,11 @@ function InstallPackageManager() {
     Unregister-ScheduledJob -Name $JobName
   }
   # Then register it again
-  Register-ScheduledJob @ScheduledJob
+  Register-ScheduledJob @ScheduledJob | Out-Host
 
 }
 
 function Main() {
-
-  $ChocolateyParams = @(
-    "Chocolatey",
-    { choco --version },
-    { Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) },
-    { choco upgrade all -y },
-    { choco install chocolatey-core.extension -y } #--force
-  )
 
   if (!(Test-Path "$PSScriptRoot\..\tmp")) {
     Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
@@ -78,12 +71,22 @@ function Main() {
     { winget --version },
     { Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Write-Host "Installing the package"; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path "$WingetOutput" },
     { winget upgrade --all --silent }
+    "12:00"
+  )
+
+  $ChocolateyParams = @(
+    "Chocolatey",
+    { choco --version },
+    { Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) },
+    { choco upgrade all -y },
+    "13:00",
+    { choco install chocolatey-core.extension -y } #--force
   )
 
   # Install Winget on Windows
-  InstallPackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3]
+  InstallPackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3] -Time $WingetParams[4]
   # Install Chocolatey on Windows
-  InstallPackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -PostInstallBlock $ChocolateyParams[4]
+  InstallPackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -Time $ChocolateyParams[4] -PostInstallBlock $ChocolateyParams[5]
 
 }
 
