@@ -24,7 +24,7 @@ function InstallPackageManager() {
   Catch {
 
     Write-Warning "[?] $PackageManagerFullName was not found."
-    Write-Host "[+] Setting up $PackageManagerFullName package manager."
+    Write-Host "[+] Installing $PackageManagerFullName package manager."
 
     Invoke-Expression "$InstallCommandBlock"
 
@@ -63,13 +63,14 @@ function Main() {
     mkdir "$PSScriptRoot\..\tmp" | Out-Null
   }
 
-  $WingetDownload = "https://github.com/microsoft/winget-cli/releases/download/v1.0.11692/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+  $GitAsset = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/microsoft/winget-cli/releases/latest' | ForEach-Object assets | Where-Object name -like "*.msixbundle"
+  $WingetDownload = $GitAsset.browser_download_url
   $WingetOutput = "$PSScriptRoot\..\tmp\winget-latest.appxbundle"
 
   $WingetParams = @(
     "Winget",
     { winget --version },
-    { Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Write-Host "Installing the package"; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path "$WingetOutput" },
+    { Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path "$WingetOutput" },
     { winget upgrade --all --silent }
     "12:00"
   )
