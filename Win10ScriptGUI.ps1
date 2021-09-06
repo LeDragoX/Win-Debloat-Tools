@@ -91,7 +91,7 @@ function PrepareGUI() {
 
     # Panel 3 to put Title and Labels
     $Panel3 = New-Object system.Windows.Forms.Panel
-    $Panel3.Width = ($PWidth * 2) + 1
+    $Panel3.Width = ($PWidth * 2) - 15
     $Panel3.Height = $PHeight
     $Panel3.Location = Invoke-Expression "$PLocation"
     $Panel3.HorizontalScroll.Enabled = $false
@@ -100,7 +100,7 @@ function PrepareGUI() {
 
     # Panel 3.1 to put Labels and Buttons
     $Panel3_1 = New-Object system.Windows.Forms.Panel
-    $Panel3_1.Width = $PWidth
+    $Panel3_1.Width = $PWidth - 15
     $Panel3_1.Height = $PHeight * 2.4
     $Panel3_1.Location = New-Object System.Drawing.Point(0 , 0)
 
@@ -109,7 +109,7 @@ function PrepareGUI() {
     $Panel3_2.Width = $PWidth
     $Panel3_2.Height = $PHeight * 2.4
     $CurrentPanelIndex++
-    $Panel3_2.Location = New-Object System.Drawing.Point($PWidth , 0)
+    $Panel3_2.Location = New-Object System.Drawing.Point(($PWidth - 15), 0)
     
     # Panel 1 ~> Title Label 1
     $TitleLabel1 = New-Object system.Windows.Forms.Label
