@@ -71,7 +71,7 @@ function PrepareGUI() {
     $Form.TopMost = $false
 
     # Icon: https://stackoverflow.com/a/53377253
-    $IconBase64 = [Convert]::ToBase64String((Get-Content ".\src\lib\images\windows-11-logo.png" -Encoding Byte))
+    $IconBase64 = [Convert]::ToBase64String((Get-Content ".\src\assets\windows-11-logo.png" -Encoding Byte))
     $IconBytes = [Convert]::FromBase64String($IconBase64)
     $Stream = New-Object IO.MemoryStream($IconBytes, 0, $IconBytes.Length)
     $Stream.Write($IconBytes, 0, $IconBytes.Length);
@@ -944,7 +944,7 @@ function PrepareGUI() {
     $PictureBox1.Width = 150
     $PictureBox1.Height = 150
     $PictureBox1.Location = New-Object System.Drawing.Point((($PWidth * 0.72) - $PictureBox1.Width), (($PHeight * 0.90) - $PictureBox1.Height))
-    $PictureBox1.imageLocation = "$PSScriptRoot\src\lib\images\script-logo.png"
+    $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo.png"
     $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
 
     # Add all Panels to the Form (Screen)
@@ -993,7 +993,7 @@ function PrepareGUI() {
             }
             Pop-Location
 
-            $PictureBox1.imageLocation = "$PSScriptRoot\src\lib\images\script-logo2.png"
+            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
 
