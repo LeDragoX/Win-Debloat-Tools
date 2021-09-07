@@ -19,16 +19,11 @@ function OptimizeSecurity() {
     Write-Host "[+][Security] Enabling detection for potentially unwanted applications and block them..."
     Set-MpPreference -PUAProtection Enabled -Force
 
-    # Make Windows Defender run in Sandbox Mode (MsMpEngCP.exe and MsMpEng.exe will run on background)
-    # Details: https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
-    Write-Host "[+][Security] Enabling Windows Defender Sandbox mode..."
-    setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
-
     # Details: https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858
     Write-Host "[+][Security] Disabling SMB 1.0 protocol..."
     Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 
-    # Enable strong cryptography for .NET Framework (version 4 and above) - https://stackoverflow.com/questions/36265534/invoke-webrequest-ssl-fails
+    # Enable strong cryptography for .NET Framework (version 4 and above) - https://stackoverflow.com/a/47682111
     Write-Host "[+][Security] Enabling .NET strong cryptography..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
@@ -85,9 +80,14 @@ function OptimizeSecurity() {
     Write-Host "[+][Security] Disabling 'SmartScreen' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
 
-    Write-Warning "[DIY] The `OpenPowershellHere.cmd` file actually uses .vbs script, so i'll make this optional"
-    #Write-Host "[-][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
+    Write-Warning "For more tweaks, edit the 'src/scripts/optimize-security.ps1' file, then uncomment (#) code lines"
+    #Write-Host "[+][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
     #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
+
+    # Consumes more RAM - Make Windows Defender run in Sandbox Mode (MsMpEngCP.exe and MsMpEng.exe will run on background)
+    # Details: https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
+    #Write-Host "[+][Security] Enabling Windows Defender Sandbox mode..."
+    #setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 
 }
 
