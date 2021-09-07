@@ -1,6 +1,6 @@
 <h1 align="center">
-    <img width=30px src="./src/lib/images/windows-11-logo.png" style="vertical-align: bottom"> Win10 Smart Debloat 
-    <img width=30px src="./src/lib/images/powershell-icon.png" style="vertical-align: bottom">
+    <img width=30px src="./src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win10 Smart Debloat 
+    <img width=30px src="./src/assets/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
 <h2 align="center">
@@ -16,9 +16,9 @@ but you'll probably want the most recent version anyway.
 
 <div align="center">
 
-|                                                Download                                                 | Version Supported | Build | Editions |                                        Powershell version                                         |
-| :-----------------------------------------------------------------------------------------------------: | :---------------: | :---: | :------: | :-----------------------------------------------------------------------------------------------: |
-| <h3><a href="https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip">🚀 Download [Zip]</a></h3> |   21H2 or Older   | 22000 | Home/Pro | <img width=20px src="./src/lib/images/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
+|                                                Download                                                 | Version Supported | Build | Editions |                                      Powershell version                                       |
+| :-----------------------------------------------------------------------------------------------------: | :---------------: | :---: | :------: | :-------------------------------------------------------------------------------------------: |
+| <h3><a href="https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip">🚀 Download [Zip]</a></h3> |   21H2 or Older   | 22000 | Home/Pro | <img width=20px src="./src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
 
 </div>
 
@@ -54,7 +54,7 @@ The `Script-Win10.ps1` do not make everything automatically, follow these steps.
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
 ```
 
-![Script GUI](./src/lib/images/script-gui.gif)
+![Script GUI](./src/assets/script-gui.gif)
 
 _The `Apply Tweaks` button is the main one for debloating._
 
@@ -219,11 +219,11 @@ i could track the `SystemSettings.exe` by filtering it per Process Name, then `C
 (But make sure it is `Capturing the Events (Ctrl + E)`) and finally, applying an option of the Windows Configurations
 and searching the Registry Key inside `Procmon(64).exe`.
 
-![Grab the current tweak on registry with Procmon64.exe](./src/lib/images/grab-the-current-tweak-on-registry-with-procmon64.png)
+![Grab the current tweak on registry with Procmon64.exe](./src/assets/grab-the-current-tweak-on-registry-with-procmon64.png)
 
 After finding the right register Key, you just need to Right-Click and select `Jump To... (Ctrl + J)` to get on its directory.
 
-![Showing on regedit](./src/lib/images/showing-on-regedit.png)
+![Showing on regedit](./src/assets/showing-on-regedit.png)
 
 </details>
 
