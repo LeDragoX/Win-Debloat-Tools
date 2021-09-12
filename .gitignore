@@ -13,3 +13,6 @@
 
 # Ignore WSL2 moved files
 *.Identifier
+
+# Ignore installers, WSL2 update in this case
+*.msi

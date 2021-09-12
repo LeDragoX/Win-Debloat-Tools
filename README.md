@@ -102,7 +102,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Optimize Privacy and Performance settings disabling more telemetry stuff and changing GPOs; ([`optimize-privacy-and-performance.ps1`](./src/scripts/optimize-privacy-and-performance.ps1))
 - Apply General Personalization tweaks via Registry and Powershell commands; ([`personal-tweaks.ps1`](./src/scripts/personal-tweaks.ps1))
 - Help improve the Security of Windows by a little; ([`optimize-security.ps1`](./src/scripts/optimize-security.ps1))
-- Disable and Enable Optional Features specially for Gaming/Work (including WSL 2); ([`optimize-optional-features.ps1`](./src/scripts/optimize-optional-features.ps1))
+- Disable/Enable Optional Features specially for Gaming/Work (including Hyper-V/WSL); ([`optimize-optional-features.ps1`](./src/scripts/optimize-optional-features.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
 - Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
 - In the End it Locks Script's Usage Permission. (`Win10Script(GUI).ps1`)

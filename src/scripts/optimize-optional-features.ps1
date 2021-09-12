@@ -64,14 +64,6 @@ function OptimizeOptionalFeatures() {
         }
     }
 
-    # This is for WSL 2
-    If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
-        # 1607 needs developer mode to be enabled
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 1
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
-    }
-    wsl --set-default-version 2
-
 }
 
 function Main() {

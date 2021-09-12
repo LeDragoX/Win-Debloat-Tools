@@ -14,8 +14,16 @@ function CheckOSArchitecture() {
         Write-Host "64-bits OS detected!"
         $Architecture = "64-bits"
     }
+    ElseIf ($Architecture -like "*ARM") {
+        Write-Host "ARM OS detected!"
+        $Architecture = "ARM"
+    }
+    ElseIf ($Architecture -like "*ARM" -and "*64") {
+        Write-Host "ARM64 OS detected!"
+        $Architecture = "ARM64"
+    }
     Else {
-        Write-Host "ARCH_NOT_FOUND (ARM?) ... Couldn't identify the System Architecture. :/"
+        Write-Host "ARCH_NOT_FOUND ... Couldn't identify the System Architecture. :/"
     }
 
     Write-Verbose "Architecture = $Architecture."

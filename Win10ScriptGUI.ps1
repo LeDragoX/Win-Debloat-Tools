@@ -8,7 +8,7 @@ function LoadLibs() {
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Push-Location "$PSScriptRoot"
-	
+
     Push-Location -Path "src\lib\"
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
@@ -851,7 +851,7 @@ function PrepareGUI() {
     $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
     # Panel 3.2 ~> Caption Label 12
     $CaptionLabel3_12 = New-Object system.Windows.Forms.Label
-    $CaptionLabel3_12.Text = "WSL (After Tweaks Only)"
+    $CaptionLabel3_12.Text = "WSL 2"
     $CaptionLabel3_12.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $CaptionLabel3_12.Width = $CLWidth
     $CaptionLabel3_12.Height = $CLHeight
@@ -861,6 +861,16 @@ function PrepareGUI() {
 
     $NextYLocation = $CaptionLabel3_12.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.2 ~> Button 21
+    $WSL2 = New-Object system.Windows.Forms.Button
+    $WSL2.Text = "Full WSL2 (x64/ARM64)"
+    $WSL2.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $WSL2.Width = $SBWidth
+    $WSL2.Height = $SBHeight
+    $WSL2.Font = $SBFont
+    $WSL2.ForeColor = $SBForeColor
+
+    $NextYLocation = $WSL2.Location.Y + $SBHeight + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button 22
     $Ubuntu = New-Object system.Windows.Forms.Button
     $Ubuntu.Text = "Ubuntu"
     $Ubuntu.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -870,7 +880,7 @@ function PrepareGUI() {
     $Ubuntu.ForeColor = $SBForeColor
 
     $NextYLocation = $Ubuntu.Location.Y + $Ubuntu.Height + $DistanceBetweenButtons
-    # Panel 3.2 ~> Button 22
+    # Panel 3.2 ~> Button 23
     $Debian = New-Object system.Windows.Forms.Button
     $Debian.Text = "Debian GNU/Linux"
     $Debian.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -880,7 +890,7 @@ function PrepareGUI() {
     $Debian.ForeColor = $SBForeColor
 
     $NextYLocation = $Debian.Location.Y + $Debian.Height + $DistanceBetweenButtons
-    # Panel 3.2 ~> Button 23
+    # Panel 3.2 ~> Button 24
     $KaliLinux = New-Object system.Windows.Forms.Button
     $KaliLinux.Text = "Kali Linux Rolling"
     $KaliLinux.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -890,7 +900,7 @@ function PrepareGUI() {
     $KaliLinux.ForeColor = $SBForeColor
 
     $NextYLocation = $KaliLinux.Location.Y + $KaliLinux.Height + $DistanceBetweenButtons
-    # Panel 3.2 ~> Button 24
+    # Panel 3.2 ~> Button 25
     $OpenSuse = New-Object system.Windows.Forms.Button
     $OpenSuse.Text = "Open SUSE 42"
     $OpenSuse.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -900,7 +910,7 @@ function PrepareGUI() {
     $OpenSuse.ForeColor = $SBForeColor
 
     $NextYLocation = $OpenSuse.Location.Y + $OpenSuse.Height + $DistanceBetweenButtons
-    # Panel 3.2 ~> Button 25
+    # Panel 3.2 ~> Button 26
     $SLES = New-Object system.Windows.Forms.Button
     $SLES.Text = "SLES v12"
     $SLES.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -910,7 +920,7 @@ function PrepareGUI() {
     $SLES.ForeColor = $SBForeColor
 
     $NextYLocation = $SLES.Location.Y + $SLES.Height + $DistanceBetweenButtons
-    # Panel 3.2 ~> Button 26
+    # Panel 3.2 ~> Button 27
     $Ubuntu16LTS = New-Object system.Windows.Forms.Button
     $Ubuntu16LTS.Text = "Ubuntu 16.04 LTS"
     $Ubuntu16LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -920,7 +930,7 @@ function PrepareGUI() {
     $Ubuntu16LTS.ForeColor = $SBForeColor
 
     $NextYLocation = $Ubuntu16LTS.Location.Y + $Ubuntu16LTS.Height + $DistanceBetweenButtons
-    # Panel 3.2 ~> Button 27
+    # Panel 3.2 ~> Button 28
     $Ubuntu18LTS = New-Object system.Windows.Forms.Button
     $Ubuntu18LTS.Text = "Ubuntu 18.04 LTS"
     $Ubuntu18LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -930,7 +940,7 @@ function PrepareGUI() {
     $Ubuntu18LTS.ForeColor = $SBForeColor
 
     $NextYLocation = $Ubuntu18LTS.Location.Y + $Ubuntu18LTS.Height + $DistanceBetweenButtons
-    # Panel 3.2 ~> Button 28
+    # Panel 3.2 ~> Button 29
     $Ubuntu20LTS = New-Object system.Windows.Forms.Button
     $Ubuntu20LTS.Text = "Ubuntu 20.04 LTS"
     $Ubuntu20LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
@@ -961,7 +971,7 @@ function PrepareGUI() {
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_7, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_8, $Parsec, $TeamViewer, $CaptionLabel3_9, $ObsStudio, $StreamlabsObs))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_10, $qBittorrent, $CaptionLabel3_11, $Spotify, $Vlc, $MpcHc))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_12, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_12, $WSL2, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
     $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
 
     # <=== CLICK EVENTS ===>
@@ -1731,6 +1741,18 @@ function PrepareGUI() {
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock        
     
+        })
+
+    # Panel 3.2 Mouse Click listener
+    $WSL2.Add_Click( {
+        
+            Push-Location "src\utils\"
+            $FileName = "full-wsl2-x64-arm64.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Pop-Location
+
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
         })
 
     # Panel 3.2 Mouse Click listener
