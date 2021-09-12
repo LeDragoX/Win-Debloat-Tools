@@ -5,18 +5,18 @@ function InstallPackageManager() {
   [CmdletBinding()]
   param (
     [String]	    $PackageManagerFullName,
-    [String]      $CheckExistenceBlock,
-    [String]      $InstallCommandBlock,
+    [ScriptBlock] $CheckExistenceBlock,
+    [ScriptBlock] $InstallCommandBlock,
     [ScriptBlock]	$UpdateScriptBlock,
     [String]      $Time,
     [Parameter(Mandatory = $false)]
-    [String]      $PostInstallBlock
+    [ScriptBlock] $PostInstallBlock
   )
   
   Try {
 
     $err = $null
-    $err = (invoke-expression "$CheckExistenceBlock")
+    $err = (Invoke-Expression "$CheckExistenceBlock")
     if (($LASTEXITCODE)) { throw $err } # 0 = False, 1 = True
     Write-Host "[=] $PackageManagerFullName is already installed."
 
@@ -24,7 +24,7 @@ function InstallPackageManager() {
   Catch {
 
     Write-Warning "[?] $PackageManagerFullName was not found."
-    Write-Host "[+] Installing $PackageManagerFullName package manager."
+    Write-Host "[+] Downloading and Installing $PackageManagerFullName package manager."
 
     Invoke-Expression "$InstallCommandBlock"
 
@@ -45,7 +45,7 @@ function InstallPackageManager() {
     Trigger            = New-JobTrigger -Daily -At $Time
     ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
   }
-  
+
   # If the Scheduled Job already exists, delete
   If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
     Write-Host "[+] ScheduledJob: $JobName FOUND! Re-Creating..."
@@ -64,15 +64,19 @@ function Main() {
   }
 
   $GitAsset = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/microsoft/winget-cli/releases/latest' | ForEach-Object assets | Where-Object name -like "*.msixbundle"
+  $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx" # 'Microsoft VCLibs v14.0' for 64-bits OS
+  $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
+
   $WingetDownload = $GitAsset.browser_download_url
   $WingetOutput = "$PSScriptRoot\..\tmp\winget-latest.appxbundle"
 
   $WingetParams = @(
     "Winget",
     { winget --version },
-    { Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path "$WingetOutput" },
+    { Write-Host "[+] Downloading Winget Requirement (x64 only) from: $WingetDepDownload"; Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput; Add-AppxPackage -Path $WingetDepOutput; Remove-Item -Path $WingetDepOutput },
     { winget upgrade --all --silent }
     "12:00"
+    { Write-Host "[+] Downloading Winget from: $WingetDownload"; Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path $WingetOutput }
   )
 
   $ChocolateyParams = @(
@@ -81,11 +85,11 @@ function Main() {
     { Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) },
     { choco upgrade all -y },
     "13:00",
-    { choco install chocolatey-core.extension -y } #--force
+    { choco install -y "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
   )
 
   # Install Winget on Windows
-  InstallPackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3] -Time $WingetParams[4]
+  InstallPackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3] -Time $WingetParams[4] -PostInstallBlock $WingetParams[5]
   # Install Chocolatey on Windows
   InstallPackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -Time $ChocolateyParams[4] -PostInstallBlock $ChocolateyParams[5]
 
