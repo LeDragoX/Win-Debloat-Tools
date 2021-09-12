@@ -18,7 +18,7 @@ but you'll probably want the most recent version anyway.
 
 |                                                Download                                                 | Version Supported | Build | Editions |                                      Powershell version                                       |
 | :-----------------------------------------------------------------------------------------------------: | :---------------: | :---: | :------: | :-------------------------------------------------------------------------------------------: |
-| <h3><a href="https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip">🚀 Download [Zip]</a></h3> |   21H2 or Older   | 22000 | Home/Pro | <img width=20px src="./src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
+| <h3><a href="https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip">⬇️ Download [Zip]</a></h3> |   21H2 or Older   | 22000 | Home/Pro | <img width=20px src="./src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
 
 </div>
 
