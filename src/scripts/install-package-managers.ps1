@@ -1,3 +1,5 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
+
 # Adapted from: https://github.com/ChrisTitusTech/win10script/blob/master/win10debloat.ps1
 # Adapted from: https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1
 
@@ -12,7 +14,7 @@ function InstallPackageManager() {
     [Parameter(Mandatory = $false)]
     [ScriptBlock] $PostInstallBlock
   )
-  
+
   Try {
 
     $err = $null
@@ -58,22 +60,39 @@ function InstallPackageManager() {
 
 function Main() {
 
+  $OSArch = CheckOSArchitecture
+
   if (!(Test-Path "$PSScriptRoot\..\tmp")) {
     Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
     mkdir "$PSScriptRoot\..\tmp" | Out-Null
   }
 
-  $GitAsset = Invoke-RestMethod -Method Get -Uri 'https://api.github.com/repos/microsoft/winget-cli/releases/latest' | ForEach-Object assets | Where-Object name -like "*.msixbundle"
-  $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx" # 'Microsoft VCLibs v14.0' for 64-bits OS
-  $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
+  if ($OSArch -like "64-bits") {
+    $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+  }
+  ElseIf ($Architecture -like "32-bits") {
+    $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x86.14.00.Desktop.appx"
+  }
+  ElseIf ($Architecture -like "ARM64") {
+    $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.arm64.14.00.Desktop.appx"
+  }
+  ElseIf ($Architecture -like "ARM") {
+    $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.arm.14.00.Desktop.appx"
+  }
+  Else {
+    Write-Warning "[?] $OSArch is not supported!"
+  }
 
+  $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
+  
+  $GitAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/winget-cli/releases/latest" | ForEach-Object assets | Where-Object name -like "*.msixbundle"
   $WingetDownload = $GitAsset.browser_download_url
   $WingetOutput = "$PSScriptRoot\..\tmp\winget-latest.appxbundle"
 
   $WingetParams = @(
     "Winget",
     { winget --version },
-    { Write-Host "[+] Downloading Winget Requirement (x64 only) from: $WingetDepDownload"; Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput; Add-AppxPackage -Path $WingetDepOutput; Remove-Item -Path $WingetDepOutput },
+    { Write-Host "[+] Downloading Winget Requirement ($OSArch) from: $WingetDepDownload"; Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput; Add-AppxPackage -Path $WingetDepOutput; Remove-Item -Path $WingetDepOutput },
     { winget upgrade --all --silent }
     "12:00"
     { Write-Host "[+] Downloading Winget from: $WingetDownload"; Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path $WingetOutput }
