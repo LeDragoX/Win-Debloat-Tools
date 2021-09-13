@@ -862,7 +862,7 @@ function PrepareGUI() {
     $NextYLocation = $CaptionLabel3_12.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.2 ~> Button 21
     $WSL2 = New-Object system.Windows.Forms.Button
-    $WSL2.Text = "Full WSL2 (x64/ARM64)"
+    $WSL2.Text = "WSL2 + WSLg (x64/ARM64)"
     $WSL2.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $WSL2.Width = $SBWidth
     $WSL2.Height = $SBHeight
