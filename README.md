@@ -94,14 +94,14 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - Import all necessary Modules before Executing everything; ([lib folder](./src/lib/))
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./src/scripts/backup-system.ps1))
-- Download OOShutUp10 and import all Recommended settings; ([`silent-debloat-softwares.ps1`](./src/scripts/silent-debloat-softwares.ps1))
-- Download AdwCleaner and Run the latest version of for Virus/Adware scan;
+- Download AdwCleaner and Run the latest version of for Virus/Adware scan; ([`silent-debloat-softwares.ps1`](./src/scripts/silent-debloat-softwares.ps1))
+- Download OOShutUp10 and import all Recommended settings;
 - Disable Telemetry from Scheduled Tasks and Optimize it; ([`optimize-scheduled-tasks.ps1`](./src/scripts/optimize-scheduled-tasks.ps1))
 - Disable heavy Services; ([`optimize-services.ps1`](./src/scripts/optimize-services.ps1))
 - Remove Bloatware Apps that comes with Windows 10, except from my choice; ([`remove-bloatware-apps.ps1`](./src/scripts/remove-bloatware-apps.ps1))
 - Optimize Privacy and Performance settings disabling more telemetry stuff and changing GPOs; ([`optimize-privacy-and-performance.ps1`](./src/scripts/optimize-privacy-and-performance.ps1))
 - Apply General Personalization tweaks via Registry and Powershell commands; ([`personal-tweaks.ps1`](./src/scripts/personal-tweaks.ps1))
-- Help improve the Security of Windows by a little; ([`optimize-security.ps1`](./src/scripts/optimize-security.ps1))
+- Help improve the Security of Windows while maintaining performance; ([`optimize-security.ps1`](./src/scripts/optimize-security.ps1))
 - Disable/Enable Optional Features specially for Gaming/Work (including Hyper-V/WSL); ([`optimize-optional-features.ps1`](./src/scripts/optimize-optional-features.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
 - Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))

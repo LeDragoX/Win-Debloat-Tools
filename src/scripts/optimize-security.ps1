@@ -43,7 +43,7 @@ function OptimizeSecurity() {
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
 
-    Write-Host "[+][Personal] Enabling Show file extensions in Explorer..."
+    Write-Host "[+][Security] Enabling Show file extensions in Explorer..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "HideFileExt" -Type DWord -Value 0
 
     # Details: https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
