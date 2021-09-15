@@ -1,12 +1,9 @@
 # When extracted the debloat-softwares but not wiped
 
-# Shut Up 10
-**/debloat-softwares/ShutUp10/*.exe
-
 # Temporary folder for downloaded stuff
-!**/tmp/*.txt
-**/tmp/*.exe
-**/tmp/*.appxbundle
+!**/tmp/**/*.txt
+**/tmp/**/*.exe
+**/tmp/**/*.appxbundle
 
 # Downloaded temporary files
 *.tmp
@@ -15,4 +12,4 @@
 *.Identifier
 
 # Ignore installers, WSL2 update in this case
-*.msi
+*.msi*

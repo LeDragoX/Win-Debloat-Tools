@@ -1,36 +1,37 @@
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
 function RunSilentDebloatSoftwares() {
-        
+
     if (!(Test-Path "$PSScriptRoot\..\tmp")) {
         Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating one..."
         mkdir "$PSScriptRoot\..\tmp" | Out-Null
     }
 
-    Push-Location -Path "$PSScriptRoot\..\tmp"
+    $AdwCleanerDl = "https://downloads.malwarebytes.com/file/adwcleaner"
+    $AdwCleanerOutput = "$PSScriptRoot\..\tmp\adwcleaner.exe"
 
-    Write-Host "[+] Running AdwCleaner to do a Quick Virus/Adware Scan..."
-    Invoke-WebRequest -Uri "https://downloads.malwarebytes.com/file/adwcleaner" -OutFile "adwcleaner.exe"
-    Start-Process -FilePath ".\adwcleaner.exe" -ArgumentList "/eula", "/clean", "/noreboot" -Wait
-    Remove-Item ".\adwcleaner.exe" -Force
+    Write-Host "[+] Downloading and Running AdwCleaner from: $AdwCleanerDl"
+    Invoke-WebRequest -Uri $AdwCleanerDl -OutFile $AdwCleanerOutput
+    Start-Process -FilePath $AdwCleanerOutput -ArgumentList "/eula", "/clean", "/noreboot" -Wait
+    Remove-Item $AdwCleanerOutput -Force
+
+    $ShutUpOutput = "OOSU10.exe"
+    $ShutUpDl = "https://dl5.oo-software.com/files/ooshutup10/$ShutUpOutput"
+    $ShutUpFolder = "$PSScriptRoot\..\tmp\ShutUp10"
+
+    Push-Location -Path $ShutUpFolder
+
+    Write-Host "[+] Downloading and Running ShutUp10 from: $ShutUpDl and applying Recommended settings"
+    Invoke-WebRequest -Uri $ShutUpDl -OutFile $ShutUpOutput
+    Start-Process -FilePath $ShutUpOutput -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # Wait until the process closes
+    Remove-Item "$ShutUpOutput" -Force                                                   # Leave no traces
 
     Pop-Location
-    Push-Location -Path "$PSScriptRoot\..\lib\debloat-softwares\"
-    Push-Location -Path "ShutUp10\"
-    
-    Write-Host "[+] Running ShutUp10 and applying Recommended settings..."
-    Invoke-WebRequest -Uri "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -OutFile "OOSU10.exe"
-    Start-Process -FilePath ".\OOSU10.exe" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait   # Wait until the process closes
-    Remove-Item "*.*" -Exclude "*.cfg", "*.txt" -Force                                      # Leave no traces
-    
-    Pop-Location
-    Pop-Location
-    
 }
 
 function Main() {
-    
-    RunSilentDebloatSoftwares # [AUTOMATED] ShutUp10 with personal configs and AdwCleaner for Virus Scanning.
+
+    RunSilentDebloatSoftwares # [AUTOMATED] ShutUp10 with recommended configs and AdwCleaner for Virus Scanning.
 
 }
 
