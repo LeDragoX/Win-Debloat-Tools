@@ -212,12 +212,15 @@ function OptimizePrivacyAndPerformance() {
     Caption1 -Text "Troubleshooting"
 
     Write-Host "[+][Priv&Perf] Enabling Automatic Recommended Troubleshooting, then notify me..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsMitigation" -Name "UserPreference" -Type DWord -Value 3
+    if (!(Test-Path "$PathToWindowsTroubleshoot")) {
+        New-Item -Path "$PathToWindowsTroubleshoot" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToWindowsTroubleshoot" -Name "UserPreference" -Type DWord -Value 3
 
     Write-Host "$($EnableStatus[0]) Windows Spotlight Features..."
     Write-Host "$($EnableStatus[0]) Third Party Suggestions..."
     Write-Host "$($EnableStatus[0]) More Telemetry Features..."
-    
+
     $CloudContentDisableOnOne = @(
         "DisableWindowsSpotlightFeatures"
         "DisableWindowsSpotlightOnActionCenter"
@@ -227,20 +230,23 @@ function OptimizePrivacyAndPerformance() {
         "DisableThirdPartySuggestions"
     )
 
-    Write-Warning "[?][Priv&Perf] From Path: [$PathToCloudContent]."
+    Write-Warning "[?][Priv&Perf] From Path: [$PathToCloudContentCU]."
     ForEach ($Name in $CloudContentDisableOnOne) {
         Write-Host "$($EnableStatus[0]) $($Name): $One."
-        Set-ItemProperty -Path "$PathToCloudContent" -Name "$Name" -Type DWord -Value $One
+        Set-ItemProperty -Path "$PathToCloudContentCU" -Name "$Name" -Type DWord -Value $One
     }
-    If (!(Test-Path "$PathToCloudContent")) {
-        New-Item -Path "$PathToCloudContent" -Force | Out-Null
+    If (!(Test-Path "$PathToCloudContentCU")) {
+        New-Item -Path "$PathToCloudContentCU" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToCloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
-    Set-ItemProperty -Path "$PathToCloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCloudContentCU" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
+    Set-ItemProperty -Path "$PathToCloudContentCU" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value $Zero
     
     Write-Host "$($EnableStatus[0]) Apps Suggestions..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableThirdPartySuggestions" -Type DWord -Value $One
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value $One
+    If (!(Test-Path "$PathToCloudContentLM")) {
+        New-Item -Path "$PathToCloudContentLM" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToCloudContentLM" -Name "DisableThirdPartySuggestions" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToCloudContentLM" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value $One
     
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value $One
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows" -Name "CEIPEnable" -Type DWord -Value $Zero
@@ -390,7 +396,8 @@ function Main() {
     $Global:PathToActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
     $Global:PathToAdvertisingInfoPol = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
     $Global:PathToAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
-    $Global:PathToCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    $Global:PathToCloudContentLM = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    $Global:PathToCloudContentCU = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
     $Global:PathToContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
     $Global:PathToDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
     $Global:PathToDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
@@ -406,6 +413,7 @@ function Main() {
     $Global:PathToTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
     $Global:PathToWifiPol = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
     $Global:PathToWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+    $Global:PathToWindowsTroubleshoot = "HKLM:\SOFTWARE\Microsoft\WindowsMitigation"
     $Global:PathToWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
     $Zero = 0
