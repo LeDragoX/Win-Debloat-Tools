@@ -55,7 +55,7 @@ function PrepareGUI() {
 
     $Global:NeedRestart = $false
     $DoneTitle = "Done"
-    $DoneMessage = "Proccess Completed!"
+    $DoneMessage = "Process Completed!"
 
     # <=== DISPLAYED GUI ===>
 
