@@ -20,7 +20,7 @@ function InstallPackageManager() {
     $err = $null
     $err = (Invoke-Expression "$CheckExistenceBlock")
     if (($LASTEXITCODE)) { throw $err } # 0 = False, 1 = True
-    Write-Host "[=] $PackageManagerFullName is already installed."
+    Write-Warning "[?] $PackageManagerFullName is already installed."
 
   }
   Catch {
@@ -60,30 +60,38 @@ function InstallPackageManager() {
 
 function Main() {
 
-  $OSArch = CheckOSArchitecture
+  # Winget Dependency: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
+  If (((Get-AppxPackage '*Microsoft.VCLibs.140.00.UWPDesktop*') -eq $null)) {
+    
+    Write-Warning "[?] Winget Dependency was not found."
+    $OSArch = CheckOSArchitecture
 
-  if (!(Test-Path "$PSScriptRoot\..\tmp")) {
-    Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
-    mkdir "$PSScriptRoot\..\tmp" | Out-Null
-  }
-
-  if ($OSArch -like "64-bits") {
-    $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
-  }
-  ElseIf ($Architecture -like "32-bits") {
-    $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x86.14.00.Desktop.appx"
-  }
-  ElseIf ($Architecture -like "ARM64") {
-    $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.arm64.14.00.Desktop.appx"
-  }
-  ElseIf ($Architecture -like "ARM") {
-    $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.arm.14.00.Desktop.appx"
+    if (!(Test-Path "$PSScriptRoot\..\tmp")) {
+      Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
+      mkdir "$PSScriptRoot\..\tmp" | Out-Null
+    }
+  
+    if ($OSArch -like "64-bits") {
+      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+    }
+    ElseIf ($Architecture -like "32-bits") {
+      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x86.14.00.Desktop.appx"
+    }
+    ElseIf ($Architecture -like "ARM64") {
+      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.arm64.14.00.Desktop.appx"
+    }
+    ElseIf ($Architecture -like "ARM") {
+      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.arm.14.00.Desktop.appx"
+    }
+    Else {
+      Write-Warning "[?] $OSArch is not supported!"
+    }
+  
+    $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
   }
   Else {
-    Write-Warning "[?] $OSArch is not supported!"
+    Write-Warning "[?] Winget Dependency is already installed."
   }
-
-  $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
   
   $GitAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/winget-cli/releases/latest" | ForEach-Object assets | Where-Object name -like "*.msixbundle"
   $WingetDownload = $GitAsset.browser_download_url
