@@ -61,7 +61,7 @@ function InstallPackageManager() {
 function Main() {
 
   # Winget Dependency: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
-  If (!($null -eq (Get-AppxPackage '*Microsoft.VCLibs.140.00.UWPDesktop*'))) {
+  If (($null -eq (Get-AppxPackage '*Microsoft.VCLibs.140.00.UWPDesktop*'))) {
     
     Write-Warning "[?] Winget Dependency was not found."
     $OSArch = CheckOSArchitecture
