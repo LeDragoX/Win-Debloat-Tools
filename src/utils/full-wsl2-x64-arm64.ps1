@@ -16,13 +16,9 @@ function Main() {
     Write-Host "[+][Features] Installing VirtualMachinePlatform..."
     Get-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
 
-    if ($OSArch -like "64-bits") {
-        $WSLDownload = "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi"
-        $GitWSLgAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/wslg/releases/latest" | ForEach-Object assets | Where-Object name -like "*x64*.msi"
-    }
-    ElseIf ($Architecture -like "ARM64") {
-        $WSLDownload = "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_arm64.msi"
-        $GitWSLgAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/wslg/releases/latest" | ForEach-Object assets | Where-Object name -like "*arm64*.msi"
+    if ($OSArch -like "x64" -or "arm64") {
+        $WSLDownload = "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_$OSArch.msi"
+        $GitWSLgAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/wslg/releases/latest" | ForEach-Object assets | Where-Object name -like "*$OSArch*.msi"
     }
     Else {
         Write-Warning "[?] $OSArch is not supported!"

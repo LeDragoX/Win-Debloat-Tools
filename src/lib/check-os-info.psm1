@@ -6,27 +6,24 @@ function CheckOSArchitecture() {
         $Architecture = (Get-ComputerInfo -Property OSArchitecture)
     )
 
-    If ($Architecture -like "*32 bits*") {
-        Write-Host "32-bits OS detected!"
-        $Architecture = "32-bits"
+    If ($Architecture -like "*64 bits*") {
+        $Architecture = "x64"
     }
-    ElseIf ($Architecture -like "*64 bits*") {
-        Write-Host "64-bits OS detected!"
-        $Architecture = "64-bits"
-    }
-    ElseIf ($Architecture -like "*ARM") {
-        Write-Host "ARM OS detected!"
-        $Architecture = "ARM"
+    ElseIf ($Architecture -like "*32 bits*") {
+        $Architecture = "x86"
     }
     ElseIf ($Architecture -like "*ARM" -and "*64") {
-        Write-Host "ARM64 OS detected!"
-        $Architecture = "ARM64"
+        $Architecture = "arm64"
+    }
+    ElseIf ($Architecture -like "*ARM") {
+        $Architecture = "arm"
     }
     Else {
-        Write-Host "ARCH_NOT_FOUND ... Couldn't identify the System Architecture. :/"
+        Write-Warning "[?] Couldn't identify the System Architecture '$Architecture'. :/"
+        $Architecture = $null
     }
 
-    Write-Verbose "Architecture = $Architecture."
+    Write-Warning "$Architecture OS detected!"
     return $Architecture
 }
 
