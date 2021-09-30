@@ -61,7 +61,7 @@ function InstallPackageManager() {
 function Main() {
 
   # Winget Dependency: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
-  If (((Get-AppxPackage '*Microsoft.VCLibs.140.00.UWPDesktop*') -eq $null)) {
+  If (!($null -eq (Get-AppxPackage '*Microsoft.VCLibs.140.00.UWPDesktop*'))) {
     
     Write-Warning "[?] Winget Dependency was not found."
     $OSArch = CheckOSArchitecture
@@ -71,17 +71,8 @@ function Main() {
       mkdir "$PSScriptRoot\..\tmp" | Out-Null
     }
   
-    if ($OSArch -like "64-bits") {
-      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
-    }
-    ElseIf ($Architecture -like "32-bits") {
-      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.x86.14.00.Desktop.appx"
-    }
-    ElseIf ($Architecture -like "ARM64") {
-      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.arm64.14.00.Desktop.appx"
-    }
-    ElseIf ($Architecture -like "ARM") {
-      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.arm.14.00.Desktop.appx"
+    if ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
+      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
     }
     Else {
       Write-Warning "[?] $OSArch is not supported!"
