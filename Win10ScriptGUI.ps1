@@ -170,6 +170,16 @@ function PrepareGUI() {
     $RepairWindows.Font = $SBFont
     $RepairWindows.ForeColor = $SBForeColor
 
+    $NextYLocation = $RepairWindows.Location.Y + $RepairWindows.Height + $DistanceBetweenButtons
+    # Panel 1 ~> Button
+    $InstallOneDrive = New-Object system.Windows.Forms.Button
+    $InstallOneDrive.Text = "Install OneDrive"
+    $InstallOneDrive.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $InstallOneDrive.Width = $SBWidth
+    $InstallOneDrive.Height = $SBHeight
+    $InstallOneDrive.Font = $SBFont
+    $InstallOneDrive.ForeColor = $SBForeColor
+
     # Panel 2 ~> Button (Big)
     $RevertScript = New-Object system.Windows.Forms.Button
     $RevertScript.Text = "Revert Tweaks"
@@ -238,16 +248,6 @@ function PrepareGUI() {
     $DisableTelemetry.Height = $SBHeight
     $DisableTelemetry.Font = $SBFont
     $DisableTelemetry.ForeColor = $SBForeColor
-
-    $NextYLocation = $DisableTelemetry.Location.Y + $DisableTelemetry.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $InstallOneDrive = New-Object system.Windows.Forms.Button
-    $InstallOneDrive.Text = "Install OneDrive"
-    $InstallOneDrive.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $InstallOneDrive.Width = $SBWidth
-    $InstallOneDrive.Height = $SBHeight
-    $InstallOneDrive.Font = $SBFont
-    $InstallOneDrive.ForeColor = $SBForeColor
 
     # Panel 3.1 ~> Button (Big)
     $InstallDrivers = New-Object system.Windows.Forms.Button
@@ -972,8 +972,8 @@ function PrepareGUI() {
     $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3))
     
     # Add Elements to each Panel
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry, $InstallOneDrive))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $InstallOneDrive, $PictureBox1))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry))
     $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
     $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
 
@@ -1046,6 +1046,17 @@ function PrepareGUI() {
             }
             Pop-Location
         
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+
+        })
+
+    $InstallOneDrive.Add_Click( {
+
+            Push-Location "src\utils\"
+            $FileName = "install-onedrive.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Pop-Location
+
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
 
         })
@@ -1142,17 +1153,6 @@ function PrepareGUI() {
 
         })
 
-    $InstallOneDrive.Add_Click( {
-
-            Push-Location "src\utils\"
-            $FileName = "install-onedrive.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-            Pop-Location
-
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-
-        })
-
     $InstallDrivers.Add_Click( {
 
             Push-Location -Path "src\scripts\"
@@ -1160,7 +1160,6 @@ function PrepareGUI() {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
         
             $Scripts = @(
-                # [Recommended order] List of Scripts
                 "install-drivers.ps1"
             )
         
@@ -1490,7 +1489,6 @@ function PrepareGUI() {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
     
             $Scripts = @(
-                # [Recommended order] List of Scripts
                 "install-gaming-dependencies.ps1"
             )
     
