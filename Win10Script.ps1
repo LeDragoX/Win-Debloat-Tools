@@ -8,7 +8,7 @@ function LoadLibs() {
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Push-Location -Path "$PSScriptRoot"
-	
+
     Push-Location -Path "src\lib\"
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
@@ -16,8 +16,8 @@ function LoadLibs() {
     Import-Module -DisableNameChecking .\"setup-console-style.psm1"
     Import-Module -DisableNameChecking .\"simple-message-box.psm1"
     Import-Module -DisableNameChecking .\"title-templates.psm1"
-    Pop-Location
 
+    Pop-Location
 }
 
 function PromptPcRestart() {
