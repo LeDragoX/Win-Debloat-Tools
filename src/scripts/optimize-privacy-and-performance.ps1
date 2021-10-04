@@ -70,7 +70,7 @@ function OptimizePrivacyAndPerformance() {
     
     Caption1 -Text "Speech"
     
-    Write-Host "[@] (0 = Decline, 1 = Accept)"
+    # [@] (0 = Decline, 1 = Accept)
     Write-Host "$($EnableStatus[0]) Online Speech Recognition..."
     If (!(Test-Path "$PathToOnlineSpeech")) {
         New-Item -Path "$PathToOnlineSpeech" -Force | Out-Null
@@ -86,7 +86,7 @@ function OptimizePrivacyAndPerformance() {
     
     Caption1 -Text "Diagnostics & Feedback"
     
-    Write-Host "[@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)"
+    # [@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)
     Write-Host "$($EnableStatus[0]) telemetry..."
     Set-ItemProperty -Path "$PathToTelemetry" -Name "AllowTelemetry" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToTelemetry2" -Name "AllowTelemetry" -Type DWord -Value $Zero
@@ -178,20 +178,20 @@ function OptimizePrivacyAndPerformance() {
     If (!(Test-Path "$PathToWindowsUpdate")) {
         New-Item -Path "$PathToWindowsUpdate" -Force | Out-Null
     }
-    Write-Host "[@] (2 = Notify before download, 3 = Automatically download and notify of installation)"
-    Write-Host "[@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)"
+    # [@] (2 = Notify before download, 3 = Automatically download and notify of installation)
+    # [@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)
     Write-Host "[-][Priv&Perf] Disabling Automatic Download and Installation of Windows Updates..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
 
-    Write-Host "[@] (0 = Enable Automatic Updates, 1 = Disable Automatic Updates)"
+    # [@] (0 = Enable Automatic Updates, 1 = Disable Automatic Updates)
     Write-Host "$($EnableStatus[1]) Automatic Updates..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value $Zero
 
-    Write-Host "[@] (0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4))"
+    # [@] (0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4))
     Write-Host "[+][Priv&Perf] Setting Scheduled Day to Every day..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
 
-    Write-Host "[@] (0-23 = The time of day in 24-hour format)"
+    # [@] (0-23 = The time of day in 24-hour format)
     Write-Host "[-][Priv&Perf] Setting Scheduled time to 03h00m..."
     Set-ItemProperty -Path "$PathToWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
 
@@ -201,8 +201,8 @@ function OptimizePrivacyAndPerformance() {
     Write-Host "$($EnableStatus[1]) Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value $One
     
-    Write-Host "[@] (0 = Off, 1 = Local Network only, 2 = Local Network private peering only)"
-    Write-Host "[@] (3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)"
+    # [@] (0 = Off, 1 = Local Network only, 2 = Local Network private peering only)
+    # [@] (3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)
     Write-Host "$($EnableStatus[1]) Restricting Windows Update P2P downloads for Local Network only..."
     If (!(Test-Path "$PathToDeliveryOptimizationCfg")) {
         New-Item -Path "$PathToDeliveryOptimizationCfg" -Force | Out-Null
@@ -341,7 +341,7 @@ function OptimizePrivacyAndPerformance() {
     Title1 -Text "Performance Tweaks"
     
     # As SysMain was already disabled on the Services, just need to remove it's key
-    Write-Host "[@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)"
+    # [@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
     Write-Host "$($EnableStatus[0]) SysMain/Superfetch..."
     Set-ItemProperty -Path "$PathToPrefetchParams" -Name "EnableSuperfetch" -Type DWord -Value $Zero
 
@@ -362,7 +362,7 @@ function OptimizePrivacyAndPerformance() {
     Set-ItemProperty -Path "$PathToPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    Write-Host "[@] (2 = Disable, 4 = Enable)"
+    # [@] (2 = Disable, 4 = Enable)
     Write-Host "[-][Priv&Perf] Disabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToWindowsStore")) {
         New-Item -Path "$PathToWindowsStore" -Force | Out-Null

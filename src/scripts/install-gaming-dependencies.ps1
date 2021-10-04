@@ -61,7 +61,6 @@ function InstallGamingPackages() {
             Write-Host "You choose Cancel. (Cancel = No)"
         }
     }
-
 }
 
 function Main() {

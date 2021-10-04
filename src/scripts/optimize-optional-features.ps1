@@ -5,7 +5,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function OptimizeOptionalFeatures() {
 
     Title1 -Text "Uninstall features from Windows"
-    
+
     # Dism /online /Get-Features #/Format:Table # To find all features
     # Get-WindowsOptionalFeature -Online
 
@@ -20,7 +20,6 @@ function OptimizeOptionalFeatures() {
         "Printing-XPSServices-Features"        # Microsoft XPS Document Writer
         "WorkFolders-Client"                   # Work Folders Client
     )
-
     ForEach ($Feature in $DisableFeatures) {
 
         If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
@@ -37,7 +36,7 @@ function OptimizeOptionalFeatures() {
     }
 
     Title1 -Text "Install features for Windows"
-    
+
     $EnableFeatures = @(
         "Microsoft-Hyper-V-All"             # Hyper-V (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
         "NetFx3"                            # NET Framework 3.5
@@ -63,7 +62,6 @@ function OptimizeOptionalFeatures() {
             
         }
     }
-
 }
 
 function Main() {

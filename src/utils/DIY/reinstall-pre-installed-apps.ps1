@@ -28,11 +28,11 @@ function Main() {
 	}
 
 	ForEach ($Package in $Packages) {
-		# get package name & path
+		# Get package name & path
 		$PackageName = $Package | Get-ItemProperty | Select-Object -ExpandProperty PSChildName
 		$PackagePath = [System.Environment]::ExpandEnvironmentVariables(($Package | Get-ItemProperty | Select-Object -ExpandProperty Path))
 
-		# register the package	
+		# Register the package	
 		Write-Host "Attempting to register package: $PackageName."
 
 		Add-AppxPackage -register $PackagePath -DisableDevelopmentMode

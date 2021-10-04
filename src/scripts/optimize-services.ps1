@@ -68,7 +68,7 @@ function OptimizeServices() {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
 
             If (($Revert -eq $true) -and ($Service -match "RemoteRegistry")) {
-                Write-Warning "[?][Services] Skipping $Service to avoiding a security breach..."
+                Write-Warning "[?][Services] Skipping $Service to avoid a security breach..."
                 Continue
             }
     

@@ -8,7 +8,6 @@ function MakeRestorePoint() {
 }
 
 function BackupHostsFile() {
-
     $PathToHostsFile = "$env:SystemRoot\System32\drivers\etc"
 
     Write-Host "[+][Backup] Doing Backup on Hosts file..."
@@ -20,10 +19,11 @@ function BackupHostsFile() {
         mkdir -Path "$PathToHostsFile\Hosts_Backup"
     }
     Push-Location "Hosts_Backup"
-    Copy-Item -Path ".\..\hosts" -Destination "hosts_".Insert(6, $Date)
-    Pop-Location
-    Pop-Location
 
+    Copy-Item -Path ".\..\hosts" -Destination "hosts_".Insert(6, $Date)
+
+    Pop-Location
+    Pop-Location
 }
 
 function Main() {
