@@ -1091,7 +1091,7 @@ function PrepareGUI() {
 
             Push-Location "src\utils\"
             Write-Host "[+] Enabling Dark theme..."
-            regedit /s dark-theme.reg
+            regedit /s enable-dark-theme.reg
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -1102,7 +1102,7 @@ function PrepareGUI() {
 
             Push-Location "src\utils\"
             Write-Host "[+] Enabling Light theme..."
-            regedit /s light-theme.reg
+            regedit /s enable-light-theme.reg
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -1134,8 +1134,8 @@ function PrepareGUI() {
     $EnableTelemetry.Add_Click( {
 
             Push-Location "src\utils\"
-            $FileName = "enable-telemetry.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Write-Host "[+] Enabling Telemetry..."
+            regedit /s enable-full-telemetry.reg
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -1145,8 +1145,8 @@ function PrepareGUI() {
     $DisableTelemetry.Add_Click( {
 
             Push-Location "src\utils\"
-            $FileName = "disable-telemetry.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Write-Host "[-] Disabling Telemetry..."
+            regedit /s disable-telemetry.reg
             Pop-Location
 
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
