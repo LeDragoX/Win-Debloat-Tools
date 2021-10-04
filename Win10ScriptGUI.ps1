@@ -18,8 +18,8 @@ function LoadLibs() {
     Import-Module -DisableNameChecking .\"setup-console-style.psm1"
     Import-Module -DisableNameChecking .\"simple-message-box.psm1"
     Import-Module -DisableNameChecking .\"title-templates.psm1"
-    Pop-Location
 
+    Pop-Location
 }
 
 function PromptPcRestart() {
@@ -30,7 +30,7 @@ function PromptPcRestart() {
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         'Yes' {
             Write-Host "You choose to Restart now"
-            Restart-Computer        
+            Restart-Computer
         }
         'No' {
             Write-Host "You choose to Restart later"
@@ -185,7 +185,7 @@ function PrepareGUI() {
     $RevertScript.Height = $BBHeight
     $RevertScript.Location = $BBLocation
     $RevertScript.Font = $BBFont
-    $RevertScript.ForeColor = $BBForeColor    
+    $RevertScript.ForeColor = $BBForeColor
 
     $NextYLocation = $RevertScript.Location.Y + $RevertScript.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button
@@ -246,6 +246,26 @@ function PrepareGUI() {
     $DisableTelemetry.Height = $SBHeight
     $DisableTelemetry.Font = $SBFont
     $DisableTelemetry.ForeColor = $SBForeColor
+
+    $NextYLocation = $DisableTelemetry.Location.Y + $DisableTelemetry.Height + $DistanceBetweenButtons
+    # Panel 2 ~> Button
+    $EnableBgApps = New-Object system.Windows.Forms.Button
+    $EnableBgApps.Text = "Enable Background Apps"
+    $EnableBgApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $EnableBgApps.Width = $SBWidth
+    $EnableBgApps.Height = $SBHeight
+    $EnableBgApps.Font = $SBFont
+    $EnableBgApps.ForeColor = $SBForeColor
+
+    $NextYLocation = $EnableBgApps.Location.Y + $EnableBgApps.Height + $DistanceBetweenButtons
+    # Panel 2 ~> Button
+    $DisableBgApps = New-Object system.Windows.Forms.Button
+    $DisableBgApps.Text = "Disable Background Apps"
+    $DisableBgApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $DisableBgApps.Width = $SBWidth
+    $DisableBgApps.Height = $SBHeight
+    $DisableBgApps.Font = $SBFont
+    $DisableBgApps.ForeColor = $SBForeColor
 
     # Panel 3.1 ~> Button (Big)
     $InstallDrivers = New-Object system.Windows.Forms.Button
@@ -701,7 +721,7 @@ function PrepareGUI() {
     $GogGalaxy.Width = $SBWidth
     $GogGalaxy.Height = $SBHeight
     $GogGalaxy.Font = $SBFont
-    $GogGalaxy.ForeColor = $SBForeColor    
+    $GogGalaxy.ForeColor = $SBForeColor
 
     $NextYLocation = $GogGalaxy.Location.Y + $GogGalaxy.Height + $DistanceBetweenButtons
     # Panel 3.2 ~> Button
@@ -968,10 +988,10 @@ function PrepareGUI() {
 
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3))
-    
+
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $InstallOneDrive, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry, $EnableBgApps, $DisableBgApps))
     $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
     $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
 
@@ -1025,7 +1045,7 @@ function PrepareGUI() {
     $RepairWindows.Add_Click( {
             Push-Location -Path "src\scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
-            
+
             $Scripts = @(
                 # [Recommended order]
                 "backup-system.ps1",
@@ -1076,7 +1096,7 @@ function PrepareGUI() {
             Push-Location "src\utils\"
 
             Write-Host "[+] Enabling Dark theme..."
-            regedit /s enable-dark-theme.reg
+            regedit /s use-dark-theme.reg
 
             Pop-Location
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -1086,7 +1106,7 @@ function PrepareGUI() {
             Push-Location "src\utils\"
 
             Write-Host "[+] Enabling Light theme..."
-            regedit /s enable-light-theme.reg
+            regedit /s use-light-theme.reg
 
             Pop-Location
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
@@ -1101,7 +1121,7 @@ function PrepareGUI() {
             Pop-Location
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
         })
-    
+
     $DisableCortana.Add_Click( {
             Push-Location "src\utils\"
 
@@ -1132,6 +1152,27 @@ function PrepareGUI() {
             ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
+    $EnableBgApps.Add_Click( {
+            Push-Location "src\utils\"
+
+            Write-Host "[+] Enabling Background Apps..."
+            regedit /s enable-bg-apps.reg
+
+            Pop-Location
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    $DisableBgApps.Add_Click( {
+            Push-Location "src\utils\"
+
+            Write-Host "[-] Disabling Background Apps..."
+            regedit /s disable-bg-apps.reg
+
+            Pop-Location
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+
     $InstallDrivers.Add_Click( {
             Push-Location -Path "src\scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
@@ -1161,25 +1202,25 @@ function PrepareGUI() {
         })
 
     $GoogleChrome.Add_Click( {
-            
+
             $InstallParams = @{
                 Name         = $GoogleChrome.Text
                 PackageName  = "Google.Chrome"
                 InstallBlock = { winget install --silent $Package; choco install -y "ublockorigin-chrome" }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-            
+
         })
 
     $MozillaFirefox.Add_Click( {
-            
+
             $InstallParams = @{
                 Name         = $MozillaFirefox.Text
                 PackageName  = "Mozilla.Firefox"
                 InstallBlock = { winget install --silent $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-            
+
         })
 
     $7Zip.Add_Click( {
@@ -1205,7 +1246,7 @@ function PrepareGUI() {
         })
 
     $OnlyOffice.Add_Click( {
-            
+
             $InstallParams = @{
                 Name         = $OnlyOffice.Text
                 PackageName  = "ONLYOFFICE.DesktopEditors"
@@ -1236,7 +1277,7 @@ function PrepareGUI() {
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
-        
+
     $Gimp.Add_Click( {
 
             $InstallParams = @{

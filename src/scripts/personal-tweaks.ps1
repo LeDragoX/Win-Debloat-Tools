@@ -11,7 +11,7 @@ function PersonalTweaks() {
     Push-Location -Path "$PSScriptRoot\..\utils\"
 
     Write-Host "[+][Personal] Enabling Dark theme..."
-    regedit /s enable-dark-theme.reg
+    regedit /s use-dark-theme.reg
     Write-Host "[-][Personal] Disabling Cortana..."
     regedit /s disable-cortana.reg
     Write-Host "[+][Personal] Enabling photo viewer..."
