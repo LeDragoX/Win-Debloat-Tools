@@ -1,8 +1,8 @@
 function Main() {
 
-  # -r: Complete shutdown and restart
+  # -r: Restart after shutdown
   # -o: Reboot into the advanced menu
-  # -t: Period before shutdown
+  # -t: Time before shutdown
   # -f: Force shutdown
   shutdown -o -r -f -t 0
 

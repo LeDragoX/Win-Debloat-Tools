@@ -73,7 +73,6 @@ function OptimizeScheduledTasks() {
 
         }
     }
-
 }
 
 function Main() {
@@ -100,7 +99,7 @@ function Main() {
         )
       
     }
-    
+
     OptimizeScheduledTasks # Disable Scheduled Tasks that causes slowdowns
 
 }

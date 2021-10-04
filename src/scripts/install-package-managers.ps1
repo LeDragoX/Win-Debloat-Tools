@@ -34,7 +34,6 @@ function InstallPackageManager() {
       Write-Host "[+] Executing post install script: $PostInstallBlock."
       Invoke-Expression "$PostInstallBlock"
     }
-
   }
 
   # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
@@ -80,6 +79,7 @@ function Main() {
   
     $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
   }
+
   Else {
     Write-Warning "[?] Winget Dependency is already installed."
   }

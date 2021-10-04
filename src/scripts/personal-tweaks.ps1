@@ -9,12 +9,14 @@ function PersonalTweaks() {
     Title1 -Text "My Personal Tweaks"
 
     Push-Location -Path "$PSScriptRoot\..\utils\"
+
     Write-Host "[+][Personal] Enabling Dark theme..."
     regedit /s enable-dark-theme.reg
     Write-Host "[-][Personal] Disabling Cortana..."
     regedit /s disable-cortana.reg
     Write-Host "[+][Personal] Enabling photo viewer..."
     regedit /s enable-photo-viewer.reg
+
     Pop-Location
 
     Section1 -Text "Windows Explorer Tweaks"
@@ -45,7 +47,7 @@ function PersonalTweaks() {
     Write-Host "$($EnableStatus[0]) Aero-Shake Minimize feature..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
 
-    Write-Host "[@] (1 = This PC, 2 = Quick access)"
+    # [@] (1 = This PC, 2 = Quick access)
     Write-Host "$[+][Personal] Setting Windows Explorer to start on This PC instead of Quick Access..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
 
@@ -63,19 +65,19 @@ function PersonalTweaks() {
     
     Caption1 -Text "Task Bar - Windows 10 Compatible"
     
-    Write-Host "[@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)"
+    # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
     Write-Host "[-][Personal] Hiding the search box from taskbar..."
     Set-ItemProperty -Path "$PathToSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
-    Write-Host "[@] (0 = Hide Task view, 1 = Show Task view)"
+    # [@] (0 = Hide Task view, 1 = Show Task view)
     Write-Host "[-][Personal] Hiding the Task View from taskbar..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
 
-    Write-Host "[@] (0 = Disable, 1 = Enable)"
+    # [@] (0 = Disable, 1 = Enable)
     Write-Host "$($EnableStatus[0]) Open on Hover from News and Interest from taskbar..."
     Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
 
-    Write-Host "[@] (0 = Enable, 1 = Enable Icon only, 2 = Disable)"
+    # [@] (0 = Enable, 1 = Enable Icon only, 2 = Disable)
     Write-Host "$($EnableStatus[0]) News and Interest from taskbar..."
     Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
@@ -93,7 +95,7 @@ function PersonalTweaks() {
 
     Caption1 -Text "Task Bar - Windows 11 Only"
 
-    Write-Host "[@] (0 = Hide Widgets, 1 = Show Widgets)"
+    # [@] (0 = Hide Widgets, 1 = Show Widgets)
     Write-Host "[-][Personal] Hiding Widgets from taskbar..."
     Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
 

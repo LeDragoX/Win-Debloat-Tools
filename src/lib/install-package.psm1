@@ -22,7 +22,6 @@ function InstallPackage() {
   }
 
   ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
-
 }
 
 <#
