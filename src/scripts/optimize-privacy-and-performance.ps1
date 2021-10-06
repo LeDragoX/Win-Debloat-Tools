@@ -355,7 +355,7 @@ function OptimizePrivacyAndPerformance() {
     Write-Host "[+][Priv&Perf] Splitting SVCHost processes to lower RAM usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $(4 * 1mb)
 
-    Write-Host "[+][Priv&Perf] Unlimiting your network bandwitdh for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
+    Write-Host "[+][Priv&Perf] Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
     If (!(Test-Path "$PathToPsched")) {
         New-Item -Path "$PathToPsched" -Force | Out-Null
     }

@@ -51,11 +51,11 @@ function RemoveBloatwareApps() {
         "Microsoft.Xbox.TCUI"
         "Microsoft.YourPhone"                   # Your Phone
         "Microsoft.ZuneMusic"
-        "Microsoft.ZuneVideo"
-        
+        "Microsoft.ZuneVideo"                   # Movies & TV
+    
         # Default Windows 11 apps
         "MicrosoftWindows.Client.WebExperience" # Taskbar Widgets
-        
+    
         # 3rd party Apps
         "*ACGMediaPlayer*"
         "*ActiproSoftwareLLC*"
@@ -100,14 +100,14 @@ function RemoveBloatwareApps() {
         "*WinZipUniversal*"
         "*Wunderlist*"
         "*XING*"
-        
+    
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"
-        
+    
         # <==========[ DIY ]==========> (Remove the # to Unninstall)
-        
+    
         # [DIY] Default apps i'll keep
-        
+    
         #"Microsoft.FreshPaint"             # Paint
         #"Microsoft.MicrosoftEdge"          # Microsoft Edge
         #"Microsoft.MicrosoftStickyNotes"   # Sticky Notes
@@ -115,14 +115,14 @@ function RemoveBloatwareApps() {
         #"Microsoft.WindowsCamera"          # Camera
         #"Microsoft.WindowsFeedbackHub"     # Feedback Hub
         #"Microsoft.Windows.Photos"         # Photos
-        
+    
         # [DIY] Xbox Apps and Dependencies
-        
+    
         #"Microsoft.XboxGamingOverlay"      # Xbox Game Bar
         #"Microsoft.XboxIdentityProvider"   # Xbox Identity Provider (Xbox Dependency)
-        
+    
         # [DIY] Common Streaming services
-        
+    
         #"*Netflix*"                        # Netflix
         #"*SpotifyMusic*"                   # Spotify
 
@@ -144,7 +144,7 @@ function RemoveBloatwareApps() {
             Write-Host "[-][UWP] Trying to remove $Bloat ..."
             Get-AppxPackage -AllUsers -Name $Bloat | Remove-AppxPackage # App
             Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online -AllUsers # Payload
-    
+
         }
         Else {
 
@@ -155,7 +155,7 @@ function RemoveBloatwareApps() {
 }
 
 function Main() {
-    
+
     RemoveBloatwareApps # Remove the main Bloat from Pre-installed Apps
 
 }
