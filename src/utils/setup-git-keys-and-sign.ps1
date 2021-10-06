@@ -155,7 +155,7 @@ function SetUpGit() {
     }
     Else {
 
-      Write-Host "Failed to retrive your key_id: $key_id."
+      Write-Host "Failed to retrieve your key_id: $key_id."
 
     }
   }

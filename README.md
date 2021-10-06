@@ -25,7 +25,7 @@ but you'll probably want the most recent version anyway.
 ## 📄 Resume
 
 This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10).
-These scripts will Customize, Debloat and Improve Security/Performance on Windows 10/+.
+These scripts will Customize, Debloat and Improve Security/Performance on Windows 10+.
 
 _Use on a fresh windows install to note the differences._
 
@@ -58,7 +58,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 _The `Apply Tweaks` button is the main one for debloating._
 
-### **CLI Version** (Advice - If you want FULL Output to be displayed on the console, use this version)
+### **CLI Version** (Minimal, good for automation)
 
 - Copy and Paste this entire line below on **Powershell**:
 
@@ -75,13 +75,14 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Apply Tweaks`: Run every 'non-interactive' Tweak scripts;
 - `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
-- `Revert Tweaks`: Re-apply some tweaks and revert all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks;
-- `Dark Mode & Light Mode`: Apply [Dark Mode](./src/utils/dark-theme.reg) or [Light Mode](./src/utils/light-theme.reg) exclusively from GUI;
-- `Enable Cortana & Disable Cortana`: Let you choose whether the cortana is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
-- `Enable Full Telemetry & Disable Telemetry`: Let you choose whether the Telemetry is [FULL enabled](./src/utils/enable-telemetry.ps1) (For those who wants to join Windows insider) or [disabled](src/utils/disable-telemetry.ps1);
+- `Revert Tweaks`: Re-apply some tweaks and [Revert] all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks;
+- `Dark Mode & Light Mode`: Apply [Dark Mode](./src/utils/use-dark-theme.reg) or [Light Mode](./src/utils/use-light-theme.reg) exclusively from GUI;
+- `Enable/Disable Cortana`: Let you choose whether the **Cortana** is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
+- `Enable Full Telemetry & Disable Telemetry`: Let you choose whether the **Telemetry** is [enabled](./src/utils/enable-full-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
+- `Enable/Disable Background Apps`: Let you choose whether the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
 - `Install CPU/GPU Drivers (Winget/Chocolatey)`: Install CPU and GPU drivers. ([`install-drivers.ps1`](./src/scripts/install-drivers.ps1));
   - The Latest CPU (`Intel (Winget)` and [AMD](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
-  - The Lastest Graphics driver of your GPU (Except AMD). See `Intel (Winget)` and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including `GeForce Experience (Winget)`);
+  - The Latest Graphics driver of your GPU (Except AMD). See `Intel (Winget)` and [NVIDIA](https://community.chocolatey.org/packages/geforce-game-ready-driver), including `GeForce Experience (Winget)`);
 - `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games. ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-dependencies.ps1));
 - Every software installation is explicitly showed;
 
@@ -105,7 +106,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Disable/Enable Optional Features specially for Gaming/Work (including Hyper-V/WSL); ([`optimize-optional-features.ps1`](./src/scripts/optimize-optional-features.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
 - Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
-- In the End it Locks Script's Usage Permission. (`Win10Script(GUI).ps1`)
+- In the End it Locks Script's Usage Permission. ([`set-script-policy.psm1`](./src/lib/set-script-policy.psm1))
 
 </details>
 
