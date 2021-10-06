@@ -58,7 +58,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 _The `Apply Tweaks` button is the main one for debloating._
 
-### **CLI Version** (Advice - If you want FULL Output to be displayed on the console, use this version)
+### **CLI Version** (Minimal, good for automation)
 
 - Copy and Paste this entire line below on **Powershell**:
 
