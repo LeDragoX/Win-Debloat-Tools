@@ -116,7 +116,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 > and Open PowerShell as admin to copy paste it's content:
 
 <details>
-<summary>NVIDIA GeForce Experience <code>ERROR: 0x0003</code> (<code>NvContainerLocalSystem</code> service was disabled).</summary>
+<summary>NVIDIA GeForce Experience <code>ERROR: 0x0003</code> (<code>NvContainerLocalSystem</code> service was disabled) - No Issue Link</summary>
 
 ```Powershell
 Get-Service NvContainerLocalSystem | Set-Service -StartupType Automatic -PassThru | Start-Service
@@ -125,7 +125,7 @@ Get-Service NvContainerLocalSystem | Set-Service -StartupType Automatic -PassThr
 </details>
 
 <details>
-<summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">Fingerprint Reader / Facial Detection not Working</a> (<code>WbioSrvc</code> service was disabled).</summary>
+<summary>Fingerprint Reader / Facial Detection not Working (<code>WbioSrvc</code> service was disabled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">#189 from W4RH4WK</a></summary>
 
 ```Powershell
 Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
@@ -134,7 +134,7 @@ Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Serv
 </details>
 
 <details>
-<summary>Start menu Search (<code>WSearch</code> indexing service was disabled).</summary>
+<summary>Start menu Search (<code>WSearch</code> indexing service was disabled) - No Issue Link</summary>
 
 ```Powershell
 Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
@@ -143,7 +143,7 @@ Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Servi
 </details>
 
 <details>
-<summary><a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">Issues with Skype</a> (<code>Microsoft.SkypeApp</code> app was uninstalled).</summary>
+<summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
 
 ```Powershell
 # Winget required first
@@ -153,7 +153,7 @@ winget install --silent "Microsoft.Skype"
 </details>
 
 <details>
-<summary>Bring back Taskbar <code>Widgets</code> (Windows 11).</summary>
+<summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win10SmartDebloat/issues/7">#7</a></summary>
 
 1. Copy and paste this URL on your browser: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
 2. Or follow [this URL](https://www.microsoft.com/en-us/p/app/9mssgkg348sp)
@@ -175,7 +175,7 @@ winget install --id 9MSSGKG348SP --accept-package-agreements
 </details>
 
 <details>
-<summary>Bluestacks doesn't work with <code>Hyper-V</code> enabled.</summary>
+<summary>Bluestacks doesn't work with <code>Hyper-V</code> enabled - No Issue Link</summary>
 
 ```Powershell
 Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "Microsoft-Hyper-V-All"
