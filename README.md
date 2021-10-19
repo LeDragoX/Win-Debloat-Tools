@@ -153,12 +153,23 @@ winget install --silent "Microsoft.Skype"
 </details>
 
 <details>
-<summary>Taskbar <code>Widgets</code> disappeared (Windows 11).</summary>
+<summary>Bring back Taskbar <code>Widgets</code> (Windows 11).</summary>
+
+1. Follow this [MS Store Protocol](ms-windows-store://pdp/?ProductId=9MSSGKG348SP) or [This URL](https://www.microsoft.com/en-us/p/app/9mssgkg348sp)
+2. Then click `Get`/`Install`
+3. After this, open the `Taskbar Settings` and enable the `Widgets` button again
+
+**Or Reinstall through winget**
 
 ```Powershell
-# Needs reboot to work properly
-Add-AppxPackage -register "$env:ProgramFiles\WindowsApps\*MicrosoftWindows.Client.WebExperience*\AppxManifest.xml" -DisableDevelopmentMode
+winget install --id 9MSSGKG348SP --accept-package-agreements
 ```
+
+**Before someone ask about this "hidden" package...**
+
+| Name                        | ID           | Version | Source  |
+| --------------------------- | ------------ | ------- | ------- |
+| Windows Web Experience Pack | 9MSSGKG348SP | Unknown | msstore |
 
 </details>
 
