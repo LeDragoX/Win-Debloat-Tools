@@ -155,11 +155,10 @@ winget install --silent "Microsoft.Skype"
 <details>
 <summary>Bring back Taskbar <code>Widgets</code> (Windows 11).</summary>
 
-<a href="ms-windows-store://pdp/?ProductId=9MSSGKG348SP">MS Store Protocol</a>
-
-1. Follow this or [This URL](https://www.microsoft.com/en-us/p/app/9mssgkg348sp)
-2. Then click `Get`/`Install`
-3. After this, open the `Taskbar Settings` and enable the `Widgets` button again
+1. Copy and paste this URL on your browser: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
+2. Or follow [this URL](https://www.microsoft.com/en-us/p/app/9mssgkg348sp)
+3. Then click `Get`/`Install`
+4. After this, open the `Taskbar Settings` and enable the `Widgets` button again
 
 **Or Reinstall through winget**
 
