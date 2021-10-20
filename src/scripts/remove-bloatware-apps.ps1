@@ -52,10 +52,11 @@ function RemoveBloatwareApps() {
         "Microsoft.YourPhone"                   # Your Phone
         "Microsoft.ZuneMusic"
         "Microsoft.ZuneVideo"                   # Movies & TV
-    
+
         # Default Windows 11 apps
         "MicrosoftWindows.Client.WebExperience" # Taskbar Widgets
-    
+        "MicrosoftTeams"                        # Microsoft Teams / Preview
+
         # 3rd party Apps
         "*ACGMediaPlayer*"
         "*ActiproSoftwareLLC*"
@@ -100,14 +101,14 @@ function RemoveBloatwareApps() {
         "*WinZipUniversal*"
         "*Wunderlist*"
         "*XING*"
-    
+
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"
-    
+
         # <==========[ DIY ]==========> (Remove the # to Unninstall)
-    
+
         # [DIY] Default apps i'll keep
-    
+
         #"Microsoft.FreshPaint"             # Paint
         #"Microsoft.MicrosoftEdge"          # Microsoft Edge
         #"Microsoft.MicrosoftStickyNotes"   # Sticky Notes
@@ -115,14 +116,14 @@ function RemoveBloatwareApps() {
         #"Microsoft.WindowsCamera"          # Camera
         #"Microsoft.WindowsFeedbackHub"     # Feedback Hub
         #"Microsoft.Windows.Photos"         # Photos
-    
+
         # [DIY] Xbox Apps and Dependencies
-    
+
         #"Microsoft.XboxGamingOverlay"      # Xbox Game Bar
         #"Microsoft.XboxIdentityProvider"   # Xbox Identity Provider (Xbox Dependency)
-    
+
         # [DIY] Common Streaming services
-    
+
         #"*Netflix*"                        # Netflix
         #"*SpotifyMusic*"                   # Spotify
 
@@ -149,7 +150,7 @@ function RemoveBloatwareApps() {
         Else {
 
             Write-Warning "[?][UWP] $Bloat was already removed or not found."
-   
+
         }
     }
 }
