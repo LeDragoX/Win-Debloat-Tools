@@ -169,28 +169,38 @@ function PersonalTweaks() {
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
     Section1 -Text "Power Plan Tweaks"
-    $Timeout = 10
+    $TimeoutScreenBattery = 5
+    $TimeoutScreenPluggedIn = 10
+
+    $TimeoutStandByBattery = 15
+    $TimeoutStandByPluggedIn = 30
+
+    $TimeoutDiskBattery = 15
+    $TimeoutDiskPluggedIn = 30
+
+    $TimeoutHibernateBattery = 15
+    $TimeoutHibernatePluggedIn = 30
 
     Write-Host "[=][Personal] Setting Hibernate size to full..."
     powercfg -hibernate -type full
     Write-Host "[-][Personal] Disabling Hibernate..."
     powercfg -hibernate off
 
-    Write-Host "[+][Personal] Setting the Monitor Timeout to $Timeout min (AC = Alternating Current, DC = Direct Current)..."
-    powercfg -Change Monitor-Timeout-AC $Timeout
-    powercfg -Change Monitor-Timeout-DC $Timeout
+    Write-Host "[+][Personal] Setting the Monitor Timeout to AC: $TimeoutScreenPluggedIn and DC: $TimeoutScreenBattery..."
+    powercfg -Change Monitor-Timeout-AC $TimeoutScreenPluggedIn
+    powercfg -Change Monitor-Timeout-DC $TimeoutScreenBattery
 
-    Write-Host "[+][Personal] Setting the Disk Timeout to $Timeout min..."
-    powercfg -Change Disk-Timeout-AC $Timeout
-    powercfg -Change Disk-Timeout-DC $Timeout
+    Write-Host "[+][Personal] Setting the Standby Timeout to AC: $TimeoutStandByPluggedIn and DC: $TimeoutStandByBattery..."
+    powercfg -Change Standby-Timeout-AC $TimeoutStandByPluggedIn
+    powercfg -Change Standby-Timeout-DC $TimeoutStandByBattery
 
-    Write-Host "[+][Personal] Setting the Standby Timeout to $Timeout min..."
-    powercfg -Change Standby-Timeout-AC $Timeout
-    powercfg -Change Standby-Timeout-DC $Timeout
+    Write-Host "[+][Personal] Setting the Disk Timeout to AC: $TimeoutDiskPluggedIn and DC: $TimeoutDiskBattery..."
+    powercfg -Change Disk-Timeout-AC $TimeoutDiskPluggedIn
+    powercfg -Change Disk-Timeout-DC $TimeoutDiskBattery
 
-    Write-Host "[+][Personal] Setting the Hibernate Timeout to $Timeout min..."
-    powercfg -Change Hibernate-Timeout-AC $Timeout
-    powercfg -Change Hibernate-Timeout-DC $Timeout
+    Write-Host "[+][Personal] Setting the Hibernate Timeout to AC: $TimeoutHibernatePluggedIn and DC: $TimeoutHibernateBattery..."
+    powercfg -Change Hibernate-Timeout-AC $TimeoutHibernatePluggedIn
+    powercfg -Change Hibernate-Timeout-DC $TimeoutHibernateBattery
 
 }
 
