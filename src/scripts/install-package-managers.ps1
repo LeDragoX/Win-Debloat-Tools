@@ -9,8 +9,10 @@ function InstallPackageManager() {
     [String]	    $PackageManagerFullName,
     [ScriptBlock] $CheckExistenceBlock,
     [ScriptBlock] $InstallCommandBlock,
-    [ScriptBlock]	$UpdateScriptBlock,
+    [Parameter(Mandatory = $false)]
     [String]      $Time,
+    [Parameter(Mandatory = $false)]
+    [ScriptBlock]	$UpdateScriptBlock,
     [Parameter(Mandatory = $false)]
     [ScriptBlock] $PostInstallBlock
   )
@@ -24,37 +26,37 @@ function InstallPackageManager() {
 
   }
   Catch {
-
     Write-Warning "[?] $PackageManagerFullName was not found."
     Write-Host "[+] Downloading and Installing $PackageManagerFullName package manager."
 
     Invoke-Expression "$InstallCommandBlock"
+
+    If ($UpdateScriptBlock) {
+      # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
+      # Find it on Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\{PackageManagerFullName} Daily Upgrade"
+      Write-Host "[+] Creating a daily task to automatically upgrade $PackageManagerFullName packages."
+      $JobName = "$PackageManagerFullName Daily Upgrade"
+      $ScheduledJob = @{
+        Name               = $JobName
+        ScriptBlock        = $UpdateScriptBlock
+        Trigger            = New-JobTrigger -Daily -At $Time
+        ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
+      }
+
+      # If the Scheduled Job already exists, delete
+      If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
+        Write-Host "[+] ScheduledJob: $JobName FOUND! Re-Creating..."
+        Unregister-ScheduledJob -Name $JobName
+      }
+      # Then register it again
+      Register-ScheduledJob @ScheduledJob | Out-Host
+    }
 
     If ($PostInstallBlock) {
       Write-Host "[+] Executing post install script: $PostInstallBlock."
       Invoke-Expression "$PostInstallBlock"
     }
   }
-
-  # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-  # Find it on Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\{PackageManagerFullName} Daily Upgrade"
-  Write-Host "[+] Creating a daily task to automatically upgrade $PackageManagerFullName packages."
-  $JobName = "$PackageManagerFullName Daily Upgrade"
-  $ScheduledJob = @{
-    Name               = $JobName
-    ScriptBlock        = $UpdateScriptBlock
-    Trigger            = New-JobTrigger -Daily -At $Time
-    ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
-  }
-
-  # If the Scheduled Job already exists, delete
-  If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-    Write-Host "[+] ScheduledJob: $JobName FOUND! Re-Creating..."
-    Unregister-ScheduledJob -Name $JobName
-  }
-  # Then register it again
-  Register-ScheduledJob @ScheduledJob | Out-Host
-
 }
 
 function Main() {
@@ -74,10 +76,19 @@ function Main() {
       $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
     }
     Else {
-      Write-Warning "[?] $OSArch is not supported!"
+      Write-Warning "[?] $OSArch is not supported! But trying anyway..."
+      $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
     }
 
     $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
+    $WingetDepParams = @(
+      "Winget Dependency",
+      { winget --version },
+      { Write-Host "[+] Downloading Winget Dependency ($OSArch) from: $WingetDepDownload"; Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput; Add-AppxPackage -Path $WingetDepOutput; Remove-Item -Path $WingetDepOutput }
+    )
+  
+    # Install Winget Dependency on Windows
+    InstallPackageManager -PackageManagerFullName $WingetDepParams[0] -CheckExistenceBlock $WingetDepParams[1] -InstallCommandBlock $WingetDepParams[2]
   }
 
   Else {
@@ -91,25 +102,24 @@ function Main() {
   $WingetParams = @(
     "Winget",
     { winget --version },
-    { Write-Host "[+] Downloading Winget Requirement ($OSArch) from: $WingetDepDownload"; Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput; Add-AppxPackage -Path $WingetDepOutput; Remove-Item -Path $WingetDepOutput },
+    { Write-Host "[+] Downloading Winget from: $WingetDownload"; Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path $WingetOutput },
+    "12:00",
     { winget upgrade --all --silent }
-    "12:00"
-    { Write-Host "[+] Downloading Winget from: $WingetDownload"; Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path $WingetOutput }
   )
 
   $ChocolateyParams = @(
     "Chocolatey",
     { choco --version },
     { Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) },
-    { choco upgrade all -y },
     "13:00",
+    { choco upgrade all -y },
     { choco install -y "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
   )
 
   # Install Winget on Windows
-  InstallPackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -UpdateScriptBlock $WingetParams[3] -Time $WingetParams[4] -PostInstallBlock $WingetParams[5]
+  InstallPackageManager -PackageManagerFullName $WingetParams[0]     -CheckExistenceBlock $WingetParams[1]     -InstallCommandBlock $WingetParams[2]     -Time $WingetParams[3]     -UpdateScriptBlock $WingetParams[4]
   # Install Chocolatey on Windows
-  InstallPackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -UpdateScriptBlock $ChocolateyParams[3] -Time $ChocolateyParams[4] -PostInstallBlock $ChocolateyParams[5]
+  InstallPackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -Time $ChocolateyParams[3] -UpdateScriptBlock $ChocolateyParams[4] -PostInstallBlock $ChocolateyParams[5]
 
 }
 
