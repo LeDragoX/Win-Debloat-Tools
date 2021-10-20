@@ -22,9 +22,9 @@ function PersonalTweaks() {
     Section1 -Text "Windows Explorer Tweaks"
 
     Write-Host "[-][Personal] Hiding Quick Access from Windows Explorer..."
-    Set-ItemProperty -Path "$PathToExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToExplorer" -Name "HubMode" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUExplorer" -Name "HubMode" -Type DWord -Value $One
 
     Write-Host "[-][Priv&Perf] Removing 3D Objects from This PC..."
     If (Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
@@ -35,30 +35,30 @@ function PersonalTweaks() {
     }
 
     Write-Host "$($EnableStatus[1]) Show Drives without Media..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
 
     Write-Host "$($EnableStatus[0]) File Explorer Ads (OneDrive, New Features etc.)..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value $Zero
 
     Write-Host "$($EnableStatus[0]) MRU lists (jump lists) of XAML apps in Start Menu..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value $Zero
 
     Write-Host "$($EnableStatus[0]) Aero-Shake Minimize feature..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
 
     # [@] (1 = This PC, 2 = Quick access)
     Write-Host "$[+][Personal] Setting Windows Explorer to start on This PC instead of Quick Access..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
 
     Write-Host "$($EnableStatus[1]) Show hidden files in Explorer..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "Hidden" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "Hidden" -Type DWord -Value $One
 
     Write-Host "$($EnableStatus[1]) Showing file transfer details..."
-    If (!(Test-Path "$PathToExplorer\OperationStatusManager")) {
-        New-Item -Path "$PathToExplorer\OperationStatusManager" -Force | Out-Null
+    If (!(Test-Path "$PathToCUExplorer\OperationStatusManager")) {
+        New-Item -Path "$PathToCUExplorer\OperationStatusManager" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToCUExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value $One
 
     Section1 -Text "Personalization"
     Section1 -Text "Task Bar Tweaks"
@@ -67,42 +67,48 @@ function PersonalTweaks() {
     
     # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
     Write-Host "[-][Personal] Hiding the search box from taskbar..."
-    Set-ItemProperty -Path "$PathToSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
     # [@] (0 = Hide Task view, 1 = Show Task view)
     Write-Host "[-][Personal] Hiding the Task View from taskbar..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
 
     # [@] (0 = Disable, 1 = Enable)
     Write-Host "$($EnableStatus[0]) Open on Hover from News and Interest from taskbar..."
-    Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
+    If (!(Test-Path "$PathToCUNewsAndInterest")) {
+        New-Item -Path "$PathToCUNewsAndInterest" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
 
     # [@] (0 = Enable, 1 = Enable Icon only, 2 = Disable)
     Write-Host "$($EnableStatus[0]) News and Interest from taskbar..."
-    Set-ItemProperty -Path "$PathToNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
+    Set-ItemProperty -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
     Write-Host "[-][Personal] Hiding People icon..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value $Zero
+    If (!(Test-Path "$PathToCUExplorerAdvanced\People")) {
+        New-Item -Path "$PathToCUExplorerAdvanced\People" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value $Zero
 
     Write-Host "$($EnableStatus[0]) Live Tiles..."
-    If (!(Test-Path "$PathToLiveTiles")) {
-        New-Item -Path "$PathToLiveTiles" -Force | Out-Null
+    If (!(Test-Path "$PathToCUPoliciesLiveTiles")) {
+        New-Item -Path "$PathToCUPoliciesLiveTiles" -Force | Out-Null
     }
-    Set-ItemProperty -Path $PathToLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value $One
+    Set-ItemProperty -Path $PathToCUPoliciesLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value $One
 
     Write-Host "[=][Personal] Enabling Auto tray icons..."
-    Set-ItemProperty -Path "$PathToExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
     Caption1 -Text "Task Bar - Windows 11 Only"
 
     # [@] (0 = Hide Widgets, 1 = Show Widgets)
     Write-Host "[-][Personal] Hiding Widgets from taskbar..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
 
     # Disable creation of Thumbs.db thumbnail cache files
     Write-Host "$($EnableStatus[0]) creation of Thumbs.db..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Caption1 -Text "Colors"
 
@@ -113,7 +119,7 @@ function PersonalTweaks() {
     Caption1 -Text "Multitasking"
 
     Write-Host "[-][Personal] Disabling Edge multi tabs showing on Alt + Tab..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
     Section1 -Text "Devices"
     Caption1 -Text "Bluetooth & other devices"
@@ -124,24 +130,24 @@ function PersonalTweaks() {
     Section1 -Text "Cortana Tweaks"
 
     Write-Host "$($EnableStatus[0]) Bing Search in Start Menu..."
-    Set-ItemProperty -Path "$PathToSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
 
     Section1 -Text "Ease of Access"
     Caption1 -Text "Keyboard"
 
     Write-Output "[-][Personal] Disabling Sticky Keys..."
-    Set-ItemProperty -Path "$PathToAccessibility\StickyKeys" -Name "Flags" -Value "506"
-    Set-ItemProperty -Path "$PathToAccessibility\Keyboard Response" -Name "Flags" -Value "122"
-    Set-ItemProperty -Path "$PathToAccessibility\ToggleKeys" -Name "Flags" -Value "58"
+    Set-ItemProperty -Path "$PathToCUAccessibility\StickyKeys" -Name "Flags" -Value "506"
+    Set-ItemProperty -Path "$PathToCUAccessibility\Keyboard Response" -Name "Flags" -Value "122"
+    Set-ItemProperty -Path "$PathToCUAccessibility\ToggleKeys" -Name "Flags" -Value "58"
 
     Section1 -Text "Microsoft Edge Policies"
     Caption1 -Text "Privacy, search and services / Address bar and search"
 
     Write-Host "[=][Personal] Show me search and site suggestions using my typed characters..."
-    Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
     Write-Host "[=][Personal] Show me history and favorite suggestions and other data using my typed characters..."
-    Remove-ItemProperty -Path "$PathToEdgeUserPol" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
 
     Write-Host "$($EnableStatus[1]) Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value $Zero
@@ -191,13 +197,13 @@ function PersonalTweaks() {
 function Main() {
 
     # Initialize all Path variables used to Registry Tweaks
-    $Global:PathToAccessibility = "HKCU:\Control Panel\Accessibility"
-    $Global:PathToEdgeUserPol = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
-    $Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-    $Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
-    $Global:PathToLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-    $Global:PathToNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
-    $Global:PathToSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+    $Global:PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
+    $Global:PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
+    $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+    $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
+    $Global:PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+    $Global:PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
+    $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
     $Zero = 0
     $One = 1

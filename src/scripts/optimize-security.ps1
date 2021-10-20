@@ -29,7 +29,7 @@ function OptimizeSecurity() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
 
     Write-Host "[-][Security] Disabling Autoplay..."
-    Set-ItemProperty -Path "$PathToExplorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUExplorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
 
     Write-Host "[-][Security] Disabling Autorun for all Drives..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
@@ -44,7 +44,7 @@ function OptimizeSecurity() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
 
     Write-Host "[+][Security] Enabling Show file extensions in Explorer..."
-    Set-ItemProperty -Path "$PathToExplorerAdvanced" -Name "HideFileExt" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "HideFileExt" -Type DWord -Value 0
 
     # Details: https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
     Write-Host "[+][Security] Raising UAC level..."
@@ -67,18 +67,21 @@ function OptimizeSecurity() {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 1
     }
 
-    Write-Host "[+][Security] Disabling 'SmartScreen' for Microsoft Edge..."
-    If (!(Test-Path "$PathToEdgeLMPol\PhishingFilter")) {
-        New-Item -Path "$PathToEdgeLMPol\PhishingFilter" -Force | Out-Null
+    Write-Host "[+][Security] Enabling 'SmartScreen' for Microsoft Edge..."
+    If (!(Test-Path "$PathToLMPoliciesEdge\PhishingFilter")) {
+        New-Item -Path "$PathToLMPoliciesEdge\PhishingFilter" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToEdgeLMPol\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToLMPoliciesEdge\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 1
 
     # Details: https://forums.malwarebytes.com/topic/246740-new-potentially-unwanted-modification-disablemrt/
     Write-Host "[+][Security] Enabling offer Malicious Software Removal Tool via Windows Update..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MRT" -Name "DontOfferThroughWUAU" -Type DWord -Value 0
+    If (!(Test-Path "$PathToLMPoliciesMRT")) {
+        New-Item -Path "$PathToLMPoliciesMRT" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToLMPoliciesMRT" -Name "DontOfferThroughWUAU" -Type DWord -Value 0
 
-    Write-Host "[+][Security] Disabling 'SmartScreen' for Store Apps..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
+    Write-Host "[+][Security] Enabling 'SmartScreen' for Store Apps..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
 
     Write-Warning "For more tweaks, edit the 'src/scripts/optimize-security.ps1' file, then uncomment (#) code lines"
     #Write-Host "[+][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
@@ -95,9 +98,10 @@ function Main() {
 
     $CPU = DetectCPU
     # Initialize all Path variables used to Registry Tweaks
-    $Global:PathToExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-    $Global:PathToExplorerAdvanced = "$PathToExplorer\Advanced"
-    $Global:PathToEdgeLMPol = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
+    $Global:PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
+    $Global:PathToLMPoliciesMRT = "HKLM:\SOFTWARE\Policies\Microsoft\MRT"
+    $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+    $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
 
     OptimizeSecurity   # Improve the Windows Security
     

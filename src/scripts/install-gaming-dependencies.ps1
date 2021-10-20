@@ -9,7 +9,8 @@ function InstallGamingPackages() {
   + Microsoft DirectX
   + Microsoft .NET Framework
   + Microsoft .NET Runtime
-  + Microsoft Visual C++ Packages"
+  + Microsoft Visual C++ Packages
+  + Java Runtime Environment"
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
         'Yes' {
@@ -49,7 +50,7 @@ function InstallGamingPackages() {
 
             ForEach ($Package in $WingetGamingPackages) {
                 Title2Counter -Text "Installing: $Package" -MaxNum $WingetGamingPackages.Length
-                winget install --silent $Package | Out-Host
+                winget install --silent --id $Package | Out-Host
             }
 
         }

@@ -13,7 +13,7 @@ function OptimizeOptionalFeatures() {
         "FaxServicesClientPackage"             # Windows Fax and Scan
         "IIS-*"                                # Internet Information Services
         "LegacyComponents"                     # Legacy Components
-        "MediaPlayback"                        # Media Features (Windows Media Player)
+        #"MediaPlayback"                       # Media Features (Windows Media Player)
         "MicrosoftWindowsPowerShellV2"         # PowerShell 2.0
         "MicrosoftWindowsPowershellV2Root"     # PowerShell 2.0
         "Printing-PrintToPDFServices-Features" # Microsoft Print to PDF
