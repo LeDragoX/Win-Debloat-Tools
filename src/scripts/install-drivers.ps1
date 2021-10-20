@@ -19,7 +19,7 @@ function InstallDrivers() {
     Section1 -Text "Installing Intel $CPU chipset drivers!"
             
     Caption1 -Text "Installing: intel-dsa"
-    winget install --silent "Intel.IntelDriverAndSupportAssistant" | Out-Host # Intel® Driver & Support Assistant (Intel® DSA)
+    winget install --silent --id "Intel.IntelDriverAndSupportAssistant" | Out-Host # Intel® Driver & Support Assistant (Intel® DSA)
   
   }
       
@@ -39,7 +39,7 @@ function InstallDrivers() {
   
     Section1 -Text "NVIDIA $GPU Graphics driver!"
     Caption1 -Text "Installing: Nvidia.GeForceExperience"
-    winget install --silent "Nvidia.GeForceExperience" | Out-Host # GeForce Experience (latest)
+    winget install --silent --id "Nvidia.GeForceExperience" | Out-Host # GeForce Experience (latest)
   
     Caption1 -Text "Configuring 'geforce-game-ready-driver' for DCH..."
     choco feature enable -n=useRememberedArgumentsForUpgrades | Out-Host
