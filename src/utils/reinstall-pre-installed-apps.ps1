@@ -7,19 +7,20 @@ function Main() {
 
 	QuickPrivilegesElevation
 	
+	# The following code is from Microsoft (Adapted): https://go.microsoft.com/fwlink/?LinkId=619547
 	# Get all the provisioned packages
 	$Packages = (Get-Item 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications') | Get-ChildItem
 
 	# Filter the list if provided a filter
 	$PackageFilter = $args[0]
 	If ([string]::IsNullOrEmpty($PackageFilter)) {
-		Write-Host "No filter specified, attempting to re-register all provisioned apps."
+		Write-Warning "No filter specified, attempting to re-register all provisioned apps."
 	}
 	Else {
 		$Packages = $Packages | Where-Object { $_.Name -like $PackageFilter } 
 
 		If ($null -eq $Packages) {
-			Write-Host "No provisioned apps match the specified filter."
+			Write-Warning "No provisioned apps match the specified filter."
 			exit
 		}
 		Else {
@@ -37,7 +38,6 @@ function Main() {
 
 		Add-AppxPackage -register $PackagePath -DisableDevelopmentMode
 	}
-
 }
 
 Main

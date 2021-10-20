@@ -178,6 +178,16 @@ function PrepareGUI() {
     $InstallOneDrive.Font = $SBFont
     $InstallOneDrive.ForeColor = $SBForeColor
 
+    $NextYLocation = $InstallOneDrive.Location.Y + $InstallOneDrive.Height + $DistanceBetweenButtons
+    # Panel 1 ~> Button
+    $ReinstallBloatApps = New-Object system.Windows.Forms.Button
+    $ReinstallBloatApps.Text = "Reinstall Pre-Installed Apps"
+    $ReinstallBloatApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $ReinstallBloatApps.Width = $SBWidth
+    $ReinstallBloatApps.Height = $SBHeight
+    $ReinstallBloatApps.Font = $SBFont
+    $ReinstallBloatApps.ForeColor = $SBForeColor
+
     # Panel 2 ~> Button (Big)
     $RevertScript = New-Object system.Windows.Forms.Button
     $RevertScript.Text = "Revert Tweaks"
@@ -990,7 +1000,7 @@ function PrepareGUI() {
     $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3))
 
     # Add Elements to each Panel
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $InstallOneDrive, $PictureBox1))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry, $EnableBgApps, $DisableBgApps))
     $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
     $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
@@ -1064,6 +1074,16 @@ function PrepareGUI() {
             Push-Location "src\utils\"
 
             $FileName = "install-onedrive.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+
+            Pop-Location
+            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    $ReinstallBloatApps.Add_Click( {
+            Push-Location "src\utils\"
+
+            $FileName = "reinstall-pre-installed-apps.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
