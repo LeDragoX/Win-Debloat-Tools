@@ -14,7 +14,7 @@ function OptimizePrivacyAndPerformance() {
 
     Write-Host "$($EnableStatus[0]) Show me the windows welcome experience after updates..."
     Write-Host "$($EnableStatus[0]) 'Get fun facts and tips, etc. on lock screen'..."
-    
+
     $ContentDeliveryManagerDisableOnZero = @(
         "SubscribedContent-310093Enabled"
         "SubscribedContent-314559Enabled"
@@ -49,61 +49,61 @@ function OptimizePrivacyAndPerformance() {
     If (Test-Path "$PathToCUContentDeliveryManager\Subscriptions") {
         Remove-Item -Path "$PathToCUContentDeliveryManager\Subscriptions" -Recurse
     }
-    
+
     Write-Host "$($EnableStatus[0]) 'Show Suggestions' in Start..."
     If (Test-Path "$PathToCUContentDeliveryManager\SuggestedApps") {
         Remove-Item -Path "$PathToCUContentDeliveryManager\SuggestedApps" -Recurse
     }
-        
+
     Section1 -Text "Privacy Section -> Windows Permissions"
     Caption1 -Text "General"
-    
+
     Write-Host "$($EnableStatus[0]) Let apps use my advertising ID..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value $Zero
     If (!(Test-Path "$PathToLMPoliciesAdvertisingInfo")) {
         New-Item -Path "$PathToLMPoliciesAdvertisingInfo" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesAdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value $One
-    
+
     Write-Host "$($EnableStatus[0]) 'Let websites provide locally relevant content by accessing my language list'..."
     Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value $One
-    
+
     Caption1 -Text "Speech"
-    
+
     # [@] (0 = Decline, 1 = Accept)
     Write-Host "$($EnableStatus[0]) Online Speech Recognition..."
     If (!(Test-Path "$PathToCUOnlineSpeech")) {
         New-Item -Path "$PathToCUOnlineSpeech" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value $Zero
-    
+
     Caption1 -Text "Inking & Typing Personalization"
-    
+
     Set-ItemProperty -Path "$PathToCUInputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUInputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToCUInputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value $One
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value $Zero
-    
+
     Caption1 -Text "Diagnostics & Feedback"
-    
+
     # [@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)
     Write-Host "$($EnableStatus[0]) telemetry..."
     Set-ItemProperty -Path "$PathToLMPoliciesTelemetry" -Name "AllowTelemetry" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToLMPoliciesTelemetry2" -Name "AllowTelemetry" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToLMPoliciesTelemetry" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value $Zero
-    
+
     Write-Host "$($EnableStatus[0]) send inking and typing data to Microsoft..."
     If (!(Test-Path "$PathToCUInputTIPC")) {
         New-Item -Path "$PathToCUInputTIPC" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToCUInputTIPC" -Name "Enabled" -Type DWord -Value $Zero
-    
+
     Write-Host "$($EnableStatus[0]) Tailored Experiences..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -Type DWord -Value $Zero
 
     Write-Host "$($EnableStatus[0]) View diagnostic data..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack\EventTranscriptKey" -Name "EnableEventTranscript" -Type DWord -Value $Zero
-    
+
     Write-Host "$($EnableStatus[0]) feedback frequency..."
     If (!(Test-Path "$PathToCUSiufRules")) {
         New-Item -Path "$PathToCUSiufRules" -Force | Out-Null
@@ -127,29 +127,29 @@ function OptimizePrivacyAndPerformance() {
         Write-Host "$($EnableStatus[0]) $($Name): $Zero."
         Set-ItemProperty -Path "$PathToLMActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value $Zero
     }
-    
+
     Section1 -Text "Privacy Section -> Apps Permissions"
     Caption1 -Text "Location"
-    
+
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value $Zero
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "EnableStatus" -Type DWord -Value $Zero
-    
+
     Caption1 -Text "Notifications"
-    
+
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" -Name "Value" -Value "Deny"
-    
+
     Caption1 -Text "App Diagnostics"
-    
+
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" -Name "Value" -Value "Deny"
-    
+
     Caption1 -Text "Account Info Access"
-    
+
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
-    
+
     Caption1 -Text "Other Devices"
 
     # Disable sharing information with unpaired devices
@@ -167,14 +167,14 @@ function OptimizePrivacyAndPerformance() {
     }
 
     Caption1 -Text "Background Apps"
-    
+
     Write-Host "$($EnableStatus[0]) Background Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToCUSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value $Zero
-    
+
     Section1 -Text "Update & Security Section"
     Caption1 -Text "Windows Update"
-    
+
     If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
         New-Item -Path "$PathToLMPoliciesWindowsUpdate" -Force | Out-Null
     }
@@ -197,10 +197,10 @@ function OptimizePrivacyAndPerformance() {
 
     Write-Host "[=] Enabling automatic driver updates..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 1
-    
+
     Write-Host "$($EnableStatus[1]) Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value $One
-    
+
     # [@] (0 = Off, 1 = Local Network only, 2 = Local Network private peering only)
     # [@] (3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)
     Write-Host "$($EnableStatus[1]) Restricting Windows Update P2P downloads for Local Network only..."
@@ -240,14 +240,14 @@ function OptimizePrivacyAndPerformance() {
     }
     Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
     Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value $Zero
-    
+
     Write-Host "$($EnableStatus[0]) Apps Suggestions..."
     If (!(Test-Path "$PathToLMPoliciesCloudContent")) {
         New-Item -Path "$PathToLMPoliciesCloudContent" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesCloudContent" -Name "DisableThirdPartySuggestions" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value $One
-    
+
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value $One
     If (!(Test-Path "$PathToLMPoliciesSQMClient")) {
         New-Item -Path "$PathToLMPoliciesSQMClient" -Force | Out-Null
@@ -263,21 +263,21 @@ function OptimizePrivacyAndPerformance() {
     }
     Set-ItemProperty -Path "$PathToLMAutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToLMAutoLogger\SQMLogger" -Name "Start" -Type DWord -Value $Zero
-    
+
     Write-Host "$($EnableStatus[0]) 'WiFi Sense: HotSpot Sharing'..."
     If (!(Test-Path "$PathToLMPoliciesToWifi\AllowWiFiHotSpotReporting")) {
         New-Item -Path "$PathToLMPoliciesToWifi\AllowWiFiHotSpotReporting" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesToWifi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value $Zero
-    
+
     Write-Host "$($EnableStatus[0]) 'WiFi Sense: Shared HotSpot Auto-Connect'..."
     If (!(Test-Path "$PathToLMPoliciesToWifi\AllowAutoConnectToWiFiSenseHotspots")) {
         New-Item -Path "$PathToLMPoliciesToWifi\AllowAutoConnectToWiFiSenseHotspots" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesToWifi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value $Zero
-    
+
     Section1 -Text "Gaming Section"
-    
+
     Write-Host "$($EnableStatus[0]) Game Bar & Game DVR..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value $Zero
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value $Zero
@@ -286,11 +286,11 @@ function OptimizePrivacyAndPerformance() {
     }
     Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value $Zero
     Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value $Zero
-    
+
     Write-Host "$($EnableStatus[1]) game mode..."
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value $One
-    
+
     Section1 -Text "System Section"
     Caption1 -Text "Display"
 
@@ -307,9 +307,9 @@ function OptimizePrivacyAndPerformance() {
     Stop-Process $taskmgr
     $preferences.Preferences[28] = 0
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
-    
+
     Caption1 "Deleting useless registry keys..."
-        
+
     $KeysToDelete = @(
         # Remove Background Tasks
         "HKCR:\Extensions\ContractId\Windows.BackgroundTasks\PackageId\46928bounde.EclipseManager_2.2.4.51_neutral__a5h4egax66k6y"
@@ -345,7 +345,7 @@ function OptimizePrivacyAndPerformance() {
     }
 
     Title1 -Text "Performance Tweaks"
-    
+
     # As SysMain was already disabled on the Services, just need to remove it's key
     # [@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
     Write-Host "$($EnableStatus[0]) SysMain/Superfetch..."
@@ -353,7 +353,7 @@ function OptimizePrivacyAndPerformance() {
 
     Write-Host "$($EnableStatus[0]) Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value $Zero
-    
+
     Write-Host "[-][Priv&Perf] Disabling Ndu High RAM Usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
 
@@ -440,7 +440,7 @@ function Main() {
             "[<][Priv&Perf] Re-Enabling",
             "[<][Priv&Perf] Re-Disabling"
         )
-      
+  
     }
 
     OptimizePrivacyAndPerformance  # Disable Registries that causes slowdowns and privacy invasion

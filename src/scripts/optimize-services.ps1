@@ -8,7 +8,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function OptimizeServices() {
 
     Title1 -Text "Services tweaks"
-        
+
     $DisableServices = @(
         "BITS"                                      # Background Intelligent Transfer Service
         "DiagTrack"                                 # Connected User Experiences and Telemetry
@@ -28,9 +28,9 @@ function OptimizeServices() {
         "TrkWks"                                    # Distributed Link Tracking Client
         "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
         "WSearch"                                   # Windows Search (100% Disk)
-        
+
         # <==========[DIY]==========> (Remove the # to Disable)
-        
+
         #"DPS"                                      # Diagnostic Policy Service
         #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
         #"SharedAccess"                             # Internet Connection Sharing (ICS)
@@ -42,28 +42,28 @@ function OptimizeServices() {
         #"WdiServiceHost"                           # Diagnostic Service Host
         #"WdiSystemHost"                            # Diagnostic System Host
         #"WMPNetworkSvc"                            # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
-        
+
         # [DIY] If you don't use Bluetooth devices
-        
+
         #"BTAGService"                              # Bluetooth Audio Gateway Service
         #"bthserv"                                  # Bluetooth Support Service
-        
+
         # [DIY] If you don't use a Printer
-        
+
         #"Spooler"                                  # Print Spooler
         #"PrintNotify"                              # Printer Extensions and Notifications
-        
+
         # [DIY] If you don't use Xbox Live and Games
-        
+
         #"XblAuthManager"                           # Xbox Live Auth Manager
         #"XblGameSave"                              # Xbox Live Game Save Service
         #"XboxGipSvc"                               # Xbox Accessory Management Service
         #"XboxNetApiSvc"                            # Xbox Live Networking Service
-        
+
         # Services which cannot be disabled
         #"WdNisSvc"
     )
-    
+
     ForEach ($Service in $DisableServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
 
@@ -71,7 +71,7 @@ function OptimizeServices() {
                 Write-Warning "[?][Services] Skipping $Service to avoid a security breach..."
                 Continue
             }
-    
+
             Write-Host "$($EnableStatus[0]) $Service at Startup..."
             Invoke-Expression "$($Commands[0])"
 
@@ -106,9 +106,9 @@ function Main() {
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
         )
-      
+
     }
-    
+
     OptimizeServices   # Enable essential Services and Disable bloating Services
 
 }

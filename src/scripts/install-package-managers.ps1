@@ -61,7 +61,7 @@ function Main() {
 
   # Winget Dependency: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
   If (($null -eq (Get-AppxPackage '*Microsoft.VCLibs.140.00.UWPDesktop*'))) {
-    
+
     Write-Warning "[?] Winget Dependency was not found."
     $OSArch = CheckOSArchitecture
 
@@ -69,21 +69,21 @@ function Main() {
       Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
       mkdir "$PSScriptRoot\..\tmp" | Out-Null
     }
-  
+
     if ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
       $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
     }
     Else {
       Write-Warning "[?] $OSArch is not supported!"
     }
-  
+
     $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
   }
 
   Else {
     Write-Warning "[?] Winget Dependency is already installed."
   }
-  
+
   $GitAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/winget-cli/releases/latest" | ForEach-Object assets | Where-Object name -like "*.msixbundle"
   $WingetDownload = $GitAsset.browser_download_url
   $WingetOutput = "$PSScriptRoot\..\tmp\winget-latest.appxbundle"

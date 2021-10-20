@@ -63,7 +63,7 @@ function DetectGPU() {
         $Global:GPU = Get-WmiObject -Class Win32_VideoController -ComputerName $Computer
         Write-Verbose "Video Info: $($Global:GPU.description)." 
     }
-    
+
     If ($GPU.description.contains("AMD") -or $GPU.description.contains("Radeon")) {
         Write-Host "AMD GPU found!"
     }

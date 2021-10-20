@@ -1,5 +1,5 @@
 function CountNseconds() {
-    
+
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
         [Int]       $Time = 3,

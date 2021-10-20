@@ -10,7 +10,7 @@ function SetGuiLayout() {
   [System.Windows.Forms.Application]::EnableVisualStyles()  # Rounded Buttons :3
 
   # <=== FONTS ===>
-    
+
   $Global:Fonts = @(
     "Arial"                 # 0
     "Bahnschrift"           # 1

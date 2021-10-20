@@ -82,7 +82,7 @@ function SetUpGit() {
     Write-Host "Add your private key (One of these will pass)." # Remind: No QUOTES in variables
     ssh-add $ssh_file
     ssh-add $ssh_alt_file
-    
+
   }
   Else {
 

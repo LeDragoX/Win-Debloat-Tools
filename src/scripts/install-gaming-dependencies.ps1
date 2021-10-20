@@ -20,7 +20,7 @@ function InstallGamingPackages() {
                 "directx"               # DirectX End-User Runtime
                 "dotnet-desktopruntime" # (x86-64) Microsoft .NET Desktop Runtime (v5 +)
             )
-      
+
             Title1 -Text "Installing Packages with Chocolatey"
 
             ForEach ($Package in $ChocoGamingPackages) {
@@ -45,7 +45,7 @@ function InstallGamingPackages() {
                 "Microsoft.VC++2015-2019Redist-x64" # (x64) Microsoft Visual C++ Redistributable for Visual Studio 2015-2019
                 "Oracle.JavaRuntimeEnvironment"     # Java Runtime Environment
             )
-    
+
             Title1 -Text "Installing Packages with Winget"
 
             ForEach ($Package in $WingetGamingPackages) {

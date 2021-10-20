@@ -54,12 +54,12 @@ function Title2Counter() {
 	)
 
 	$Global:MaxNum = $MaxNum
-	
+
 	If ($null -eq $Counter) {
 		# Initialize Global variables
 		$Global:Counter = 0
 	}
-	
+
 	$Global:Counter = $Counter + 1
 	Title2 "( $Counter/$MaxNum ) - [$Text]"
 

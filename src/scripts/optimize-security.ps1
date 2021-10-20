@@ -104,7 +104,7 @@ function Main() {
     $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
 
     OptimizeSecurity   # Improve the Windows Security
-    
+
 }
 
 Main
