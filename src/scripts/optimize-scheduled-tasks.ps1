@@ -10,7 +10,7 @@ function OptimizeScheduledTasks() {
 
     Title1 -Text "Scheduled Tasks tweaks"
     Section1 -Text "Disabling Scheduled Tasks"
-    
+
     # Took from: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
     $DisableScheduledTasks = @(
         "\Microsoft\Office\OfficeTelemetryAgentLogOn"
@@ -39,13 +39,13 @@ function OptimizeScheduledTasks() {
         "\Microsoft\Windows\Shell\FamilySafetyUpload"
         "\Microsoft\Windows\Windows Media Sharing\UpdateLibrary"                            # Recommended state for VDI use
     )
-        
+
     ForEach ($ScheduledTask in $DisableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
 
             Write-Host "$($EnableStatus[0]) the $ScheduledTask Task..."
             Invoke-Expression "$($Commands[0])"
-            
+
         }
         Else {
 
@@ -54,7 +54,7 @@ function OptimizeScheduledTasks() {
         }
     }
     Section1 -Text "Enabling Scheduled Tasks"
-        
+
     $EnableScheduledTasks = @(
         "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"            # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
         "\Microsoft\Windows\Windows Error Reporting\QueueReporting"     # Windows Error Reporting event, needed to improve compatibility with your hardware
@@ -65,7 +65,7 @@ function OptimizeScheduledTasks() {
 
             Write-Host "[+][TaskScheduler] Enabling the $ScheduledTask Task..."
             Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask
-            
+
         }
         Else {
 
@@ -97,7 +97,7 @@ function Main() {
             { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }, 
             { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
         )
-      
+  
     }
 
     OptimizeScheduledTasks # Disable Scheduled Tasks that causes slowdowns

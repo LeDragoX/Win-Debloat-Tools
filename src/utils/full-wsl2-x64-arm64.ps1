@@ -10,7 +10,7 @@ function Main() {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 1
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
     }
-    
+
     Write-Host "[+][Features] Installing Microsoft-Windows-Subsystem-Linux..."
     Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
     Write-Host "[+][Features] Installing VirtualMachinePlatform..."
@@ -24,17 +24,17 @@ function Main() {
         Write-Warning "[?] $OSArch is not supported!"
     }
     $WSLOutput = "$PSScriptRoot\..\tmp\wsl_update.msi"
-    
+
     Write-Host "[+] Downloading and Installing WSL 2 update ($OSArch) from: $WSLDownload"
     Invoke-WebRequest -Uri $WSLDownload -OutFile $WSLOutput
     Start-Process -FilePath $WSLOutput -ArgumentList "/passive" -Wait
     Remove-Item -Path $WSLOutput
 
     wsl --set-default-version 2 | Out-Host
-    
+
     $WSLgDownload = $GitWSLgAsset.browser_download_url
     $WSLgOutput = "$PSScriptRoot\..\tmp\wsl_graphics_support.msi"
-    
+
     Write-Host "[+] Downloading and Installing WSL Graphics update ($OSArch) from: $WSLgDownload"
     Invoke-WebRequest -Uri $WSLgDownload -OutFile $WSLgOutput
     Start-Process -FilePath $WSLgOutput -ArgumentList "/passive" -Wait

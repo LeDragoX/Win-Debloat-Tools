@@ -62,9 +62,9 @@ function PersonalTweaks() {
 
     Section1 -Text "Personalization"
     Section1 -Text "Task Bar Tweaks"
-    
+
     Caption1 -Text "Task Bar - Windows 10 Compatible"
-    
+
     # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
     Write-Host "[-][Personal] Hiding the search box from taskbar..."
     Set-ItemProperty -Path "$PathToCUSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
@@ -126,7 +126,7 @@ function PersonalTweaks() {
 
     Write-Host "$($EnableStatus[1]) driver download over metered connections..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
-    
+
     Section1 -Text "Cortana Tweaks"
 
     Write-Host "$($EnableStatus[0]) Bing Search in Start Menu..."
@@ -151,7 +151,7 @@ function PersonalTweaks() {
 
     Write-Host "$($EnableStatus[1]) Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value $Zero
-    
+
     # Adapted from: https://techcommunity.microsoft.com/t5/networking-blog/windows-insiders-gain-new-dns-over-https-controls/ba-p/2494644
     Write-Host "[+][Personal] Setting up the DNS over HTTPS for Google and Cloudflare (ipv4 and ipv6)..."
     Set-DnsClientDohServerAddress -ServerAddress ("8.8.8.8", "8.8.4.4", "2001:4860:4860::8888", "2001:4860:4860::8844") -AutoUpgrade $true -AllowFallbackToUdp $true
@@ -160,7 +160,7 @@ function PersonalTweaks() {
     #Get-DnsClientServerAddress # To look up the current config.           # Cloudflare, Google,         Cloudflare,              Google
     Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("1.1.1.1", "8.8.8.8", "2606:4700:4700::1111", "2001:4860:4860::8888")
     Set-DNSClientServerAddress -InterfaceAlias    "Wi-Fi*" -ServerAddresses ("1.1.1.1", "8.8.8.8", "2606:4700:4700::1111", "2001:4860:4860::8888")
-    
+
     Write-Host "[+][Personal] Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
 
@@ -221,9 +221,9 @@ function Main() {
             "[<][Personal] Re-Enabling",
             "[<][Personal] Re-Disabling"
         )
-      
+
     }
-    
+
     PersonalTweaks  # Personal UI, Network, Energy and Accessibility Optimizations
 
 }

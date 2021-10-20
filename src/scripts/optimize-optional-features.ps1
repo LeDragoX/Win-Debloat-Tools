@@ -29,7 +29,7 @@ function OptimizeOptionalFeatures() {
 
         }
         Else {
-            
+
             Write-Warning "[?][Features] $Feature was not found."
 
         }
@@ -59,7 +59,7 @@ function OptimizeOptionalFeatures() {
         Else {
 
             Write-Warning "[?][Features] $Feature was not found."
-            
+
         }
     }
 }
