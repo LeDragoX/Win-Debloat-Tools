@@ -31,31 +31,29 @@ function InstallPackageManager() {
 
     Invoke-Expression "$InstallCommandBlock"
 
-    If ($UpdateScriptBlock) {
-      # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-      # Find it on Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\{PackageManagerFullName} Daily Upgrade"
-      Write-Host "[+] Creating a daily task to automatically upgrade $PackageManagerFullName packages."
-      $JobName = "$PackageManagerFullName Daily Upgrade"
-      $ScheduledJob = @{
-        Name               = $JobName
-        ScriptBlock        = $UpdateScriptBlock
-        Trigger            = New-JobTrigger -Daily -At $Time
-        ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
-      }
-
-      # If the Scheduled Job already exists, delete
-      If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-        Write-Host "[+] ScheduledJob: $JobName FOUND! Re-Creating..."
-        Unregister-ScheduledJob -Name $JobName
-      }
-      # Then register it again
-      Register-ScheduledJob @ScheduledJob | Out-Host
-    }
-
     If ($PostInstallBlock) {
       Write-Host "[+] Executing post install script: $PostInstallBlock."
       Invoke-Expression "$PostInstallBlock"
     }
+  }
+
+  # Self-reminder, this part stay out of the Try-Catch block
+  If ($UpdateScriptBlock) {
+    # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
+    Write-Host "[+] Creating a daily task to automatically upgrade $PackageManagerFullName packages."
+    $JobName = "$PackageManagerFullName Daily Upgrade"
+    $ScheduledJob = @{
+      Name               = $JobName
+      ScriptBlock        = $UpdateScriptBlock
+      Trigger            = New-JobTrigger -Daily -At $Time
+      ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
+    }
+
+    If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
+      Write-Host "[+] ScheduledJob: $JobName FOUND! Re-Creating..."
+      Unregister-ScheduledJob -Name $JobName
+    }
+    Register-ScheduledJob @ScheduledJob | Out-Host
   }
 }
 
