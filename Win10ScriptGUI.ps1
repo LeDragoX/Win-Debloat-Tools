@@ -99,13 +99,13 @@ function PrepareGUI() {
     # Panel 3.1 to put Labels and Buttons
     $Panel3_1 = New-Object system.Windows.Forms.Panel
     $Panel3_1.Width = $PWidth - 15
-    $Panel3_1.Height = $PHeight * 2.4
+    $Panel3_1.Height = $PHeight * 2.9
     $Panel3_1.Location = New-Object System.Drawing.Point(0 , 0)
 
     # Panel 3.2 to put Labels and Buttons
     $Panel3_2 = New-Object system.Windows.Forms.Panel
     $Panel3_2.Width = $PWidth
-    $Panel3_2.Height = $PHeight * 2.4
+    $Panel3_2.Height = $PHeight * 2.9
     $CurrentPanelIndex++
     $Panel3_2.Location = New-Object System.Drawing.Point(($PWidth - 15), 0)
 
@@ -390,6 +390,16 @@ function PrepareGUI() {
     $LibreOffice.ForeColor = $SBForeColor
 
     $NextYLocation = $LibreOffice.Location.Y + $LibreOffice.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button
+    $PowerBI = New-Object system.Windows.Forms.Button
+    $PowerBI.Text = "Power BI"
+    $PowerBI.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $PowerBI.Width = $SBWidth
+    $PowerBI.Height = $SBHeight
+    $PowerBI.Font = $SBFont
+    $PowerBI.ForeColor = $SBForeColor
+
+    $NextYLocation = $PowerBI.Location.Y + $PowerBI.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Caption Label
     $CaptionLabel3_1_4 = New-Object system.Windows.Forms.Label
     $CaptionLabel3_1_4.Text = "Imaging"
@@ -494,7 +504,7 @@ function PrepareGUI() {
     $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Caption Label
     $CaptionLabel3_1_6 = New-Object system.Windows.Forms.Label
-    $CaptionLabel3_1_6.Text = "Development"
+    $CaptionLabel3_1_6.Text = "Cloud Storage"
     $CaptionLabel3_1_6.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $CaptionLabel3_1_6.Width = $CLWidth
     $CaptionLabel3_1_6.Height = $CLHeight
@@ -503,6 +513,37 @@ function PrepareGUI() {
     $CaptionLabel3_1_6.TextAlign = $TextAlign
 
     $NextYLocation = $CaptionLabel3_1_6.Location.Y + $SBHeight + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button
+    $GoogleDrive = New-Object system.Windows.Forms.Button
+    $GoogleDrive.Text = "Google Drive"
+    $GoogleDrive.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $GoogleDrive.Width = $SBWidth
+    $GoogleDrive.Height = $SBHeight
+    $GoogleDrive.Font = $SBFont
+    $GoogleDrive.ForeColor = $SBForeColor
+
+    $NextYLocation = $GoogleDrive.Location.Y + $GoogleDrive.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button
+    $Dropbox = New-Object system.Windows.Forms.Button
+    $Dropbox.Text = "Dropbox"
+    $Dropbox.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Dropbox.Width = $SBWidth
+    $Dropbox.Height = $SBHeight
+    $Dropbox.Font = $SBFont
+    $Dropbox.ForeColor = $SBForeColor
+
+    $NextYLocation = $Dropbox.Location.Y + $Dropbox.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Caption Label
+    $CaptionLabel3_1_7 = New-Object system.Windows.Forms.Label
+    $CaptionLabel3_1_7.Text = "Development"
+    $CaptionLabel3_1_7.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_1_7.Width = $CLWidth
+    $CaptionLabel3_1_7.Height = $CLHeight
+    $CaptionLabel3_1_7.Font = $CLFont
+    $CaptionLabel3_1_7.ForeColor = $CLForeColor
+    $CaptionLabel3_1_7.TextAlign = $TextAlign
+
+    $NextYLocation = $CaptionLabel3_1_7.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.1 ~> Button
     $WindowsTerminal = New-Object system.Windows.Forms.Button
     $WindowsTerminal.Text = "Windows Terminal"
@@ -766,7 +807,7 @@ function PrepareGUI() {
     $NextYLocation = $UbisoftConnect.Location.Y + $UbisoftConnect.Height + $DistanceBetweenButtons
     # Panel 3.2 ~> Caption Label
     $CaptionLabel3_2_3 = New-Object system.Windows.Forms.Label
-    $CaptionLabel3_2_3.Text = "Remote"
+    $CaptionLabel3_2_3.Text = "Planning"
     $CaptionLabel3_2_3.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $CaptionLabel3_2_3.Width = $CLWidth
     $CaptionLabel3_2_3.Height = $CLHeight
@@ -775,6 +816,27 @@ function PrepareGUI() {
     $CaptionLabel3_2_3.TextAlign = $TextAlign
 
     $NextYLocation = $CaptionLabel3_2_3.Location.Y + $SBHeight + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button
+    $Notion = New-Object system.Windows.Forms.Button
+    $Notion.Text = "Notion"
+    $Notion.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $Notion.Width = $SBWidth
+    $Notion.Height = $SBHeight
+    $Notion.Font = $SBFont
+    $Notion.ForeColor = $SBForeColor
+
+    $NextYLocation = $Notion.Location.Y + $Notion.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Caption Label
+    $CaptionLabel3_2_4 = New-Object system.Windows.Forms.Label
+    $CaptionLabel3_2_4.Text = "Remote"
+    $CaptionLabel3_2_4.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_2_4.Width = $CLWidth
+    $CaptionLabel3_2_4.Height = $CLHeight
+    $CaptionLabel3_2_4.Font = $CLFont
+    $CaptionLabel3_2_4.ForeColor = $CLForeColor
+    $CaptionLabel3_2_4.TextAlign = $TextAlign
+
+    $NextYLocation = $CaptionLabel3_2_4.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.2 ~> Button
     $Parsec = New-Object system.Windows.Forms.Button
     $Parsec.Text = "Parsec"
@@ -796,16 +858,16 @@ function PrepareGUI() {
 
     $NextYLocation = $TeamViewer.Location.Y + $TeamViewer.Height + $DistanceBetweenButtons
     # Panel 3.2 ~> Caption Label
-    $CaptionLabel3_2_4 = New-Object system.Windows.Forms.Label
-    $CaptionLabel3_2_4.Text = "Streaming"
-    $CaptionLabel3_2_4.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $CaptionLabel3_2_4.Width = $CLWidth
-    $CaptionLabel3_2_4.Height = $CLHeight
-    $CaptionLabel3_2_4.Font = $CLFont
-    $CaptionLabel3_2_4.ForeColor = $CLForeColor
-    $CaptionLabel3_2_4.TextAlign = $TextAlign
+    $CaptionLabel3_2_5 = New-Object system.Windows.Forms.Label
+    $CaptionLabel3_2_5.Text = "Streaming"
+    $CaptionLabel3_2_5.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_2_5.Width = $CLWidth
+    $CaptionLabel3_2_5.Height = $CLHeight
+    $CaptionLabel3_2_5.Font = $CLFont
+    $CaptionLabel3_2_5.ForeColor = $CLForeColor
+    $CaptionLabel3_2_5.TextAlign = $TextAlign
 
-    $NextYLocation = $CaptionLabel3_2_4.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_2_5.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.2 ~> Button
     $ObsStudio = New-Object system.Windows.Forms.Button
     $ObsStudio.Text = "OBS Studio"
@@ -827,16 +889,16 @@ function PrepareGUI() {
 
     $NextYLocation = $StreamlabsObs.Location.Y + $StreamlabsObs.Height + $DistanceBetweenButtons
     # Panel 3.2 ~> Caption Label
-    $CaptionLabel3_2_5 = New-Object system.Windows.Forms.Label
-    $CaptionLabel3_2_5.Text = "Torrent"
-    $CaptionLabel3_2_5.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $CaptionLabel3_2_5.Width = $CLWidth
-    $CaptionLabel3_2_5.Height = $CLHeight
-    $CaptionLabel3_2_5.Font = $CLFont
-    $CaptionLabel3_2_5.ForeColor = $CLForeColor
-    $CaptionLabel3_2_5.TextAlign = $TextAlign
+    $CaptionLabel3_2_6 = New-Object system.Windows.Forms.Label
+    $CaptionLabel3_2_6.Text = "Torrent"
+    $CaptionLabel3_2_6.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_2_6.Width = $CLWidth
+    $CaptionLabel3_2_6.Height = $CLHeight
+    $CaptionLabel3_2_6.Font = $CLFont
+    $CaptionLabel3_2_6.ForeColor = $CLForeColor
+    $CaptionLabel3_2_6.TextAlign = $TextAlign
 
-    $NextYLocation = $CaptionLabel3_2_5.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_2_6.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.2 ~> Button
     $qBittorrent = New-Object system.Windows.Forms.Button
     $qBittorrent.Text = "qBittorrent"
@@ -848,16 +910,16 @@ function PrepareGUI() {
 
     $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
     # Panel 3.2 ~> Caption Label
-    $CaptionLabel3_2_6 = New-Object system.Windows.Forms.Label
-    $CaptionLabel3_2_6.Text = "Media Playing"
-    $CaptionLabel3_2_6.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $CaptionLabel3_2_6.Width = $CLWidth
-    $CaptionLabel3_2_6.Height = $CLHeight
-    $CaptionLabel3_2_6.Font = $CLFont
-    $CaptionLabel3_2_6.ForeColor = $CLForeColor
-    $CaptionLabel3_2_6.TextAlign = $TextAlign
+    $CaptionLabel3_2_7 = New-Object system.Windows.Forms.Label
+    $CaptionLabel3_2_7.Text = "Media Playing"
+    $CaptionLabel3_2_7.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_2_7.Width = $CLWidth
+    $CaptionLabel3_2_7.Height = $CLHeight
+    $CaptionLabel3_2_7.Font = $CLFont
+    $CaptionLabel3_2_7.ForeColor = $CLForeColor
+    $CaptionLabel3_2_7.TextAlign = $TextAlign
 
-    $NextYLocation = $CaptionLabel3_2_6.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_2_7.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.2 ~> Button
     $Spotify = New-Object system.Windows.Forms.Button
     $Spotify.Text = "Spotify"
@@ -889,16 +951,67 @@ function PrepareGUI() {
 
     $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
     # Panel 3.2 ~> Caption Label
-    $CaptionLabel3_2_7 = New-Object system.Windows.Forms.Label
-    $CaptionLabel3_2_7.Text = "WSL 2"
-    $CaptionLabel3_2_7.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $CaptionLabel3_2_7.Width = $CLWidth
-    $CaptionLabel3_2_7.Height = $CLHeight
-    $CaptionLabel3_2_7.Font = $CLFont
-    $CaptionLabel3_2_7.ForeColor = $CLForeColor
-    $CaptionLabel3_2_7.TextAlign = $TextAlign
+    $CaptionLabel3_2_8 = New-Object system.Windows.Forms.Label
+    $CaptionLabel3_2_8.Text = "Utilities"
+    $CaptionLabel3_2_8.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_2_8.Width = $CLWidth
+    $CaptionLabel3_2_8.Height = $CLHeight
+    $CaptionLabel3_2_8.Font = $CLFont
+    $CaptionLabel3_2_8.ForeColor = $CLForeColor
+    $CaptionLabel3_2_8.TextAlign = $TextAlign
 
-    $NextYLocation = $CaptionLabel3_2_7.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_2_8.Location.Y + $SBHeight + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button
+    $CPUZ = New-Object system.Windows.Forms.Button
+    $CPUZ.Text = "CPU-Z"
+    $CPUZ.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CPUZ.Width = $SBWidth
+    $CPUZ.Height = $SBHeight
+    $CPUZ.Font = $SBFont
+    $CPUZ.ForeColor = $SBForeColor
+
+    $NextYLocation = $CPUZ.Location.Y + $CPUZ.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button
+    $GPUZ = New-Object system.Windows.Forms.Button
+    $GPUZ.Text = "GPU-Z"
+    $GPUZ.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $GPUZ.Width = $SBWidth
+    $GPUZ.Height = $SBHeight
+    $GPUZ.Font = $SBFont
+    $GPUZ.ForeColor = $SBForeColor
+
+    $NextYLocation = $GPUZ.Location.Y + $GPUZ.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button
+    $CrystalDiskInfo = New-Object system.Windows.Forms.Button
+    $CrystalDiskInfo.Text = "Crystal Disk Info"
+    $CrystalDiskInfo.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CrystalDiskInfo.Width = $SBWidth
+    $CrystalDiskInfo.Height = $SBHeight
+    $CrystalDiskInfo.Font = $SBFont
+    $CrystalDiskInfo.ForeColor = $SBForeColor
+
+    $NextYLocation = $CrystalDiskInfo.Location.Y + $CrystalDiskInfo.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Button
+    $CrystalDiskMark = New-Object system.Windows.Forms.Button
+    $CrystalDiskMark.Text = "Crystal Disk Mark"
+    $CrystalDiskMark.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CrystalDiskMark.Width = $SBWidth
+    $CrystalDiskMark.Height = $SBHeight
+    $CrystalDiskMark.Font = $SBFont
+    $CrystalDiskMark.ForeColor = $SBForeColor
+
+    $NextYLocation = $CrystalDiskMark.Location.Y + $CrystalDiskMark.Height + $DistanceBetweenButtons
+    # Panel 3.2 ~> Caption Label
+    $CaptionLabel3_2_9 = New-Object system.Windows.Forms.Label
+    $CaptionLabel3_2_9.Text = "WSL 2"
+    $CaptionLabel3_2_9.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_2_9.Width = $CLWidth
+    $CaptionLabel3_2_9.Height = $CLHeight
+    $CaptionLabel3_2_9.Font = $CLFont
+    $CaptionLabel3_2_9.ForeColor = $CLForeColor
+    $CaptionLabel3_2_9.TextAlign = $TextAlign
+
+    $NextYLocation = $CaptionLabel3_2_9.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.2 ~> Button
     $WSL2 = New-Object system.Windows.Forms.Button
     $WSL2.Text = "WSL2 + WSLg (x64/ARM64)"
@@ -1007,18 +1120,21 @@ function PrepareGUI() {
 
     $Panel3_1.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_2, $7Zip, $WinRar))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_3, $OnlyOffice, $LibreOffice))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_3, $OnlyOffice, $LibreOffice, $PowerBI))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_5, $VSCode, $NotepadPlusPlus))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_6, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_6, $GoogleDrive, $Dropbox))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_7, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL))
 
     $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_2_1, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_3, $Parsec, $TeamViewer))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_4, $ObsStudio, $StreamlabsObs))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_5, $qBittorrent))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_6, $Spotify, $Vlc, $MpcHc))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_7, $WSL2, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_3, $Notion))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_4, $Parsec, $TeamViewer))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_5, $ObsStudio, $StreamlabsObs))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_6, $qBittorrent))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_7, $Spotify, $Vlc, $MpcHc))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_8, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_9, $WSL2, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
 
     # <=== CLICK EVENTS ===>
 
@@ -1287,6 +1403,17 @@ function PrepareGUI() {
 
         })
 
+    $PowerBI.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $PowerBI.Text
+                PackageName  = "Microsoft.PowerBI"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
     $PaintNet.Add_Click( {
 
             $InstallParams = @{
@@ -1369,6 +1496,28 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $NotepadPlusPlus.Text
                 PackageName  = "Notepad++.Notepad++"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
+    $GoogleDrive.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $GoogleDrive.Text
+                PackageName  = "Google.Drive"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
+    $Dropbox.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $Dropbox.Text
+                PackageName  = "Dropbox.Dropbox"
                 InstallBlock = { winget install --silent --id $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
@@ -1643,6 +1792,18 @@ function PrepareGUI() {
 
         })
 
+    $Notion.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $Notion.Text
+                PackageName  = "Notion.Notion"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
+
     $Parsec.Add_Click( {
 
             $InstallParams = @{
@@ -1725,6 +1886,50 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $MpcHc.Text
                 PackageName  = "clsid2.mpc-hc"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
+    $CPUZ.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $CPUZ.Text
+                PackageName  = "CPUID.CPU-Z"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
+    $GPUZ.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $GPUZ.Text
+                PackageName  = "TechPowerUp.GPU-Z"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
+    $CrystalDiskInfo.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $CrystalDiskInfo.Text
+                PackageName  = "CrystalDewWorld.CrystalDiskInfo"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
+    $CrystalDiskMark.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $CrystalDiskMark.Text
+                PackageName  = "CrystalDewWorld.CrystalDiskMark"
                 InstallBlock = { winget install --silent --id $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
