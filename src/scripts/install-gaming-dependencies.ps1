@@ -7,9 +7,8 @@ function InstallGamingPackages() {
     $Ask = "Do you plan to play games on this PC?
   All Gaming Dependencies will be installed.
   + Microsoft DirectX
-  + Microsoft .NET Framework
-  + Microsoft .NET Runtime
-  + Microsoft Visual C++ Packages
+  + Microsoft .NET (Framework, Runtime & SDK)
+  + Microsoft Visual C++ Packages (2005-2022)
   + Java Runtime Environment"
 
     switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
@@ -18,7 +17,6 @@ function InstallGamingPackages() {
             Write-Host "You choose Yes."
             $ChocoGamingPackages = @(
                 "directx"               # DirectX End-User Runtime
-                "dotnet-desktopruntime" # (x86-64) Microsoft .NET Desktop Runtime (v5 +)
             )
 
             Title1 -Text "Installing Packages with Chocolatey"
@@ -30,19 +28,19 @@ function InstallGamingPackages() {
 
             $WingetGamingPackages = @(
                 "Microsoft.dotNetFramework"         # Microsoft .NET Framework (v4.8+)
-                "Microsoft.dotnet"                  # Microsoft .NET (v5+)
-                "Microsoft.VC++2005Redist-x86"      # (x86) Microsoft Visual C++ 2005 SP1 Redistributable Package
-                "Microsoft.VC++2008Redist-x86"      # (x86) Microsoft Visual C++ 2008 SP1 Redistributable Package
-                "Microsoft.VC++2010Redist-x86"      # (x86) Microsoft Visual C++ 2010 Redistributable Package
-                "Microsoft.VC++2012Redist-x86"      # (x86) Microsoft Visual C++ 2012 Redistributable Package
-                "Microsoft.VC++2013Redist-x86"      # (x86) Microsoft Visual C++ Redistributable Packages for Visual Studio 2013
-                "Microsoft.VC++2015-2019Redist-x86" # (x86) Microsoft Visual C++ Redistributable for Visual Studio 2015-2019
-                "Microsoft.VC++2005Redist-x64"      # (x64) Microsoft Visual C++ 2005 SP1 Redistributable Package
-                "Microsoft.VC++2008Redist-x64"      # (x64) Microsoft Visual C++ 2008 SP1 Redistributable Package
-                "Microsoft.VC++2010Redist-x64"      # (x64) Microsoft Visual C++ 2010 Redistributable Package
-                "Microsoft.VC++2012Redist-x64"      # (x64) Microsoft Visual C++ 2012 Redistributable Package
-                "Microsoft.VC++2013Redist-x64"      # (x64) Microsoft Visual C++ Redistributable Packages for Visual Studio 2013
-                "Microsoft.VC++2015-2019Redist-x64" # (x64) Microsoft Visual C++ Redistributable for Visual Studio 2015-2019
+                "Microsoft.dotnet"                  # Microsoft .NET SDK (v5+)
+                "Microsoft.VC++2005Redist-x86"      # Microsoft Visual C++ 2005 Redistributable
+                "Microsoft.VC++2005Redist-x64"      # Microsoft Visual C++ 2005 Redistributable (x64)
+                "Microsoft.VC++2008Redist-x86"      # Microsoft Visual C++ 2008 Redistributable - x86
+                "Microsoft.VC++2008Redist-x64"      # Microsoft Visual C++ 2008 Redistributable - x64
+                "Microsoft.VC++2010Redist-x86"      # Microsoft Visual C++ 2010 x86 Redistributable
+                "Microsoft.VC++2010Redist-x64"      # Microsoft Visual C++ 2010 x64 Redistributable
+                "Microsoft.VC++2012Redist-x86"      # Microsoft Visual C++ 2012 Redistributable (x86)
+                "Microsoft.VC++2012Redist-x64"      # Microsoft Visual C++ 2012 Redistributable (x64)
+                "Microsoft.VC++2013Redist-x86"      # Microsoft Visual C++ 2013 Redistributable (x86)
+                "Microsoft.VC++2013Redist-x64"      # Microsoft Visual C++ 2013 Redistributable (x64)
+                "Microsoft.VC++2015-2022Redist-x86" # Microsoft Visual C++ 2015-2022 Redistributable (x86)
+                "Microsoft.VC++2015-2022Redist-x64" # Microsoft Visual C++ 2015-2022 Redistributable (x64)
                 "Oracle.JavaRuntimeEnvironment"     # Java Runtime Environment
             )
 
