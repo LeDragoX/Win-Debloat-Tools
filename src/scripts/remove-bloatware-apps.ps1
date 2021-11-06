@@ -38,6 +38,7 @@ function RemoveBloatwareApps() {
         "Microsoft.SkypeApp"                    # Skype (Who still uses Skype? Use Discord)
         "Microsoft.Todos"                       # Microsoft To Do
         "Microsoft.Wallet"
+        "Microsoft.Whiteboard"                  # Microsoft Whiteboard
         "Microsoft.WindowsAlarms"               # Alarms
         "microsoft.windowscommunicationsapps"
         "Microsoft.WindowsMaps"                 # Maps

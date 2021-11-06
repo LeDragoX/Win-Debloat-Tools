@@ -99,6 +99,12 @@ function PersonalTweaks() {
     Write-Host "[=][Personal] Enabling Auto tray icons..."
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
+    Write-Host "$($EnableStatus[0]) 'Meet now' button on taskbar..."
+    If (!(Test-Path "$PathToCUPoliciesExplorer")) {
+        New-Item -Path "$PathToCUPoliciesExplorer" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToCUPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
+
     Caption1 -Text "Task Bar - Windows 11 Only"
 
     # [@] (0 = Hide Widgets, 1 = Show Widgets)
@@ -211,6 +217,7 @@ function Main() {
     $Global:PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
     $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
     $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
+    $Global:PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
     $Global:PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
     $Global:PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
     $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
