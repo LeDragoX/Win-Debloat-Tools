@@ -535,7 +535,7 @@ function PrepareGUI() {
     $NextYLocation = $Dropbox.Location.Y + $Dropbox.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Caption Label
     $CaptionLabel3_1_7 = New-Object System.Windows.Forms.Label
-    $CaptionLabel3_1_7.Text = "Development"
+    $CaptionLabel3_1_7.Text = "2-Factor Authentication"
     $CaptionLabel3_1_7.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
     $CaptionLabel3_1_7.Width = $CLWidth
     $CaptionLabel3_1_7.Height = $CLHeight
@@ -544,6 +544,27 @@ function PrepareGUI() {
     $CaptionLabel3_1_7.TextAlign = $TextAlign
 
     $NextYLocation = $CaptionLabel3_1_7.Location.Y + $SBHeight + $DistanceBetweenButtons
+    # Panel 3.1 ~> Button
+    $AuthyDesktop = New-Object System.Windows.Forms.Button
+    $AuthyDesktop.Text = "Authy Desktop"
+    $AuthyDesktop.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $AuthyDesktop.Width = $SBWidth
+    $AuthyDesktop.Height = $SBHeight
+    $AuthyDesktop.Font = $SBFont
+    $AuthyDesktop.ForeColor = $SBForeColor
+
+    $NextYLocation = $AuthyDesktop.Location.Y + $AuthyDesktop.Height + $DistanceBetweenButtons
+    # Panel 3.1 ~> Caption Label
+    $CaptionLabel3_1_8 = New-Object System.Windows.Forms.Label
+    $CaptionLabel3_1_8.Text = "Development"
+    $CaptionLabel3_1_8.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $CaptionLabel3_1_8.Width = $CLWidth
+    $CaptionLabel3_1_8.Height = $CLHeight
+    $CaptionLabel3_1_8.Font = $CLFont
+    $CaptionLabel3_1_8.ForeColor = $CLForeColor
+    $CaptionLabel3_1_8.TextAlign = $TextAlign
+
+    $NextYLocation = $CaptionLabel3_1_8.Location.Y + $SBHeight + $DistanceBetweenButtons
     # Panel 3.1 ~> Button
     $WindowsTerminal = New-Object System.Windows.Forms.Button
     $WindowsTerminal.Text = "Windows Terminal"
@@ -1124,7 +1145,8 @@ function PrepareGUI() {
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_5, $VSCode, $NotepadPlusPlus))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_6, $GoogleDrive, $Dropbox))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_7, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_7, $AuthyDesktop))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_8, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL))
 
     $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_2_1, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
@@ -1518,6 +1540,17 @@ function PrepareGUI() {
             $InstallParams = @{
                 Name         = $Dropbox.Text
                 PackageName  = "Dropbox.Dropbox"
+                InstallBlock = { winget install --silent --id $Package }
+            }
+            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+
+        })
+
+    $AuthyDesktop.Add_Click( {
+
+            $InstallParams = @{
+                Name         = $AuthyDesktop.Text
+                PackageName  = "Twilio.Authy"
                 InstallBlock = { winget install --silent --id $Package }
             }
             InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
