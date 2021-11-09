@@ -40,7 +40,7 @@ function InstallPackageManager() {
   # Self-reminder, this part stay out of the Try-Catch block
   If ($UpdateScriptBlock) {
     # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-    Write-Host "[+] Creating a daily task to automatically upgrade $PackageManagerFullName packages."
+    Write-Host "[@] Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
     $JobName = "$PackageManagerFullName Daily Upgrade"
     $ScheduledJob = @{
       Name               = $JobName
@@ -50,7 +50,7 @@ function InstallPackageManager() {
     }
 
     If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-      Write-Host "[+] ScheduledJob: $JobName FOUND! Re-Creating..."
+      Write-Host "[@] ScheduledJob: $JobName FOUND! Re-Creating..."
       Unregister-ScheduledJob -Name $JobName
     }
     Register-ScheduledJob @ScheduledJob | Out-Host
