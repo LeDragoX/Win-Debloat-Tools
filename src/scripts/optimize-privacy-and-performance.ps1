@@ -278,14 +278,14 @@ function OptimizePrivacyAndPerformance() {
 
     Section1 -Text "Gaming Section"
 
-    Write-Host "$($EnableStatus[0]) Game Bar & Game DVR..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value $Zero
+    Write-Host "[+][Priv&Perf] Enabling Game Bar & Game DVR..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value $One
     If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value $One
 
     Write-Host "$($EnableStatus[1]) game mode..."
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value $One
