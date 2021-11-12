@@ -5,7 +5,7 @@ function RemoveBloatwareApps() {
     Title1 -Text "Remove Bloatware Apps"
 
     $Apps = @(
-        # Default Windows 10 apps
+        # Default Windows 10+ apps
         "Microsoft.3DBuilder"                   # 3D Builder
         "Microsoft.Appconnector"
         "Microsoft.BingFinance"                 # Finance
@@ -49,7 +49,6 @@ function RemoveBloatwareApps() {
         "Microsoft.XboxGameCallableUI"
         "Microsoft.XboxGameOverlay"
         "Microsoft.XboxSpeechToTextOverlay"
-        "Microsoft.Xbox.TCUI"
         "Microsoft.YourPhone"                   # Your Phone
         "Microsoft.ZuneMusic"
         "Microsoft.ZuneVideo"                   # Movies & TV
@@ -122,6 +121,7 @@ function RemoveBloatwareApps() {
 
         #"Microsoft.XboxGamingOverlay"      # Xbox Game Bar
         #"Microsoft.XboxIdentityProvider"   # Xbox Identity Provider (Xbox Dependency)
+        #"Microsoft.Xbox.TCUI"              # Xbox Live API communication (Xbox Dependency)
 
         # [DIY] Common Streaming services
 
