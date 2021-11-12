@@ -371,11 +371,11 @@ function OptimizePrivacyAndPerformance() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
     # [@] (2 = Disable, 4 = Enable)
-    Write-Host "[-][Priv&Perf] Disabling Windows Store apps Automatic Updates..."
+    Write-Host "[=][Priv&Perf] Enabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
         New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToLMPoliciesWindowsStore" -Name "AutoDownload" -Type DWord -Value 2
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsStore" -Name "AutoDownload"
 
     Section1 -Text "Power Plan Tweaks"
 
