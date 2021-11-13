@@ -1,4 +1,4 @@
-function QuickPrivilegesElevation() {
+function Quick-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
@@ -25,7 +25,7 @@ function PromptPcRestart() {
     $Ask = "If you want to see the changes restart your computer!
     Do you want to Restart now?"
 
-    switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
+    switch (Show-Question -Title "Read carefully" -Message $Ask) {
         'Yes' {
             Write-Host "You choose to Restart now"
             Restart-Computer        
@@ -66,23 +66,23 @@ function RunScripts() {
     )
 
     ForEach ($FileName in $Scripts) {
-        Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+        Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
         PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
     }
     Pop-Location
 
-    ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+    Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
 
 }
 
 function Main() {
 
-    QuickPrivilegesElevation    # Check admin rights
+    Quick-PrivilegesElevation    # Check admin rights
     LoadLibs                    # Import modules from lib folder
-    UnrestrictPermissions       # Unlock script usage
-    SetupConsoleStyle           # Make the console look cooler
+    Unrestrict-Permissions      # Unlock script usage
+    Setup-ConsoleStyle          # Make the console look cooler
     RunScripts                  # Run all scripts inside 'scripts' folder
-    RestrictPermissions         # Lock script usage
+    Restrict-Permissions        # Lock script usage
     PromptPcRestart             # Prompt options to Restart the PC
 
 }

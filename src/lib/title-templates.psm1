@@ -1,8 +1,8 @@
-function Title1() {
+function Write-Title() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        [String]	$Text = "Title1 Text"
+        [String]	$Text = "Write-Title Text"
     )
 
     Write-Host "" # Skip line
@@ -10,23 +10,11 @@ function Title1() {
     Write-Host "" # Skip line
 }
 
-function Title2() {
+function Write-Section() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        [String] $Text = "Title2 Text"
-    )
-
-    Write-Host "" # Skip line
-    Write-Host "<====================< $Text >====================>" -ForegroundColor Yellow
-    Write-Host "" # Skip line
-}
-
-function Section1() {
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
-    param (
-        [String] $Text = "Section1 Text"
+        [String] $Text = "Write-Section Text"
     )
 
     Write-Host "" # Skip line
@@ -34,18 +22,18 @@ function Section1() {
     Write-Host "" # Skip line
 }
 
-function Caption1() {
+function Write-Caption() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        [String] $Text = "Caption1 Text"
+        [String] $Text = "Write-Caption Text"
     )
 
     Write-Host "--> $Text" -ForegroundColor Cyan
     Write-Host "" # Skip line
 }
 
-function Title2Counter() {
+function Write-TitleCounter() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -61,7 +49,9 @@ function Title2Counter() {
     }
 
     $Global:Counter = $Counter + 1
-    Title2 "( $Counter/$MaxNum ) - [$Text]"
+    Write-Host "" # Skip line
+    Write-Host "<====================< ( $Counter/$MaxNum ) - [$Text] >====================>" -ForegroundColor Yellow
+    Write-Host "" # Skip line
 
     # Reset both when the Counter is greater or equal than MaxNum and different from 0
     If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {
@@ -71,8 +61,7 @@ function Title2Counter() {
 }
 
 # Example:
-# Title1 -Text "Text"
-# Title2 -Text "Text"
-# Section1 -Text "Text"
-# Caption1 -Text "Text"
-# Title1Counter -Text "Text" -MaxNum 100 # First time only insert MaxNum
+# Write-Title -Text "Text"
+# Write-Section -Text "Text"
+# Write-Caption -Text "Text"
+# Write-TitleCounter -Text "Text" -MaxNum 100 # First time only insert MaxNum

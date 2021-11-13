@@ -5,9 +5,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this matthewjberger's script: https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
 # Adapted from this Sycnex script:           https://github.com/Sycnex/Windows10Debloater
 
-function OptimizeServices() {
+function Optimize-Services() {
 
-    Title1 -Text "Services tweaks"
+    Write-Title -Text "Services tweaks"
 
     $DisableServices = @(
         "BITS"                                      # Background Intelligent Transfer Service
@@ -109,7 +109,7 @@ function Main() {
 
     }
 
-    OptimizeServices   # Enable essential Services and Disable bloating Services
+    Optimize-Services   # Enable essential Services and Disable bloating Services
 
 }
 

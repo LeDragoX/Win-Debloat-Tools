@@ -1,4 +1,4 @@
-function SetGuiLayout() {
+function Set-GUILayout() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()

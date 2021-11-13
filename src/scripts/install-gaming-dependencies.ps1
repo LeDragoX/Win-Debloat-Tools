@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function InstallGamingPackages() {
+function Install-GamingPackages() {
 
     # You Choose
     $Ask = "Do you plan to play games on this PC?
@@ -11,7 +11,7 @@ function InstallGamingPackages() {
   + Microsoft Visual C++ Packages (2005-2022)
   + Java Runtime Environment"
 
-    switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
+    switch (Show-Question -Title "Read carefully" -Message $Ask) {
         'Yes' {
 
             Write-Host "You choose Yes."
@@ -19,7 +19,7 @@ function InstallGamingPackages() {
                 "directx"               # DirectX End-User Runtime
             )
 
-            Title1 -Text "Installing Packages with Chocolatey"
+            Write-Title -Text "Installing Packages with Chocolatey"
 
             ForEach ($Package in $ChocoGamingPackages) {
                 Title2Counter -Text "Installing: $Package" -MaxNum $ChocoGamingPackages.Length
@@ -44,7 +44,7 @@ function InstallGamingPackages() {
                 "Oracle.JavaRuntimeEnvironment"     # Java Runtime Environment
             )
 
-            Title1 -Text "Installing Packages with Winget"
+            Write-Title -Text "Installing Packages with Winget"
 
             ForEach ($Package in $WingetGamingPackages) {
                 Title2Counter -Text "Installing: $Package" -MaxNum $WingetGamingPackages.Length
@@ -64,7 +64,7 @@ function InstallGamingPackages() {
 
 function Main() {
 
-    InstallGamingPackages               # Install All Gaming Dependencies
+    Install-GamingPackages               # Install All Gaming Dependencies
 
 }
 

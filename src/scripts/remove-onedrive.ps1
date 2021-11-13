@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"New-FolderForced.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"take-own.psm1"
 
-function RemoveOneDrive() {
+function Remove-OneDrive() {
     # Description:
     # This script will remove and disable OneDrive integration.
     Write-Host "Kill OneDrive process..."
@@ -65,7 +65,7 @@ function RemoveOneDrive() {
 
 function Main() {
  
-    RemoveOneDrive
+    Remove-OneDrive
 
 }
 

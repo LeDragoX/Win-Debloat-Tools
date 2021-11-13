@@ -1,11 +1,11 @@
-function QuickPrivilegesElevation() {
+function Quick-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
 function Main() {
 
-    QuickPrivilegesElevation
+    Quick-PrivilegesElevation
 
     Write-Host "[-] Removing the annoying message..."
     Write-Host "[-][Services] Stopping sppsvc..."

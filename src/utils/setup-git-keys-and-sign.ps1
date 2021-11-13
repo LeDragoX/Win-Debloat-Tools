@@ -1,9 +1,9 @@
-function QuickPrivilegesElevation() {
+function Quick-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function CheckGitUser() {
+function Check-GitUser() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
         [String]	$git_user_property, # Ex: Plínio Larrubia, email@email.com
@@ -38,8 +38,8 @@ function SetUpGit() {
 
     $git_user_props = @("name", "email")
 
-    $git_user_name = $(CheckGitUser -git_user_property $git_user_name -git_property_name $git_user_props[0])
-    $git_user_email = $(CheckGitUser -git_user_property $git_user_email -git_property_name $git_user_props[1]).ToLower()
+    $git_user_name = $(Check-GitUser -git_user_property $git_user_name -git_property_name $git_user_props[0])
+    $git_user_email = $(Check-GitUser -git_user_property $git_user_email -git_property_name $git_user_props[1]).ToLower()
 
     $ssh_path = "~/.ssh"
     $ssh_enc_type = "ed25519"
@@ -171,7 +171,7 @@ function SetUpGit() {
 
 function Main() {
 
-    QuickPrivilegesElevation
+    Quick-PrivilegesElevation
 
     Write-Host "Installing: Git and GnuPG..."
     winget install --silent Git.Git | Out-Host

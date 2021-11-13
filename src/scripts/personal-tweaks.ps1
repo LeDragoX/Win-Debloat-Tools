@@ -4,9 +4,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-function PersonalTweaks() {
+function Personal-Tweaks() {
 
-    Title1 -Text "My Personal Tweaks"
+    Write-Title -Text "My Personal Tweaks"
 
     Push-Location -Path "$PSScriptRoot\..\utils\"
 
@@ -19,7 +19,7 @@ function PersonalTweaks() {
 
     Pop-Location
 
-    Section1 -Text "Windows Explorer Tweaks"
+    Write-Section -Text "Windows Explorer Tweaks"
 
     Write-Host "[-][Personal] Hiding Quick Access from Windows Explorer..."
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
@@ -60,10 +60,10 @@ function PersonalTweaks() {
     }
     Set-ItemProperty -Path "$PathToCUExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value $One
 
-    Section1 -Text "Personalization"
-    Section1 -Text "Task Bar Tweaks"
+    Write-Section -Text "Personalization"
+    Write-Section -Text "Task Bar Tweaks"
 
-    Caption1 -Text "Task Bar - Windows 10 Compatible"
+    Write-Caption -Text "Task Bar - Windows 10 Compatible"
 
     # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
     Write-Host "[-][Personal] Hiding the search box from taskbar..."
@@ -105,7 +105,7 @@ function PersonalTweaks() {
     }
     Set-ItemProperty -Path "$PathToCUPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
 
-    Caption1 -Text "Task Bar - Windows 11 Only"
+    Write-Caption -Text "Task Bar - Windows 11 Only"
 
     # [@] (0 = Hide Widgets, 1 = Show Widgets)
     Write-Host "[-][Personal] Hiding Widgets from taskbar..."
@@ -116,39 +116,39 @@ function PersonalTweaks() {
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
-    Caption1 -Text "Colors"
+    Write-Caption -Text "Colors"
 
     Write-Host "$($EnableStatus[0]) taskbar transparency..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value $Zero
 
-    Section1 -Text "System"
-    Caption1 -Text "Multitasking"
+    Write-Section -Text "System"
+    Write-Caption -Text "Multitasking"
 
     Write-Host "[-][Personal] Disabling Edge multi tabs showing on Alt + Tab..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
-    Section1 -Text "Devices"
-    Caption1 -Text "Bluetooth & other devices"
+    Write-Section -Text "Devices"
+    Write-Caption -Text "Bluetooth & other devices"
 
     Write-Host "$($EnableStatus[1]) driver download over metered connections..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
 
-    Section1 -Text "Cortana Tweaks"
+    Write-Section -Text "Cortana Tweaks"
 
     Write-Host "$($EnableStatus[0]) Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToCUSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
 
-    Section1 -Text "Ease of Access"
-    Caption1 -Text "Keyboard"
+    Write-Section -Text "Ease of Access"
+    Write-Caption -Text "Keyboard"
 
     Write-Output "[-][Personal] Disabling Sticky Keys..."
     Set-ItemProperty -Path "$PathToCUAccessibility\StickyKeys" -Name "Flags" -Value "506"
     Set-ItemProperty -Path "$PathToCUAccessibility\Keyboard Response" -Name "Flags" -Value "122"
     Set-ItemProperty -Path "$PathToCUAccessibility\ToggleKeys" -Name "Flags" -Value "58"
 
-    Section1 -Text "Microsoft Edge Policies"
-    Caption1 -Text "Privacy, search and services / Address bar and search"
+    Write-Section -Text "Microsoft Edge Policies"
+    Write-Caption -Text "Privacy, search and services / Address bar and search"
 
     Write-Host "[=][Personal] Show me search and site suggestions using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
@@ -174,7 +174,7 @@ function PersonalTweaks() {
     net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
     net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
-    Section1 -Text "Power Plan Tweaks"
+    Write-Section -Text "Power Plan Tweaks"
     $TimeoutScreenBattery = 5
     $TimeoutScreenPluggedIn = 10
 
@@ -241,7 +241,7 @@ function Main() {
 
     }
 
-    PersonalTweaks  # Personal UI, Network, Energy and Accessibility Optimizations
+    Personal-Tweaks  # Personal UI, Network, Energy and Accessibility Optimizations
 
 }
 
