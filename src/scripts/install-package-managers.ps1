@@ -3,7 +3,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
 # Adapted from: https://github.com/ChrisTitusTech/win10script/blob/master/win10debloat.ps1
 # Adapted from: https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1
 
-function InstallPackageManager() {
+function Install-PackageManager() {
     [CmdletBinding()]
     param (
         [String]	  $PackageManagerFullName,
@@ -63,7 +63,7 @@ function Main() {
     If (!(Get-AppxPackage "*Microsoft.VCLibs.140.00.UWPDesktop*")) {
 
         Write-Warning "[?] Winget Dependency was not found."
-        $OSArch = CheckOSArchitecture
+        $OSArch = Check-OSArchitecture
 
         if (!(Test-Path "$PSScriptRoot\..\tmp")) {
             Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
@@ -86,7 +86,7 @@ function Main() {
         )
 
         # Install Winget Dependency on Windows
-        InstallPackageManager -PackageManagerFullName $WingetDepParams[0] -CheckExistenceBlock $WingetDepParams[1] -InstallCommandBlock $WingetDepParams[2]
+        Install-PackageManager -PackageManagerFullName $WingetDepParams[0] -CheckExistenceBlock $WingetDepParams[1] -InstallCommandBlock $WingetDepParams[2]
     }
     Else {
         Write-Warning "[?] Winget Dependency is already installed."
@@ -114,9 +114,9 @@ function Main() {
     )
 
     # Install Winget on Windows
-    InstallPackageManager -PackageManagerFullName $WingetParams[0]     -CheckExistenceBlock $WingetParams[1]     -InstallCommandBlock $WingetParams[2]     -Time $WingetParams[3]     -UpdateScriptBlock $WingetParams[4]
+    Install-PackageManager -PackageManagerFullName $WingetParams[0]     -CheckExistenceBlock $WingetParams[1]     -InstallCommandBlock $WingetParams[2]     -Time $WingetParams[3]     -UpdateScriptBlock $WingetParams[4]
     # Install Chocolatey on Windows
-    InstallPackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -Time $ChocolateyParams[3] -UpdateScriptBlock $ChocolateyParams[4] -PostInstallBlock $ChocolateyParams[5]
+    Install-PackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -Time $ChocolateyParams[3] -UpdateScriptBlock $ChocolateyParams[4] -PostInstallBlock $ChocolateyParams[5]
 
 }
 

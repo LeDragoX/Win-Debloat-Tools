@@ -1,4 +1,4 @@
-function InstallOneDrive() {
+function Install-OneDrive() {
 
     Write-Host "[+] Installing OneDrive..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 0
@@ -8,7 +8,7 @@ function InstallOneDrive() {
 
 function Main() {
 
-    InstallOneDrive
+    Install-OneDrive
 
 }
 

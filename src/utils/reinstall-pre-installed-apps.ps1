@@ -1,11 +1,11 @@
-function QuickPrivilegesElevation() {
+function Quick-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
 function Main() {
 
-    QuickPrivilegesElevation
+    Quick-PrivilegesElevation
 
     # The following code is from Microsoft (Adapted): https://go.microsoft.com/fwlink/?LinkId=619547
     # Get all the provisioned packages

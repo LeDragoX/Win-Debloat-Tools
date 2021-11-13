@@ -1,5 +1,5 @@
 # Made by LeDragoX inspired by Chris Titus Tech
-function MakeRestorePoint() {
+function Make-RestorePoint() {
 
     Write-Host "[+][Backup] Enabling system drive Restore Point..."
     Enable-ComputerRestore -Drive "$env:SystemDrive\" 
@@ -7,7 +7,7 @@ function MakeRestorePoint() {
 
 }
 
-function BackupHostsFile() {
+function Backup-HostsFile() {
     $PathToHostsFile = "$env:SystemRoot\System32\drivers\etc"
 
     Write-Host "[+][Backup] Doing Backup on Hosts file..."
@@ -28,8 +28,8 @@ function BackupHostsFile() {
 
 function Main() {
 
-    MakeRestorePoint # This makes a restoration point before the script begins
-    BackupHostsFile  # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system
+    Make-RestorePoint # This makes a restoration point before the script begins
+    Backup-HostsFile  # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system
 
 }
 

@@ -6,10 +6,10 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-function OptimizeScheduledTasks() {
+function Optimize-ScheduledTasks() {
 
-    Title1 -Text "Scheduled Tasks tweaks"
-    Section1 -Text "Disabling Scheduled Tasks"
+    Write-Title -Text "Scheduled Tasks tweaks"
+    Write-Section -Text "Disabling Scheduled Tasks"
 
     # Took from: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
     $DisableScheduledTasks = @(
@@ -53,7 +53,7 @@ function OptimizeScheduledTasks() {
 
         }
     }
-    Section1 -Text "Enabling Scheduled Tasks"
+    Write-Section -Text "Enabling Scheduled Tasks"
 
     $EnableScheduledTasks = @(
         "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"            # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
@@ -100,7 +100,7 @@ function Main() {
   
     }
 
-    OptimizeScheduledTasks # Disable Scheduled Tasks that causes slowdowns
+    Optimize-ScheduledTasks # Disable Scheduled Tasks that causes slowdowns
 
 }
 

@@ -2,7 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
 
 function Main() {
 
-    $OSArch = CheckOSArchitecture
+    $OSArch = Check-OSArchitecture
 
     If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
         # 1607 needs developer mode to be enabled for older Windows 10 versions

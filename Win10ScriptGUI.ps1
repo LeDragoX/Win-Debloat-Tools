@@ -1,4 +1,4 @@
-function QuickPrivilegesElevation() {
+function Quick-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
@@ -27,7 +27,7 @@ function PromptPcRestart() {
     $Ask = "If you want to see the changes restart your computer!
     Do you want to Restart now?"
 
-    switch (ShowQuestion -Title "Read carefully" -Message $Ask) {
+    switch (Show-Question -Title "Read carefully" -Message $Ask) {
         'Yes' {
             Write-Host "You choose to Restart now"
             Restart-Computer
@@ -47,7 +47,7 @@ function PromptPcRestart() {
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 function PrepareGUI() {
 
-    SetGuiLayout # Load the GUI Layout
+    Set-GUILayout # Load the GUI Layout
 
     # <=== AFTER PROCESS ===>
 
@@ -1178,7 +1178,7 @@ function PrepareGUI() {
                 "remove-onedrive.ps1"
             )
             ForEach ($FileName in $Scripts) {
-                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName" -Force
             }
             Pop-Location
@@ -1187,7 +1187,7 @@ function PrepareGUI() {
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
             $Global:NeedRestart = $true
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $RepairWindows.Add_Click( {
@@ -1201,11 +1201,11 @@ function PrepareGUI() {
             )
 
             ForEach ($FileName in $Scripts) {
-                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName" -Force
             }
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $InstallOneDrive.Add_Click( {
@@ -1215,7 +1215,7 @@ function PrepareGUI() {
             Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $ReinstallBloatApps.Add_Click( {
@@ -1225,7 +1225,7 @@ function PrepareGUI() {
             Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $RevertScript.Add_Click( {
@@ -1242,12 +1242,12 @@ function PrepareGUI() {
                 "optimize-optional-features.ps1"
             )
             ForEach ($FileName in $Scripts) {
-                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName" -Force
             }
             Pop-Location
             $Global:Revert = $false
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $DarkMode.Add_Click( {
@@ -1257,7 +1257,7 @@ function PrepareGUI() {
             regedit /s use-dark-theme.reg
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $LightMode.Add_Click( {
@@ -1267,7 +1267,7 @@ function PrepareGUI() {
             regedit /s use-light-theme.reg
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $EnableCortana.Add_Click( {
@@ -1277,7 +1277,7 @@ function PrepareGUI() {
             regedit /s enable-cortana.reg
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $DisableCortana.Add_Click( {
@@ -1287,7 +1287,7 @@ function PrepareGUI() {
             regedit /s disable-cortana.reg
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $EnableTelemetry.Add_Click( {
@@ -1297,7 +1297,7 @@ function PrepareGUI() {
             regedit /s enable-full-telemetry.reg
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $DisableTelemetry.Add_Click( {
@@ -1307,7 +1307,7 @@ function PrepareGUI() {
             regedit /s disable-telemetry.reg
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $EnableBgApps.Add_Click( {
@@ -1317,7 +1317,7 @@ function PrepareGUI() {
             regedit /s enable-bg-apps.reg
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $DisableBgApps.Add_Click( {
@@ -1327,7 +1327,7 @@ function PrepareGUI() {
             regedit /s disable-bg-apps.reg
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
 
@@ -1340,12 +1340,12 @@ function PrepareGUI() {
             )
 
             ForEach ($FileName in $Scripts) {
-                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName" -Force
             }
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $BraveBrowser.Add_Click( {
@@ -1355,7 +1355,7 @@ function PrepareGUI() {
                 PackageName  = "BraveSoftware.BraveBrowser"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1366,7 +1366,7 @@ function PrepareGUI() {
                 PackageName  = "Google.Chrome"
                 InstallBlock = { winget install --silent --id $Package; choco install -y "ublockorigin-chrome" }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1377,7 +1377,7 @@ function PrepareGUI() {
                 PackageName  = "Mozilla.Firefox"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1388,7 +1388,7 @@ function PrepareGUI() {
                 PackageName  = "7zip.7zip"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1399,7 +1399,7 @@ function PrepareGUI() {
                 PackageName  = "winrar"
                 InstallBlock = { choco install -y $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1410,7 +1410,7 @@ function PrepareGUI() {
                 PackageName  = "ONLYOFFICE.DesktopEditors"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1421,7 +1421,7 @@ function PrepareGUI() {
                 PackageName  = "LibreOffice.LibreOffice"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1432,7 +1432,7 @@ function PrepareGUI() {
                 PackageName  = "Microsoft.PowerBI"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1443,7 +1443,7 @@ function PrepareGUI() {
                 PackageName  = "paint.net"
                 InstallBlock = { choco install -y $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1454,7 +1454,7 @@ function PrepareGUI() {
                 PackageName  = "GIMP.GIMP"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1465,7 +1465,7 @@ function PrepareGUI() {
                 PackageName  = "Inkscape.Inkscape"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1476,7 +1476,7 @@ function PrepareGUI() {
                 PackageName  = "IrfanSkiljan.IrfanView"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1487,7 +1487,7 @@ function PrepareGUI() {
                 PackageName  = "KDE.Krita"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1498,7 +1498,7 @@ function PrepareGUI() {
                 PackageName  = "ShareX.ShareX"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1509,7 +1509,7 @@ function PrepareGUI() {
                 PackageName  = "Microsoft.VisualStudioCode"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1520,7 +1520,7 @@ function PrepareGUI() {
                 PackageName  = "Notepad++.Notepad++"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1531,7 +1531,7 @@ function PrepareGUI() {
                 PackageName  = "Google.Drive"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1542,7 +1542,7 @@ function PrepareGUI() {
                 PackageName  = "Dropbox.Dropbox"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1553,7 +1553,7 @@ function PrepareGUI() {
                 PackageName  = "Twilio.Authy"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1564,7 +1564,7 @@ function PrepareGUI() {
                 PackageName  = "Microsoft.WindowsTerminal"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1575,7 +1575,7 @@ function PrepareGUI() {
             Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $JavaJRE.Add_Click( {
@@ -1585,7 +1585,7 @@ function PrepareGUI() {
                 PackageName  = "Oracle.JavaRuntimeEnvironment"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1596,7 +1596,7 @@ function PrepareGUI() {
                 PackageName  = @("AdoptOpenJDK.OpenJDK.8", "AdoptOpenJDK.OpenJDK.11", "AdoptOpenJDK.OpenJDK.16") # Be vigilant as Eclipse Adoptium will become the newest owner
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1607,7 +1607,7 @@ function PrepareGUI() {
                 PackageName  = "OpenJS.NodeJSLTS"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1618,7 +1618,7 @@ function PrepareGUI() {
                 PackageName  = "OpenJS.NodeJS"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1629,7 +1629,7 @@ function PrepareGUI() {
                 PackageName  = "Python.Python.3"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1640,7 +1640,7 @@ function PrepareGUI() {
                 PackageName  = "Anaconda.Anaconda3"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1651,7 +1651,7 @@ function PrepareGUI() {
                 PackageName  = "RubyInstallerTeam.RubyWithDevKit"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1662,7 +1662,7 @@ function PrepareGUI() {
                 PackageName  = "Google.AndroidStudio"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1673,7 +1673,7 @@ function PrepareGUI() {
                 PackageName  = "Docker.DockerDesktop"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1684,7 +1684,7 @@ function PrepareGUI() {
                 PackageName  = "PostgreSQL.PostgreSQL"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1695,7 +1695,7 @@ function PrepareGUI() {
                 PackageName  = "Oracle.MySQL"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1707,12 +1707,12 @@ function PrepareGUI() {
                 "install-gaming-dependencies.ps1"
             )
             ForEach ($FileName in $Scripts) {
-                Title2Counter -Text "$FileName" -MaxNum $Scripts.Length
+                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
                 Import-Module -DisableNameChecking .\"$FileName" -Force
             }
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $Discord.Add_Click( {
@@ -1722,7 +1722,7 @@ function PrepareGUI() {
                 PackageName  = "Discord.Discord"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1733,7 +1733,7 @@ function PrepareGUI() {
                 PackageName  = "Microsoft.Teams"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1744,7 +1744,7 @@ function PrepareGUI() {
                 PackageName  = "SlackTechnologies.Slack"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1755,7 +1755,7 @@ function PrepareGUI() {
                 PackageName  = "Zoom.Zoom"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1766,7 +1766,7 @@ function PrepareGUI() {
                 PackageName  = "RocketChat.RocketChat"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1777,7 +1777,7 @@ function PrepareGUI() {
                 PackageName  = "Valve.Steam"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1788,7 +1788,7 @@ function PrepareGUI() {
                 PackageName  = "GOG.Galaxy"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1799,7 +1799,7 @@ function PrepareGUI() {
                 PackageName  = "EpicGames.EpicGamesLauncher"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1810,7 +1810,7 @@ function PrepareGUI() {
                 PackageName  = "ElectronicArts.EADesktop"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1821,7 +1821,7 @@ function PrepareGUI() {
                 PackageName  = "Ubisoft.Connect"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1832,7 +1832,7 @@ function PrepareGUI() {
                 PackageName  = "Notion.Notion"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1844,7 +1844,7 @@ function PrepareGUI() {
                 PackageName  = "Parsec.Parsec"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1855,7 +1855,7 @@ function PrepareGUI() {
                 PackageName  = "TeamViewer.TeamViewer"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1866,7 +1866,7 @@ function PrepareGUI() {
                 PackageName  = "OBSProject.OBSStudio"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1877,7 +1877,7 @@ function PrepareGUI() {
                 PackageName  = "Streamlabs.StreamlabsOBS"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1888,7 +1888,7 @@ function PrepareGUI() {
                 PackageName  = "qBittorrent.qBittorrent"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1899,7 +1899,7 @@ function PrepareGUI() {
                 PackageName  = "Spotify.Spotify"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1910,7 +1910,7 @@ function PrepareGUI() {
                 PackageName  = "VideoLAN.VLC"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1921,7 +1921,7 @@ function PrepareGUI() {
                 PackageName  = "clsid2.mpc-hc"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1932,7 +1932,7 @@ function PrepareGUI() {
                 PackageName  = "CPUID.CPU-Z"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1943,7 +1943,7 @@ function PrepareGUI() {
                 PackageName  = "TechPowerUp.GPU-Z"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1954,7 +1954,7 @@ function PrepareGUI() {
                 PackageName  = "CrystalDewWorld.CrystalDiskInfo"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1965,7 +1965,7 @@ function PrepareGUI() {
                 PackageName  = "CrystalDewWorld.CrystalDiskMark"
                 InstallBlock = { winget install --silent --id $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1976,7 +1976,7 @@ function PrepareGUI() {
             Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
-            ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $Ubuntu.Add_Click( {
@@ -1986,7 +1986,7 @@ function PrepareGUI() {
                 PackageName  = "Ubuntu"
                 InstallBlock = { wsl --install --distribution $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -1997,7 +1997,7 @@ function PrepareGUI() {
                 PackageName  = "Debian"
                 InstallBlock = { wsl --install --distribution $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -2008,7 +2008,7 @@ function PrepareGUI() {
                 PackageName  = "kali-linux"
                 InstallBlock = { wsl --install --distribution $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -2019,7 +2019,7 @@ function PrepareGUI() {
                 PackageName  = "openSUSE-42"
                 InstallBlock = { wsl --install --distribution $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -2030,7 +2030,7 @@ function PrepareGUI() {
                 PackageName  = "SLES-12"
                 InstallBlock = { wsl --install --distribution $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -2041,7 +2041,7 @@ function PrepareGUI() {
                 PackageName  = "Ubuntu-16.04"
                 InstallBlock = { wsl --install --distribution $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -2052,7 +2052,7 @@ function PrepareGUI() {
                 PackageName  = "Ubuntu-18.04"
                 InstallBlock = { wsl --install --distribution $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -2063,7 +2063,7 @@ function PrepareGUI() {
                 PackageName  = "Ubuntu-20.04"
                 InstallBlock = { wsl --install --distribution $Package }
             }
-            InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 
         })
 
@@ -2078,10 +2078,10 @@ function PrepareGUI() {
 function Main() {
 
     Clear-Host                  # Clear the Powershell before it got an Output
-    QuickPrivilegesElevation    # Check admin rights
+    Quick-PrivilegesElevation    # Check admin rights
     LoadLibs                    # Import modules from lib folder
-    UnrestrictPermissions       # Unlock script usage
-    SetupConsoleStyle           # Make the console look cooler
+    Unrestrict-Permissions      # Unlock script usage
+    Setup-ConsoleStyle          # Make the console look cooler
 
     # Install Winget and Chocolatey already on the start
     Import-Module -DisableNameChecking .\"src\scripts\install-package-managers.ps1" -Force
@@ -2091,7 +2091,7 @@ function Main() {
     If ($Global:NeedRestart) {
         PromptPcRestart         # Prompt options to Restart the PC
     }
-    RestrictPermissions         # Lock script usage
+    Restrict-Permissions        # Lock script usage
 
 }
 

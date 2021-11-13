@@ -1,8 +1,8 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function RemoveBloatwareApps() {
+function Remove-BloatwareApps() {
 
-    Title1 -Text "Remove Bloatware Apps"
+    Write-Title -Text "Remove Bloatware Apps"
 
     $Apps = @(
         # Default Windows 10+ apps
@@ -158,7 +158,7 @@ function RemoveBloatwareApps() {
 
 function Main() {
 
-    RemoveBloatwareApps # Remove the main Bloat from Pre-installed Apps
+    Remove-BloatwareApps # Remove the main Bloat from Pre-installed Apps
 
 }
 

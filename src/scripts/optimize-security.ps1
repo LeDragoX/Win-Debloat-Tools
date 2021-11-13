@@ -5,9 +5,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this ChrisTitus script:                 https://github.com/ChrisTitusTech/win10script
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-function OptimizeSecurity() {
+function Optimize-Security() {
 
-    Title1 -Text "Security Tweaks"
+    Write-Title -Text "Security Tweaks"
     Write-Warning "if you already use another antivirus, nothing will happen."
 
     Write-Host "[+][Security] Ensure your Windows Defender is ENABLED."
@@ -83,7 +83,7 @@ function OptimizeSecurity() {
     Write-Host "[+][Security] Enabling 'SmartScreen' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
 
-    Write-Warning "For more tweaks, edit the 'src/scripts/optimize-security.ps1' file, then uncomment (#) code lines"
+    Write-Warning "For more tweaks, edit the 'src/scripts/optimize-security.ps1' file, then uncomment '#code' code lines"
     #Write-Host "[+][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
     #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
 
@@ -96,14 +96,14 @@ function OptimizeSecurity() {
 
 function Main() {
 
-    $CPU = DetectCPU
+    $CPU = Check-CPU
     # Initialize all Path variables used to Registry Tweaks
     $Global:PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
     $Global:PathToLMPoliciesMRT = "HKLM:\SOFTWARE\Policies\Microsoft\MRT"
     $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
     $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
 
-    OptimizeSecurity   # Improve the Windows Security
+    Optimize-Security   # Improve the Windows Security
 
 }
 

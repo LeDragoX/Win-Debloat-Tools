@@ -2,9 +2,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script/pull/131/files
 
-function OptimizeOptionalFeatures() {
+function Optimize-OptionalFeatures() {
 
-    Title1 -Text "Uninstall features from Windows"
+    Write-Title -Text "Uninstall features from Windows"
 
     # Dism /online /Get-Features #/Format:Table # To find all features
     # Get-WindowsOptionalFeature -Online
@@ -35,7 +35,7 @@ function OptimizeOptionalFeatures() {
         }
     }
 
-    Title1 -Text "Install features for Windows"
+    Write-Title -Text "Install features for Windows"
 
     $EnableFeatures = @(
         "Microsoft-Hyper-V-All"             # Hyper-V (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
@@ -98,7 +98,7 @@ function Main() {
       
     }
 
-    OptimizeOptionalFeatures  # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
+    Optimize-OptionalFeatures  # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
 
 }
 

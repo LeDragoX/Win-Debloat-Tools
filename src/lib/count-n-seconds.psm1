@@ -1,4 +1,4 @@
-function CountNseconds() {
+function Count-Nseconds() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -10,4 +10,4 @@ function CountNseconds() {
 }
 
 # Example:
-# CountNseconds -Time 5 -Msg "This is closing in"
+# Count-Nseconds -Time 5 -Msg "This is closing in"

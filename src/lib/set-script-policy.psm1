@@ -1,4 +1,4 @@
-function UnrestrictPermissions() {
+function Unrestrict-Permissions() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()
 
@@ -8,7 +8,7 @@ function UnrestrictPermissions() {
     Get-ExecutionPolicy -List
 }
 
-function RestrictPermissions() {
+function Restrict-Permissions() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()
 
@@ -19,5 +19,5 @@ function RestrictPermissions() {
 }
 
 # Example:
-# UnrestrictPermissions     # to Unlock script usage
-# RestrictPermissions       # to Lock script usage
+# Unrestrict-Permissions     # to Unlock script usage
+# Restrict-Permissions       # to Lock script usage

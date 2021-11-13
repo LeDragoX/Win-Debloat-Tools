@@ -1,4 +1,5 @@
-function InstallPackage() {
+function Install-Package() {
+    # This function name may conflict with Chocolatey on PowerShell...
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -26,5 +27,5 @@ function InstallPackage() {
 
 <#
 Example:
-InstallPackage -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
 #>
