@@ -38,6 +38,28 @@ function Show-Question() {
     return $Answer
 }
 
-# Example:
-# $Question = Show-Question -Title "Title" -Message "Message"
-# Returns Yes or No or Cancel
+function Prompt-PcRestart() {
+
+    $Ask = "If you want to see the changes restart your computer!
+    Do you want to Restart now?"
+
+    switch (Show-Question -Title "Read carefully" -Message $Ask) {
+        'Yes' {
+            Write-Host "You choose to Restart now"
+            Restart-Computer        
+        }
+        'No' {
+            Write-Host "You choose to Restart later"
+        }
+        'Cancel' {
+            # With Yes, No and Cancel, the user can press Esc to exit
+            Write-Host "You choose to Restart later"
+        }
+    }
+}
+
+<#
+Example:
+$Question = Show-Question -Title "Title" -Message "Message"
+Returns Yes or No or Cancel
+#>

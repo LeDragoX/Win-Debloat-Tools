@@ -3,7 +3,7 @@ function Quick-PrivilegesElevation() {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function LoadLibs() {
+function Load-Libs() {
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
@@ -13,7 +13,7 @@ function LoadLibs() {
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
     Import-Module -DisableNameChecking .\"install-package.psm1"
-    Import-Module -DisableNameChecking .\"set-gui-layout.psm1"
+    Import-Module -DisableNameChecking .\"gui-helper.psm1"
     Import-Module -DisableNameChecking .\"set-script-policy.psm1"
     Import-Module -DisableNameChecking .\"setup-console-style.psm1"
     Import-Module -DisableNameChecking .\"simple-message-box.psm1"
@@ -22,40 +22,15 @@ function LoadLibs() {
     Pop-Location
 }
 
-function PromptPcRestart() {
-
-    $Ask = "If you want to see the changes restart your computer!
-    Do you want to Restart now?"
-
-    switch (Show-Question -Title "Read carefully" -Message $Ask) {
-        'Yes' {
-            Write-Host "You choose to Restart now"
-            Restart-Computer
-        }
-        'No' {
-            Write-Host "You choose to Restart later"
-        }
-        'Cancel' {
-            # With Yes, No and Cancel, the user can press Esc to exit
-            Write-Host "You choose to Restart later"
-        }
-    }
-
-}
-
 # https://docs.microsoft.com/pt-br/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
-function PrepareGUI() {
+function Prepare-GUI() {
 
     Set-GUILayout # Load the GUI Layout
-
-    # <=== AFTER PROCESS ===>
 
     $Global:NeedRestart = $false
     $DoneTitle = "Done"
     $DoneMessage = "Process Completed!"
-
-    # <=== DISPLAYED GUI ===>
 
     # Main Window:
     $Form = New-Object System.Windows.Forms.Form
@@ -464,7 +439,7 @@ function PrepareGUI() {
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_8, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_9, $WSL2, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
 
-    # <=== CLICK EVENTS ===>
+    # <== CLICK EVENTS ==>
 
     $ApplyTweaks.Add_Click( {
             Push-Location -Path "src\scripts\"
@@ -674,223 +649,83 @@ function PrepareGUI() {
         })
 
     $BraveBrowser.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $BraveBrowser.Text
-                PackageName  = "BraveSoftware.BraveBrowser"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $BraveBrowser.Text -PackageName "BraveSoftware.BraveBrowser"
         })
 
     $GoogleChrome.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $GoogleChrome.Text
-                PackageName  = "Google.Chrome"
-                InstallBlock = { winget install --silent --id $Package; choco install -y "ublockorigin-chrome" }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $GoogleChrome.Text -PackageName "Google.Chrome" -InstallBlock { winget install --silent --id $Package; choco install -y "ublockorigin-chrome" }
         })
 
     $MozillaFirefox.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $MozillaFirefox.Text
-                PackageName  = "Mozilla.Firefox"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $MozillaFirefox.Text -PackageName "Mozilla.Firefox"
         })
 
     $7Zip.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $7Zip.Text
-                PackageName  = "7zip.7zip"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $7Zip.Text -PackageName "7zip.7zip"
         })
 
     $WinRar.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $WinRar.Text
-                PackageName  = "winrar"
-                InstallBlock = { choco install -y $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $WinRar.Text -PackageName "winrar" -InstallBlock { choco install -y $Package }
         })
 
     $OnlyOffice.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $OnlyOffice.Text
-                PackageName  = "ONLYOFFICE.DesktopEditors"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $OnlyOffice.Text -PackageName "ONLYOFFICE.DesktopEditors"
         })
 
     $LibreOffice.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $LibreOffice.Text
-                PackageName  = "LibreOffice.LibreOffice"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $LibreOffice.Text -PackageName "LibreOffice.LibreOffice"
         })
 
     $PowerBI.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $PowerBI.Text
-                PackageName  = "Microsoft.PowerBI"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $PowerBI.Text -PackageName "Microsoft.PowerBI"
         })
 
     $PaintNet.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $PaintNet.Text
-                PackageName  = "paint.net"
-                InstallBlock = { choco install -y $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $PaintNet.Text -PackageName "paint.net" -InstallBlock { choco install -y $Package }
         })
 
     $Gimp.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Gimp.Text
-                PackageName  = "GIMP.GIMP"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Gimp.Text -PackageName "GIMP.GIMP"
         })
 
     $Inkscape.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Inkscape.Text
-                PackageName  = "Inkscape.Inkscape"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Inkscape.Text -PackageName "Inkscape.Inkscape"
         })
 
     $IrfanView.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $IrfanView.Text
-                PackageName  = "IrfanSkiljan.IrfanView"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $IrfanView.Text -PackageName "IrfanSkiljan.IrfanView"
         })
 
     $Krita.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Krita.Text
-                PackageName  = "KDE.Krita"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Krita.Text -PackageName "KDE.Krita"
         })
 
     $ShareX.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $ShareX.Text
-                PackageName  = "ShareX.ShareX"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $ShareX.Text -PackageName "ShareX.ShareX"
         })
 
     $VSCode.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $VSCode.Text
-                PackageName  = "Microsoft.VisualStudioCode"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $VSCode.Text -PackageName "Microsoft.VisualStudioCode"
         })
 
     $NotepadPlusPlus.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $NotepadPlusPlus.Text
-                PackageName  = "Notepad++.Notepad++"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $NotepadPlusPlus.Text -PackageName "Notepad++.Notepad++"
         })
 
     $GoogleDrive.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $GoogleDrive.Text
-                PackageName  = "Google.Drive"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $GoogleDrive.Text -PackageName "Google.Drive"
         })
 
     $Dropbox.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Dropbox.Text
-                PackageName  = "Dropbox.Dropbox"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Dropbox.Text -PackageName "Dropbox.Dropbox"
         })
 
     $AuthyDesktop.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $AuthyDesktop.Text
-                PackageName  = "Twilio.Authy"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $AuthyDesktop.Text -PackageName "Twilio.Authy"
         })
 
     $WindowsTerminal.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $WindowsTerminal.Text
-                PackageName  = "Microsoft.WindowsTerminal"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $WindowsTerminal.Text -PackageName "Microsoft.WindowsTerminal"
         })
 
     $GitAndKeysSetup.Add_Click( {
@@ -904,124 +739,47 @@ function PrepareGUI() {
         })
 
     $JavaJRE.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $JavaJRE.Text
-                PackageName  = "Oracle.JavaRuntimeEnvironment"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $JavaJRE.Text -PackageName "Oracle.JavaRuntimeEnvironment"
         })
 
-    $JavaJDKs.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $JavaJDKs.Text
-                PackageName  = @("AdoptOpenJDK.OpenJDK.8", "AdoptOpenJDK.OpenJDK.11", "AdoptOpenJDK.OpenJDK.16") # Be vigilant as Eclipse Adoptium will become the newest owner
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+    $JavaJDKs.Add_Click( { # Be vigilant as Eclipse Adoptium will become the newest owner
+            Install-Package -Name $JavaJDKs.Text -PackageName @("AdoptOpenJDK.OpenJDK.8", "AdoptOpenJDK.OpenJDK.11", "AdoptOpenJDK.OpenJDK.16")
         })
 
     $NodeJsLts.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $NodeJsLts.Text
-                PackageName  = "OpenJS.NodeJSLTS"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $NodeJsLts.Text -PackageName "OpenJS.NodeJSLTS"
         })
 
     $NodeJs.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $NodeJs.Text
-                PackageName  = "OpenJS.NodeJS"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $NodeJs.Text -PackageName "OpenJS.NodeJS"
         })
 
     $Python3.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Python3.Text
-                PackageName  = "Python.Python.3"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Python3.Text -PackageName "Python.Python.3"
         })
 
     $Anaconda3.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Anaconda3.Text
-                PackageName  = "Anaconda.Anaconda3"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Anaconda3.Text -PackageName "Anaconda.Anaconda3"
         })
 
     $Ruby.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Ruby.Text
-                PackageName  = "RubyInstallerTeam.RubyWithDevKit"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Ruby.Text -PackageName "RubyInstallerTeam.RubyWithDevKit"
         })
 
     $AndroidStudio.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $AndroidStudio.Text
-                PackageName  = "Google.AndroidStudio"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $AndroidStudio.Text -PackageName "Google.AndroidStudio"
         })
 
     $DockerDesktop.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $DockerDesktop.Text
-                PackageName  = "Docker.DockerDesktop"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $DockerDesktop.Text -PackageName "Docker.DockerDesktop"
         })
 
     $PostgreSQL.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $PostgreSQL.Text
-                PackageName  = "PostgreSQL.PostgreSQL"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $PostgreSQL.Text -PackageName "PostgreSQL.PostgreSQL"
         })
 
     $MySQL.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $MySQL.Text
-                PackageName  = "Oracle.MySQL"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $MySQL.Text -PackageName "Oracle.MySQL"
         })
 
     $InstallGamingDependencies.Add_Click( {
@@ -1041,257 +799,96 @@ function PrepareGUI() {
         })
 
     $Discord.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Discord.Text
-                PackageName  = "Discord.Discord"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Discord.Text -PackageName "Discord.Discord"
         })
 
     $MSTeams.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $MSTeams.Text
-                PackageName  = "Microsoft.Teams"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $MSTeams.Text -PackageName "Microsoft.Teams"
         })
 
     $Slack.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Slack.Text
-                PackageName  = "SlackTechnologies.Slack"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Slack.Text -PackageName "SlackTechnologies.Slack"
         })
 
     $Zoom.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Zoom.Text
-                PackageName  = "Zoom.Zoom"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Zoom.Text -PackageName "Zoom.Zoom"
         })
 
     $RocketChat.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $RocketChat.Text
-                PackageName  = "RocketChat.RocketChat"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $RocketChat.Text -PackageName "RocketChat.RocketChat"
         })
 
     $Steam.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Steam.Text
-                PackageName  = "Valve.Steam"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Steam.Text -PackageName "Valve.Steam"
         })
 
     $GogGalaxy.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $GogGalaxy.Text
-                PackageName  = "GOG.Galaxy"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $GogGalaxy.Text -PackageName "GOG.Galaxy"
         })
 
     $EpicGames.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $EpicGames.Text
-                PackageName  = "EpicGames.EpicGamesLauncher"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $EpicGames.Text -PackageName "EpicGames.EpicGamesLauncher"
         })
 
     $EADesktop.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $EADesktop.Text
-                PackageName  = "ElectronicArts.EADesktop"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $EADesktop.Text -PackageName "ElectronicArts.EADesktop"
         })
 
     $UbisoftConnect.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $UbisoftConnect.Text
-                PackageName  = "Ubisoft.Connect"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $UbisoftConnect.Text -PackageName "Ubisoft.Connect"
         })
 
     $Notion.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Notion.Text
-                PackageName  = "Notion.Notion"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Notion.Text -PackageName "Notion.Notion"
         })
 
 
     $Parsec.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Parsec.Text
-                PackageName  = "Parsec.Parsec"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Parsec.Text -PackageName "Parsec.Parsec"
         })
 
     $TeamViewer.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $TeamViewer.Text
-                PackageName  = "TeamViewer.TeamViewer"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $TeamViewer.Text -PackageName "TeamViewer.TeamViewer"
         })
 
     $ObsStudio.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $ObsStudio.Text
-                PackageName  = "OBSProject.OBSStudio"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $ObsStudio.Text -PackageName "OBSProject.OBSStudio"
         })
 
     $StreamlabsObs.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $StreamlabsObs.Text
-                PackageName  = "Streamlabs.StreamlabsOBS"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $StreamlabsObs.Text -PackageName "Streamlabs.StreamlabsOBS"
         })
 
     $qBittorrent.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $qBittorrent.Text
-                PackageName  = "qBittorrent.qBittorrent"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $qBittorrent.Text -PackageName "qBittorrent.qBittorrent"
         })
 
     $Spotify.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Spotify.Text
-                PackageName  = "Spotify.Spotify"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Spotify.Text -PackageName "Spotify.Spotify"
         })
 
     $Vlc.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Vlc.Text
-                PackageName  = "VideoLAN.VLC"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Vlc.Text -PackageName "VideoLAN.VLC"
         })
 
     $MpcHc.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $MpcHc.Text
-                PackageName  = "clsid2.mpc-hc"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $MpcHc.Text -PackageName "clsid2.mpc-hc"
         })
 
     $CPUZ.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $CPUZ.Text
-                PackageName  = "CPUID.CPU-Z"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $CPUZ.Text -PackageName "CPUID.CPU-Z"
         })
 
     $GPUZ.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $GPUZ.Text
-                PackageName  = "TechPowerUp.GPU-Z"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $GPUZ.Text -PackageName "TechPowerUp.GPU-Z"
         })
 
     $CrystalDiskInfo.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $CrystalDiskInfo.Text
-                PackageName  = "CrystalDewWorld.CrystalDiskInfo"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $CrystalDiskInfo.Text -PackageName "CrystalDewWorld.CrystalDiskInfo"
         })
 
     $CrystalDiskMark.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $CrystalDiskMark.Text
-                PackageName  = "CrystalDewWorld.CrystalDiskMark"
-                InstallBlock = { winget install --silent --id $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $CrystalDiskMark.Text -PackageName "CrystalDewWorld.CrystalDiskMark"
         })
 
     $WSL2.Add_Click( {
@@ -1305,91 +902,35 @@ function PrepareGUI() {
         })
 
     $Ubuntu.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Ubuntu.Text
-                PackageName  = "Ubuntu"
-                InstallBlock = { wsl --install --distribution $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Ubuntu.Text -PackageName "Ubuntu" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $Debian.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Debian.Text
-                PackageName  = "Debian"
-                InstallBlock = { wsl --install --distribution $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Debian.Text -PackageName "Debian" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $KaliLinux.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $KaliLinux.Text
-                PackageName  = "kali-linux"
-                InstallBlock = { wsl --install --distribution $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $KaliLinux.Text -PackageName "kali-linux" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $OpenSuse.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $OpenSuse.Text
-                PackageName  = "openSUSE-42"
-                InstallBlock = { wsl --install --distribution $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $OpenSuse.Text -PackageName "openSUSE-42" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $SLES.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $SLES.Text
-                PackageName  = "SLES-12"
-                InstallBlock = { wsl --install --distribution $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $SLES.Text -PackageName "SLES-12" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $Ubuntu16LTS.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Ubuntu16LTS.Text
-                PackageName  = "Ubuntu-16.04"
-                InstallBlock = { wsl --install --distribution $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Ubuntu16LTS.Text -PackageName "Ubuntu-16.04" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $Ubuntu18LTS.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Ubuntu18LTS.Text
-                PackageName  = "Ubuntu-18.04"
-                InstallBlock = { wsl --install --distribution $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Ubuntu18LTS.Text -PackageName "Ubuntu-18.04" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $Ubuntu20LTS.Add_Click( {
-
-            $InstallParams = @{
-                Name         = $Ubuntu20LTS.Text
-                PackageName  = "Ubuntu-20.04"
-                InstallBlock = { wsl --install --distribution $Package }
-            }
-            Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
-
+            Install-Package -Name $Ubuntu20LTS.Text -PackageName "Ubuntu-20.04" -InstallBlock { wsl --install --distribution $Package }
         })
 
     # Show the Window
@@ -1404,17 +945,17 @@ function Main() {
 
     Clear-Host                  # Clear the Powershell before it got an Output
     Quick-PrivilegesElevation   # Check admin rights
-    LoadLibs                    # Import modules from lib folder
+    Load-Libs                   # Import modules from lib folder
     Unrestrict-Permissions      # Unlock script usage
     Setup-ConsoleStyle          # Make the console look cooler
 
     # Install Winget and Chocolatey already on the start
-    Import-Module -DisableNameChecking .\"src\scripts\install-package-managers.ps1" -Force
-    PrepareGUI                  # Load the GUI
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\scripts\install-package-managers.ps1" -Force
+    Prepare-GUI                 # Load the GUI
 
     Write-Verbose "Restart: $Global:NeedRestart"
     If ($Global:NeedRestart) {
-        PromptPcRestart         # Prompt options to Restart the PC
+        Prompt-PcRestart        # Prompt options to Restart the PC
     }
     Restrict-Permissions        # Lock script usage
 
