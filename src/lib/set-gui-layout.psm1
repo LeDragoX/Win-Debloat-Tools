@@ -161,20 +161,17 @@ function Set-GUILayout() {
 
     $Global:BBWidth = $ButtonWidth
     $Global:BBHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
-    $Global:BBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # Should have only one per Panel
-    $Global:BBFont = New-Object System.Drawing.Font($FontName, $FontSize2, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Italic))
-    $Global:BBForeColor = [System.Drawing.ColorTranslator]::FromHtml($LightBlue)
 
     # Small Button Layout
 
     $Global:SBWidth = $ButtonWidth
     $Global:SBHeight = $ButtonHeight
-    $Global:SBFont = New-Object System.Drawing.Font($FontName, $FontSize1)
-    $Global:SBForeColor = [System.Drawing.ColorTranslator]::FromHtml($LightGray)
 
 }
 
 function Create-Panel {
+
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
         [Int] $Width,
         [Int] $Height,
@@ -183,7 +180,7 @@ function Create-Panel {
         [Bool] $HasVerticalScroll = $false
     )
 
-    Write-Host "Panel$($Global:CurrentPanelIndex+1): W$Width, H$Height, X$LocationX, Y$LocationY"
+    Write-Verbose "Panel$($Global:CurrentPanelIndex+1): W$Width, H$Height, X$LocationX, Y$LocationY"
     $Panel = New-Object System.Windows.Forms.Panel
     $Panel.Width = $Width
     $Panel.Height = $Height
@@ -199,6 +196,8 @@ function Create-Panel {
 }
 
 function Create-Label {
+
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
         [String] $Text,
         [Int] $Width,
@@ -212,7 +211,7 @@ function Create-Label {
         [String] $TextAlign = $Global:TextAlign
     )
 
-    Write-Host "Label '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
+    Write-Verbose "Label '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
     $Label = New-Object System.Windows.Forms.Label
     $Label.Text = $Text
     $Label.Width = $Width
@@ -226,7 +225,30 @@ function Create-Label {
 }
 
 function Create-Button {
+
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        #TODO
+        [String] $Text,
+        [Int] $Width,
+        [Int] $Height,
+        [Int] $LocationX,
+        [Int] $LocationY,
+        [String] $Font = $Global:FontName,
+        [Int] $FontSize,
+        [String] $FontStyle = "Regular",
+        [String] $ForeColor = $Global:LightGray,
+        [String] $TextAlign = $Global:TextAlign
     )
+
+    Write-Verbose "Button '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
+    $Button = New-Object System.Windows.Forms.Button
+    $Button.Text = $Text
+    $Button.Width = $Width
+    $Button.Height = $Height
+    $Button.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
+    $Button.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::$FontStyle))
+    $Button.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
+    $Button.TextAlign = $TextAlign
+
+    return $Button
 }
