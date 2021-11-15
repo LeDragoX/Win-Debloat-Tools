@@ -61,8 +61,8 @@ function PrepareGUI() {
     $Form = New-Object System.Windows.Forms.Form
     $Form.BackColor = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
     $Form.FormBorderStyle = 'FixedSingle'   # Not adjustable
-    $Form.MinimizeBox = $true               # Remove the Minimize Button
-    $Form.MaximizeBox = $false              # Remove the Maximize Button
+    $Form.MinimizeBox = $true               # Hide the Minimize Button
+    $Form.MaximizeBox = $false              # Hide the Maximize Button
     $Form.Size = New-Object System.Drawing.Size($MaxWidth, $MaxHeight)
     $Form.StartPosition = 'CenterScreen'    # Appears on the center
     $Form.Text = "Windows 10 Smart Debloat - by LeDragoX"
@@ -219,25 +219,45 @@ function PrepareGUI() {
 
     $NextYLocation = $LightMode.Location.Y + $LightMode.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button
-    $EnableCortana = New-Object System.Windows.Forms.Button
-    $EnableCortana.Text = "Enable Cortana"
-    $EnableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $EnableCortana.Width = $SBWidth
-    $EnableCortana.Height = $SBHeight
-    $EnableCortana.Font = $SBFont
-    $EnableCortana.ForeColor = $SBForeColor
+    $EnableSearchIdx = New-Object System.Windows.Forms.Button
+    $EnableSearchIdx.Text = "Enable Search Indexing"
+    $EnableSearchIdx.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $EnableSearchIdx.Width = $SBWidth
+    $EnableSearchIdx.Height = $SBHeight
+    $EnableSearchIdx.Font = $SBFont
+    $EnableSearchIdx.ForeColor = $SBForeColor
 
-    $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
+    $NextYLocation = $EnableSearchIdx.Location.Y + $EnableSearchIdx.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button
-    $DisableCortana = New-Object System.Windows.Forms.Button
-    $DisableCortana.Text = "Disable Cortana"
-    $DisableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $DisableCortana.Width = $SBWidth
-    $DisableCortana.Height = $SBHeight
-    $DisableCortana.Font = $SBFont
-    $DisableCortana.ForeColor = $SBForeColor
+    $DisableSearchIdx = New-Object System.Windows.Forms.Button
+    $DisableSearchIdx.Text = "Disable Search Indexing"
+    $DisableSearchIdx.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $DisableSearchIdx.Width = $SBWidth
+    $DisableSearchIdx.Height = $SBHeight
+    $DisableSearchIdx.Font = $SBFont
+    $DisableSearchIdx.ForeColor = $SBForeColor
 
-    $NextYLocation = $DisableCortana.Location.Y + $DisableCortana.Height + $DistanceBetweenButtons
+    $NextYLocation = $DisableSearchIdx.Location.Y + $DisableSearchIdx.Height + $DistanceBetweenButtons
+    # Panel 2 ~> Button
+    $EnableBgApps = New-Object System.Windows.Forms.Button
+    $EnableBgApps.Text = "Enable Background Apps"
+    $EnableBgApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $EnableBgApps.Width = $SBWidth
+    $EnableBgApps.Height = $SBHeight
+    $EnableBgApps.Font = $SBFont
+    $EnableBgApps.ForeColor = $SBForeColor
+
+    $NextYLocation = $EnableBgApps.Location.Y + $EnableBgApps.Height + $DistanceBetweenButtons
+    # Panel 2 ~> Button
+    $DisableBgApps = New-Object System.Windows.Forms.Button
+    $DisableBgApps.Text = "Disable Background Apps"
+    $DisableBgApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $DisableBgApps.Width = $SBWidth
+    $DisableBgApps.Height = $SBHeight
+    $DisableBgApps.Font = $SBFont
+    $DisableBgApps.ForeColor = $SBForeColor
+
+    $NextYLocation = $DisableBgApps.Location.Y + $DisableBgApps.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button
     $EnableTelemetry = New-Object System.Windows.Forms.Button
     $EnableTelemetry.Text = "Enable Full Telemetry"
@@ -259,23 +279,23 @@ function PrepareGUI() {
 
     $NextYLocation = $DisableTelemetry.Location.Y + $DisableTelemetry.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button
-    $EnableBgApps = New-Object System.Windows.Forms.Button
-    $EnableBgApps.Text = "Enable Background Apps"
-    $EnableBgApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $EnableBgApps.Width = $SBWidth
-    $EnableBgApps.Height = $SBHeight
-    $EnableBgApps.Font = $SBFont
-    $EnableBgApps.ForeColor = $SBForeColor
+    $EnableCortana = New-Object System.Windows.Forms.Button
+    $EnableCortana.Text = "Enable Cortana"
+    $EnableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $EnableCortana.Width = $SBWidth
+    $EnableCortana.Height = $SBHeight
+    $EnableCortana.Font = $SBFont
+    $EnableCortana.ForeColor = $SBForeColor
 
-    $NextYLocation = $EnableBgApps.Location.Y + $EnableBgApps.Height + $DistanceBetweenButtons
+    $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
     # Panel 2 ~> Button
-    $DisableBgApps = New-Object System.Windows.Forms.Button
-    $DisableBgApps.Text = "Disable Background Apps"
-    $DisableBgApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $DisableBgApps.Width = $SBWidth
-    $DisableBgApps.Height = $SBHeight
-    $DisableBgApps.Font = $SBFont
-    $DisableBgApps.ForeColor = $SBForeColor
+    $DisableCortana = New-Object System.Windows.Forms.Button
+    $DisableCortana.Text = "Disable Cortana"
+    $DisableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
+    $DisableCortana.Width = $SBWidth
+    $DisableCortana.Height = $SBHeight
+    $DisableCortana.Font = $SBFont
+    $DisableCortana.ForeColor = $SBForeColor
 
     # Panel 3.1 ~> Button (Big)
     $InstallDrivers = New-Object System.Windows.Forms.Button
@@ -1135,7 +1155,7 @@ function PrepareGUI() {
 
     # Add Elements to each Panel
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $CaptionLabel2, $EnableCortana, $DisableCortana, $EnableTelemetry, $DisableTelemetry, $EnableBgApps, $DisableBgApps))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana))
     $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
     $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
 
@@ -1270,41 +1290,21 @@ function PrepareGUI() {
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
-    $EnableCortana.Add_Click( {
+    $EnableSearchIdx.Add_Click( {
             Push-Location "src\utils\"
 
-            Write-Host "[+] Enabling Cortana..."
-            regedit /s enable-cortana.reg
+            $FileName = "enable-search-idx.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
-    $DisableCortana.Add_Click( {
+    $DisableSearchIdx.Add_Click( {
             Push-Location "src\utils\"
 
-            Write-Host "[-] Disabling Cortana..."
-            regedit /s disable-cortana.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
-        })
-
-    $EnableTelemetry.Add_Click( {
-            Push-Location "src\utils\"
-
-            Write-Host "[+] Enabling Telemetry..."
-            regedit /s enable-full-telemetry.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
-        })
-
-    $DisableTelemetry.Add_Click( {
-            Push-Location "src\utils\"
-
-            Write-Host "[-] Disabling Telemetry..."
-            regedit /s disable-telemetry.reg
+            $FileName = "disable-search-idx.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
@@ -1330,6 +1330,45 @@ function PrepareGUI() {
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
+    $EnableTelemetry.Add_Click( {
+            Push-Location "src\utils\"
+
+            Write-Host "[+] Enabling Telemetry..."
+            regedit /s enable-full-telemetry.reg
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    $DisableTelemetry.Add_Click( {
+            Push-Location "src\utils\"
+
+            Write-Host "[-] Disabling Telemetry..."
+            regedit /s disable-telemetry.reg
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    $EnableCortana.Add_Click( {
+            Push-Location "src\utils\"
+
+            Write-Host "[+] Enabling Cortana..."
+            regedit /s enable-cortana.reg
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    $DisableCortana.Add_Click( {
+            Push-Location "src\utils\"
+
+            Write-Host "[-] Disabling Cortana..."
+            regedit /s disable-cortana.reg
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
 
     $InstallDrivers.Add_Click( {
             Push-Location -Path "src\scripts\"

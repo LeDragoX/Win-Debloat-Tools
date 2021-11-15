@@ -29,7 +29,7 @@ function Check-GitUser() {
 
 }
 
-function SetupGit() {
+function Setup-Git() {
 
     $Global:git_user_name = $null
     $Global:git_user_name = $(git config --global user.name)
@@ -44,7 +44,7 @@ function SetupGit() {
 
 }
 
-function SetupSSH {
+function Setup-SSH {
 
     $ssh_path = "~/.ssh"
     $ssh_enc_type = "ed25519"
@@ -87,7 +87,7 @@ function SetupSSH {
     }
 }
 
-function SetupGPG {
+function Setup-GPG {
 
     # https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
     $gnupg_gen_path = "~/AppData/Roaming/gnupg"
@@ -192,9 +192,9 @@ function Main() {
     Write-Warning "If you already have your keys located at ~/.ssh and ~/.gnupg, the signing setup will be skipped."
     Write-Warning "Make sure you got winget installed already."
     Read-Host "Press Enter to continue..."
-    SetupGit
-    SetupSSH
-    SetupGPG
+    Setup-Git
+    Setup-SSH
+    Setup-GPG
 }
 
 Main
