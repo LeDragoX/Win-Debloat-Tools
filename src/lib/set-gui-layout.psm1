@@ -9,7 +9,7 @@ function Set-GUILayout() {
     Add-Type -AssemblyName System.Drawing
     [System.Windows.Forms.Application]::EnableVisualStyles()  # Rounded Buttons :3
 
-    # <=== FONTS ===>
+    # <== FONTS ==>
 
     $Global:Fonts = @(
         "Arial"                 # 0
@@ -96,84 +96,137 @@ function Set-GUILayout() {
         "Terminal"              # 80
     )  
 
-    # <=== SIZES LAYOUT ===>
+    # <== Used Font ==>
+
+    $Global:FontName = $Fonts[62]
+
+    # <== SIZES LAYOUT ==>
 
     # To Forms
     $Global:MaxWidth = 1280 * 0.8 # 1024
     $Global:MaxHeight = 720 * 0.8 # 576
     # To Panels
     $Global:CurrentPanelIndex = -1
-    $Global:NumOfPanels = 4
-    [int]$Global:PanelWidth = ($MaxWidth / $NumOfPanels) # 284
+    $NumOfPanels = 4
+    [Int]$PanelWidth = ($MaxWidth / $NumOfPanels) # 284
     # To Labels
-    $Global:LabelWidth = $PanelWidth
-    $Global:TitleLabelHeight = 35
-    $Global:CaptionLabelHeight = 20
+    $LabelWidth = $PanelWidth
+    $TitleLabelHeight = 35
+    $CaptionLabelHeight = 20
     # To Buttons
-    $Global:ButtonWidth = $PanelWidth * 0.91
-    $Global:ButtonHeight = 30
+    $ButtonWidth = $PanelWidth * 0.91
+    $ButtonHeight = 30
     $Global:DistanceBetweenButtons = 5
-    $Global:BigButtonHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
     # To Fonts
-    $Global:TitleSize1 = 20
-    $Global:TitleSize2 = 16
-    $Global:TitleSize3 = 14
-    $Global:TitleSize4 = 12
+    $Global:FontSize1 = 12
+    $Global:FontSize2 = 14
+    $Global:FontSize3 = 16
+    $Global:FontSize4 = 20
 
-    # <=== LOCATIONS LAYOUT ===>
+    # <== LOCATIONS LAYOUT ==>
 
-    [int]$Global:TitleLabelX = $PanelWidth * 0.0
-    [int]$Global:TitleLabelY = $MaxHeight * 0.01
-    [int]$Global:CaptionLabelX = $PanelWidth * 0.25
-    [int]$Global:ButtonX = $PanelWidth * 0.01
-    [int]$Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
-    $Global:TextAlign = "MiddleCenter"
+    [Int]$Global:TitleLabelX = $PanelWidth * 0
+    [Int]$Global:TitleLabelY = $MaxHeight * 0.01
+    [Int]$Global:CaptionLabelX = $PanelWidth * 0.25
+    [Int]$Global:ButtonX = $PanelWidth * 0.01
+    [Int]$Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
 
-    # <=== COLOR PALETTE ===>
+    # <== COLOR PALETTE ==>
 
     $Global:Green = "#1fff00"
     $Global:LightBlue = "#00ffff"
     $Global:LightGray = "#eeeeee"
     $Global:WinDark = "#252525"
 
-    # <=== GUI ELEMENT LAYOUT ===>
+    # <== GUI ELEMENT LAYOUT ==>
+
+    $Global:TextAlign = "MiddleCenter"
 
     # Panel Layout
 
     $Global:PWidth = $PanelWidth
     $Global:PHeight = $MaxHeight - ($MaxHeight * 0.035)
-    $Global:PLocation = { $CurrentPanelIndex++; New-Object System.Drawing.Point(($PWidth * $CurrentPanelIndex), 0) }
 
-    # Title Label Layout
+    # Title Label Layout - Unique per Panel
 
     $Global:TLWidth = $LabelWidth
     $Global:TLHeight = $TitleLabelHeight
-    $Global:TLLocation = New-Object System.Drawing.Point($TitleLabelX, $TitleLabelY)
-    $Global:TLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize1, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Bold))
-    $Global:TLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
     # Caption Label Layout
 
     $Global:CLWidth = $LabelWidth - ($LabelWidth - $ButtonWidth)
     $Global:CLHeight = $CaptionLabelHeight
-    $Global:CLLocation = New-Object System.Drawing.Point(0, ($FirstButtonY - $CLHeight - $DistanceBetweenButtons)) # First only
-    $Global:CLFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize4)
-    $Global:CLForeColor = [System.Drawing.ColorTranslator]::FromHtml("$Green")
 
-    # Big Button Layout
+    # Big Button Layout - Unique per Panel
 
     $Global:BBWidth = $ButtonWidth
-    $Global:BBHeight = $BigButtonHeight
+    $Global:BBHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
     $Global:BBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # Should have only one per Panel
-    $Global:BBFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize3, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Italic))
-    $Global:BBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
+    $Global:BBFont = New-Object System.Drawing.Font($FontName, $FontSize2, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Italic))
+    $Global:BBForeColor = [System.Drawing.ColorTranslator]::FromHtml($LightBlue)
 
     # Small Button Layout
 
     $Global:SBWidth = $ButtonWidth
     $Global:SBHeight = $ButtonHeight
-    $Global:SBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # First only
-    $Global:SBFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize4)
-    $Global:SBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightGray")
+    $Global:SBFont = New-Object System.Drawing.Font($FontName, $FontSize1)
+    $Global:SBForeColor = [System.Drawing.ColorTranslator]::FromHtml($LightGray)
 
+}
+
+function Create-Panel {
+    param (
+        [Int] $Width,
+        [Int] $Height,
+        [Int] $LocationX,
+        [Int] $LocationY,
+        [Bool] $HasVerticalScroll = $false
+    )
+
+    Write-Host "Panel$($Global:CurrentPanelIndex+1): W$Width, H$Height, X$LocationX, Y$LocationY"
+    $Panel = New-Object System.Windows.Forms.Panel
+    $Panel.Width = $Width
+    $Panel.Height = $Height
+    $Panel.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
+
+    if ($HasVerticalScroll) {
+        $Panel.HorizontalScroll.Enabled = $false
+        $Panel.HorizontalScroll.Visible = $false
+        $Panel.AutoScroll = $true
+    }
+
+    return $Panel
+}
+
+function Create-Label {
+    param (
+        [String] $Text,
+        [Int] $Width,
+        [Int] $Height,
+        [Int] $LocationX,
+        [Int] $LocationY,
+        [String] $Font = $Global:FontName,
+        [Int] $FontSize,
+        [String] $FontStyle = "Regular",
+        [String] $ForeColor = $Global:Green,
+        [String] $TextAlign = $Global:TextAlign
+    )
+
+    Write-Host "Label '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
+    $Label = New-Object System.Windows.Forms.Label
+    $Label.Text = $Text
+    $Label.Width = $Width
+    $Label.Height = $Height
+    $Label.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
+    $Label.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::$FontStyle))
+    $Label.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
+    $Label.TextAlign = $TextAlign
+
+    return $Label
+}
+
+function Create-Button {
+    param (
+        #TODO
+    )
 }
