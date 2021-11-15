@@ -164,7 +164,7 @@ function Set-GUILayout() {
 
     $Global:BBWidth = $ButtonWidth
     $Global:BBHeight = $BigButtonHeight
-    $Global:BBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # Should have only one
+    $Global:BBLocation = New-Object System.Drawing.Point($ButtonX, $FirstButtonY) # Should have only one per Panel
     $Global:BBFont = New-Object System.Drawing.Font($Fonts[62], $TitleSize3, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::Italic))
     $Global:BBForeColor = [System.Drawing.ColorTranslator]::FromHtml("$LightBlue")
 
