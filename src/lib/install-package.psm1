@@ -22,7 +22,7 @@ function Install-Package() {
         }
     }
 
-    ShowMessage -Title "$DoneTitle" -Message "$DoneMessage"
+    Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
 }
 
 <#
