@@ -69,7 +69,7 @@ function PrepareGUI() {
     $Form.TopMost = $false
 
     # Icon: https://stackoverflow.com/a/53377253
-    $IconBase64 = [Convert]::ToBase64String((Get-Content ".\src\assets\windows-11-logo.png" -Encoding Byte))
+    $IconBase64 = [Convert]::ToBase64String((Get-Content "$PSScriptRoot\src\assets\windows-11-logo.png" -Encoding Byte))
     $IconBytes = [Convert]::FromBase64String($IconBase64)
     $Stream = New-Object IO.MemoryStream($IconBytes, 0, $IconBytes.Length)
     $Stream.Write($IconBytes, 0, $IconBytes.Length);
@@ -98,217 +98,80 @@ function PrepareGUI() {
     # Panel 3 ~> Caption Label
     $CaptionLabel1 = Create-Label -Text "Winget = Native | Chocolatey = 3rd Party" -Width ($CLWidth * 2) -Height $CLHeight -LocationX 0 -LocationY ($FirstButtonY - 25) -FontSize $FontSize1
 
-    # Panel 1 ~> Button (Big)
-    $ApplyTweaks = New-Object System.Windows.Forms.Button
-    $ApplyTweaks.Text = "Apply Tweaks"
-    $ApplyTweaks.Width = $BBWidth
-    $ApplyTweaks.Height = $BBHeight
-    $ApplyTweaks.Location = $BBLocation
-    $ApplyTweaks.Font = $BBFont
-    $ApplyTweaks.ForeColor = $BBForeColor
+    # Panel 1 ~> Big Button
+    $ApplyTweaks = Create-Button -Text "Apply Tweaks" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
 
+    # Panel 1 ~> Small Buttons
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
-    # Panel 1 ~> Button
-    $RepairWindows = New-Object System.Windows.Forms.Button
-    $RepairWindows.Text = "Repair Windows"
-    $RepairWindows.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $RepairWindows.Width = $SBWidth
-    $RepairWindows.Height = $SBHeight
-    $RepairWindows.Font = $SBFont
-    $RepairWindows.ForeColor = $SBForeColor
+    $RepairWindows = Create-Button -Text "Repair Windows" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RepairWindows.Location.Y + $RepairWindows.Height + $DistanceBetweenButtons
-    # Panel 1 ~> Button
-    $InstallOneDrive = New-Object System.Windows.Forms.Button
-    $InstallOneDrive.Text = "Install OneDrive"
-    $InstallOneDrive.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $InstallOneDrive.Width = $SBWidth
-    $InstallOneDrive.Height = $SBHeight
-    $InstallOneDrive.Font = $SBFont
-    $InstallOneDrive.ForeColor = $SBForeColor
+    $InstallOneDrive = Create-Button -Text "Install OneDrive" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $InstallOneDrive.Location.Y + $InstallOneDrive.Height + $DistanceBetweenButtons
-    # Panel 1 ~> Button
-    $ReinstallBloatApps = New-Object System.Windows.Forms.Button
-    $ReinstallBloatApps.Text = "Reinstall Pre-Installed Apps"
-    $ReinstallBloatApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $ReinstallBloatApps.Width = $SBWidth
-    $ReinstallBloatApps.Height = $SBHeight
-    $ReinstallBloatApps.Font = $SBFont
-    $ReinstallBloatApps.ForeColor = $SBForeColor
+    $ReinstallBloatApps = Create-Button -Text "Reinstall Pre-Installed Apps" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 2 ~> Button (Big)
-    $RevertScript = New-Object System.Windows.Forms.Button
-    $RevertScript.Text = "Revert Tweaks"
-    $RevertScript.Width = $BBWidth
-    $RevertScript.Height = $BBHeight
-    $RevertScript.Location = $BBLocation
-    $RevertScript.Font = $BBFont
-    $RevertScript.ForeColor = $BBForeColor
+    # Panel 2 ~> Big Button
+    $RevertScript = Create-Button -Text "Revert Tweaks" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
 
+    # Panel 2 ~> Small Buttons
     $NextYLocation = $RevertScript.Location.Y + $RevertScript.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $DarkMode = New-Object System.Windows.Forms.Button
-    $DarkMode.Text = "Dark Mode"
-    $DarkMode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $DarkMode.Width = $SBWidth
-    $DarkMode.Height = $SBHeight
-    $DarkMode.Font = $SBFont
-    $DarkMode.ForeColor = $SBForeColor
+    $DarkMode = Create-Button -Text "Dark Mode" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DarkMode.Location.Y + $DarkMode.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $LightMode = New-Object System.Windows.Forms.Button
-    $LightMode.Text = "Light Mode"
-    $LightMode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $LightMode.Width = $SBWidth
-    $LightMode.Height = $SBHeight
-    $LightMode.Font = $SBFont
-    $LightMode.ForeColor = $SBForeColor
+    $LightMode = Create-Button -Text "Light Mode" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $LightMode.Location.Y + $LightMode.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $EnableSearchIdx = New-Object System.Windows.Forms.Button
-    $EnableSearchIdx.Text = "Enable Search Indexing"
-    $EnableSearchIdx.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $EnableSearchIdx.Width = $SBWidth
-    $EnableSearchIdx.Height = $SBHeight
-    $EnableSearchIdx.Font = $SBFont
-    $EnableSearchIdx.ForeColor = $SBForeColor
+    $EnableSearchIdx = Create-Button -Text "Enable Search Indexing" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EnableSearchIdx.Location.Y + $EnableSearchIdx.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $DisableSearchIdx = New-Object System.Windows.Forms.Button
-    $DisableSearchIdx.Text = "Disable Search Indexing"
-    $DisableSearchIdx.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $DisableSearchIdx.Width = $SBWidth
-    $DisableSearchIdx.Height = $SBHeight
-    $DisableSearchIdx.Font = $SBFont
-    $DisableSearchIdx.ForeColor = $SBForeColor
+    $DisableSearchIdx = Create-Button -Text "Disable Search Indexing" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DisableSearchIdx.Location.Y + $DisableSearchIdx.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $EnableBgApps = New-Object System.Windows.Forms.Button
-    $EnableBgApps.Text = "Enable Background Apps"
-    $EnableBgApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $EnableBgApps.Width = $SBWidth
-    $EnableBgApps.Height = $SBHeight
-    $EnableBgApps.Font = $SBFont
-    $EnableBgApps.ForeColor = $SBForeColor
+    $EnableBgApps = Create-Button -Text "Enable Background Apps" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EnableBgApps.Location.Y + $EnableBgApps.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $DisableBgApps = New-Object System.Windows.Forms.Button
-    $DisableBgApps.Text = "Disable Background Apps"
-    $DisableBgApps.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $DisableBgApps.Width = $SBWidth
-    $DisableBgApps.Height = $SBHeight
-    $DisableBgApps.Font = $SBFont
-    $DisableBgApps.ForeColor = $SBForeColor
+    $DisableBgApps = Create-Button -Text "Disable Background Apps" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DisableBgApps.Location.Y + $DisableBgApps.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $EnableTelemetry = New-Object System.Windows.Forms.Button
-    $EnableTelemetry.Text = "Enable Full Telemetry"
-    $EnableTelemetry.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $EnableTelemetry.Width = $SBWidth
-    $EnableTelemetry.Height = $SBHeight
-    $EnableTelemetry.Font = $SBFont
-    $EnableTelemetry.ForeColor = $SBForeColor
+    $EnableTelemetry = Create-Button -Text "Enable Full Telemetry" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EnableTelemetry.Location.Y + $EnableTelemetry.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $DisableTelemetry = New-Object System.Windows.Forms.Button
-    $DisableTelemetry.Text = "Disable Telemetry"
-    $DisableTelemetry.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $DisableTelemetry.Width = $SBWidth
-    $DisableTelemetry.Height = $SBHeight
-    $DisableTelemetry.Font = $SBFont
-    $DisableTelemetry.ForeColor = $SBForeColor
+    $DisableTelemetry = Create-Button -Text "Disable Telemetry" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DisableTelemetry.Location.Y + $DisableTelemetry.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $EnableCortana = New-Object System.Windows.Forms.Button
-    $EnableCortana.Text = "Enable Cortana"
-    $EnableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $EnableCortana.Width = $SBWidth
-    $EnableCortana.Height = $SBHeight
-    $EnableCortana.Font = $SBFont
-    $EnableCortana.ForeColor = $SBForeColor
+    $EnableCortana = Create-Button -Text "Enable Cortana" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
-    # Panel 2 ~> Button
-    $DisableCortana = New-Object System.Windows.Forms.Button
-    $DisableCortana.Text = "Disable Cortana"
-    $DisableCortana.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $DisableCortana.Width = $SBWidth
-    $DisableCortana.Height = $SBHeight
-    $DisableCortana.Font = $SBFont
-    $DisableCortana.ForeColor = $SBForeColor
+    $DisableCortana = Create-Button -Text "Disable Cortana" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 3.1 ~> Button (Big)
-    $InstallDrivers = New-Object System.Windows.Forms.Button
-    $InstallDrivers.Text = "Install CPU/GPU Drivers"
-    $InstallDrivers.Width = $BBWidth
-    $InstallDrivers.Height = $BBHeight
-    $InstallDrivers.Location = $BBLocation
-    $InstallDrivers.Font = $BBFont
-    $InstallDrivers.ForeColor = $BBForeColor
+    # Panel 3.1 ~> Big Button
+    $InstallDrivers = Create-Button -Text "Install CPU/GPU Drivers" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
 
-    $NextYLocation = $InstallDrivers.Location.Y + $InstallDrivers.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Caption Label
+    $NextYLocation = $InstallDrivers.Location.Y + $InstallDrivers.Height + $DistanceBetweenButtons
     $CaptionLabel3_1_1 = Create-Label -Text "Web Browsers" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_1.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $BraveBrowser = New-Object System.Windows.Forms.Button
-    $BraveBrowser.Text = "Brave Browser"
-    $BraveBrowser.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $BraveBrowser.Width = $SBWidth
-    $BraveBrowser.Height = $SBHeight
-    $BraveBrowser.Font = $SBFont
-    $BraveBrowser.ForeColor = $SBForeColor
+    $BraveBrowser = Create-Button -Text "Brave Browser" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $BraveBrowser.Location.Y + $BraveBrowser.Height + $DistanceBetweenButtons
-    $GoogleChrome = New-Object System.Windows.Forms.Button
-    $GoogleChrome.Text = "Google Chrome + uBlock"
-    $GoogleChrome.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $GoogleChrome.Width = $SBWidth
-    $GoogleChrome.Height = $SBHeight
-    $GoogleChrome.Font = $SBFont
-    $GoogleChrome.ForeColor = $SBForeColor
+    $GoogleChrome = Create-Button -Text "Google Chrome + uBlock" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GoogleChrome.Location.Y + $GoogleChrome.Height + $DistanceBetweenButtons
-    $MozillaFirefox = New-Object System.Windows.Forms.Button
-    $MozillaFirefox.Text = "Mozilla Firefox"
-    $MozillaFirefox.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $MozillaFirefox.Width = $SBWidth
-    $MozillaFirefox.Height = $SBHeight
-    $MozillaFirefox.Font = $SBFont
-    $MozillaFirefox.ForeColor = $SBForeColor
+    $MozillaFirefox = Create-Button -Text "Mozilla Firefox" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $MozillaFirefox.Location.Y + $MozillaFirefox.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Caption Label
+    $NextYLocation = $MozillaFirefox.Location.Y + $MozillaFirefox.Height + $DistanceBetweenButtons
     $CaptionLabel3_1_2 = Create-Label -Text "Compression" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_2.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $7Zip = New-Object System.Windows.Forms.Button
-    $7Zip.Text = "7-Zip"
-    $7Zip.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $7Zip.Width = $SBWidth
-    $7Zip.Height = $SBHeight
-    $7Zip.Font = $SBFont
-    $7Zip.ForeColor = $SBForeColor
+    $7Zip = Create-Button -Text "7-Zip" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $7Zip.Location.Y + $7Zip.Height + $DistanceBetweenButtons
-    $WinRar = New-Object System.Windows.Forms.Button
-    $WinRar.Text = "WinRar (Trial)"
-    $WinRar.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $WinRar.Width = $SBWidth
-    $WinRar.Height = $SBHeight
-    $WinRar.Font = $SBFont
-    $WinRar.ForeColor = $SBForeColor
+    $WinRar = Create-Button -Text "WinRar (Trial)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Caption Label
     $NextYLocation = $WinRar.Location.Y + $WinRar.Height + $DistanceBetweenButtons
@@ -316,31 +179,13 @@ function PrepareGUI() {
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_3.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $OnlyOffice = New-Object System.Windows.Forms.Button
-    $OnlyOffice.Text = "ONLYOFFICE DesktopEditors"
-    $OnlyOffice.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $OnlyOffice.Width = $SBWidth
-    $OnlyOffice.Height = $SBHeight
-    $OnlyOffice.Font = $SBFont
-    $OnlyOffice.ForeColor = $SBForeColor
+    $OnlyOffice = Create-Button -Text "ONLYOFFICE DesktopEditors" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $OnlyOffice.Location.Y + $OnlyOffice.Height + $DistanceBetweenButtons
-    $LibreOffice = New-Object System.Windows.Forms.Button
-    $LibreOffice.Text = "LibreOffice"
-    $LibreOffice.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $LibreOffice.Width = $SBWidth
-    $LibreOffice.Height = $SBHeight
-    $LibreOffice.Font = $SBFont
-    $LibreOffice.ForeColor = $SBForeColor
+    $LibreOffice = Create-Button -Text "LibreOffice" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $LibreOffice.Location.Y + $LibreOffice.Height + $DistanceBetweenButtons
-    $PowerBI = New-Object System.Windows.Forms.Button
-    $PowerBI.Text = "Power BI"
-    $PowerBI.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $PowerBI.Width = $SBWidth
-    $PowerBI.Height = $SBHeight
-    $PowerBI.Font = $SBFont
-    $PowerBI.ForeColor = $SBForeColor
+    $PowerBI = Create-Button -Text "Power BI" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Caption Label
     $NextYLocation = $PowerBI.Location.Y + $PowerBI.Height + $DistanceBetweenButtons
@@ -348,81 +193,33 @@ function PrepareGUI() {
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_4.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $PaintNet = New-Object System.Windows.Forms.Button
-    $PaintNet.Text = "Paint.NET"
-    $PaintNet.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $PaintNet.Width = $SBWidth
-    $PaintNet.Height = $SBHeight
-    $PaintNet.Font = $SBFont
-    $PaintNet.ForeColor = $SBForeColor
+    $PaintNet = Create-Button -Text "Paint.NET" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $PaintNet.Location.Y + $PaintNet.Height + $DistanceBetweenButtons
-    $Gimp = New-Object System.Windows.Forms.Button
-    $Gimp.Text = "GIMP"
-    $Gimp.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Gimp.Width = $SBWidth
-    $Gimp.Height = $SBHeight
-    $Gimp.Font = $SBFont
-    $Gimp.ForeColor = $SBForeColor
+    $Gimp = Create-Button -Text "GIMP" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Gimp.Location.Y + $Gimp.Height + $DistanceBetweenButtons
-    $Inkscape = New-Object System.Windows.Forms.Button
-    $Inkscape.Text = "Inkscape"
-    $Inkscape.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Inkscape.Width = $SBWidth
-    $Inkscape.Height = $SBHeight
-    $Inkscape.Font = $SBFont
-    $Inkscape.ForeColor = $SBForeColor
+    $Inkscape = Create-Button -Text "Inkscape" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Inkscape.Location.Y + $Inkscape.Height + $DistanceBetweenButtons
-    $IrfanView = New-Object System.Windows.Forms.Button
-    $IrfanView.Text = "IrfanView"
-    $IrfanView.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $IrfanView.Width = $SBWidth
-    $IrfanView.Height = $SBHeight
-    $IrfanView.Font = $SBFont
-    $IrfanView.ForeColor = $SBForeColor
+    $IrfanView = Create-Button -Text "IrfanView" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $IrfanView.Location.Y + $IrfanView.Height + $DistanceBetweenButtons
-    $Krita = New-Object System.Windows.Forms.Button
-    $Krita.Text = "Krita"
-    $Krita.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Krita.Width = $SBWidth
-    $Krita.Height = $SBHeight
-    $Krita.Font = $SBFont
-    $Krita.ForeColor = $SBForeColor
+    $Krita = Create-Button -Text "Krita" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Krita.Location.Y + $Krita.Height + $DistanceBetweenButtons
-    $ShareX = New-Object System.Windows.Forms.Button
-    $ShareX.Text = "ShareX"
-    $ShareX.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $ShareX.Width = $SBWidth
-    $ShareX.Height = $SBHeight
-    $ShareX.Font = $SBFont
-    $ShareX.ForeColor = $SBForeColor
+    $ShareX = Create-Button -Text "ShareX" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $ShareX.Location.Y + $ShareX.Height + $DistanceBetweenButtons
     # Panel 3.1 ~> Caption Label
+    $NextYLocation = $ShareX.Location.Y + $ShareX.Height + $DistanceBetweenButtons
     $CaptionLabel3_1_5 = Create-Label -Text "Text Editors | IDEs" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_5.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $VSCode = New-Object System.Windows.Forms.Button
-    $VSCode.Text = "Visual Studio Code"
-    $VSCode.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $VSCode.Width = $SBWidth
-    $VSCode.Height = $SBHeight
-    $VSCode.Font = $SBFont
-    $VSCode.ForeColor = $SBForeColor
+    $VSCode = Create-Button -Text "Visual Studio Code" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $VSCode.Location.Y + $VSCode.Height + $DistanceBetweenButtons
-    $NotepadPlusPlus = New-Object System.Windows.Forms.Button
-    $NotepadPlusPlus.Text = "Notepad++"
-    $NotepadPlusPlus.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $NotepadPlusPlus.Width = $SBWidth
-    $NotepadPlusPlus.Height = $SBHeight
-    $NotepadPlusPlus.Font = $SBFont
-    $NotepadPlusPlus.ForeColor = $SBForeColor
+    $NotepadPlusPlus = Create-Button -Text "Notepad++" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Caption Label
     $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
@@ -430,22 +227,10 @@ function PrepareGUI() {
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_6.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $GoogleDrive = New-Object System.Windows.Forms.Button
-    $GoogleDrive.Text = "Google Drive"
-    $GoogleDrive.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $GoogleDrive.Width = $SBWidth
-    $GoogleDrive.Height = $SBHeight
-    $GoogleDrive.Font = $SBFont
-    $GoogleDrive.ForeColor = $SBForeColor
+    $GoogleDrive = Create-Button -Text "Google Drive" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GoogleDrive.Location.Y + $GoogleDrive.Height + $DistanceBetweenButtons
-    $Dropbox = New-Object System.Windows.Forms.Button
-    $Dropbox.Text = "Dropbox"
-    $Dropbox.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Dropbox.Width = $SBWidth
-    $Dropbox.Height = $SBHeight
-    $Dropbox.Font = $SBFont
-    $Dropbox.ForeColor = $SBForeColor
+    $Dropbox = Create-Button -Text "Dropbox" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Caption Label
     $NextYLocation = $Dropbox.Location.Y + $Dropbox.Height + $DistanceBetweenButtons
@@ -453,13 +238,7 @@ function PrepareGUI() {
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_7.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $AuthyDesktop = New-Object System.Windows.Forms.Button
-    $AuthyDesktop.Text = "Authy Desktop"
-    $AuthyDesktop.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $AuthyDesktop.Width = $SBWidth
-    $AuthyDesktop.Height = $SBHeight
-    $AuthyDesktop.Font = $SBFont
-    $AuthyDesktop.ForeColor = $SBForeColor
+    $AuthyDesktop = Create-Button -Text "Authy Desktop" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Caption Label
     $NextYLocation = $AuthyDesktop.Location.Y + $AuthyDesktop.Height + $DistanceBetweenButtons
@@ -467,130 +246,46 @@ function PrepareGUI() {
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_8.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $WindowsTerminal = New-Object System.Windows.Forms.Button
-    $WindowsTerminal.Text = "Windows Terminal"
-    $WindowsTerminal.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $WindowsTerminal.Width = $SBWidth
-    $WindowsTerminal.Height = $SBHeight
-    $WindowsTerminal.Font = $SBFont
-    $WindowsTerminal.ForeColor = $SBForeColor
+    $WindowsTerminal = Create-Button -Text "Windows Terminal" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WindowsTerminal.Location.Y + $WindowsTerminal.Height + $DistanceBetweenButtons
-    $GitAndKeysSetup = New-Object System.Windows.Forms.Button
-    $GitAndKeysSetup.Text = "Git and Keys Setup"
-    $GitAndKeysSetup.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $GitAndKeysSetup.Width = $SBWidth
-    $GitAndKeysSetup.Height = $SBHeight
-    $GitAndKeysSetup.Font = $SBFont
-    $GitAndKeysSetup.ForeColor = $SBForeColor
+    $GitAndKeysSetup = Create-Button -Text "Git and Keys Setup" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GitAndKeysSetup.Location.Y + $GitAndKeysSetup.Height + $DistanceBetweenButtons
-    $JavaJRE = New-Object System.Windows.Forms.Button
-    $JavaJRE.Text = "Java JRE"
-    $JavaJRE.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $JavaJRE.Width = $SBWidth
-    $JavaJRE.Height = $SBHeight
-    $JavaJRE.Font = $SBFont
-    $JavaJRE.ForeColor = $SBForeColor
+    $JavaJRE = Create-Button -Text "Java JRE" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJRE.Location.Y + $JavaJRE.Height + $DistanceBetweenButtons
-    $JavaJDKs = New-Object System.Windows.Forms.Button
-    $JavaJDKs.Text = "AdoptOpenJDK 8, 11 and 16"
-    $JavaJDKs.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $JavaJDKs.Width = $SBWidth
-    $JavaJDKs.Height = $SBHeight
-    $JavaJDKs.Font = $SBFont
-    $JavaJDKs.ForeColor = $SBForeColor
+    $JavaJDKs = Create-Button -Text "AdoptOpenJDK 8, 11 and 16" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJDKs.Location.Y + $JavaJDKs.Height + $DistanceBetweenButtons
-    $NodeJsLts = New-Object System.Windows.Forms.Button
-    $NodeJsLts.Text = "NodeJS LTS"
-    $NodeJsLts.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $NodeJsLts.Width = $SBWidth
-    $NodeJsLts.Height = $SBHeight
-    $NodeJsLts.Font = $SBFont
-    $NodeJsLts.ForeColor = $SBForeColor
+    $NodeJsLts = Create-Button -Text "NodeJS LTS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $NodeJsLts.Location.Y + $NodeJsLts.Height + $DistanceBetweenButtons
-    $NodeJs = New-Object System.Windows.Forms.Button
-    $NodeJs.Text = "NodeJS"
-    $NodeJs.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $NodeJs.Width = $SBWidth
-    $NodeJs.Height = $SBHeight
-    $NodeJs.Font = $SBFont
-    $NodeJs.ForeColor = $SBForeColor
+    $NodeJs = Create-Button -Text "NodeJS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $NodeJs.Location.Y + $NodeJs.Height + $DistanceBetweenButtons
-    $Python3 = New-Object System.Windows.Forms.Button
-    $Python3.Text = "Python 3"
-    $Python3.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Python3.Width = $SBWidth
-    $Python3.Height = $SBHeight
-    $Python3.Font = $SBFont
-    $Python3.ForeColor = $SBForeColor
+    $Python3 = Create-Button -Text "Python 3" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Python3.Location.Y + $Python3.Height + $DistanceBetweenButtons
-    $Anaconda3 = New-Object System.Windows.Forms.Button
-    $Anaconda3.Text = "Anaconda3 (Python)"
-    $Anaconda3.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Anaconda3.Width = $SBWidth
-    $Anaconda3.Height = $SBHeight
-    $Anaconda3.Font = $SBFont
-    $Anaconda3.ForeColor = $SBForeColor
+    $Anaconda3 = Create-Button -Text "Anaconda3 (Python)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Anaconda3.Location.Y + $Anaconda3.Height + $DistanceBetweenButtons
-    $Ruby = New-Object System.Windows.Forms.Button
-    $Ruby.Text = "Ruby with MSYS2"
-    $Ruby.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Ruby.Width = $SBWidth
-    $Ruby.Height = $SBHeight
-    $Ruby.Font = $SBFont
-    $Ruby.ForeColor = $SBForeColor
+    $Ruby = Create-Button -Text "Ruby with MSYS2" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ruby.Location.Y + $Ruby.Height + $DistanceBetweenButtons
-    $AndroidStudio = New-Object System.Windows.Forms.Button
-    $AndroidStudio.Text = "Android Studio"
-    $AndroidStudio.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $AndroidStudio.Width = $SBWidth
-    $AndroidStudio.Height = $SBHeight
-    $AndroidStudio.Font = $SBFont
-    $AndroidStudio.ForeColor = $SBForeColor
+    $AndroidStudio = Create-Button -Text "Android Studio" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $AndroidStudio.Location.Y + $AndroidStudio.Height + $DistanceBetweenButtons
-    $DockerDesktop = New-Object System.Windows.Forms.Button
-    $DockerDesktop.Text = "Docker Desktop"
-    $DockerDesktop.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $DockerDesktop.Width = $SBWidth
-    $DockerDesktop.Height = $SBHeight
-    $DockerDesktop.Font = $SBFont
-    $DockerDesktop.ForeColor = $SBForeColor
+    $DockerDesktop = Create-Button -Text "Docker Desktop" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DockerDesktop.Location.Y + $DockerDesktop.Height + $DistanceBetweenButtons
-    $PostgreSQL = New-Object System.Windows.Forms.Button
-    $PostgreSQL.Text = "PostgreSQL"
-    $PostgreSQL.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $PostgreSQL.Width = $SBWidth
-    $PostgreSQL.Height = $SBHeight
-    $PostgreSQL.Font = $SBFont
-    $PostgreSQL.ForeColor = $SBForeColor
+    $PostgreSQL = Create-Button -Text "PostgreSQL" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $PostgreSQL.Location.Y + $PostgreSQL.Height + $DistanceBetweenButtons
-    $MySQL = New-Object System.Windows.Forms.Button
-    $MySQL.Text = "MySQL"
-    $MySQL.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $MySQL.Width = $SBWidth
-    $MySQL.Height = $SBHeight
-    $MySQL.Font = $SBFont
-    $MySQL.ForeColor = $SBForeColor
+    $MySQL = Create-Button -Text "MySQL" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 3.2 ~> Button (Big)
-    $InstallGamingDependencies = New-Object System.Windows.Forms.Button
-    $InstallGamingDependencies.Text = "Install Gaming Dependencies"
-    $InstallGamingDependencies.Width = $BBWidth
-    $InstallGamingDependencies.Height = $BBHeight
-    $InstallGamingDependencies.Location = $BBLocation
-    $InstallGamingDependencies.Font = $BBFont
-    $InstallGamingDependencies.ForeColor = $BBForeColor
+    # Panel 3.2 ~> Big Button
+    $InstallGamingDependencies = Create-Button -Text "Install Gaming Dependencies" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $InstallGamingDependencies.Location.Y + $InstallGamingDependencies.Height + $DistanceBetweenButtons
@@ -598,49 +293,19 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_1.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $Discord = New-Object System.Windows.Forms.Button
-    $Discord.Text = "Discord"
-    $Discord.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Discord.Width = $SBWidth
-    $Discord.Height = $SBHeight
-    $Discord.Font = $SBFont
-    $Discord.ForeColor = $SBForeColor
+    $Discord = Create-Button -Text "Discord" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Discord.Location.Y + $Discord.Height + $DistanceBetweenButtons
-    $MSTeams = New-Object System.Windows.Forms.Button
-    $MSTeams.Text = "Microsoft Teams"
-    $MSTeams.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $MSTeams.Width = $SBWidth
-    $MSTeams.Height = $SBHeight
-    $MSTeams.Font = $SBFont
-    $MSTeams.ForeColor = $SBForeColor
+    $MSTeams = Create-Button -Text "Microsoft Teams" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $MSTeams.Location.Y + $MSTeams.Height + $DistanceBetweenButtons
-    $Slack = New-Object System.Windows.Forms.Button
-    $Slack.Text = "Slack"
-    $Slack.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Slack.Width = $SBWidth
-    $Slack.Height = $SBHeight
-    $Slack.Font = $SBFont
-    $Slack.ForeColor = $SBForeColor
+    $Slack = Create-Button -Text "Slack" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Slack.Location.Y + $Slack.Height + $DistanceBetweenButtons
-    $Zoom = New-Object System.Windows.Forms.Button
-    $Zoom.Text = "Zoom"
-    $Zoom.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Zoom.Width = $SBWidth
-    $Zoom.Height = $SBHeight
-    $Zoom.Font = $SBFont
-    $Zoom.ForeColor = $SBForeColor
+    $Zoom = Create-Button -Text "Zoom" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Zoom.Location.Y + $Zoom.Height + $DistanceBetweenButtons
-    $RocketChat = New-Object System.Windows.Forms.Button
-    $RocketChat.Text = "Rocket Chat"
-    $RocketChat.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $RocketChat.Width = $SBWidth
-    $RocketChat.Height = $SBHeight
-    $RocketChat.Font = $SBFont
-    $RocketChat.ForeColor = $SBForeColor
+    $RocketChat = Create-Button -Text "Rocket Chat" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $RocketChat.Location.Y + $RocketChat.Height + $DistanceBetweenButtons
@@ -648,49 +313,19 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_2.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $Steam = New-Object System.Windows.Forms.Button
-    $Steam.Text = "Steam"
-    $Steam.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Steam.Width = $SBWidth
-    $Steam.Height = $SBHeight
-    $Steam.Font = $SBFont
-    $Steam.ForeColor = $SBForeColor
+    $Steam = Create-Button -Text "Steam" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Steam.Location.Y + $Steam.Height + $DistanceBetweenButtons
-    $GogGalaxy = New-Object System.Windows.Forms.Button
-    $GogGalaxy.Text = "GOG Galaxy"
-    $GogGalaxy.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $GogGalaxy.Width = $SBWidth
-    $GogGalaxy.Height = $SBHeight
-    $GogGalaxy.Font = $SBFont
-    $GogGalaxy.ForeColor = $SBForeColor
+    $GogGalaxy = Create-Button -Text "GOG Galaxy" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GogGalaxy.Location.Y + $GogGalaxy.Height + $DistanceBetweenButtons
-    $EpicGames = New-Object System.Windows.Forms.Button
-    $EpicGames.Text = "Epic Games Launcher"
-    $EpicGames.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $EpicGames.Width = $SBWidth
-    $EpicGames.Height = $SBHeight
-    $EpicGames.Font = $SBFont
-    $EpicGames.ForeColor = $SBForeColor
+    $EpicGames = Create-Button -Text "Epic Games Launcher" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EpicGames.Location.Y + $EpicGames.Height + $DistanceBetweenButtons
-    $EADesktop = New-Object System.Windows.Forms.Button
-    $EADesktop.Text = "EA Desktop"
-    $EADesktop.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $EADesktop.Width = $SBWidth
-    $EADesktop.Height = $SBHeight
-    $EADesktop.Font = $SBFont
-    $EADesktop.ForeColor = $SBForeColor
+    $EADesktop = Create-Button -Text "EA Desktop" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EADesktop.Location.Y + $EADesktop.Height + $DistanceBetweenButtons
-    $UbisoftConnect = New-Object System.Windows.Forms.Button
-    $UbisoftConnect.Text = "Ubisoft Connect"
-    $UbisoftConnect.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $UbisoftConnect.Width = $SBWidth
-    $UbisoftConnect.Height = $SBHeight
-    $UbisoftConnect.Font = $SBFont
-    $UbisoftConnect.ForeColor = $SBForeColor
+    $UbisoftConnect = Create-Button -Text "Ubisoft Connect" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $UbisoftConnect.Location.Y + $UbisoftConnect.Height + $DistanceBetweenButtons
@@ -698,13 +333,7 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_3.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $Notion = New-Object System.Windows.Forms.Button
-    $Notion.Text = "Notion"
-    $Notion.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Notion.Width = $SBWidth
-    $Notion.Height = $SBHeight
-    $Notion.Font = $SBFont
-    $Notion.ForeColor = $SBForeColor
+    $Notion = Create-Button -Text "Notion" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $Notion.Location.Y + $Notion.Height + $DistanceBetweenButtons
@@ -712,22 +341,10 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_4.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $Parsec = New-Object System.Windows.Forms.Button
-    $Parsec.Text = "Parsec"
-    $Parsec.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Parsec.Width = $SBWidth
-    $Parsec.Height = $SBHeight
-    $Parsec.Font = $SBFont
-    $Parsec.ForeColor = $SBForeColor
+    $Parsec = Create-Button -Text "Parsec" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Parsec.Location.Y + $Parsec.Height + $DistanceBetweenButtons
-    $TeamViewer = New-Object System.Windows.Forms.Button
-    $TeamViewer.Text = "Team Viewer"
-    $TeamViewer.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $TeamViewer.Width = $SBWidth
-    $TeamViewer.Height = $SBHeight
-    $TeamViewer.Font = $SBFont
-    $TeamViewer.ForeColor = $SBForeColor
+    $TeamViewer = Create-Button -Text "Team Viewer" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $TeamViewer.Location.Y + $TeamViewer.Height + $DistanceBetweenButtons
@@ -735,22 +352,10 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_5.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $ObsStudio = New-Object System.Windows.Forms.Button
-    $ObsStudio.Text = "OBS Studio"
-    $ObsStudio.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $ObsStudio.Width = $SBWidth
-    $ObsStudio.Height = $SBHeight
-    $ObsStudio.Font = $SBFont
-    $ObsStudio.ForeColor = $SBForeColor
+    $ObsStudio = Create-Button -Text "OBS Studio" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $ObsStudio.Location.Y + $ObsStudio.Height + $DistanceBetweenButtons
-    $StreamlabsObs = New-Object System.Windows.Forms.Button
-    $StreamlabsObs.Text = "Streamlabs OBS"
-    $StreamlabsObs.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $StreamlabsObs.Width = $SBWidth
-    $StreamlabsObs.Height = $SBHeight
-    $StreamlabsObs.Font = $SBFont
-    $StreamlabsObs.ForeColor = $SBForeColor
+    $StreamlabsObs = Create-Button -Text "Streamlabs OBS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $StreamlabsObs.Location.Y + $StreamlabsObs.Height + $DistanceBetweenButtons
@@ -758,13 +363,7 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_6.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $qBittorrent = New-Object System.Windows.Forms.Button
-    $qBittorrent.Text = "qBittorrent"
-    $qBittorrent.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $qBittorrent.Width = $SBWidth
-    $qBittorrent.Height = $SBHeight
-    $qBittorrent.Font = $SBFont
-    $qBittorrent.ForeColor = $SBForeColor
+    $qBittorrent = Create-Button -Text "qBittorrent" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
@@ -772,31 +371,13 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_7.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $Spotify = New-Object System.Windows.Forms.Button
-    $Spotify.Text = "Spotify"
-    $Spotify.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Spotify.Width = $SBWidth
-    $Spotify.Height = $SBHeight
-    $Spotify.Font = $SBFont
-    $Spotify.ForeColor = $SBForeColor
+    $Spotify = Create-Button -Text "Spotify" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Spotify.Location.Y + $Spotify.Height + $DistanceBetweenButtons
-    $Vlc = New-Object System.Windows.Forms.Button
-    $Vlc.Text = "VLC"
-    $Vlc.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Vlc.Width = $SBWidth
-    $Vlc.Height = $SBHeight
-    $Vlc.Font = $SBFont
-    $Vlc.ForeColor = $SBForeColor
+    $Vlc = Create-Button -Text "VLC" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
-    $MpcHc = New-Object System.Windows.Forms.Button
-    $MpcHc.Text = "Media Player Classic"
-    $MpcHc.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $MpcHc.Width = $SBWidth
-    $MpcHc.Height = $SBHeight
-    $MpcHc.Font = $SBFont
-    $MpcHc.ForeColor = $SBForeColor
+    $MpcHc = Create-Button -Text "Media Player Classic" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
@@ -804,40 +385,16 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_8.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $CPUZ = New-Object System.Windows.Forms.Button
-    $CPUZ.Text = "CPU-Z"
-    $CPUZ.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $CPUZ.Width = $SBWidth
-    $CPUZ.Height = $SBHeight
-    $CPUZ.Font = $SBFont
-    $CPUZ.ForeColor = $SBForeColor
+    $CPUZ = Create-Button -Text "CPU-Z" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $CPUZ.Location.Y + $CPUZ.Height + $DistanceBetweenButtons
-    $GPUZ = New-Object System.Windows.Forms.Button
-    $GPUZ.Text = "GPU-Z"
-    $GPUZ.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $GPUZ.Width = $SBWidth
-    $GPUZ.Height = $SBHeight
-    $GPUZ.Font = $SBFont
-    $GPUZ.ForeColor = $SBForeColor
+    $GPUZ = Create-Button -Text "GPU-Z" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GPUZ.Location.Y + $GPUZ.Height + $DistanceBetweenButtons
-    $CrystalDiskInfo = New-Object System.Windows.Forms.Button
-    $CrystalDiskInfo.Text = "Crystal Disk Info"
-    $CrystalDiskInfo.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $CrystalDiskInfo.Width = $SBWidth
-    $CrystalDiskInfo.Height = $SBHeight
-    $CrystalDiskInfo.Font = $SBFont
-    $CrystalDiskInfo.ForeColor = $SBForeColor
+    $CrystalDiskInfo = Create-Button -Text "Crystal Disk Info" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $CrystalDiskInfo.Location.Y + $CrystalDiskInfo.Height + $DistanceBetweenButtons
-    $CrystalDiskMark = New-Object System.Windows.Forms.Button
-    $CrystalDiskMark.Text = "Crystal Disk Mark"
-    $CrystalDiskMark.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $CrystalDiskMark.Width = $SBWidth
-    $CrystalDiskMark.Height = $SBHeight
-    $CrystalDiskMark.Font = $SBFont
-    $CrystalDiskMark.ForeColor = $SBForeColor
+    $CrystalDiskMark = Create-Button -Text "Crystal Disk Mark" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Caption Label
     $NextYLocation = $CrystalDiskMark.Location.Y + $CrystalDiskMark.Height + $DistanceBetweenButtons
@@ -845,85 +402,31 @@ function PrepareGUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_9.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $WSL2 = New-Object System.Windows.Forms.Button
-    $WSL2.Text = "WSL2 + WSLg (x64/ARM64)"
-    $WSL2.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $WSL2.Width = $SBWidth
-    $WSL2.Height = $SBHeight
-    $WSL2.Font = $SBFont
-    $WSL2.ForeColor = $SBForeColor
+    $WSL2 = Create-Button -Text "WSL2 + WSLg (x64/ARM64)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WSL2.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $Ubuntu = New-Object System.Windows.Forms.Button
-    $Ubuntu.Text = "Ubuntu"
-    $Ubuntu.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Ubuntu.Width = $SBWidth
-    $Ubuntu.Height = $SBHeight
-    $Ubuntu.Font = $SBFont
-    $Ubuntu.ForeColor = $SBForeColor
+    $Ubuntu = Create-Button -Text "Ubuntu" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ubuntu.Location.Y + $Ubuntu.Height + $DistanceBetweenButtons
-    $Debian = New-Object System.Windows.Forms.Button
-    $Debian.Text = "Debian GNU/Linux"
-    $Debian.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Debian.Width = $SBWidth
-    $Debian.Height = $SBHeight
-    $Debian.Font = $SBFont
-    $Debian.ForeColor = $SBForeColor
+    $Debian = Create-Button -Text "Debian GNU/Linux" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Debian.Location.Y + $Debian.Height + $DistanceBetweenButtons
-    $KaliLinux = New-Object System.Windows.Forms.Button
-    $KaliLinux.Text = "Kali Linux Rolling"
-    $KaliLinux.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $KaliLinux.Width = $SBWidth
-    $KaliLinux.Height = $SBHeight
-    $KaliLinux.Font = $SBFont
-    $KaliLinux.ForeColor = $SBForeColor
+    $KaliLinux = Create-Button -Text "Kali Linux Rolling" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $KaliLinux.Location.Y + $KaliLinux.Height + $DistanceBetweenButtons
-    $OpenSuse = New-Object System.Windows.Forms.Button
-    $OpenSuse.Text = "Open SUSE 42"
-    $OpenSuse.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $OpenSuse.Width = $SBWidth
-    $OpenSuse.Height = $SBHeight
-    $OpenSuse.Font = $SBFont
-    $OpenSuse.ForeColor = $SBForeColor
+    $OpenSuse = Create-Button -Text "Open SUSE 42" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $OpenSuse.Location.Y + $OpenSuse.Height + $DistanceBetweenButtons
-    $SLES = New-Object System.Windows.Forms.Button
-    $SLES.Text = "SLES v12"
-    $SLES.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $SLES.Width = $SBWidth
-    $SLES.Height = $SBHeight
-    $SLES.Font = $SBFont
-    $SLES.ForeColor = $SBForeColor
+    $SLES = Create-Button -Text "SLES v12" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $SLES.Location.Y + $SLES.Height + $DistanceBetweenButtons
-    $Ubuntu16LTS = New-Object System.Windows.Forms.Button
-    $Ubuntu16LTS.Text = "Ubuntu 16.04 LTS"
-    $Ubuntu16LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Ubuntu16LTS.Width = $SBWidth
-    $Ubuntu16LTS.Height = $SBHeight
-    $Ubuntu16LTS.Font = $SBFont
-    $Ubuntu16LTS.ForeColor = $SBForeColor
+    $Ubuntu16LTS = Create-Button -Text "Ubuntu 16.04 LTS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ubuntu16LTS.Location.Y + $Ubuntu16LTS.Height + $DistanceBetweenButtons
-    $Ubuntu18LTS = New-Object System.Windows.Forms.Button
-    $Ubuntu18LTS.Text = "Ubuntu 18.04 LTS"
-    $Ubuntu18LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Ubuntu18LTS.Width = $SBWidth
-    $Ubuntu18LTS.Height = $SBHeight
-    $Ubuntu18LTS.Font = $SBFont
-    $Ubuntu18LTS.ForeColor = $SBForeColor
+    $Ubuntu18LTS = Create-Button -Text "Ubuntu 18.04 LTS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ubuntu18LTS.Location.Y + $Ubuntu18LTS.Height + $DistanceBetweenButtons
-    $Ubuntu20LTS = New-Object System.Windows.Forms.Button
-    $Ubuntu20LTS.Text = "Ubuntu 20.04 LTS"
-    $Ubuntu20LTS.Location = New-Object System.Drawing.Point($ButtonX, $NextYLocation)
-    $Ubuntu20LTS.Width = $SBWidth
-    $Ubuntu20LTS.Height = $SBHeight
-    $Ubuntu20LTS.Font = $SBFont
-    $Ubuntu20LTS.ForeColor = $SBForeColor
+    $Ubuntu20LTS = Create-Button -Text "Ubuntu 20.04 LTS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Image Logo from the Script
     $PictureBox1 = New-Object System.Windows.Forms.PictureBox
@@ -1900,7 +1403,7 @@ function PrepareGUI() {
 function Main() {
 
     Clear-Host                  # Clear the Powershell before it got an Output
-    Quick-PrivilegesElevation    # Check admin rights
+    Quick-PrivilegesElevation   # Check admin rights
     LoadLibs                    # Import modules from lib folder
     Unrestrict-Permissions      # Unlock script usage
     Setup-ConsoleStyle          # Make the console look cooler
