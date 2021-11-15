@@ -185,8 +185,8 @@ function Main() {
     Quick-PrivilegesElevation
 
     Write-Host "Installing: Git and GnuPG..."
-    #winget install --silent Git.Git | Out-Host
-    #winget install --silent GnuPG.GnuPG | Out-Host
+    winget install --silent Git.Git | Out-Host
+    winget install --silent GnuPG.GnuPG | Out-Host
     Write-Host "Before everything, your data will only be keep locally, only in YOUR PC." -ForegroundColor Cyan
     Write-Host "I've made this to be more productive and will not lose time setting keys on Windows." -ForegroundColor Cyan
     Write-Warning "If you already have your keys located at ~/.ssh and ~/.gnupg, the signing setup will be skipped."
