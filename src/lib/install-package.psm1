@@ -5,7 +5,7 @@ function Install-Package() {
     param (
         [String]  $Name,
         [Array]   $PackageName,
-        [String]  $InstallBlock
+        [String]  $InstallBlock = { winget install --silent --id $Package }
     )
 
     $DoneTitle = "Done"
@@ -27,5 +27,6 @@ function Install-Package() {
 
 <#
 Example:
-Install-Package -Name $InstallParams.Name -PackageName $InstallParams.PackageName -InstallBlock $InstallParams.InstallBlock
+Install-Package -Name "Brave Browser" -PackageName "BraveSoftware.BraveBrowser"
+Install-Package -Name "Multiple Packages" -PackageName @("Package1", "Package2", "Package3", ...) -InstallBlock { choco install -y $Package }
 #>

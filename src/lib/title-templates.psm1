@@ -60,8 +60,10 @@ function Write-TitleCounter() {
     }
 }
 
-# Example:
-# Write-Title -Text "Text"
-# Write-Section -Text "Text"
-# Write-Caption -Text "Text"
-# Write-TitleCounter -Text "Text" -MaxNum 100 # First time only insert MaxNum
+<#
+Example:
+Write-Title -Text "Text"
+Write-Section -Text "Text"
+Write-Caption -Text "Text"
+Write-TitleCounter -Text "Text" -MaxNum 100 # First time only insert MaxNum
+#>

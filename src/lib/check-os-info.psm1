@@ -1,4 +1,3 @@
-# function to() Check if a system is 32-bits or 64-bits or Something Else
 function Check-OSArchitecture() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
@@ -27,7 +26,6 @@ function Check-OSArchitecture() {
     return $Architecture
 }
 
-# function to() detect the current CPU
 function Check-CPU() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
@@ -50,7 +48,6 @@ function Check-CPU() {
     return $CPU.Name
 }
 
-# function to() detect the current GPU
 function Check-GPU() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function

@@ -18,6 +18,8 @@ function Restrict-Permissions() {
     Get-ExecutionPolicy -List
 }
 
-# Example:
-# Unrestrict-Permissions     # to Unlock script usage
-# Restrict-Permissions       # to Lock script usage
+<#
+Example:
+Unrestrict-Permissions  # to Unlock script usage
+Restrict-Permissions    # to Lock script usage
+#>
