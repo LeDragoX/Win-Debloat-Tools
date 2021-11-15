@@ -29,33 +29,28 @@ function Check-GitUser() {
 
 }
 
-function SetUpGit() {
-    $git_user_name = $null
-    $git_user_name = $(git config --global user.name)
+function SetupGit() {
 
-    $git_user_email = $null
-    $git_user_email = $(git config --global user.email)
+    $Global:git_user_name = $null
+    $Global:git_user_name = $(git config --global user.name)
 
-    $git_user_props = @("name", "email")
+    $Global:git_user_email = $null
+    $Global:git_user_email = $(git config --global user.email)
 
-    $git_user_name = $(Check-GitUser -git_user_property $git_user_name -git_property_name $git_user_props[0])
-    $git_user_email = $(Check-GitUser -git_user_property $git_user_email -git_property_name $git_user_props[1]).ToLower()
+    $Global:git_user_props = @("name", "email")
+
+    $Global:git_user_name = $(Check-GitUser -git_user_property $git_user_name -git_property_name $git_user_props[0])
+    $Global:git_user_email = $(Check-GitUser -git_user_property $git_user_email -git_property_name $git_user_props[1]).ToLower()
+
+}
+
+function SetupSSH {
 
     $ssh_path = "~/.ssh"
     $ssh_enc_type = "ed25519"
     $ssh_file = "$($git_user_email)_id_$ssh_enc_type"
     $ssh_alt_file = "id_$ssh_enc_type" # Need to be checked
 
-    # https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
-    $gnupg_gen_path = "~/AppData/Roaming/gnupg"
-    $gnupg_path = "~/.gnupg"
-    $gnupg_enc_size = "4096"
-    $gnupg_enc_type = "rsa$gnupg_enc_size"
-    $gnupg_usage = "cert"
-    $gnupg_expires_in = 0
-    $gnupg_file = "$($git_user_email)_$gnupg_enc_type"
-
-    # Test Location
     If (!(Test-Path "$ssh_path")) {
         mkdir "$ssh_path" | Out-Null
     }
@@ -90,6 +85,18 @@ function SetUpGit() {
         Write-Host "$ssh_path/$ssh_alt_file Exists"
 
     }
+}
+
+function SetupGPG {
+
+    # https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
+    $gnupg_gen_path = "~/AppData/Roaming/gnupg"
+    $gnupg_path = "~/.gnupg"
+    $gnupg_enc_size = "4096"
+    $gnupg_enc_type = "rsa$gnupg_enc_size"
+    $gnupg_usage = "cert"
+    $gnupg_expires_in = 0
+    $gnupg_file = "$($git_user_email)_$gnupg_enc_type"
 
     Pop-Location
     If (!(Test-Path "$gnupg_path")) {
@@ -98,7 +105,7 @@ function SetUpGit() {
     Push-Location "$gnupg_path"
 
     # GPG Key creation/import "check"
-    If (!((Test-Path "$gnupg_path/*$gnupg_file*") -or (Test-Path "$gnupg_path/*.gpg*"))) {
+    If (!((Test-Path "$gnupg_path/*$gnupg_file*") -or (Test-Path "$gnupg_path/*.gpg"))) {
 
         Write-Host "$gnupg_path/*$gnupg_file* NOT Exists AND"
         Write-Host "$gnupg_path/*.gpg* NOT Exists..."
@@ -124,11 +131,11 @@ function SetUpGit() {
 
         Write-Host "Copying all files to $gnupg_path..."
         Copy-Item -Path "$gnupg_gen_path/*" -Destination "$gnupg_path/" -Recurse
-        Remove-Item -Path "$gnupg_path/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev"  -Recurse
+        Remove-Item -Path "$gnupg_path/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev" -Recurse
         Remove-Item -Path "$gnupg_path/trustdb.gpg"
 
-        # Get the exact Key ID from the system
-        $key_id = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
+        Write-Host "Setting GnuPG program path to ${env:ProgramFiles(x86)}\GnuPG\bin\gpg.exe"
+        git config --global gpg.program "${env:ProgramFiles(x86)}\GnuPG\bin\gpg.exe"
 
         # Export public and private key to a file: {email@email.com}_{encryption_type}_public.gpg
         gpg --output "$($gnupg_file)_public.gpg" --armor --export "$git_user_email"
@@ -137,6 +144,9 @@ function SetUpGit() {
         # Import GPG keys
         gpg --import *$gnupg_file*
         gpg --import *.gpg*
+
+        # Get the exact Key ID from the system
+        $key_id = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
 
         If (!(($key_id -eq "") -or ($null -eq $key_id))) {
 
@@ -162,11 +172,12 @@ function SetUpGit() {
     Else {
 
         Write-Host "$gnupg_path/*$gnupg_file* Exists OR"
-        Write-Host "$gnupg_path/*.gpg* Exists..."
+        Write-Host "$gnupg_path/*.gpg Exists..."
 
     }
 
     Pop-Location
+
 }
 
 function Main() {
@@ -174,15 +185,16 @@ function Main() {
     Quick-PrivilegesElevation
 
     Write-Host "Installing: Git and GnuPG..."
-    winget install --silent Git.Git | Out-Host
-    winget install --silent GnuPG.GnuPG | Out-Host
+    #winget install --silent Git.Git | Out-Host
+    #winget install --silent GnuPG.GnuPG | Out-Host
     Write-Host "Before everything, your data will only be keep locally, only in YOUR PC." -ForegroundColor Cyan
     Write-Host "I've made this to be more productive and will not lose time setting keys on Windows." -ForegroundColor Cyan
     Write-Warning "If you already have your keys located at ~/.ssh and ~/.gnupg, the signing setup will be skipped."
     Write-Warning "Make sure you got winget installed already."
     Read-Host "Press Enter to continue..."
-    SetUpGit
-
+    SetupGit
+    SetupSSH
+    SetupGPG
 }
 
 Main
