@@ -3,23 +3,6 @@ function Quick-PrivilegesElevation() {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function Load-Libs() {
-
-    Write-Host "Your Current Folder $pwd"
-    Write-Host "Script Root Folder $PSScriptRoot"
-    Push-Location -Path "$PSScriptRoot"
-
-    Push-Location -Path "src\lib\"
-    Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-    Import-Module -DisableNameChecking .\"set-script-policy.psm1"
-    Import-Module -DisableNameChecking .\"setup-console-style.psm1"
-    Import-Module -DisableNameChecking .\"simple-message-box.psm1"
-    Import-Module -DisableNameChecking .\"title-templates.psm1"
-
-    Pop-Location
-}
-
 function Run-Scripts() {
 
     $DoneTitle = "Done"
@@ -58,9 +41,18 @@ function Run-Scripts() {
 function Main() {
 
     Quick-PrivilegesElevation   # Check admin rights
-    Load-Libs                   # Import modules from lib folder
+
+    Write-Host "Your Current Folder $pwd"
+    Write-Host "Script Root Folder $PSScriptRoot"
+    Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
+    
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\setup-console-style.psm1"
+    Setup-ConsoleStyle          # Makes the console look cooler
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\simple-message-box.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
+
     Unrestrict-Permissions      # Unlock script usage
-    Setup-ConsoleStyle          # Make the console look cooler
     Run-Scripts                 # Run all scripts inside 'scripts' folder
     Restrict-Permissions        # Lock script usage
     Prompt-PcRestart            # Prompt options to Restart the PC

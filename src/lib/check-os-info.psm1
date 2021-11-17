@@ -6,16 +6,16 @@ function Check-OSArchitecture() {
     )
 
     If ($Architecture -like "*64 bits*") {
-        $Architecture = "x64"
+        $Architecture = @("x64", "x86")
     }
     ElseIf ($Architecture -like "*32 bits*") {
-        $Architecture = "x86"
+        $Architecture = @("x86")
     }
     ElseIf ($Architecture -like "*ARM" -and "*64") {
-        $Architecture = "arm64"
+        $Architecture = @("arm64", "arm")
     }
     ElseIf ($Architecture -like "*ARM") {
-        $Architecture = "arm"
+        $Architecture = @("arm")
     }
     Else {
         Write-Warning "[?] Couldn't identify the System Architecture '$Architecture'. :/"

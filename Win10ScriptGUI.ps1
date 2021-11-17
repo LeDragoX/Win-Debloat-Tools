@@ -3,25 +3,6 @@ function Quick-PrivilegesElevation() {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function Load-Libs() {
-
-    Write-Host "Your Current Folder $pwd"
-    Write-Host "Script Root Folder $PSScriptRoot"
-    Push-Location "$PSScriptRoot"
-
-    Push-Location -Path "src\lib\"
-    Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-    Import-Module -DisableNameChecking .\"install-package.psm1"
-    Import-Module -DisableNameChecking .\"gui-helper.psm1"
-    Import-Module -DisableNameChecking .\"set-script-policy.psm1"
-    Import-Module -DisableNameChecking .\"setup-console-style.psm1"
-    Import-Module -DisableNameChecking .\"simple-message-box.psm1"
-    Import-Module -DisableNameChecking .\"title-templates.psm1"
-
-    Pop-Location
-}
-
 # https://docs.microsoft.com/pt-br/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 function Prepare-GUI() {
@@ -442,7 +423,7 @@ function Prepare-GUI() {
     # <== CLICK EVENTS ==>
 
     $ApplyTweaks.Add_Click( {
-            Push-Location -Path "src\scripts\"
+            Push-Location -Path "$PSScriptRoot\src\scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             $Scripts = @(
@@ -472,7 +453,7 @@ function Prepare-GUI() {
         })
 
     $RepairWindows.Add_Click( {
-            Push-Location -Path "src\scripts\"
+            Push-Location -Path "$PSScriptRoot\src\scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             $Scripts = @(
@@ -490,7 +471,7 @@ function Prepare-GUI() {
         })
 
     $InstallOneDrive.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             $FileName = "install-onedrive.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
@@ -500,7 +481,7 @@ function Prepare-GUI() {
         })
 
     $ReinstallBloatApps.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             $FileName = "reinstall-pre-installed-apps.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
@@ -510,7 +491,7 @@ function Prepare-GUI() {
         })
 
     $RevertScript.Add_Click( {
-            Push-Location -Path "src\scripts\"
+            Push-Location -Path "$PSScriptRoot\src\scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             $Global:Revert = $true
@@ -532,7 +513,7 @@ function Prepare-GUI() {
         })
 
     $DarkMode.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[+] Enabling Dark theme..."
             regedit /s use-dark-theme.reg
@@ -542,7 +523,7 @@ function Prepare-GUI() {
         })
 
     $LightMode.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[+] Enabling Light theme..."
             regedit /s use-light-theme.reg
@@ -552,7 +533,7 @@ function Prepare-GUI() {
         })
 
     $EnableSearchIdx.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             $FileName = "enable-search-idx.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
@@ -562,7 +543,7 @@ function Prepare-GUI() {
         })
 
     $DisableSearchIdx.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             $FileName = "disable-search-idx.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
@@ -572,7 +553,7 @@ function Prepare-GUI() {
         })
 
     $EnableBgApps.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[+] Enabling Background Apps..."
             regedit /s enable-bg-apps.reg
@@ -582,7 +563,7 @@ function Prepare-GUI() {
         })
 
     $DisableBgApps.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[-] Disabling Background Apps..."
             regedit /s disable-bg-apps.reg
@@ -592,7 +573,7 @@ function Prepare-GUI() {
         })
 
     $EnableTelemetry.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[+] Enabling Telemetry..."
             regedit /s enable-full-telemetry.reg
@@ -602,7 +583,7 @@ function Prepare-GUI() {
         })
 
     $DisableTelemetry.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[-] Disabling Telemetry..."
             regedit /s disable-telemetry.reg
@@ -612,7 +593,7 @@ function Prepare-GUI() {
         })
 
     $EnableCortana.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[+] Enabling Cortana..."
             regedit /s enable-cortana.reg
@@ -622,7 +603,7 @@ function Prepare-GUI() {
         })
 
     $DisableCortana.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[-] Disabling Cortana..."
             regedit /s disable-cortana.reg
@@ -632,7 +613,7 @@ function Prepare-GUI() {
         })
 
     $InstallDrivers.Add_Click( {
-            Push-Location -Path "src\scripts\"
+            Push-Location -Path "$PSScriptRoot\src\scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             $Scripts = @(
@@ -729,7 +710,7 @@ function Prepare-GUI() {
         })
 
     $GitAndKeysSetup.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             $FileName = "setup-git-keys-and-sign.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
@@ -783,7 +764,7 @@ function Prepare-GUI() {
         })
 
     $InstallGamingDependencies.Add_Click( {
-            Push-Location -Path "src\scripts\"
+            Push-Location -Path "$PSScriptRoot\src\scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             $Scripts = @(
@@ -892,7 +873,7 @@ function Prepare-GUI() {
         })
 
     $WSL2.Add_Click( {
-            Push-Location "src\utils\"
+            Push-Location "$PSScriptRoot\src\utils\"
 
             $FileName = "full-wsl2-x64-arm64.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
@@ -945,19 +926,28 @@ function Main() {
 
     Clear-Host                  # Clear the Powershell before it got an Output
     Quick-PrivilegesElevation   # Check admin rights
-    Load-Libs                   # Import modules from lib folder
-    Unrestrict-Permissions      # Unlock script usage
-    Setup-ConsoleStyle          # Make the console look cooler
 
-    # Install Winget and Chocolatey already on the start
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\scripts\install-package-managers.ps1" -Force
-    Prepare-GUI                 # Load the GUI
+    Write-Host "Your Current Folder $pwd"
+    Write-Host "Script Root Folder $PSScriptRoot"
+    Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
+
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\setup-console-style.psm1"
+    Setup-ConsoleStyle      # Makes the console look cooler
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\install-package.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\gui-helper.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\simple-message-box.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
+
+    Unrestrict-Permissions  # Unlock script usage
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\scripts\install-package-managers.ps1" -Force # Install Winget and Chocolatey at the beginning
+    Prepare-GUI             # Load the GUI
 
     Write-Verbose "Restart: $Global:NeedRestart"
     If ($Global:NeedRestart) {
-        Prompt-PcRestart        # Prompt options to Restart the PC
+        Prompt-PcRestart    # Prompt options to Restart the PC
     }
-    Restrict-Permissions        # Lock script usage
+    Restrict-Permissions    # Lock script usage
 
 }
 
