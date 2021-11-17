@@ -57,47 +57,42 @@ function Install-PackageManager() {
     }
 }
 
+function Install-WingetDependency {
+    # Dependency for Winget: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
+    $OSArchList = Check-OSArchitecture
+    
+    if (!(Test-Path "$PSScriptRoot\..\tmp")) {
+        Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
+        mkdir "$PSScriptRoot\..\tmp" | Out-Null
+    }
+    
+    foreach ($OSArch in $OSArchList) {
+        if ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
+            $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
+        }
+        Else {
+            Write-Warning "[?] $OSArch is not supported! But trying anyway..."
+            $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
+        }
+        
+        $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
+        $WingetDepParams = @(
+            "Dependency for Winget",
+            { throw $err },
+            {
+                Write-Host "[+] Downloading Dependency for Winget ($OSArch) from: $WingetDepDownload"
+                Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput
+                Add-AppxPackage -Path $WingetDepOutput
+                Remove-Item -Path $WingetDepOutput
+            }
+        )
+        
+        # Install Winget Dependency on Windows
+        Install-PackageManager -PackageManagerFullName $WingetDepParams[0] -CheckExistenceBlock $WingetDepParams[1] -InstallCommandBlock $WingetDepParams[2]
+    }
+}
+
 function Main() {
-
-    # Winget Dependency: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
-    If (((Get-AppxPackage "*Microsoft.VCLibs.140.00.UWPDesktop*").Count -lt 2)) {
-
-        Write-Warning "[?] Winget Dependency was not found."
-        $OSArchList = Check-OSArchitecture
-
-        if (!(Test-Path "$PSScriptRoot\..\tmp")) {
-            Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
-            mkdir "$PSScriptRoot\..\tmp" | Out-Null
-        }
-
-        foreach ($OSArch in $OSArchList) {
-            if ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
-                $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
-            }
-            Else {
-                Write-Warning "[?] $OSArch is not supported! But trying anyway..."
-                $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
-            }
-    
-            $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
-            $WingetDepParams = @(
-                "Winget Dependency",
-                { throw $err },
-                {
-                    Write-Host "[+] Downloading Winget Dependency ($OSArch) from: $WingetDepDownload"
-                    Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput
-                    Add-AppxPackage -Path $WingetDepOutput
-                    Remove-Item -Path $WingetDepOutput
-                }
-            )
-    
-            # Install Winget Dependency on Windows
-            Install-PackageManager -PackageManagerFullName $WingetDepParams[0] -CheckExistenceBlock $WingetDepParams[1] -InstallCommandBlock $WingetDepParams[2]
-        }
-    }
-    Else {
-        Write-Warning "[?] Winget Dependency is already installed."
-    }
 
     $GitAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/winget-cli/releases/latest" | ForEach-Object assets | Where-Object name -like "*.msixbundle"
     $WingetDownload = $GitAsset.browser_download_url
@@ -107,6 +102,7 @@ function Main() {
         "Winget",
         { winget --version },
         {
+            Install-WingetDependency
             Write-Host "[+] Downloading Winget from: $WingetDownload"
             Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput
             Add-AppxPackage -Path $WingetOutput
