@@ -40,7 +40,7 @@ function Install-PackageManager() {
     # Self-reminder, this part stay out of the Try-Catch block
     If ($UpdateScriptBlock) {
         # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-        Write-Host "[@] Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
+        Write-Host "[@] Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time." -ForegroundColor White
         $JobName = "$PackageManagerFullName Daily Upgrade"
         $ScheduledJob = @{
             Name               = $JobName
@@ -50,7 +50,7 @@ function Install-PackageManager() {
         }
 
         If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-            Write-Host "[@] ScheduledJob: $JobName FOUND! Re-Creating..."
+            Write-Host "[@] ScheduledJob: $JobName FOUND! Re-Creating..." -ForegroundColor White
             Unregister-ScheduledJob -Name $JobName
         }
         Register-ScheduledJob @ScheduledJob | Out-Host
@@ -60,33 +60,40 @@ function Install-PackageManager() {
 function Main() {
 
     # Winget Dependency: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
-    If (!(Get-AppxPackage "*Microsoft.VCLibs.140.00.UWPDesktop*")) {
+    If (((Get-AppxPackage "*Microsoft.VCLibs.140.00.UWPDesktop*").Count -lt 2)) {
 
         Write-Warning "[?] Winget Dependency was not found."
-        $OSArch = Check-OSArchitecture
+        $OSArchList = Check-OSArchitecture
 
         if (!(Test-Path "$PSScriptRoot\..\tmp")) {
             Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
             mkdir "$PSScriptRoot\..\tmp" | Out-Null
         }
 
-        if ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
-            $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
+        foreach ($OSArch in $OSArchList) {
+            if ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
+                $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
+            }
+            Else {
+                Write-Warning "[?] $OSArch is not supported! But trying anyway..."
+                $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
+            }
+    
+            $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
+            $WingetDepParams = @(
+                "Winget Dependency",
+                { throw $err },
+                {
+                    Write-Host "[+] Downloading Winget Dependency ($OSArch) from: $WingetDepDownload"
+                    Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput
+                    Add-AppxPackage -Path $WingetDepOutput
+                    Remove-Item -Path $WingetDepOutput
+                }
+            )
+    
+            # Install Winget Dependency on Windows
+            Install-PackageManager -PackageManagerFullName $WingetDepParams[0] -CheckExistenceBlock $WingetDepParams[1] -InstallCommandBlock $WingetDepParams[2]
         }
-        Else {
-            Write-Warning "[?] $OSArch is not supported! But trying anyway..."
-            $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
-        }
-
-        $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
-        $WingetDepParams = @(
-            "Winget Dependency",
-            { throw $err },
-            { Write-Host "[+] Downloading Winget Dependency ($OSArch) from: $WingetDepDownload"; Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput; Add-AppxPackage -Path $WingetDepOutput; Remove-Item -Path $WingetDepOutput }
-        )
-
-        # Install Winget Dependency on Windows
-        Install-PackageManager -PackageManagerFullName $WingetDepParams[0] -CheckExistenceBlock $WingetDepParams[1] -InstallCommandBlock $WingetDepParams[2]
     }
     Else {
         Write-Warning "[?] Winget Dependency is already installed."
@@ -99,7 +106,12 @@ function Main() {
     $WingetParams = @(
         "Winget",
         { winget --version },
-        { Write-Host "[+] Downloading Winget from: $WingetDownload"; Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput; Add-AppxPackage -Path $WingetOutput; Remove-Item -Path $WingetOutput },
+        {
+            Write-Host "[+] Downloading Winget from: $WingetDownload"
+            Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput
+            Add-AppxPackage -Path $WingetOutput
+            Remove-Item -Path $WingetOutput
+        },
         "12:00",
         { winget upgrade --all --silent }
     )
@@ -107,7 +119,11 @@ function Main() {
     $ChocolateyParams = @(
         "Chocolatey",
         { choco --version },
-        { Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')) },
+        {
+            Set-ExecutionPolicy Bypass -Scope Process -Force
+            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+            Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+        },
         "13:00",
         { choco upgrade all -y },
         { choco install -y "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
