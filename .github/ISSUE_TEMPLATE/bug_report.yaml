@@ -25,11 +25,11 @@ body:
       label: How can this issue be reproduced?
       description: Steps to reproduce the behavior
       placeholder: |
-        **Example:**
-        1. _Go to '...'_
-        2. _Click on '....'_
-        3. _Scroll down to '....'_
-        4. _See error_
+        Example:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
     validations:
       required: true
   - type: textarea
@@ -76,7 +76,7 @@ body:
   - type: textarea
     id: screenshots
     attributes:
-      label: screenshots
+      label: Screenshots
       description: |
         If your issue is better illustrated with screenshots, you may do that here
     validations:
