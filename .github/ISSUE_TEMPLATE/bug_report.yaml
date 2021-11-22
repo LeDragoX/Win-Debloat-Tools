@@ -1,0 +1,91 @@
+# Docs - https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-githubs-form-schema
+name: Bug Report
+description: Found a problem? Help us improve.
+labels: [Bug]
+# title: "Bug: "
+# assignees:
+#   - octocat
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Important: Read First
+        
+        - If some section doesn't apply, use "N/A"
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can this issue be reproduced?
+      description: Steps to reproduce the behavior
+      placeholder: |
+        **Example:**
+        1. _Go to '...'_
+        2. _Click on '....'_
+        3. _Scroll down to '....'_
+        4. _See error_
+    validations:
+      required: true
+  - type: textarea
+    id: expectedBehavior
+    attributes:
+      label: Expected behavior?
+      description: A clear and concise description of what you expected to happen
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+        value: |
+          ## System Info
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: Versions before Windows 10 are not supported
+      options:
+      - Windows 11 (64bit)
+      - Windows 11 (ARM64)
+      - Windows 10 (64bit)
+      - Windows 10 (32bit)
+      - Windows 10 (ARM64)
+      - Windows 10 (ARM)
+    validations:
+      required: true
+  - type: input
+    id: osVer
+    attributes:
+      label: Operating System Version
+      description: Versions before 1809 are not supported
+      placeholder: "Example: 21H2"
+    validations:
+      required: true
+  - type: input
+    id: dateExecuted
+    attributes:
+      label: Date Executed
+      description: The date you ran the scripts
+      placeholder: "Example: 2021-11-22"
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: screenshots
+      description: |
+        If your issue is better illustrated with screenshots, you may do that here
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Info
+      description: |
+        Please feel free to add any additional info here
+    validations:
+      required: false
