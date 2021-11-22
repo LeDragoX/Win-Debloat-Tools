@@ -169,7 +169,7 @@ function Set-GUILayout() {
 
 }
 
-function Create-Panel {
+function Create-Panel() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -195,7 +195,7 @@ function Create-Panel {
     return $Panel
 }
 
-function Create-Label {
+function Create-Label() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -224,7 +224,7 @@ function Create-Label {
     return $Label
 }
 
-function Create-Button {
+function Create-Button() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (

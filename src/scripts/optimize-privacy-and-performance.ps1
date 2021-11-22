@@ -375,7 +375,9 @@ function Optimize-PrivacyAndPerformance() {
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
         New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
     }
-    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsStore" -Name "AutoDownload"
+    If ((Get-Item "$PathToLMPoliciesWindowsStore").GetValueNames() -like "AutoDownload") {
+        Remove-ItemProperty -Path "$PathToLMPoliciesWindowsStore" -Name "AutoDownload"
+    }
 
     Write-Section -Text "Power Plan Tweaks"
 

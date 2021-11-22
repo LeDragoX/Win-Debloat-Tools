@@ -44,7 +44,7 @@ function Setup-Git() {
 
 }
 
-function Setup-SSH {
+function Setup-SSH() {
 
     $ssh_path = "~/.ssh"
     $ssh_enc_type = "ed25519"
@@ -87,7 +87,7 @@ function Setup-SSH {
     }
 }
 
-function Setup-GPG {
+function Setup-GPG() {
 
     # https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
     $gnupg_gen_path = "~/AppData/Roaming/gnupg"
