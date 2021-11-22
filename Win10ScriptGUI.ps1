@@ -229,6 +229,9 @@ function Prepare-GUI() {
     $Ruby = Create-Button -Text "Ruby with MSYS2" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ruby.Location.Y + $Ruby.Height + $DistanceBetweenButtons
+    $ADB = Create-Button -Text "Android Debug Bridge (ADB)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $ADB.Location.Y + $ADB.Height + $DistanceBetweenButtons
     $AndroidStudio = Create-Button -Text "Android Studio" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $AndroidStudio.Location.Y + $AndroidStudio.Height + $DistanceBetweenButtons
@@ -408,7 +411,7 @@ function Prepare-GUI() {
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_5, $VSCode, $NotepadPlusPlus))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_6, $GoogleDrive, $Dropbox))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_7, $AuthyDesktop))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_8, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_8, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL))
 
     $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_2_1, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
@@ -745,6 +748,10 @@ function Prepare-GUI() {
 
     $Ruby.Add_Click( {
             Install-Package -Name $Ruby.Text -PackageName "RubyInstallerTeam.RubyWithDevKit"
+        })
+
+    $ADB.Add_Click( {
+            Install-Package -Name $ADB.Text -PackageName "adb" -InstallBlock { choco install -y $Package }
         })
 
     $AndroidStudio.Add_Click( {
