@@ -38,16 +38,15 @@ function Optimize-OptionalFeatures() {
     Write-Title -Text "Install features for Windows"
 
     $EnableFeatures = @(
-        "Microsoft-Hyper-V-All"             # Hyper-V (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
         "NetFx3"                            # NET Framework 3.5
         "NetFx4-AdvSrvs"                    # NET Framework 4
         "NetFx4Extended-ASPNET45"           # NET Framework 4.x + ASPNET 4.x
         # WSL 2 Support Semi-Install
         "HypervisorPlatform"                # Hypervisor Platform from Windows
-        "Microsoft-Windows-Subsystem-Linux" # WSL
+        "Microsoft-Windows-Subsystem-Linux" # WSL (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
         "VirtualMachinePlatform"            # VM Platform
     )
-    
+
     ForEach ($Feature in $EnableFeatures) {
 
         If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
@@ -90,12 +89,12 @@ function Main() {
             "Disabled*",
             "Enabled"
         )
-    
+
         $Commands = @(
             { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[0])" | Enable-WindowsOptionalFeature -Online -NoRestart },
             { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Disable-WindowsOptionalFeature -Online -NoRestart }
         )
-      
+
     }
 
     Optimize-OptionalFeatures  # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful

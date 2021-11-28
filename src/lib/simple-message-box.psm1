@@ -1,5 +1,5 @@
 # Reference: https://michlstechblog.info/blog/powershell-show-a-messagebox/#:~:text=Sometimes%20while%20a%20powershell%20script,NET%20Windows.
-function Load-SysForms() {
+function Use-SysForms() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()
 
@@ -17,7 +17,7 @@ function Show-Message() {
          Bandicoot"
     )
 
-    Load-SysForms
+    Use-SysForms
     [System.Windows.Forms.MessageBox]::Show($Message, $Title, [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Information)
 }
 
@@ -32,13 +32,13 @@ function Show-Question() {
          Bandicoot"
     )
 
-    Load-SysForms
+    Use-SysForms
     $Answer = [System.Windows.Forms.MessageBox]::Show($Message, $Title, [System.Windows.Forms.MessageBoxButtons]::YesNoCancel, [System.Windows.Forms.MessageBoxIcon]::Question)
 
     return $Answer
 }
 
-function Prompt-PcRestart() {
+function Request-PcRestart() {
 
     $Ask = "If you want to see the changes restart your computer!
     Do you want to Restart now?"

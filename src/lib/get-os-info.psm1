@@ -1,4 +1,4 @@
-function Check-OSArchitecture() {
+function Get-OSArchitecture() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -26,34 +26,38 @@ function Check-OSArchitecture() {
     return $Architecture
 }
 
-function Check-CPU() {
+function Get-CPU() {
 
+    # Adapted from: https://community.spiceworks.com/how_to/170332-how-to-get-cpu-information-in-windows-powershell
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        # https://community.spiceworks.com/how_to/170332-how-to-get-cpu-information-in-windows-powershell
         $CPU = (Get-WmiObject -Class Win32_Processor -ComputerName. | Select-Object -Property [a-z]*)
     )
 
-    If ($CPU.Name.contains("AMD")) {
+    $CPUName = $CPU.Name.Trim(" ")
+    If ($CPUName.contains("AMD")) {
         Write-Host "AMD CPU found!"
     }
-    ElseIf ($CPU.Name.contains("Intel")) {
+    ElseIf ($CPUName.contains("Intel")) {
         Write-Host "Intel CPU found!"
+    }
+    ElseIf ($CPUName.contains("ARM")) {
+        Write-Host "ARM CPU found!"
     }
     Else {
         Write-Host "CPU_NOT_FOUND (NEW/CONFIDENTIAL?)."
     }
 
-    Write-Host "CPU = $($CPU.Name)."
-    return $CPU.Name
+    Write-Host "CPU = $($CPUName)."
+    return ($CPUName)
 }
 
-function Check-GPU() {
+function Get-GPU() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()
 
-    # https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
+    # Adapted from: https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
     $ArrComputers = "."
 
     ForEach ($Computer in $ArrComputers) {
@@ -74,6 +78,23 @@ function Check-GPU() {
         Write-Host "GPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
     }
 
-    Write-Host "GPU = $($GPU.description)." 
-    return $GPU.description
+    Write-Host "GPU = $($GPU.description.Trim(" "))." 
+    return $GPU.description.Trim(" ")
+}
+
+function Get-OSDriveType() {
+
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    param ()
+
+    # Adapted from: https://stackoverflow.com/a/62087930
+    $SystemDriveType = Get-PhysicalDisk | ForEach-Object {
+        $PhysicalDisk = $_
+        $PhysicalDisk | Get-Disk | Get-Partition |
+        Where-Object DriveLetter -EQ "$($env:SystemDrive[0])" | Select-Object DriveLetter, @{n = 'MediaType'; e = { $PhysicalDisk.MediaType }
+        }
+    }
+
+    $IsSSD? = $SystemDriveType.MediaType -eq "SSD"
+    return $IsSSD?
 }

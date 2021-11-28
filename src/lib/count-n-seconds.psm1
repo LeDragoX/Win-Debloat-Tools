@@ -1,4 +1,4 @@
-function Count-Nseconds() {
+function Wait-Nseconds() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -11,5 +11,5 @@ function Count-Nseconds() {
 
 <#
 Example:
-Count-Nseconds -Time 5 -Msg "This is closing in"
+Wait-Nseconds -Time 5 -Msg "This is closing in"
 #>

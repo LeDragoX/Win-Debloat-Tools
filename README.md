@@ -82,9 +82,9 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Enable/Disable Background Apps`: Let you choose whether the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
 - `Enable Full Telemetry & Disable Telemetry`: Let you choose whether the **Telemetry** is [enabled](./src/utils/enable-full-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
 - `Enable/Disable Cortana`: Let you choose whether the **Cortana** is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
-- `Install CPU/GPU Drivers`: Install CPU and GPU drivers. ([`install-drivers.ps1`](./src/scripts/install-drivers.ps1));
-  - The Latest CPU (`Intel (Winget)` and [AMD (Chocolatey)](https://community.chocolatey.org/packages/amd-ryzen-chipset)) driver installer;
-  - The Latest Graphics driver of your GPU (Except AMD). See `Intel (Winget)` and [NVIDIA (Chocolatey)](https://community.chocolatey.org/packages/geforce-game-ready-driver), including `GeForce Experience (Winget)`);
+- `Install CPU/GPU Driver Updater`: This **WILL NOT** install anymore the drivers, only the drivers updater. ([`install-drivers-updaters.ps1`](./src/scripts/install-drivers-updaters.ps1));
+  - The Latest CPU for driver updater. For `Intel`, `Intel DSA (Winget)` (Except AMD);
+  - The Latest GPU driver updater. For `Intel` and `NVIDIA`, `NVIDIA GeForce Experience (Winget)` (Except AMD);
 - `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games. ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-dependencies.ps1));
 - Every software installation is explicitly showed;
 
@@ -167,7 +167,7 @@ winget install --silent "Microsoft.Skype"
 **Or Reinstall through winget**
 
 ```Powershell
-winget install --id 9MSSGKG348SP --accept-package-agreements
+winget install --source "msstore" --id 9MSSGKG348SP --accept-package-agreements
 ```
 
 **Before someone ask about this "hidden" package...**
@@ -213,6 +213,10 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - gave me more confidence to mess with PowerShell after [this LIVE](https://youtu.be/ER27pGt5wH0)
 - [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [this video](https://youtu.be/EfrT_Bvgles);
 - [matthewjberger](https://gist.github.com/matthewjberger) - by [this script](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
+
+## 🔧 Tweak Testers
+
+- [yCr-shiddy](https://github.com/yCr-shiddy) - Helped giving more ideias and fixes
 
 ## 🏅 More Debloat Scripts (Community)
 
