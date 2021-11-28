@@ -216,7 +216,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 ## 🔧 Tweak Testers
 
-- [yCr-shiddy](https://github.com/yCr-shiddy) - Helped giving more ideias and fixes
+- [yCr-shiddy](https://github.com/yCr-shiddy) - Helped giving more ideas and fixes;
 
 ## 🏅 More Debloat Scripts (Community)
 
