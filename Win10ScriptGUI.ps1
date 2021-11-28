@@ -1,11 +1,11 @@
-function Quick-PrivilegesElevation() {
+function Request-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
 # https://docs.microsoft.com/pt-br/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
-function Prepare-GUI() {
+function Show-GUI() {
 
     Set-GUILayout # Load the GUI Layout
 
@@ -102,7 +102,7 @@ function Prepare-GUI() {
     $DisableCortana = Create-Button -Text "Disable Cortana" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Big Button
-    $InstallDrivers = Create-Button -Text "Install CPU/GPU Drivers" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
+    $InstallDrivers = Create-Button -Text "Install CPU/GPU Drivers Updaters" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
 
     # Panel 3.1 ~> Caption Label
     $NextYLocation = $InstallDrivers.Location.Y + $InstallDrivers.Height + $DistanceBetweenButtons
@@ -620,7 +620,7 @@ function Prepare-GUI() {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             $Scripts = @(
-                "install-drivers.ps1"
+                "install-drivers-updaters.ps1"
             )
 
             ForEach ($FileName in $Scripts) {
@@ -637,7 +637,7 @@ function Prepare-GUI() {
         })
 
     $GoogleChrome.Add_Click( {
-            Install-Package -Name $GoogleChrome.Text -PackageName "Google.Chrome" -InstallBlock { winget install --silent --id $Package; choco install -y "ublockorigin-chrome" }
+            Install-Package -Name $GoogleChrome.Text -PackageName "Google.Chrome" -InstallBlock { winget install --silent --source "winget" --id $Package; choco install -y "ublockorigin-chrome" }
         })
 
     $MozillaFirefox.Add_Click( {
@@ -932,29 +932,29 @@ function Prepare-GUI() {
 function Main() {
 
     Clear-Host                  # Clear the Powershell before it got an Output
-    Quick-PrivilegesElevation   # Check admin rights
+    Request-PrivilegesElevation   # Check admin rights
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\setup-console-style.psm1"
-    Setup-ConsoleStyle      # Makes the console look cooler
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-console-style.psm1"
+    Set-ConsoleStyle            # Makes the console look cooler
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\install-package.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\gui-helper.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\simple-message-box.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
 
-    Unrestrict-Permissions  # Unlock script usage
+    Set-UnrestrictedPermissions # Unlock script usage
     Import-Module -DisableNameChecking "$PSScriptRoot\src\scripts\install-package-managers.ps1" -Force # Install Winget and Chocolatey at the beginning
-    Prepare-GUI             # Load the GUI
+    Show-GUI                    # Load the GUI
 
     Write-Verbose "Restart: $Global:NeedRestart"
     If ($Global:NeedRestart) {
-        Prompt-PcRestart    # Prompt options to Restart the PC
+        Request-PcRestart       # Prompt options to Restart the PC
     }
-    Restrict-Permissions    # Lock script usage
+    Set-RestrictedPermissions   # Lock script usage
 
 }
 

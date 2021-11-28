@@ -1,9 +1,9 @@
-function Quick-PrivilegesElevation() {
+function Request-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function Check-GitUser() {
+function Initialize-GitUser() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
         [String]	$git_user_property, # Ex: Plínio Larrubia, email@email.com
@@ -29,7 +29,7 @@ function Check-GitUser() {
 
 }
 
-function Setup-Git() {
+function Set-GitProfile() {
 
     $Global:git_user_name = $null
     $Global:git_user_name = $(git config --global user.name)
@@ -39,12 +39,12 @@ function Setup-Git() {
 
     $Global:git_user_props = @("name", "email")
 
-    $Global:git_user_name = $(Check-GitUser -git_user_property $git_user_name -git_property_name $git_user_props[0])
-    $Global:git_user_email = $(Check-GitUser -git_user_property $git_user_email -git_property_name $git_user_props[1]).ToLower()
+    $Global:git_user_name = $(Initialize-GitUser -git_user_property $git_user_name -git_property_name $git_user_props[0])
+    $Global:git_user_email = $(Initialize-GitUser -git_user_property $git_user_email -git_property_name $git_user_props[1]).ToLower()
 
 }
 
-function Setup-SSH() {
+function Set-SSHKey() {
 
     $ssh_path = "~/.ssh"
     $ssh_enc_type = "ed25519"
@@ -87,7 +87,7 @@ function Setup-SSH() {
     }
 }
 
-function Setup-GPG() {
+function Set-GPGKey() {
 
     # https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
     $gnupg_gen_path = "~/AppData/Roaming/gnupg"
@@ -182,19 +182,19 @@ function Setup-GPG() {
 
 function Main() {
 
-    Quick-PrivilegesElevation
+    Request-PrivilegesElevation
 
     Write-Host "Installing: Git and GnuPG..."
-    winget install --silent Git.Git | Out-Host
-    winget install --silent GnuPG.GnuPG | Out-Host
+    winget install --silent --source "winget" --id Git.Git | Out-Host
+    winget install --silent --source "winget" --id GnuPG.GnuPG | Out-Host
     Write-Host "Before everything, your data will only be keep locally, only in YOUR PC." -ForegroundColor Cyan
     Write-Host "I've made this to be more productive and will not lose time setting keys on Windows." -ForegroundColor Cyan
     Write-Warning "If you already have your keys located at ~/.ssh and ~/.gnupg, the signing setup will be skipped."
     Write-Warning "Make sure you got winget installed already."
     Read-Host "Press Enter to continue..."
-    Setup-Git
-    Setup-SSH
-    Setup-GPG
+    Set-GitProfile
+    Set-SSHKey
+    Set-GPGKey
 }
 
 Main

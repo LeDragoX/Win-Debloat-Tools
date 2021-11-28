@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from this Baboo video:             https://youtu.be/qWESrvP_uU8
@@ -24,10 +25,10 @@ function Optimize-Services() {
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
-        "SysMain"                                   # SysMain / Superfetch (100% Disk)
+        "SysMain"                                   # SysMain / Superfetch (100% Disk on HDDs)
         "TrkWks"                                    # Distributed Link Tracking Client
         "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
-        "WSearch"                                   # Windows Search (100% Disk)
+        "WSearch"                                   # Windows Search (100% Disk on HDDs)
 
         # <==========[DIY]==========> (Remove the # to Disable)
 
@@ -66,20 +67,27 @@ function Optimize-Services() {
 
     ForEach ($Service in $DisableServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
-
             If (($Revert -eq $true) -and ($Service -match "RemoteRegistry")) {
                 Write-Warning "[?][Services] Skipping $Service to avoid a security breach..."
                 Continue
             }
-
             Write-Host "$($EnableStatus[0]) $Service at Startup..."
             Invoke-Expression "$($Commands[0])"
-
         }
         Else {
-
             Write-Warning "[?][Services] $Service was not found."
+        }
+    }
 
+    If ($IsSystemDriveSSD? -and $null -eq $Revert) {
+        $EnableServicesSSD = @(
+            "SysMain" # SysMain / Superfetch (100% Disk on HDDs)
+            "WSearch" # Windows Search (100% Disk on HDDs)
+        )
+
+        ForEach ($Service in $EnableServicesSSD) {
+            Write-Host "$($EnableStatus[2]) $Service at Startup because SSDs will have more benefits..."
+            Invoke-Expression "$($Commands[2])"
         }
     }
 }
@@ -89,10 +97,12 @@ function Main() {
     $EnableStatus = @(
         "[-][Services] Disabling",
         "[+][Services] Enabling"
+        "[+][Services] Enabling (Automatic)"
     )
     $Commands = @(
         { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
         { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
+        { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
     )
 
     if (($Revert)) {
@@ -101,16 +111,17 @@ function Main() {
         $EnableStatus = @(
             "[<][Services] Re-Enabling",
             "[<][Services] Re-Disabling"
+            "[+][Services] Enabling (Automatic)"
         )
         $Commands = @(
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
         )
-
     }
 
+    $IsSystemDriveSSD? = Get-OSDriveType
     Optimize-Services   # Enable essential Services and Disable bloating Services
-
 }
 
 Main

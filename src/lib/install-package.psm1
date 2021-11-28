@@ -5,7 +5,7 @@ function Install-Package() {
     param (
         [String]  $Name,
         [Array]   $PackageName,
-        [String]  $InstallBlock = { winget install --silent --id $Package }
+        [String]  $InstallBlock = { winget install --silent --source "winget" --id $Package }
     )
 
     $DoneTitle = "Done"

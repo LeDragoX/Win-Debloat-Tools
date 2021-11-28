@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script/blob/master/win10debloat.ps1
 # Adapted from: https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1
@@ -59,7 +59,7 @@ function Install-PackageManager() {
 
 function Install-WingetDependency() {
     # Dependency for Winget: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
-    $OSArchList = Check-OSArchitecture
+    $OSArchList = Get-OSArchitecture
     
     if (!(Test-Path "$PSScriptRoot\..\tmp")) {
         Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."

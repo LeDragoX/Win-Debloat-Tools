@@ -3,17 +3,14 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-GamingPackages() {
 
-    # You Choose
     $Ask = "Do you plan to play games on this PC?
-  All Gaming Dependencies will be installed.
+  All the following Gaming Dependencies will be installed.
   + Microsoft DirectX
   + Microsoft .NET (Framework, Runtime & SDK)
-  + Microsoft Visual C++ Packages (2005-2022)
-  + Java Runtime Environment"
+  + Microsoft Visual C++ Packages (2005-2022)"
 
     switch (Show-Question -Title "Read carefully" -Message $Ask) {
         'Yes' {
-
             Write-Host "You choose Yes."
             $ChocoGamingPackages = @(
                 "directx"               # DirectX End-User Runtime
@@ -41,16 +38,14 @@ function Install-GamingPackages() {
                 "Microsoft.VC++2013Redist-x64"      # Microsoft Visual C++ 2013 Redistributable (x64)
                 "Microsoft.VC++2015-2022Redist-x86" # Microsoft Visual C++ 2015-2022 Redistributable (x86)
                 "Microsoft.VC++2015-2022Redist-x64" # Microsoft Visual C++ 2015-2022 Redistributable (x64)
-                "Oracle.JavaRuntimeEnvironment"     # Java Runtime Environment
             )
 
             Write-Title -Text "Installing Packages with Winget"
 
             ForEach ($Package in $WingetGamingPackages) {
                 Title2Counter -Text "Installing: $Package" -MaxNum $WingetGamingPackages.Length
-                winget install --silent --id $Package | Out-Host
+                winget install --silent --source "winget" --id $Package | Out-Host
             }
-
         }
         'No' {
             Write-Host "You choose No. (No = Cancel)"

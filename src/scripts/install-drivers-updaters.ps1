@@ -1,0 +1,60 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+
+function Install-DriversUpdaters() {
+
+    $Ask = "Do you plan to play games on this PC?
+  All the following Driver Updaters will be installed.
+  + $CPU driver updater (if found)
+  + $GPU driver updater (if found)"
+  
+    switch (Show-Question -Title "Read carefully" -Message $Ask) {
+        'Yes' {
+            # Check for CPU drivers
+            If ($CPU.contains("AMD")) {
+                Write-Warning "Search for $CPU chipset driver on the AMD website."
+                Write-Warning "This will only download an updater if AMD makes one."
+            }
+            ElseIf ($CPU.contains("Intel")) {
+                Write-Section -Text "Installing Intel $CPU chipset drivers!"
+                Write-Caption -Text "Installing: intel-dsa"
+                winget install --silent --source "winget" --id "Intel.IntelDriverAndSupportAssistant" | Out-Host # Intel® Driver & Support Assistant (Intel® DSA)
+            }
+
+            # Check for GPU drivers then
+            If ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
+                Write-Title -Text "AMD $GPU GPU, you will have to install Manually!"
+                Write-Warning "Search for $GPU Graphics driver on the AMD website."
+                Write-Warning "This will only download an updater if AMD makes one."
+            }
+
+            If ($GPU.contains("Intel")) {
+                Write-Section -Text "Intel $GPU Graphics driver!"
+            }
+
+            If ($GPU.contains("NVIDIA")) {
+                Write-Section -Text "NVIDIA $GPU Graphics driver updater!"
+                Write-Caption -Text "Installing: Nvidia.GeForceExperience"
+                winget install --silent --source "winget" --id "Nvidia.GeForceExperience" | Out-Host # GeForce Experience (latest)
+            }
+        }
+        'No' {
+            Write-Host "You choose No. (No = Cancel)"
+        }
+        'Cancel' {
+            # With Yes, No and Cancel, the user can press Esc to exit
+            Write-Host "You choose Cancel. (Cancel = No)"
+        }
+    }
+}
+
+function Main() {
+
+    $CPU = Get-CPU          # Detects the current CPU
+    $GPU = Get-GPU          # Detects the current GPU
+    Install-DriversUpdaters # Install CPU & GPU Drivers (If applicable)
+
+}
+
+Main

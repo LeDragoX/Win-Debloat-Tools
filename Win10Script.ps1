@@ -1,9 +1,9 @@
-function Quick-PrivilegesElevation() {
+function Request-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function Run-Scripts() {
+function Use-Scripts() {
 
     $DoneTitle = "Done"
     $DoneMessage = "Process Completed!"
@@ -40,22 +40,22 @@ function Run-Scripts() {
 
 function Main() {
 
-    Quick-PrivilegesElevation   # Check admin rights
+    Request-PrivilegesElevation   # Check admin rights
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
     
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\setup-console-style.psm1"
-    Setup-ConsoleStyle          # Makes the console look cooler
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-console-style.psm1"
+    Set-ConsoleStyle          # Makes the console look cooler
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\simple-message-box.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
 
-    Unrestrict-Permissions      # Unlock script usage
-    Run-Scripts                 # Run all scripts inside 'scripts' folder
-    Restrict-Permissions        # Lock script usage
-    Prompt-PcRestart            # Prompt options to Restart the PC
+    Set-UnrestrictedPermissions # Unlock script usage
+    Use-Scripts                 # Run all scripts inside 'scripts' folder
+    Set-RestrictedPermissions   # Lock script usage
+    Request-PcRestart            # Prompt options to Restart the PC
 
 }
 

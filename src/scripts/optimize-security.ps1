@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"check-os-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from this Baboo video:                       https://youtu.be/xz3oXHleKoM
@@ -96,7 +96,7 @@ function Optimize-Security() {
 
 function Main() {
 
-    $CPU = Check-CPU
+    $CPU = Get-CPU
     # Initialize all Path variables used to Registry Tweaks
     $Global:PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
     $Global:PathToLMPoliciesMRT = "HKLM:\SOFTWARE\Policies\Microsoft\MRT"
