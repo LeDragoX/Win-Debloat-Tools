@@ -4,7 +4,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Install-GamingPackages() {
 
     $Ask = "Do you plan to play games on this PC?
-  All the following Gaming Dependencies will be installed.
+  All the following Gaming Dependencies will be installed:
   + Microsoft DirectX
   + Microsoft .NET (Framework, Runtime & SDK)
   + Microsoft Visual C++ Packages (2005-2022)"

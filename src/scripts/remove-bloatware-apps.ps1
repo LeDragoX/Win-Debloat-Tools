@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-apps.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Remove-BloatwareApps() {
@@ -139,21 +140,7 @@ function Remove-BloatwareApps() {
         #"Windows.ContactSupport"
     )
 
-    ForEach ($Bloat in $Apps) {
-
-        If ((Get-AppxPackage -AllUsers -Name $Bloat) -or (Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat)) {
-
-            Write-Host "[-][UWP] Trying to remove $Bloat ..."
-            Get-AppxPackage -AllUsers -Name $Bloat | Remove-AppxPackage # App
-            Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online -AllUsers # Payload
-
-        }
-        Else {
-
-            Write-Warning "[?][UWP] $Bloat was already removed or not found."
-
-        }
-    }
+    Remove-UWPApps -Apps $Apps
 }
 
 function Main() {
