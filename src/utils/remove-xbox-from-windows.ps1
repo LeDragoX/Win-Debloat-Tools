@@ -4,8 +4,10 @@ function Remove-Xbox() {
 
     $Global:PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 
-    $Ask = "This will remove all Xbox apps
-  and Disable Xbox services (Except from Accessories)"
+    $Ask = "This will remove the Xbox:
+  - Apps;
+  - Services (Except from Accessories) and;
+  - GameBar/GameDVR."
 
     switch (Show-Question -Title "Warning" -Message $Ask) {
         'Yes' {
