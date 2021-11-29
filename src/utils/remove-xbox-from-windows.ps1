@@ -1,4 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-apps.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
 
 function Remove-Xbox() {
 
