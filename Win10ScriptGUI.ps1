@@ -59,6 +59,9 @@ function Show-GUI() {
 
     # Panel 1 ~> Small Buttons
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
+    $RemoveXbox = Create-Button -Text "Remove Xbox from Windows" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
+
+    $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
     $RepairWindows = Create-Button -Text "Repair Windows" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RepairWindows.Location.Y + $RepairWindows.Height + $DistanceBetweenButtons
@@ -399,7 +402,7 @@ function Show-GUI() {
     $Form.Controls.AddRange(@($Panel1, $Panel2, $Panel3))
 
     # Add Elements to each Panel
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $PictureBox1))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana))
     $Panel3.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
     $Panel3.Controls.AddRange(@($Panel3_1, $Panel3_2))
@@ -454,6 +457,23 @@ function Show-GUI() {
             $Global:NeedRestart = $true
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
+
+    $RemoveXbox.Add_Click( {
+            Push-Location -Path "$PSScriptRoot\src\utils\"
+            Get-ChildItem -Recurse *.ps*1 | Unblock-File
+
+            $Scripts = @(
+                "remove-xbox-from-windows.ps1"
+            )
+            ForEach ($FileName in $Scripts) {
+                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
+                Import-Module -DisableNameChecking .\"$FileName" -Force
+            }
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
 
     $RepairWindows.Add_Click( {
             Push-Location -Path "$PSScriptRoot\src\scripts\"

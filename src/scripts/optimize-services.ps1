@@ -68,7 +68,7 @@ function Optimize-Services() {
     ForEach ($Service in $DisableServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
             If (($Revert -eq $true) -and ($Service -match "RemoteRegistry")) {
-                Write-Warning "[?][Services] Skipping $Service to avoid a security breach..."
+                Write-Warning "[?][Services] Skipping $Service to avoid a security vulnerability..."
                 Continue
             }
             Write-Host "$($EnableStatus[0]) $Service at Startup..."

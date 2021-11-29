@@ -137,6 +137,7 @@ function Set-GUILayout() {
     $Global:LightBlue = "#00ffff"
     $Global:LightGray = "#eeeeee"
     $Global:WinDark = "#252525"
+    $Global:WarningColor = "#eed202"
 
     # <== GUI ELEMENT LAYOUT ==>
 

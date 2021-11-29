@@ -5,7 +5,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Install-DriversUpdaters() {
 
     $Ask = "Do you plan to play games on this PC?
-  All the following Driver Updaters will be installed.
+  All the following Driver Updaters will be installed:
   + $CPU driver updater (if found)
   + $GPU driver updater (if found)"
   
@@ -13,11 +13,12 @@ function Install-DriversUpdaters() {
         'Yes' {
             # Check for CPU drivers
             If ($CPU.contains("AMD")) {
+                Write-Section -Text "Installing AMD $CPU chipset drivers updaters!"
                 Write-Warning "Search for $CPU chipset driver on the AMD website."
                 Write-Warning "This will only download an updater if AMD makes one."
             }
             ElseIf ($CPU.contains("Intel")) {
-                Write-Section -Text "Installing Intel $CPU chipset drivers!"
+                Write-Section -Text "Installing Intel $CPU chipset drivers updaters!"
                 Write-Caption -Text "Installing: intel-dsa"
                 winget install --silent --source "winget" --id "Intel.IntelDriverAndSupportAssistant" | Out-Host # Intel® Driver & Support Assistant (Intel® DSA)
             }
@@ -30,7 +31,9 @@ function Install-DriversUpdaters() {
             }
 
             If ($GPU.contains("Intel")) {
-                Write-Section -Text "Intel $GPU Graphics driver!"
+                Write-Section -Text "Intel $GPU Graphics driver updater already included!"
+                Write-Caption -Text "Installing: intel-dsa"
+                winget install --silent --source "winget" --id "Intel.IntelDriverAndSupportAssistant" | Out-Host # Intel® Driver & Support Assistant (Intel® DSA)
             }
 
             If ($GPU.contains("NVIDIA")) {
