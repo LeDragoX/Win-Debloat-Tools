@@ -151,7 +151,7 @@ Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Servi
 
 ```Powershell
 # Winget required first
-winget install --silent "Microsoft.Skype"
+winget install --silent --source "msstore" --id "Microsoft.Skype"
 ```
 
 </details>
