@@ -36,11 +36,9 @@ function Repair-Windows() {
 
     Write-Section -Text "Fix Windows Taskbar"
 
-    Push-Location -Path "$env:SystemRoot\System32\"
-    .\Regsvr32.exe /s msimtf.dll | Out-Host
-    .\Regsvr32.exe /s msctf.dll | Out-Host
-    Start-Process -Verb RunAs .\ctfmon.exe | Out-Host
-    Pop-Location
+    Start-Process -FilePath "$env:SystemRoot\System32\Regsvr32.exe" -ArgumentList "/s $env:SystemRoot\System32\msimtf.dll" | Out-Host
+    Start-Process -FilePath "$env:SystemRoot\System32\Regsvr32.exe" -ArgumentList "/s $env:SystemRoot\System32\msctf.dll" | Out-Host
+    Start-Process -Verb RunAs "$env:SystemRoot\System32\ctfmon.exe" | Out-Host
 
     Write-Section -Text "Remove 'Test Mode' Watermark"
     bcdedit -set TESTSIGNING OFF | Out-Host
