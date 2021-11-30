@@ -1,17 +1,16 @@
-function Quick-PrivilegesElevation() {
+function Request-PrivilegesElevation() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
 function Main() {
 
-    Quick-PrivilegesElevation
+    Request-PrivilegesElevation
 
     Write-Host "[-] Removing the annoying message..."
-    Write-Host "[-][Services] Stopping sppsvc..."
-    Stop-Service -Name "sppsvc" -Force
-    Write-Host "[-][Services] Disabling sppsvc at Startup..."
-    Set-Service -Name "sppsvc" -StartupType Disabled
+    Write-Host "[-][Services] Disabling sppsvc..."
+    Get-Service -Name "sppsvc" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
+    Stop-Service "sppsvc" -Force -NoWait
 
     bcdedit -set TESTSIGNING OFF
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\sppsvc" -Name "Start" -Type DWord -Value 4

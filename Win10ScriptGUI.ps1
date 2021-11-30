@@ -21,7 +21,7 @@ function Show-GUI() {
     $Form.MaximizeBox = $false              # Hide the Maximize Button
     $Form.Size = New-Object System.Drawing.Size($MaxWidth, $MaxHeight)
     $Form.StartPosition = 'CenterScreen'    # Appears on the center
-    $Form.Text = "Windows 10 Smart Debloat - by LeDragoX"
+    $Form.Text = "Windows 10+ Smart Debloat - by LeDragoX"
     $Form.TopMost = $false
 
     # Icon: https://stackoverflow.com/a/53377253
@@ -59,7 +59,7 @@ function Show-GUI() {
 
     # Panel 1 ~> Small Buttons
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
-    $RemoveXbox = Create-Button -Text "Remove Xbox from Windows" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
+    $RemoveXbox = Create-Button -Text "Remove and Disable Xbox" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
 
     $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
     $RepairWindows = Create-Button -Text "Repair Windows" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
