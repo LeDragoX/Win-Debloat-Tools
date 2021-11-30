@@ -1,3 +1,5 @@
+Moved the activator to my Gist: https://gist.github.com/LeDragoX/0255c10110b1d053a83e5ffc68a381f7
+
 Type
 --------------------------
 slmgr /ipk <YOUR KEY>
