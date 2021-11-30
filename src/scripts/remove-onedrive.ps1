@@ -54,13 +54,6 @@ function Remove-OneDrive() {
 
     Write-Host "Waiting for explorer to complete loading..."
     Start-Sleep 5
-
-    Write-Host "Removing additional OneDrive leftovers..."
-    foreach ($item in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
-        Takeown-Folder $item.FullName
-        Remove-Item -Recurse -Force $item.FullName
-    }
-
 }
 
 function Main() {
