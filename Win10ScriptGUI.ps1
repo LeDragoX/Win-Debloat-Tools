@@ -463,7 +463,7 @@ function Show-GUI() {
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             $Scripts = @(
-                "remove-xbox-from-windows.ps1"
+                "remove-and-disable-xbox.ps1"
             )
             ForEach ($FileName in $Scripts) {
                 Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
