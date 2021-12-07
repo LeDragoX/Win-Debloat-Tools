@@ -1,5 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-apps.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 
 function Remove-Xbox() {
 
@@ -8,9 +8,11 @@ function Remove-Xbox() {
     $Ask = "This will remove the Xbox:
   - Apps;
   - Services (Except from Accessories) and;
-  - GameBar/GameDVR."
+  - GameBar/GameDVR.
 
-    switch (Show-Question -Title "Warning" -Message $Ask) {
+Do you want to proceed?"
+
+    switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
         'Yes' {
 
             Write-Host "[-][Services] Disabling Xbox Services (Except from Accessories)..."

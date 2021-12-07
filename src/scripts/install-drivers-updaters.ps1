@@ -1,15 +1,15 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-DriversUpdaters() {
 
     $Ask = "Do you plan to play games on this PC?
   All the following Driver Updaters will be installed:
-  + $CPU driver updater (if found)
-  + $GPU driver updater (if found)"
+  - $CPU driver updater (if found)
+  - $GPU driver updater (if found)"
   
-    switch (Show-Question -Title "Read carefully" -Message $Ask) {
+    switch (Show-Question -Title "Warning" -Message $Ask) {
         'Yes' {
             # Check for CPU drivers
             If ($CPU.contains("AMD")) {

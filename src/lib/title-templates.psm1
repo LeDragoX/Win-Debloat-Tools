@@ -5,9 +5,7 @@ function Write-Title() {
         [String]	$Text = "Write-Title Text"
     )
 
-    Write-Host "" # Skip line
-    Write-Host "<====================[ $Text ]====================>" -ForegroundColor Cyan
-    Write-Host "" # Skip line
+    Write-Host "`n<====================[ $Text ]====================>`n" -ForegroundColor Cyan
 }
 
 function Write-Section() {
@@ -17,9 +15,7 @@ function Write-Section() {
         [String] $Text = "Write-Section Text"
     )
 
-    Write-Host "" # Skip line
-    Write-Host "<==========[ $Text ]==========>" -ForegroundColor Cyan
-    Write-Host "" # Skip line
+    Write-Host "`n<==========[ $Text ]==========>`n" -ForegroundColor Cyan
 }
 
 function Write-Caption() {
@@ -29,8 +25,7 @@ function Write-Caption() {
         [String] $Text = "Write-Caption Text"
     )
 
-    Write-Host "--> $Text" -ForegroundColor Cyan
-    Write-Host "" # Skip line
+    Write-Host "--> $Text`n" -ForegroundColor Cyan
 }
 
 function Write-TitleCounter() {
@@ -49,9 +44,7 @@ function Write-TitleCounter() {
     }
 
     $Global:Counter = $Counter + 1
-    Write-Host "" # Skip line
-    Write-Host "<====================< ( $Counter/$MaxNum ) - [$Text] >====================>" -ForegroundColor Yellow
-    Write-Host "" # Skip line
+    Write-Host "`n<====================< ( $Counter/$MaxNum ) - [$Text] >====================>`n" -ForegroundColor Yellow
 
     # Reset both when the Counter is greater or equal than MaxNum and different from 0
     If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {
@@ -60,10 +53,30 @@ function Write-TitleCounter() {
     }
 }
 
+function Write-ASCIIScriptName() {
+
+    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    param ()
+
+    Write-Host '        __        __ _         _   ___           ____                           _    ' -ForegroundColor Cyan
+    Write-Host '        \ \      / /(_) _ __  / | / _ \    _    / ___|  _ __ ___    __ _  _ __ | |_  ' -ForegroundColor Cyan
+    Write-Host '         \ \ /\ / / | || "_ \ | || | | | _| |_  \___ \ | "_ ` _ \  / _` || "__|| __| ' -ForegroundColor Cyan
+    Write-Host '          \ V  V /  | || | | || || |_| ||_   _|  ___) || | | | | || (_| || |   | |_  ' -ForegroundColor Cyan
+    Write-Host '           \_/\_/   |_||_| |_||_| \___/   |_|   |____/ |_| |_| |_| \__,_||_|    \__| ' -ForegroundColor Cyan
+    Write-Host '                                                                                     ' -ForegroundColor Cyan
+    Write-Host '                          ____         _      _                _                     ' -ForegroundColor Cyan
+    Write-Host '                         |  _ \   ___ | |__  | |  ___    __ _ | |_                   ' -ForegroundColor Cyan
+    Write-Host '                         | | | | / _ \| "_ \ | | / _ \  / _` || __|                  ' -ForegroundColor Cyan
+    Write-Host '                         | |_| ||  __/| |_) || || (_) || (_| || |_                   ' -ForegroundColor Cyan
+    Write-Host "                         |____/  \___||_.__/ |_| \___/  \__,_| \__|              `n`n" -ForegroundColor Cyan
+
+}
+
 <#
 Example:
 Write-Title -Text "Text"
 Write-Section -Text "Text"
 Write-Caption -Text "Text"
 Write-TitleCounter -Text "Text" -MaxNum 100 # First time only insert MaxNum
+Write-ASCIIScriptName
 #>

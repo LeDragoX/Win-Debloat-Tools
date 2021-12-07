@@ -40,22 +40,23 @@ function Use-Scripts() {
 
 function Main() {
 
-    Request-PrivilegesElevation   # Check admin rights
+    Request-PrivilegesElevation # Check admin rights
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
     
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-console-style.psm1"
-    Set-ConsoleStyle          # Makes the console look cooler
+    Set-ConsoleStyle            # Makes the console look cooler
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\simple-message-box.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\show-message-box.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
 
     Set-UnrestrictedPermissions # Unlock script usage
     Use-Scripts                 # Run all scripts inside 'scripts' folder
     Set-RestrictedPermissions   # Lock script usage
-    Request-PcRestart            # Prompt options to Restart the PC
+    Write-ASCIIScriptName       # Thanks Figlet
+    Request-PcRestart           # Prompt options to Restart the PC
 
 }
 
