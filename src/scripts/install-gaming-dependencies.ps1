@@ -1,15 +1,15 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"simple-message-box.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-GamingPackages() {
 
     $Ask = "Do you plan to play games on this PC?
   All the following Gaming Dependencies will be installed:
-  + Microsoft DirectX
-  + Microsoft .NET (Framework, Runtime & SDK)
-  + Microsoft Visual C++ Packages (2005-2022)"
+  - Microsoft DirectX
+  - Microsoft .NET (Framework, Runtime & SDK)
+  - Microsoft Visual C++ Packages (2005-2022)"
 
-    switch (Show-Question -Title "Read carefully" -Message $Ask) {
+    switch (Show-Question -Title "Warning" -Message $Ask) {
         'Yes' {
             Write-Host "You choose Yes."
             $ChocoGamingPackages = @(

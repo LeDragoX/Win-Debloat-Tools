@@ -42,9 +42,9 @@ function Show-GUI() {
     $Panel3 = Create-Panel -Width (($PWidth * 2) - 15) -Height $PHeight -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0 -HasVerticalScroll $true
 
     # Panels to put Labels and Buttons
-    $Panel3_1 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 2.9) -LocationX 0 -LocationY 0
+    $Panel3_1 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 3.0) -LocationX 0 -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel3_2 = Create-Panel -Width $PWidth -Height ($PHeight * 2.9) -LocationX ($PWidth - 15) -LocationY 0
+    $Panel3_2 = Create-Panel -Width $PWidth -Height ($PHeight * 3.0) -LocationX ($PWidth - 15) -LocationY 0
 
     # Panels 1, 2, 3 ~> Title Label
     $TitleLabel1 = Create-Label -Text "System Tweaks" -Width $TLWidth -Height $TLHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold"
@@ -214,7 +214,7 @@ function Show-GUI() {
     $JavaJRE = Create-Button -Text "Java JRE" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJRE.Location.Y + $JavaJRE.Height + $DistanceBetweenButtons
-    $JavaJDKs = Create-Button -Text "AdoptOpenJDK 8, 11 and 16" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $JavaJDKs = Create-Button -Text "AdoptiumJDK 8, 11 and 17" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJDKs.Location.Y + $JavaJDKs.Height + $DistanceBetweenButtons
     $NodeJsLts = Create-Button -Text "NodeJS LTS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -245,6 +245,9 @@ function Show-GUI() {
 
     $NextYLocation = $PostgreSQL.Location.Y + $PostgreSQL.Height + $DistanceBetweenButtons
     $MySQL = Create-Button -Text "MySQL" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $MySQL.Location.Y + $MySQL.Height + $DistanceBetweenButtons
+    $Insomnia = Create-Button -Text "Insomnia" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Big Button
     $InstallGamingDependencies = Create-Button -Text "Install Gaming Dependencies" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
@@ -308,8 +311,11 @@ function Show-GUI() {
     $NextYLocation = $Parsec.Location.Y + $Parsec.Height + $DistanceBetweenButtons
     $TeamViewer = Create-Button -Text "Team Viewer" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 3.2 ~> Caption Label
     $NextYLocation = $TeamViewer.Location.Y + $TeamViewer.Height + $DistanceBetweenButtons
+    $AndroidScrCpy = Create-Button -Text "Android ScrCpy" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 3.2 ~> Caption Label
+    $NextYLocation = $AndroidScrCpy.Location.Y + $AndroidScrCpy.Height + $DistanceBetweenButtons
     $CaptionLabel3_2_5 = Create-Label -Text "Streaming" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Small Buttons
@@ -358,8 +364,11 @@ function Show-GUI() {
     $NextYLocation = $CrystalDiskInfo.Location.Y + $CrystalDiskInfo.Height + $DistanceBetweenButtons
     $CrystalDiskMark = Create-Button -Text "Crystal Disk Mark" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 3.2 ~> Caption Label
     $NextYLocation = $CrystalDiskMark.Location.Y + $CrystalDiskMark.Height + $DistanceBetweenButtons
+    $NVCleanstall = Create-Button -Text "NVCleanstall" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 3.2 ~> Caption Label
+    $NextYLocation = $NVCleanstall.Location.Y + $NVCleanstall.Height + $DistanceBetweenButtons
     $CaptionLabel3_2_9 = Create-Label -Text "WSL 2" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.2 ~> Small Buttons
@@ -414,16 +423,16 @@ function Show-GUI() {
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_5, $VSCode, $NotepadPlusPlus))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_6, $GoogleDrive, $Dropbox))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_7, $AuthyDesktop))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_8, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_8, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
 
     $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_2_1, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_3, $Notion))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_4, $Parsec, $TeamViewer))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_4, $Parsec, $TeamViewer, $AndroidScrCpy))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_5, $ObsStudio, $StreamlabsObs))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_6, $qBittorrent))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_7, $Spotify, $Vlc, $MpcHc))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_8, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_8, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark, $NVCleanstall))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_9, $WSL2, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
 
     # <== CLICK EVENTS ==>
@@ -746,8 +755,8 @@ function Show-GUI() {
             Install-Package -Name $JavaJRE.Text -PackageName "Oracle.JavaRuntimeEnvironment"
         })
 
-    $JavaJDKs.Add_Click( { # Be vigilant as Eclipse Adoptium will become the newest owner
-            Install-Package -Name $JavaJDKs.Text -PackageName @("AdoptOpenJDK.OpenJDK.8", "AdoptOpenJDK.OpenJDK.11", "AdoptOpenJDK.OpenJDK.16")
+    $JavaJDKs.Add_Click( {
+            Install-Package -Name $JavaJDKs.Text -PackageName @("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.17")
         })
 
     $NodeJsLts.Add_Click( {
@@ -788,6 +797,10 @@ function Show-GUI() {
 
     $MySQL.Add_Click( {
             Install-Package -Name $MySQL.Text -PackageName "Oracle.MySQL"
+        })
+
+    $Insomnia.Add_Click( {
+            Install-Package -Name $Insomnia.Text -PackageName "Insomnia.Insomnia"
         })
 
     $InstallGamingDependencies.Add_Click( {
@@ -859,6 +872,10 @@ function Show-GUI() {
             Install-Package -Name $TeamViewer.Text -PackageName "TeamViewer.TeamViewer"
         })
 
+    $AndroidScrCpy.Add_Click( {
+            Install-Package -Name $AndroidScrCpy.Text -PackageName "scrcpy" -InstallBlock { choco install -y $Package }
+        })
+
     $ObsStudio.Add_Click( {
             Install-Package -Name $ObsStudio.Text -PackageName "OBSProject.OBSStudio"
         })
@@ -897,6 +914,10 @@ function Show-GUI() {
 
     $CrystalDiskMark.Add_Click( {
             Install-Package -Name $CrystalDiskMark.Text -PackageName "CrystalDewWorld.CrystalDiskMark"
+        })
+
+    $NVCleanstall.Add_Click( {
+            Install-Package -Name $NVCleanstall.Text -PackageName "TechPowerUp.NVCleanstall"
         })
 
     $WSL2.Add_Click( {
@@ -963,11 +984,12 @@ function Main() {
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\install-package.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\gui-helper.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\simple-message-box.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\show-message-box.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
 
     Set-UnrestrictedPermissions # Unlock script usage
     Import-Module -DisableNameChecking "$PSScriptRoot\src\scripts\install-package-managers.ps1" -Force # Install Winget and Chocolatey at the beginning
+    Write-ASCIIScriptName       # Thanks Figlet
     Show-GUI                    # Load the GUI
 
     Write-Verbose "Restart: $Global:NeedRestart"
