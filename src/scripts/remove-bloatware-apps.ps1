@@ -110,6 +110,7 @@ function Remove-BloatwareApps() {
         # [DIY] Default apps i'll keep
 
         #"Microsoft.FreshPaint"             # Paint
+        #"Microsoft.ScreenSketch"           # Snip and Sketch (now called Snipping tool, replaces the Win32 version in clean installs)
         #"Microsoft.MicrosoftEdge"          # Microsoft Edge
         #"Microsoft.MicrosoftStickyNotes"   # Sticky Notes
         #"Microsoft.WindowsCalculator"      # Calculator
