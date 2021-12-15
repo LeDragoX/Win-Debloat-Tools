@@ -35,7 +35,6 @@ function Remove-BloatwareApps() {
         "Microsoft.People"                      # People
         "Microsoft.MSPaint"                     # Paint 3D (Where every artist truly start as a kid, i mean, on original Paint, not this 3D)
         "Microsoft.Print3D"                     # Print 3D
-        "Microsoft.ScreenSketch"
         "Microsoft.SkypeApp"                    # Skype (Who still uses Skype? Use Discord)
         "Microsoft.Todos"                       # Microsoft To Do
         "Microsoft.Wallet"
@@ -111,6 +110,7 @@ function Remove-BloatwareApps() {
         # [DIY] Default apps i'll keep
 
         #"Microsoft.FreshPaint"             # Paint
+        #"Microsoft.ScreenSketch"           # Snip and Sketch (now called Snipping tool, replaces the Win32 version in clean installs)
         #"Microsoft.MicrosoftEdge"          # Microsoft Edge
         #"Microsoft.MicrosoftStickyNotes"   # Sticky Notes
         #"Microsoft.WindowsCalculator"      # Calculator
