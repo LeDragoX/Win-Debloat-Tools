@@ -61,6 +61,24 @@ function Optimize-OptionalFeatures() {
 
         }
     }
+
+    Try {
+
+        Write-Warning "[?] Installing WSL2 Preview from MS Store for Windows 11+..."
+        $CheckExistenceBlock = { winget install --source "msstore" --id 9P9TQF7MRM4R --accept-package-agreements }
+        $err = $null
+        $err = (Invoke-Expression "$CheckExistenceBlock") | Out-Host
+        if (($LASTEXITCODE)) { throw $err } # 0 = False, 1 = True
+
+        Write-Host "[-][Features] Uninstalling WSL from Optional Features..."
+        Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
+
+    }
+    Catch {
+
+        Write-Warning "[?] Couldn't install WSL2 Preview, you must be at least on Windows 11..."
+
+    }
 }
 
 function Main() {
