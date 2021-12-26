@@ -16,6 +16,7 @@ function Use-Scripts() {
     $Scripts = @(
         # [Recommended order]
         "backup-system.ps1",
+        "install-package-managers.ps1",
         "silent-debloat-softwares.ps1",
         "optimize-scheduled-tasks.ps1",
         "optimize-services.ps1",
@@ -23,9 +24,8 @@ function Use-Scripts() {
         "optimize-privacy-and-performance.ps1",
         "personal-tweaks.ps1",
         "optimize-security.ps1",
-        "optimize-optional-features.ps1",
         "remove-onedrive.ps1",
-        "install-package-managers.ps1"
+        "optimize-optional-features.ps1"
     )
 
     ForEach ($FileName in $Scripts) {

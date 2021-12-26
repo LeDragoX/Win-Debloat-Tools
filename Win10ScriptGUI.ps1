@@ -451,8 +451,8 @@ function Show-GUI() {
                 "optimize-privacy-and-performance.ps1",
                 "personal-tweaks.ps1",
                 "optimize-security.ps1",
-                "optimize-optional-features.ps1",
-                "remove-onedrive.ps1"
+                "remove-onedrive.ps1",
+                "optimize-optional-features.ps1"
             )
             ForEach ($FileName in $Scripts) {
                 Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
