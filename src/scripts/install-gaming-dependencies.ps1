@@ -19,7 +19,7 @@ function Install-GamingPackages() {
             Write-Title -Text "Installing Packages with Chocolatey"
 
             ForEach ($Package in $ChocoGamingPackages) {
-                Title2Counter -Text "Installing: $Package" -MaxNum $ChocoGamingPackages.Length
+                Write-TitleCounter -Text "Installing: $Package" -MaxNum $ChocoGamingPackages.Length
                 choco install -y $Package | Out-Host
             }
 
@@ -43,7 +43,7 @@ function Install-GamingPackages() {
             Write-Title -Text "Installing Packages with Winget"
 
             ForEach ($Package in $WingetGamingPackages) {
-                Title2Counter -Text "Installing: $Package" -MaxNum $WingetGamingPackages.Length
+                Write-TitleCounter -Text "Installing: $Package" -MaxNum $WingetGamingPackages.Length
                 winget install --silent --source "winget" --id $Package | Out-Host
             }
         }

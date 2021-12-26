@@ -65,6 +65,7 @@ function Optimize-OptionalFeatures() {
     Try {
 
         Write-Warning "[?] Installing WSL2 Preview from MS Store for Windows 11+..."
+        Write-Warning "[?] PRESS 'Y' AND ENTER TO CONTINUE IF STUCK (Winget bug)..."
         $CheckExistenceBlock = { winget install --source "msstore" --id 9P9TQF7MRM4R --accept-package-agreements }
         $err = $null
         $err = (Invoke-Expression "$CheckExistenceBlock") | Out-Host
