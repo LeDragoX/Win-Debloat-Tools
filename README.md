@@ -230,7 +230,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [Windows 10 Sophia Script](https://github.com/farag2/Windows-10-Sophia-Script) from [farag2](https://github.com/farag2);
 </details>
 - [Windows-Optimize-Harden-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat);
-- [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat)
+- [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat).
 
 ## 🔎 How did i find specific Tweaks?
 
