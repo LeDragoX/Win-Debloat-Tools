@@ -228,9 +228,9 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech) (Recommended);
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex);
 - [Windows 10 Sophia Script](https://github.com/farag2/Windows-10-Sophia-Script) from [farag2](https://github.com/farag2);
-</details>
 - [Windows-Optimize-Harden-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat);
 - [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat).
+</details>
 
 ## 🔎 How did i find specific Tweaks?
 
