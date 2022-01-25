@@ -12,8 +12,8 @@ function Initialize-GitUser() {
 
     While ($git_user_property -eq "" -or $git_user_property -eq $null) {
 
-        Write-Host "Could not found 'user.$git_user_property', is null or empty."
-        $git_user_property = Read-Host "Please enter your $git_user_property (For git config --global)"
+        Write-Warning "Could not found 'user.$git_property_name', is null or empty."
+        $git_user_property = Read-Host "Please enter your $git_property_name (For git config --global)"
 
         If (!(($git_user_property -eq "") -or ($null -eq $git_user_property))) {
 
@@ -40,7 +40,7 @@ function Set-GitProfile() {
     $Global:git_user_props = @("name", "email")
 
     $Global:git_user_name = $(Initialize-GitUser -git_user_property $git_user_name -git_property_name $git_user_props[0])
-    $Global:git_user_email = $(Initialize-GitUser -git_user_property $git_user_email -git_property_name $git_user_props[1]).ToLower()
+    $Global:git_user_email = $(Initialize-GitUser -git_user_property $git_user_email -git_property_name $git_user_props[1])
 
 }
 
@@ -71,12 +71,8 @@ function Set-SSHKey() {
         Start-Service -Name ssh-agent
         Set-Service -Name ssh-agent -StartupType Automatic
 
-        Write-Host "Checking if ssh-agent is running before adding the keys..."
+        Write-Host "Checking if ssh-agent.exe is running before adding the keys..."
         ssh-agent.exe
-
-        Write-Host "Add your private key (One of these will pass)." # Remind: No QUOTES in variables
-        ssh-add $ssh_file
-        ssh-add $ssh_alt_file
 
     }
     Else {
@@ -85,6 +81,13 @@ function Set-SSHKey() {
         Write-Host "$ssh_path/$ssh_alt_file Exists"
 
     }
+
+    Write-Host "Importing your SSH private key(s)." # Remind: No QUOTES in variables
+    ssh-add $ssh_file
+    ssh-add $ssh_alt_file
+
+    Pop-Location
+
 }
 
 function Set-GPGKey() {
@@ -98,7 +101,6 @@ function Set-GPGKey() {
     $gnupg_expires_in = 0
     $gnupg_file = "$($git_user_email)_$gnupg_enc_type"
 
-    Pop-Location
     If (!(Test-Path "$gnupg_path")) {
         mkdir "$gnupg_path" | Out-Null
     }
@@ -134,16 +136,9 @@ function Set-GPGKey() {
         Remove-Item -Path "$gnupg_path/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev" -Recurse
         Remove-Item -Path "$gnupg_path/trustdb.gpg"
 
-        Write-Host "Setting GnuPG program path to ${env:ProgramFiles(x86)}\GnuPG\bin\gpg.exe"
-        git config --global gpg.program "${env:ProgramFiles(x86)}\GnuPG\bin\gpg.exe"
-
         # Export public and private key to a file: {email@email.com}_{encryption_type}_public.gpg
         gpg --output "$($gnupg_file)_public.gpg" --armor --export "$git_user_email"
         gpg --output "$($gnupg_file)_secret.gpg" --armor --export-secret-key "$git_user_email"
-
-        # Import GPG keys
-        gpg --import *$gnupg_file*
-        gpg --import *.gpg*
 
         # Get the exact Key ID from the system
         $key_id = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
@@ -175,6 +170,13 @@ function Set-GPGKey() {
         Write-Host "$gnupg_path/*.gpg Exists..."
 
     }
+
+    Write-Host "Setting GnuPG program path to ${env:ProgramFiles(x86)}\GnuPG\bin\gpg.exe"
+    git config --global gpg.program "${env:ProgramFiles(x86)}\GnuPG\bin\gpg.exe"
+
+    Write-Host "Importing your GPG private key(s)." # Remind: No QUOTES in variables
+    gpg --import *$gnupg_file*
+    gpg --import *.gpg*
 
     Pop-Location
 
