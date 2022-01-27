@@ -42,9 +42,9 @@ function Show-GUI() {
     $Panel3 = Create-Panel -Width (($PWidth * 2) - 15) -Height $PHeight -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0 -HasVerticalScroll $true
 
     # Panels to put Labels and Buttons
-    $Panel3_1 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 3.0) -LocationX 0 -LocationY 0
+    $Panel3_1 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 3.1) -LocationX 0 -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel3_2 = Create-Panel -Width $PWidth -Height ($PHeight * 3.0) -LocationX ($PWidth - 15) -LocationY 0
+    $Panel3_2 = Create-Panel -Width $PWidth -Height ($PHeight * 3.1) -LocationX ($PWidth - 15) -LocationY 0
 
     # Panels 1, 2, 3 ~> Title Label
     $TitleLabel1 = Create-Label -Text "System Tweaks" -Width $TLWidth -Height $TLHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold"
@@ -52,7 +52,7 @@ function Show-GUI() {
     $TitleLabel3 = Create-Label -Text "Software Install" -Width ($TLWidth * 2) -Height $TLHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold"
 
     # Panel 3 ~> Caption Label
-    $CaptionLabel1 = Create-Label -Text "Winget = Native | Chocolatey = 3rd Party" -Width ($CLWidth * 2) -Height $CLHeight -LocationX 0 -LocationY ($FirstButtonY - 25) -FontSize $FontSize1
+    $CaptionLabel1 = Create-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CLWidth * 2) -Height $CLHeight -LocationX 0 -LocationY ($FirstButtonY - 25) -FontSize $FontSize1
 
     # Panel 1 ~> Big Button
     $ApplyTweaks = Create-Button -Text "Apply Tweaks" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
@@ -193,18 +193,29 @@ function Show-GUI() {
 
     # Panel 3.1 ~> Caption Label
     $NextYLocation = $Dropbox.Location.Y + $Dropbox.Height + $DistanceBetweenButtons
-    $CaptionLabel3_1_7 = Create-Label -Text "2-Factor Authentication" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_1_7 = Create-Label -Text "Networking" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1_7.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $RadminVPN = Create-Button -Text "Radmin VPN" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $RadminVPN.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $Hamachi = Create-Button -Text "Hamachi" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 3.1 ~> Caption Label
+    $NextYLocation = $Hamachi.Location.Y + $Hamachi.Height + $DistanceBetweenButtons
+    $CaptionLabel3_1_8 = Create-Label -Text "2-Factor Authentication" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 3.1 ~> Small Buttons
+    $NextYLocation = $CaptionLabel3_1_8.Location.Y + $SBHeight + $DistanceBetweenButtons
     $AuthyDesktop = Create-Button -Text "Authy Desktop" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Caption Label
     $NextYLocation = $AuthyDesktop.Location.Y + $AuthyDesktop.Height + $DistanceBetweenButtons
-    $CaptionLabel3_1_8 = Create-Label -Text "Development" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_1_9 = Create-Label -Text "Development" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3.1 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_1_8.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_1_9.Location.Y + $SBHeight + $DistanceBetweenButtons
     $WindowsTerminal = Create-Button -Text "Windows Terminal" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WindowsTerminal.Location.Y + $WindowsTerminal.Height + $DistanceBetweenButtons
@@ -422,8 +433,9 @@ function Show-GUI() {
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_5, $VSCode, $NotepadPlusPlus))
     $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_6, $GoogleDrive, $Dropbox))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_7, $AuthyDesktop))
-    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_8, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_7, $RadminVPN, $Hamachi))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_8, $AuthyDesktop))
+    $Panel3_1.Controls.AddRange(@($CaptionLabel3_1_9, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
 
     $Panel3_2.Controls.AddRange(@($TitleLabel4, $InstallGamingDependencies, $CaptionLabel3_2_1, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect))
@@ -731,6 +743,14 @@ function Show-GUI() {
 
     $Dropbox.Add_Click( {
             Install-Package -Name $Dropbox.Text -PackageName "Dropbox.Dropbox"
+        })
+
+    $RadminVPN.Add_Click( {
+            Install-Package -Name $RadminVPN.Text -PackageName "Radmin.VPN"
+        })
+
+    $Hamachi.Add_Click( {
+            Install-Package -Name $Hamachi.Text -PackageName "LogMeIn.Hamachi"
         })
 
     $AuthyDesktop.Add_Click( {
