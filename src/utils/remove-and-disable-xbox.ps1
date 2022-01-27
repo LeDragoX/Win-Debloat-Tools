@@ -5,10 +5,11 @@ function Remove-Xbox() {
 
     $Global:PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 
-    $Ask = "This will remove the Xbox:
+    $Ask = "This will remove or disable the Xbox:
   - Apps;
   - Services (Except from Accessories) and;
-  - GameBar/GameDVR.
+  - GameBar;
+  - GameDVR.
 
 Do you want to proceed?"
 
