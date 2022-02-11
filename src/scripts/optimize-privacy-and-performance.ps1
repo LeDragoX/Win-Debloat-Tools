@@ -35,7 +35,7 @@ function Optimize-PrivacyAndPerformance() {
     $Global:PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"    
 
     Write-Title -Text "Privacy And Performance Tweaks"
-    Write-Section -Text "Personalization Section"
+    Write-Section -Text "Personalization"
     Write-Caption -Text "? & ? & Start & Lockscreen"
 
     Write-Host "$($EnableStatus[0]) Show me the windows welcome experience after updates..."
@@ -81,7 +81,7 @@ function Optimize-PrivacyAndPerformance() {
         Remove-Item -Path "$PathToCUContentDeliveryManager\SuggestedApps" -Recurse
     }
 
-    Write-Section -Text "Privacy Section -> Windows Permissions"
+    Write-Section -Text "Privacy -> Windows Permissions"
     Write-Caption -Text "General"
 
     Write-Host "$($EnableStatus[0]) Let apps use my advertising ID..."
@@ -154,7 +154,7 @@ function Optimize-PrivacyAndPerformance() {
         Set-ItemProperty -Path "$PathToLMActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value $Zero
     }
 
-    Write-Section -Text "Privacy Section -> Apps Permissions"
+    Write-Section -Text "Privacy -> Apps Permissions"
     Write-Caption -Text "Location"
 
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
@@ -198,7 +198,7 @@ function Optimize-PrivacyAndPerformance() {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToCUSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value $Zero
 
-    Write-Section -Text "Update & Security Section"
+    Write-Section -Text "Update & Security"
     Write-Caption -Text "Windows Update"
 
     If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
@@ -302,22 +302,22 @@ function Optimize-PrivacyAndPerformance() {
     }
     Set-ItemProperty -Path "$PathToLMPoliciesToWifi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value $Zero
 
-    Write-Section -Text "Gaming Section"
+    Write-Section -Text "Gaming"
 
-    Write-Host "[+][Priv&Perf] Enabling Game Bar & Game DVR..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value $One
+    Write-Host "$($EnableStatus[0]) Game Bar & Game DVR..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value $Zero
     If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value $Zero
 
     Write-Host "$($EnableStatus[1]) game mode..."
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value $One
 
-    Write-Section -Text "System Section"
+    Write-Section -Text "System"
     Write-Caption -Text "Display"
 
     Write-Host "[+][Priv&Perf] Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
