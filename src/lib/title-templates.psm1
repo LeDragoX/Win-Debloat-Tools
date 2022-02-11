@@ -5,7 +5,7 @@ function Write-Title() {
         [String]	$Text = "Write-Title Text"
     )
 
-    Write-Host "`n<====================[ $Text ]====================>`n" -ForegroundColor Cyan
+    Write-Host "`n<===================={ $Text }====================>`n" -ForegroundColor Cyan
 }
 
 function Write-Section() {
@@ -15,7 +15,7 @@ function Write-Section() {
         [String] $Text = "Write-Section Text"
     )
 
-    Write-Host "`n<==========[ $Text ]==========>`n" -ForegroundColor Cyan
+    Write-Host "`n<=========={ $Text }==========>`n" -ForegroundColor Cyan
 }
 
 function Write-Caption() {
@@ -25,14 +25,14 @@ function Write-Caption() {
         [String] $Text = "Write-Caption Text"
     )
 
-    Write-Host "--> $Text`n" -ForegroundColor Cyan
+    Write-Host "==> $Text`n" -ForegroundColor Cyan
 }
 
 function Write-TitleCounter() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        [String] $Text = "Title2 COUNTER Text", 
+        [String] $Text = "TitleCounter Text", 
         [Int] 	 $MaxNum = $Global:MaxNum
     )
 
@@ -44,7 +44,7 @@ function Write-TitleCounter() {
     }
 
     $Global:Counter = $Counter + 1
-    Write-Host "`n<====================< ( $Counter/$MaxNum ) - [$Text] >====================>`n" -ForegroundColor Yellow
+    Write-Host "`n<===================={ ( $Counter/$MaxNum ) - { $Text } }====================>`n" -ForegroundColor Yellow
 
     # Reset both when the Counter is greater or equal than MaxNum and different from 0
     If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {

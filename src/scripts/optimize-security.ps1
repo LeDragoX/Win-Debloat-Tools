@@ -7,6 +7,13 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Optimize-Security() {
 
+    $CPU = Get-CPU
+    # Initialize all Path variables used to Registry Tweaks
+    $Global:PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
+    $Global:PathToLMPoliciesMRT = "HKLM:\SOFTWARE\Policies\Microsoft\MRT"
+    $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+    $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
+
     Write-Title -Text "Security Tweaks"
     Write-Warning "if you already use another antivirus, nothing will happen."
 
@@ -95,13 +102,6 @@ function Optimize-Security() {
 }
 
 function Main() {
-
-    $CPU = Get-CPU
-    # Initialize all Path variables used to Registry Tweaks
-    $Global:PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
-    $Global:PathToLMPoliciesMRT = "HKLM:\SOFTWARE\Policies\Microsoft\MRT"
-    $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-    $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
 
     Optimize-Security   # Improve the Windows Security
 

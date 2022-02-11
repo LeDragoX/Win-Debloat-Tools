@@ -4,6 +4,8 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-DriversUpdaters() {
 
+    $CPU = Get-CPU  # Detects the current CPU
+    $GPU = Get-GPU  # Detects the current GPU
     $Ask = "Do you plan to play games on this PC?
   All the following Driver Updaters will be installed:
   - $CPU driver updater (if found)
@@ -54,8 +56,6 @@ function Install-DriversUpdaters() {
 
 function Main() {
 
-    $CPU = Get-CPU          # Detects the current CPU
-    $GPU = Get-GPU          # Detects the current GPU
     Install-DriversUpdaters # Install CPU & GPU Drivers (If applicable)
 
 }

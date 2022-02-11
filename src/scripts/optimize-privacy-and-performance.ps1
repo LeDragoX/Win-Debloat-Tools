@@ -8,6 +8,32 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Optimize-PrivacyAndPerformance() {
 
+    # Initialize all Path variables used to Registry Tweaks
+    $Global:PathToLMActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+    $Global:PathToLMAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
+    $Global:PathToLMDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
+    $Global:PathToLMPoliciesAdvertisingInfo = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
+    $Global:PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    $Global:PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+    $Global:PathToLMPoliciesPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
+    $Global:PathToLMPoliciesSQMClient = "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows"
+    $Global:PathToLMPoliciesTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+    $Global:PathToLMPoliciesTelemetry2 = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
+    $Global:PathToLMPoliciesToWifi = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
+    $Global:PathToLMPoliciesWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+    $Global:PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
+    $Global:PathToLMPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
+    $Global:PathToLMWindowsTroubleshoot = "HKLM:\SOFTWARE\Microsoft\WindowsMitigation"
+    $Global:PathToCUContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+    $Global:PathToCUDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
+    $Global:PathToCUGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
+    $Global:PathToCUInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+    $Global:PathToCUInputTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
+    $Global:PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
+    $Global:PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+    $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+    $Global:PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"    
+
     Write-Title -Text "Privacy And Performance Tweaks"
     Write-Section -Text "Personalization Section"
     Write-Caption -Text "? & ? & Start & Lockscreen"
@@ -401,32 +427,6 @@ function Optimize-PrivacyAndPerformance() {
 }
 
 function Main() {
-
-    # Initialize all Path variables used to Registry Tweaks
-    $Global:PathToLMActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
-    $Global:PathToLMAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
-    $Global:PathToLMDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
-    $Global:PathToLMPoliciesAdvertisingInfo = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
-    $Global:PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-    $Global:PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
-    $Global:PathToLMPoliciesPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
-    $Global:PathToLMPoliciesSQMClient = "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows"
-    $Global:PathToLMPoliciesTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
-    $Global:PathToLMPoliciesTelemetry2 = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
-    $Global:PathToLMPoliciesToWifi = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
-    $Global:PathToLMPoliciesWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
-    $Global:PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
-    $Global:PathToLMPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
-    $Global:PathToLMWindowsTroubleshoot = "HKLM:\SOFTWARE\Microsoft\WindowsMitigation"
-    $Global:PathToCUContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-    $Global:PathToCUDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
-    $Global:PathToCUGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
-    $Global:PathToCUInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
-    $Global:PathToCUInputTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
-    $Global:PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
-    $Global:PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-    $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
-    $Global:PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
 
     $Zero = 0
     $One = 1

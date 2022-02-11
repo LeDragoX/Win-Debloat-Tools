@@ -384,9 +384,12 @@ function Show-GUI() {
 
     # Panel 3.2 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2_9.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $WSL2 = Create-Button -Text "WSL2 + WSLg (x64/ARM64)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $WSL2 = Create-Button -Text "WSL2 + WSLg (Win10/Legacy)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WSL2.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $WSLPreview = Create-Button -Text "WSL Preview (Win 11)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $WSLPreview.Location.Y + $SBHeight + $DistanceBetweenButtons
     $Ubuntu = Create-Button -Text "Ubuntu" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ubuntu.Location.Y + $Ubuntu.Height + $DistanceBetweenButtons
@@ -445,7 +448,7 @@ function Show-GUI() {
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_6, $qBittorrent))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_7, $Spotify, $Vlc, $MpcHc))
     $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_8, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark, $NVCleanstall))
-    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_9, $WSL2, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
+    $Panel3_2.Controls.AddRange(@($CaptionLabel3_2_9, $WSL2, $WSLPreview, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
 
     # <== CLICK EVENTS ==>
 
@@ -950,6 +953,10 @@ function Show-GUI() {
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
+    $WSLPreview.Add_Click( {
+            Install-Package -Name $WSLPreview.Text -PackageName "9P9TQF7MRM4R" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
+        })
+
     $Ubuntu.Add_Click( {
             Install-Package -Name $Ubuntu.Text -PackageName "Ubuntu" -InstallBlock { wsl --install --distribution $Package }
         })
@@ -993,7 +1000,7 @@ function Show-GUI() {
 function Main() {
 
     Clear-Host                  # Clear the Powershell before it got an Output
-    Request-PrivilegesElevation   # Check admin rights
+    Request-PrivilegesElevation # Check admin rights
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"

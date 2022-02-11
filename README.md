@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img width=30px src="./src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win10 Smart Debloat 
+    <img width=30px src="./src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win10+ Smart Debloat 
     <img width=30px src="./src/assets/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
@@ -16,8 +16,8 @@ but you'll probably want the most recent version anyway.
 
 <div align="center">
 
-|                                                Download                                                 | Version Supported | Build | Editions |                                      Powershell version                                       |
-| :-----------------------------------------------------------------------------------------------------: | :---------------: | :---: | :------: | :-------------------------------------------------------------------------------------------: |
+|                                                Download                                                | Version Supported | Build | Editions |                                      Powershell version                                       |
+| :----------------------------------------------------------------------------------------------------: | :---------------: | :---: | :------: | :-------------------------------------------------------------------------------------------: |
 | <h3><a href="https://github.com/LeDragoX/Win10SmartDebloat/archive/main.zip">⬇️ Download [Zip]</a></h3> |   21H2 or Older   | 22000 | Home/Pro | <img width=20px src="./src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
 
 </div>
@@ -227,7 +227,7 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
 
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech) (Recommended);
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex);
-- [Windows 10 Sophia Script](https://github.com/farag2/Windows-10-Sophia-Script) from [farag2](https://github.com/farag2);
+- [Sophia-Script-for-Windows](https://github.com/farag2/Sophia-Script-for-Windows) from [farag2](https://github.com/farag2);
 - [Windows-Optimize-Harden-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat);
 - [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat).
 </details>
