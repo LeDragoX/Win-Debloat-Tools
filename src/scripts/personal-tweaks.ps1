@@ -6,6 +6,16 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-PersonalTweaks() {
 
+    # Initialize all Path variables used to Registry Tweaks
+    $Global:PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
+    $Global:PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
+    $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+    $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
+    $Global:PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+    $Global:PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+    $Global:PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
+    $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"    
+
     Write-Title -Text "My Personal Tweaks"
 
     Push-Location -Path "$PSScriptRoot\..\utils\"
@@ -211,16 +221,6 @@ function Install-PersonalTweaks() {
 }
 
 function Main() {
-
-    # Initialize all Path variables used to Registry Tweaks
-    $Global:PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
-    $Global:PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
-    $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-    $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
-    $Global:PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-    $Global:PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-    $Global:PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
-    $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
     $Zero = 0
     $One = 1

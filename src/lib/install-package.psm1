@@ -9,12 +9,12 @@ function Install-Package() {
     )
 
     $DoneTitle = "Done"
-    $DoneMessage = "$Name installed!"
+    $DoneMessage = "$Name installed successfully!"
 
-    Write-Host "--> Installing: $($Name)." -ForegroundColor Cyan
+    Write-Host "==> Installing: $($Name)" -ForegroundColor Cyan
     # Avoiding a softlock only on the script that occurs if the APP is already installed on Microsoft Store (Blame Spotify)
     If ((Get-AppxPackage).Name -ilike "*$($Name)*") {
-        Write-Host "--> $PackageName already installed on MS Store! Skipping..." -ForegroundColor Cyan
+        Write-Host "==> $PackageName is already installed on MS Store!`nSkipping..." -ForegroundColor Cyan
     }
     Else {
         ForEach ($Package in $PackageName) {

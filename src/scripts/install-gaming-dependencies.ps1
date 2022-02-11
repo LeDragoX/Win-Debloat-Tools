@@ -6,7 +6,7 @@ function Install-GamingPackages() {
     $Ask = "Do you plan to play games on this PC?
   All the following Gaming Dependencies will be installed:
   - Microsoft DirectX
-  - Microsoft .NET (Framework, Runtime & SDK)
+  - Microsoft .NET Framework
   - Microsoft Visual C++ Packages (2005-2022)"
 
     switch (Show-Question -Title "Warning" -Message $Ask) {
@@ -25,7 +25,6 @@ function Install-GamingPackages() {
 
             $WingetGamingPackages = @(
                 "Microsoft.dotNetFramework"         # Microsoft .NET Framework (v4.8+)
-                "Microsoft.dotnet"                  # Microsoft .NET SDK (v5+)
                 "Microsoft.VC++2005Redist-x86"      # Microsoft Visual C++ 2005 Redistributable
                 "Microsoft.VC++2005Redist-x64"      # Microsoft Visual C++ 2005 Redistributable (x64)
                 "Microsoft.VC++2008Redist-x86"      # Microsoft Visual C++ 2008 Redistributable - x86
