@@ -41,10 +41,11 @@ _Use on a fresh windows install to note the differences._
 
 ## ❗ Usage Requirements
 
-The `Script-Win10.ps1` do not make everything automatically, follow these steps.
+The `Win10Script/GUI.ps1` do not make everything automatically, follow these steps.
 
+- Extract the `.zip` file.
 - Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
-- Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory.
+- Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory (Down below).
 
 ### **GUI Version**
 
@@ -82,6 +83,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Enable/Disable Search Indexing`: Let you choose whether the **Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
 - `Enable/Disable Background Apps`: Let you choose whether the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
 - `Enable Full Telemetry & Disable Telemetry`: Let you choose whether the **Telemetry** is [enabled](./src/utils/enable-full-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
+- `Enable/Disable Xbox GameBar/DVR`: Let you choose whether the **Xbox GameBar/DVR** is [enabled](./src/utils/enable-game-bar-dvr.reg) or [disabled](src/utils/disable-game-bar-dvr.reg);
 - `Enable/Disable Cortana`: Let you choose whether the **Cortana** is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
 - `Install CPU/GPU Driver Updater`: This **WILL NOT** install anymore the drivers, only the drivers updater. ([`install-drivers-updaters.ps1`](./src/scripts/install-drivers-updaters.ps1));
   - The Latest CPU for driver updater. For `Intel`, `Intel DSA (Winget)` (Except AMD);
@@ -98,6 +100,9 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - Import all necessary Modules before Executing everything; ([lib folder](./src/lib/))
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./src/scripts/backup-system.ps1))
+- Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
+  - Auto-Update every available software via `Winget` (12:00/day) and `Chocolatey` (13:00/day);
+  - Find the Scheduled Job on `Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\Chocolatey/Winget Daily Upgrade"`;
 - Download AdwCleaner and Run the latest version of for Virus/Adware scan; ([`silent-debloat-softwares.ps1`](./src/scripts/silent-debloat-softwares.ps1))
 - Download OOShutUp10 and import all Recommended settings;
 - Disable Telemetry from Scheduled Tasks and Optimize it; ([`optimize-scheduled-tasks.ps1`](./src/scripts/optimize-scheduled-tasks.ps1))
@@ -106,11 +111,9 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Optimize Privacy and Performance settings disabling more telemetry stuff and changing GPOs; ([`optimize-privacy-and-performance.ps1`](./src/scripts/optimize-privacy-and-performance.ps1))
 - Apply General Personalization tweaks via Registry and Powershell commands; ([`personal-tweaks.ps1`](./src/scripts/personal-tweaks.ps1))
 - Help improve the Security of Windows while maintaining performance; ([`optimize-security.ps1`](./src/scripts/optimize-security.ps1))
-- Disable/Enable Optional Features specially for Gaming/Work (including WSL); ([`optimize-optional-features.ps1`](./src/scripts/optimize-optional-features.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
-- Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
-  - Auto-Update every available software via `Winget` (12:00/day) and `Chocolatey` (13:00/day);
-  - Find the Scheduled Job on `Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\Chocolatey/Winget Daily Upgrade"`;
+- Disable/Enable Optional Features specially for Gaming/Work; ([`optimize-optional-features.ps1`](./src/scripts/optimize-optional-features.ps1))
+- Install WSL Preview (Only works for Windows 11): ([`win11-wsl-preview-install.ps1`](./src/scripts/win11-wsl-preview-install.ps1))
 - In the End it Locks Script's Usage Permission. ([`set-script-policy.psm1`](./src/lib/set-script-policy.psm1))
 
 </details>

@@ -25,7 +25,8 @@ function Use-Scripts() {
         "personal-tweaks.ps1",
         "optimize-security.ps1",
         "remove-onedrive.ps1",
-        "optimize-optional-features.ps1"
+        "optimize-optional-features.ps1",
+        "win11-wsl-preview-install.ps1"
     )
 
     ForEach ($FileName in $Scripts) {

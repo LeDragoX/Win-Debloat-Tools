@@ -97,10 +97,10 @@ function Show-GUI() {
     $DisableTelemetry = Create-Button -Text "Disable Telemetry" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DisableTelemetry.Location.Y + $DisableTelemetry.Height + $DistanceBetweenButtons
-    $EnableGameBarAndDVR = Create-Button -Text "Enable GameBar/DVR" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $EnableGameBarAndDVR = Create-Button -Text "Enable Xbox GameBar/DVR" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EnableGameBarAndDVR.Location.Y + $EnableGameBarAndDVR.Height + $DistanceBetweenButtons
-    $DisableGameBarAndDVR = Create-Button -Text "Disable GameBar/DVR" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $DisableGameBarAndDVR = Create-Button -Text "Disable Xbox GameBar/DVR" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DisableGameBarAndDVR.Location.Y + $DisableGameBarAndDVR.Height + $DistanceBetweenButtons
     $EnableCortana = Create-Button -Text "Enable Cortana" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -201,10 +201,10 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_7.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $RadminVPN = Create-Button -Text "Radmin VPN" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $RadminVPN = Create-Button -Text "Radmin VPN (LAN)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RadminVPN.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $Hamachi = Create-Button -Text "Hamachi" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Hamachi = Create-Button -Text "Hamachi (LAN)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $Hamachi.Location.Y + $Hamachi.Height + $DistanceBetweenButtons
@@ -387,11 +387,11 @@ function Show-GUI() {
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $NVCleanstall.Location.Y + $NVCleanstall.Height + $DistanceBetweenButtons
-    $CaptionLabel4_9 = Create-Label -Text "WSL 2" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel4_9 = Create-Label -Text "Windows Subsystem For Linux" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_9.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $WSL2 = Create-Button -Text "WSL2 + WSLg (Win10/Legacy)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $WSL2 = Create-Button -Text "WSL2 + WSLg (Win 10)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WSL2.Location.Y + $SBHeight + $DistanceBetweenButtons
     $WSLPreview = Create-Button -Text "WSL Preview (Win 11)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -475,7 +475,8 @@ function Show-GUI() {
                 "personal-tweaks.ps1",
                 "optimize-security.ps1",
                 "remove-onedrive.ps1",
-                "optimize-optional-features.ps1"
+                "optimize-optional-features.ps1",
+                "win11-wsl-preview-install.ps1"
             )
             ForEach ($FileName in $Scripts) {
                 Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
@@ -649,7 +650,7 @@ function Show-GUI() {
     $EnableGameBarAndDVR.Add_Click( {
             Push-Location "$PSScriptRoot\src\utils\"
 
-            Write-Host "[+] Enabling GameBar/DVR..."
+            Write-Host "[+] Enabling Xbox GameBar/DVR..."
             regedit /s enable-game-bar-dvr.reg
 
             Pop-Location
@@ -659,7 +660,7 @@ function Show-GUI() {
     $DisableGameBarAndDVR.Add_Click( {
             Push-Location "$PSScriptRoot\src\utils\"
 
-            Write-Host "[-] Disabling GameBar/DVR..."
+            Write-Host "[-] Disabling Xbox GameBar/DVR..."
             regedit /s disable-game-bar-dvr.reg
 
             Pop-Location
@@ -977,7 +978,7 @@ function Show-GUI() {
     $WSL2.Add_Click( {
             Push-Location "$PSScriptRoot\src\utils\"
 
-            $FileName = "full-wsl2-x64-arm64.ps1"
+            $FileName = "win10-wsl2-wslg-install.ps1"
             Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
@@ -985,7 +986,19 @@ function Show-GUI() {
         })
 
     $WSLPreview.Add_Click( {
-            Install-Package -Name $WSLPreview.Text -PackageName "9P9TQF7MRM4R" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
+            Push-Location -Path "$PSScriptRoot\src\scripts\"
+            Get-ChildItem -Recurse *.ps*1 | Unblock-File
+
+            $Scripts = @(
+                "win11-wsl-preview-install.ps1"
+            )
+            ForEach ($FileName in $Scripts) {
+                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
+                Import-Module -DisableNameChecking .\"$FileName" -Force
+            }
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $Ubuntu.Add_Click( {
