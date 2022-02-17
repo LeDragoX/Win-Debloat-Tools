@@ -15,6 +15,8 @@ function WSLPreviewInstall() {
         Write-Host "[-][Features] Uninstalling WSL from Optional Features..."
         Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
 
+        Write-Host "[@] Updating WSL (if possible)..."
+        wsl --update
     }
     Catch {
 
