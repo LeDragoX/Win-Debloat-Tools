@@ -1,7 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 
-function Main() {
-
+function WSLwithGraphicsInstall() {
     $OSArchList = Get-OSArchitecture
 
     If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
@@ -22,7 +21,7 @@ function Main() {
             $GitWSLgAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/wslg/releases/latest" | ForEach-Object assets | Where-Object name -like "*$OSArch*.msi"
         }
         Else {
-            Write-Warning "[?] $OSArch is not supported! But trying anyway..."
+            Write-Warning "[?] $OSArch is NOT supported! But trying anyway..."
             $WSLDownload = "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_$OSArch.msi"
             $GitWSLgAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/wslg/releases/latest" | ForEach-Object assets | Where-Object name -like "*$OSArch*.msi"
         }
@@ -42,8 +41,14 @@ function Main() {
         Invoke-WebRequest -Uri $WSLgDownload -OutFile $WSLgOutput
         Start-Process -FilePath $WSLgOutput -ArgumentList "/passive" -Wait
         Remove-Item -Path $WSLgOutput
-    }
 
+        Write-Host "[@] Updating WSL (if possible)..."
+        wsl --update
+    }
+}
+
+function Main() {
+    WSLwithGraphicsInstall
 }
 
 Main

@@ -3,7 +3,7 @@ function Request-PrivilegesElevation() {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-# https://docs.microsoft.com/pt-br/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
+# https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 function Show-GUI() {
 
@@ -37,9 +37,9 @@ function Show-GUI() {
     $Global:CurrentPanelIndex++
     $Panel2 = Create-Panel -Width $PWidth -Height $PHeight -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel3 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 3.1) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel3 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 3.5) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel4 = Create-Panel -Width $PWidth -Height ($PHeight * 3.1) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel4 = Create-Panel -Width $PWidth -Height ($PHeight * 3.5) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
 
     # Panel to put more Panels
     $FullPanel = Create-Panel -Width (($PWidth * ($CurrentPanelIndex + 1))) -Height $PHeight -LocationX 0 -LocationY 0 -HasVerticalScroll $true
@@ -73,12 +73,12 @@ function Show-GUI() {
 
     # Panel 2 ~> Small Buttons
     $NextYLocation = $RevertScript.Location.Y + $RevertScript.Height + $DistanceBetweenButtons
-    $DarkMode = Create-Button -Text "Dark Mode" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $DarkTheme = Create-Button -Text "Dark Theme" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $DarkMode.Location.Y + $DarkMode.Height + $DistanceBetweenButtons
-    $LightMode = Create-Button -Text "Light Mode" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $DarkTheme.Location.Y + $DarkTheme.Height + $DistanceBetweenButtons
+    $LightTheme = Create-Button -Text "Light Theme" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $LightMode.Location.Y + $LightMode.Height + $DistanceBetweenButtons
+    $NextYLocation = $LightTheme.Location.Y + $LightTheme.Height + $DistanceBetweenButtons
     $EnableSearchIdx = Create-Button -Text "Enable Search Indexing" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EnableSearchIdx.Location.Y + $EnableSearchIdx.Height + $DistanceBetweenButtons
@@ -127,7 +127,7 @@ function Show-GUI() {
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $MozillaFirefox.Location.Y + $MozillaFirefox.Height + $DistanceBetweenButtons
-    $CaptionLabel3_2 = Create-Label -Text "Compression" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_2 = Create-Label -Text "File Compression" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2.Location.Y + $SBHeight + $DistanceBetweenButtons
@@ -138,7 +138,7 @@ function Show-GUI() {
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $WinRar.Location.Y + $WinRar.Height + $DistanceBetweenButtons
-    $CaptionLabel3_3 = Create-Label -Text "Documents" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_3 = Create-Label -Text "Document Editors" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_3.Location.Y + $SBHeight + $DistanceBetweenButtons
@@ -152,7 +152,7 @@ function Show-GUI() {
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $PowerBI.Location.Y + $PowerBI.Height + $DistanceBetweenButtons
-    $CaptionLabel3_4 = Create-Label -Text "Imaging" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_4 = Create-Label -Text "Image Tools" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_4.Location.Y + $SBHeight + $DistanceBetweenButtons
@@ -197,29 +197,51 @@ function Show-GUI() {
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $Dropbox.Location.Y + $Dropbox.Height + $DistanceBetweenButtons
-    $CaptionLabel3_7 = Create-Label -Text "Networking" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_7 = Create-Label -Text "Academic Research" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_7.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $Zotero = Create-Button -Text "Zotero" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 3 ~> Caption Label
+    $NextYLocation = $Zotero.Location.Y + $Zotero.Height + $DistanceBetweenButtons
+    $CaptionLabel3_8 = Create-Label -Text "Networking" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 3 ~> Small Buttons
+    $NextYLocation = $CaptionLabel3_8.Location.Y + $SBHeight + $DistanceBetweenButtons
     $RadminVPN = Create-Button -Text "Radmin VPN (LAN)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $RadminVPN.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $NextYLocation = $RadminVPN.Location.Y + $RadminVPN.Height + $DistanceBetweenButtons
     $Hamachi = Create-Button -Text "Hamachi (LAN)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $Hamachi.Location.Y + $Hamachi.Height + $DistanceBetweenButtons
-    $CaptionLabel3_8 = Create-Label -Text "2-Factor Authentication" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_9 = Create-Label -Text "2-Factor Authentication" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_8.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_9.Location.Y + $SBHeight + $DistanceBetweenButtons
     $AuthyDesktop = Create-Button -Text "Authy Desktop" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $AuthyDesktop.Location.Y + $AuthyDesktop.Height + $DistanceBetweenButtons
-    $CaptionLabel3_9 = Create-Label -Text "Development" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_10 = Create-Label -Text "Bootable USB" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_9.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_10.Location.Y + $SBHeight + $DistanceBetweenButtons
+    $Ventoy = Create-Button -Text "Ventoy" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    
+    $NextYLocation = $Ventoy.Location.Y + $Ventoy.Height + $DistanceBetweenButtons
+    $Rufus = Create-Button -Text "Rufus" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    
+    $NextYLocation = $Rufus.Location.Y + $Rufus.Height + $DistanceBetweenButtons
+    $BalenaEtcher = Create-Button -Text "Etcher" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 3 ~> Caption Label
+    $NextYLocation = $BalenaEtcher.Location.Y + $BalenaEtcher.Height + $DistanceBetweenButtons
+    $CaptionLabel3_11 = Create-Label -Text "Development" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 3 ~> Small Buttons
+    $NextYLocation = $CaptionLabel3_11.Location.Y + $SBHeight + $DistanceBetweenButtons
     $WindowsTerminal = Create-Button -Text "Windows Terminal" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WindowsTerminal.Location.Y + $WindowsTerminal.Height + $DistanceBetweenButtons
@@ -320,21 +342,24 @@ function Show-GUI() {
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $Notion.Location.Y + $Notion.Height + $DistanceBetweenButtons
-    $CaptionLabel4_4 = Create-Label -Text "Remote" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel4_4 = Create-Label -Text "Remote Connection" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_4.Location.Y + $SBHeight + $DistanceBetweenButtons
     $Parsec = Create-Button -Text "Parsec" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Parsec.Location.Y + $Parsec.Height + $DistanceBetweenButtons
+    $AnyDesk = Create-Button -Text "AnyDesk" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $AnyDesk.Location.Y + $AnyDesk.Height + $DistanceBetweenButtons
     $TeamViewer = Create-Button -Text "Team Viewer" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $TeamViewer.Location.Y + $TeamViewer.Height + $DistanceBetweenButtons
-    $AndroidScrCpy = Create-Button -Text "Android ScrCpy" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $AndroidScrCpy = Create-Button -Text "ScrCpy (Android)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $AndroidScrCpy.Location.Y + $AndroidScrCpy.Height + $DistanceBetweenButtons
-    $CaptionLabel4_5 = Create-Label -Text "Streaming" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel4_5 = Create-Label -Text "Recording and Streaming" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_5.Location.Y + $SBHeight + $DistanceBetweenButtons
@@ -361,7 +386,7 @@ function Show-GUI() {
 
     $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
     $MpcHc = Create-Button -Text "Media Player Classic" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
     $Spotify = Create-Button -Text "Spotify" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
@@ -436,7 +461,7 @@ function Show-GUI() {
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
 
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkMode, $LightMode, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableCortana, $DisableCortana))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableCortana, $DisableCortana))
 
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRar))
@@ -444,14 +469,16 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
     $Panel3.Controls.AddRange(@($CaptionLabel3_5, $VSCode, $NotepadPlusPlus))
     $Panel3.Controls.AddRange(@($CaptionLabel3_6, $GoogleDrive, $Dropbox))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_7, $RadminVPN, $Hamachi))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_8, $AuthyDesktop))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_9, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_7, $Zotero))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_8, $RadminVPN, $Hamachi))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_9, $AuthyDesktop))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_10, $Ventoy, $Rufus, $BalenaEtcher))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
 
     $Panel4.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel4_1, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Notion))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_4, $Parsec, $TeamViewer, $AndroidScrCpy))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_4, $Parsec, $AnyDesk, $TeamViewer, $AndroidScrCpy))
     $Panel4.Controls.AddRange(@($CaptionLabel4_5, $ObsStudio, $StreamlabsObs))
     $Panel4.Controls.AddRange(@($CaptionLabel4_6, $qBittorrent))
     $Panel4.Controls.AddRange(@($CaptionLabel4_7, $Vlc, $MpcHc, $Spotify))
@@ -567,7 +594,7 @@ function Show-GUI() {
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
-    $DarkMode.Add_Click( {
+    $DarkTheme.Add_Click( {
             Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[+] Enabling Dark theme..."
@@ -577,7 +604,7 @@ function Show-GUI() {
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
-    $LightMode.Add_Click( {
+    $LightTheme.Add_Click( {
             Push-Location "$PSScriptRoot\src\utils\"
 
             Write-Host "[+] Enabling Light theme..."
@@ -777,6 +804,10 @@ function Show-GUI() {
             Install-Package -Name $Dropbox.Text -PackageName "Dropbox.Dropbox"
         })
 
+    $Zotero.Add_Click( {
+            Install-Package -Name $Zotero.Text -PackageName "Zotero.Zotero"
+        })
+
     $RadminVPN.Add_Click( {
             Install-Package -Name $RadminVPN.Text -PackageName "Radmin.VPN"
         })
@@ -787,6 +818,18 @@ function Show-GUI() {
 
     $AuthyDesktop.Add_Click( {
             Install-Package -Name $AuthyDesktop.Text -PackageName "Twilio.Authy"
+        })
+
+    $Ventoy.Add_Click( {
+            Install-Package -Name $Ventoy.Text -PackageName "Ventoy" -InstallBlock { choco install -y $Package }
+        })
+
+    $Rufus.Add_Click( {
+            Install-Package -Name $Rufus.Text -PackageName "Rufus" -InstallBlock { choco install -y $Package }
+        })
+
+    $BalenaEtcher.Add_Click( {
+            Install-Package -Name $BalenaEtcher.Text -PackageName "Balena.Etcher"
         })
 
     $WindowsTerminal.Add_Click( {
@@ -921,6 +964,10 @@ function Show-GUI() {
 
     $Parsec.Add_Click( {
             Install-Package -Name $Parsec.Text -PackageName "Parsec.Parsec"
+        })
+
+    $AnyDesk.Add_Click( {
+            Install-Package -Name $AnyDesk.Text -PackageName "AnyDeskSoftwareGmbH.AnyDesk"
         })
 
     $TeamViewer.Add_Click( {
