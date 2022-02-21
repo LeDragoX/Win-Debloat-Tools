@@ -74,21 +74,23 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 <details>
     <summary>Click to expand</summary>
 
-- `Apply Tweaks`: Run every 'non-interactive' Tweak scripts;
+- `Apply Tweaks`: Run every Common Tweak scripts;
 - `Remove Xbox from Windows`: Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR; ([`remove-and-disable-xbox.ps1`](src/utils/remove-and-disable-xbox.ps1))
 - `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
 - `Reinstall Pre-Installed Apps`: Rebloat Windows with all the Pre-Installed Apps; ([`reinstall-pre-installed-apps.ps1`](./src/utils/reinstall-pre-installed-apps.ps1))
 - `Revert Tweaks`: Re-apply some tweaks and [Revert] all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks;
-- `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) exclusively from GUI;
-- `Enable/Disable Search Indexing`: Let you choose whether the **Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
-- `Enable/Disable Background Apps`: Let you choose whether the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
-- `Enable Full Telemetry & Disable Telemetry`: Let you choose whether the **Telemetry** is [enabled](./src/utils/enable-full-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
-- `Enable/Disable Xbox GameBar/DVR`: Let you choose whether the **Xbox GameBar/DVR** is [enabled](./src/utils/enable-game-bar-dvr.reg) or [disabled](src/utils/disable-game-bar-dvr.reg);
+- `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
+- `Enable/Disable Search Indexing`: Let you choose whether the **Windows Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
+- `Enable/Disable Background Apps`: Let you choose whether *ALL* the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
+- `Enable Telemetry & Disable Telemetry`: Let you choose whether the **Windows Telemetry** is [enabled](./src/utils/enable-full-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
 - `Enable/Disable Cortana`: Let you choose whether the **Cortana** is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
+- `Enable/Disable Xbox GameBar/DVR`: Let you choose whether the **Xbox GameBar/DVR (In-Game)** is [enabled](./src/utils/enable-game-bar-dvr.reg) or [disabled](src/utils/disable-game-bar-dvr.reg);
+- `Enable/Disable Clipboard History`: Let you choose whether the **Clipboard History** is [enabled](./src/utils/enable-clipboard-history.reg) or [disabled](src/utils/disable-clipboard-history.reg);
+- `Enable/Disable Old Volume Control`: Let you choose whether the **Old Volume Control (Win 7/8.1)** is [enabled](./src/utils/enable-old-volume-control.reg) or [disabled](src/utils/disable-old-volume-control.reg);
 - `Install CPU/GPU Driver Updater`: This **WILL NOT** install anymore the drivers, only the drivers updater. ([`install-drivers-updaters.ps1`](./src/scripts/install-drivers-updaters.ps1));
   - The Latest CPU for driver updater. For `Intel`, `Intel DSA (Winget)` (Except AMD);
-  - The Latest GPU driver updater. For `Intel` and `NVIDIA`, `NVIDIA GeForce Experience (Winget)` (Except AMD);
-- `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games. ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-dependencies.ps1));
+  - The Latest GPU driver updater. For `Intel (DSA)` and `NVIDIA`, `NVIDIA GeForce Experience (Winget)` (Except AMD);
+- `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games (DirectX, VC++ 2005+ (x86 & x64), .NET Framework). ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-dependencies.ps1));
 - Every software installation is explicitly showed;
 
 </details>
@@ -173,12 +175,6 @@ winget install --silent --source "msstore" --id "Microsoft.Skype"
 ```Powershell
 winget install --source "msstore" --id 9MSSGKG348SP --accept-package-agreements
 ```
-
-**Before someone ask about this "hidden" package...**
-
-| Name                        | ID           | Version | Source  |
-| --------------------------- | ------------ | ------- | ------- |
-| Windows Web Experience Pack | 9MSSGKG348SP | Unknown | msstore |
 
 </details>
 

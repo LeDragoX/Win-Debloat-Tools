@@ -26,6 +26,8 @@ function Install-PersonalTweaks() {
     regedit /s disable-cortana.reg
     Write-Host "[+][Personal] Enabling photo viewer..."
     regedit /s enable-photo-viewer.reg
+    Write-Host "[-][Personal] Disabling clipboard history..."
+    regedit /s disable-clipboard-history.reg
 
     Pop-Location
 
@@ -57,7 +59,7 @@ function Install-PersonalTweaks() {
     Write-Host "$($EnableStatus[0]) Aero-Shake Minimize feature..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
 
-    # [@] (1 = This PC, 2 = Quick access)
+    # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT (BREAKS EXPLORER.EXE)
     Write-Host "$[+][Personal] Setting Windows Explorer to start on This PC instead of Quick Access..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
 
