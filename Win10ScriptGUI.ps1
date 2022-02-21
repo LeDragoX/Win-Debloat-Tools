@@ -35,7 +35,7 @@ function Show-GUI() {
     $Global:CurrentPanelIndex++
     $Panel1 = Create-Panel -Width $PWidth -Height $PHeight -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel2 = Create-Panel -Width $PWidth -Height $PHeight -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel2 = Create-Panel -Width $PWidth -Height ($PHeight * 3.5) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
     $Panel3 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 3.5) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
@@ -91,22 +91,34 @@ function Show-GUI() {
     $DisableBgApps = Create-Button -Text "Disable Background Apps" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DisableBgApps.Location.Y + $DisableBgApps.Height + $DistanceBetweenButtons
-    $EnableTelemetry = Create-Button -Text "Enable Full Telemetry" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $EnableTelemetry = Create-Button -Text "Enable Telemetry" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EnableTelemetry.Location.Y + $EnableTelemetry.Height + $DistanceBetweenButtons
     $DisableTelemetry = Create-Button -Text "Disable Telemetry" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DisableTelemetry.Location.Y + $DisableTelemetry.Height + $DistanceBetweenButtons
+    $EnableCortana = Create-Button -Text "Enable Cortana" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
+    $DisableCortana = Create-Button -Text "Disable Cortana" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $DisableCortana.Location.Y + $DisableCortana.Height + $DistanceBetweenButtons
     $EnableGameBarAndDVR = Create-Button -Text "Enable Xbox GameBar/DVR" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EnableGameBarAndDVR.Location.Y + $EnableGameBarAndDVR.Height + $DistanceBetweenButtons
     $DisableGameBarAndDVR = Create-Button -Text "Disable Xbox GameBar/DVR" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DisableGameBarAndDVR.Location.Y + $DisableGameBarAndDVR.Height + $DistanceBetweenButtons
-    $EnableCortana = Create-Button -Text "Enable Cortana" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $EnableClipboardHistory = Create-Button -Text "Enable Clipboard History" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
-    $DisableCortana = Create-Button -Text "Disable Cortana" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $EnableClipboardHistory.Location.Y + $EnableClipboardHistory.Height + $DistanceBetweenButtons
+    $DisableClipboardHistory = Create-Button -Text "Disable Clipboard History" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $DisableClipboardHistory.Location.Y + $DisableClipboardHistory.Height + $DistanceBetweenButtons
+    $EnableOldVolumeControl = Create-Button -Text "Enable Old Volume Control" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $EnableOldVolumeControl.Location.Y + $EnableOldVolumeControl.Height + $DistanceBetweenButtons
+    $DisableOldVolumeControl = Create-Button -Text "Disable Old Volume Control" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Big Button
     $InstallDrivers = Create-Button -Text "Install CPU/GPU Drivers Updaters" -Width $BBWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
@@ -461,7 +473,7 @@ function Show-GUI() {
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
 
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableCortana, $DisableCortana))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
 
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRar))
@@ -674,6 +686,27 @@ function Show-GUI() {
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
+
+    $EnableCortana.Add_Click( {
+            Push-Location "$PSScriptRoot\src\utils\"
+
+            Write-Host "[+] Enabling Cortana..."
+            regedit /s enable-cortana.reg
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    $DisableCortana.Add_Click( {
+            Push-Location "$PSScriptRoot\src\utils\"
+
+            Write-Host "[-] Disabling Cortana..."
+            regedit /s disable-cortana.reg
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
     $EnableGameBarAndDVR.Add_Click( {
             Push-Location "$PSScriptRoot\src\utils\"
 
@@ -694,22 +727,41 @@ function Show-GUI() {
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
-
-    $EnableCortana.Add_Click( {
+    $EnableClipboardHistory.Add_Click( {
             Push-Location "$PSScriptRoot\src\utils\"
 
-            Write-Host "[+] Enabling Cortana..."
-            regedit /s enable-cortana.reg
+            Write-Host "[+] Enabling ClipboardHistory..."
+            regedit /s enable-clipboard-history.reg
 
             Pop-Location
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
-    $DisableCortana.Add_Click( {
+    $DisableClipboardHistory.Add_Click( {
             Push-Location "$PSScriptRoot\src\utils\"
 
-            Write-Host "[-] Disabling Cortana..."
-            regedit /s disable-cortana.reg
+            Write-Host "[-] Disabling Clipboard History..."
+            regedit /s disable-clipboard-history.reg
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    $EnableOldVolumeControl.Add_Click( {
+            Push-Location "$PSScriptRoot\src\utils\"
+
+            Write-Host "[+] Enabling Old Volume Control..."
+            regedit /s enable-old-volume-control.reg
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        })
+
+    $DisableOldVolumeControl.Add_Click( {
+            Push-Location "$PSScriptRoot\src\utils\"
+
+            Write-Host "[-] Disabling Old Volume Control..."
+            regedit /s disable-old-volume-control.reg
 
             Pop-Location
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
