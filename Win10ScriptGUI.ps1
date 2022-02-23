@@ -380,8 +380,11 @@ function Show-GUI() {
     $NextYLocation = $ObsStudio.Location.Y + $ObsStudio.Height + $DistanceBetweenButtons
     $StreamlabsObs = Create-Button -Text "Streamlabs OBS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 4 ~> Caption Label
     $NextYLocation = $StreamlabsObs.Location.Y + $StreamlabsObs.Height + $DistanceBetweenButtons
+    $HandBrake = Create-Button -Text "HandBrake (Transcode)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 4 ~> Caption Label
+    $NextYLocation = $HandBrake.Location.Y + $HandBrake.Height + $DistanceBetweenButtons
     $CaptionLabel4_6 = Create-Label -Text "Torrent" -Width $CLWidth -Height $CLHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
@@ -428,7 +431,7 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_9.Location.Y + $SBHeight + $DistanceBetweenButtons
-    $WSL2 = Create-Button -Text "WSL2 + WSLg (Win 10)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $WSL2 = Create-Button -Text "WSL2 + WSLg (Win10/Insider)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WSL2.Location.Y + $SBHeight + $DistanceBetweenButtons
     $WSLPreview = Create-Button -Text "WSL Preview (Win 11)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -456,6 +459,9 @@ function Show-GUI() {
 
     $NextYLocation = $Ubuntu18LTS.Location.Y + $Ubuntu18LTS.Height + $DistanceBetweenButtons
     $Ubuntu20LTS = Create-Button -Text "Ubuntu 20.04 LTS" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Ubuntu20LTS.Location.Y + $Ubuntu20LTS.Height + $DistanceBetweenButtons
+    $ArchWSL = Create-Button -Text "ArchWSL (x64)" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Image Logo from the Script
     $PictureBox1 = New-Object System.Windows.Forms.PictureBox
@@ -491,11 +497,11 @@ function Show-GUI() {
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Notion))
     $Panel4.Controls.AddRange(@($CaptionLabel4_4, $Parsec, $AnyDesk, $TeamViewer, $AndroidScrCpy))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_5, $ObsStudio, $StreamlabsObs))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_5, $ObsStudio, $StreamlabsObs, $HandBrake))
     $Panel4.Controls.AddRange(@($CaptionLabel4_6, $qBittorrent))
     $Panel4.Controls.AddRange(@($CaptionLabel4_7, $Vlc, $MpcHc, $Spotify))
     $Panel4.Controls.AddRange(@($CaptionLabel4_8, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark, $NVCleanstall))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_9, $WSL2, $WSLPreview, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_9, $WSL2, $WSLPreview, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS, $ArchWSL))
 
     # <== CLICK EVENTS ==>
 
@@ -1038,6 +1044,10 @@ function Show-GUI() {
             Install-Package -Name $StreamlabsObs.Text -PackageName "Streamlabs.StreamlabsOBS"
         })
 
+    $HandBrake.Add_Click( {
+            Install-Package -Name $HandBrake.Text -PackageName "HandBrake.HandBrake"
+        })
+
     $qBittorrent.Add_Click( {
             Install-Package -Name $qBittorrent.Text -PackageName "qBittorrent.qBittorrent"
         })
@@ -1088,13 +1098,8 @@ function Show-GUI() {
             Push-Location -Path "$PSScriptRoot\src\scripts\"
             Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
-            $Scripts = @(
-                "win11-wsl-preview-install.ps1"
-            )
-            ForEach ($FileName in $Scripts) {
-                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName" -Force
-            }
+            $FileName = "win11-wsl-preview-install.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
 
             Pop-Location
             Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
@@ -1130,6 +1135,16 @@ function Show-GUI() {
 
     $Ubuntu20LTS.Add_Click( {
             Install-Package -Name $Ubuntu20LTS.Text -PackageName "Ubuntu-20.04" -InstallBlock { wsl --install --distribution $Package }
+        })
+
+    $ArchWSL.Add_Click( {
+            Push-Location "$PSScriptRoot\src\utils\"
+
+            $FileName = "archwsl-install.ps1"
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+
+            Pop-Location
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     # Show the Window
