@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script/blob/master/win10debloat.ps1
@@ -60,51 +61,27 @@ function Install-PackageManager() {
 function Install-WingetDependency() {
     # Dependency for Winget: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
     $OSArchList = Get-OSArchitecture
-    
-    if (!(Test-Path "$PSScriptRoot\..\tmp")) {
-        Write-Host "[+] Folder $PSScriptRoot\..\tmp doesn't exist, creating..."
-        mkdir "$PSScriptRoot\..\tmp" | Out-Null
-    }
-    
+        
     foreach ($OSArch in $OSArchList) {
         if ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
-            $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
+            $WingetDepOutput = Request-FileDownload -FileURI "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx" -OutputFile "Microsoft.VCLibs.14.00.Desktop.appx"
+            Add-AppxPackage -Path $WingetDepOutput
+            Remove-Item -Path $WingetDepOutput
         }
         Else {
-            Write-Warning "[?] $OSArch is not supported! But trying anyway..."
-            $WingetDepDownload = "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx"
+            Write-Warning "[?] $OSArch is not supported!"
         }
-        
-        $WingetDepOutput = "$PSScriptRoot\..\tmp\Microsoft.VCLibs.14.00.Desktop.appx"
-        $WingetDepParams = @(
-            "Dependency for Winget",
-            { throw $err },
-            {
-                Write-Host "[+] Downloading Dependency for Winget ($OSArch) from: $WingetDepDownload"
-                Invoke-WebRequest -Uri $WingetDepDownload -OutFile $WingetDepOutput
-                Add-AppxPackage -Path $WingetDepOutput
-                Remove-Item -Path $WingetDepOutput
-            }
-        )
-        
-        # Install Winget Dependency on Windows
-        Install-PackageManager -PackageManagerFullName $WingetDepParams[0] -CheckExistenceBlock $WingetDepParams[1] -InstallCommandBlock $WingetDepParams[2]
     }
 }
 
 function Main() {
-
-    $GitAsset = Invoke-RestMethod -Method Get -Uri "https://api.github.com/repos/microsoft/winget-cli/releases/latest" | ForEach-Object assets | Where-Object name -like "*.msixbundle"
-    $WingetDownload = $GitAsset.browser_download_url
-    $WingetOutput = "$PSScriptRoot\..\tmp\winget-latest.appxbundle"
 
     $WingetParams = @(
         "Winget",
         { winget --version },
         {
             Install-WingetDependency
-            Write-Host "[+] Downloading Winget from: $WingetDownload"
-            Invoke-WebRequest -Uri $WingetDownload -OutFile $WingetOutput
+            $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -APIObjectContainer "assets" -FileNameLike "*.msixbundle" -APIProperty "browser_download_url" -OutputFile "winget-latest.appxbundle"
             Add-AppxPackage -Path $WingetOutput
             Remove-Item -Path $WingetOutput
         },

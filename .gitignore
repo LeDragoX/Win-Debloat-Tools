@@ -2,8 +2,9 @@
 
 # Temporary folder for downloaded stuff
 !**/tmp/**/*.txt
+**/tmp/**/*.appx*
+**/tmp/**/*.cer
 **/tmp/**/*.exe
-**/tmp/**/*.appxbundle
 
 # Downloaded temporary files
 *.tmp
