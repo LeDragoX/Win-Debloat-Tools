@@ -1,5 +1,6 @@
-# Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
+
+# Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
 function Use-SilentDebloatSoftwares() {
 

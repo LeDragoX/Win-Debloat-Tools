@@ -103,12 +103,12 @@ function Set-GUILayout() {
     # <== SIZES LAYOUT ==>
 
     # To Forms
-    $Global:MaxWidth = 1280 * 0.8 # 1024
-    $Global:MaxHeight = 720 * 0.8 # 576
+    $Global:MaxWidth = 1366 * 0.85 # ~ 1162
+    $Global:MaxHeight = 768 * 0.85 # ~ 653
     # To Panels
     $Global:CurrentPanelIndex = -1
     $NumOfPanels = 4
-    [Int]$PanelWidth = ($MaxWidth / $NumOfPanels) # 284
+    [Int]$PanelWidth = ($MaxWidth / $NumOfPanels)
     # To Labels
     $LabelWidth = $PanelWidth
     $TitleLabelHeight = 35
@@ -146,7 +146,7 @@ function Set-GUILayout() {
     # Panel Layout
 
     $Global:PWidth = $PanelWidth
-    $Global:PHeight = $MaxHeight - ($MaxHeight * 0.035)
+    $Global:PHeight = $MaxHeight
 
     # Title Label Layout - Unique per Panel
 

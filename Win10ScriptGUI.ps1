@@ -35,11 +35,11 @@ function Show-GUI() {
     $Global:CurrentPanelIndex++
     $Panel1 = Create-Panel -Width $PWidth -Height $PHeight -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel2 = Create-Panel -Width $PWidth -Height ($PHeight * 3.5) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel2 = Create-Panel -Width $PWidth -Height ($PHeight * 3.0) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel3 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 3.5) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel3 = Create-Panel -Width ($PWidth - 15) -Height ($PHeight * 3.0) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel4 = Create-Panel -Width $PWidth -Height ($PHeight * 3.5) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel4 = Create-Panel -Width $PWidth -Height ($PHeight * 3.0) -LocationX ($PWidth * $CurrentPanelIndex) -LocationY 0
 
     # Panel to put more Panels
     $FullPanel = Create-Panel -Width (($PWidth * ($CurrentPanelIndex + 1))) -Height $PHeight -LocationX 0 -LocationY 0 -HasVerticalScroll $true
@@ -506,8 +506,6 @@ function Show-GUI() {
     # <== CLICK EVENTS ==>
 
     $ApplyTweaks.Add_Click( {
-            Push-Location -Path "$PSScriptRoot\src\scripts\"
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
             $Scripts = @(
                 # [Recommended order]
@@ -523,271 +521,125 @@ function Show-GUI() {
                 "optimize-optional-features.ps1",
                 "win11-wsl-preview-install.ps1"
             )
-            ForEach ($FileName in $Scripts) {
-                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName" -Force
-            }
-            Pop-Location
+
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
 
             $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
             $Global:NeedRestart = $true
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $RemoveXbox.Add_Click( {
-            Push-Location -Path "$PSScriptRoot\src\utils\"
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-            $Scripts = @(
-                "remove-and-disable-xbox.ps1"
-            )
-            ForEach ($FileName in $Scripts) {
-                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName" -Force
-            }
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("remove-and-disable-xbox.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RepairWindows.Add_Click( {
-            Push-Location -Path "$PSScriptRoot\src\scripts\"
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-            $Scripts = @(
-                # [Recommended order]
-                "backup-system.ps1",
-                "repair-windows.ps1"
-            )
-
-            ForEach ($FileName in $Scripts) {
-                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName" -Force
-            }
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("backup-system.ps1", "repair-windows.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallOneDrive.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            $FileName = "install-onedrive.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("install-onedrive.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ReinstallBloatApps.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            $FileName = "reinstall-pre-installed-apps.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("reinstall-pre-installed-apps.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RevertScript.Add_Click( {
-            Push-Location -Path "$PSScriptRoot\src\scripts\"
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
             $Global:Revert = $true
-            $Scripts = @(
-                # [Recommended order]
-                "optimize-scheduled-tasks.ps1",
-                "optimize-services.ps1",
-                "optimize-privacy-and-performance.ps1",
-                "personal-tweaks.ps1",
-                "optimize-optional-features.ps1"
-            )
-            ForEach ($FileName in $Scripts) {
-                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName" -Force
-            }
-            Pop-Location
+            $Scripts = @("optimize-scheduled-tasks.ps1", "optimize-services.ps1", "optimize-privacy-and-performance.ps1", "personal-tweaks.ps1", "optimize-optional-features.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $Global:Revert = $false
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     $DarkTheme.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[+] Enabling Dark theme..."
-            regedit /s use-dark-theme.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("use-dark-theme.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Dark Theme enabled!"
         })
 
     $LightTheme.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[+] Enabling Light theme..."
-            regedit /s use-light-theme.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("use-light-theme.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Light Theme enabled!"
         })
 
     $EnableSearchIdx.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            $FileName = "enable-search-idx.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("enable-search-idx.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $DisableSearchIdx.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            $FileName = "disable-search-idx.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("disable-search-idx.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $EnableBgApps.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[+] Enabling Background Apps..."
-            regedit /s enable-bg-apps.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("enable-bg-apps.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Background Apps enabled!"
         })
 
     $DisableBgApps.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[-] Disabling Background Apps..."
-            regedit /s disable-bg-apps.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("disable-bg-apps.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Background Apps disabled!"
         })
 
     $EnableTelemetry.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[+] Enabling Telemetry..."
-            regedit /s enable-full-telemetry.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("enable-telemetry.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Telemetry enabled!"
         })
 
     $DisableTelemetry.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[-] Disabling Telemetry..."
-            regedit /s disable-telemetry.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("disable-telemetry.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Telemetry disabled!"
         })
 
-
     $EnableCortana.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[+] Enabling Cortana..."
-            regedit /s enable-cortana.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("enable-cortana.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Cortana enabled!"
         })
 
     $DisableCortana.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[-] Disabling Cortana..."
-            regedit /s disable-cortana.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("disable-cortana.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Cortana disabled!"
         })
 
     $EnableGameBarAndDVR.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[+] Enabling Xbox GameBar/DVR..."
-            regedit /s enable-game-bar-dvr.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("enable-game-bar-dvr.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Xbox GameBar/DVR enabled!"
         })
 
     $DisableGameBarAndDVR.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[-] Disabling Xbox GameBar/DVR..."
-            regedit /s disable-game-bar-dvr.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("disable-game-bar-dvr.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Xbox GameBar/DVR disabled!"
         })
 
     $EnableClipboardHistory.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[+] Enabling ClipboardHistory..."
-            regedit /s enable-clipboard-history.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("enable-clipboard-history.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Clipboard History enabled!"
         })
 
     $DisableClipboardHistory.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[-] Disabling Clipboard History..."
-            regedit /s disable-clipboard-history.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("disable-clipboard-history.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Clipboard History disabled!"
         })
 
     $EnableOldVolumeControl.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[+] Enabling Old Volume Control..."
-            regedit /s enable-old-volume-control.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("enable-old-volume-control.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Old Volume Control enabled!"
         })
 
     $DisableOldVolumeControl.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            Write-Host "[-] Disabling Old Volume Control..."
-            regedit /s disable-old-volume-control.reg
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("disable-old-volume-control.reg")
+            Open-RegFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Old Volume Control disabled!"
         })
 
     $InstallDrivers.Add_Click( {
-            Push-Location -Path "$PSScriptRoot\src\scripts\"
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-            $Scripts = @(
-                "install-drivers-updaters.ps1"
-            )
-
-            ForEach ($FileName in $Scripts) {
-                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName" -Force
-            }
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("install-drivers-updaters.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $BraveBrowser.Add_Click( {
@@ -895,13 +747,8 @@ function Show-GUI() {
         })
 
     $GitAndKeysSetup.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            $FileName = "setup-git-keys-and-sign.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("setup-git-keys-and-sign.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $JavaJRE.Add_Click( {
@@ -957,19 +804,8 @@ function Show-GUI() {
         })
 
     $InstallGamingDependencies.Add_Click( {
-            Push-Location -Path "$PSScriptRoot\src\scripts\"
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-            $Scripts = @(
-                "install-gaming-dependencies.ps1"
-            )
-            ForEach ($FileName in $Scripts) {
-                Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-                Import-Module -DisableNameChecking .\"$FileName" -Force
-            }
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("install-gaming-dependencies.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $Discord.Add_Click( {
@@ -1085,24 +921,13 @@ function Show-GUI() {
         })
 
     $WSL2.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            $FileName = "win10-wsl2-wslg-install.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("win10-wsl2-wslg-install.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $WSLPreview.Add_Click( {
-            Push-Location -Path "$PSScriptRoot\src\scripts\"
-            Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-            $FileName = "win11-wsl-preview-install.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("win11-wsl-preview-install.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $Ubuntu.Add_Click( {
@@ -1138,13 +963,8 @@ function Show-GUI() {
         })
 
     $ArchWSL.Add_Click( {
-            Push-Location "$PSScriptRoot\src\utils\"
-
-            $FileName = "archwsl-install.ps1"
-            Import-Module -DisableNameChecking .\"$FileName" -Force
-
-            Pop-Location
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+            $Scripts = @("archwsl-install.ps1")
+            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     # Show the Window
@@ -1157,21 +977,22 @@ function Show-GUI() {
 
 function Main() {
 
-    Clear-Host                  # Clear the Powershell before it got an Output
+    Clear-Host
     Request-PrivilegesElevation # Check admin rights
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
-
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-console-style.psm1"
+    
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-package.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-message-box.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
+    
     Set-ConsoleStyle            # Makes the console look cooler
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\install-package.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\gui-helper.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\show-message-box.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
-
     Set-UnrestrictedPermissions # Unlock script usage
     Import-Module -DisableNameChecking "$PSScriptRoot\src\scripts\install-package-managers.ps1" -Force # Install Winget and Chocolatey at the beginning
     Write-ASCIIScriptName       # Thanks Figlet

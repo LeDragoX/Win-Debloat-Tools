@@ -3,7 +3,7 @@ function Request-PrivilegesElevation() {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-function Use-Scripts() {
+function Open-Scripts() {
 
     $DoneTitle = "Done"
     $DoneMessage = "Process Completed!"
@@ -48,13 +48,13 @@ function Main() {
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
     
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-console-style.psm1"
-    Set-ConsoleStyle            # Makes the console look cooler
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\show-message-box.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
-
+    
+    Set-ConsoleStyle            # Makes the console look cooler
     Set-UnrestrictedPermissions # Unlock script usage
-    Use-Scripts                 # Run all scripts inside 'scripts' folder
+    Open-Scripts                # Run all scripts inside 'scripts' folder
     Set-RestrictedPermissions   # Lock script usage
     Write-ASCIIScriptName       # Thanks Figlet
     Request-PcRestart           # Prompt options to Restart the PC
