@@ -20,7 +20,7 @@ function WSLPreviewInstall() {
     }
     Catch {
 
-        Write-Warning "[?] Couldn't install WSL2 Preview, you must be at least on Windows 11..."
+        Write-Warning "[?] Couldn't install WSL Preview, you must be at least on Windows 11..."
 
     }
 

@@ -3,9 +3,9 @@ function Install-Package() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        [String]  $Name,
-        [Array]   $PackageName,
-        [String]  $InstallBlock = { winget install --silent --source "winget" --id $Package }
+        [String]      $Name,
+        [Array]       $PackageName,
+        [ScriptBlock] $InstallBlock = { winget install --silent --source "winget" --id $Package }
     )
 
     $DoneTitle = "Done"
