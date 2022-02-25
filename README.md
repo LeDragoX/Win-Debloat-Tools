@@ -44,7 +44,7 @@ _Use on a fresh windows install to note the differences._
 The `Win10Script/GUI.ps1` do not make everything automatically, follow these steps.
 
 - Extract the `.zip` file.
-- Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on its folder.
+- Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on it's folder.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory (Down below).
 
 ### **GUI Version**
@@ -199,7 +199,7 @@ Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "VirtualMachinePl
 ## ➕ Contribute
 
 I would be happy to extend the collection of scripts.
-Just open an issue or send me a pull request. (Yes, if its useful, you can).
+Just open an issue or send me a pull request. (Yes, if it's useful, you can).
 
 ## 🤍 Credits
 
@@ -237,14 +237,15 @@ Just open an issue or send me a pull request. (Yes, if its useful, you can).
     <summary>Click to expand</summary>
 <p>How To (Advanced Users)</p>
 
-By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe`
-i could track the `SystemSettings.exe` by filtering it per Process Name, then `Clearing the list (Ctrl + X)`
-(But make sure it is `Capturing the Events (Ctrl + E)`) and finally, applying an option of the Windows Configurations
+By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe` i could track the `SystemSettings.exe` by filtering per Process Name `(Ctrl + L)`.
+- But, not every time filtering the application you want will show the registry tweaks that were applied, so make sure other processes appear.
+- Then use `Clearing the list (Ctrl + X)` (But make sure it is `Capturing the Events (Ctrl + E)`) and finally, applying an option of the Windows Configurations
 and searching the Registry Key inside `Procmon(64).exe`.
+- Also make sure to disable the Events being captured `(Ctrl + E)` after applying a specific config.
 
 ![Grab the current tweak on registry with Procmon64.exe](./src/assets/grab-the-current-tweak-on-registry-with-procmon64.png)
 
-After finding the right register Key, you just need to Right-Click and select `Jump To... (Ctrl + J)` to get on its directory.
+After finding the right register Key, you just need to Right-Click and select `Jump To... (Ctrl + J)` to get on it's directory.
 
 ![Showing on regedit](./src/assets/showing-on-regedit.png)
 
