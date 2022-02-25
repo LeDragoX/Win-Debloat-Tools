@@ -58,17 +58,20 @@ function Write-ASCIIScriptName() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()
 
-    Write-Host '        __        __ _         _   ___           ____                           _    ' -ForegroundColor Cyan
-    Write-Host '        \ \      / /(_) _ __  / | / _ \    _    / ___|  _ __ ___    __ _  _ __ | |_  ' -ForegroundColor Cyan
-    Write-Host '         \ \ /\ / / | || "_ \ | || | | | _| |_  \___ \ | "_ ` _ \  / _` || "__|| __| ' -ForegroundColor Cyan
-    Write-Host '          \ V  V /  | || | | || || |_| ||_   _|  ___) || | | | | || (_| || |   | |_  ' -ForegroundColor Cyan
-    Write-Host '           \_/\_/   |_||_| |_||_| \___/   |_|   |____/ |_| |_| |_| \__,_||_|    \__| ' -ForegroundColor Cyan
-    Write-Host '                                                                                     ' -ForegroundColor Cyan
-    Write-Host '                          ____         _      _                _                     ' -ForegroundColor Cyan
-    Write-Host '                         |  _ \   ___ | |__  | |  ___    __ _ | |_                   ' -ForegroundColor Cyan
-    Write-Host '                         | | | | / _ \| "_ \ | | / _ \  / _` || __|                  ' -ForegroundColor Cyan
-    Write-Host '                         | |_| ||  __/| |_) || || (_) || (_| || |_                   ' -ForegroundColor Cyan
-    Write-Host "                         |____/  \___||_.__/ |_| \___/  \__,_| \__|              `n`n" -ForegroundColor Cyan
+    "
+    
+    "
+    Write-Host '   __        ___         _  ___          ____                       _   ' -ForegroundColor Cyan
+    Write-Host '   \ \      / (_)_ __   / |/ _ \   _    / ___| _ __ ___   __ _ _ __| |_ ' -ForegroundColor Cyan
+    Write-Host '    \ \ /\ / /| | "_ \  | | | | |_| |_  \___ \| "_ ` _ \ / _` | "__| __|' -ForegroundColor Cyan
+    Write-Host '     \ V  V / | | | | | | | |_| |_   _|  ___) | | | | | | (_| | |  | |_ ' -ForegroundColor Cyan
+    Write-Host '      \_/\_/  |_|_| |_| |_|\___/  |_|   |____/|_| |_| |_|\__,_|_|   \__|' -ForegroundColor Cyan
+    Write-Host '                                                                        ' -ForegroundColor Cyan
+    Write-Host '        ____       _     _             _     _____           _          ' -ForegroundColor Cyan
+    Write-Host '       |  _ \  ___| |__ | | ___   __ _| |_  |_   _|__   ___ | |___      ' -ForegroundColor Cyan
+    Write-Host '       | | | |/ _ \ "_ \| |/ _ \ / _` | __|   | |/ _ \ / _ \| / __|     ' -ForegroundColor Cyan
+    Write-Host '       | |_| |  __/ |_) | | (_) | (_| | |_    | | (_) | (_) | \__ \     ' -ForegroundColor Cyan
+    Write-Host "       |____/ \___|_.__/|_|\___/ \__,_|\__|   |_|\___/ \___/|_|___/ `n`n" -ForegroundColor Cyan
 
 }
 

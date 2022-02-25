@@ -21,7 +21,7 @@ function Show-GUI() {
     $Form.MaximizeBox = $false              # Hide the Maximize Button
     $Form.Size = New-Object System.Drawing.Size(($MaxWidth + 15), $MaxHeight)
     $Form.StartPosition = 'CenterScreen'    # Appears on the center
-    $Form.Text = "Windows 10+ Smart Debloat - by LeDragoX"
+    $Form.Text = "Win 10+ Smart Debloat Tools - by LeDragoX"
     $Form.TopMost = $false
 
     # Icon: https://stackoverflow.com/a/53377253
