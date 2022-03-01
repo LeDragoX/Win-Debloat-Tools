@@ -126,15 +126,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 > and Open PowerShell as admin to copy paste it's content:
 
 <details>
-<summary>NVIDIA GeForce Experience <code>ERROR: 0x0003</code> (<code>NvContainerLocalSystem</code> service was disabled) - No Issue Link</summary>
-
-```Powershell
-Get-Service NvContainerLocalSystem | Set-Service -StartupType Automatic -PassThru | Start-Service
-```
-
-</details>
-
-<details>
 <summary>Fingerprint Reader / Facial Detection not Working (<code>WbioSrvc</code> service was disabled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">#189 from W4RH4WK</a></summary>
 
 ```Powershell
