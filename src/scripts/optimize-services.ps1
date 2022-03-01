@@ -21,7 +21,6 @@ function Optimize-Services() {
         "lfsvc"                                     # Geolocation Service
         "MapsBroker"                                # Downloaded Maps Manager
         "ndu"                                       # Windows Network Data Usage Monitoring Driver
-        "NvContainerLocalSystem"                    # NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
@@ -34,6 +33,7 @@ function Optimize-Services() {
 
         #"DPS"                                      # Diagnostic Policy Service
         #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
+        #"NvContainerLocalSystem"                   # NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
         #"SharedAccess"                             # Internet Connection Sharing (ICS)
         #"stisvc"                                   # Windows Image Acquisition (WIA)
         #"WlanSvc"                                  # WLAN AutoConfig
