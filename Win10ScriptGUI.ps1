@@ -241,10 +241,10 @@ function Show-GUI() {
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_10.Location.Y + $SBHeight + $DistanceBetweenButtons
     $Ventoy = Create-Button -Text "Ventoy" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $Ventoy.Location.Y + $Ventoy.Height + $DistanceBetweenButtons
     $Rufus = Create-Button -Text "Rufus" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $Rufus.Location.Y + $Rufus.Height + $DistanceBetweenButtons
     $BalenaEtcher = Create-Button -Text "Etcher" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
@@ -319,6 +319,9 @@ function Show-GUI() {
     $Zoom = Create-Button -Text "Zoom" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Zoom.Location.Y + $Zoom.Height + $DistanceBetweenButtons
+    $Telegram = Create-Button -Text "Telegram Desktop" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Telegram.Location.Y + $Telegram.Height + $DistanceBetweenButtons
     $RocketChat = Create-Button -Text "Rocket Chat" -Width $SBWidth -Height $SBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
@@ -493,7 +496,7 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_10, $Ventoy, $Rufus, $BalenaEtcher))
     $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
 
-    $Panel4.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel4_1, $Discord, $MSTeams, $Slack, $Zoom, $RocketChat))
+    $Panel4.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel4_1, $Discord, $MSTeams, $Slack, $Zoom, $Telegram, $RocketChat))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Notion))
     $Panel4.Controls.AddRange(@($CaptionLabel4_4, $Parsec, $AnyDesk, $TeamViewer, $AndroidScrCpy))
@@ -824,6 +827,10 @@ function Show-GUI() {
             Install-Package -Name $Zoom.Text -PackageName "Zoom.Zoom"
         })
 
+    $Telegram.Add_Click( {
+            Install-Package -Name $Telegram.Text -PackageName "Telegram.TelegramDesktop"
+        })
+
     $RocketChat.Add_Click( {
             Install-Package -Name $RocketChat.Text -PackageName "RocketChat.RocketChat"
         })
@@ -983,7 +990,7 @@ function Main() {
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
-    
+
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-package.psm1"
@@ -991,7 +998,7 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-message-box.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
-    
+
     Set-ConsoleStyle            # Makes the console look cooler
     Set-UnrestrictedPermissions # Unlock script usage
     Import-Module -DisableNameChecking "$PSScriptRoot\src\scripts\install-package-managers.ps1" -Force # Install Winget and Chocolatey at the beginning
