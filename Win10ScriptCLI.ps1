@@ -8,11 +8,6 @@ function Open-Scripts() {
     $DoneTitle = "Done"
     $DoneMessage = "Process Completed!"
 
-    Push-Location -Path "src\scripts\"
-
-    Get-ChildItem -Recurse *.ps*1 | Unblock-File
-
-    Clear-Host
     $Scripts = @(
         # [Recommended order]
         "backup-system.ps1",
@@ -29,14 +24,7 @@ function Open-Scripts() {
         "win11-wsl-preview-install.ps1"
     )
 
-    ForEach ($FileName in $Scripts) {
-        Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-        PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
-    }
-    Pop-Location
-
-    Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
-
+    Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -OpenFromGUI $false
 }
 
 function Main() {
@@ -48,6 +36,7 @@ function Main() {
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
     
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-console-style.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\show-message-box.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"

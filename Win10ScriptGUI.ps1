@@ -525,7 +525,7 @@ function Show-GUI() {
                 "win11-wsl-preview-install.ps1"
             )
 
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
 
             $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
@@ -535,28 +535,28 @@ function Show-GUI() {
 
     $RemoveXbox.Add_Click( {
             $Scripts = @("remove-and-disable-xbox.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RepairWindows.Add_Click( {
             $Scripts = @("backup-system.ps1", "repair-windows.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallOneDrive.Add_Click( {
             $Scripts = @("install-onedrive.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ReinstallBloatApps.Add_Click( {
             $Scripts = @("reinstall-pre-installed-apps.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RevertScript.Add_Click( {
             $Global:Revert = $true
             $Scripts = @("optimize-scheduled-tasks.ps1", "optimize-services.ps1", "optimize-privacy-and-performance.ps1", "personal-tweaks.ps1", "optimize-optional-features.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $Global:Revert = $false
         })
 
@@ -572,12 +572,12 @@ function Show-GUI() {
 
     $EnableSearchIdx.Add_Click( {
             $Scripts = @("enable-search-idx.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $DisableSearchIdx.Add_Click( {
             $Scripts = @("disable-search-idx.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $EnableBgApps.Add_Click( {
@@ -642,7 +642,7 @@ function Show-GUI() {
 
     $InstallDrivers.Add_Click( {
             $Scripts = @("install-drivers-updaters.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $BraveBrowser.Add_Click( {
@@ -751,7 +751,7 @@ function Show-GUI() {
 
     $GitAndKeysSetup.Add_Click( {
             $Scripts = @("setup-git-keys-and-sign.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $JavaJRE.Add_Click( {
@@ -808,7 +808,7 @@ function Show-GUI() {
 
     $InstallGamingDependencies.Add_Click( {
             $Scripts = @("install-gaming-dependencies.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $Discord.Add_Click( {
@@ -929,12 +929,12 @@ function Show-GUI() {
 
     $WSL2.Add_Click( {
             $Scripts = @("win10-wsl2-wslg-install.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $WSLPreview.Add_Click( {
             $Scripts = @("win11-wsl-preview-install.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $Ubuntu.Add_Click( {
@@ -971,7 +971,7 @@ function Show-GUI() {
 
     $ArchWSL.Add_Click( {
             $Scripts = @("archwsl-install.ps1")
-            Open-PowerShellFilesOnGUI -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFiles -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     # Show the Window
@@ -1001,7 +1001,7 @@ function Main() {
 
     Set-ConsoleStyle            # Makes the console look cooler
     Set-UnrestrictedPermissions # Unlock script usage
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\scripts\install-package-managers.ps1" -Force # Install Winget and Chocolatey at the beginning
+    Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -DoneTitle $DoneTitle -DoneMessage $DoneMessage -ShowDoneWindow $false # Install Winget and Chocolatey at the beginning
     Write-ASCIIScriptName       # Thanks Figlet
     Show-GUI                    # Load the GUI
 
