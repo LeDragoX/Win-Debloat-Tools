@@ -16,16 +16,16 @@ but you'll probably want the most recent version anyway.
 
 <div align="center">
 
-|                                                    Download                                                     | Version Supported | Build | Editions |                                      Powershell version                                       |
-| :-------------------------------------------------------------------------------------------------------------: | :---------------: | :---: | :------: | :-------------------------------------------------------------------------------------------: |
-| <h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Download [Zip]</a></h3> |   21H2 or Older   | 22000 | Home/Pro | <img width=20px src="./src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
+|                                                     Download                                                     | Version Supported | Editions |                                      Powershell version                                       |
+| :--------------------------------------------------------------------------------------------------------------: | :---------------: | :------: | :-------------------------------------------------------------------------------------------: |
+| <h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Download [Zip]</a></h3> |   21H2 or Older   | Home/Pro | <img width=20px src="./src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
 
 </div>
 
 ## 📄 Resume
 
 This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10).
-These scripts will Customize, Debloat and Improve Security/Performance on Windows 10+.
+These scripts will Customize, Debloat and Improve Privacy/Performance on Windows 10+.
 
 _Use on a fresh windows install to note the differences._
 
@@ -64,7 +64,7 @@ _The `Apply Tweaks` button is the main one for debloating._
 - Copy and Paste this entire line below on **Powershell**:
 
 ```ps1
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10Script.ps1"
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptCLI.ps1"
 ```
 
 **[Scripts](./src/scripts) can be run individually, pick what you need.**
@@ -81,7 +81,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Revert Tweaks`: Re-apply some tweaks and [Revert] all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks;
 - `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
 - `Enable/Disable Search Indexing`: Let you choose whether the **Windows Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
-- `Enable/Disable Background Apps`: Let you choose whether *ALL* the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
+- `Enable/Disable Background Apps`: Let you choose whether _ALL_ the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
 - `Enable Telemetry & Disable Telemetry`: Let you choose whether the **Windows Telemetry** is [enabled](./src/utils/enable-full-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
 - `Enable/Disable Cortana`: Let you choose whether the **Cortana** is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
 - `Enable/Disable Xbox GameBar/DVR`: Let you choose whether the **Xbox GameBar/DVR (In-Game)** is [enabled](./src/utils/enable-game-bar-dvr.reg) or [disabled](src/utils/disable-game-bar-dvr.reg);
@@ -229,9 +229,10 @@ Just open an issue or send me a pull request. (Yes, if it's useful, you can).
 <p>How To (Advanced Users)</p>
 
 By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe` i could track the `SystemSettings.exe` by filtering per Process Name `(Ctrl + L)`.
+
 - But, not every time filtering the application you want will show the registry tweaks that were applied, so make sure other processes appear.
 - Then use `Clearing the list (Ctrl + X)` (But make sure it is `Capturing the Events (Ctrl + E)`) and finally, applying an option of the Windows Configurations
-and searching the Registry Key inside `Procmon(64).exe`.
+  and searching the Registry Key inside `Procmon(64).exe`.
 - Also make sure to disable the Events being captured `(Ctrl + E)` after applying a specific config.
 
 ![Grab the current tweak on registry with Procmon64.exe](./src/assets/grab-the-current-tweak-on-registry-with-procmon64.png)

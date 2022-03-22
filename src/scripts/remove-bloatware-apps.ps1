@@ -61,6 +61,7 @@ function Remove-BloatwareApps() {
         "*ACGMediaPlayer*"
         "*ActiproSoftwareLLC*"
         "*AdobePhotoshopExpress*"               # Adobe Photoshop Express
+        "*Amazon.com.Amazon*"                   # Amazon Shop
         "*Asphalt8Airborne*"                    # Asphalt 8 Airbone
         "*AutodeskSketchBook*"
         "*BubbleWitch3Saga*"                    # Bubble Witch 3 Saga
@@ -92,6 +93,7 @@ function Remove-BloatwareApps() {
         "*PolarrPhotoEditorAcademicEdition*"
         "*RoyalRevolt*"                         # Royal Revolt
         "*Shazam*"
+        "*Sidia.LiveWallpaper*"                 # Live Wallpaper
         "*SlingTV*"
         "*Speed Test*"
         "*Sway*"
@@ -101,6 +103,26 @@ function Remove-BloatwareApps() {
         "*WinZipUniversal*"
         "*Wunderlist*"
         "*XING*"
+
+        # SAMSUNG Bloat
+		
+        #"SAMSUNGELECTRONICSCO.LTD.SamsungSettings1.2"          # Allow user to Tweak some hardware settings
+        "SAMSUNGELECTRONICSCO.LTD.1412377A9806A"
+        "SAMSUNGELECTRONICSCO.LTD.NewVoiceNote"
+        "SAMSUNGELECTRONICSCoLtd.SamsungNotes"
+        "SAMSUNGELECTRONICSCoLtd.SamsungFlux"
+        "SAMSUNGELECTRONICSCO.LTD.StudioPlus"
+        "SAMSUNGELECTRONICSCO.LTD.SamsungWelcome"
+        "SAMSUNGELECTRONICSCO.LTD.SamsungUpdate"
+        "SAMSUNGELECTRONICSCO.LTD.SamsungSecurity1.2"
+        "SAMSUNGELECTRONICSCO.LTD.SamsungScreenRecording"
+        #"SAMSUNGELECTRONICSCO.LTD.SamsungRecovery"             # Used to Factory Reset
+        "SAMSUNGELECTRONICSCO.LTD.SamsungQuickSearch"
+        "SAMSUNGELECTRONICSCO.LTD.SamsungPCCleaner"
+        "SAMSUNGELECTRONICSCO.LTD.SamsungCloudBluetoothSync"
+        "SAMSUNGELECTRONICSCO.LTD.PCGallery"
+        "SAMSUNGELECTRONICSCO.LTD.OnlineSupportSService"
+        "4AE8B7C2.BOOKING.COMPARTNERAPPSAMSUNGEDITION"
 
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"

@@ -1,12 +1,16 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Open-PowerShellFilesOnGUI {
+function Open-PowerShellFiles {
     param (
         [String] $RelativeLocation,
         [Array]  $Scripts,
         [String] $DoneTitle,
-        [String] $DoneMessage
+        [String] $DoneMessage,
+        [Parameter(Mandatory = $false)]
+        [Bool]   $ShowDoneWindow = $true,
+        [Parameter(Mandatory = $false)]
+        [Bool]   $OpenFromGUI = $true
     )
 
     Push-Location -Path "$PSScriptRoot\..\..\$RelativeLocation"
@@ -14,12 +18,21 @@ function Open-PowerShellFilesOnGUI {
 
     ForEach ($FileName in $Scripts) {
         Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
-        Import-Module -DisableNameChecking .\"$FileName" -Force
+        If ($OpenFromGUI) {
+            Import-Module -DisableNameChecking .\"$FileName" -Force
+        }
+        Else {
+            PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
+        }
     }
 
     Pop-Location
-    Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+
+    If ($ShowDoneWindow) {
+        Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+    }
 }
+
 function Open-RegFiles {
     param (
         [String] $RelativeLocation,

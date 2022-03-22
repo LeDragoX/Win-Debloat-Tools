@@ -12,9 +12,7 @@ function Show-Message() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
         [String] $Title = "Insert title here",
-        [Array] $Message = 
-        "Crash
-         Bandicoot",
+        [Array] $Message = "`nCrash`nBandicoot",
         [String] $BoxButtons = "OK", # AbortRetryIgnore, OK, OKCancel, RetryCancel, YesNo, YesNoCancel, 
         [String] $BoxIcon = "Information" # Information, Question, Warning, Error or None
     )
