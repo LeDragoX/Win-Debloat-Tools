@@ -9,6 +9,8 @@ Adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
 
 </h2>
 
+[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml)
+
 ## 🚀 Download Latest Version
 
 Code located in the `main` branch is always considered under development,
