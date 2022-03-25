@@ -31,10 +31,9 @@ jobs:
           # The below set up runs PSScriptAnalyzer to your entire repository and runs some basic security rules.
           path: .\
           recurse: true 
-          # Include your own basic security rules. Removing this option will run all the rules
-          includeDefaultRules: true 
           # Enabling all default rules to trigger more.
           #includeRule: '"PSAvoidGlobalAliases", "PSAvoidUsingConvertToSecureStringWithPlainText"'
+          # Exclude rules that will not be worked on / are invalid
           excludeRule: '"AvoidGlobalVars", "AvoidUsingInvokeExpression", "AvoidUsingWMICmdlet", "AvoidUsingWriteHost"'
           output: results.sarif
       
