@@ -16,7 +16,7 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: '38 13 * * 6'
+    - cron: '30 12 * * 6'
     
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
           # Exclude rules that will not be worked on / are invalid
           excludeRule: '"PSAvoidGlobalVars", "PSAvoidUsingInvokeExpression", "PSAvoidUsingWMICmdlet", "PSAvoidUsingWriteHost", "PSShouldProcess", "PSUseDeclaredVarsMoreThanAssignments"'
           output: results.sarif
-      
+
       # Upload the SARIF file generated in the previous step
       - name: Upload SARIF results file
         uses: github/codeql-action/upload-sarif@v1
