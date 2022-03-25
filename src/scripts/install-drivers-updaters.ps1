@@ -7,7 +7,7 @@ function Install-DriverUpdater() {
     $CPU = Get-CPU  # Detects the current CPU
     $GPU = Get-GPU  # Detects the current GPU
     $Ask = "Do you want to install CPU/GPU drivers?`nAll the following Driver Updaters will be installed (if found):`n- $CPU driver updater`n- $GPU driver updater"
-  
+
     switch (Show-Question -Title "Warning" -Message $Ask) {
         'Yes' {
             # Check for CPU drivers
