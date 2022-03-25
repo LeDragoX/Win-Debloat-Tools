@@ -105,7 +105,7 @@ function Remove-BloatwareAppsList() {
         "*XING*"
 
         # SAMSUNG Bloat
-		
+
         #"SAMSUNGELECTRONICSCO.LTD.SamsungSettings1.2"          # Allow user to Tweak some hardware settings
         "SAMSUNGELECTRONICSCO.LTD.1412377A9806A"
         "SAMSUNGELECTRONICSCO.LTD.NewVoiceNote"
