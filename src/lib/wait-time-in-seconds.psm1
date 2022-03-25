@@ -1,6 +1,5 @@
 function Wait-TimeInSecond() {
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [Int] $Time = 3,
         [String] $Msg = "Exiting in"

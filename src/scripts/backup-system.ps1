@@ -1,6 +1,6 @@
 # Made by LeDragoX inspired by Chris Titus Tech
 function New-RestorePoint() {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding()]
     param()
 
     Write-Host "[+][Backup] Enabling system drive Restore Point..."

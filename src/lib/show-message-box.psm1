@@ -1,6 +1,6 @@
 # Reference: https://michlstechblog.info/blog/powershell-show-a-messagebox/#:~:text=Sometimes%20while%20a%20powershell%20script,NET%20Windows.
 function Use-WindowsForm() {
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param ()
 
     # Load assembly
@@ -9,7 +9,7 @@ function Use-WindowsForm() {
 
 function Show-Message() {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [String] $Title = "Insert title here",
         [Array] $Message = "`nCrash`nBandicoot",

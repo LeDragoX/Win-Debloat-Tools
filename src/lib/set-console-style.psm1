@@ -1,5 +1,5 @@
 function Set-ConsoleStyle() {
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param ()
 
     cmd /c color A

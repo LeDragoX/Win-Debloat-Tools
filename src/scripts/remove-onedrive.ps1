@@ -2,7 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"New-FolderForc
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"take-own.psm1"
 
 function Remove-OneDrive() {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding()]
     param()
 
     # Description:

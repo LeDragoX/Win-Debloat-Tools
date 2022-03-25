@@ -1,5 +1,5 @@
 function Unlock-ScriptUsage() {
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param ()
 
     Write-Host "[@] Receiving permissions to run scripts..." -ForegroundColor White
@@ -9,7 +9,7 @@ function Unlock-ScriptUsage() {
 }
 
 function Block-ScriptUsage() {
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param ()
 
     Write-Host "[@] Denying permissions to run scripts..." -ForegroundColor White
