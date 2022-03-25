@@ -95,6 +95,6 @@ function Get-OSDriveType() {
         }
     }
 
-    $IsSSD? = $SystemDriveType.MediaType -eq "SSD"
-    return $IsSSD?
+    $IsSSD = $SystemDriveType.MediaType -eq "SSD"
+    return $IsSSD
 }
