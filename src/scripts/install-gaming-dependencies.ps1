@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Install-GamingPackages() {
+function Install-GamingSoftwareRequirement() {
 
     $Ask = "Do you plan to play games on this PC?`nAll the following Gaming Dependencies will be installed:`n- Microsoft DirectX`n- Microsoft .NET Framework`n- Microsoft Visual C++ Packages (2005-2022)"
 
@@ -54,7 +54,7 @@ function Install-GamingPackages() {
 
 function Main() {
 
-    Install-GamingPackages               # Install All Gaming Dependencies
+    Install-GamingSoftwareRequirement # Install All Gaming Dependencies
 
 }
 

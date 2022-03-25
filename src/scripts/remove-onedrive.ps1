@@ -2,6 +2,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"New-FolderForc
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"take-own.psm1"
 
 function Remove-OneDrive() {
+    [CmdletBinding(SupportsShouldProcess = $true)]
+    param()
+
     # Description:
     # This script will remove and disable OneDrive integration.
     Write-Host "Kill OneDrive process..."
@@ -57,7 +60,7 @@ function Remove-OneDrive() {
 }
 
 function Main() {
- 
+
     Remove-OneDrive
 
 }

@@ -103,7 +103,7 @@ function Optimize-Security() {
 
 function Main() {
 
-    Optimize-Security   # Improve the Windows Security
+    Optimize-Security # Improve the Windows Security
 
 }
 

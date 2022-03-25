@@ -35,6 +35,7 @@ jobs:
           includeDefaultRules: true 
           # Enabling all default rules to trigger more.
           #includeRule: '"PSAvoidGlobalAliases", "PSAvoidUsingConvertToSecureStringWithPlainText"'
+          excludeRule: '"AvoidGlobalVars", "AvoidUsingInvokeExpression", "AvoidUsingWMICmdlet", "AvoidUsingWriteHost"'
           output: results.sarif
       
       # Upload the SARIF file generated in the previous step

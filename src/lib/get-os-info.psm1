@@ -62,7 +62,7 @@ function Get-GPU() {
 
     ForEach ($Computer in $ArrComputers) {
         $Global:GPU = Get-WmiObject -Class Win32_VideoController -ComputerName $Computer
-        Write-Verbose "Video Info: $($Global:GPU.description)." 
+        Write-Verbose "Video Info: $($Global:GPU.description)."
     }
 
     If ($GPU.description.contains("AMD") -or $GPU.description.contains("Radeon")) {
@@ -78,7 +78,7 @@ function Get-GPU() {
         Write-Host "GPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
     }
 
-    Write-Host "GPU = $($GPU.description.Trim(" "))." 
+    Write-Host "GPU = $($GPU.description.Trim(" "))."
     return $GPU.description.Trim(" ")
 }
 

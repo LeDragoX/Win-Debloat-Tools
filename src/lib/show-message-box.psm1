@@ -1,5 +1,5 @@
 # Reference: https://michlstechblog.info/blog/powershell-show-a-messagebox/#:~:text=Sometimes%20while%20a%20powershell%20script,NET%20Windows.
-function Use-SysForms() {
+function Use-WindowsForm() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param ()
 
@@ -13,11 +13,11 @@ function Show-Message() {
     param (
         [String] $Title = "Insert title here",
         [Array] $Message = "`nCrash`nBandicoot",
-        [String] $BoxButtons = "OK", # AbortRetryIgnore, OK, OKCancel, RetryCancel, YesNo, YesNoCancel, 
+        [String] $BoxButtons = "OK", # AbortRetryIgnore, OK, OKCancel, RetryCancel, YesNo, YesNoCancel
         [String] $BoxIcon = "Information" # Information, Question, Warning, Error or None
     )
 
-    Use-SysForms
+    Use-WindowsForm
     [System.Windows.Forms.MessageBox]::Show($Message, $Title, [System.Windows.Forms.MessageBoxButtons]::$BoxButtons, [System.Windows.Forms.MessageBoxIcon]::$BoxIcon)
 }
 
@@ -25,14 +25,12 @@ function Show-Question() {
 
     param (
         [String] $Title = "Insert title here",
-        [Array] $Message = 
-        "Crash
-         Bandicoot",
+        [Array] $Message = "Crash`nBandicoot",
         [String] $BoxButtons = "YesNoCancel",
         [String] $BoxIcon = "Question"
     )
 
-    Use-SysForms
+    Use-WindowsForm
     $Answer = [System.Windows.Forms.MessageBox]::Show($Message, $Title, [System.Windows.Forms.MessageBoxButtons]::$BoxButtons, [System.Windows.Forms.MessageBoxIcon]::$BoxIcon)
 
     return $Answer
@@ -46,7 +44,7 @@ function Request-PcRestart() {
     switch (Show-Question -Title "Warning" -Message $Ask) {
         'Yes' {
             Write-Host "You choose to Restart now"
-            Restart-Computer        
+            Restart-Computer
         }
         'No' {
             Write-Host "You choose to Restart later"

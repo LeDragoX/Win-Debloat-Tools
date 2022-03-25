@@ -5,7 +5,7 @@ function ArchWSLInstall() {
     $OSArchList = Get-OSArchitecture
 
     foreach ($OSArch in $OSArchList) {
-        if ($OSArch -like "x64") {    
+        if ($OSArch -like "x64") {
 
             $CertOutput = Get-APIFile -URI "https://api.github.com/repos/yuk7/ArchWSL/releases/latest" -APIObjectContainer "assets" -FileNameLike "ArchWSL-AppX_*_$OSArch.cer" -APIProperty "browser_download_url" -OutputFile "ArchWSL.cer"
             Write-Host "[+] Installing ArchWSL Certificate ($OSArch)..."

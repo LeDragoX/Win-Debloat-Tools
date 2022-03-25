@@ -1,4 +1,4 @@
-function Takeown-Registry($key) {
+function Grant-RegistryControl($key) {
     # TODO does not work for all root keys yet
     switch ($key.split('\')[0]) {
         "HKEY_CLASSES_ROOT" {
@@ -15,7 +15,7 @@ function Takeown-Registry($key) {
         }
     }
 
-    # get administraor group
+    # get administrator group
     $admins = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")
     $admins = $admins.Translate([System.Security.Principal.NTAccount])
 
@@ -32,11 +32,11 @@ function Takeown-Registry($key) {
     $key.SetAccessControl($acl)
 }
 
-function Takeown-File($path) {
+function Grant-FileControl($path) {
     takeown.exe /A /F $path
     $acl = Get-Acl $path
 
-    # get administraor group
+    # get administrator group
     $admins = New-Object System.Security.Principal.SecurityIdentifier("S-1-5-32-544")
     $admins = $admins.Translate([System.Security.Principal.NTAccount])
 
@@ -47,19 +47,19 @@ function Takeown-File($path) {
     Set-Acl -Path $path -AclObject $acl
 }
 
-function Takeown-Folder($path) {
-    Takeown-File $path
+function Grant-FolderControl($path) {
+    Grant-FileControl $path
     foreach ($item in Get-ChildItem $path) {
         if (Test-Path $item -PathType Container) {
-            Takeown-Folder $item.FullName
+            Grant-FolderControl $item.FullName
         }
         else {
-            Takeown-File $item.FullName
+            Grant-FileControl $item.FullName
         }
     }
 }
 
-function Elevate-Privileges {
+function Get-PrivilegesElevation {
     param($Privilege)
     $Definition = @"
     using System;

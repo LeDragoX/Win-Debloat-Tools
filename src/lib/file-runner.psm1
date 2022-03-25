@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Open-PowerShellFiles {
+function Open-PowerShellFilesCollection {
     param (
         [String] $RelativeLocation,
         [Array]  $Scripts,
@@ -33,7 +33,7 @@ function Open-PowerShellFiles {
     }
 }
 
-function Open-RegFiles {
+function Open-RegFilesCollection {
     param (
         [String] $RelativeLocation,
         [Array]  $Scripts,

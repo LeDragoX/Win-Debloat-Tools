@@ -94,7 +94,7 @@ function Set-GUILayout() {
         "Small Fonts"           # 78
         "System"                # 79
         "Terminal"              # 80
-    )  
+    )
 
     # <== Used Font ==>
 
@@ -103,19 +103,19 @@ function Set-GUILayout() {
     # <== SIZES LAYOUT ==>
 
     # To Forms
-    $Global:MaxWidth = 1366 * 0.85 # ~ 1162
-    $Global:MaxHeight = 768 * 0.85 # ~ 653
+    $Global:FormWidth = 1366 * 0.85 # ~ 1162
+    $Global:FormHeight = 768 * 0.85 # ~ 653
     # To Panels
     $Global:CurrentPanelIndex = -1
     $NumOfPanels = 4
-    [Int]$PanelWidth = ($MaxWidth / $NumOfPanels)
+    [Int] $Global:PanelWidth = ($FormWidth / $NumOfPanels)
     # To Labels
-    $LabelWidth = $PanelWidth
-    $TitleLabelHeight = 35
-    $CaptionLabelHeight = 20
+    $Global:LabelWidth = $PanelWidth
+    $Global:TitleLabelHeight = 35
+    $Global:CaptionLabelHeight = 20
     # To Buttons
-    $ButtonWidth = $PanelWidth * 0.91
-    $ButtonHeight = 30
+    $Global:ButtonWidth = $PanelWidth * 0.91
+    $Global:ButtonHeight = 30
     $Global:DistanceBetweenButtons = 5
     # To Fonts
     $Global:FontSize1 = 12
@@ -125,11 +125,11 @@ function Set-GUILayout() {
 
     # <== LOCATIONS LAYOUT ==>
 
-    [Int]$Global:TitleLabelX = $PanelWidth * 0
-    [Int]$Global:TitleLabelY = $MaxHeight * 0.01
-    [Int]$Global:CaptionLabelX = $PanelWidth * 0.25
-    [Int]$Global:ButtonX = $PanelWidth * 0.01
-    [Int]$Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
+    [Int] $Global:TitleLabelX = $PanelWidth * 0
+    [Int] $Global:TitleLabelY = $FormHeight * 0.01
+    [Int] $Global:CaptionLabelX = $PanelWidth * 0.25
+    [Int] $Global:ButtonX = $PanelWidth * 0.01
+    [Int] $Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
 
     # <== COLOR PALETTE ==>
 
@@ -143,34 +143,17 @@ function Set-GUILayout() {
 
     $Global:TextAlign = "MiddleCenter"
 
-    # Panel Layout
-
-    $Global:PWidth = $PanelWidth
-    $Global:PHeight = $MaxHeight
-
-    # Title Label Layout - Unique per Panel
-
-    $Global:TLWidth = $LabelWidth
-    $Global:TLHeight = $TitleLabelHeight
-
+    # Panel Layout -> $PanelWidth & $FormHeight
+    # Title Label Layout - (Unique per Panel) -> $LabelWidth & $TitleLabelHeight
     # Caption Label Layout
-
-    $Global:CLWidth = $LabelWidth - ($LabelWidth - $ButtonWidth)
-    $Global:CLHeight = $CaptionLabelHeight
-
-    # Big Button Layout - Unique per Panel
-
-    $Global:BBWidth = $ButtonWidth
+    $Global:CaptionLabelWidth = $LabelWidth - ($LabelWidth - $ButtonWidth) # & $CaptionLabelHeight
+    # Big Button Layout (Unique per Panel) -> $ButtonWidth &
     $Global:BBHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
-
-    # Small Button Layout
-
-    $Global:SBWidth = $ButtonWidth
-    $Global:SBHeight = $ButtonHeight
+    # Small Button Layout -> $ButtonWidth & $ButtonHeight
 
 }
 
-function Create-Panel() {
+function New-Panel() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -196,7 +179,7 @@ function Create-Panel() {
     return $Panel
 }
 
-function Create-Label() {
+function New-Label() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
@@ -225,7 +208,7 @@ function Create-Label() {
     return $Label
 }
 
-function Create-Button() {
+function New-Button() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (

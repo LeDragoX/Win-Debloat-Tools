@@ -6,7 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this matthewjberger's script: https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
 # Adapted from this Sycnex script:           https://github.com/Sycnex/Windows10Debloater
 
-function Optimize-Services() {
+function Optimize-RunningServicesList() {
 
     Write-Title -Text "Services tweaks"
 
@@ -121,7 +121,7 @@ function Main() {
     }
 
     $IsSystemDriveSSD? = Get-OSDriveType
-    Optimize-Services   # Enable essential Services and Disable bloating Services
+    Optimize-RunningServicesList # Enable essential Services and Disable bloating Services
 }
 
 Main

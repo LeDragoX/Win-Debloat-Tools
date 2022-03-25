@@ -2,16 +2,11 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-apps.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 
 function Remove-Xbox() {
+    [CmdletBinding(SupportsShouldProcess = $true)]
 
     $Global:PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 
-    $Ask = "This will remove or disable the Xbox:
-  - Apps;
-  - Services (Except from Accessories) and;
-  - GameBar;
-  - GameDVR.
-
-Do you want to proceed?"
+    $Ask = "This will remove or disable the Xbox:`n  - Apps;`n  - Services (Except from Accessories) and;`n  - GameBar;`n  - GameDVR.`n`nDo you want to proceed?"
 
     switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
         'Yes' {
@@ -38,7 +33,7 @@ Do you want to proceed?"
                 "Microsoft.Xbox.TCUI"               # Xbox Live API communication (Xbox Dependency)
             )
 
-            Remove-UWPApps -Apps $XboxApps
+            Remove-UWPAppsList -Apps $XboxApps
 
             Write-Host "[-][Priv&Perf] Disabling Xbox Game Bar & Game DVR..."
             Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0

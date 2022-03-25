@@ -2,7 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Install-DriversUpdaters() {
+function Install-DriverUpdater() {
 
     $CPU = Get-CPU  # Detects the current CPU
     $GPU = Get-GPU  # Detects the current GPU
@@ -53,7 +53,7 @@ function Install-DriversUpdaters() {
 
 function Main() {
 
-    Install-DriversUpdaters # Install CPU & GPU Drivers (If applicable)
+    Install-DriverUpdater # Install CPU & GPU Drivers (If applicable)
 
 }
 

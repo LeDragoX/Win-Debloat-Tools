@@ -32,7 +32,7 @@ function Write-TitleCounter() {
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
     param (
-        [String] $Text = "TitleCounter Text", 
+        [String] $Text = "TitleCounter Text",
         [Int] 	 $MaxNum = $Global:MaxNum
     )
 

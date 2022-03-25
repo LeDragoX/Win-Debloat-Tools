@@ -2,7 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script/pull/131/files
 
-function Optimize-OptionalFeatures() {
+function Optimize-OptionalFeaturesList() {
 
     Write-Title -Text "Uninstall features from Windows"
 
@@ -97,7 +97,7 @@ function Main() {
 
     }
 
-    Optimize-OptionalFeatures  # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
+    Optimize-OptionalFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
 
 }
 
