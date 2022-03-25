@@ -4,7 +4,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-function Install-PersonalTweaks() {
+function Register-PersonalTweaksList() {
 
     # Initialize all Path variables used to Registry Tweaks
     $Global:PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
@@ -14,7 +14,7 @@ function Install-PersonalTweaks() {
     $Global:PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
     $Global:PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
     $Global:PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
-    $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"    
+    $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
     Write-Title -Text "My Personal Tweaks"
 
@@ -243,7 +243,7 @@ function Main() {
 
     }
 
-    Install-PersonalTweaks  # Personal UI, Network, Energy and Accessibility Optimizations
+    Register-PersonalTweaksList # Personal UI, Network, Energy and Accessibility Optimizations
 
 }
 

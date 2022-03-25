@@ -61,7 +61,7 @@ function Install-PackageManager() {
 function Install-WingetDependency() {
     # Dependency for Winget: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
     $OSArchList = Get-OSArchitecture
-        
+
     foreach ($OSArch in $OSArchList) {
         if ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
             $WingetDepOutput = Request-FileDownload -FileURI "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx" -OutputFile "Microsoft.VCLibs.14.00.Desktop.appx"

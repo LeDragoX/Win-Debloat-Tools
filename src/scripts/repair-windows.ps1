@@ -1,6 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Repair-Windows() {
+function Repair-System() {
 
     Write-Section -Text "Resetting the Hosts file"
 
@@ -54,7 +54,7 @@ function Repair-Windows() {
 
 function Main() {
 
-    Repair-Windows
+    Repair-System
 
 }
 

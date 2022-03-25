@@ -32,7 +32,7 @@ function Optimize-PrivacyAndPerformance() {
     $Global:PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
     $Global:PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
     $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
-    $Global:PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"    
+    $Global:PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
 
     Write-Title -Text "Privacy And Performance Tweaks"
     Write-Section -Text "Personalization"
@@ -444,10 +444,9 @@ function Main() {
             "[<][Priv&Perf] Re-Enabling",
             "[<][Priv&Perf] Re-Disabling"
         )
-  
     }
 
-    Optimize-PrivacyAndPerformance  # Disable Registries that causes slowdowns and privacy invasion
+    Optimize-PrivacyAndPerformance # Disable Registries that causes slowdowns and privacy invasion
 
 }
 

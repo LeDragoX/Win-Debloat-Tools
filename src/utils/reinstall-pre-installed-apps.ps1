@@ -17,7 +17,7 @@ function Main() {
         Write-Warning "No filter specified, attempting to re-register all provisioned apps."
     }
     Else {
-        $Packages = $Packages | Where-Object { $_.Name -like $PackageFilter } 
+        $Packages = $Packages | Where-Object { $_.Name -like $PackageFilter }
 
         If ($null -eq $Packages) {
             Write-Warning "No provisioned apps match the specified filter."

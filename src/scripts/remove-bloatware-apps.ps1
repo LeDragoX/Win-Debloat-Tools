@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-apps.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Remove-BloatwareApps() {
+function Remove-BloatwareAppsList() {
 
     Write-Title -Text "Remove Bloatware Apps"
 
@@ -162,12 +162,12 @@ function Remove-BloatwareApps() {
         #"Windows.ContactSupport"
     )
 
-    Remove-UWPApps -Apps $Apps
+    Remove-UWPAppsList -Apps $Apps
 }
 
 function Main() {
 
-    Remove-BloatwareApps # Remove the main Bloat from Pre-installed Apps
+    Remove-BloatwareAppsList # Remove the main Bloat from Pre-installed Apps
 
 }
 

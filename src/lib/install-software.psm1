@@ -1,4 +1,4 @@
-function Install-Package() {
+function Install-Software() {
     # This function name may conflict with Chocolatey on PowerShell...
 
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
@@ -27,6 +27,6 @@ function Install-Package() {
 
 <#
 Example:
-Install-Package -Name "Brave Browser" -PackageName "BraveSoftware.BraveBrowser"
-Install-Package -Name "Multiple Packages" -PackageName @("Package1", "Package2", "Package3", ...) -InstallBlock { choco install -y $Package }
+Install-Software -Name "Brave Browser" -PackageName "BraveSoftware.BraveBrowser"
+Install-Software -Name "Multiple Packages" -PackageName @("Package1", "Package2", "Package3", ...) -InstallBlock { choco install -y $Package }
 #>

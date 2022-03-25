@@ -1,71 +1,74 @@
-function Request-PrivilegesElevation() {
+function Request-AdminPrivileges() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
 function Initialize-GitUser() {
     [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [OutputType([String])]
     param (
-        [String]	$git_user_property, # Ex: Plínio Larrubia, email@email.com
-        [String]	$git_property_name  # Ex: Name, Email
+        [String]	$GitUserProperty, # Ex: Plínio Larrubia, email@email.com
+        [String]	$GitPropertyName  # Ex: Name, Email
     )
 
-    While ($git_user_property -eq "" -or $git_user_property -eq $null) {
+    While ($GitUserProperty -eq "" -or $GitUserProperty -eq $null) {
 
-        Write-Warning "Could not found 'user.$git_property_name', is null or empty."
-        $git_user_property = Read-Host "Please enter your $git_property_name (For git config --global)"
+        Write-Warning "Could not found 'user.$GitPropertyName', is null or empty."
+        $GitUserProperty = Read-Host "Please enter your $GitPropertyName (For git config --global)"
 
-        If (!(($git_user_property -eq "") -or ($null -eq $git_user_property))) {
+        If (!(($GitUserProperty -eq "") -or ($null -eq $GitUserProperty))) {
 
-            Write-Host "Setting your git user.$git_property_name to $git_user_property..."
-            git config --global user.$git_property_name "$git_user_property"
-            Write-Host "Updated: $(git config --global user.$git_property_name)."
+            Write-Host "Setting your git user.$GitPropertyName to $GitUserProperty..."
+            git config --global user.$GitPropertyName "$GitUserProperty"
+            Write-Host "Updated: $(git config --global user.$GitPropertyName)."
 
         }
     }
 
-    Write-Host "Your git_user_property is: $git_user_property."
-    return $git_user_property
+    Write-Host "Your GitUserProperty is: $GitUserProperty."
+    return $GitUserProperty
 
 }
 
 function Set-GitProfile() {
+    [CmdletBinding(SupportsShouldProcess = $true)]
 
-    $Global:git_user_name = $null
-    $Global:git_user_name = $(git config --global user.name)
+    $Global:GitUserName = $null
+    $Global:GitUserName = $(git config --global user.name)
 
-    $Global:git_user_email = $null
-    $Global:git_user_email = $(git config --global user.email)
+    $Global:GitUserEmail = $null
+    $Global:GitUserEmail = $(git config --global user.email)
 
     $Global:git_user_props = @("name", "email")
 
-    $Global:git_user_name = $(Initialize-GitUser -git_user_property $git_user_name -git_property_name $git_user_props[0])
-    $Global:git_user_email = $(Initialize-GitUser -git_user_property $git_user_email -git_property_name $git_user_props[1])
+    $Global:GitUserName = $(Initialize-GitUser -GitUserProperty $GitUserName -GitPropertyName $git_user_props[0])
+    $Global:GitUserEmail = $(Initialize-GitUser -GitUserProperty $GitUserEmail -GitPropertyName $git_user_props[1])
 
 }
 
 function Set-SSHKey() {
+    [CmdletBinding(SupportsShouldProcess = $true)]
 
-    $ssh_path = "~/.ssh"
-    $ssh_enc_type = "ed25519"
-    $ssh_file = "$($git_user_email)_id_$ssh_enc_type"
-    $ssh_alt_file = "id_$ssh_enc_type" # Need to be checked
+    $SSHPath = "~/.ssh"
+    $SSHEncryptionType = "ed25519"
+    $SSHFileName = "$($GitUserEmail)_id_$SSHEncryptionType"
+    $SSHAltFileName = "id_$SSHEncryptionType" # Need to be checked
 
-    If (!(Test-Path "$ssh_path")) {
-        mkdir "$ssh_path" | Out-Null
+    If (!(Test-Path "$SSHPath")) {
+        mkdir "$SSHPath" | Out-Null
     }
-    Push-Location "$ssh_path"
+    Push-Location "$SSHPath"
 
     # Check if SSH Key already exists
-    If (!((Test-Path "$ssh_path/$ssh_alt_file") -or (Test-Path "$ssh_path/$ssh_file"))) {
+    If (!((Test-Path "$SSHPath/$SSHAltFileName") -or (Test-Path "$SSHPath/$SSHFileName"))) {
 
-        Write-Host "$ssh_path/$ssh_alt_file NOT Exists AND"
-        Write-Host "$ssh_path/$ssh_file NOT Exists..."
-        Write-Host "Using your email from git to create a SSH Key: $git_user_email."
+        Write-Host "$SSHPath/$SSHAltFileName NOT Exists AND"
+        Write-Host "$SSHPath/$SSHFileName NOT Exists..."
+        Write-Host "Using your email from git to create a SSH Key: $GitUserEmail."
         Write-Warning "I recommend you save your passphrase somewhere, in case you don't remember."
 
         #           Encryption type    Command              Output file
-        ssh-keygen -t "$ssh_enc_type" -C "$git_user_email" -f "$ssh_path/$($ssh_file)"
+        ssh-keygen -t "$SSHEncryptionType" -C "$GitUserEmail" -f "$SSHPath/$($SSHFileName)"
 
         Write-Host "Starting ssh-agent Service, this part is the reason to get admin permissions."
         Start-Service -Name ssh-agent
@@ -77,50 +80,49 @@ function Set-SSHKey() {
     }
     Else {
 
-        Write-Host "$ssh_path/$ssh_file Exists OR"
-        Write-Host "$ssh_path/$ssh_alt_file Exists"
+        Write-Host "$SSHPath/$SSHFileName Exists OR"
+        Write-Host "$SSHPath/$SSHAltFileName Exists"
 
     }
 
     Write-Host "Importing your SSH private key(s)." # Remind: No QUOTES in variables
-    ssh-add $ssh_file
-    ssh-add $ssh_alt_file
+    ssh-add $SSHFileName
+    ssh-add $SSHAltFileName
 
     Pop-Location
 
 }
 
 function Set-GPGKey() {
+    [CmdletBinding(SupportsShouldProcess = $true)]
 
     # https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
-    $gnupg_gen_path = "~/AppData/Roaming/gnupg"
-    $gnupg_path = "~/.gnupg"
-    $gnupg_enc_size = "4096"
-    $gnupg_enc_type = "rsa$gnupg_enc_size"
-    $gnupg_usage = "cert"
-    $gnupg_expires_in = 0
-    $gnupg_file = "$($git_user_email)_$gnupg_enc_type"
+    $GnuPGGeneratePath = "~/AppData/Roaming/gnupg"
+    $GnuPGPath = "~/.gnupg"
+    $GnuPGEncryptionSize = "4096"
+    $GnuPGEncryptionType = "rsa$GnuPGEncryptionSize"
+    $GnuPGFileName = "$($GitUserEmail)_$GnuPGEncryptionType"
 
-    If (!(Test-Path "$gnupg_path")) {
-        mkdir "$gnupg_path" | Out-Null
+    If (!(Test-Path "$GnuPGPath")) {
+        mkdir "$GnuPGPath" | Out-Null
     }
-    Push-Location "$gnupg_path"
+    Push-Location "$GnuPGPath"
 
     # GPG Key creation/import "check"
-    If (!((Test-Path "$gnupg_path/*$gnupg_file*") -or (Test-Path "$gnupg_path/*.gpg"))) {
+    If (!((Test-Path "$GnuPGPath/*$GnuPGFileName*") -or (Test-Path "$GnuPGPath/*.gpg"))) {
 
-        Write-Host "$gnupg_path/*$gnupg_file* NOT Exists AND"
-        Write-Host "$gnupg_path/*.gpg* NOT Exists..."
+        Write-Host "$GnuPGPath/*$GnuPGFileName* NOT Exists AND"
+        Write-Host "$GnuPGPath/*.gpg* NOT Exists..."
 
-        Write-Host "Generating new GPG key in $gnupg_path/$gnupg_file..."
+        Write-Host "Generating new GPG key in $GnuPGPath/$GnuPGFileName..."
 
         Write-Host "Before exporting your public and private keys, add manually an email." -ForegroundColor Yellow
         Write-Host "Type: 1 (RSA and RSA) [ENTER]." -ForegroundColor Yellow
         Write-Host "Type: 4096 [ENTER]." -ForegroundColor Yellow
         Write-Host "Then: 0 (does not expire at all) [ENTER]." -ForegroundColor Yellow
         Write-Host "Then: y [ENTER]." -ForegroundColor Yellow
-        Write-Host "Then: $git_user_name [ENTER]." -ForegroundColor Yellow
-        Write-Host "Then: $git_user_email [ENTER]" -ForegroundColor Yellow
+        Write-Host "Then: $GitUserName [ENTER]." -ForegroundColor Yellow
+        Write-Host "Then: $GitUserEmail [ENTER]" -ForegroundColor Yellow
         Write-Host "Then: Anything you want (Ex: Git Keys) [ENTER]." -ForegroundColor Yellow
         Write-Host "Then: O (Ok) [ENTER]." -ForegroundColor Yellow
         Write-Host "Then: [your passphrase] [ENTER]." -ForegroundColor Yellow
@@ -128,17 +130,17 @@ function Set-GPGKey() {
         gpg --full-generate-key
 
         # If you want to delete unwanted keys, this is just for reference
-        #gpg --delete-secret-keys $git_user_name
-        #gpg --delete-keys $git_user_name
+        #gpg --delete-secret-keys $GitUserName
+        #gpg --delete-keys $GitUserName
 
-        Write-Host "Copying all files to $gnupg_path..."
-        Copy-Item -Path "$gnupg_gen_path/*" -Destination "$gnupg_path/" -Recurse
-        Remove-Item -Path "$gnupg_path/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev" -Recurse
-        Remove-Item -Path "$gnupg_path/trustdb.gpg"
+        Write-Host "Copying all files to $GnuPGPath..."
+        Copy-Item -Path "$GnuPGGeneratePath/*" -Destination "$GnuPGPath/" -Recurse
+        Remove-Item -Path "$GnuPGPath/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev" -Recurse
+        Remove-Item -Path "$GnuPGPath/trustdb.gpg"
 
         # Export public and private key to a file: {email@email.com}_{encryption_type}_public.gpg
-        gpg --output "$($gnupg_file)_public.gpg" --armor --export "$git_user_email"
-        gpg --output "$($gnupg_file)_secret.gpg" --armor --export-secret-key "$git_user_email"
+        gpg --output "$($GnuPGFileName)_public.gpg" --armor --export "$GitUserEmail"
+        gpg --output "$($GnuPGFileName)_secret.gpg" --armor --export-secret-key "$GitUserEmail"
 
         # Get the exact Key ID from the system
         $key_id = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
@@ -155,7 +157,7 @@ function Set-GPGKey() {
 
             Write-Host "Copy and Paste the lines below on your"
             Write-Host "Github/Gitlab > Settings > SSH and GPG Keys > New GPG Key."
-            Get-Content "$gnupg_path/$($gnupg_file)_public.gpg"
+            Get-Content "$GnuPGPath/$($GnuPGFileName)_public.gpg"
 
         }
         Else {
@@ -166,8 +168,8 @@ function Set-GPGKey() {
     }
     Else {
 
-        Write-Host "$gnupg_path/*$gnupg_file* Exists OR"
-        Write-Host "$gnupg_path/*.gpg Exists..."
+        Write-Host "$GnuPGPath/*$GnuPGFileName* Exists OR"
+        Write-Host "$GnuPGPath/*.gpg Exists..."
 
     }
 
@@ -175,7 +177,7 @@ function Set-GPGKey() {
     git config --global gpg.program "${env:ProgramFiles(x86)}\GnuPG\bin\gpg.exe"
 
     Write-Host "Importing your GPG private key(s)." # Remind: No QUOTES in variables
-    gpg --import *$gnupg_file*
+    gpg --import *$GnuPGFileName*
     gpg --import *.gpg*
 
     Pop-Location
@@ -184,7 +186,7 @@ function Set-GPGKey() {
 
 function Main() {
 
-    Request-PrivilegesElevation
+    Request-AdminPrivileges
 
     Write-Host "Installing: Git and GnuPG..."
     winget install --silent --source "winget" --id Git.Git | Out-Host

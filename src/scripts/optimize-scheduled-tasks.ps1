@@ -6,7 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
-function Optimize-ScheduledTasks() {
+function Optimize-ScheduledTasksList() {
 
     Write-Title -Text "Scheduled Tasks tweaks"
     Write-Section -Text "Disabling Scheduled Tasks"
@@ -25,7 +25,7 @@ function Optimize-ScheduledTasks() {
         "\Microsoft\Windows\Customer Experience Improvement Program\Uploader"
         "\Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"                # Recommended state for VDI use
         "\Microsoft\Windows\Defrag\ScheduledDefrag"                                         # Recommended state for VDI use
-        "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"   
+        "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"
         "\Microsoft\Windows\Location\Notifications"                                         # Recommended state for VDI use
         "\Microsoft\Windows\Location\WindowsActionDialog"                                   # Recommended state for VDI use
         "\Microsoft\Windows\Maintenance\WinSAT"                                             # Recommended state for VDI use
@@ -90,17 +90,16 @@ function Main() {
         Write-Warning "[<][TaskScheduler] Reverting: $Revert."
 
         $EnableStatus = @(
-            "[<][TaskScheduler] Re-Enabling", 
+            "[<][TaskScheduler] Re-Enabling",
             "[<][TaskScheduler] Re-Disabling"
         )
         $Commands = @(
-            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }, 
+            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask },
             { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
         )
-  
     }
 
-    Optimize-ScheduledTasks # Disable Scheduled Tasks that causes slowdowns
+    Optimize-ScheduledTasksList # Disable Scheduled Tasks that causes slowdowns
 
 }
 

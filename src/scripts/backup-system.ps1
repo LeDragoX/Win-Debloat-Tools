@@ -2,7 +2,7 @@
 function New-RestorePoint() {
 
     Write-Host "[+][Backup] Enabling system drive Restore Point..."
-    Enable-ComputerRestore -Drive "$env:SystemDrive\" 
+    Enable-ComputerRestore -Drive "$env:SystemDrive\"
     Checkpoint-Computer -Description "Win10SD Restore Point" -RestorePointType "MODIFY_SETTINGS"
 
 }
@@ -29,7 +29,7 @@ function Backup-HostsFile() {
 function Main() {
 
     New-RestorePoint # This makes a restoration point before the script begins
-    Backup-HostsFile  # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system
+    Backup-HostsFile # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system
 
 }
 
