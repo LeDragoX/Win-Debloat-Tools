@@ -1,6 +1,6 @@
 function Set-GUILayout() {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param ()
 
     Write-Host "[@] Loading GUI Layout..."
@@ -155,7 +155,7 @@ function Set-GUILayout() {
 
 function New-Panel() {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [Int] $Width,
         [Int] $Height,
@@ -181,7 +181,7 @@ function New-Panel() {
 
 function New-Label() {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [String] $Text,
         [Int] $Width,
@@ -210,7 +210,7 @@ function New-Label() {
 
 function New-Button() {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [String] $Text,
         [Int] $Width,

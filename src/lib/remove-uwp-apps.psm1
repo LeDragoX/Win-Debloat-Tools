@@ -1,6 +1,5 @@
 function Remove-UWPAppsList() {
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [Array] $Apps
     )

@@ -1,7 +1,5 @@
 function Install-Software() {
-    # This function name may conflict with Chocolatey on PowerShell...
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [String]      $Name,
         [Array]       $PackageName,

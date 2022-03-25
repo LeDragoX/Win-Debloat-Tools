@@ -78,7 +78,7 @@ function Optimize-ScheduledTasksList() {
 function Main() {
 
     $EnableStatus = @(
-        "[-][TaskScheduler] Disabling", 
+        "[-][TaskScheduler] Disabling",
         "[+][TaskScheduler] Enabling"
     )
     $Commands = @(

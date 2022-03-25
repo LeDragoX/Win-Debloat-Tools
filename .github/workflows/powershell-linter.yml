@@ -34,7 +34,7 @@ jobs:
           # Enabling all default rules to trigger more.
           #includeRule: '"PSAvoidGlobalAliases", "PSAvoidUsingConvertToSecureStringWithPlainText"'
           # Exclude rules that will not be worked on / are invalid
-          excludeRule: '"PSAvoidGlobalVars", "PSAvoidUsingInvokeExpression", "PSAvoidUsingWMICmdlet", "PSAvoidUsingWriteHost", "PSUseDeclaredVarsMoreThanAssignments"'
+          excludeRule: '"PSAvoidGlobalVars", "PSAvoidUsingInvokeExpression", "PSAvoidUsingWMICmdlet", "PSAvoidUsingWriteHost", "PSShouldProcess", "PSUseDeclaredVarsMoreThanAssignments"'
           output: results.sarif
       
       # Upload the SARIF file generated in the previous step

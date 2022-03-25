@@ -1,6 +1,6 @@
 function Get-OSArchitecture() {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         $Architecture = (Get-ComputerInfo -Property OSArchitecture)
     )
@@ -29,7 +29,7 @@ function Get-OSArchitecture() {
 function Get-CPU() {
 
     # Adapted from: https://community.spiceworks.com/how_to/170332-how-to-get-cpu-information-in-windows-powershell
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         $CPU = (Get-WmiObject -Class Win32_Processor -ComputerName. | Select-Object -Property [a-z]*)
     )
@@ -54,7 +54,7 @@ function Get-CPU() {
 
 function Get-GPU() {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param ()
 
     # Adapted from: https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
@@ -84,7 +84,7 @@ function Get-GPU() {
 
 function Get-OSDriveType() {
 
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param ()
 
     # Adapted from: https://stackoverflow.com/a/62087930

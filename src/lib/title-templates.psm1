@@ -1,6 +1,5 @@
 function Write-Title() {
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [String]	$Text = "Write-Title Text"
     )
@@ -9,8 +8,7 @@ function Write-Title() {
 }
 
 function Write-Section() {
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [String] $Text = "Write-Section Text"
     )
@@ -19,8 +17,7 @@ function Write-Section() {
 }
 
 function Write-Caption() {
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [String] $Text = "Write-Caption Text"
     )
@@ -29,8 +26,7 @@ function Write-Caption() {
 }
 
 function Write-TitleCounter() {
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param (
         [String] $Text = "TitleCounter Text",
         [Int] 	 $MaxNum = $Global:MaxNum
@@ -54,8 +50,7 @@ function Write-TitleCounter() {
 }
 
 function Write-ASCIIScriptName() {
-
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     param ()
 
     Write-Host "<=========================================================================================================>`n" -ForegroundColor White

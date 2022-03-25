@@ -4,7 +4,7 @@ function Request-AdminPrivilege() {
 }
 
 function Initialize-GitUser() {
-    [CmdletBinding()] #<<-- This turns a regular function into an advanced function
+    [CmdletBinding()]
     [OutputType([String])]
     param (
         [String]	$GitUserProperty, # Ex: Plínio Larrubia, email@email.com
@@ -31,7 +31,7 @@ function Initialize-GitUser() {
 }
 
 function Set-GitProfile() {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding()]
 
     $Global:GitUserName = $null
     $Global:GitUserName = $(git config --global user.name)
@@ -47,7 +47,7 @@ function Set-GitProfile() {
 }
 
 function Set-SSHKey() {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding()]
 
     $SSHPath = "~/.ssh"
     $SSHEncryptionType = "ed25519"
@@ -94,7 +94,7 @@ function Set-SSHKey() {
 }
 
 function Set-GPGKey() {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding()]
 
     # https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
     $GnuPGGeneratePath = "~/AppData/Roaming/gnupg"
