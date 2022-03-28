@@ -31,10 +31,8 @@ jobs:
           # The below set up runs PSScriptAnalyzer to your entire repository and runs some basic security rules.
           path: .\
           recurse: true 
-          # Enabling all default rules to trigger more.
-          #includeRule: '"PSAvoidGlobalAliases", "PSAvoidUsingConvertToSecureStringWithPlainText"'
           # Exclude rules that will not be worked on / are invalid
-          excludeRule: '"PSAvoidGlobalVars", "PSAvoidUsingInvokeExpression", "PSAvoidUsingWMICmdlet", "PSAvoidUsingWriteHost", "PSShouldProcess", "PSUseDeclaredVarsMoreThanAssignments"'
+          excludeRule: '"PSAvoidUsingInvokeExpression", "PSAvoidUsingWMICmdlet", "PSAvoidUsingWriteHost", "PSShouldProcess"'
           output: results.sarif
 
       # Upload the SARIF file generated in the previous step
