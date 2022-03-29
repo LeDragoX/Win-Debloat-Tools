@@ -146,10 +146,10 @@ function Show-GUI() {
     $7Zip = New-Button -Text "7-Zip" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $7Zip.Location.Y + $7Zip.Height + $DistanceBetweenButtons
-    $WinRar = New-Button -Text "WinRar (Trial)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $WinRAR = New-Button -Text "WinRAR (Trial)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
-    $NextYLocation = $WinRar.Location.Y + $WinRar.Height + $DistanceBetweenButtons
+    $NextYLocation = $WinRAR.Location.Y + $WinRAR.Height + $DistanceBetweenButtons
     $CaptionLabel3_3 = New-Label -Text "Document Editors" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
@@ -485,7 +485,7 @@ function Show-GUI() {
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
 
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRar))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
     $Panel3.Controls.AddRange(@($CaptionLabel3_3, $OnlyOffice, $LibreOffice, $PowerBI))
     $Panel3.Controls.AddRange(@($CaptionLabel3_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
     $Panel3.Controls.AddRange(@($CaptionLabel3_5, $VSCode, $NotepadPlusPlus))
@@ -661,8 +661,8 @@ function Show-GUI() {
             Install-Software -Name $7Zip.Text -PackageName "7zip.7zip"
         })
 
-    $WinRar.Add_Click( {
-            Install-Software -Name $WinRar.Text -PackageName "winrar" -InstallBlock { choco install -y $Package }
+    $WinRAR.Add_Click( {
+            Install-Software -Name $WinRAR.Text -PackageName "RARLab.WinRAR"
         })
 
     $OnlyOffice.Add_Click( {
