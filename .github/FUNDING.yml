@@ -11,4 +11,4 @@
 #otechie: # Replace with a single Otechie username
 #lfx_crowdfunding: # Replace with a single LFX Crowdfunding project-name e.g., cloud-foundry
 # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
-custom: ['[Brazil]-Donate-a-Pix-below-(Itaú/NuBank)','00020126770014BR.GOV.BCB.PIX0136ba1c19f6-5d19-4806-ac99-d12b1e751fc20215LeDragoX/Plinio5204000053039865802BR5925PLINIO LARRUBIA FERREIRA 6009SAO PAULO622605226AR4JbIs2yDMuqA91ta43z6304F091', 'https://nubank.com.br/pagar/19l0tk/5tmn1iB2uZ']
+custom: ['[Brazil-Pix]', 'https://nubank.com.br/pagar/19l0tk/5tmn1iB2uZ', '[International-Paypal]', 'https://www.paypal.com/donate/?hosted_button_id=NETV9RNH6LGR6']
