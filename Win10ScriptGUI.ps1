@@ -904,7 +904,7 @@ function Show-GUI() {
         })
 
     $Spotify.Add_Click( {
-            Install-Software -Name $Spotify.Text -PackageName "Spotify.Spotify"
+            Install-Software -Name $Spotify.Text -PackageName "9NCBCSZSJRSB" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
         })
 
     $CPUZ.Add_Click( {
