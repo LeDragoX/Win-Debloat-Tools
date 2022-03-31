@@ -5,7 +5,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
 function Register-PersonalTweaksList() {
-
     # Initialize all Path variables used to Registry Tweaks
     $Global:PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
     $Global:PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
@@ -38,12 +37,21 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "HubMode" -Type DWord -Value $One
 
-    Write-Host "[-][Priv&Perf] Removing 3D Objects from This PC..."
+    Write-Host "[-][Personal] Removing 3D Objects from This PC..."
     If (Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
         Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
     }
     If (Test-Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
         Remove-Item -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
+    }
+
+    $Paint3DFileTypes = @(".3mf", ".bmp", ".fbx", ".gif", ".jfif", ".jpe", ".jpeg", ".jpg", ".png", ".tif", ".tiff")
+    Write-Host "[-][Personal] Removing 'Edit with Paint 3D' from the Context Menu..."
+    ForEach ($FileType in $Paint3DFileTypes) {
+        If (Test-Path "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\$FileType\Shell\3D Edit") {
+            Write-Host "[?][Personal] Removing Paint 3D from file type: $FileType."
+            Remove-Item -Path "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\$FileType\Shell\3D Edit" -Recurse
+        }
     }
 
     Write-Host "$($EnableStatus[1]) Show Drives without Media..."
@@ -60,7 +68,7 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
 
     # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT (BREAKS EXPLORER.EXE)
-    Write-Host "$[+][Personal] Setting Windows Explorer to start on This PC instead of Quick Access..."
+    Write-Host "[+][Personal] Setting Windows Explorer to start on This PC instead of Quick Access..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
 
     Write-Host "$($EnableStatus[1]) Show hidden files in Explorer..."
@@ -219,11 +227,9 @@ function Register-PersonalTweaksList() {
     Write-Host "[+][Personal] Setting the Hibernate Timeout to AC: $TimeoutHibernatePluggedIn and DC: $TimeoutHibernateBattery..."
     powercfg -Change Hibernate-Timeout-AC $TimeoutHibernatePluggedIn
     powercfg -Change Hibernate-Timeout-DC $TimeoutHibernateBattery
-
 }
 
 function Main() {
-
     $Zero = 0
     $One = 1
     $EnableStatus = @(
@@ -240,11 +246,9 @@ function Main() {
             "[<][Personal] Re-Enabling",
             "[<][Personal] Re-Disabling"
         )
-
     }
 
     Register-PersonalTweaksList # Personal UI, Network, Energy and Accessibility Optimizations
-
 }
 
 Main

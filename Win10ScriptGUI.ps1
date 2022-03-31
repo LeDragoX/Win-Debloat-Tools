@@ -509,7 +509,6 @@ function Show-GUI() {
     # <== CLICK EVENTS ==>
 
     $ApplyTweaks.Add_Click( {
-
             $Scripts = @(
                 # [Recommended order]
                 "backup-system.ps1",
