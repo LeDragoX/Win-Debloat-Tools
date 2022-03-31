@@ -7,7 +7,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
 function Optimize-PrivacyAndPerformance() {
-
     # Initialize all Path variables used to Registry Tweaks
     $Global:PathToLMActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
     $Global:PathToLMAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
@@ -423,11 +422,9 @@ function Optimize-PrivacyAndPerformance() {
     $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings
     $data[8] = 3
     Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data
-
 }
 
 function Main() {
-
     $Zero = 0
     $One = 1
     $EnableStatus = @(
@@ -447,7 +444,6 @@ function Main() {
     }
 
     Optimize-PrivacyAndPerformance # Disable Registries that causes slowdowns and privacy invasion
-
 }
 
 Main
