@@ -3,9 +3,8 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-box.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-DriverUpdater() {
-
-    $CPU = Get-CPU  # Detects the current CPU
-    $GPU = Get-GPU  # Detects the current GPU
+    $CPU = Get-CPU # Detects the current CPU
+    $GPU = Get-GPU # Detects the current GPU
     $Ask = "Do you want to install CPU/GPU drivers?`nAll the following Driver Updaters will be installed (if found):`n- $CPU driver updater`n- $GPU driver updater"
 
     switch (Show-Question -Title "Warning" -Message $Ask) {
@@ -52,9 +51,7 @@ function Install-DriverUpdater() {
 }
 
 function Main() {
-
     Install-DriverUpdater # Install CPU & GPU Drivers (If applicable)
-
 }
 
 Main

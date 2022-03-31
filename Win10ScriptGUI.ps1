@@ -21,7 +21,7 @@ function Show-GUI() {
     $Form.MaximizeBox = $false              # Hide the Maximize Button
     $Form.Size = New-Object System.Drawing.Size(($FormWidth + 15), $FormHeight)
     $Form.StartPosition = 'CenterScreen'    # Appears on the center
-    $Form.Text = "Win 10+ Smart Debloat Tools - by LeDragoX"
+    $Form.Text = "Win 10+ Smart Debloat Tools | Made by LeDragoX | $(Get-WindowsSpec)"
     $Form.TopMost = $false
 
     # Icon: https://stackoverflow.com/a/53377253
@@ -992,6 +992,7 @@ function Main() {
 
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-os-info.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"

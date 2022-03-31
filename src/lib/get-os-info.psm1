@@ -1,5 +1,28 @@
-function Get-OSArchitecture() {
+function Get-CPU() {
+    # Adapted from: https://community.spiceworks.com/how_to/170332-how-to-get-cpu-information-in-windows-powershell
+    [CmdletBinding()] param () #$CPU = (Get-WmiObject -Class Win32_Processor -ComputerName. | Select-Object -Property [a-z]*) # Non-performative
 
+    $CPUName = (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ")
+    $CPUCoresAndThreads = "($((Get-WmiObject -class Win32_processor).NumberOfCores)/$env:NUMBER_OF_PROCESSORS)"
+
+    return $CPUName, $CPUCoresAndThreads
+}
+
+function Get-GPU() {
+    [CmdletBinding()] param ()
+
+    # Adapted from: https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
+    $ArrComputers = "."
+
+    ForEach ($Computer in $ArrComputers) {
+        $Global:GPU = Get-WmiObject -Class Win32_VideoController -ComputerName $Computer
+        Write-Verbose "Video Info: $($Global:GPU.description)."
+    }
+
+    return $GPU.description.Trim(" ")
+}
+
+function Get-OSArchitecture() {
     [CmdletBinding()]
     param (
         $Architecture = (Get-ComputerInfo -Property OSArchitecture)
@@ -26,64 +49,7 @@ function Get-OSArchitecture() {
     return $Architecture
 }
 
-function Get-CPU() {
-
-    # Adapted from: https://community.spiceworks.com/how_to/170332-how-to-get-cpu-information-in-windows-powershell
-    [CmdletBinding()]
-    param (
-        $CPU = (Get-WmiObject -Class Win32_Processor -ComputerName. | Select-Object -Property [a-z]*)
-    )
-
-    $CPUName = $CPU.Name.Trim(" ")
-    If ($CPUName.contains("AMD")) {
-        Write-Host "AMD CPU found!"
-    }
-    ElseIf ($CPUName.contains("Intel")) {
-        Write-Host "Intel CPU found!"
-    }
-    ElseIf ($CPUName.contains("ARM")) {
-        Write-Host "ARM CPU found!"
-    }
-    Else {
-        Write-Host "CPU_NOT_FOUND (NEW/CONFIDENTIAL?)."
-    }
-
-    Write-Host "CPU = $($CPUName)."
-    return ($CPUName)
-}
-
-function Get-GPU() {
-
-    [CmdletBinding()]
-    param ()
-
-    # Adapted from: https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
-    $ArrComputers = "."
-
-    ForEach ($Computer in $ArrComputers) {
-        $Global:GPU = Get-WmiObject -Class Win32_VideoController -ComputerName $Computer
-        Write-Verbose "Video Info: $($Global:GPU.description)."
-    }
-
-    If ($GPU.description.contains("AMD") -or $GPU.description.contains("Radeon")) {
-        Write-Host "AMD GPU found!"
-    }
-    ElseIf ($GPU.description.contains("Intel")) {
-        Write-Host "Intel GPU found!"
-    }
-    ElseIf ($GPU.description.contains("NVIDIA")) {
-        Write-Host "NVIDIA GPU found!"
-    }
-    Else {
-        Write-Host "GPU_NOT_FOUND (NEW/CONFIDENTIAL?)"
-    }
-
-    Write-Host "GPU = $($GPU.description.Trim(" "))."
-    return $GPU.description.Trim(" ")
-}
-
 function Get-OSDriveType() {
-
     [CmdletBinding()]
     param ()
 
@@ -97,4 +63,16 @@ function Get-OSDriveType() {
 
     $IsSSD = $SystemDriveType.MediaType -eq "SSD"
     return $IsSSD
+}
+
+function Get-WindowsSpec() {
+    [CmdletBinding()] param ()
+
+    # Code From: https://www.delftstack.com/howto/powershell/find-windows-version-in-powershell/#using-the-wmi-class-with-get-wmiobject-cmdlet-in-powershell-to-get-the-windows-version
+    $WinVer = (Get-WmiObject -class Win32_OperatingSystem).Caption -replace 'Microsoft ', ''
+    $DisplayVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").DisplayVersion
+    $OldBuildNumber = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId
+    $DisplayedVersionResult = '(' + @{ $true = $DisplayVersion; $false = $OldBuildNumber }[$null -ne $DisplayVersion] + ')'
+
+    return $WinVer, $DisplayedVersionResult, '|', $Env:PROCESSOR_ARCHITECTURE, '|', [String] $(Get-CPU)
 }

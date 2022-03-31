@@ -6,7 +6,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
 
 function Optimize-Security() {
-
     $CPU = Get-CPU
     # Initialize all Path variables used to Registry Tweaks
     $Global:PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
@@ -98,13 +97,10 @@ function Optimize-Security() {
     # Details: https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
     #Write-Host "[+][Security] Enabling Windows Defender Sandbox mode..."
     #setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
-
 }
 
 function Main() {
-
     Optimize-Security # Improve the Windows Security
-
 }
 
 Main
