@@ -5,6 +5,7 @@
 **/tmp/**/*.appx*
 **/tmp/**/*.cer
 **/tmp/**/*.exe
+**/tmp/**/*.ttf
 
 # Downloaded temporary files
 *.tmp

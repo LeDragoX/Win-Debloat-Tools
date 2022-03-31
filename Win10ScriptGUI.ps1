@@ -132,7 +132,7 @@ function Show-GUI() {
     $BraveBrowser = New-Button -Text "Brave Browser" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $BraveBrowser.Location.Y + $BraveBrowser.Height + $DistanceBetweenButtons
-    $GoogleChrome = New-Button -Text "Google Chrome + uBlock" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $GoogleChrome = New-Button -Text "Google Chrome + uBlock Orig." -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GoogleChrome.Location.Y + $GoogleChrome.Height + $DistanceBetweenButtons
     $MozillaFirefox = New-Button -Text "Mozilla Firefox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -254,9 +254,9 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_11.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $WindowsTerminal = New-Button -Text "Windows Terminal" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $WindowsTerminalNerdFonts = New-Button -Text "Windows Terminal + Nerd Font" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $WindowsTerminal.Location.Y + $WindowsTerminal.Height + $DistanceBetweenButtons
+    $NextYLocation = $WindowsTerminalNerdFonts.Location.Y + $WindowsTerminalNerdFonts.Height + $DistanceBetweenButtons
     $GitAndKeysSetup = New-Button -Text "Git and Keys Setup" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GitAndKeysSetup.Location.Y + $GitAndKeysSetup.Height + $DistanceBetweenButtons
@@ -494,7 +494,7 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_8, $RadminVPN, $Hamachi))
     $Panel3.Controls.AddRange(@($CaptionLabel3_9, $AuthyDesktop))
     $Panel3.Controls.AddRange(@($CaptionLabel3_10, $Ventoy, $Rufus, $BalenaEtcher))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminal, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminalNerdFonts, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
 
     $Panel4.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel4_1, $Discord, $MSTeams, $Slack, $Zoom, $Telegram, $RocketChat))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
@@ -744,8 +744,16 @@ function Show-GUI() {
             Install-Software -Name $BalenaEtcher.Text -PackageName "Balena.Etcher"
         })
 
-    $WindowsTerminal.Add_Click( {
-            Install-Software -Name $WindowsTerminal.Text -PackageName "Microsoft.WindowsTerminal"
+    $WindowsTerminalNerdFonts.Add_Click( {
+            $URI = "https://github.com/romkatv/powerlevel10k-media/raw/master"
+            $FontFiles = @("MesloLGS NF Regular.ttf", "MesloLGS NF Bold.ttf", "MesloLGS NF Italic.ttf", "MesloLGS NF Bold Italic.ttf")
+
+            ForEach ($Font in $FontFiles) {
+                Request-FileDownload -FileURI "$URI/$Font" -OutputFolder "Fonts" -OutputFile "$Font"
+            }
+
+            Install-Font -FontSourceFolder "$PSScriptRoot\src\tmp\Fonts"
+            Install-Software -Name $WindowsTerminalNerdFonts.Text -PackageName "Microsoft.WindowsTerminal"
         })
 
     $GitAndKeysSetup.Add_Click( {
@@ -991,10 +999,12 @@ function Main() {
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-os-info.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-font.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-message-box.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"

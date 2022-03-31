@@ -1,4 +1,5 @@
 function Request-FileDownload {
+    [CmdletBinding()]
     param (
         [String] $FileURI,
         [Parameter(Mandatory = $false)]
@@ -6,7 +7,8 @@ function Request-FileDownload {
         [String] $OutputFile
     )
 
-    if (!(Test-Path "$PSScriptRoot\..\tmp")) {
+    Write-Verbose "[?] I'm at: $PWD"
+    If (!(Test-Path "$PSScriptRoot\..\tmp")) {
         Write-Host "[@] $PSScriptRoot\..\tmp doesn't exist, creating folder..." -ForegroundColor White
         mkdir "$PSScriptRoot\..\tmp" | Out-Null
     }
@@ -14,17 +16,20 @@ function Request-FileDownload {
     $FileLocation = "$PSScriptRoot\..\tmp\$OutputFile"
 
     If ($OutputFolder) {
+        If (!(Test-Path "$PSScriptRoot\..\tmp\$OutputFolder")) {
+            Write-Host "[@] $PSScriptRoot\..\tmp\$OutputFolder doesn't exist, creating folder..." -ForegroundColor White
+            mkdir "$PSScriptRoot\..\tmp\$OutputFolder"
+        }
         $FileLocation = "$PSScriptRoot\..\tmp\$OutputFolder\$OutputFile"
     }
 
-    Write-Host "[@] Downloading '$OutputFile' on '$FileLocation' `n[@] From: '$FileURI'" -ForegroundColor White
+    Write-Host "`n[@] Downloading '$OutputFile'`n[@] On '$FileLocation'`n[@] From: '$FileURI'" -ForegroundColor White
     Invoke-WebRequest -Uri $FileURI -OutFile $FileLocation
 
     return $FileLocation
 }
 
 function Get-APIFile {
-
     [CmdletBinding()]
     param (
         [String] $URI,
