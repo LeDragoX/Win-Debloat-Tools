@@ -1,7 +1,5 @@
 function Set-GUILayout() {
-
-    [CmdletBinding()]
-    param ()
+    [CmdletBinding()] param ()
 
     Write-Host "[@] Loading GUI Layout..."
     # Loading System Libs
@@ -150,11 +148,9 @@ function Set-GUILayout() {
     # Big Button Layout (Unique per Panel) -> $ButtonWidth &
     $Global:BBHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
     # Small Button Layout -> $ButtonWidth & $ButtonHeight
-
 }
 
 function New-Panel() {
-
     [CmdletBinding()]
     param (
         [Int] $Width,
@@ -180,7 +176,6 @@ function New-Panel() {
 }
 
 function New-Label() {
-
     [CmdletBinding()]
     param (
         [String] $Text,
@@ -209,7 +204,6 @@ function New-Label() {
 }
 
 function New-Button() {
-
     [CmdletBinding()]
     param (
         [String] $Text,
