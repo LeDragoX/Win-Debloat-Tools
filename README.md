@@ -31,8 +31,8 @@ but you'll probably want the most recent version anyway.
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td><h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Zip File</a></h3></td>
+			<tr align="center">
+				<td><h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Zip File ⬇️</a></h3></td>
 				<td>21H2 or Older</td>
 				<td>Home / Pro</td>
 				<td><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
