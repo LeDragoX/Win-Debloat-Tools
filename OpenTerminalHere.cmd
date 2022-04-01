@@ -54,4 +54,4 @@
 
 REM "Your script here"
 
-start Powershell
+powershell "cmd.exe '/c wt.exe --startingDirectory ""%~dp0"" --profile ""Windows PowerShell""'" || start PowerShell

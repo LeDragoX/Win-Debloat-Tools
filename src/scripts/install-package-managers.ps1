@@ -51,10 +51,10 @@ function Install-PackageManager() {
         }
 
         If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-            Write-Host "[@] ScheduledJob: $JobName FOUND! Re-Creating..." -ForegroundColor White
+            Write-Host "[@] ScheduledJob: $JobName FOUND!`n[@] Re-Creating with the command: '$("$UpdateScriptBlock".Trim(' '))'`n" -ForegroundColor White
             Unregister-ScheduledJob -Name $JobName
         }
-        Register-ScheduledJob @ScheduledJob | Out-Host
+        Register-ScheduledJob @ScheduledJob | Out-Null
     }
 }
 

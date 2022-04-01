@@ -232,10 +232,10 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_9.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $AuthyDesktop = New-Button -Text "Authy Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $TwilioAuthy = New-Button -Text "Twilio Authy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
-    $NextYLocation = $AuthyDesktop.Location.Y + $AuthyDesktop.Height + $DistanceBetweenButtons
+    $NextYLocation = $TwilioAuthy.Location.Y + $TwilioAuthy.Height + $DistanceBetweenButtons
     $CaptionLabel3_10 = New-Label -Text "Bootable USB" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
@@ -492,7 +492,7 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_6, $GoogleDrive, $Dropbox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_7, $Zotero))
     $Panel3.Controls.AddRange(@($CaptionLabel3_8, $RadminVPN, $Hamachi))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_9, $AuthyDesktop))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_9, $TwilioAuthy))
     $Panel3.Controls.AddRange(@($CaptionLabel3_10, $Ventoy, $Rufus, $BalenaEtcher))
     $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminalNerdFonts, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
 
@@ -728,8 +728,8 @@ function Show-GUI() {
             Install-Software -Name $Hamachi.Text -PackageName "LogMeIn.Hamachi"
         })
 
-    $AuthyDesktop.Add_Click( {
-            Install-Software -Name $AuthyDesktop.Text -PackageName "Twilio.Authy"
+    $TwilioAuthy.Add_Click( {
+            Install-Software -Name $TwilioAuthy.Text -PackageName "Twilio.Authy"
         })
 
     $Ventoy.Add_Click( {

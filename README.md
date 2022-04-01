@@ -5,7 +5,7 @@
 
 <h2 align="center">
 
-This is adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
+This Project is adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
 
 </h2>
 
@@ -45,7 +45,7 @@ but you'll probably want the most recent version anyway.
 The `Win10Script/GUI.ps1` do not make everything automatically, follow these steps.
 
 - Extract the `.zip` file.
-- Open `OpenPowershellHere.cmd` (For beginners) or the Powershell as admin on it's folder.
+- Open `OpenTerminalHere.cmd` (For beginners) or the Powershell as admin on it's folder.
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory (Down below).
 
 ### **GUI Version**
@@ -164,6 +164,12 @@ winget install --silent --source "msstore" --id "Microsoft.Skype"
 
 I would be happy to extend the collection of scripts.
 Just open an issue or send me a pull request. (Yes, if it's useful, you can).
+
+> TIP: To clone quickly, use this command:
+
+```sh
+git clone --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools.git
+```
 
 ## 🤍 Credits
 
