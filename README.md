@@ -1,13 +1,9 @@
 <h1 align="center">
-    <img width=30px src="./src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win 10+ Smart Debloat Tools 
-    <img width=30px src="./src/assets/powershell-icon.png" style="vertical-align: bottom">
+	<img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win 10+ Smart Debloat Tools
+	<img width=30px src="src/assets/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
-<h2 align="center">
-
-This Project is adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
-
-</h2>
+<h2 align="center">This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a></h2>
 
 [![PSScriptAnalyzer](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml)
 
@@ -15,7 +11,7 @@ This Project is adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debl
 
 These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+.
 
-_Use on a fresh windows install to note the differences._
+> _Use on a fresh windows install to note the differences._
 
 ⚠️ **Disclaimer:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
 
@@ -25,20 +21,33 @@ Code located in the `main` branch is always considered under development,
 but you'll probably want the most recent version anyway.
 
 <div align="center">
-
-|                                                     Download                                                     | Version Supported | Editions |                                      Powershell version                                       |
-| :--------------------------------------------------------------------------------------------------------------: | :---------------: | :------: | :-------------------------------------------------------------------------------------------: |
-| <h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Download [Zip]</a></h3> |   21H2 or Older   | Home/Pro | <img width=20px src="./src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
-
+	<table>
+		<thead>
+			<tr>
+				<th>Download</th>
+				<th>Version(s) Supported</th>
+				<th>Edition(s)</th>
+				<th>PowerShell Version</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Zip File</a></h3></td>
+				<td>21H2 or Older</td>
+				<td>Home / Pro</td>
+				<td><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
 ## 🔄️ Roll-Back
 
 **If something breaks you can rely on:**
 
-1.  A restoration point;
-2.  The [`repair-windows.ps1`](./src/scripts/repair-windows.ps1) file or button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1);
-3.  If you want (almost) everything to it's original state, use the `Revert Tweaks` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1).
+1. A restoration point;
+2. The [`repair-windows.ps1`](./src/scripts/repair-windows.ps1) file or button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1);
+3. If you want (almost) everything to it's original state, use the `Revert Tweaks` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1).
 
 ## ❗ Usage Requirements
 
@@ -73,17 +82,17 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ## ✅ GUI Script Features
 
 <details>
-    <summary>Click to expand</summary>
+	<summary>Click to expand</summary>
 
 - `Apply Tweaks`: Run every Common Tweak scripts;
-- `Remove Xbox from Windows`: Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR; ([`remove-and-disable-xbox.ps1`](src/utils/remove-and-disable-xbox.ps1))
+- `Remove Xbox from Windows`: Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR; ([`remove-and-disable-xbox.ps1`](./src/scripts/remove-and-disable-xbox.ps1))
 - `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
 - `Reinstall Pre-Installed Apps`: Rebloat Windows with all the Pre-Installed Apps; ([`reinstall-pre-installed-apps.ps1`](./src/utils/reinstall-pre-installed-apps.ps1))
 - `Revert Tweaks`: Re-apply some tweaks and [Revert] all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks;
 - `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
 - `Enable/Disable Search Indexing`: Let you choose whether the **Windows Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
 - `Enable/Disable Background Apps`: Let you choose whether _ALL_ the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
-- `Enable Telemetry & Disable Telemetry`: Let you choose whether the **Windows Telemetry** is [enabled](./src/utils/enable-full-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
+- `Enable Telemetry & Disable Telemetry`: Let you choose whether the **Windows Telemetry** is [enabled](./src/utils/enable-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
 - `Enable/Disable Cortana`: Let you choose whether the **Cortana** is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
 - `Enable/Disable Xbox GameBar/DVR`: Let you choose whether the **Xbox GameBar/DVR (In-Game)** is [enabled](./src/utils/enable-game-bar-dvr.reg) or [disabled](src/utils/disable-game-bar-dvr.reg);
 - `Enable/Disable Clipboard History`: Let you choose whether the **Clipboard History** is [enabled](./src/utils/enable-clipboard-history.reg) or [disabled](src/utils/disable-clipboard-history.reg);
@@ -99,7 +108,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ## ☑️ Common Script Features
 
 <details>
-    <summary>Click to expand</summary>
+	<summary>Click to expand</summary>
 
 - Import all necessary Modules before Executing everything; ([lib folder](./src/lib/))
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./src/scripts/backup-system.ps1))
@@ -123,11 +132,11 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ## ⚡ Troubleshooting Known Issues
 
-> For each issue, expand the problem you're looking for,
-> and Open PowerShell as admin to copy paste it's content:
+> For each issue, expand the issue you're looking for,
+> and Open PowerShell as admin to copy + paste it's content:
 
 <details>
-<summary>Fingerprint Reader / Facial Detection not Working (<code>WbioSrvc</code> service was disabled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">#189 from W4RH4WK</a></summary>
+	<summary>Fingerprint Reader / Facial Detection not Working (<code>WbioSrvc</code> service was disabled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">#189 from W4RH4WK</a></summary>
 
 ```Powershell
 Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
@@ -136,7 +145,7 @@ Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Serv
 </details>
 
 <details>
-<summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
+	<summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
 
 ```Powershell
 winget install --silent --source "msstore" --id "Microsoft.Skype"
@@ -145,7 +154,7 @@ winget install --silent --source "msstore" --id "Microsoft.Skype"
 </details>
 
 <details>
-<summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/issues/7">#7</a></summary>
+	<summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/issues/7">#7</a></summary>
 
 1. Press `Win + R` then paste this protocol: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
 2. Then click `Get`/`Install`
@@ -154,7 +163,7 @@ winget install --silent --source "msstore" --id "Microsoft.Skype"
 </details>
 
 <details>
-<summary>Sysprep will hang (Not Tested).</summary>
+	<summary>Sysprep will hang (Not Tested).</summary>
 
 > _No solution yet, do a Google search_
 
@@ -178,11 +187,11 @@ git clone --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools
 - [W4RH4WK](https://github.com/W4RH4WK) (For his project ^^);
 - [O&O Software GmbH](https://www.oo-software.com/en/company) (_ShutUp10 Company_);
 - [MalwareBytes](https://br.malwarebytes.com/company/) (_AdwCleaner Company_);
-- [Adamx's channel](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [this video](https://youtu.be/hQSkPmZRCjc);
-- [Baboo's channel](https://www.youtube.com/user/baboo) - by [this video](https://youtu.be/qWESrvP_uU8);
-- [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - gave me more confidence to mess with PowerShell after [this LIVE](https://youtu.be/ER27pGt5wH0)
-- [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [this video](https://youtu.be/EfrT_Bvgles);
-- [matthewjberger](https://gist.github.com/matthewjberger) - by [this script](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
+- [Adamx's](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [_this video_](https://youtu.be/hQSkPmZRCjc);
+- [Baboo's](https://www.youtube.com/user/baboo) - by [_this video_](https://youtu.be/qWESrvP_uU8);
+- [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - gave me more confidence to mess with PowerShell after [_this 🔴 LIVE_](https://youtu.be/ER27pGt5wH0)
+- [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [_this video_](https://youtu.be/EfrT_Bvgles);
+- [matthewjberger](https://gist.github.com/matthewjberger) - by [_this script_](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
 
 ## 🔧 Tweak Testers
 
@@ -199,13 +208,14 @@ git clone --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools
 - [Sophia-Script-for-Windows](https://github.com/farag2/Sophia-Script-for-Windows) from [farag2](https://github.com/farag2);
 - [Windows-Optimize-Harden-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat);
 - [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat).
+
 </details>
 
 ## 🔎 How did i find specific Tweaks?
 
 <details>
-    <summary>Click to expand</summary>
-<p>How To (Advanced Users)</p>
+	<summary>Click to expand</summary>
+	<p>How To (Advanced Users)</p>
 
 By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe` i could track the `SystemSettings.exe` by filtering per Process Name `(Ctrl + L)`.
 

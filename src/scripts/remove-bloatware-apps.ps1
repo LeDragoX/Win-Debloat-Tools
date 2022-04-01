@@ -2,7 +2,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-apps.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Remove-BloatwareAppsList() {
-
     Write-Title -Text "Remove Bloatware Apps"
 
     $Apps = @(
@@ -166,9 +165,7 @@ function Remove-BloatwareAppsList() {
 }
 
 function Main() {
-
     Remove-BloatwareAppsList # Remove the main Bloat from Pre-installed Apps
-
 }
 
 Main

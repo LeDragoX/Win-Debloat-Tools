@@ -1,6 +1,5 @@
 function Unlock-ScriptUsage() {
-    [CmdletBinding()]
-    param ()
+    [CmdletBinding()] param ()
 
     Write-Host "[@] Receiving permissions to run scripts..." -ForegroundColor White
     Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force
@@ -9,8 +8,7 @@ function Unlock-ScriptUsage() {
 }
 
 function Block-ScriptUsage() {
-    [CmdletBinding()]
-    param ()
+    [CmdletBinding()] param ()
 
     Write-Host "[@] Denying permissions to run scripts..." -ForegroundColor White
     Set-ExecutionPolicy Restricted -Scope LocalMachine -Force

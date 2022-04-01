@@ -1,6 +1,5 @@
 function Set-ConsoleStyle() {
-    [CmdletBinding()]
-    param ()
+    [CmdletBinding()] param ()
 
     cmd /c color A
 }

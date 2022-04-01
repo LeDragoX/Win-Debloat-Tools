@@ -1,13 +1,12 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-# Adapted from this Baboo video:             https://youtu.be/qWESrvP_uU8
-# Adapted from this ChrisTitus script:       https://github.com/ChrisTitusTech/win10script
-# Adapted from this matthewjberger's script: https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
-# Adapted from this Sycnex script:           https://github.com/Sycnex/Windows10Debloater
+# Adapted from: https://youtu.be/qWESrvP_uU8
+# Adapted from: https://github.com/ChrisTitusTech/win10script
+# Adapted from: https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
+# Adapted from: https://github.com/Sycnex/Windows10Debloater
 
 function Optimize-RunningServicesList() {
-
     Write-Title -Text "Services tweaks"
 
     $DisableServices = @(
@@ -93,7 +92,6 @@ function Optimize-RunningServicesList() {
 }
 
 function Main() {
-
     $EnableStatus = @(
         "[-][Services] Disabling",
         "[+][Services] Enabling"

@@ -1,11 +1,9 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\original\"New-FolderForced.psm1"
 
 function Remove-OneDrive() {
-    [CmdletBinding()]
-    param()
+    [CmdletBinding()] param()
 
-    # Description:
-    # This script will remove and disable OneDrive integration.
+    # Description: This script will remove and disable OneDrive integration.
     Write-Host "Kill OneDrive process..."
     taskkill.exe /F /IM "OneDrive.exe"
     taskkill.exe /F /IM "explorer.exe"
@@ -59,9 +57,7 @@ function Remove-OneDrive() {
 }
 
 function Main() {
-
     Remove-OneDrive
-
 }
 
 Main

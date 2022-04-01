@@ -1,8 +1,8 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-# Adapted from this ChrisTitus script:                 https://github.com/ChrisTitusTech/win10script
-# Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
-# Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
+# Adapted from: https://github.com/ChrisTitusTech/win10script
+# Adapted from: https://github.com/Sycnex/Windows10Debloater
+# Adapted from: https://github.com/kalaspuffar/windows-debloat
 
 function Register-PersonalTweaksList() {
     # Initialize all Path variables used to Registry Tweaks
@@ -16,7 +16,6 @@ function Register-PersonalTweaksList() {
     $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
     Write-Title -Text "My Personal Tweaks"
-
     Push-Location -Path "$PSScriptRoot\..\utils\"
 
     Write-Host "[+][Personal] Enabling Dark theme..."
@@ -29,7 +28,6 @@ function Register-PersonalTweaksList() {
     regedit /s disable-clipboard-history.reg
 
     Pop-Location
-
     Write-Section -Text "Windows Explorer Tweaks"
 
     Write-Host "[-][Personal] Hiding Quick Access from Windows Explorer..."
@@ -82,7 +80,6 @@ function Register-PersonalTweaksList() {
 
     Write-Section -Text "Personalization"
     Write-Section -Text "Task Bar Tweaks"
-
     Write-Caption -Text "Task Bar - Windows 10 Compatible"
 
     # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
@@ -237,7 +234,7 @@ function Main() {
         "[+][Personal] Enabling"
     )
 
-    if (($Revert)) {
+    If (($Revert)) {
         Write-Host "[<][Personal] Reverting: $Revert."
 
         $Zero = 1

@@ -2,8 +2,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 
 function WSLwithGraphicsInstall() {
-    $OSArchList = Get-OSArchitecture
+    [CmdletBinding()] param()
 
+    $OSArchList = Get-OSArchitecture
     If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
         # 1607 needs developer mode to be enabled for older Windows 10 versions
         Write-Host "[+] Enabling Development mode w/out license and trusted apps (Win 10 1607)"
@@ -16,8 +17,8 @@ function WSLwithGraphicsInstall() {
     Write-Host "[+][Features] Installing VirtualMachinePlatform..."
     Get-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
 
-    foreach ($OSArch in $OSArchList) {
-        if ($OSArch -like "x64" -or "arm64") {
+    ForEach ($OSArch in $OSArchList) {
+        If ($OSArch -like "x64" -or "arm64") {
             $WSLOutput = Request-FileDownload -FileURI "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_$OSArch.msi" -OutputFile "wsl_update.msi"
             Write-Host "[+] Installing WSL Update ($OSArch)..."
             Start-Process -FilePath $WSLOutput -ArgumentList "/passive" -Wait

@@ -9,7 +9,6 @@ function Remove-Xbox() {
 
     switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
         'Yes' {
-
             Write-Host "[-][Services] Disabling Xbox Services (Except from Accessories)..."
             Get-Service -Name "XblAuthManager" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
             Get-Service -Name "XblGameSave" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
@@ -42,7 +41,6 @@ function Remove-Xbox() {
                 New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
             }
             Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
-
         }
         'No' {
             Write-Host "You choose No. (No = Cancel)"
@@ -55,9 +53,7 @@ function Remove-Xbox() {
 }
 
 function Main() {
-
     Remove-Xbox # Remove all Xbox related Apps, services, etc.
-
 }
 
 Main

@@ -31,7 +31,7 @@ function Initialize-GitUser() {
 }
 
 function Set-GitProfile() {
-    [CmdletBinding()]
+    [CmdletBinding()] param()
 
     $Global:GitUserName = $null
     $Global:GitUserName = $(git config --global user.name)
@@ -47,7 +47,7 @@ function Set-GitProfile() {
 }
 
 function Set-SSHKey() {
-    [CmdletBinding()]
+    [CmdletBinding()] param()
 
     $SSHPath = "~/.ssh"
     $SSHEncryptionType = "ed25519"

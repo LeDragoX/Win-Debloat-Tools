@@ -1,14 +1,12 @@
 # Reference: https://michlstechblog.info/blog/powershell-show-a-messagebox/#:~:text=Sometimes%20while%20a%20powershell%20script,NET%20Windows.
 function Use-WindowsForm() {
-    [CmdletBinding()]
-    param ()
+    [CmdletBinding()] param ()
 
     # Load assembly
     [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
 }
 
 function Show-Message() {
-
     [CmdletBinding()]
     param (
         [String] $Title = "Insert title here",
@@ -22,7 +20,7 @@ function Show-Message() {
 }
 
 function Show-Question() {
-
+    [CmdletBinding()]
     param (
         [String] $Title = "Insert title here",
         [Array] $Message = "Crash`nBandicoot",
@@ -37,9 +35,9 @@ function Show-Question() {
 }
 
 function Request-PcRestart() {
+    [CmdletBinding()] param ()
 
-    $Ask = "If you want to see the changes restart your computer!
-    Do you want to Restart now?"
+    $Ask = "If you want to see the changes restart your computer!`n    Do you want to Restart now?"
 
     switch (Show-Question -Title "Warning" -Message $Ask) {
         'Yes' {
