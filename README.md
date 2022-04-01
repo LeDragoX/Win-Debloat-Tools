@@ -5,11 +5,19 @@
 
 <h2 align="center">
 
-Adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
+This is adapted from [W4RH4WK's Project](https://github.com/W4RH4WK/Debloat-Windows-10)
 
 </h2>
 
 [![PSScriptAnalyzer](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml)
+
+## 📄 Resume
+
+These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+.
+
+_Use on a fresh windows install to note the differences._
+
+⚠️ **Disclaimer:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
 
 ## 🚀 Download Latest Version
 
@@ -23,15 +31,6 @@ but you'll probably want the most recent version anyway.
 | <h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Download [Zip]</a></h3> |   21H2 or Older   | Home/Pro | <img width=20px src="./src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1 |
 
 </div>
-
-## 📄 Resume
-
-This is an adapted version from [another project](https://github.com/W4RH4WK/Debloat-Windows-10).
-These scripts will Customize, Debloat and Improve Privacy/Performance on Windows 10+.
-
-_Use on a fresh windows install to note the differences._
-
-⚠️ **Disclaimer:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
 
 ## 🔄️ Roll-Back
 
@@ -137,19 +136,9 @@ Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Serv
 </details>
 
 <details>
-<summary>Start menu Search (<code>WSearch</code> indexing service was disabled) - No Issue Link</summary>
-
-```Powershell
-Get-Service WSearch | Set-Service -StartupType Automatic -PassThru | Start-Service
-```
-
-</details>
-
-<details>
 <summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
 
 ```Powershell
-# Winget required first
 winget install --silent --source "msstore" --id "Microsoft.Skype"
 ```
 
@@ -158,27 +147,9 @@ winget install --silent --source "msstore" --id "Microsoft.Skype"
 <details>
 <summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/issues/7">#7</a></summary>
 
-1. Copy and paste this URL on your browser: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
-2. Or follow [this URL](https://www.microsoft.com/en-us/p/app/9mssgkg348sp)
-3. Then click `Get`/`Install`
-4. After this, open the `Taskbar Settings` and enable the `Widgets` button again
-
-**Or Reinstall through winget**
-
-```Powershell
-winget install --source "msstore" --id 9MSSGKG348SP --accept-package-agreements
-```
-
-</details>
-
-<details>
-<summary>Bluestacks doesn't work with <code>Hyper-V</code> enabled - No Issue Link</summary>
-
-```Powershell
-Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "Microsoft-Hyper-V-All"
-Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "HypervisorPlatform"
-Disable-WindowsOptionalFeature -Online -NoRestart -FeatureName "VirtualMachinePlatform"
-```
+1. Press `Win + R` then paste this protocol: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
+2. Then click `Get`/`Install`
+3. After this, open the `Taskbar Settings` and enable the `Widgets` button again
 
 </details>
 

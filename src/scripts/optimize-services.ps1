@@ -120,7 +120,7 @@ function Main() {
         )
     }
 
-    $IsSystemDriveSSD = Get-OSDriveType
+    $IsSystemDriveSSD = ($(Get-OSDriveType) -eq "SSD")
     Optimize-RunningServicesList # Enable essential Services and Disable bloating Services
 }
 

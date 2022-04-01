@@ -60,18 +60,23 @@ function Get-OSDriveType() {
         }
     }
 
-    $IsSSD = $SystemDriveType.MediaType -eq "SSD"
-    return $IsSSD
+    $OSDriveType = $SystemDriveType.MediaType
+    return "$OSDriveType"
 }
 
-function Get-WindowsSpec() {
-    [CmdletBinding()] param ()
+function Get-SystemSpec() {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $false)]
+        [String] $Separator = '|'
+    )
 
+    Write-Host "[@] Loading system specs..."
     # Adapted From: https://www.delftstack.com/howto/powershell/find-windows-version-in-powershell/#using-the-wmi-class-with-get-wmiobject-cmdlet-in-powershell-to-get-the-windows-version
     $WinVer = (Get-WmiObject -class Win32_OperatingSystem).Caption -replace 'Microsoft ', ''
     $DisplayVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").DisplayVersion
     $OldBuildNumber = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId
     $DisplayedVersionResult = '(' + @{ $true = $DisplayVersion; $false = $OldBuildNumber }[$null -ne $DisplayVersion] + ')'
 
-    return $WinVer, $DisplayedVersionResult, '|', $Env:PROCESSOR_ARCHITECTURE, '|', $(Get-CPU)
+    return $(Get-OSDriveType), $Separator, $WinVer, $DisplayedVersionResult, $Separator, $Env:PROCESSOR_ARCHITECTURE, $Separator, $(Get-CPU)
 }
