@@ -4,9 +4,7 @@ function Request-PrivilegesElevation() {
 }
 
 function Main() {
-
     Request-PrivilegesElevation
-
     # The following code is from Microsoft (Adapted): https://go.microsoft.com/fwlink/?LinkId=619547
     # Get all the provisioned packages
     $Packages = (Get-Item 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications') | Get-ChildItem
@@ -35,7 +33,6 @@ function Main() {
 
         # Register the package
         Write-Host "Attempting to register package: $PackageName."
-
         Add-AppxPackage -register $PackagePath -DisableDevelopmentMode
     }
 }

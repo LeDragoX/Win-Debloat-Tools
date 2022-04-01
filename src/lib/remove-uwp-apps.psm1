@@ -5,7 +5,6 @@ function Remove-UWPAppsList() {
     )
 
     ForEach ($Bloat in $Apps) {
-
         If ((Get-AppxPackage -AllUsers -Name $Bloat) -or (Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat)) {
 
             Write-Host "[-][UWP] Trying to remove $Bloat ..."

@@ -74,7 +74,6 @@ function Write-ASCIIScriptName() {
     Write-Host "<=========================================================================================================>" -ForegroundColor White
     Write-Host "                                        It's Time to Debloat Windows" -ForegroundColor Green
     Write-Host "<=========================================================================================================>" -ForegroundColor White
-
 }
 
 <#

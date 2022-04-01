@@ -1,13 +1,12 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-# Adapted from this Baboo video:                       https://youtu.be/qWESrvP_uU8
-# Adapted from this ChrisTitus script:                 https://github.com/ChrisTitusTech/win10script
-# Adapted from this matthewjberger's script:           https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
-# Adapted from this Sycnex script:                     https://github.com/Sycnex/Windows10Debloater
-# Adapted from this kalaspuffar/Daniel Persson script: https://github.com/kalaspuffar/windows-debloat
+# Adapted from: https://youtu.be/qWESrvP_uU8
+# Adapted from: https://github.com/ChrisTitusTech/win10script
+# Adapted from: https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
+# Adapted from: https://github.com/Sycnex/Windows10Debloater
+# Adapted from: https://github.com/kalaspuffar/windows-debloat
 
 function Optimize-ScheduledTasksList() {
-
     Write-Title -Text "Scheduled Tasks tweaks"
     Write-Section -Text "Disabling Scheduled Tasks"
 
@@ -42,19 +41,15 @@ function Optimize-ScheduledTasksList() {
 
     ForEach ($ScheduledTask in $DisableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
-
             Write-Host "$($EnableStatus[0]) the $ScheduledTask Task..."
             Invoke-Expression "$($Commands[0])"
-
         }
         Else {
-
             Write-Warning "[?][TaskScheduler] $ScheduledTask was not found."
-
         }
     }
-    Write-Section -Text "Enabling Scheduled Tasks"
 
+    Write-Section -Text "Enabling Scheduled Tasks"
     $EnableScheduledTasks = @(
         "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"            # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
         "\Microsoft\Windows\Windows Error Reporting\QueueReporting"     # Windows Error Reporting event, needed to improve compatibility with your hardware
@@ -62,21 +57,16 @@ function Optimize-ScheduledTasksList() {
 
     ForEach ($ScheduledTask in $EnableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
-
             Write-Host "[+][TaskScheduler] Enabling the $ScheduledTask Task..."
             Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask
-
         }
         Else {
-
             Write-Warning "[?][TaskScheduler] $ScheduledTask was not found."
-
         }
     }
 }
 
 function Main() {
-
     $EnableStatus = @(
         "[-][TaskScheduler] Disabling",
         "[+][TaskScheduler] Enabling"
@@ -86,7 +76,7 @@ function Main() {
         { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
     )
 
-    if (($Revert)) {
+    If (($Revert)) {
         Write-Warning "[<][TaskScheduler] Reverting: $Revert."
 
         $EnableStatus = @(
@@ -100,7 +90,6 @@ function Main() {
     }
 
     Optimize-ScheduledTasksList # Disable Scheduled Tasks that causes slowdowns
-
 }
 
 Main

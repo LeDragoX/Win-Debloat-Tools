@@ -3,7 +3,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
 function Use-DebloatSoftware() {
-
     $AdwCleanerDl = "https://downloads.malwarebytes.com/file/adwcleaner"
     $AdwCleanerOutput = Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe"
     Write-Host "[+] Running MalwareBytes AdwCleaner scanner..."
@@ -22,9 +21,7 @@ function Use-DebloatSoftware() {
 }
 
 function Main() {
-
     Use-DebloatSoftware # [AUTOMATED] ShutUp10 with recommended configs and AdwCleaner for Adware/Virus Scanning.
-
 }
 
 Main
