@@ -1,6 +1,5 @@
 function Get-CPU() {
-    # Adapted from: https://community.spiceworks.com/how_to/170332-how-to-get-cpu-information-in-windows-powershell
-    [CmdletBinding()] param () #$CPU = (Get-WmiObject -Class Win32_Processor -ComputerName. | Select-Object -Property [a-z]*) # Non-performative
+    [CmdletBinding()] param ()
 
     $CPUName = (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ")
     $CPUCoresAndThreads = "($((Get-WmiObject -class Win32_processor).NumberOfCores)C/$env:NUMBER_OF_PROCESSORS`rT)"

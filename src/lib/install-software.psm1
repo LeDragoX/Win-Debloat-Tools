@@ -3,7 +3,9 @@ function Install-Software() {
     param (
         [String]      $Name,
         [Array]       $PackageName,
-        [ScriptBlock] $InstallBlock = { winget install --silent --source "winget" --id $Package }
+        [ScriptBlock] $InstallBlock = { winget install --silent --source "winget" --id $Package },
+        [Parameter(Mandatory = $false)]
+        [Switch]        $NoDialog
     )
 
     $DoneTitle = "Done"
@@ -16,11 +18,13 @@ function Install-Software() {
     }
     Else {
         ForEach ($Package in $PackageName) {
-            Invoke-Expression "$InstallBlock" | Out-Host
+            #Invoke-Expression "$InstallBlock" | Out-Host
         }
     }
 
-    Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+    If (!($NoDialog)) {
+        Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+    }
 }
 
 <#

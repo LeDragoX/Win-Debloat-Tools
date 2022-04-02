@@ -257,9 +257,9 @@ function Show-GUI() {
     $WindowsTerminalNerdFonts = New-Button -Text "Windows Terminal + Nerd Font" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WindowsTerminalNerdFonts.Location.Y + $WindowsTerminalNerdFonts.Height + $DistanceBetweenButtons
-    $GitAndKeysSetup = New-Button -Text "Git and Keys Setup" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $GitGnupgSshSetup = New-Button -Text "Git + GnuPG + SSH (Setup)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $GitAndKeysSetup.Location.Y + $GitAndKeysSetup.Height + $DistanceBetweenButtons
+    $NextYLocation = $GitGnupgSshSetup.Location.Y + $GitGnupgSshSetup.Height + $DistanceBetweenButtons
     $JavaJRE = New-Button -Text "Java JRE" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJRE.Location.Y + $JavaJRE.Height + $DistanceBetweenButtons
@@ -494,7 +494,7 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_8, $RadminVPN, $Hamachi))
     $Panel3.Controls.AddRange(@($CaptionLabel3_9, $TwilioAuthy))
     $Panel3.Controls.AddRange(@($CaptionLabel3_10, $Ventoy, $Rufus, $BalenaEtcher))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminalNerdFonts, $GitAndKeysSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
 
     $Panel4.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel4_1, $Discord, $MSTeams, $Slack, $Zoom, $Telegram, $RocketChat))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
@@ -737,7 +737,7 @@ function Show-GUI() {
         })
 
     $Rufus.Add_Click( {
-            Install-Software -Name $Rufus.Text -PackageName "Rufus" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $Rufus.Text -PackageName "9PC3H3V7Q9CH" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
         })
 
     $BalenaEtcher.Add_Click( {
@@ -756,8 +756,8 @@ function Show-GUI() {
             Install-Software -Name $WindowsTerminalNerdFonts.Text -PackageName "Microsoft.WindowsTerminal"
         })
 
-    $GitAndKeysSetup.Add_Click( {
-            $Scripts = @("setup-git-keys-and-sign.ps1")
+    $GitGnupgSshSetup.Add_Click( {
+            $Scripts = @("git-gnupg-ssh-keys-setup.ps1")
             Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 

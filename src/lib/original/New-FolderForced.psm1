@@ -30,9 +30,9 @@ function New-FolderForced {
         $Path
     )
 
-    process {
-        if (-not (Test-Path $Path)) {
-            Write-Verbose "-- Creating full path to:  $Path"
+    Process {
+        If (-not (Test-Path $Path)) {
+            Write-Verbose "-- Creating full path to: $Path"
             New-Item -Path $Path -ItemType Directory -Force
         }
     }
