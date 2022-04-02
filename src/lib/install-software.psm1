@@ -18,7 +18,7 @@ function Install-Software() {
     }
     Else {
         ForEach ($Package in $PackageName) {
-            #Invoke-Expression "$InstallBlock" | Out-Host
+            Invoke-Expression "$InstallBlock" | Out-Host
         }
     }
 
