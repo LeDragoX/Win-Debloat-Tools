@@ -24,7 +24,7 @@ function Request-FileDownload {
         $FileLocation = "$PSScriptRoot\..\tmp\$OutputFolder\$OutputFile"
     }
 
-    Write-Host "`n[@] Downloading '$OutputFile'`n[@] On '$FileLocation'`n[@] From: '$FileURI'" -ForegroundColor White
+    Write-Host "`n[@] Downloading from '$FileURI' as '$OutputFile'`n[@] On '$FileLocation'" -ForegroundColor White
     Invoke-WebRequest -Uri $FileURI -OutFile $FileLocation
 
     return $FileLocation

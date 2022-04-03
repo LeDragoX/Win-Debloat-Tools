@@ -40,7 +40,7 @@ function Set-GitProfile() {
     $GitUserEmail = $(Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[1] -GitUserProperty $GitUserEmail)
 }
 
-function Set-FileNameIdentifier() {
+function Set-FileNamePrefix() {
     [CmdletBinding()]
     [OutputType([String])]
     param (
@@ -49,29 +49,29 @@ function Set-FileNameIdentifier() {
         [String] $FixedFileName,
         [String] $KeyType
     )
-    [String] $FileNameIdentifier = ""
+    [String] $FileNamePrefix = ""
     [String] $UserInput = ""
     [Array]  $AcceptedEntries = @("y", "yes", "n", "no")
 
     If ($DefaultFileName) {
         While ($UserInput -notin $AcceptedEntries) {
             Write-Host "$KeyType`: Would you like to use the default file name '$DefaultFileName'? (Y/n)" -ForegroundColor Cyan
-            $UserInput = $(Read-Host -Prompt "==> $KeyType").Trim(" ").ToLower()
+            $UserInput = $(Read-Host -Prompt "=====> $KeyType").Trim(" ").ToLower()
             If ($UserInput -notin $AcceptedEntries) {
-                Write-Host "==> $KeyType`: Invalid entry! $UserInput" -ForegroundColor Red
+                Write-Host "=====> $KeyType`: Invalid entry! $UserInput" -ForegroundColor Red
             }
         }
     }
 
     If ($UserInput -in @("y", "yes")) { return $DefaultFileName }
 
-    While (($null -eq $FileNameIdentifier) -or ($FileNameIdentifier -eq "")) {
+    While (($null -eq $FileNamePrefix) -or ($FileNamePrefix -eq "")) {
         Write-Warning "$KeyType`: Please set a valid file name identifier."
-        $FileNameIdentifier = Read-Host "$KeyType`: Please enter a name identifier before '$FixedFileName'"
-        $FileNameIdentifier = $FileNameIdentifier.Trim(" ")
+        $FileNamePrefix = Read-Host "$KeyType`: Please enter a name identifier before '$FixedFileName'"
+        $FileNamePrefix = $FileNamePrefix.Trim(" ")
     }
 
-    $FileName = "$FileNameIdentifier$FixedFileName"
+    $FileName = "$FileNamePrefix$FixedFileName"
     Write-Host "$KeyType`: Output file: $FileName"
     return $FileName
 }
@@ -82,7 +82,7 @@ function Set-SSHKey() {
     $SSHPath = "~\.ssh"
     $SSHEncryptionType = "ed25519"
     $SSHDefaultFileName = "id_$SSHEncryptionType"
-    $SSHFileName = Set-FileNameIdentifier -DefaultFileName $SSHDefaultFileName -FixedFileName "_$SSHDefaultFileName" -KeyType "SSH"
+    $SSHFileName = Set-FileNamePrefix -DefaultFileName $SSHDefaultFileName -FixedFileName "_$SSHDefaultFileName" -KeyType "SSH"
 
     If (!(Test-Path "$SSHPath")) {
         Write-Host "Creating folder on '$SSHPath'"
@@ -118,7 +118,7 @@ function Set-GPGKey() {
     $GnuPGPath = "~\.gnupg"
     $GnuPGEncryptionSize = "4096"
     $GnuPGEncryptionType = "rsa$GnuPGEncryptionSize"
-    $GnuPGFileName = Set-FileNameIdentifier -FixedFileName "_$GnuPGEncryptionType" -KeyType "GPG"
+    $GnuPGFileName = Set-FileNamePrefix -FixedFileName "_$GnuPGEncryptionType" -KeyType "GPG"
 
     If (!(Test-Path "$GnuPGPath")) {
         Write-Host "Creating folder on '$GnuPGPath'"
@@ -177,9 +177,9 @@ function Set-GPGKey() {
     git config --global gpg.program "${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe"
 
     Write-Host "Importing your key on $GnuPGPath\$($GnuPGFileName)_public.gpg and $($GnuPGFileName)_secret.gpg"
-    gpg --import *$GnuPGFileName* # Remind: No QUOTES in variables
+    gpg --import $GnuPGFileName*.gpg # Remind: No QUOTES in variables
     Write-Host "Importing all GPG keys on $GnuPGPath" -ForegroundColor Cyan
-    gpg --import *.gpg
+    gpg --import *
 
     Pop-Location
 }

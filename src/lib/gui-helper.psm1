@@ -7,7 +7,7 @@ function Set-GUILayout() {
     Add-Type -AssemblyName System.Drawing
     [System.Windows.Forms.Application]::EnableVisualStyles()  # Rounded Buttons :3
 
-    # <== FONTS ==>
+    # <===== FONTS =====>
 
     $Global:Fonts = @(
         "Arial"                 # 0
@@ -94,11 +94,11 @@ function Set-GUILayout() {
         "Terminal"              # 80
     )
 
-    # <== Used Font ==>
+    # <===== Used Font =====>
 
     $Global:FontName = $Fonts[62]
 
-    # <== SIZES LAYOUT ==>
+    # <===== SIZES LAYOUT =====>
 
     # To Forms
     $Global:FormWidth = 1366 * 0.85 # ~ 1162
@@ -121,7 +121,7 @@ function Set-GUILayout() {
     $Global:FontSize3 = 16
     $Global:FontSize4 = 20
 
-    # <== LOCATIONS LAYOUT ==>
+    # <===== LOCATIONS LAYOUT =====>
 
     [Int] $Global:TitleLabelX = $PanelWidth * 0
     [Int] $Global:TitleLabelY = $FormHeight * 0.01
@@ -129,7 +129,7 @@ function Set-GUILayout() {
     [Int] $Global:ButtonX = $PanelWidth * 0.01
     [Int] $Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
 
-    # <== COLOR PALETTE ==>
+    # <===== COLOR PALETTE =====>
 
     $Global:Green = "#1fff00"
     $Global:LightBlue = "#00ffff"
@@ -137,7 +137,7 @@ function Set-GUILayout() {
     $Global:WinDark = "#252525"
     $Global:WarningColor = "#eed202"
 
-    # <== GUI ELEMENT LAYOUT ==>
+    # <===== GUI ELEMENT LAYOUT =====>
 
     $Global:TextAlign = "MiddleCenter"
 

@@ -506,7 +506,7 @@ function Show-GUI() {
     $Panel4.Controls.AddRange(@($CaptionLabel4_8, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark, $NVCleanstall))
     $Panel4.Controls.AddRange(@($CaptionLabel4_9, $WSL2, $WSLPreview, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS, $ArchWSL))
 
-    # <== CLICK EVENTS ==>
+    # <===== CLICK EVENTS =====>
 
     $ApplyTweaks.Add_Click( {
             $Scripts = @(
