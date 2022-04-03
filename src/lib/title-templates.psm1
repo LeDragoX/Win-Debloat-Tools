@@ -22,7 +22,7 @@ function Write-Caption() {
         [String] $Text = "Write-Caption Text"
     )
 
-    Write-Host "`n==> $Text" -ForegroundColor Cyan
+    Write-Host "=====> $Text" -ForegroundColor Cyan
 }
 
 function Write-TitleCounter() {

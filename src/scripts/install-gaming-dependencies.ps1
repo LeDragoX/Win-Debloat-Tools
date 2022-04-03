@@ -25,7 +25,7 @@ function Install-GamingSoftwareRequirement() {
     Install-Software -Name "Gaming Dependencies (Chocolatey)" -Packages $ChocoGamingPackages -NoDialog -InstallBlock { choco install -y $Package }
 
     Write-Title -Text "Installing Packages with Winget"
-    Install-Software -Name "Gaming Dependencies (Winget)" -Packages $WingetGamingPackages
+    Install-Software -Name "Gaming Dependencies (Winget)" -Packages $WingetGamingPackages -NoDialog
 }
 
 function Main() {
