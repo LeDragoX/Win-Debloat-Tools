@@ -1,5 +1,7 @@
 function Get-CPU() {
-    [CmdletBinding()] param ()
+    [CmdletBinding()]
+    [OutputType([String])]
+    param ()
 
     $CPUName = (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ")
     $CPUCoresAndThreads = "($((Get-WmiObject -class Win32_processor).NumberOfCores)C/$env:NUMBER_OF_PROCESSORS`rT)"
@@ -49,7 +51,9 @@ function Get-OSArchitecture() {
 }
 
 function Get-OSDriveType() {
-    [CmdletBinding()] param ()
+    [CmdletBinding()]
+    [OutputType([String])]
+    param ()
 
     # Adapted from: https://stackoverflow.com/a/62087930
     $SystemDriveType = Get-PhysicalDisk | ForEach-Object {

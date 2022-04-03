@@ -49,7 +49,7 @@ function Remove-BloatwareAppsList() {
         "Microsoft.XboxGameOverlay"
         "Microsoft.XboxSpeechToTextOverlay"
         "Microsoft.YourPhone"                    # Your Phone
-        "Microsoft.ZuneMusic"                    # Groove Music / 
+        "Microsoft.ZuneMusic"                    # Groove Music / (New) Windows Media Player
         "Microsoft.ZuneVideo"                    # Movies & TV
 
         # Default Windows 11 apps

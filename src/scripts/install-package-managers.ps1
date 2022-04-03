@@ -54,7 +54,10 @@ function Install-PackageManager() {
             Write-Host "[@] ScheduledJob: $JobName FOUND!`n[@] Re-Creating with the command: '$("$UpdateScriptBlock".Trim(' '))'`n" -ForegroundColor White
             Unregister-ScheduledJob -Name $JobName
         }
-        Register-ScheduledJob @ScheduledJob | Out-Null
+        Else {
+            Write-Host "[@] Creating Scheduled Job with the command: '$("$UpdateScriptBlock".Trim(' '))'`n" -ForegroundColor White
+            Register-ScheduledJob @ScheduledJob | Out-Null
+        }
     }
 }
 

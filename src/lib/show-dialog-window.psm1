@@ -2,15 +2,14 @@
 function Use-WindowsForm() {
     [CmdletBinding()] param ()
 
-    # Load assembly
-    [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
+    [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null # Load assembly
 }
 
 function Show-Message() {
     [CmdletBinding()]
     param (
         [String] $Title = "Insert title here",
-        [Array] $Message = "`nCrash`nBandicoot",
+        [Array]  $Message = "`nCrash`nBandicoot",
         [String] $BoxButtons = "OK", # AbortRetryIgnore, OK, OKCancel, RetryCancel, YesNo, YesNoCancel
         [String] $BoxIcon = "Information" # Information, Question, Warning, Error or None
     )
@@ -23,7 +22,7 @@ function Show-Question() {
     [CmdletBinding()]
     param (
         [String] $Title = "Insert title here",
-        [Array] $Message = "Crash`nBandicoot",
+        [Array]  $Message = "Crash`nBandicoot",
         [String] $BoxButtons = "YesNoCancel",
         [String] $BoxIcon = "Question"
     )
