@@ -1,5 +1,6 @@
 function Request-FileDownload {
     [CmdletBinding()]
+    [OutputType([String])]
     param (
         [String] $FileURI,
         [Parameter(Mandatory = $false)]

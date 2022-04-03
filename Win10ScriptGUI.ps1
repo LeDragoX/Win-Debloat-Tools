@@ -10,7 +10,7 @@ function Show-GUI() {
     Set-GUILayout # Load the GUI Layout
 
     $Global:NeedRestart = $false
-    $DoneTitle = "Done"
+    $DoneTitle = "Information"
     $DoneMessage = "Process Completed!"
 
     # Main Window:
@@ -645,103 +645,103 @@ function Show-GUI() {
         })
 
     $BraveBrowser.Add_Click( {
-            Install-Software -Name $BraveBrowser.Text -PackageName "BraveSoftware.BraveBrowser"
+            Install-Software -Name $BraveBrowser.Text -Packages "BraveSoftware.BraveBrowser"
         })
 
     $GoogleChrome.Add_Click( {
-            Install-Software -Name $GoogleChrome.Text -PackageName "Google.Chrome" -InstallBlock { winget install --silent --source "winget" --id $Package; choco install -y "ublockorigin-chrome" }
+            Install-Software -Name $GoogleChrome.Text -Packages "Google.Chrome" -InstallBlock { winget install --silent --source "winget" --id $Package; choco install -y "ublockorigin-chrome" }
         })
 
     $MozillaFirefox.Add_Click( {
-            Install-Software -Name $MozillaFirefox.Text -PackageName "Mozilla.Firefox"
+            Install-Software -Name $MozillaFirefox.Text -Packages "Mozilla.Firefox"
         })
 
     $7Zip.Add_Click( {
-            Install-Software -Name $7Zip.Text -PackageName "7zip.7zip"
+            Install-Software -Name $7Zip.Text -Packages "7zip.7zip"
         })
 
     $WinRAR.Add_Click( {
-            Install-Software -Name $WinRAR.Text -PackageName "RARLab.WinRAR"
+            Install-Software -Name $WinRAR.Text -Packages "RARLab.WinRAR"
         })
 
     $OnlyOffice.Add_Click( {
-            Install-Software -Name $OnlyOffice.Text -PackageName "ONLYOFFICE.DesktopEditors"
+            Install-Software -Name $OnlyOffice.Text -Packages "ONLYOFFICE.DesktopEditors"
         })
 
     $LibreOffice.Add_Click( {
-            Install-Software -Name $LibreOffice.Text -PackageName "LibreOffice.LibreOffice"
+            Install-Software -Name $LibreOffice.Text -Packages "LibreOffice.LibreOffice"
         })
 
     $PowerBI.Add_Click( {
-            Install-Software -Name $PowerBI.Text -PackageName "Microsoft.PowerBI"
+            Install-Software -Name $PowerBI.Text -Packages "Microsoft.PowerBI"
         })
 
     $PaintNet.Add_Click( {
-            Install-Software -Name $PaintNet.Text -PackageName "paint.net" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $PaintNet.Text -Packages "paint.net" -InstallBlock { choco install -y $Package }
         })
 
     $Gimp.Add_Click( {
-            Install-Software -Name $Gimp.Text -PackageName "GIMP.GIMP"
+            Install-Software -Name $Gimp.Text -Packages "GIMP.GIMP"
         })
 
     $Inkscape.Add_Click( {
-            Install-Software -Name $Inkscape.Text -PackageName "Inkscape.Inkscape"
+            Install-Software -Name $Inkscape.Text -Packages "Inkscape.Inkscape"
         })
 
     $IrfanView.Add_Click( {
-            Install-Software -Name $IrfanView.Text -PackageName "IrfanSkiljan.IrfanView"
+            Install-Software -Name $IrfanView.Text -Packages "IrfanSkiljan.IrfanView"
         })
 
     $Krita.Add_Click( {
-            Install-Software -Name $Krita.Text -PackageName "KDE.Krita"
+            Install-Software -Name $Krita.Text -Packages "KDE.Krita"
         })
 
     $ShareX.Add_Click( {
-            Install-Software -Name $ShareX.Text -PackageName "ShareX.ShareX"
+            Install-Software -Name $ShareX.Text -Packages "ShareX.ShareX"
         })
 
     $VSCode.Add_Click( {
-            Install-Software -Name $VSCode.Text -PackageName "Microsoft.VisualStudioCode"
+            Install-Software -Name $VSCode.Text -Packages "Microsoft.VisualStudioCode"
         })
 
     $NotepadPlusPlus.Add_Click( {
-            Install-Software -Name $NotepadPlusPlus.Text -PackageName "Notepad++.Notepad++"
+            Install-Software -Name $NotepadPlusPlus.Text -Packages "Notepad++.Notepad++"
         })
 
     $GoogleDrive.Add_Click( {
-            Install-Software -Name $GoogleDrive.Text -PackageName "Google.Drive"
+            Install-Software -Name $GoogleDrive.Text -Packages "Google.Drive"
         })
 
     $Dropbox.Add_Click( {
-            Install-Software -Name $Dropbox.Text -PackageName "Dropbox.Dropbox"
+            Install-Software -Name $Dropbox.Text -Packages "Dropbox.Dropbox"
         })
 
     $Zotero.Add_Click( {
-            Install-Software -Name $Zotero.Text -PackageName "Zotero.Zotero"
+            Install-Software -Name $Zotero.Text -Packages "Zotero.Zotero"
         })
 
     $RadminVPN.Add_Click( {
-            Install-Software -Name $RadminVPN.Text -PackageName "Radmin.VPN"
+            Install-Software -Name $RadminVPN.Text -Packages "Radmin.VPN"
         })
 
     $Hamachi.Add_Click( {
-            Install-Software -Name $Hamachi.Text -PackageName "LogMeIn.Hamachi"
+            Install-Software -Name $Hamachi.Text -Packages "LogMeIn.Hamachi"
         })
 
     $TwilioAuthy.Add_Click( {
-            Install-Software -Name $TwilioAuthy.Text -PackageName "Twilio.Authy"
+            Install-Software -Name $TwilioAuthy.Text -Packages "Twilio.Authy"
         })
 
     $Ventoy.Add_Click( {
-            Install-Software -Name $Ventoy.Text -PackageName "Ventoy" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $Ventoy.Text -Packages "Ventoy" -InstallBlock { choco install -y $Package }
         })
 
     $Rufus.Add_Click( {
-            Install-Software -Name $Rufus.Text -PackageName "9PC3H3V7Q9CH" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
+            Install-Software -Name $Rufus.Text -Packages "9PC3H3V7Q9CH" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
         })
 
     $BalenaEtcher.Add_Click( {
-            Install-Software -Name $BalenaEtcher.Text -PackageName "Balena.Etcher"
+            Install-Software -Name $BalenaEtcher.Text -Packages "Balena.Etcher"
         })
 
     $WindowsTerminalNerdFonts.Add_Click( {
@@ -753,7 +753,7 @@ function Show-GUI() {
             }
 
             Install-Font -FontSourceFolder "$PSScriptRoot\src\tmp\Fonts"
-            Install-Software -Name $WindowsTerminalNerdFonts.Text -PackageName "Microsoft.WindowsTerminal"
+            Install-Software -Name $WindowsTerminalNerdFonts.Text -Packages "Microsoft.WindowsTerminal"
         })
 
     $GitGnupgSshSetup.Add_Click( {
@@ -762,55 +762,55 @@ function Show-GUI() {
         })
 
     $JavaJRE.Add_Click( {
-            Install-Software -Name $JavaJRE.Text -PackageName "Oracle.JavaRuntimeEnvironment"
+            Install-Software -Name $JavaJRE.Text -Packages "Oracle.JavaRuntimeEnvironment"
         })
 
     $JavaJDKs.Add_Click( {
-            Install-Software -Name $JavaJDKs.Text -PackageName @("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.17")
+            Install-Software -Name $JavaJDKs.Text -Packages @("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.17")
         })
 
     $NodeJsLts.Add_Click( {
-            Install-Software -Name $NodeJsLts.Text -PackageName "OpenJS.NodeJSLTS"
+            Install-Software -Name $NodeJsLts.Text -Packages "OpenJS.NodeJSLTS"
         })
 
     $NodeJs.Add_Click( {
-            Install-Software -Name $NodeJs.Text -PackageName "OpenJS.NodeJS"
+            Install-Software -Name $NodeJs.Text -Packages "OpenJS.NodeJS"
         })
 
     $Python3.Add_Click( {
-            Install-Software -Name $Python3.Text -PackageName "Python.Python.3"
+            Install-Software -Name $Python3.Text -Packages "Python.Python.3"
         })
 
     $Anaconda3.Add_Click( {
-            Install-Software -Name $Anaconda3.Text -PackageName "Anaconda.Anaconda3"
+            Install-Software -Name $Anaconda3.Text -Packages "Anaconda.Anaconda3"
         })
 
     $Ruby.Add_Click( {
-            Install-Software -Name $Ruby.Text -PackageName "RubyInstallerTeam.RubyWithDevKit"
+            Install-Software -Name $Ruby.Text -Packages "RubyInstallerTeam.RubyWithDevKit"
         })
 
     $ADB.Add_Click( {
-            Install-Software -Name $ADB.Text -PackageName "adb" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $ADB.Text -Packages "adb" -InstallBlock { choco install -y $Package }
         })
 
     $AndroidStudio.Add_Click( {
-            Install-Software -Name $AndroidStudio.Text -PackageName "Google.AndroidStudio"
+            Install-Software -Name $AndroidStudio.Text -Packages "Google.AndroidStudio"
         })
 
     $DockerDesktop.Add_Click( {
-            Install-Software -Name $DockerDesktop.Text -PackageName "Docker.DockerDesktop"
+            Install-Software -Name $DockerDesktop.Text -Packages "Docker.DockerDesktop"
         })
 
     $PostgreSQL.Add_Click( {
-            Install-Software -Name $PostgreSQL.Text -PackageName "PostgreSQL.PostgreSQL"
+            Install-Software -Name $PostgreSQL.Text -Packages "PostgreSQL.PostgreSQL"
         })
 
     $MySQL.Add_Click( {
-            Install-Software -Name $MySQL.Text -PackageName "Oracle.MySQL"
+            Install-Software -Name $MySQL.Text -Packages "Oracle.MySQL"
         })
 
     $Insomnia.Add_Click( {
-            Install-Software -Name $Insomnia.Text -PackageName "Insomnia.Insomnia"
+            Install-Software -Name $Insomnia.Text -Packages "Insomnia.Insomnia"
         })
 
     $InstallGamingDependencies.Add_Click( {
@@ -819,119 +819,119 @@ function Show-GUI() {
         })
 
     $Discord.Add_Click( {
-            Install-Software -Name $Discord.Text -PackageName "Discord.Discord"
+            Install-Software -Name $Discord.Text -Packages "Discord.Discord"
         })
 
     $MSTeams.Add_Click( {
-            Install-Software -Name $MSTeams.Text -PackageName "Microsoft.Teams"
+            Install-Software -Name $MSTeams.Text -Packages "Microsoft.Teams"
         })
 
     $Slack.Add_Click( {
-            Install-Software -Name $Slack.Text -PackageName "SlackTechnologies.Slack"
+            Install-Software -Name $Slack.Text -Packages "SlackTechnologies.Slack"
         })
 
     $Zoom.Add_Click( {
-            Install-Software -Name $Zoom.Text -PackageName "Zoom.Zoom"
+            Install-Software -Name $Zoom.Text -Packages "Zoom.Zoom"
         })
 
     $Telegram.Add_Click( {
-            Install-Software -Name $Telegram.Text -PackageName "Telegram.TelegramDesktop"
+            Install-Software -Name $Telegram.Text -Packages "Telegram.TelegramDesktop"
         })
 
     $RocketChat.Add_Click( {
-            Install-Software -Name $RocketChat.Text -PackageName "RocketChat.RocketChat"
+            Install-Software -Name $RocketChat.Text -Packages "RocketChat.RocketChat"
         })
 
     $Steam.Add_Click( {
-            Install-Software -Name $Steam.Text -PackageName "Valve.Steam"
+            Install-Software -Name $Steam.Text -Packages "Valve.Steam"
         })
 
     $GogGalaxy.Add_Click( {
-            Install-Software -Name $GogGalaxy.Text -PackageName "GOG.Galaxy"
+            Install-Software -Name $GogGalaxy.Text -Packages "GOG.Galaxy"
         })
 
     $EpicGames.Add_Click( {
-            Install-Software -Name $EpicGames.Text -PackageName "EpicGames.EpicGamesLauncher"
+            Install-Software -Name $EpicGames.Text -Packages "EpicGames.EpicGamesLauncher"
         })
 
     $EADesktop.Add_Click( {
-            Install-Software -Name $EADesktop.Text -PackageName "ElectronicArts.EADesktop"
+            Install-Software -Name $EADesktop.Text -Packages "ElectronicArts.EADesktop"
         })
 
     $UbisoftConnect.Add_Click( {
-            Install-Software -Name $UbisoftConnect.Text -PackageName "Ubisoft.Connect"
+            Install-Software -Name $UbisoftConnect.Text -Packages "Ubisoft.Connect"
         })
 
     $BorderlessGaming.Add_Click( {
-            Install-Software -Name $BorderlessGaming.Text -PackageName "Codeusa.BorderlessGaming"
+            Install-Software -Name $BorderlessGaming.Text -Packages "Codeusa.BorderlessGaming"
         })
 
     $Notion.Add_Click( {
-            Install-Software -Name $Notion.Text -PackageName "Notion.Notion"
+            Install-Software -Name $Notion.Text -Packages "Notion.Notion"
         })
 
     $Parsec.Add_Click( {
-            Install-Software -Name $Parsec.Text -PackageName "Parsec.Parsec"
+            Install-Software -Name $Parsec.Text -Packages "Parsec.Parsec"
         })
 
     $AnyDesk.Add_Click( {
-            Install-Software -Name $AnyDesk.Text -PackageName "AnyDeskSoftwareGmbH.AnyDesk"
+            Install-Software -Name $AnyDesk.Text -Packages "AnyDeskSoftwareGmbH.AnyDesk"
         })
 
     $TeamViewer.Add_Click( {
-            Install-Software -Name $TeamViewer.Text -PackageName "TeamViewer.TeamViewer"
+            Install-Software -Name $TeamViewer.Text -Packages "TeamViewer.TeamViewer"
         })
 
     $AndroidScrCpy.Add_Click( {
-            Install-Software -Name $AndroidScrCpy.Text -PackageName "scrcpy" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $AndroidScrCpy.Text -Packages "scrcpy" -InstallBlock { choco install -y $Package }
         })
 
     $ObsStudio.Add_Click( {
-            Install-Software -Name $ObsStudio.Text -PackageName "OBSProject.OBSStudio"
+            Install-Software -Name $ObsStudio.Text -Packages "OBSProject.OBSStudio"
         })
 
     $StreamlabsObs.Add_Click( {
-            Install-Software -Name $StreamlabsObs.Text -PackageName "Streamlabs.StreamlabsOBS"
+            Install-Software -Name $StreamlabsObs.Text -Packages "Streamlabs.StreamlabsOBS"
         })
 
     $HandBrake.Add_Click( {
-            Install-Software -Name $HandBrake.Text -PackageName "HandBrake.HandBrake"
+            Install-Software -Name $HandBrake.Text -Packages "HandBrake.HandBrake"
         })
 
     $qBittorrent.Add_Click( {
-            Install-Software -Name $qBittorrent.Text -PackageName "qBittorrent.qBittorrent"
+            Install-Software -Name $qBittorrent.Text -Packages "qBittorrent.qBittorrent"
         })
 
     $Vlc.Add_Click( {
-            Install-Software -Name $Vlc.Text -PackageName "VideoLAN.VLC"
+            Install-Software -Name $Vlc.Text -Packages "VideoLAN.VLC"
         })
 
     $MpcHc.Add_Click( {
-            Install-Software -Name $MpcHc.Text -PackageName "clsid2.mpc-hc"
+            Install-Software -Name $MpcHc.Text -Packages "clsid2.mpc-hc"
         })
 
     $Spotify.Add_Click( {
-            Install-Software -Name $Spotify.Text -PackageName "9NCBCSZSJRSB" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
+            Install-Software -Name $Spotify.Text -Packages "9NCBCSZSJRSB" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
         })
 
     $CPUZ.Add_Click( {
-            Install-Software -Name $CPUZ.Text -PackageName "CPUID.CPU-Z"
+            Install-Software -Name $CPUZ.Text -Packages "CPUID.CPU-Z"
         })
 
     $GPUZ.Add_Click( {
-            Install-Software -Name $GPUZ.Text -PackageName "TechPowerUp.GPU-Z"
+            Install-Software -Name $GPUZ.Text -Packages "TechPowerUp.GPU-Z"
         })
 
     $CrystalDiskInfo.Add_Click( {
-            Install-Software -Name $CrystalDiskInfo.Text -PackageName "CrystalDewWorld.CrystalDiskInfo"
+            Install-Software -Name $CrystalDiskInfo.Text -Packages "CrystalDewWorld.CrystalDiskInfo"
         })
 
     $CrystalDiskMark.Add_Click( {
-            Install-Software -Name $CrystalDiskMark.Text -PackageName "CrystalDewWorld.CrystalDiskMark"
+            Install-Software -Name $CrystalDiskMark.Text -Packages "CrystalDewWorld.CrystalDiskMark"
         })
 
     $NVCleanstall.Add_Click( {
-            Install-Software -Name $NVCleanstall.Text -PackageName "TechPowerUp.NVCleanstall"
+            Install-Software -Name $NVCleanstall.Text -Packages "TechPowerUp.NVCleanstall"
         })
 
     $WSL2.Add_Click( {
@@ -945,35 +945,35 @@ function Show-GUI() {
         })
 
     $Ubuntu.Add_Click( {
-            Install-Software -Name $Ubuntu.Text -PackageName "Ubuntu" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Ubuntu.Text -Packages "Ubuntu" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $Debian.Add_Click( {
-            Install-Software -Name $Debian.Text -PackageName "Debian" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Debian.Text -Packages "Debian" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $KaliLinux.Add_Click( {
-            Install-Software -Name $KaliLinux.Text -PackageName "kali-linux" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $KaliLinux.Text -Packages "kali-linux" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $OpenSuse.Add_Click( {
-            Install-Software -Name $OpenSuse.Text -PackageName "openSUSE-42" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $OpenSuse.Text -Packages "openSUSE-42" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $SLES.Add_Click( {
-            Install-Software -Name $SLES.Text -PackageName "SLES-12" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $SLES.Text -Packages "SLES-12" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $Ubuntu16LTS.Add_Click( {
-            Install-Software -Name $Ubuntu16LTS.Text -PackageName "Ubuntu-16.04" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Ubuntu16LTS.Text -Packages "Ubuntu-16.04" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $Ubuntu18LTS.Add_Click( {
-            Install-Software -Name $Ubuntu18LTS.Text -PackageName "Ubuntu-18.04" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Ubuntu18LTS.Text -Packages "Ubuntu-18.04" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $Ubuntu20LTS.Add_Click( {
-            Install-Software -Name $Ubuntu20LTS.Text -PackageName "Ubuntu-20.04" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Ubuntu20LTS.Text -Packages "Ubuntu-20.04" -InstallBlock { wsl --install --distribution $Package }
         })
 
     $ArchWSL.Add_Click( {
@@ -990,12 +990,8 @@ function Show-GUI() {
 }
 
 function Main() {
-
     Clear-Host
     Request-AdminPrivilege # Check admin rights
-
-    Write-Host "Your Current Folder $pwd"
-    Write-Host "Script Root Folder $PSScriptRoot"
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
@@ -1006,13 +1002,15 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-font.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-message-box.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
+    Write-Host "Your Current Folder $pwd"
+    Write-Host "Script Root Folder $PSScriptRoot"
     Set-ConsoleStyle            # Makes the console look cooler
     Unlock-ScriptUsage
-    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -DoneTitle $DoneTitle -DoneMessage $DoneMessage -ShowDoneWindow $false # Install Winget and Chocolatey at the beginning
-    Write-ASCIIScriptName       # Thanks Figlet
+    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog # Install Winget and Chocolatey at the beginning
+    Write-ScriptLogo            # Thanks Figlet
     Show-GUI                    # Load the GUI
 
     Write-Verbose "Restart: $Global:NeedRestart"
@@ -1020,7 +1018,6 @@ function Main() {
         Request-PcRestart       # Prompt options to Restart the PC
     }
     Block-ScriptUsage
-
 }
 
 Main

@@ -4,8 +4,7 @@ function Request-AdminPrivilege() {
 }
 
 function Open-Script() {
-
-    $DoneTitle = "Done"
+    $DoneTitle = "Information"
     $DoneMessage = "Process Completed!"
 
     $Scripts = @(
@@ -28,26 +27,23 @@ function Open-Script() {
 }
 
 function Main() {
-
     Request-AdminPrivilege # Check admin rights
-
-    Write-Host "Your Current Folder $pwd"
-    Write-Host "Script Root Folder $PSScriptRoot"
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\show-message-box.psm1"
+    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\show-dialog-window.psm1"
     Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
 
-    Set-ConsoleStyle            # Makes the console look cooler
+    Write-Host "Your Current Folder $pwd"
+    Write-Host "Script Root Folder $PSScriptRoot"
+    Set-ConsoleStyle   # Makes the console look cooler
     Unlock-ScriptUsage
-    Open-Script                 # Run all scripts inside 'scripts' folder
+    Open-Script        # Run all scripts inside 'scripts' folder
     Block-ScriptUsage
-    Write-ASCIIScriptName       # Thanks Figlet
-    Request-PcRestart           # Prompt options to Restart the PC
-
+    Write-ScriptLogo   # Thanks Figlet
+    Request-PcRestart  # Prompt options to Restart the PC
 }
 
 Main

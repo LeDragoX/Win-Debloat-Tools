@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"file-runner.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script
@@ -16,18 +17,10 @@ function Register-PersonalTweaksList() {
     $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
     Write-Title -Text "My Personal Tweaks"
-    Push-Location -Path "$PSScriptRoot\..\utils\"
 
-    Write-Host "[+][Personal] Enabling Dark theme..."
-    regedit /s use-dark-theme.reg
-    Write-Host "[-][Personal] Disabling Cortana..."
-    regedit /s disable-cortana.reg
-    Write-Host "[+][Personal] Enabling photo viewer..."
-    regedit /s enable-photo-viewer.reg
-    Write-Host "[-][Personal] Disabling clipboard history..."
-    regedit /s disable-clipboard-history.reg
+    $Scripts = @("use-dark-theme.reg", "disable-cortana.reg", "enable-photo-viewer.reg", "disable-clipboard-history.reg")
+    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle "" -DoneMessage "" -NoDialog
 
-    Pop-Location
     Write-Section -Text "Windows Explorer Tweaks"
 
     Write-Host "[-][Personal] Hiding Quick Access from Windows Explorer..."

@@ -1,10 +1,10 @@
 function Write-Title() {
     [CmdletBinding()]
     param (
-        [String]	$Text = "Write-Title Text"
+        [String] $Text = "Write-Title Text"
     )
 
-    Write-Host "`n<===================={ $Text }====================>`n" -ForegroundColor Cyan
+    Write-Host "`n<===================={ $Text }====================>" -ForegroundColor Cyan
 }
 
 function Write-Section() {
@@ -22,13 +22,13 @@ function Write-Caption() {
         [String] $Text = "Write-Caption Text"
     )
 
-    Write-Host "==> $Text`n" -ForegroundColor Cyan
+    Write-Host "`n==> $Text" -ForegroundColor Cyan
 }
 
 function Write-TitleCounter() {
     [CmdletBinding()]
     param (
-        [String] $Text = "TitleCounter Text",
+        [String] $Text = "Write-TitleCounter Text",
         [Int] 	 $MaxNum = $Global:MaxNum
     )
 
@@ -40,7 +40,7 @@ function Write-TitleCounter() {
     }
 
     $Global:Counter = $Counter + 1
-    Write-Host "`n<===================={ ( $Counter/$MaxNum ) - { $Text } }====================>`n" -ForegroundColor Yellow
+    Write-Host "`n<===================={ ( $Counter/$MaxNum ) - { $Text } }====================>" -ForegroundColor Yellow
 
     # Reset both when the Counter is greater or equal than MaxNum and different from 0
     If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {
@@ -49,9 +49,8 @@ function Write-TitleCounter() {
     }
 }
 
-function Write-ASCIIScriptName() {
-    [CmdletBinding()]
-    param ()
+function Write-ScriptLogo() {
+    [CmdletBinding()] param ()
 
     Write-Host "<=========================================================================================================>`n" -ForegroundColor White
     Write-Host '888       888 d8b           d888   .d8888b.                .d8888b.                                 888    ' -ForegroundColor Green
@@ -82,5 +81,5 @@ Write-Title -Text "Text"
 Write-Section -Text "Text"
 Write-Caption -Text "Text"
 Write-TitleCounter -Text "Text" -MaxNum 100 # First time only insert MaxNum
-Write-ASCIIScriptName
+Write-ScriptLogo
 #>

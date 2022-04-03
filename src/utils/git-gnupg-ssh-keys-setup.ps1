@@ -1,4 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"install-software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 
 function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
@@ -184,16 +185,24 @@ function Set-GPGKey() {
 }
 
 function Main() {
-    Request-AdminPrivilege
-    Install-Software -Name "Git and GnuPG" -PackageName @("Git.Git", "GnuPG.GnuPG") -NoDialog
+    $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting signing keys on Windows.`nIf you already have your keys located at ~/.ssh and ~/.gnupg,`nthey'll be imported after a new key generation/setup on git.`n`nDo you want to proceed?"
 
-    Write-Host "Before everything, your data will only be keep locally, only in YOUR PC." -ForegroundColor Cyan
-    Write-Host "I've made this to be more productive and not to lose time setting signing keys on Windows." -ForegroundColor Cyan
-    Write-Host "If you already have your keys located at ~/.ssh and ~/.gnupg,`nthey'll be imported after a new key generation/setup on git." -ForegroundColor Cyan
-    Read-Host "Press Enter to continue...`n"
-    Set-GitProfile
-    Set-SSHKey
-    Set-GPGKey
+    Request-AdminPrivilege
+    Install-Software -Name "Git + GnuPG" -Packages @("Git.Git", "GnuPG.GnuPG") -NoDialog
+
+    switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
+        'Yes' {
+            Set-GitProfile
+            Set-SSHKey
+            Set-GPGKey
+        }
+        'No' {
+            Write-Host "Aborting..."
+        }
+        'Cancel' {
+            Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit
+        }
+    }
 }
 
 Main
