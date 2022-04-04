@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-folder-gui.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"install-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 
@@ -8,25 +9,28 @@ function Request-AdminPrivilege() {
 
 function Initialize-GitUser() {
     [CmdletBinding()]
-    [OutputType([String])]
     param (
         [String] $GIT_PROPERTY_NAME, # Ex: Name, Email
-        [String] $GitUserProperty  # Ex: Your Name, your@email.com
+        [String] $GitUserProperty    # Ex: Your Name, your@email.com
     )
 
-    $GitUserProperty = $GitUserProperty.Trim(" ")
-
-    While (($null -eq $GitUserProperty) -or ($GitUserProperty -eq "")) {
-        Write-Warning "GIT: Could not found 'git config --global user.$GIT_PROPERTY_NAME' value, is null or empty."
-        $GitUserProperty = Read-Host "GIT: Please enter your git user.$GIT_PROPERTY_NAME"
+    If (($null -eq $GitUserProperty) -or ($GitUserProperty -eq "")) {
         $GitUserProperty = $GitUserProperty.Trim(" ")
+    
+        While (($null -eq $GitUserProperty) -or ($GitUserProperty -eq "")) {
+            Write-Warning "GIT: Could not found 'git config --global user.$GIT_PROPERTY_NAME' value, is null or empty."
+            $GitUserProperty = Read-Host "GIT: Please enter your git user.$GIT_PROPERTY_NAME"
+            $GitUserProperty = $GitUserProperty.Trim(" ")
+        }
+    
+        Write-Host "GIT: Setting your git user.$GIT_PROPERTY_NAME to '$GitUserProperty' ..." -ForegroundColor Cyan
+        git config --global user.$GIT_PROPERTY_NAME "$GitUserProperty"
+    
+        Write-Host "GIT: Your user.$GIT_PROPERTY_NAME on git is: $(git config --global user.$GIT_PROPERTY_NAME)`n" -ForegroundColor Cyan
     }
-
-    Write-Host "GIT: Setting your git user.$GIT_PROPERTY_NAME to '$GitUserProperty' ..." -ForegroundColor Cyan
-    git config --global user.$GIT_PROPERTY_NAME "$GitUserProperty"
-
-    Write-Host "GIT: Your user.$GIT_PROPERTY_NAME on git is: $(git config --global user.$GIT_PROPERTY_NAME)`n" -ForegroundColor Cyan
-    return $GitUserProperty
+    Else {
+        Write-Warning "Your $GIT_PROPERTY_NAME already exists: $(git config --global user.$GIT_PROPERTY_NAME)`nSkipping..." -ForegroundColor Cyan
+    }
 }
 
 function Set-GitProfile() {
@@ -36,8 +40,8 @@ function Set-GitProfile() {
     $GitUserEmail = $(git config --global user.email)
     $GIT_USER_PROPERTIES = @("name", "email")
 
-    $GitUserName = $(Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[0] -GitUserProperty $GitUserName)
-    $GitUserEmail = $(Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[1] -GitUserProperty $GitUserEmail)
+    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[0] -GitUserProperty $GitUserName 
+    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[1] -GitUserProperty $GitUserEmail
 }
 
 function Set-FileNamePrefix() {
@@ -50,20 +54,20 @@ function Set-FileNamePrefix() {
         [String] $KeyType
     )
     [String] $FileNamePrefix = ""
-    [String] $UserInput = ""
+    [String] $Response = ""
     [Array]  $AcceptedEntries = @("y", "yes", "n", "no")
 
     If ($DefaultFileName) {
-        While ($UserInput -notin $AcceptedEntries) {
+        While ($Response -notin $AcceptedEntries) {
             Write-Host "$KeyType`: Would you like to use the default file name '$DefaultFileName'? (Y/n)" -ForegroundColor Cyan
-            $UserInput = $(Read-Host -Prompt "=====> $KeyType").Trim(" ").ToLower()
-            If ($UserInput -notin $AcceptedEntries) {
-                Write-Host "=====> $KeyType`: Invalid entry! $UserInput" -ForegroundColor Red
+            $Response = $(Read-Host -Prompt "=====> $KeyType").Trim(" ").ToLower()
+            If ($Response -notin $AcceptedEntries) {
+                Write-Host "=====> $KeyType`: Invalid entry! $Response" -ForegroundColor Red
             }
         }
     }
 
-    If ($UserInput -in @("y", "yes")) { return $DefaultFileName }
+    If ($Response -in @("y", "yes")) { return $DefaultFileName }
 
     While (($null -eq $FileNamePrefix) -or ($FileNamePrefix -eq "")) {
         Write-Warning "$KeyType`: Please set a valid file name identifier."
@@ -74,6 +78,18 @@ function Set-FileNamePrefix() {
     $FileName = "$FileNamePrefix$FixedFileName"
     Write-Host "$KeyType`: Output file: $FileName"
     return $FileName
+}
+
+function Enable-SshAndGpgAgent() {
+    Write-Host "Starting ssh-agent Service (Requires Admin)" -ForegroundColor Cyan
+    Get-Service -Name "ssh-agent" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic
+    Start-Service -Name "ssh-agent"
+
+    Write-Host "Checking if ssh-agent.exe is running before adding the keys..." -ForegroundColor Cyan
+    ssh-agent.exe
+
+    Write-Host "Setting git config GnuPG program path to ${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe ..." -ForegroundColor Cyan
+    git config --global gpg.program "${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe"
 }
 
 function Set-SSHKey() {
@@ -94,13 +110,6 @@ function Set-SSHKey() {
     Write-Host "Generating new SSH Key on $SSHPath\$SSHFileName" -ForegroundColor Cyan
     #           Encryption type        Comment                                Output file
     ssh-keygen -t "$SSHEncryptionType" -C "$(git config --global user.email)" -f "$SSHFileName" | Out-Host
-
-    Write-Host "Checking if ssh-agent.exe is running before adding the keys..."
-    ssh-agent.exe
-
-    Write-Host "Starting ssh-agent Service, this part is the reason to get admin permissions."
-    Get-Service -Name "ssh-agent" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
-    Start-Service -Name "ssh-agent"
 
     Write-Host "Importing your key on $SSHPath\$SSHFileName"
     ssh-add $SSHFileName # Remind: No QUOTES on import
@@ -173,9 +182,6 @@ function Set-GPGKey() {
         Write-Host "Failed to retrieve your key_id: $key_id"
     }
 
-    Write-Host "Setting GnuPG program path to ${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe"
-    git config --global gpg.program "${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe"
-
     Write-Host "Importing your key on $GnuPGPath\$($GnuPGFileName)_public.gpg and $($GnuPGFileName)_secret.gpg"
     gpg --import $GnuPGFileName*.gpg # Remind: No QUOTES in variables
     Write-Host "Importing all GPG keys on $GnuPGPath" -ForegroundColor Cyan
@@ -184,8 +190,30 @@ function Set-GPGKey() {
     Pop-Location
 }
 
+function Import-SSHAndGPGKeys() {
+    [CmdletBinding()] param()
+
+    $Folder = Get-Folder -Description "Select the existing SSH keys folder"
+
+    If (!($null -eq $Folder)) {
+        Write-Host "Importing SSH keys from: $Folder" -ForegroundColor Cyan
+        Push-Location $Folder
+        ssh-add $(Get-ChildItem)
+        Pop-Location
+
+        $Folder = $null
+        $Folder = Get-Folder -Description "Select the existing GPG keys folder"
+        If (!($null -eq $Folder)) {
+            Write-Host "Importing GPG keys from: $Folder" -ForegroundColor Cyan
+            Push-Location $Folder
+            gpg --import *
+            Pop-Location
+        }
+    }
+}
+
 function Main() {
-    $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting signing keys on Windows.`nIf you already have your keys located at ~/.ssh and ~/.gnupg,`nthey'll be imported after a new key generation/setup on git.`n`nDo you want to proceed?"
+    $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting signing keys on Windows.`n`nThis setup cover:`n- Git user name and email`n- SSH and GPG keys full creation and import (even other keys from ~\.ssh and ~\.gnupg)`n  - Or import existing SSH and GPG keys (only changes git config gpg.program)`n`nDo you want to proceed?"
 
     Request-AdminPrivilege
     Install-Software -Name "Git + GnuPG" -Packages @("Git.Git", "GnuPG.GnuPG") -NoDialog
@@ -193,8 +221,21 @@ function Main() {
     switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
         'Yes' {
             Set-GitProfile
-            Set-SSHKey
-            Set-GPGKey
+            $Ask = "Are you creating new SSH and GPG keys?`n`nYes = Proceed to keys creation`nNo = Import Keys from selected folder"
+            Enable-SshAndGpgAgent
+
+            switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
+                'Yes' {
+                    Set-SSHKey
+                    Set-GPGKey
+                }
+                'No' {
+                    Import-SSHAndGPGKeys
+                }
+                'Cancel' {
+                    Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit
+                }
+            }
         }
         'No' {
             Write-Host "Aborting..."
