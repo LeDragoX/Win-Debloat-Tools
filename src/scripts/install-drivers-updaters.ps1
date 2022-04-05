@@ -3,8 +3,8 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-DriverUpdater() {
-    $CPU = Get-CPU # Detects the current CPU
-    $GPU = Get-GPU # Detects the current GPU
+    $CPU = Get-CPU -NameOnly # Detects the current CPU
+    $GPU = Get-GPU           # Detects the current GPU
 
     # Check for CPU drivers
     If ($CPU.contains("AMD")) {

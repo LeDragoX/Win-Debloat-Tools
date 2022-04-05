@@ -9,7 +9,6 @@ function Open-PowerShellFilesCollection {
         [String] $DoneMessage,
         [Parameter(Mandatory = $false)]
         [Bool]   $OpenFromGUI = $true,
-        [Parameter(Mandatory = $false)]
         [Switch] $NoDialog
     )
 
@@ -39,7 +38,6 @@ function Open-RegFilesCollection {
         [Array]  $Scripts,
         [String] $DoneTitle,
         [String] $DoneMessage,
-        [Parameter(Mandatory = $false)]
         [Switch] $NoDialog
     )
 

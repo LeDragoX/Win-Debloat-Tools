@@ -1,8 +1,5 @@
 # Made by LeDragoX inspired by Chris Titus Tech
 function New-RestorePoint() {
-    [CmdletBinding()]
-    param()
-
     Write-Host "[+][Backup] Enabling system drive Restore Point..."
     Enable-ComputerRestore -Drive "$env:SystemDrive\"
     Checkpoint-Computer -Description "Win10SD Restore Point" -RestorePointType "MODIFY_SETTINGS"

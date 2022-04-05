@@ -6,7 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from: https://github.com/kalaspuffar/windows-debloat
 
 function Optimize-Security() {
-    $CPU = Get-CPU
+    $CPU = Get-CPU -NameOnly
     # Initialize all Path variables used to Registry Tweaks
     $Global:PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
     $Global:PathToLMPoliciesMRT = "HKLM:\SOFTWARE\Policies\Microsoft\MRT"
