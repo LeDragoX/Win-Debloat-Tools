@@ -18,7 +18,7 @@ function Install-Software() {
     Write-Title "Installing: $($Name)"
 
     ForEach ($Package in $Packages) {
-        Write-TitleCounter -Text "Installing: $Package" -MaxNum $Packages.Length
+        $Private:Counter = Write-TitleCounter -Text "Installing: $Package" -Counter $Counter -MaxLength $Packages.Length
         Invoke-Expression "$InstallBlock" | Out-Host
     }
 
@@ -30,5 +30,6 @@ function Install-Software() {
 <#
 Example:
 Install-Software -Name "Brave Browser" -Packages "BraveSoftware.BraveBrowser"
+Install-Software -Name "Brave Browser" -Packages "BraveSoftware.BraveBrowser" -NoDialog
 Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -InstallBlock { choco install -y $Package }
 #>

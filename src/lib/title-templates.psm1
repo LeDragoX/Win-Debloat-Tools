@@ -1,7 +1,7 @@
 function Write-Title() {
     [CmdletBinding()]
     param (
-        [String] $Text = "Write-Title Text"
+        [String] $Text = "No Text"
     )
 
     Write-Host "`n<===================={ $Text }====================>" -ForegroundColor Cyan
@@ -10,7 +10,7 @@ function Write-Title() {
 function Write-Section() {
     [CmdletBinding()]
     param (
-        [String] $Text = "Write-Section Text"
+        [String] $Text = "No Text"
     )
 
     Write-Host "`n<=========={ $Text }==========>`n" -ForegroundColor Cyan
@@ -19,7 +19,7 @@ function Write-Section() {
 function Write-Caption() {
     [CmdletBinding()]
     param (
-        [String] $Text = "Write-Caption Text"
+        [String] $Text = "No Text"
     )
 
     Write-Host "=====> $Text" -ForegroundColor Cyan
@@ -27,26 +27,17 @@ function Write-Caption() {
 
 function Write-TitleCounter() {
     [CmdletBinding()]
+    [OutputType([System.Int32])]
     param (
-        [String] $Text = "Write-TitleCounter Text",
-        [Int] 	 $MaxNum = $Global:MaxNum
+        [String] $Text = "No Text",
+        [Int]    $Counter = 0,
+        [Int] 	 $MaxLength
     )
 
-    $Global:MaxNum = $MaxNum
+    $Counter += 1
+    Write-Host "`n<===================={ ( $Counter/$MaxLength ) - { $Text } }====================>" -ForegroundColor Yellow
 
-    If ($null -eq $Counter) {
-        # Initialize Global variables
-        $Global:Counter = 0
-    }
-
-    $Global:Counter = $Counter + 1
-    Write-Host "`n<===================={ ( $Counter/$MaxNum ) - { $Text } }====================>" -ForegroundColor Yellow
-
-    # Reset both when the Counter is greater or equal than MaxNum and different from 0
-    If (($Counter -ge $MaxNum) -and !($Counter -eq 0)) {
-        $Global:Counter = 0
-        $Global:MaxNum	= 0
-    }
+    return $Counter
 }
 
 function Write-ScriptLogo() {
@@ -80,6 +71,7 @@ Example:
 Write-Title -Text "Text"
 Write-Section -Text "Text"
 Write-Caption -Text "Text"
-Write-TitleCounter -Text "Text" -MaxNum 100 # First time only insert MaxNum
+$Private:Counter = Write-TitleCounter -Text "Text" -Counter $Counter -MaxLenght 100 # No need to iterate $Counter before, as long it's private
+$Private:Counter = Write-TitleCounter -Text "Text" -Counter $Counter -MaxLenght 100 # No need to iterate $Counter before, as long it's private
 Write-ScriptLogo
 #>

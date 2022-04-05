@@ -15,3 +15,9 @@ function Remove-UWPAppsList() {
         }
     }
 }
+
+<#
+Example:
+Remove-UWPAppsList -Apps "AppX1"
+Remove-UWPAppsList -Apps @("AppX1", "AppX2", "AppX3")
+#>

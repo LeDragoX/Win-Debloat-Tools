@@ -16,7 +16,7 @@ function Open-PowerShellFilesCollection {
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
     ForEach ($FileName in $Scripts) {
-        Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
+        $Private:Counter = Write-TitleCounter -Text "$FileName" -Counter $Counter -MaxLength $Scripts.Length
         If ($OpenFromGUI) {
             Import-Module -DisableNameChecking .\"$FileName" -Force
         }
@@ -44,7 +44,7 @@ function Open-RegFilesCollection {
     Push-Location -Path "$PSScriptRoot\..\..\$RelativeLocation"
 
     ForEach ($FileName in $Scripts) {
-        Write-TitleCounter -Text "$FileName" -MaxNum $Scripts.Length
+        $Private:Counter = Write-TitleCounter -Text "$FileName" -Counter $Counter -MaxLength $Scripts.Length
         regedit /s "$FileName"
     }
 
@@ -54,3 +54,11 @@ function Open-RegFilesCollection {
         Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
     }
 }
+
+<#
+Example:
+Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "script.ps1" -DoneTitle "Title" -DoneMessage "Message" -NoDialog
+Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("script1.ps1", "script2.ps1") -DoneTitle "Title" -DoneMessage "Message" -OpenFromGUI $false
+Open-RegFilesCollection -RelativeLocation "src\scripts" -Scripts "script.reg" -DoneTitle "Title" -DoneMessage "Message" -NoDialog
+Open-RegFilesCollection -RelativeLocation "src\scripts" -Scripts @("script1.reg", "script2.reg") -DoneTitle "Title" -DoneMessage "Message"
+#>

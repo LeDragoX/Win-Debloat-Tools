@@ -11,7 +11,7 @@ function Install-DriverUpdater() {
     }
     ElseIf ($CPU.contains("Intel")) {
         Write-Section -Text "Installing Intel $CPU chipset drivers updaters!"
-        Install-Software -Name "Intel® Driver & Support Assistant (Intel® DSA)" -Packages "Intel.IntelDriverAndSupportAssistant" # Intel® Driver & Support Assistant (Intel® DSA)
+        Install-Software -Name "Intel® Driver & Support Assistant (Intel® DSA)" -Packages "Intel.IntelDriverAndSupportAssistant" -NoDialog # Intel® Driver & Support Assistant (Intel® DSA)
     }
 
     # Check for GPU drivers then
@@ -23,19 +23,19 @@ function Install-DriverUpdater() {
 
     If ($GPU.contains("Intel")) {
         Write-Section -Text "Intel $GPU Graphics driver updater already included!"
-        Install-Software -Name "Intel® Driver & Support Assistant (Intel® DSA)" -Packages "Intel.IntelDriverAndSupportAssistant" # Intel® Driver & Support Assistant (Intel® DSA)
+        Install-Software -Name "Intel® Driver & Support Assistant (Intel® DSA)" -Packages "Intel.IntelDriverAndSupportAssistant" -NoDialog # Intel® Driver & Support Assistant (Intel® DSA)
     }
 
     If ($GPU.contains("NVIDIA")) {
         Write-Section -Text "NVIDIA $GPU Graphics driver updater!"
-        Install-Software -Name "NVIDIA GeForce Experience" -Packages "Nvidia.GeForceExperience" # NVIDIA GeForce Experience
+        Install-Software -Name "NVIDIA GeForce Experience" -Packages "Nvidia.GeForceExperience" -NoDialog # NVIDIA GeForce Experience
     }
 }
 
 function Main() {
     $CPU = Get-CPU -NameOnly # Detects the current CPU
     $GPU = Get-GPU           # Detects the current GPU
-    $Ask = "Do you want to install CPU/GPU drivers?`nAll the following Driver Updaters will be installed (if found):`n- $CPU driver updater`n- $GPU driver updater"
+    $Ask = "Do you want to install CPU/GPU drivers?`nAll the following Driver Updaters will be installed (if found):`n`n- $CPU`n- $GPU"
 
     switch (Show-Question -Title "Warning" -Message $Ask) {
         'Yes' {
