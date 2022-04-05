@@ -3,9 +3,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-DriverUpdater() {
-    $CPU = Get-CPU -NameOnly # Detects the current CPU
-    $GPU = Get-GPU           # Detects the current GPU
-
     # Check for CPU drivers
     If ($CPU.contains("AMD")) {
         Write-Section -Text "Installing AMD $CPU chipset drivers updaters!"
@@ -36,6 +33,8 @@ function Install-DriverUpdater() {
 }
 
 function Main() {
+    $CPU = Get-CPU -NameOnly # Detects the current CPU
+    $GPU = Get-GPU           # Detects the current GPU
     $Ask = "Do you want to install CPU/GPU drivers?`nAll the following Driver Updaters will be installed (if found):`n- $CPU driver updater`n- $GPU driver updater"
 
     switch (Show-Question -Title "Warning" -Message $Ask) {

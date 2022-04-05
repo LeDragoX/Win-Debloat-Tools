@@ -10,7 +10,7 @@ function Get-CPU() {
     $CPUName = (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ")
 
     If ($NameOnly) {
-        return $CPUName
+        return "$CPUName"
     }
 
     $CPUCoresAndThreads = "($((Get-WmiObject -class Win32_processor).NumberOfCores)C/$env:NUMBER_OF_PROCESSORS`rT)"
