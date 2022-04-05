@@ -25,3 +25,9 @@ function Get-Folder() {
 
     return $Folder
 }
+
+<#
+Example:
+$Folder = Get-Folder -Description "Select a folder where X files are located"
+$Folder = Get-Folder -Description "Select a folder where X files are located" -InitialDirectory "C:\Windows\Temp"
+#>
