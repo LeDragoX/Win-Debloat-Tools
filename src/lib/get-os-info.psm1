@@ -1,16 +1,26 @@
 function Get-CPU() {
     [CmdletBinding()]
     [OutputType([String])]
-    param ()
+    param (
+        [Switch] $NameOnly,
+        [Parameter(Mandatory = $false)]
+        [String] $Separator = '|'
+    )
 
     $CPUName = (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ")
+
+    If ($NameOnly) {
+        return $CPUName
+    }
+
     $CPUCoresAndThreads = "($((Get-WmiObject -class Win32_processor).NumberOfCores)C/$env:NUMBER_OF_PROCESSORS`rT)"
 
-    return "$CPUName $CPUCoresAndThreads"
+    return "$Env:PROCESSOR_ARCHITECTURE $Separator $CPUName $CPUCoresAndThreads"
 }
 
 function Get-GPU() {
-    [CmdletBinding()] param ()
+    [CmdletBinding()]
+    [OutputType([String])]
 
     # Adapted from: https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
     $ArrComputers = "."
@@ -21,6 +31,16 @@ function Get-GPU() {
     }
 
     return $GPU.description.Trim(" ")
+}
+
+function Get-RAM() {
+    [CmdletBinding()]
+    [OutputType([String])]
+
+    $RamInGB = (Get-WmiObject -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB
+    $RAMSpeed = (Get-WmiObject -ClassName Win32_PhysicalMemory)[0].Speed
+
+    return "$RamInGB`rGB ($RAMSpeed`rMHz)"
 }
 
 function Get-OSArchitecture() {
@@ -35,7 +55,7 @@ function Get-OSArchitecture() {
     ElseIf ($Architecture -like "*32 bits*") {
         $Architecture = @("x86")
     }
-    ElseIf ($Architecture -like "*ARM" -and "*64") {
+    ElseIf (($Architecture -like "*ARM") -and ($Architecture -like "*64")) {
         $Architecture = @("arm64")
     }
     ElseIf ($Architecture -like "*ARM") {
@@ -53,7 +73,6 @@ function Get-OSArchitecture() {
 function Get-OSDriveType() {
     [CmdletBinding()]
     [OutputType([String])]
-    param ()
 
     # Adapted from: https://stackoverflow.com/a/62087930
     $SystemDriveType = Get-PhysicalDisk | ForEach-Object {
@@ -69,6 +88,7 @@ function Get-OSDriveType() {
 
 function Get-SystemSpec() {
     [CmdletBinding()]
+    [OutputType([System.Object[]])]
     param (
         [Parameter(Mandatory = $false)]
         [String] $Separator = '|'
@@ -81,5 +101,5 @@ function Get-SystemSpec() {
     $OldBuildNumber = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId
     $DisplayedVersionResult = '(' + @{ $true = $DisplayVersion; $false = $OldBuildNumber }[$null -ne $DisplayVersion] + ')'
 
-    return $(Get-OSDriveType), $Separator, $WinVer, $DisplayedVersionResult, $Separator, $Env:PROCESSOR_ARCHITECTURE, $Separator, $(Get-CPU)
+    return $(Get-OSDriveType), $Separator, $WinVer, $DisplayedVersionResult, $Separator, $(Get-RAM), $Separator, $(Get-CPU -Separator $Separator)
 }

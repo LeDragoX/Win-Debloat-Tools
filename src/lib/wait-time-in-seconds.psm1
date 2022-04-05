@@ -1,7 +1,7 @@
 function Wait-TimeInSecond() {
     [CmdletBinding()]
     param (
-        [Int] $Time = 3,
+        [Int]    $Time = 3,
         [String] $Msg = "Exiting in"
     )
 

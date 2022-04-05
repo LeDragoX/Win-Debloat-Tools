@@ -16,20 +16,20 @@ function Initialize-GitUser() {
 
     If (($null -eq $GitUserProperty) -or ($GitUserProperty -eq "")) {
         $GitUserProperty = $GitUserProperty.Trim(" ")
-    
+
         While (($null -eq $GitUserProperty) -or ($GitUserProperty -eq "")) {
             Write-Warning "GIT: Could not found 'git config --global user.$GIT_PROPERTY_NAME' value, is null or empty."
             $GitUserProperty = Read-Host "GIT: Please enter your git user.$GIT_PROPERTY_NAME"
             $GitUserProperty = $GitUserProperty.Trim(" ")
         }
-    
+
         Write-Host "GIT: Setting your git user.$GIT_PROPERTY_NAME to '$GitUserProperty' ..." -ForegroundColor Cyan
         git config --global user.$GIT_PROPERTY_NAME "$GitUserProperty"
-    
+
         Write-Host "GIT: Your user.$GIT_PROPERTY_NAME on git is: $(git config --global user.$GIT_PROPERTY_NAME)`n" -ForegroundColor Cyan
     }
     Else {
-        Write-Warning "Your $GIT_PROPERTY_NAME already exists: $(git config --global user.$GIT_PROPERTY_NAME)`nSkipping..." -ForegroundColor Cyan
+        Write-Warning "Your $GIT_PROPERTY_NAME already exists: $(git config --global user.$GIT_PROPERTY_NAME)`nSkipping..."
     }
 }
 
@@ -40,7 +40,7 @@ function Set-GitProfile() {
     $GitUserEmail = $(git config --global user.email)
     $GIT_USER_PROPERTIES = @("name", "email")
 
-    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[0] -GitUserProperty $GitUserName 
+    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[0] -GitUserProperty $GitUserName
     Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[1] -GitUserProperty $GitUserEmail
 }
 
@@ -190,7 +190,7 @@ function Set-GPGKey() {
     Pop-Location
 }
 
-function Import-SSHAndGPGKeys() {
+function Import-KeysSshGpg() {
     [CmdletBinding()] param()
 
     $Folder = Get-Folder -Description "Select the existing SSH keys folder"
@@ -213,7 +213,7 @@ function Import-SSHAndGPGKeys() {
 }
 
 function Main() {
-    $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting signing keys on Windows.`n`nThis setup cover:`n- Git user name and email`n- SSH and GPG keys full creation and import (even other keys from ~\.ssh and ~\.gnupg)`n  - Or import existing SSH and GPG keys (only changes git config gpg.program)`n`nDo you want to proceed?"
+    $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting signing keys on Windows.`n`nThis setup cover:`n- Git user name and email`n- SSH and GPG keys full creation and import (even other keys from ~\.ssh and ~\.gnupg)`n- Or import existing SSH and GPG keys (only changes git config gpg.program)`n`nDo you want to proceed?"
 
     Request-AdminPrivilege
     Install-Software -Name "Git + GnuPG" -Packages @("Git.Git", "GnuPG.GnuPG") -NoDialog
@@ -221,7 +221,7 @@ function Main() {
     switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
         'Yes' {
             Set-GitProfile
-            $Ask = "Are you creating new SSH and GPG keys?`n`nYes = Proceed to keys creation`nNo = Import Keys from selected folder"
+            $Ask = "Are you creating new SSH and GPG keys?`n`nYes: Proceed to keys creation`nNo: Import Keys from selected folder`n`nReminder: for those who selected 'No', you must do manually, the configs for`n- git config --global user.signingkey (YOUR KEY)`n- git config --global commit.gpgsign true"
             Enable-SshAndGpgAgent
 
             switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
@@ -230,7 +230,7 @@ function Main() {
                     Set-GPGKey
                 }
                 'No' {
-                    Import-SSHAndGPGKeys
+                    Import-KeysSshGpg
                 }
                 'Cancel' {
                     Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit

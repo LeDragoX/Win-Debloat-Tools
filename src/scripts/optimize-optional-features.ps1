@@ -76,7 +76,7 @@ function Main() {
         { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Enable-WindowsOptionalFeature -Online -NoRestart }
     )
 
-    if (($Revert)) {
+    If (($Revert)) {
         Write-Warning "[<][Features] Reverting: $Revert."
 
         $EnableStatus = @(
