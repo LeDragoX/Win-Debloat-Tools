@@ -38,7 +38,7 @@ function Get-RAM() {
     [OutputType([String])]
 
     $RamInGB = (Get-WmiObject -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB
-    $RAMSpeed = (Get-WmiObject -ClassName Win32_PhysicalMemory)[0].Speed
+    $RAMSpeed = (Get-WmiObject -ClassName Win32_PhysicalMemory).Speed[0]
 
     return "$RamInGB`rGB ($RAMSpeed`rMHz)"
 }
