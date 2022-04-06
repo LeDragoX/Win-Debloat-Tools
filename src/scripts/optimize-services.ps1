@@ -7,6 +7,37 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from: https://github.com/Sycnex/Windows10Debloater
 
 function Optimize-RunningServicesList() {
+    [CmdletBinding()]
+    param (
+        [Switch] $Revert,
+        [Array]  $EnableStatus = @(
+            "[-][Services] Disabling",
+            "[+][Services] Enabling"
+            "[+][Services] Enabling (Automatic)"
+        ),
+        [Array]  $Commands = @(
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
+        )
+    )
+    $IsSystemDriveSSD = ($(Get-OSDriveType) -eq "SSD")
+
+    If (($Revert)) {
+        Write-Warning "[<][Services] Reverting: $Revert."
+
+        $EnableStatus = @(
+            "[<][Services] Re-Enabling",
+            "[<][Services] Re-Disabling"
+            "[+][Services] Enabling (Automatic)"
+        )
+        $Commands = @(
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
+        )
+    }
+
     Write-Title -Text "Services tweaks"
 
     $DisableServices = @(
@@ -92,34 +123,12 @@ function Optimize-RunningServicesList() {
 }
 
 function Main() {
-    $EnableStatus = @(
-        "[-][Services] Disabling",
-        "[+][Services] Enabling"
-        "[+][Services] Enabling (Automatic)"
-    )
-    $Commands = @(
-        { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
-        { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
-        { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
-    )
-
-    if (($Revert)) {
-        Write-Warning "[<][Services] Reverting: $Revert."
-
-        $EnableStatus = @(
-            "[<][Services] Re-Enabling",
-            "[<][Services] Re-Disabling"
-            "[+][Services] Enabling (Automatic)"
-        )
-        $Commands = @(
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
-        )
+    If (!($Revert)) {
+        Optimize-RunningServicesList # Enable essential Services and Disable bloating Services
     }
-
-    $IsSystemDriveSSD = ($(Get-OSDriveType) -eq "SSD")
-    Optimize-RunningServicesList # Enable essential Services and Disable bloating Services
+    Else {
+        Optimize-RunningServicesList -Revert
+    }
 }
 
 Main

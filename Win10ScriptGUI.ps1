@@ -549,7 +549,14 @@ function Show-GUI() {
 
     $RevertScript.Add_Click( {
             $Global:Revert = $true
-            $Scripts = @("optimize-scheduled-tasks.ps1", "optimize-services.ps1", "optimize-privacy-and-performance.ps1", "personal-tweaks.ps1", "optimize-optional-features.ps1", "reinstall-pre-installed-apps.ps1")
+            $Scripts = @(
+                "optimize-scheduled-tasks.ps1",
+                "optimize-services.ps1",
+                "optimize-privacy-and-performance.ps1",
+                "personal-tweaks.ps1",
+                "optimize-optional-features.ps1",
+                "reinstall-pre-installed-apps.ps1"
+            )
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $Global:Revert = $false
         })

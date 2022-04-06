@@ -7,6 +7,31 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from: https://github.com/kalaspuffar/windows-debloat
 
 function Optimize-ScheduledTasksList() {
+    [CmdletBinding()]
+    param (
+        [Switch] $Revert,
+        [Array]  $EnableStatus = @(
+            "[-][TaskScheduler] Disabling",
+            "[+][TaskScheduler] Enabling"
+        ),
+        [Array]  $Commands = @(
+            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask }, # R* = Ready/Running Tasks
+            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
+        )
+    )
+
+    If (($Revert)) {
+        Write-Warning "[<][TaskScheduler] Reverting: $Revert."
+        $EnableStatus = @(
+            "[<][TaskScheduler] Re-Enabling",
+            "[<][TaskScheduler] Re-Disabling"
+        )
+        $Commands = @(
+            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask },
+            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
+        )
+    }
+
     Write-Title -Text "Scheduled Tasks tweaks"
     Write-Section -Text "Disabling Scheduled Tasks"
 
@@ -67,28 +92,12 @@ function Optimize-ScheduledTasksList() {
 }
 
 function Main() {
-    $EnableStatus = @(
-        "[-][TaskScheduler] Disabling",
-        "[+][TaskScheduler] Enabling"
-    )
-    $Commands = @(
-        { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask }, # R* = Ready/Running Tasks
-        { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
-    )
-
-    If (($Revert)) {
-        Write-Warning "[<][TaskScheduler] Reverting: $Revert."
-        $EnableStatus = @(
-            "[<][TaskScheduler] Re-Enabling",
-            "[<][TaskScheduler] Re-Disabling"
-        )
-        $Commands = @(
-            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask },
-            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
-        )
+    If (!($Revert)) {
+        Optimize-ScheduledTasksList # Disable Scheduled Tasks that causes slowdowns
     }
-
-    Optimize-ScheduledTasksList # Disable Scheduled Tasks that causes slowdowns
+    Else {
+        Optimize-ScheduledTasksList -Revert
+    }
 }
 
 Main
