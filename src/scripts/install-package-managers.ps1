@@ -19,12 +19,10 @@ function Install-PackageManager() {
     )
 
     Try {
-
         $err = $null
         $err = (Invoke-Expression "$CheckExistenceBlock")
         if (($LASTEXITCODE)) { throw $err } # 0 = False, 1 = True
         Write-Warning "[?] $PackageManagerFullName is already installed."
-
     }
     Catch {
         Write-Warning "[?] $PackageManagerFullName was not found."
@@ -109,7 +107,6 @@ function Main() {
     Install-PackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -Time $WingetParams[3] -UpdateScriptBlock $WingetParams[4]
     # Install Chocolatey on Windows
     Install-PackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -Time $ChocolateyParams[3] -UpdateScriptBlock $ChocolateyParams[4] -PostInstallBlock $ChocolateyParams[5]
-
 }
 
 Main

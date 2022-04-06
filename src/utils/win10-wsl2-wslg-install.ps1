@@ -2,9 +2,8 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 
 function WSLwithGraphicsInstall() {
-    [CmdletBinding()] param()
-
     $OSArchList = Get-OSArchitecture
+
     If ([System.Environment]::OSVersion.Version.Build -eq 14393) {
         # 1607 needs developer mode to be enabled for older Windows 10 versions
         Write-Host "[+] Enabling Development mode w/out license and trusted apps (Win 10 1607)"

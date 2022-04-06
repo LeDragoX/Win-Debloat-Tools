@@ -4,7 +4,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Optimize-OptionalFeaturesList() {
     Write-Title -Text "Uninstall features from Windows"
-
     # Dism /online /Get-Features #/Format:Table # To find all features
     # Get-WindowsOptionalFeature -Online
 
@@ -20,17 +19,16 @@ function Optimize-OptionalFeaturesList() {
         "WorkFolders-Client"                   # Work Folders Client
     )
     ForEach ($Feature in $DisableFeatures) {
-
         If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
-
-            Write-Host "$($EnableStatus[0]) $Feature..."
+            If (($Revert -eq $true) -and ($Feature -like "IIS-*")) {
+                Write-Warning "[?][Features] Skipping $Feature to avoid a security vulnerability ..."
+                Continue
+            }
+            Write-Host "$($EnableStatus[0]) $Feature ..."
             Invoke-Expression "$($Commands[0])"
-
         }
         Else {
-
             Write-Warning "[?][Features] $Feature was not found."
-
         }
     }
 
@@ -47,17 +45,12 @@ function Optimize-OptionalFeaturesList() {
     )
 
     ForEach ($Feature in $EnableFeatures) {
-
         If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
-
-            Write-Host "[+][Features] Installing $Feature..."
+            Write-Host "[+][Features] Installing $Feature ..."
             Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
-
         }
         Else {
-
             Write-Warning "[?][Features] $Feature was not found."
-
         }
     }
 }
@@ -78,7 +71,6 @@ function Main() {
 
     If (($Revert)) {
         Write-Warning "[<][Features] Reverting: $Revert."
-
         $EnableStatus = @(
             "[<][Features] Re-Installing",
             "[<][Features] Re-Uninstalling"
@@ -87,12 +79,10 @@ function Main() {
             "Disabled*",
             "Enabled"
         )
-
         $Commands = @(
             { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[0])" | Enable-WindowsOptionalFeature -Online -NoRestart },
             { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Disable-WindowsOptionalFeature -Online -NoRestart }
         )
-
     }
 
     Optimize-OptionalFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful

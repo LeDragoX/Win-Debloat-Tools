@@ -34,8 +34,6 @@ function Initialize-GitUser() {
 }
 
 function Set-GitProfile() {
-    [CmdletBinding()] param()
-
     $GitUserName = $(git config --global user.name)
     $GitUserEmail = $(git config --global user.email)
     $GIT_USER_PROPERTIES = @("name", "email")
@@ -93,8 +91,6 @@ function Enable-SshAndGpgAgent() {
 }
 
 function Set-SSHKey() {
-    [CmdletBinding()] param()
-
     $SSHPath = "~\.ssh"
     $SSHEncryptionType = "ed25519"
     $SSHDefaultFileName = "id_$SSHEncryptionType"
@@ -133,10 +129,10 @@ function Set-GPGKey() {
         Write-Host "Creating folder on '$GnuPGPath'"
         mkdir "$GnuPGPath" | Out-Null
     }
+
     Push-Location "$GnuPGPath"
 
     Write-Host "Generating new GPG key in $GnuPGPath/$GnuPGFileName..."
-
     Write-Host "Before exporting your public and private keys, add manually an email." -ForegroundColor Cyan
     Write-Host "Type: 1 (RSA and RSA) [ENTER]." -ForegroundColor Cyan
     Write-Host "Type: 4096 [ENTER]." -ForegroundColor Cyan
@@ -150,9 +146,9 @@ function Set-GPGKey() {
     Write-Host "Then: [your passphrase again] [ENTER]." -ForegroundColor Cyan
     gpg --full-generate-key
 
-    Write-Verbose "If you want to delete unwanted keys, this is just for reference"
-    Write-Verbose 'gpg --delete-secret-keys $(git config --global user.name)'
-    Write-Verbose 'gpg --delete-keys $(git config --global user.name)'
+    Write-Host "[@] If you want to delete unwanted keys, this is just for reference" -ForegroundColor White
+    Write-Host '[@] gpg --delete-secret-keys $(git config --global user.name)' -ForegroundColor White
+    Write-Host '[@] gpg --delete-keys $(git config --global user.name)' -ForegroundColor White
 
     Write-Host "Copying all files to $GnuPGPath"
     Copy-Item -Path "$GnuPGGeneratePath/*" -Destination "$GnuPGPath/" -Recurse

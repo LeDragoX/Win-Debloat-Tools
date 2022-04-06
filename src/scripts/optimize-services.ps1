@@ -66,11 +66,11 @@ function Optimize-RunningServicesList() {
 
     ForEach ($Service in $DisableServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
-            If (($Revert -eq $true) -and ($Service -match "RemoteRegistry")) {
-                Write-Warning "[?][Services] Skipping $Service to avoid a security vulnerability..."
+            If (($Revert -eq $true) -and ($Service -like "RemoteRegistry")) {
+                Write-Warning "[?][Services] Skipping $Service to avoid a security vulnerability ..."
                 Continue
             }
-            Write-Host "$($EnableStatus[0]) $Service at Startup..."
+            Write-Host "$($EnableStatus[0]) $Service at Startup ..."
             Invoke-Expression "$($Commands[0])"
         }
         Else {
@@ -85,7 +85,7 @@ function Optimize-RunningServicesList() {
         )
 
         ForEach ($Service in $EnableServicesSSD) {
-            Write-Host "$($EnableStatus[2]) $Service at Startup because SSDs will have more benefits..."
+            Write-Host "$($EnableStatus[2]) $Service at Startup because SSDs will have more benefits ..."
             Invoke-Expression "$($Commands[2])"
         }
     }

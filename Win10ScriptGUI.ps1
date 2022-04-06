@@ -6,7 +6,6 @@ function Request-AdminPrivilege() {
 # https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 function Show-GUI() {
-
     Set-GUILayout # Load the GUI Layout
 
     $Global:NeedRestart = $false
@@ -21,7 +20,7 @@ function Show-GUI() {
     $Form.MaximizeBox = $false              # Hide the Maximize Button
     $Form.Size = New-Object System.Drawing.Size(($FormWidth + 15), $FormHeight)
     $Form.StartPosition = 'CenterScreen'    # Appears on the center
-    $Form.Text = "Win 10+ Smart Debloat Tools | $(Get-SystemSpec) | Made by LeDragoX"
+    $Form.Text = "Win 10+ Smart Debloat Tools | $(Get-SystemSpec) | Made by LeDragoX" # Loading the specs takes longer to load the script
     $Form.TopMost = $false
 
     # Icon: https://stackoverflow.com/a/53377253
@@ -476,14 +475,11 @@ function Show-GUI() {
 
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($FullPanel))
-
     # Add Elements to each Panel
     $FullPanel.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
-
     $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
-
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
     $Panel3.Controls.AddRange(@($CaptionLabel3_3, $OnlyOffice, $LibreOffice, $PowerBI))
@@ -495,7 +491,6 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_9, $TwilioAuthy))
     $Panel3.Controls.AddRange(@($CaptionLabel3_10, $Ventoy, $Rufus, $BalenaEtcher))
     $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
-
     $Panel4.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel4_1, $Discord, $MSTeams, $Slack, $Zoom, $Telegram, $RocketChat))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Notion))
@@ -549,12 +544,12 @@ function Show-GUI() {
 
     $ReinstallBloatApps.Add_Click( {
             $Scripts = @("reinstall-pre-installed-apps.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RevertScript.Add_Click( {
             $Global:Revert = $true
-            $Scripts = @("optimize-scheduled-tasks.ps1", "optimize-services.ps1", "optimize-privacy-and-performance.ps1", "personal-tweaks.ps1", "optimize-optional-features.ps1")
+            $Scripts = @("optimize-scheduled-tasks.ps1", "optimize-services.ps1", "optimize-privacy-and-performance.ps1", "personal-tweaks.ps1", "optimize-optional-features.ps1", "reinstall-pre-installed-apps.ps1")
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $Global:Revert = $false
         })
@@ -981,12 +976,8 @@ function Show-GUI() {
             Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
-    # Show the Window
-    [void]$Form.ShowDialog()
-
-    # When done, dispose of the GUI
-    $Form.Dispose()
-
+    [void]$Form.ShowDialog() # Show the Window
+    $Form.Dispose() # When done, dispose of the GUI
 }
 
 function Main() {

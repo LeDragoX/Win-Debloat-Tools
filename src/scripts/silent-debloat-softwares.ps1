@@ -16,7 +16,6 @@ function Use-DebloatSoftware() {
     Write-Host "[+] Running ShutUp10 and applying Recommended settings..."
     Start-Process -FilePath $ShutUpOutput -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # Wait until the process closes #
     Remove-Item "$ShutUpOutput" -Force                                                   # Leave no traces
-
     Pop-Location
 }
 
