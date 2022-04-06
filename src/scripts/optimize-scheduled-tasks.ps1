@@ -41,7 +41,7 @@ function Optimize-ScheduledTasksList() {
 
     ForEach ($ScheduledTask in $DisableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
-            Write-Host "$($EnableStatus[0]) the $ScheduledTask Task..."
+            Write-Host "$($EnableStatus[0]) the $ScheduledTask Task ..."
             Invoke-Expression "$($Commands[0])"
         }
         Else {
@@ -57,7 +57,7 @@ function Optimize-ScheduledTasksList() {
 
     ForEach ($ScheduledTask in $EnableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
-            Write-Host "[+][TaskScheduler] Enabling the $ScheduledTask Task..."
+            Write-Host "[+][TaskScheduler] Enabling the $ScheduledTask Task ..."
             Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask
         }
         Else {
@@ -78,7 +78,6 @@ function Main() {
 
     If (($Revert)) {
         Write-Warning "[<][TaskScheduler] Reverting: $Revert."
-
         $EnableStatus = @(
             "[<][TaskScheduler] Re-Enabling",
             "[<][TaskScheduler] Re-Disabling"

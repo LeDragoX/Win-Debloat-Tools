@@ -2,9 +2,8 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
 
 function ArchWSLInstall() {
-    [CmdletBinding()] param()
-
     $OSArchList = Get-OSArchitecture
+
     ForEach ($OSArch in $OSArchList) {
         If ($OSArch -like "x64") {
             $CertOutput = Get-APIFile -URI "https://api.github.com/repos/yuk7/ArchWSL/releases/latest" -APIObjectContainer "assets" -FileNameLike "ArchWSL-AppX_*_$OSArch.cer" -APIProperty "browser_download_url" -OutputFile "ArchWSL.cer"

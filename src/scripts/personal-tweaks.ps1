@@ -7,22 +7,23 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Register-PersonalTweaksList() {
     # Initialize all Path variables used to Registry Tweaks
-    $Global:PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
-    $Global:PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
-    $Global:PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-    $Global:PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
-    $Global:PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-    $Global:PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-    $Global:PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
-    $Global:PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+    $PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
+    $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
+    $PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+    $PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
+    $PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+    $PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
+    $PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
+    $PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
     Write-Title -Text "My Personal Tweaks"
-
     $Scripts = @("use-dark-theme.reg", "disable-cortana.reg", "enable-photo-viewer.reg", "disable-clipboard-history.reg")
+    If ($Revert) {
+        $Scripts = @("use-light-theme.reg", "enable-cortana.reg", "disable-photo-viewer.reg", "enable-clipboard-history.reg")
+    }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle "" -DoneMessage "" -NoDialog
 
     Write-Section -Text "Windows Explorer Tweaks"
-
     Write-Host "[-][Personal] Hiding Quick Access from Windows Explorer..."
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
@@ -36,8 +37,8 @@ function Register-PersonalTweaksList() {
         Remove-Item -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
     }
 
-    $Paint3DFileTypes = @(".3mf", ".bmp", ".fbx", ".gif", ".jfif", ".jpe", ".jpeg", ".jpg", ".png", ".tif", ".tiff")
     Write-Host "[-][Personal] Removing 'Edit with Paint 3D' from the Context Menu..."
+    $Paint3DFileTypes = @(".3mf", ".bmp", ".fbx", ".gif", ".jfif", ".jpe", ".jpeg", ".jpg", ".png", ".tif", ".tiff")
     ForEach ($FileType in $Paint3DFileTypes) {
         If (Test-Path "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\$FileType\Shell\3D Edit") {
             Write-Host "[?][Personal] Removing Paint 3D from file type: $FileType."
@@ -58,8 +59,8 @@ function Register-PersonalTweaksList() {
     Write-Host "$($EnableStatus[0]) Aero-Shake Minimize feature..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
 
-    # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT (BREAKS EXPLORER.EXE)
     Write-Host "[+][Personal] Setting Windows Explorer to start on This PC instead of Quick Access..."
+    # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT (BREAKS EXPLORER.EXE)
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
 
     Write-Host "$($EnableStatus[1]) Show hidden files in Explorer..."
@@ -74,24 +75,23 @@ function Register-PersonalTweaksList() {
     Write-Section -Text "Personalization"
     Write-Section -Text "Task Bar Tweaks"
     Write-Caption -Text "Task Bar - Windows 10 Compatible"
-
-    # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
     Write-Host "[-][Personal] Hiding the search box from taskbar..."
+    # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
     Set-ItemProperty -Path "$PathToCUSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
-    # [@] (0 = Hide Task view, 1 = Show Task view)
     Write-Host "[-][Personal] Hiding the Task View from taskbar..."
+    # [@] (0 = Hide Task view, 1 = Show Task view)
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
 
-    # [@] (0 = Disable, 1 = Enable)
     Write-Host "$($EnableStatus[0]) Open on Hover from News and Interest from taskbar..."
     If (!(Test-Path "$PathToCUNewsAndInterest")) {
         New-Item -Path "$PathToCUNewsAndInterest" -Force | Out-Null
     }
+    # [@] (0 = Disable, 1 = Enable)
     Set-ItemProperty -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
 
-    # [@] (0 = Enable, 1 = Enable Icon only, 2 = Disable)
     Write-Host "$($EnableStatus[0]) News and Interest from taskbar..."
+    # [@] (0 = Enable, 1 = Enable Icon only, 2 = Disable)
     Set-ItemProperty -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
     Write-Host "[-][Personal] Hiding People icon..."
@@ -116,52 +116,45 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
 
     Write-Caption -Text "Task Bar - Windows 11 Only"
-
-    # [@] (0 = Hide Widgets, 1 = Show Widgets)
     Write-Host "[-][Personal] Hiding Widgets from taskbar..."
+    # [@] (0 = Hide Widgets, 1 = Show Widgets)
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
 
-    # Disable creation of Thumbs.db thumbnail cache files
-    Write-Host "$($EnableStatus[0]) creation of Thumbs.db..."
+    Write-Host "$($EnableStatus[0]) creation of Thumbs.db thumbnail cache files..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Write-Caption -Text "Colors"
-
     Write-Host "$($EnableStatus[0]) taskbar transparency..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value $Zero
 
     Write-Section -Text "System"
     Write-Caption -Text "Multitasking"
-
     Write-Host "[-][Personal] Disabling Edge multi tabs showing on Alt + Tab..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
     Write-Section -Text "Devices"
     Write-Caption -Text "Bluetooth & other devices"
-
     Write-Host "$($EnableStatus[1]) driver download over metered connections..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
 
     Write-Section -Text "Cortana Tweaks"
-
     Write-Host "$($EnableStatus[0]) Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToCUSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
 
     Write-Section -Text "Ease of Access"
     Write-Caption -Text "Keyboard"
-
-    Write-Output "[-][Personal] Disabling Sticky Keys..."
+    Write-Host "[-][Personal] Disabling Sticky Keys..."
     Set-ItemProperty -Path "$PathToCUAccessibility\StickyKeys" -Name "Flags" -Value "506"
     Set-ItemProperty -Path "$PathToCUAccessibility\Keyboard Response" -Name "Flags" -Value "122"
     Set-ItemProperty -Path "$PathToCUAccessibility\ToggleKeys" -Name "Flags" -Value "58"
 
     Write-Section -Text "Microsoft Edge Policies"
     Write-Caption -Text "Privacy, search and services / Address bar and search"
-
     Write-Host "[=][Personal] Show me search and site suggestions using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
+
     Write-Host "[=][Personal] Show me history and favorite suggestions and other data using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
 
@@ -172,6 +165,7 @@ function Register-PersonalTweaksList() {
     Write-Host "[+][Personal] Setting up the DNS over HTTPS for Google and Cloudflare (ipv4 and ipv6)..."
     Set-DnsClientDohServerAddress -ServerAddress ("8.8.8.8", "8.8.4.4", "2001:4860:4860::8888", "2001:4860:4860::8844") -AutoUpgrade $true -AllowFallbackToUdp $true
     Set-DnsClientDohServerAddress -ServerAddress ("1.1.1.1", "1.0.0.1", "2606:4700:4700::1111", "2606:4700:4700::1001") -AutoUpgrade $true -AllowFallbackToUdp $true
+
     Write-Host "[+][Personal] Setting up the DNS from Google (ipv4 and ipv6)..."
     #Get-DnsClientServerAddress # To look up the current config.           # Cloudflare, Google,         Cloudflare,              Google
     Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("1.1.1.1", "8.8.8.8", "2606:4700:4700::1111", "2001:4860:4860::8888")
@@ -179,10 +173,6 @@ function Register-PersonalTweaksList() {
 
     Write-Host "[+][Personal] Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
-
-    Write-Host "[+][Personal] Fixing Xbox Game Bar FPS Counter (LIMITED BY LANGUAGE)..."
-    net localgroup "Performance Log Users" "$env:USERNAME" /add         # ENG
-    net localgroup "Usuários de log de desempenho" "$env:USERNAME" /add # PT-BR
 
     Write-Section -Text "Power Plan Tweaks"
     $TimeoutScreenBattery = 5
@@ -197,8 +187,9 @@ function Register-PersonalTweaksList() {
     $TimeoutHibernateBattery = 15
     $TimeoutHibernatePluggedIn = 30
 
-    Write-Host "[=][Personal] Setting Hibernate size to full..."
-    powercfg -hibernate -type full
+    Write-Host "[=][Personal] Setting Hibernate size to reduced..."
+    powercfg -hibernate -type reduced
+
     Write-Host "[-][Personal] Disabling Hibernate..."
     powercfg -hibernate off
 
@@ -227,9 +218,8 @@ function Main() {
         "[+][Personal] Enabling"
     )
 
-    If (($Revert)) {
+    If ($Revert) {
         Write-Host "[<][Personal] Reverting: $Revert."
-
         $Zero = 1
         $One = 0
         $EnableStatus = @(
