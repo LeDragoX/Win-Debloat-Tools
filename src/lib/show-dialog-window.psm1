@@ -1,12 +1,11 @@
 # Reference: https://michlstechblog.info/blog/powershell-show-a-messagebox/#:~:text=Sometimes%20while%20a%20powershell%20script,NET%20Windows.
 function Use-WindowsForm() {
-    [CmdletBinding()] param ()
-
     [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null # Load assembly
 }
 
 function Show-Message() {
     [CmdletBinding()]
+    [OutputType([System.Windows.Forms.DialogResult])]
     param (
         [String] $Title = "Insert title here",
         [Array]  $Message = "`nCrash`nBandicoot",
@@ -20,6 +19,7 @@ function Show-Message() {
 
 function Show-Question() {
     [CmdletBinding()]
+    [OutputType([System.Windows.Forms.DialogResult])]
     param (
         [String] $Title = "Insert title here",
         [Array]  $Message = "Crash`nBandicoot",

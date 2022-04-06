@@ -2,6 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Open-PowerShellFilesCollection {
+    [CmdletBinding()]
     param (
         [String] $RelativeLocation,
         [Array]  $Scripts,
@@ -33,6 +34,7 @@ function Open-PowerShellFilesCollection {
 }
 
 function Open-RegFilesCollection {
+    [CmdletBinding()]
     param (
         [String] $RelativeLocation,
         [Array]  $Scripts,

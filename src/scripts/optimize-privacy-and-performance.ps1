@@ -8,6 +8,27 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from: ://github.com/kalaspuffar/windows-debloat
 
 function Optimize-PrivacyAndPerformance() {
+    [CmdletBinding()]
+    param(
+        [Switch] $Revert,
+        [Int]    $Zero = 0,
+        [Int]    $One = 1,
+        [Array]  $EnableStatus = @(
+            "[-][Priv&Perf] Disabling",
+            "[+][Priv&Perf] Enabling"
+        )
+    )
+
+    If (($Revert)) {
+        Write-Warning "[<][Priv&Perf] Reverting: $Revert."
+        $Zero = 1
+        $One = 0
+        $EnableStatus = @(
+            "[<][Priv&Perf] Re-Enabling",
+            "[<][Priv&Perf] Re-Disabling"
+        )
+    }
+
     # Initialize all Path variables used to Registry Tweaks
     $PathToLMActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
     $PathToLMAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
@@ -65,7 +86,7 @@ function Optimize-PrivacyAndPerformance() {
 
     Write-Warning "[?][Priv&Perf] From Path: [$PathToCUContentDeliveryManager]."
     ForEach ($Name in $ContentDeliveryManagerDisableOnZero) {
-        Write-Host "$($EnableStatus[0]) $($Name): $Zero."
+        Write-Host "$($EnableStatus[0]) $($Name): $Zero"
         Set-ItemProperty -Path "$PathToCUContentDeliveryManager" -Name "$Name" -Type DWord -Value $Zero
     }
 
@@ -141,9 +162,9 @@ function Optimize-PrivacyAndPerformance() {
         "UploadUserActivities"
     )
 
-    Write-Warning "[?][Priv&Perf] From Path: [$PathToLMActivityHistory]."
     ForEach ($Name in $ActivityHistoryDisableOnZero) {
-        Write-Host "$($EnableStatus[0]) $($Name): $Zero."
+        Write-Warning "[?][Priv&Perf] From Path: [$PathToLMActivityHistory]"
+        Write-Host "$($EnableStatus[0]) $($Name): $Zero"
         Set-ItemProperty -Path "$PathToLMActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value $Zero
     }
 
@@ -176,7 +197,7 @@ function Optimize-PrivacyAndPerformance() {
         If ($key.PSChildName -EQ "LooselyCoupled") {
             continue
         }
-        Write-Host "$($EnableStatus[1]) Setting $($key.PSChildName) value to 'Deny'..."
+        Write-Host "$($EnableStatus[1]) Setting $($key.PSChildName) value to 'Deny' ..."
         Set-ItemProperty -Path ("$PathToCUDeviceAccessGlobal\" + $key.PSChildName) -Name "Value" -Value "Deny"
     }
 
@@ -240,7 +261,7 @@ function Optimize-PrivacyAndPerformance() {
 
     Write-Warning "[?][Priv&Perf] From Path: [$PathToCUPoliciesCloudContent]."
     ForEach ($Name in $CloudContentDisableOnOne) {
-        Write-Host "$($EnableStatus[0]) $($Name): $One."
+        Write-Host "$($EnableStatus[0]) $($Name): $One"
         Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "$Name" -Type DWord -Value $One
     }
     If (!(Test-Path "$PathToCUPoliciesCloudContent")) {
@@ -348,7 +369,7 @@ function Optimize-PrivacyAndPerformance() {
 
     ForEach ($Key in $KeysToDelete) {
         If ((Test-Path $Key)) {
-            Write-Host "[Priv&Perf] Removing Key: [$Key]."
+            Write-Host "[Priv&Perf] Removing Key: [$Key]"
             Remove-Item $Key -Recurse
         }
     }
@@ -405,24 +426,12 @@ function Optimize-PrivacyAndPerformance() {
 }
 
 function Main() {
-    $Zero = 0
-    $One = 1
-    $EnableStatus = @(
-        "[-][Priv&Perf] Disabling",
-        "[+][Priv&Perf] Enabling"
-    )
-
-    If (($Revert)) {
-        Write-Warning "[<][Priv&Perf] Reverting: $Revert."
-        $Zero = 1
-        $One = 0
-        $EnableStatus = @(
-            "[<][Priv&Perf] Re-Enabling",
-            "[<][Priv&Perf] Re-Disabling"
-        )
+    If (!($Revert)) {
+        Optimize-PrivacyAndPerformance # Disable Registries that causes slowdowns and privacy invasion
     }
-
-    Optimize-PrivacyAndPerformance # Disable Registries that causes slowdowns and privacy invasion
+    Else {
+        Optimize-PrivacyAndPerformance -Revert
+    }
 }
 
 Main

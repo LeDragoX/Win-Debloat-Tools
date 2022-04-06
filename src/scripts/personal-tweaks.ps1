@@ -6,6 +6,27 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from: https://github.com/kalaspuffar/windows-debloat
 
 function Register-PersonalTweaksList() {
+    [CmdletBinding()]
+    param (
+        [Switch] $Revert,
+        [Int]    $Zero = 0,
+        [Int]    $One = 1,
+        [Array]  $EnableStatus = @(
+            "[-][Personal] Disabling",
+            "[+][Personal] Enabling"
+        )
+    )
+
+    If ($Revert) {
+        Write-Host "[<][Personal] Reverting: $Revert."
+        $Zero = 1
+        $One = 0
+        $EnableStatus = @(
+            "[<][Personal] Re-Enabling",
+            "[<][Personal] Re-Disabling"
+        )
+    }
+
     # Initialize all Path variables used to Registry Tweaks
     $PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
     $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
@@ -41,7 +62,7 @@ function Register-PersonalTweaksList() {
     $Paint3DFileTypes = @(".3mf", ".bmp", ".fbx", ".gif", ".jfif", ".jpe", ".jpeg", ".jpg", ".png", ".tif", ".tiff")
     ForEach ($FileType in $Paint3DFileTypes) {
         If (Test-Path "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\$FileType\Shell\3D Edit") {
-            Write-Host "[?][Personal] Removing Paint 3D from file type: $FileType."
+            Write-Host "[?][Personal] Removing Paint 3D from file type: $FileType"
             Remove-Item -Path "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\$FileType\Shell\3D Edit" -Recurse
         }
     }
@@ -211,24 +232,12 @@ function Register-PersonalTweaksList() {
 }
 
 function Main() {
-    $Zero = 0
-    $One = 1
-    $EnableStatus = @(
-        "[-][Personal] Disabling",
-        "[+][Personal] Enabling"
-    )
-
-    If ($Revert) {
-        Write-Host "[<][Personal] Reverting: $Revert."
-        $Zero = 1
-        $One = 0
-        $EnableStatus = @(
-            "[<][Personal] Re-Enabling",
-            "[<][Personal] Re-Disabling"
-        )
+    If (!($Revert)) {
+        Register-PersonalTweaksList # Personal UI, Network, Energy and Accessibility Optimizations
     }
-
-    Register-PersonalTweaksList # Personal UI, Network, Energy and Accessibility Optimizations
+    Else {
+        Register-PersonalTweaksList -Revert
+    }
 }
 
 Main
