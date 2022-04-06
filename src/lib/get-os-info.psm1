@@ -13,7 +13,7 @@ function Get-CPU() {
         return "$CPUName"
     }
 
-    $CPUCoresAndThreads = "($((Get-WmiObject -class Win32_processor).NumberOfCores)C/$env:NUMBER_OF_PROCESSORS`rT)"
+    $CPUCoresAndThreads = "($((Get-CimInstance -class Win32_processor).NumberOfCores)C/$env:NUMBER_OF_PROCESSORS`rT)"
 
     return "$Env:PROCESSOR_ARCHITECTURE $Separator $CPUName $CPUCoresAndThreads"
 }
@@ -22,23 +22,18 @@ function Get-GPU() {
     [CmdletBinding()]
     [OutputType([String])]
 
-    # Adapted from: https://community.spiceworks.com/topic/1543645-powershell-get-wmiobject-win32_videocontroller-multiple-graphics-cards
-    $ArrComputers = "."
+    $GPU = (Get-CimInstance -Class Win32_VideoController).Name
+    Write-Verbose "Video Info: $GPU"
 
-    ForEach ($Computer in $ArrComputers) {
-        $GPU = Get-WmiObject -Class Win32_VideoController -ComputerName $Computer
-        Write-Verbose "Video Info: $($GPU.description)."
-    }
-
-    return $GPU.description.Trim(" ")
+    return $GPU
 }
 
 function Get-RAM() {
     [CmdletBinding()]
     [OutputType([String])]
 
-    $RamInGB = (Get-WmiObject -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB
-    $RAMSpeed = (Get-WmiObject -ClassName Win32_PhysicalMemory).Speed[0]
+    $RamInGB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB
+    $RAMSpeed = (Get-CimInstance -ClassName Win32_PhysicalMemory).Speed[0]
 
     return "$RamInGB`rGB ($RAMSpeed`rMHz)"
 }
@@ -96,7 +91,7 @@ function Get-SystemSpec() {
 
     Write-Host "[@] Loading system specs..."
     # Adapted From: https://www.delftstack.com/howto/powershell/find-windows-version-in-powershell/#using-the-wmi-class-with-get-wmiobject-cmdlet-in-powershell-to-get-the-windows-version
-    $WinVer = (Get-WmiObject -class Win32_OperatingSystem).Caption -replace 'Microsoft ', ''
+    $WinVer = (Get-CimInstance -class Win32_OperatingSystem).Caption -replace 'Microsoft ', ''
     $DisplayVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").DisplayVersion
     $OldBuildNumber = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId
     $DisplayedVersionResult = '(' + @{ $true = $DisplayVersion; $false = $OldBuildNumber }[$null -ne $DisplayVersion] + ')'

@@ -34,11 +34,11 @@ function Show-GUI() {
     $Global:CurrentPanelIndex++
     $Panel1 = New-Panel -Width $PanelWidth -Height $FormHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 3.0) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 3.15) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 3.0) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 3.15) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel4 = New-Panel -Width $PanelWidth -Height ($FormHeight * 3.0) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel4 = New-Panel -Width $PanelWidth -Height ($FormHeight * 3.15) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
 
     # Panel to put more Panels
     $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll $true
@@ -131,7 +131,7 @@ function Show-GUI() {
     $BraveBrowser = New-Button -Text "Brave Browser" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $BraveBrowser.Location.Y + $BraveBrowser.Height + $DistanceBetweenButtons
-    $GoogleChrome = New-Button -Text "Google Chrome + uBlock Orig." -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $GoogleChrome = New-Button -Text "Google Chrome" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GoogleChrome.Location.Y + $GoogleChrome.Height + $DistanceBetweenButtons
     $MozillaFirefox = New-Button -Text "Mozilla Firefox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -249,7 +249,7 @@ function Show-GUI() {
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $BalenaEtcher.Location.Y + $BalenaEtcher.Height + $DistanceBetweenButtons
-    $CaptionLabel3_11 = New-Label -Text "Development" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_11 = New-Label -Text "Development (Windows)" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_11.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -277,9 +277,18 @@ function Show-GUI() {
     $Anaconda3 = New-Button -Text "Anaconda3 (Python)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Anaconda3.Location.Y + $Anaconda3.Height + $DistanceBetweenButtons
-    $Ruby = New-Button -Text "Ruby with MSYS2" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Ruby = New-Button -Text "Ruby" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ruby.Location.Y + $Ruby.Height + $DistanceBetweenButtons
+    $RubyMSYS , $RustMSVC, $RustGNU = New-Button -Text "Ruby (MSYS2)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $RubyMSYS.Location.Y + $RubyMSYS.Height + $DistanceBetweenButtons
+    $RustMSVC = New-Button -Text "Rust (MSVC)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $RustMSVC.Location.Y + $RustMSVC.Height + $DistanceBetweenButtons
+    $RustGNU = New-Button -Text "Rust (GNU)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $RustGNU.Location.Y + $RustGNU.Height + $DistanceBetweenButtons
     $ADB = New-Button -Text "Android Debug Bridge (ADB)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $ADB.Location.Y + $ADB.Height + $DistanceBetweenButtons
@@ -490,7 +499,7 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_8, $RadminVPN, $Hamachi))
     $Panel3.Controls.AddRange(@($CaptionLabel3_9, $TwilioAuthy))
     $Panel3.Controls.AddRange(@($CaptionLabel3_10, $Ventoy, $Rufus, $BalenaEtcher))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $RubyMSYS, $RustMSVC, $RustGNU, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
     $Panel4.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel4_1, $Discord, $MSTeams, $Slack, $Zoom, $Telegram, $RocketChat))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Notion))
@@ -651,7 +660,7 @@ function Show-GUI() {
         })
 
     $GoogleChrome.Add_Click( {
-            Install-Software -Name $GoogleChrome.Text -Packages "Google.Chrome" -InstallBlock { winget install --silent --source "winget" --id $Package; choco install -y "ublockorigin-chrome" }
+            Install-Software -Name $GoogleChrome.Text -Packages "Google.Chrome"
         })
 
     $MozillaFirefox.Add_Click( {
@@ -788,7 +797,19 @@ function Show-GUI() {
         })
 
     $Ruby.Add_Click( {
-            Install-Software -Name $Ruby.Text -Packages "RubyInstallerTeam.RubyWithDevKit"
+            Install-Software -Name $Ruby.Text -Packages "RubyInstallerTeam.Ruby"
+        })
+
+    $RubyMSYS.Add_Click( {
+            Install-Software -Name $RubyMSYS.Text -Packages "RubyInstallerTeam.RubyWithDevKit"
+        })
+
+    $RustMSVC.Add_Click( {
+            Install-Software -Name $RustMSVC.Text -Packages "Rustlang.Rust.MSVC"
+        })
+
+    $RustGNU.Add_Click( {
+            Install-Software -Name $RustGNU.Text -Packages "Rustlang.Rust.GNU"
         })
 
     $ADB.Add_Click( {
