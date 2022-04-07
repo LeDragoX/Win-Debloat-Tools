@@ -109,7 +109,7 @@ function Optimize-RunningServicesList() {
         }
     }
 
-    If ($IsSystemDriveSSD -and $null -eq $Revert) {
+    If (($IsSystemDriveSSD) -and ($Revert -eq $false)) {
         $EnableServicesSSD = @(
             "SysMain" # SysMain / Superfetch (100% Disk on HDDs)
             "WSearch" # Windows Search (100% Disk on HDDs)
