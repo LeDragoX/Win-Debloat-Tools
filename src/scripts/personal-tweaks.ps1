@@ -93,6 +93,9 @@ function Register-PersonalTweaksList() {
     }
     Set-ItemProperty -Path "$PathToCUExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value $One
 
+    Write-Host "[-][Personal] Disabling '- Shortcut' name after creating a shortcut..."
+    Set-ItemProperty -Path "$PathToCUExplorer" -Name "link" -Value ([byte[]](0x00, 0x00, 0x00, 0x00))
+
     Write-Section -Text "Personalization"
     Write-Section -Text "Task Bar Tweaks"
     Write-Caption -Text "Task Bar - Windows 10 Compatible"
