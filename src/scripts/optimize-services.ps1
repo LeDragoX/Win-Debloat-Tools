@@ -11,35 +11,40 @@ function Optimize-RunningServicesList() {
     param (
         [Switch] $Revert,
         [Array]  $EnableStatus = @(
-            "[-][Services] Disabling",
-            "[+][Services] Enabling"
-            "[+][Services] Enabling (Automatic)"
+            "[-][Services] Setting Startup Type as 'Disabled' to",
+            "[-][Services] Setting Startup Type as 'Manual' to",
+            "[=][Services] Setting Startup Type as 'Automatic' to"
         ),
         [Array]  $Commands = @(
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
         )
     )
-    $IsSystemDriveSSD = ($(Get-OSDriveType) -eq "SSD")
 
     If (($Revert)) {
         Write-Warning "[<][Services] Reverting: $Revert."
-
         $EnableStatus = @(
-            "[<][Services] Re-Enabling",
-            "[<][Services] Re-Disabling"
-            "[+][Services] Enabling (Automatic)"
+            "[<][Services] Setting Startup Type as 'Manual' to",
+            "[<][Services] Setting Startup Type as 'Disabled' to",
+            "[=][Services] Setting Startup Type as 'Automatic' to"
         )
-        $Commands = @(
+        $Commands = @( # Only switch between Manual and Disabled to Revert
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
+            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
         )
     }
 
+    $IsSystemDriveSSD = ($(Get-OSDriveType) -eq "SSD")
+    $EnableServicesSSD = @(
+        "SysMain" # SysMain / Superfetch (100% Disk on HDDs)
+        "WSearch" # Windows Search (100% Disk on HDDs)
+    )
+
     Write-Title -Text "Services tweaks"
 
+    # Services which will be totally disabled
     $DisableServices = @(
         "BITS"                                      # Background Intelligent Transfer Service
         "DiagTrack"                                 # Connected User Experiences and Telemetry
@@ -50,7 +55,6 @@ function Optimize-RunningServicesList() {
         "HomeGroupProvider"                         # HomeGroup Provider
         "lfsvc"                                     # Geolocation Service
         "MapsBroker"                                # Downloaded Maps Manager
-        "ndu"                                       # Windows Network Data Usage Monitoring Driver
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
@@ -58,41 +62,9 @@ function Optimize-RunningServicesList() {
         "TrkWks"                                    # Distributed Link Tracking Client
         "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
         "WSearch"                                   # Windows Search (100% Disk on HDDs)
-
-        # <==========[DIY]==========> (Remove the # to Disable)
-
-        #"DPS"                                      # Diagnostic Policy Service
-        #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
-        #"NvContainerLocalSystem"                   # NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
-        #"SharedAccess"                             # Internet Connection Sharing (ICS)
-        #"stisvc"                                   # Windows Image Acquisition (WIA)
-        #"WlanSvc"                                  # WLAN AutoConfig
-        #"Wecsvc"                                   # Windows Event Collector
-        #"WerSvc"                                   # Windows Error Reporting Service
-        #"wscsvc"                                   # Windows Security Center Service
-        #"WdiServiceHost"                           # Diagnostic Service Host
-        #"WdiSystemHost"                            # Diagnostic System Host
-        #"WMPNetworkSvc"                            # Windows Media Player Network Sharing Service (Miracast / Wi-Fi Direct)
-
-        # [DIY] If you don't use Bluetooth devices
-
-        #"BTAGService"                              # Bluetooth Audio Gateway Service
-        #"bthserv"                                  # Bluetooth Support Service
-
-        # [DIY] If you don't use a Printer
-
-        #"Spooler"                                  # Print Spooler
-        #"PrintNotify"                              # Printer Extensions and Notifications
-
-        # [DIY] If you don't use Xbox Live and Games
-
-        #"XblAuthManager"                           # Xbox Live Auth Manager
-        #"XblGameSave"                              # Xbox Live Game Save Service
-        #"XboxGipSvc"                               # Xbox Accessory Management Service
-        #"XboxNetApiSvc"                            # Xbox Live Networking Service
-
-        # Services which cannot be disabled
-        #"WdNisSvc"
+        # - Services which cannot be disabled ¯\_(ツ)_/¯
+        #"wscsvc"                                   # | DEFAULT: Automatic | Windows Security Center Service
+        #"WdNisSvc"                                 # | DEFAULT: Manual    | Windows Defender Network Inspection Service
     )
 
     ForEach ($Service in $DisableServices) {
@@ -101,6 +73,13 @@ function Optimize-RunningServicesList() {
                 Write-Warning "[?][Services] Skipping $Service to avoid a security vulnerability ..."
                 Continue
             }
+
+            If (($IsSystemDriveSSD) -and ($Service -in $EnableServicesSSD)) {
+                Write-Host "$($EnableStatus[2]) $Service at Startup because in SSDs will have more benefits ..."
+                Invoke-Expression "$($Commands[2])"
+                Continue
+            }
+
             Write-Host "$($EnableStatus[0]) $Service at Startup ..."
             Invoke-Expression "$($Commands[0])"
         }
@@ -109,20 +88,51 @@ function Optimize-RunningServicesList() {
         }
     }
 
-    If (($IsSystemDriveSSD) -and ($Revert -eq $false)) {
-        $EnableServicesSSD = @(
-            "SysMain" # SysMain / Superfetch (100% Disk on HDDs)
-            "WSearch" # Windows Search (100% Disk on HDDs)
-        )
+    # Making the services to run only when needed as 'Manual' | Remove the # to set to Manual
+    $ManualServices = @(
+        #"ndu"                   # | DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
+        #"NetTcpPortSharing"     # | DEFAULT: Disabled  | Net.Tcp Port Sharing Service
+        "SharedAccess"           # | DEFAULT: Manual    | Internet Connection Sharing (ICS)
+        "stisvc"                 # | DEFAULT: Automatic | Windows Image Acquisition (WIA)
+        "Wecsvc"                 # | DEFAULT: Manual    | Windows Event Collector
+        "WerSvc"                 # | DEFAULT: Manual    | Windows Error Reporting Service
+        "WMPNetworkSvc"          # | DEFAULT: Manual    | Windows Media Player Network Sharing Service
+        # - Diagnostic Services
+        "DPS"                    # | DEFAULT: Automatic | Diagnostic Policy Service
+        "WdiServiceHost"         # | DEFAULT: Manual    | Diagnostic Service Host
+        "WdiSystemHost"          # | DEFAULT: Manual    | Diagnostic System Host
+        # - Bluetooth services
+        "BTAGService"            # | DEFAULT: Manual    | Bluetooth Audio Gateway Service
+        "BthAvctpSvc"            # | DEFAULT: Manual    | AVCTP Service
+        "bthserv"                # | DEFAULT: Manual    | Bluetooth Support Service
+        "RtkBtManServ"           # | DEFAULT: Automatic | Realtek Bluetooth Device Manager Service
+        # - Xbox services
+        "XblAuthManager"         # | DEFAULT: Manual    | Xbox Live Auth Manager
+        "XblGameSave"            # | DEFAULT: Manual    | Xbox Live Game Save Service
+        "XboxGipSvc"             # | DEFAULT: Manual    | Xbox Accessory Management Service
+        "XboxNetApiSvc"          # | DEFAULT: Manual    | Xbox Live Networking Service
+        # - NVIDIA services
+        "NvContainerLocalSystem" # | DEFAULT: Automatic | NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
+        # - Printer services
+        #"PrintNotify"           # WARNING! REMOVING WILL DISABLE PRINTING | DEFAULT: Manual    | Printer Extensions and Notifications
+        #"Spooler"               # WARNING! REMOVING WILL DISABLE PRINTING | DEFAULT: Automatic | Print Spooler
+        # - Wi-Fi services
+        #"WlanSvc"               # WARNING! REMOVING WILL DISABLE WI-FI | DEFAULT: Auto/Man. | WLAN AutoConfig
+    )
 
-        ForEach ($Service in $EnableServicesSSD) {
-            Write-Host "$($EnableStatus[2]) $Service at Startup because SSDs will have more benefits ..."
-            Invoke-Expression "$($Commands[2])"
+    ForEach ($Service in $ManualServices) {
+        If (Get-Service $Service -ErrorAction SilentlyContinue) {
+            Write-Host "[-][Services] Setting Startup Type as 'Manual' to $Service at Startup ..."
+            Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
+        }
+        Else {
+            Write-Warning "[?][Services] $Service was not found."
         }
     }
 }
 
 function Main() {
+    # List all services: Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType | Out-GridView
     If (!($Revert)) {
         Optimize-RunningServicesList # Enable essential Services and Disable bloating Services
     }

@@ -202,9 +202,9 @@ function Optimize-PrivacyAndPerformance() {
     }
 
     Write-Caption -Text "Background Apps"
-    Write-Host "$($EnableStatus[0]) Background Apps..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value $One
-    Set-ItemProperty -Path "$PathToCUSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value $Zero
+    Write-Host "$($EnableStatus[1]) Background Apps..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToCUSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 1
 
     Write-Section -Text "Update & Security"
     Write-Caption -Text "Windows Update"
