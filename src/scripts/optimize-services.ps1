@@ -75,12 +75,12 @@ function Optimize-RunningServicesList() {
             }
 
             If (($IsSystemDriveSSD) -and ($Service -in $EnableServicesSSD)) {
-                Write-Host "$($EnableStatus[2]) $Service at Startup because in SSDs will have more benefits ..."
+                Write-Host "$($EnableStatus[2]) $Service because in SSDs will have more benefits ..."
                 Invoke-Expression "$($Commands[2])"
                 Continue
             }
 
-            Write-Host "$($EnableStatus[0]) $Service at Startup ..."
+            Write-Host "$($EnableStatus[0]) $Service ..."
             Invoke-Expression "$($Commands[0])"
         }
         Else {
@@ -122,7 +122,7 @@ function Optimize-RunningServicesList() {
 
     ForEach ($Service in $ManualServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
-            Write-Host "[-][Services] Setting Startup Type as 'Manual' to $Service at Startup ..."
+            Write-Host "[-][Services] Setting Startup Type as 'Manual' to $Service ..."
             Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
         }
         Else {
