@@ -4,16 +4,24 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1
 function Remove-Xbox() {
     $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 
-    Write-Host "[-][Services] Disabling Xbox Services (Except from Accessories)..."
-    Get-Service -Name "XblAuthManager" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
-    Get-Service -Name "XblGameSave" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
-    Get-Service -Name "XboxNetApiSvc" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
-    Stop-Service "XblAuthManager" -Force -NoWait
-    Stop-Service "XblGameSave" -Force -NoWait
-    Stop-Service "XboxNetApiSvc" -Force -NoWait
-    # Only disable if you'll not get ANY Xbox Accessory (Xbox Wireless Controller, Xbox Wireless Receiver, Steering Wheel, etc.)
-    #Get-Service -Name "XboxGipSvc" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
-    #Stop-Service "XboxGipSvc" -Force -NoWait
+    Write-Host "[-][Services] Disabling ALL Xbox Services..."
+    $XboxServices = @(
+        "XblAuthManager"
+        "XblGameSave"
+        "XboxGipSvc"
+        "XboxNetApiSvc"
+    )
+
+    ForEach ($Service in $XboxServices) {
+        If (Get-Service $Service -ErrorAction SilentlyContinue) {
+            Write-Host "[-][Services] Setting Startup Type as 'Disable' to $Service at Startup and Stopping ..."
+            Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
+            Stop-Service "$Service" -Force -NoWait
+        }
+        Else {
+            Write-Warning "[?][Services] $Service was not found."
+        }
+    }
 
     Write-Host "[-][UWP] Wiping Xbox completely from Windows..."
     $XboxApps = @(
@@ -39,7 +47,7 @@ function Remove-Xbox() {
 }
 
 function Main() {
-    $Ask = "This will remove or disable the Xbox:`n  - Apps;`n  - Services (Except from Accessories) and;`n  - GameBar;`n  - GameDVR.`n`nDo you want to proceed?"
+    $Ask = "This will remove and/or disable all the Xbox:`n  - Apps;`n  - Services and;`n  - GameBar;`n  - GameDVR.`n`nDo you want to proceed?"
 
     switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
         'Yes' {
