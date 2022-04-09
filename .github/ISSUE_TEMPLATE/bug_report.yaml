@@ -87,7 +87,7 @@ body:
       description: |
         **Only needed if it's error related**
         Put your log file from: C:\Users\{ Your User }\AppData\Local\Temp\Win10ScriptXXX_YYYY-MM-DD_hh-mm-ss.txt
-        `TIP:` press `Win + R` and type: `%Temp%`, then find the log file
+        TIP: press `Win + R` and type: `%Temp%`, then find the log file
     validations:
       required: false
   - type: textarea
