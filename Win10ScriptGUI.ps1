@@ -524,7 +524,7 @@ function Show-GUI() {
                 "personal-tweaks.ps1",
                 "optimize-security.ps1",
                 "remove-onedrive.ps1",
-                "optimize-optional-features.ps1",
+                "optimize-windows-features.ps1",
                 "win11-wsl-preview-install.ps1"
             )
 
@@ -563,7 +563,7 @@ function Show-GUI() {
                 "optimize-services.ps1",
                 "optimize-privacy-and-performance.ps1",
                 "personal-tweaks.ps1",
-                "optimize-optional-features.ps1",
+                "optimize-windows-features.ps1",
                 "reinstall-pre-installed-apps.ps1"
             )
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage

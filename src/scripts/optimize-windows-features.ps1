@@ -2,7 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script/pull/131/files
 
-function Optimize-OptionalFeaturesList() {
+function Optimize-WindowsFeaturesList() {
     [CmdletBinding()]
     param (
         [Switch] $Revert,
@@ -37,8 +37,6 @@ function Optimize-OptionalFeaturesList() {
     }
 
     Write-Title -Text "Uninstall features from Windows"
-    # Dism /online /Get-Features #/Format:Table # To find all features
-    # Get-WindowsOptionalFeature -Online
 
     $DisableFeatures = @(
         "FaxServicesClientPackage"             # Windows Fax and Scan
@@ -89,11 +87,14 @@ function Optimize-OptionalFeaturesList() {
 }
 
 function Main() {
+    # List all Optional Features: Get-WindowsOptionalFeature -Online | Select-Object -Property State, FeatureName | Sort-Object State, FeatureName | Out-GridView
+    # List all Windows Packages: Get-WindowsPackage -Online | Select-Object -Property ReleaseType, PackageName, PackageState, InstallTime | Sort-Object ReleaseType, PackageState, PackageName | Out-GridView
+    # List all Windows Capabilities: Get-WindowsCapability -Online | Select-Object -Property State, Name | Sort-Object State, Name | Out-GridView
     If (!($Revert)) {
-        Optimize-OptionalFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
+        Optimize-WindowsFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
     }
     Else {
-        Optimize-OptionalFeaturesList -Revert
+        Optimize-WindowsFeaturesList -Revert
     }
 }
 
