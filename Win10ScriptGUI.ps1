@@ -1013,15 +1013,16 @@ function Main() {
     Request-AdminPrivilege # Check admin rights
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-os-info.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-font.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
     Write-Host "Your Current Folder $pwd"
@@ -1030,12 +1031,14 @@ function Main() {
     Unlock-ScriptUsage
     Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog # Install Winget and Chocolatey at the beginning
     Write-ScriptLogo            # Thanks Figlet
+    Start-Logging -File $PSCommandPath.Split("\")[-1].Split(".")[-2]
     Show-GUI                    # Load the GUI
 
     Write-Verbose "Restart: $Global:NeedRestart"
     If ($Global:NeedRestart) {
         Request-PcRestart       # Prompt options to Restart the PC
     }
+    Stop-Logging
     Block-ScriptUsage
 }
 

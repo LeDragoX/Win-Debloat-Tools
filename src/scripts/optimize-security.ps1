@@ -16,7 +16,8 @@ function Optimize-Security() {
     Write-Title -Text "Security Tweaks"
     Write-Warning "if you already use another antivirus, nothing will happen."
 
-    Write-Host "[+][Security] Ensure your Windows Defender is ENABLED."
+    Write-Host "[+][Security] Ensuring your Windows Defender is ENABLED..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Type DWORD -Value 0 -Force
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
 
     Write-Host "[+][Security] Enabling Microsoft Defender Exploit Guard network protection..."

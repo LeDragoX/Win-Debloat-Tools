@@ -49,12 +49,11 @@ body:
       label: Operating System
       description: Versions before Windows 10 are not supported
       options:
-      - Windows 11 (64bit)
+      - Windows 11 (64-bits)
       - Windows 11 (ARM64)
-      - Windows 10 (64bit)
-      - Windows 10 (32bit)
+      - Windows 10 (64-bits)
+      - Windows 10 (32-bits)
       - Windows 10 (ARM64)
-      - Windows 10 (ARM)
     validations:
       required: true
   - type: input
@@ -79,6 +78,16 @@ body:
       label: Screenshots
       description: |
         If your issue is better illustrated with screenshots, you may do that here
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        **Only needed if it's error related**
+        Put your log file from: C:\Users\{ Your User }\AppData\Local\Temp\Win10ScriptXXX_YYYY-MM-DD_hh-mm-ss.txt
+        `TIP:` press `Win + R` and type: `%Temp%`, then find the log file
     validations:
       required: false
   - type: textarea
