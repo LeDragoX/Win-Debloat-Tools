@@ -1025,13 +1025,13 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
+    Start-Logging -File $PSCommandPath.Split("\")[-1].Split(".")[-2]
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Set-ConsoleStyle            # Makes the console look cooler
     Unlock-ScriptUsage
     Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog # Install Winget and Chocolatey at the beginning
     Write-ScriptLogo            # Thanks Figlet
-    Start-Logging -File $PSCommandPath.Split("\")[-1].Split(".")[-2]
     Show-GUI                    # Load the GUI
 
     Write-Verbose "Restart: $Global:NeedRestart"
