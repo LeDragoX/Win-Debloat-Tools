@@ -132,7 +132,7 @@ function Optimize-RunningServicesList() {
 }
 
 function Main() {
-    # List all services: Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType | Out-GridView
+    # List all services: Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Out-GridView
     If (!($Revert)) {
         Optimize-RunningServicesList # Enable essential Services and Disable bloating Services
     }

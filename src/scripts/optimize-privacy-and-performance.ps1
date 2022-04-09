@@ -14,18 +14,22 @@ function Optimize-PrivacyAndPerformance() {
         [Int]    $Zero = 0,
         [Int]    $One = 1,
         [Array]  $EnableStatus = @(
-            "[-][Priv&Perf] Disabling",
-            "[+][Priv&Perf] Enabling"
+            "[-][Privacy] Disabling",
+            "[+][Privacy] Enabling",
+            "[-][Performance] Disabling",
+            "[+][Performance] Enabling"
         )
     )
 
     If (($Revert)) {
-        Write-Warning "[<][Priv&Perf] Reverting: $Revert."
+        Write-Warning "[<][Privacy/Performance] Reverting: $Revert."
         $Zero = 1
         $One = 0
         $EnableStatus = @(
-            "[<][Priv&Perf] Re-Enabling",
-            "[<][Priv&Perf] Re-Disabling"
+            "[<][Privacy] Re-Enabling",
+            "[<][Privacy] Re-Disabling",
+            "[<][Performance] Re-Enabling",
+            "[<][Performance] Re-Disabling"
         )
     }
 
@@ -84,13 +88,13 @@ function Optimize-PrivacyAndPerformance() {
         "SystemPaneSuggestionsEnabled"
     )
 
-    Write-Warning "[?][Priv&Perf] From Path: [$PathToCUContentDeliveryManager]."
+    Write-Warning "[?][Privacy] From Path: [$PathToCUContentDeliveryManager]."
     ForEach ($Name in $ContentDeliveryManagerDisableOnZero) {
         Write-Host "$($EnableStatus[0]) $($Name): $Zero"
         Set-ItemProperty -Path "$PathToCUContentDeliveryManager" -Name "$Name" -Type DWord -Value $Zero
     }
 
-    Write-Host "[-][Priv&Perf] Disabling 'Suggested Content in the Settings App'..."
+    Write-Host "[-][Privacy] Disabling 'Suggested Content in the Settings App'..."
     If (Test-Path "$PathToCUContentDeliveryManager\Subscriptions") {
         Remove-Item -Path "$PathToCUContentDeliveryManager\Subscriptions" -Recurse
     }
@@ -162,8 +166,8 @@ function Optimize-PrivacyAndPerformance() {
         "UploadUserActivities"
     )
 
+    Write-Warning "[?][Privacy] From Path: [$PathToLMActivityHistory]"
     ForEach ($Name in $ActivityHistoryDisableOnZero) {
-        Write-Warning "[?][Priv&Perf] From Path: [$PathToLMActivityHistory]"
         Write-Host "$($EnableStatus[0]) $($Name): $Zero"
         Set-ItemProperty -Path "$PathToLMActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value $Zero
     }
@@ -187,7 +191,7 @@ function Optimize-PrivacyAndPerformance() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
 
     Write-Caption -Text "Other Devices"
-    Write-Host "[-][Priv&Perf] Denying device access..."
+    Write-Host "[-][Privacy] Denying device access..."
     If (!(Test-Path "$PathToCUDeviceAccessGlobal\LooselyCoupled")) {
         New-Item -Path "$PathToCUDeviceAccessGlobal\LooselyCoupled" -Force | Out-Null
     }
@@ -208,7 +212,7 @@ function Optimize-PrivacyAndPerformance() {
 
     Write-Section -Text "Update & Security"
     Write-Caption -Text "Windows Update"
-    Write-Host "[-][Priv&Perf] Disabling Automatic Download and Installation of Windows Updates..."
+    Write-Host "[-][Privacy] Disabling Automatic Download and Installation of Windows Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
         New-Item -Path "$PathToLMPoliciesWindowsUpdate" -Force | Out-Null
     }
@@ -220,11 +224,11 @@ function Optimize-PrivacyAndPerformance() {
     # [@] (0 = Enable Automatic Updates, 1 = Disable Automatic Updates)
     Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value $Zero
 
-    Write-Host "[+][Priv&Perf] Setting Scheduled Day to Every day..."
+    Write-Host "[+][Privacy] Setting Scheduled Day to Every day..."
     # [@] (0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4))
     Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
 
-    Write-Host "[-][Priv&Perf] Setting Scheduled time to 03h00m..."
+    Write-Host "[-][Privacy] Setting Scheduled time to 03h00m..."
     # [@] (0-23 = The time of day in 24-hour format)
     Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
 
@@ -240,7 +244,7 @@ function Optimize-PrivacyAndPerformance() {
     Set-ItemProperty -Path "$PathToLMDeliveryOptimizationCfg" -Name "DODownloadMode" -Type DWord -Value $One
 
     Write-Caption -Text "Troubleshooting"
-    Write-Host "[+][Priv&Perf] Enabling Automatic Recommended Troubleshooting, then notify me..."
+    Write-Host "[+][Privacy] Enabling Automatic Recommended Troubleshooting, then notify me..."
     If (!(Test-Path "$PathToLMWindowsTroubleshoot")) {
         New-Item -Path "$PathToLMWindowsTroubleshoot" -Force | Out-Null
     }
@@ -259,8 +263,8 @@ function Optimize-PrivacyAndPerformance() {
         "DisableThirdPartySuggestions"
     )
 
-    Write-Warning "[?][Priv&Perf] From Path: [$PathToCUPoliciesCloudContent]."
     ForEach ($Name in $CloudContentDisableOnOne) {
+        Write-Warning "[?][Privacy] From Path: [$PathToCUPoliciesCloudContent]."
         Write-Host "$($EnableStatus[0]) $($Name): $One"
         Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "$Name" -Type DWord -Value $One
     }
@@ -311,34 +315,6 @@ function Optimize-PrivacyAndPerformance() {
     }
     Set-ItemProperty -Path "$PathToLMPoliciesToWifi\AllowAutoConnectToWiFiSenseHotspots" -Name "value" -Type DWord -Value $Zero
 
-    Write-Section -Text "Gaming"
-    Write-Host "$($EnableStatus[0]) Game Bar & Game DVR..."
-    $Scripts = @("disable-game-bar-dvr.reg")
-    If ($Revert) {
-        $Scripts = @("enable-game-bar-dvr.reg")
-    }
-    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle "" -DoneMessage "" -NoDialog
-
-    Write-Host "[=][Priv&Perf] Enabling game mode..."
-    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
-
-    Write-Section -Text "System"
-    Write-Caption -Text "Display"
-    Write-Host "[+][Priv&Perf] Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
-
-    # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
-    Write-Host "$($EnableStatus[1]) Showing task manager details..."
-    $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
-    Do {
-        Start-Sleep -Milliseconds 100
-        $preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
-    } Until ($preferences)
-    Stop-Process $taskmgr
-    $preferences.Preferences[28] = 0
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
-
     Write-Caption "Deleting useless registry keys..."
     $KeysToDelete = @(
         # Remove Background Tasks
@@ -369,37 +345,55 @@ function Optimize-PrivacyAndPerformance() {
 
     ForEach ($Key in $KeysToDelete) {
         If ((Test-Path $Key)) {
-            Write-Host "[Priv&Perf] Removing Key: [$Key]"
+            Write-Host "[Privacy] Removing Key: [$Key]"
             Remove-Item $Key -Recurse
         }
     }
 
     Write-Title -Text "Performance Tweaks"
-    Write-Host "$($EnableStatus[0]) SysMain/Superfetch..."
+
+    Write-Section -Text "Gaming"
+    Write-Host "$($EnableStatus[0]) Game Bar & Game DVR..."
+    $Scripts = @("disable-game-bar-dvr.reg")
+    If ($Revert) {
+        $Scripts = @("enable-game-bar-dvr.reg")
+    }
+    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle "" -DoneMessage "" -NoDialog
+
+    Write-Host "[=][Performance] Enabling game mode..."
+    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
+
+    Write-Section -Text "System"
+    Write-Caption -Text "Display"
+    Write-Host "[+][Privacy] Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
+
+    Write-Host "$($EnableStatus[2]) SysMain/Superfetch..."
     # As SysMain was already disabled on the Services, just need to remove it's key
     # [@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
     Set-ItemProperty -Path "$PathToLMPrefetchParams" -Name "EnableSuperfetch" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) Remote Assistance..."
+    Write-Host "$($EnableStatus[2]) Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value $Zero
 
-    Write-Host "[-][Priv&Perf] Disabling Ndu High RAM Usage..."
+    Write-Host "[-][Performance] Disabling Ndu High RAM Usage..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
 
     # Details: https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
     # Will reduce Processes number considerably on > 4GB of RAM systems
-    Write-Host "[+][Priv&Perf] Setting SVCHost to match RAM size..."
+    Write-Host "[+][Performance] Setting SVCHost to match RAM size..."
     $RamInKB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1KB
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $RamInKB
 
-    Write-Host "[+][Priv&Perf] Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
+    Write-Host "[+][Performance] Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
     If (!(Test-Path "$PathToLMPoliciesPsched")) {
         New-Item -Path "$PathToLMPoliciesPsched" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    Write-Host "[=][Priv&Perf] Enabling Windows Store apps Automatic Updates..."
+    Write-Host "[=][Performance] Enabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
         New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
     }
@@ -408,16 +402,16 @@ function Optimize-PrivacyAndPerformance() {
     }
 
     Write-Section -Text "Power Plan Tweaks"
-    Write-Host "[+][Priv&Perf] Setting Power Plan to High Performance..."
+    Write-Host "[+][Performance] Setting Power Plan to High Performance..."
     powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 
     # Found on the registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\Default\PowerSchemes
-    Write-Host "[+][Priv&Perf] Enabling (Not setting) the Ultimate Performance Power Plan..."
+    Write-Host "[+][Performance] Enabling (Not setting) the Ultimate Performance Power Plan..."
     powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
 
     Write-Section -Text "Network & Internet"
     Write-Caption -Text "Proxy"
-    Write-Host "[-][Priv&Perf] Fixing Edge slowdown by NOT Automatically Detecting Settings..."
+    Write-Host "[-][Performance] Fixing Edge slowdown by NOT Automatically Detecting Settings..."
     # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
     $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
     $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings
