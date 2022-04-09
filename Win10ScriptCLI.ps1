@@ -23,24 +23,28 @@ function Open-Script() {
         "win11-wsl-preview-install.ps1"
     )
 
-    Open-PowerShellFiles -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -OpenFromGUI $false
+    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -OpenFromGUI $false
 }
 
 function Main() {
     Request-AdminPrivilege # Check admin rights
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\set-script-policy.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\show-dialog-window.psm1"
-    Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\title-templates.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Set-ConsoleStyle   # Makes the console look cooler
     Unlock-ScriptUsage
+    Start-Logging -File $PSCommandPath.Split("\")[-1].Split(".")[-2]
+    Use-WindowsForm
     Open-Script        # Run all scripts inside 'scripts' folder
+    Stop-Logging
     Block-ScriptUsage
     Write-ScriptLogo   # Thanks Figlet
     Request-PcRestart  # Prompt options to Restart the PC

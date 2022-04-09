@@ -18,7 +18,7 @@ function Backup-HostsFile() {
     }
     Push-Location "Hosts_Backup"
 
-    Copy-Item -Path ".\..\hosts" -Destination "hosts_".Insert(6, $Date)
+    Copy-Item -Path ".\..\hosts" -Destination "hosts_$Date"
 
     Pop-Location
     Pop-Location

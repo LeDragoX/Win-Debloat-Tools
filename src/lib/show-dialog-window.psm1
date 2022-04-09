@@ -34,8 +34,6 @@ function Show-Question() {
 }
 
 function Request-PcRestart() {
-    [CmdletBinding()]
-
     $Ask = "If you want to see the changes restart your computer!`n    Do you want to Restart now?"
 
     switch (Show-Question -Title "Warning" -Message $Ask) {
