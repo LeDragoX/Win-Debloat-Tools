@@ -54,7 +54,7 @@ function Register-PersonalTweaksList() {
     Stop-Process $taskmgr
     $preferences.Preferences[28] = 0
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
-    
+
     Write-Section -Text "Windows Explorer Tweaks"
     Write-Host "[-][Personal] Hiding Quick Access from Windows Explorer..."
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero

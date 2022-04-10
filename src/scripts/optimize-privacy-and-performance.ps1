@@ -353,7 +353,7 @@ function Optimize-PrivacyAndPerformance() {
     Write-Title -Text "Performance Tweaks"
 
     Write-Section -Text "Gaming"
-    Write-Host "$($EnableStatus[0]) Game Bar & Game DVR..."
+    Write-Host "$($EnableStatus[2]) Game Bar & Game DVR..."
     $Scripts = @("disable-game-bar-dvr.reg")
     If ($Revert) {
         $Scripts = @("enable-game-bar-dvr.reg")
@@ -366,7 +366,7 @@ function Optimize-PrivacyAndPerformance() {
 
     Write-Section -Text "System"
     Write-Caption -Text "Display"
-    Write-Host "[+][Privacy] Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
+    Write-Host "[+][Performance] Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
 
     Write-Host "$($EnableStatus[2]) SysMain/Superfetch..."

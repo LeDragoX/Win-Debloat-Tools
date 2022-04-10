@@ -67,6 +67,9 @@ function Show-GUI() {
     $NextYLocation = $InstallOneDrive.Location.Y + $InstallOneDrive.Height + $DistanceBetweenButtons
     $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
+    $NextYLocation = $ReinstallBloatApps.Location.Y + $ReinstallBloatApps.Height + $DistanceBetweenButtons
+    $SystemDebloatInfo = New-Button -Text "System Debloat Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
     # Panel 2 ~> Big Button
     $RevertScript = New-Button -Text "Revert Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
 
@@ -487,7 +490,7 @@ function Show-GUI() {
     # Add Elements to each Panel
     $FullPanel.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $PictureBox1))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $SystemDebloatInfo, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
@@ -554,6 +557,10 @@ function Show-GUI() {
     $ReinstallBloatApps.Add_Click( {
             $Scripts = @("reinstall-pre-installed-apps.ps1")
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $SystemDebloatInfo.Add_Click( {
+            Show-DebloatInfo
         })
 
     $RevertScript.Add_Click( {
@@ -1022,6 +1029,7 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"system-debloat-info.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
