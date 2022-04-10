@@ -55,5 +55,6 @@ function Request-PcRestart() {
 Example:
 Show-Message -Title "Title" -Message "Message"
 $Question = Show-Question -Title "Title" -Message "Message"
+Request-PcRestart
 Returns Yes or No or Cancel
 #>

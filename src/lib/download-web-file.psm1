@@ -24,8 +24,9 @@ function Request-FileDownload {
         $FileLocation = "$PSScriptRoot\..\tmp\$OutputFolder\$OutputFile"
     }
 
+    Import-Module BitsTransfer
     Write-Host "`n[@] Downloading from '$FileURI' as '$OutputFile'`n[@] On '$FileLocation'" -ForegroundColor White
-    Invoke-WebRequest -Uri $FileURI -OutFile $FileLocation
+    Start-BitsTransfer -Dynamic -RetryTimeout 60 -TransferType Download -Source $FileURI -Destination $FileLocation
 
     return $FileLocation
 }
