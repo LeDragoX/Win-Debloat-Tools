@@ -44,10 +44,10 @@ function Get-OSArchitecture() {
         $Architecture = (Get-ComputerInfo -Property OSArchitecture)
     )
 
-    If ($Architecture -like "*64 bits*") {
+    If ($Architecture -like "*64*bit*") {
         $Architecture = @("x64")
     }
-    ElseIf ($Architecture -like "*32 bits*") {
+    ElseIf ($Architecture -like "*32*bit*") {
         $Architecture = @("x86")
     }
     ElseIf (($Architecture -like "*ARM") -and ($Architecture -like "*64")) {
