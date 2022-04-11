@@ -11,7 +11,7 @@ function Optimize-Security() {
     $PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
     $PathToLMPoliciesMRT = "HKLM:\SOFTWARE\Policies\Microsoft\MRT"
     $PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-    $PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
+    $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 
     Write-Title -Text "Security Tweaks"
     Write-Warning "if you already use another antivirus, nothing will happen."

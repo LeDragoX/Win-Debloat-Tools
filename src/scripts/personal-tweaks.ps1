@@ -31,7 +31,7 @@ function Register-PersonalTweaksList() {
     $PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
     $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-    $PathToCUExplorerAdvanced = "$PathToCUExplorer\Advanced"
+    $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     $PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
     $PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
     $PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
@@ -56,7 +56,7 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
 
     Write-Section -Text "Windows Explorer Tweaks"
-    Write-Host "[-][Personal] Hiding Quick Access from Windows Explorer..."
+    Write-Host "$($EnableStatus[1]) Quick Access from Windows Explorer..."
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "HubMode" -Type DWord -Value $One
@@ -92,7 +92,7 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
 
     Write-Host "[+][Personal] Setting Windows Explorer to start on This PC instead of Quick Access..."
-    # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT (BREAKS EXPLORER.EXE)
+    # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT, BREAKS EXPLORER.EXE
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
 
     Write-Host "$($EnableStatus[1]) Show hidden files in Explorer..."
@@ -110,26 +110,26 @@ function Register-PersonalTweaksList() {
     Write-Section -Text "Personalization"
     Write-Section -Text "Task Bar Tweaks"
     Write-Caption -Text "Task Bar - Windows 10 Compatible"
-    Write-Host "[-][Personal] Hiding the search box from taskbar..."
+    Write-Host "$($EnableStatus[0]) the 'Search Box' from taskbar..."
     # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
     Set-ItemProperty -Path "$PathToCUSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
-    Write-Host "[-][Personal] Hiding the Task View from taskbar..."
+    Write-Host "$($EnableStatus[0]) the 'Task View' icon from taskbar..."
     # [@] (0 = Hide Task view, 1 = Show Task view)
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) Open on Hover from News and Interest from taskbar..."
+    Write-Host "$($EnableStatus[0]) Open on Hover from 'News and Interest' from taskbar..."
     If (!(Test-Path "$PathToCUNewsAndInterest")) {
         New-Item -Path "$PathToCUNewsAndInterest" -Force | Out-Null
     }
     # [@] (0 = Disable, 1 = Enable)
     Set-ItemProperty -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) News and Interest from taskbar..."
+    Write-Host "$($EnableStatus[0]) 'News and Interest' from taskbar..."
     # [@] (0 = Enable, 1 = Enable Icon only, 2 = Disable)
     Set-ItemProperty -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 
-    Write-Host "[-][Personal] Hiding People icon..."
+    Write-Host "$($EnableStatus[0]) 'People' icon from taskbar..."
     If (!(Test-Path "$PathToCUExplorerAdvanced\People")) {
         New-Item -Path "$PathToCUExplorerAdvanced\People" -Force | Out-Null
     }
@@ -144,16 +144,20 @@ function Register-PersonalTweaksList() {
     Write-Host "[=][Personal] Enabling Auto tray icons..."
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
-    Write-Host "$($EnableStatus[0]) 'Meet now' button on taskbar..."
+    Write-Host "$($EnableStatus[0]) 'Meet now' icon on taskbar..."
     If (!(Test-Path "$PathToCUPoliciesExplorer")) {
         New-Item -Path "$PathToCUPoliciesExplorer" -Force | Out-Null
     }
+    # [@] (0 = Show Meet Now, 1 = Hide Meet Now)
     Set-ItemProperty -Path "$PathToCUPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
 
-    Write-Caption -Text "Task Bar - Windows 11 Only"
-    Write-Host "[-][Personal] Hiding Widgets from taskbar..."
+    Write-Caption -Text "Task Bar - Windows 11 Compatible"
+    Write-Host "$($EnableStatus[0]) 'Widgets' icon from taskbar..."
     # [@] (0 = Hide Widgets, 1 = Show Widgets)
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
+
+    Write-Host "$($EnableStatus[0]) 'Chat' icon from taskbar..."
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Type DWord -Value "TaskbarMn" $Zero
 
     Write-Host "$($EnableStatus[0]) creation of Thumbs.db thumbnail cache files..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
