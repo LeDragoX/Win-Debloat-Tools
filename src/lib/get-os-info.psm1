@@ -7,7 +7,14 @@ function Get-CPU() {
         [String] $Separator = '|'
     )
 
-    $CPUName = (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ")
+    $SplittedCPUName = (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ").Split(" ")
+    $CPUName = ""
+
+    ForEach ($Item in $SplittedCPUName) {
+        If ($Item -ne " ") {
+            $CPUName = $CPUName.Trim(" ") + " " + $Item.Trim(" ")
+        }
+    }
 
     If ($NameOnly) {
         return "$CPUName"
