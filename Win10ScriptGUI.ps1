@@ -13,22 +13,10 @@ function Show-GUI() {
     $DoneMessage = "Process Completed!"
 
     # Main Window:
-    $Form = New-Object System.Windows.Forms.Form
-    $Form.BackColor = [System.Drawing.ColorTranslator]::FromHtml("$WinDark")
-    $Form.FormBorderStyle = 'FixedSingle'   # Not adjustable
-    $Form.MinimizeBox = $true               # Hide the Minimize Button
-    $Form.MaximizeBox = $false              # Hide the Maximize Button
-    $Form.Size = New-Object System.Drawing.Size(($FormWidth + 15), $FormHeight)
-    $Form.StartPosition = 'CenterScreen'    # Appears on the center
-    $Form.Text = "Win 10+ Smart Debloat Tools | $(Get-SystemSpec) | Made by LeDragoX" # Loading the specs takes longer to load the script
-    $Form.TopMost = $false
+    $Form = New-Form -Width ($FormWidth + 15) -Height $FormHeight -Text "Win 10+ Smart Debloat Tools | $(Get-SystemSpec) | Made by LeDragoX" -BackColor "$WinDark" -Minimize $true # Loading the specs takes longer to load the script
 
-    # Icon: https://stackoverflow.com/a/53377253
-    $IconBase64 = [Convert]::ToBase64String((Get-Content "$PSScriptRoot\src\assets\windows-11-logo.png" -Encoding Byte))
-    $IconBytes = [Convert]::FromBase64String($IconBase64)
-    $Stream = New-Object IO.MemoryStream($IconBytes, 0, $IconBytes.Length)
-    $Stream.Write($IconBytes, 0, $IconBytes.Length);
-    $Form.Icon = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -Argument $Stream).GetHIcon())
+    # Window Icon:
+    $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
 
     # Panels to put Labels and Buttons
     $Global:CurrentPanelIndex++
@@ -41,7 +29,7 @@ function Show-GUI() {
     $Panel4 = New-Panel -Width $PanelWidth -Height ($FormHeight * 3.15) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
 
     # Panel to put more Panels
-    $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll $true
+    $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll
 
     # Panels 1, 2, 3-4 ~> Title Label
     $TitleLabel1 = New-Label -Text "System Tweaks" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold"
@@ -69,6 +57,10 @@ function Show-GUI() {
 
     $NextYLocation = $ReinstallBloatApps.Location.Y + $ReinstallBloatApps.Height + $DistanceBetweenButtons
     $SystemDebloatInfo = New-Button -Text "System Debloat Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $SystemDebloatInfo.Location.Y + $SystemDebloatInfo.Height + $DistanceBetweenButtons
+    # Image Logo from the Script
+    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width 150 -Height 150 -LocationX (($PanelWidth * 0.72) - 150) -LocationY $NextYLocation -SizeMode 'Zoom'
 
     # Panel 2 ~> Big Button
     $RevertScript = New-Button -Text "Revert Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
@@ -477,14 +469,6 @@ function Show-GUI() {
     $NextYLocation = $Ubuntu20LTS.Location.Y + $Ubuntu20LTS.Height + $DistanceBetweenButtons
     $ArchWSL = New-Button -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Image Logo from the Script
-    $PictureBox1 = New-Object System.Windows.Forms.PictureBox
-    $PictureBox1.Width = 150
-    $PictureBox1.Height = 150
-    $PictureBox1.Location = New-Object System.Drawing.Point((($PanelWidth * 0.72) - $PictureBox1.Width), (($FormHeight * 0.90) - $PictureBox1.Height))
-    $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo.png"
-    $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::Zoom
-
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($FullPanel))
     # Add Elements to each Panel
@@ -532,7 +516,6 @@ function Show-GUI() {
             )
 
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-
             $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
