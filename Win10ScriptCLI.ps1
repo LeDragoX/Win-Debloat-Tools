@@ -27,6 +27,7 @@ function Open-Script() {
 }
 
 function Main() {
+    Clear-Host
     Request-AdminPrivilege # Check admin rights
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
