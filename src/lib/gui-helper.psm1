@@ -131,11 +131,12 @@ function Set-GUILayout() {
 
     # <===== COLOR PALETTE =====>
 
-    $Global:Green = "#1fff00"
-    $Global:LightBlue = "#00ffff"
-    $Global:LightGray = "#eeeeee"
+    $Global:Green = "#1FFF00"
+    $Global:LightBlue = "#00FFFF"
+    $Global:LightGray = "#EEEEEE"
+    $Global:Purple = "#996DFF"
     $Global:WinDark = "#252525"
-    $Global:WarningColor = "#eed202"
+    $Global:WarningColor = "#EED202"
 
     # <===== GUI ELEMENT LAYOUT =====>
 
@@ -165,7 +166,7 @@ function New-Form {
         [Bool]   $TopMost = $false
     )
 
-    Write-Verbose "Form '$Text': W$Width, H$Height, BC$BackColor, Min $Minimize, Max $Maximize, FBS $FormBorderStyle, SP $StartPosition, TM $TopMost"
+    Write-Verbose "Form '$Text': W$Width, H$Height, BC $BackColor, Min $Minimize, Max $Maximize, FBS $FormBorderStyle, SP $StartPosition, TM $TopMost"
     $Form = New-Object System.Windows.Forms.Form
     $Form.Size = New-Object System.Drawing.Size($Width, $Height)
     $Form.Text = $Text
@@ -228,12 +229,12 @@ function New-Label() {
     [CmdletBinding()]
     param (
         [String] $Text,
-        [Int] $Width,
-        [Int] $Height,
-        [Int] $LocationX,
-        [Int] $LocationY,
+        [Int]    $Width,
+        [Int]    $Height,
+        [Int]    $LocationX,
+        [Int]    $LocationY,
         [String] $Font = $Global:FontName,
-        [Int] $FontSize,
+        [Int]    $FontSize,
         [String] $FontStyle = "Regular",
         [String] $ForeColor = $Global:Green,
         [String] $TextAlign = $Global:TextAlign
@@ -256,12 +257,12 @@ function New-Button() {
     [CmdletBinding()]
     param (
         [String] $Text,
-        [Int] $Width,
-        [Int] $Height,
-        [Int] $LocationX,
-        [Int] $LocationY,
+        [Int]    $Width,
+        [Int]    $Height,
+        [Int]    $LocationX,
+        [Int]    $LocationY,
         [String] $Font = $Global:FontName,
-        [Int] $FontSize,
+        [Int]    $FontSize,
         [String] $FontStyle = "Regular",
         [String] $ForeColor = $Global:LightGray,
         [String] $TextAlign = $Global:TextAlign

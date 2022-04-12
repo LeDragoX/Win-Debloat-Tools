@@ -20,30 +20,34 @@ function Show-GUI() {
 
     # Panels to put Labels and Buttons
     $Global:CurrentPanelIndex++
-    $Panel1 = New-Panel -Width $PanelWidth -Height $FormHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel1 = New-Panel -Width $PanelWidth -Height ($FormHeight - ($FormHeight * 0.1955)) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.45) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
     $Global:CurrentPanelIndex++
-    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 3.15) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.25) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 3.15) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.25) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel4 = New-Panel -Width $PanelWidth -Height ($FormHeight * 3.15) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-
+    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.25) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     # Panel to put more Panels
     $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll
 
-    # Panels 1, 2, 3-4 ~> Title Label
+    # Panels 1, 2, 3-4-5 ~> Title Label
     $TitleLabel1 = New-Label -Text "System Tweaks" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold"
     $TitleLabel2 = New-Label -Text "Customize Tweaks" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold"
-    $TitleLabel3 = New-Label -Text "Software Install" -Width ($LabelWidth * 2) -Height $TitleLabelHeight -LocationX (($PanelWidth * ($CurrentPanelIndex - 1)) + $TitleLabelX) -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold"
+    $TitleLabel3 = New-Label -Text "Software Install" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold"
 
-    # Panel 3 ~> Caption Label
-    $CaptionLabel1 = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 2) -Height $CaptionLabelHeight -LocationX ($PanelWidth * ($CurrentPanelIndex - 1)) -LocationY ($FirstButtonY - 25) -FontSize $FontSize1
+    # Panel 3-4-5 ~> Caption Label
+    $CaptionLabel1 = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY ($FirstButtonY - 27) -FontSize $FontSize1 -ForeColor $Purple
 
     # Panel 1 ~> Big Button
     $ApplyTweaks = New-Button -Text "Apply Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
 
-    # Panel 1 ~> Small Buttons
+    # Panel 2 ~> Big Button
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
+    $RevertTweaks = New-Button -Text "Revert Tweaks" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
+
+    # Panel 1 ~> Small Buttons
+    $NextYLocation = $RevertTweaks.Location.Y + $RevertTweaks.Height + $DistanceBetweenButtons
     $RemoveXbox = New-Button -Text "Remove and Disable Xbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
 
     $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
@@ -62,12 +66,8 @@ function Show-GUI() {
     # Image Logo from the Script
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width 150 -Height 150 -LocationX (($PanelWidth * 0.72) - 150) -LocationY $NextYLocation -SizeMode 'Zoom'
 
-    # Panel 2 ~> Big Button
-    $RevertScript = New-Button -Text "Revert Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
-
     # Panel 2 ~> Small Buttons
-    $NextYLocation = $RevertScript.Location.Y + $RevertScript.Height + $DistanceBetweenButtons
-    $DarkTheme = New-Button -Text "Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $DarkTheme = New-Button -Text "Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize1
 
     $NextYLocation = $DarkTheme.Location.Y + $DarkTheme.Height + $DistanceBetweenButtons
     $LightTheme = New-Button -Text "Light Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -117,7 +117,7 @@ function Show-GUI() {
     # Panel 3 ~> Big Button
     $InstallDrivers = New-Button -Text "Install CPU/GPU Drivers Updaters" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
 
-    # Panel 3 ~> Caption Label
+    # --- Panel 3 ~> Caption Label
     $NextYLocation = $InstallDrivers.Location.Y + $InstallDrivers.Height + $DistanceBetweenButtons
     $CaptionLabel3_1 = New-Label -Text "Web Browsers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
@@ -156,65 +156,20 @@ function Show-GUI() {
     $NextYLocation = $LibreOffice.Location.Y + $LibreOffice.Height + $DistanceBetweenButtons
     $PowerBI = New-Button -Text "Power BI" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 3 ~> Caption Label
+    # --- Panel 3 ~> Caption Label
     $NextYLocation = $PowerBI.Location.Y + $PowerBI.Height + $DistanceBetweenButtons
-    $CaptionLabel3_4 = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_4 = New-Label -Text "Academic Research" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_4.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $PaintNet = New-Button -Text "Paint.NET" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $PaintNet.Location.Y + $PaintNet.Height + $DistanceBetweenButtons
-    $Gimp = New-Button -Text "GIMP" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $Gimp.Location.Y + $Gimp.Height + $DistanceBetweenButtons
-    $Inkscape = New-Button -Text "Inkscape" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $Inkscape.Location.Y + $Inkscape.Height + $DistanceBetweenButtons
-    $IrfanView = New-Button -Text "IrfanView" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $IrfanView.Location.Y + $IrfanView.Height + $DistanceBetweenButtons
-    $Krita = New-Button -Text "Krita" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $Krita.Location.Y + $Krita.Height + $DistanceBetweenButtons
-    $ShareX = New-Button -Text "ShareX (Screenshots/GIFs)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 3 ~> Caption Label
-    $NextYLocation = $ShareX.Location.Y + $ShareX.Height + $DistanceBetweenButtons
-    $CaptionLabel3_5 = New-Label -Text "Text Editors / IDEs" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $VSCode = New-Button -Text "Visual Studio Code" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $VSCode.Location.Y + $VSCode.Height + $DistanceBetweenButtons
-    $NotepadPlusPlus = New-Button -Text "Notepad++" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 3 ~> Caption Label
-    $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
-    $CaptionLabel3_6 = New-Label -Text "Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_6.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $GoogleDrive = New-Button -Text "Google Drive" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $GoogleDrive.Location.Y + $GoogleDrive.Height + $DistanceBetweenButtons
-    $Dropbox = New-Button -Text "Dropbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 3 ~> Caption Label
-    $NextYLocation = $Dropbox.Location.Y + $Dropbox.Height + $DistanceBetweenButtons
-    $CaptionLabel3_7 = New-Label -Text "Academic Research" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $Zotero = New-Button -Text "Zotero" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $Zotero.Location.Y + $Zotero.Height + $DistanceBetweenButtons
-    $CaptionLabel3_8 = New-Label -Text "Networking" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_5 = New-Label -Text "Networking" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_8.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $RadminVPN = New-Button -Text "Radmin VPN (LAN)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RadminVPN.Location.Y + $RadminVPN.Height + $DistanceBetweenButtons
@@ -222,32 +177,18 @@ function Show-GUI() {
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $Hamachi.Location.Y + $Hamachi.Height + $DistanceBetweenButtons
-    $CaptionLabel3_9 = New-Label -Text "2-Factor Authentication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_6 = New-Label -Text "2-Factor Authentication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_9.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_6.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $TwilioAuthy = New-Button -Text "Twilio Authy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 3 ~> Caption Label
+    # --- Panel 3 ~> Caption Label
     $NextYLocation = $TwilioAuthy.Location.Y + $TwilioAuthy.Height + $DistanceBetweenButtons
-    $CaptionLabel3_10 = New-Label -Text "Bootable USB" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel3_7 = New-Label -Text "Development (Windows)" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_10.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Ventoy = New-Button -Text "Ventoy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $Ventoy.Location.Y + $Ventoy.Height + $DistanceBetweenButtons
-    $Rufus = New-Button -Text "Rufus" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $Rufus.Location.Y + $Rufus.Height + $DistanceBetweenButtons
-    $BalenaEtcher = New-Button -Text "Etcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 3 ~> Caption Label
-    $NextYLocation = $BalenaEtcher.Location.Y + $BalenaEtcher.Height + $DistanceBetweenButtons
-    $CaptionLabel3_11 = New-Label -Text "Development (Windows)" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 3 ~> Small Buttons
-    $NextYLocation = $CaptionLabel3_11.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel3_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $WindowsTerminalNerdFonts = New-Button -Text "Windows Terminal + Nerd Font" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WindowsTerminalNerdFonts.Location.Y + $WindowsTerminalNerdFonts.Height + $DistanceBetweenButtons
@@ -301,122 +242,78 @@ function Show-GUI() {
     $NextYLocation = $MySQL.Location.Y + $MySQL.Height + $DistanceBetweenButtons
     $Insomnia = New-Button -Text "Insomnia" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 4 ~> Big Button
-    $InstallGamingDependencies = New-Button -Text "Install Gaming Dependencies" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
-
-    # Panel 4 ~> Caption Label
-    $NextYLocation = $InstallGamingDependencies.Location.Y + $InstallGamingDependencies.Height + $DistanceBetweenButtons
-    $CaptionLabel4_1 = New-Label -Text "Communication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    # --- Panel 4 ~> Caption Label
+    $CaptionLabel4_1 = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_1.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Discord = New-Button -Text "Discord" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $PaintNet = New-Button -Text "Paint.NET" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $Discord.Location.Y + $Discord.Height + $DistanceBetweenButtons
-    $MSTeams = New-Button -Text "Microsoft Teams" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $PaintNet.Location.Y + $PaintNet.Height + $DistanceBetweenButtons
+    $Gimp = New-Button -Text "GIMP" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $MSTeams.Location.Y + $MSTeams.Height + $DistanceBetweenButtons
-    $Slack = New-Button -Text "Slack" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $Gimp.Location.Y + $Gimp.Height + $DistanceBetweenButtons
+    $Inkscape = New-Button -Text "Inkscape" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $Slack.Location.Y + $Slack.Height + $DistanceBetweenButtons
-    $Zoom = New-Button -Text "Zoom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $Inkscape.Location.Y + $Inkscape.Height + $DistanceBetweenButtons
+    $IrfanView = New-Button -Text "IrfanView" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $Zoom.Location.Y + $Zoom.Height + $DistanceBetweenButtons
-    $Telegram = New-Button -Text "Telegram Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $IrfanView.Location.Y + $IrfanView.Height + $DistanceBetweenButtons
+    $Krita = New-Button -Text "Krita" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $Telegram.Location.Y + $Telegram.Height + $DistanceBetweenButtons
-    $RocketChat = New-Button -Text "Rocket Chat" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $Krita.Location.Y + $Krita.Height + $DistanceBetweenButtons
+    $ShareX = New-Button -Text "ShareX (Screenshots/GIFs)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
-    $NextYLocation = $RocketChat.Location.Y + $RocketChat.Height + $DistanceBetweenButtons
-    $CaptionLabel4_2 = New-Label -Text "Gaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $ShareX.Location.Y + $ShareX.Height + $DistanceBetweenButtons
+    $CaptionLabel4_2 = New-Label -Text "Text Editors / IDEs" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_2.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Steam = New-Button -Text "Steam" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $VSCode = New-Button -Text "Visual Studio Code" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $Steam.Location.Y + $Steam.Height + $DistanceBetweenButtons
-    $GogGalaxy = New-Button -Text "GOG Galaxy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $GogGalaxy.Location.Y + $GogGalaxy.Height + $DistanceBetweenButtons
-    $EpicGames = New-Button -Text "Epic Games Launcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $EpicGames.Location.Y + $EpicGames.Height + $DistanceBetweenButtons
-    $EADesktop = New-Button -Text "EA Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $EADesktop.Location.Y + $EADesktop.Height + $DistanceBetweenButtons
-    $UbisoftConnect = New-Button -Text "Ubisoft Connect" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $UbisoftConnect.Location.Y + $UbisoftConnect.Height + $DistanceBetweenButtons
-    $BorderlessGaming = New-Button -Text "Borderless Gaming" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $VSCode.Location.Y + $VSCode.Height + $DistanceBetweenButtons
+    $NotepadPlusPlus = New-Button -Text "Notepad++" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
-    $NextYLocation = $BorderlessGaming.Location.Y + $BorderlessGaming.Height + $DistanceBetweenButtons
-    $CaptionLabel4_3 = New-Label -Text "Planning" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
+    $CaptionLabel4_3 = New-Label -Text "Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_3.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $GoogleDrive = New-Button -Text "Google Drive" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $GoogleDrive.Location.Y + $GoogleDrive.Height + $DistanceBetweenButtons
+    $Dropbox = New-Button -Text "Dropbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # --- Panel 4 ~> Caption Label
+    $NextYLocation = $Dropbox.Location.Y + $Dropbox.Height + $DistanceBetweenButtons
+    $CaptionLabel4_4 = New-Label -Text "Bootable USB" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 4 ~> Small Buttons
+    $NextYLocation = $CaptionLabel4_4.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $Ventoy = New-Button -Text "Ventoy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Ventoy.Location.Y + $Ventoy.Height + $DistanceBetweenButtons
+    $Rufus = New-Button -Text "Rufus" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Rufus.Location.Y + $Rufus.Height + $DistanceBetweenButtons
+    $BalenaEtcher = New-Button -Text "Etcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 4 ~> Caption Label
+    $NextYLocation = $BalenaEtcher.Location.Y + $BalenaEtcher.Height + $DistanceBetweenButtons
+    $CaptionLabel4_5 = New-Label -Text "Planning" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 4 ~> Small Buttons
+    $NextYLocation = $CaptionLabel4_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $Notion = New-Button -Text "Notion" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $Notion.Location.Y + $Notion.Height + $DistanceBetweenButtons
-    $CaptionLabel4_4 = New-Label -Text "Remote Connection" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 4 ~> Small Buttons
-    $NextYLocation = $CaptionLabel4_4.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Parsec = New-Button -Text "Parsec" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $Parsec.Location.Y + $Parsec.Height + $DistanceBetweenButtons
-    $AnyDesk = New-Button -Text "AnyDesk" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $AnyDesk.Location.Y + $AnyDesk.Height + $DistanceBetweenButtons
-    $TeamViewer = New-Button -Text "Team Viewer" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $TeamViewer.Location.Y + $TeamViewer.Height + $DistanceBetweenButtons
-    $AndroidScrCpy = New-Button -Text "ScrCpy (Android)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 4 ~> Caption Label
-    $NextYLocation = $AndroidScrCpy.Location.Y + $AndroidScrCpy.Height + $DistanceBetweenButtons
-    $CaptionLabel4_5 = New-Label -Text "Recording and Streaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 4 ~> Small Buttons
-    $NextYLocation = $CaptionLabel4_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $ObsStudio = New-Button -Text "OBS Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $ObsStudio.Location.Y + $ObsStudio.Height + $DistanceBetweenButtons
-    $StreamlabsObs = New-Button -Text "Streamlabs OBS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $StreamlabsObs.Location.Y + $StreamlabsObs.Height + $DistanceBetweenButtons
-    $HandBrake = New-Button -Text "HandBrake (Transcode)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 4 ~> Caption Label
-    $NextYLocation = $HandBrake.Location.Y + $HandBrake.Height + $DistanceBetweenButtons
-    $CaptionLabel4_6 = New-Label -Text "Torrent" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel4_6 = New-Label -Text "Utilities" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_6.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $qBittorrent = New-Button -Text "qBittorrent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 4 ~> Caption Label
-    $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
-    $CaptionLabel4_7 = New-Label -Text "Media Playing" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 4 ~> Small Buttons
-    $NextYLocation = $CaptionLabel4_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Vlc = New-Button -Text "VLC" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
-    $MpcHc = New-Button -Text "Media Player Classic" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
-    $Spotify = New-Button -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 4 ~> Caption Label
-    $NextYLocation = $Spotify.Location.Y + $Spotify.Height + $DistanceBetweenButtons
-    $CaptionLabel4_8 = New-Label -Text "Utilities" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    # Panel 4 ~> Small Buttons
-    $NextYLocation = $CaptionLabel4_8.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $CPUZ = New-Button -Text "CPU-Z" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $CPUZ.Location.Y + $CPUZ.Height + $DistanceBetweenButtons
@@ -431,12 +328,12 @@ function Show-GUI() {
     $NextYLocation = $CrystalDiskMark.Location.Y + $CrystalDiskMark.Height + $DistanceBetweenButtons
     $NVCleanstall = New-Button -Text "NVCleanstall" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 4 ~> Caption Label
+    # --- Panel 4 ~> Caption Label
     $NextYLocation = $NVCleanstall.Location.Y + $NVCleanstall.Height + $DistanceBetweenButtons
-    $CaptionLabel4_9 = New-Label -Text "Windows Subsystem For Linux" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel4_7 = New-Label -Text "Windows Subsystem For Linux" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
-    $NextYLocation = $CaptionLabel4_9.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $CaptionLabel4_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $WSL2 = New-Button -Text "WSL2 + WSLg (Win10/Insider)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $WSL2.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -469,33 +366,135 @@ function Show-GUI() {
     $NextYLocation = $Ubuntu20LTS.Location.Y + $Ubuntu20LTS.Height + $DistanceBetweenButtons
     $ArchWSL = New-Button -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
+    # Panel 5 ~> Big Button
+    $InstallGamingDependencies = New-Button -Text "Install Gaming Dependencies" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $LightBlue
+
+    # --- Panel 5 ~> Caption Label
+    $NextYLocation = $InstallGamingDependencies.Location.Y + $InstallGamingDependencies.Height + $DistanceBetweenButtons
+    $CaptionLabel5_1 = New-Label -Text "Communication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Small Buttons
+    $NextYLocation = $CaptionLabel5_1.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $Discord = New-Button -Text "Discord" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Discord.Location.Y + $Discord.Height + $DistanceBetweenButtons
+    $MSTeams = New-Button -Text "Microsoft Teams" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $MSTeams.Location.Y + $MSTeams.Height + $DistanceBetweenButtons
+    $Slack = New-Button -Text "Slack" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Slack.Location.Y + $Slack.Height + $DistanceBetweenButtons
+    $Zoom = New-Button -Text "Zoom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Zoom.Location.Y + $Zoom.Height + $DistanceBetweenButtons
+    $Telegram = New-Button -Text "Telegram Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Telegram.Location.Y + $Telegram.Height + $DistanceBetweenButtons
+    $RocketChat = New-Button -Text "Rocket Chat" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Caption Label
+    $NextYLocation = $RocketChat.Location.Y + $RocketChat.Height + $DistanceBetweenButtons
+    $CaptionLabel5_2 = New-Label -Text "Gaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Small Buttons
+    $NextYLocation = $CaptionLabel5_2.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $Steam = New-Button -Text "Steam" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Steam.Location.Y + $Steam.Height + $DistanceBetweenButtons
+    $GogGalaxy = New-Button -Text "GOG Galaxy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $GogGalaxy.Location.Y + $GogGalaxy.Height + $DistanceBetweenButtons
+    $EpicGames = New-Button -Text "Epic Games Launcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $EpicGames.Location.Y + $EpicGames.Height + $DistanceBetweenButtons
+    $EADesktop = New-Button -Text "EA Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $EADesktop.Location.Y + $EADesktop.Height + $DistanceBetweenButtons
+    $UbisoftConnect = New-Button -Text "Ubisoft Connect" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $UbisoftConnect.Location.Y + $UbisoftConnect.Height + $DistanceBetweenButtons
+    $BorderlessGaming = New-Button -Text "Borderless Gaming" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Caption Label
+    $NextYLocation = $BorderlessGaming.Location.Y + $BorderlessGaming.Height + $DistanceBetweenButtons
+    $CaptionLabel5_3 = New-Label -Text "Remote Connection" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Small Buttons
+    $NextYLocation = $CaptionLabel5_3.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $Parsec = New-Button -Text "Parsec" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Parsec.Location.Y + $Parsec.Height + $DistanceBetweenButtons
+    $AnyDesk = New-Button -Text "AnyDesk" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $AnyDesk.Location.Y + $AnyDesk.Height + $DistanceBetweenButtons
+    $TeamViewer = New-Button -Text "Team Viewer" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $TeamViewer.Location.Y + $TeamViewer.Height + $DistanceBetweenButtons
+    $AndroidScrCpy = New-Button -Text "ScrCpy (Android)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # --- Panel 5 ~> Caption Label
+    $NextYLocation = $AndroidScrCpy.Location.Y + $AndroidScrCpy.Height + $DistanceBetweenButtons
+    $CaptionLabel5_4 = New-Label -Text "Recording and Streaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Small Buttons
+    $NextYLocation = $CaptionLabel5_4.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $ObsStudio = New-Button -Text "OBS Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $ObsStudio.Location.Y + $ObsStudio.Height + $DistanceBetweenButtons
+    $StreamlabsObs = New-Button -Text "Streamlabs OBS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $StreamlabsObs.Location.Y + $StreamlabsObs.Height + $DistanceBetweenButtons
+    $HandBrake = New-Button -Text "HandBrake (Transcode)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Caption Label
+    $NextYLocation = $HandBrake.Location.Y + $HandBrake.Height + $DistanceBetweenButtons
+    $CaptionLabel5_5 = New-Label -Text "Media Playing" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Small Buttons
+    $NextYLocation = $CaptionLabel5_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $Vlc = New-Button -Text "VLC" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
+    $MpcHc = New-Button -Text "Media Player Classic" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
+    $Spotify = New-Button -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Caption Label
+    $NextYLocation = $Spotify.Location.Y + $Spotify.Height + $DistanceBetweenButtons
+    $CaptionLabel5_6 = New-Label -Text "Torrent" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Small Buttons
+    $NextYLocation = $CaptionLabel5_6.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $qBittorrent = New-Button -Text "qBittorrent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($FullPanel))
     # Add Elements to each Panel
-    $FullPanel.Controls.AddRange(@($TitleLabel3, $CaptionLabel1))
-    $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4))
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $SystemDebloatInfo, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $RevertScript, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
+    $FullPanel.Controls.AddRange(@($CaptionLabel1))
+    $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $Panel5))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RevertTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $SystemDebloatInfo, $PictureBox1))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
     $Panel3.Controls.AddRange(@($CaptionLabel3_3, $OnlyOffice, $LibreOffice, $PowerBI))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_4, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_5, $VSCode, $NotepadPlusPlus))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_6, $GoogleDrive, $Dropbox))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_7, $Zotero))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_8, $RadminVPN, $Hamachi))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_9, $TwilioAuthy))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_10, $Ventoy, $Rufus, $BalenaEtcher))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_11, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $RubyMSYS, $RustMSVC, $RustGNU, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
-    $Panel4.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel4_1, $Discord, $MSTeams, $Slack, $Zoom, $Telegram, $RocketChat))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Notion))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_4, $Parsec, $AnyDesk, $TeamViewer, $AndroidScrCpy))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_5, $ObsStudio, $StreamlabsObs, $HandBrake))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_6, $qBittorrent))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_7, $Vlc, $MpcHc, $Spotify))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_8, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark, $NVCleanstall))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_9, $WSL2, $WSLPreview, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS, $ArchWSL))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_4, $Zotero))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_5, $RadminVPN, $Hamachi))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_6, $TwilioAuthy))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_7, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $RubyMSYS, $RustMSVC, $RustGNU, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
+    $Panel4.Controls.AddRange(@($TitleLabel3, $CaptionLabel4_1, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_2, $VSCode, $NotepadPlusPlus))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_3, $GoogleDrive, $Dropbox))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_4, $Ventoy, $Rufus, $BalenaEtcher))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_5, $Notion))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_6, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark, $NVCleanstall))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_7, $WSL2, $WSLPreview, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS, $ArchWSL))
+    $Panel5.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel5_1, $Discord, $MSTeams, $Slack, $Zoom, $Telegram, $RocketChat))
+    $Panel5.Controls.AddRange(@($CaptionLabel5_2, $Steam, $GogGalaxy, $EpicGames, $EADesktop, $UbisoftConnect, $BorderlessGaming))
+    $Panel5.Controls.AddRange(@($CaptionLabel5_3, $Parsec, $AnyDesk, $TeamViewer, $AndroidScrCpy))
+    $Panel5.Controls.AddRange(@($CaptionLabel5_4, $ObsStudio, $StreamlabsObs, $HandBrake))
+    $Panel5.Controls.AddRange(@($CaptionLabel5_5, $Vlc, $MpcHc, $Spotify))
+    $Panel5.Controls.AddRange(@($CaptionLabel5_6, $qBittorrent))
 
     # <===== CLICK EVENTS =====>
 
@@ -522,6 +521,20 @@ function Show-GUI() {
             $Global:NeedRestart = $true
         })
 
+    $RevertTweaks.Add_Click( {
+            $Global:Revert = $true
+            $Scripts = @(
+                "optimize-scheduled-tasks.ps1",
+                "optimize-services.ps1",
+                "optimize-privacy-and-performance.ps1",
+                "personal-tweaks.ps1",
+                "optimize-windows-features.ps1",
+                "reinstall-pre-installed-apps.ps1"
+            )
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            $Global:Revert = $false
+        })
+
     $RemoveXbox.Add_Click( {
             $Scripts = @("remove-and-disable-xbox.ps1")
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
@@ -544,20 +557,6 @@ function Show-GUI() {
 
     $SystemDebloatInfo.Add_Click( {
             Show-DebloatInfo
-        })
-
-    $RevertScript.Add_Click( {
-            $Global:Revert = $true
-            $Scripts = @(
-                "optimize-scheduled-tasks.ps1",
-                "optimize-services.ps1",
-                "optimize-privacy-and-performance.ps1",
-                "personal-tweaks.ps1",
-                "optimize-windows-features.ps1",
-                "reinstall-pre-installed-apps.ps1"
-            )
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-            $Global:Revert = $false
         })
 
     $DarkTheme.Add_Click( {
@@ -677,46 +676,6 @@ function Show-GUI() {
             Install-Software -Name $PowerBI.Text -Packages "Microsoft.PowerBI"
         })
 
-    $PaintNet.Add_Click( {
-            Install-Software -Name $PaintNet.Text -Packages "paint.net" -InstallBlock { choco install -y $Package }
-        })
-
-    $Gimp.Add_Click( {
-            Install-Software -Name $Gimp.Text -Packages "GIMP.GIMP"
-        })
-
-    $Inkscape.Add_Click( {
-            Install-Software -Name $Inkscape.Text -Packages "Inkscape.Inkscape"
-        })
-
-    $IrfanView.Add_Click( {
-            Install-Software -Name $IrfanView.Text -Packages "IrfanSkiljan.IrfanView"
-        })
-
-    $Krita.Add_Click( {
-            Install-Software -Name $Krita.Text -Packages "KDE.Krita"
-        })
-
-    $ShareX.Add_Click( {
-            Install-Software -Name $ShareX.Text -Packages "ShareX.ShareX"
-        })
-
-    $VSCode.Add_Click( {
-            Install-Software -Name $VSCode.Text -Packages "Microsoft.VisualStudioCode"
-        })
-
-    $NotepadPlusPlus.Add_Click( {
-            Install-Software -Name $NotepadPlusPlus.Text -Packages "Notepad++.Notepad++"
-        })
-
-    $GoogleDrive.Add_Click( {
-            Install-Software -Name $GoogleDrive.Text -Packages "Google.Drive"
-        })
-
-    $Dropbox.Add_Click( {
-            Install-Software -Name $Dropbox.Text -Packages "Dropbox.Dropbox"
-        })
-
     $Zotero.Add_Click( {
             Install-Software -Name $Zotero.Text -Packages "Zotero.Zotero"
         })
@@ -731,18 +690,6 @@ function Show-GUI() {
 
     $TwilioAuthy.Add_Click( {
             Install-Software -Name $TwilioAuthy.Text -Packages "Twilio.Authy"
-        })
-
-    $Ventoy.Add_Click( {
-            Install-Software -Name $Ventoy.Text -Packages "Ventoy" -InstallBlock { choco install -y $Package }
-        })
-
-    $Rufus.Add_Click( {
-            Install-Software -Name $Rufus.Text -Packages "9PC3H3V7Q9CH" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
-        })
-
-    $BalenaEtcher.Add_Click( {
-            Install-Software -Name $BalenaEtcher.Text -Packages "Balena.Etcher"
         })
 
     $WindowsTerminalNerdFonts.Add_Click( {
@@ -826,105 +773,60 @@ function Show-GUI() {
             Install-Software -Name $Insomnia.Text -Packages "Insomnia.Insomnia"
         })
 
-    $InstallGamingDependencies.Add_Click( {
-            $Scripts = @("install-gaming-dependencies.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+    $PaintNet.Add_Click( {
+            Install-Software -Name $PaintNet.Text -Packages "paint.net" -InstallBlock { choco install -y $Package }
         })
 
-    $Discord.Add_Click( {
-            Install-Software -Name $Discord.Text -Packages "Discord.Discord"
+    $Gimp.Add_Click( {
+            Install-Software -Name $Gimp.Text -Packages "GIMP.GIMP"
         })
 
-    $MSTeams.Add_Click( {
-            Install-Software -Name $MSTeams.Text -Packages "Microsoft.Teams"
+    $Inkscape.Add_Click( {
+            Install-Software -Name $Inkscape.Text -Packages "Inkscape.Inkscape"
         })
 
-    $Slack.Add_Click( {
-            Install-Software -Name $Slack.Text -Packages "SlackTechnologies.Slack"
+    $IrfanView.Add_Click( {
+            Install-Software -Name $IrfanView.Text -Packages "IrfanSkiljan.IrfanView"
         })
 
-    $Zoom.Add_Click( {
-            Install-Software -Name $Zoom.Text -Packages "Zoom.Zoom"
+    $Krita.Add_Click( {
+            Install-Software -Name $Krita.Text -Packages "KDE.Krita"
         })
 
-    $Telegram.Add_Click( {
-            Install-Software -Name $Telegram.Text -Packages "Telegram.TelegramDesktop"
+    $ShareX.Add_Click( {
+            Install-Software -Name $ShareX.Text -Packages "ShareX.ShareX"
         })
 
-    $RocketChat.Add_Click( {
-            Install-Software -Name $RocketChat.Text -Packages "RocketChat.RocketChat"
+    $VSCode.Add_Click( {
+            Install-Software -Name $VSCode.Text -Packages "Microsoft.VisualStudioCode"
         })
 
-    $Steam.Add_Click( {
-            Install-Software -Name $Steam.Text -Packages "Valve.Steam"
+    $NotepadPlusPlus.Add_Click( {
+            Install-Software -Name $NotepadPlusPlus.Text -Packages "Notepad++.Notepad++"
         })
 
-    $GogGalaxy.Add_Click( {
-            Install-Software -Name $GogGalaxy.Text -Packages "GOG.Galaxy"
+    $GoogleDrive.Add_Click( {
+            Install-Software -Name $GoogleDrive.Text -Packages "Google.Drive"
         })
 
-    $EpicGames.Add_Click( {
-            Install-Software -Name $EpicGames.Text -Packages "EpicGames.EpicGamesLauncher"
+    $Dropbox.Add_Click( {
+            Install-Software -Name $Dropbox.Text -Packages "Dropbox.Dropbox"
         })
 
-    $EADesktop.Add_Click( {
-            Install-Software -Name $EADesktop.Text -Packages "ElectronicArts.EADesktop"
+    $Ventoy.Add_Click( {
+            Install-Software -Name $Ventoy.Text -Packages "Ventoy" -InstallBlock { choco install -y $Package }
         })
 
-    $UbisoftConnect.Add_Click( {
-            Install-Software -Name $UbisoftConnect.Text -Packages "Ubisoft.Connect"
+    $Rufus.Add_Click( {
+            Install-Software -Name $Rufus.Text -Packages "9PC3H3V7Q9CH" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
         })
 
-    $BorderlessGaming.Add_Click( {
-            Install-Software -Name $BorderlessGaming.Text -Packages "Codeusa.BorderlessGaming"
+    $BalenaEtcher.Add_Click( {
+            Install-Software -Name $BalenaEtcher.Text -Packages "Balena.Etcher"
         })
 
     $Notion.Add_Click( {
             Install-Software -Name $Notion.Text -Packages "Notion.Notion"
-        })
-
-    $Parsec.Add_Click( {
-            Install-Software -Name $Parsec.Text -Packages "Parsec.Parsec"
-        })
-
-    $AnyDesk.Add_Click( {
-            Install-Software -Name $AnyDesk.Text -Packages "AnyDeskSoftwareGmbH.AnyDesk"
-        })
-
-    $TeamViewer.Add_Click( {
-            Install-Software -Name $TeamViewer.Text -Packages "TeamViewer.TeamViewer"
-        })
-
-    $AndroidScrCpy.Add_Click( {
-            Install-Software -Name $AndroidScrCpy.Text -Packages "scrcpy" -InstallBlock { choco install -y $Package }
-        })
-
-    $ObsStudio.Add_Click( {
-            Install-Software -Name $ObsStudio.Text -Packages "OBSProject.OBSStudio"
-        })
-
-    $StreamlabsObs.Add_Click( {
-            Install-Software -Name $StreamlabsObs.Text -Packages "Streamlabs.StreamlabsOBS"
-        })
-
-    $HandBrake.Add_Click( {
-            Install-Software -Name $HandBrake.Text -Packages "HandBrake.HandBrake"
-        })
-
-    $qBittorrent.Add_Click( {
-            Install-Software -Name $qBittorrent.Text -Packages "qBittorrent.qBittorrent"
-        })
-
-    $Vlc.Add_Click( {
-            Install-Software -Name $Vlc.Text -Packages "VideoLAN.VLC"
-        })
-
-    $MpcHc.Add_Click( {
-            Install-Software -Name $MpcHc.Text -Packages "clsid2.mpc-hc"
-        })
-
-    $Spotify.Add_Click( {
-            Install-Software -Name $Spotify.Text -Packages "9NCBCSZSJRSB" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
         })
 
     $CPUZ.Add_Click( {
@@ -992,6 +894,103 @@ function Show-GUI() {
     $ArchWSL.Add_Click( {
             $Scripts = @("archwsl-install.ps1")
             Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $InstallGamingDependencies.Add_Click( {
+            $Scripts = @("install-gaming-dependencies.ps1")
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $Discord.Add_Click( {
+            Install-Software -Name $Discord.Text -Packages "Discord.Discord"
+        })
+
+    $MSTeams.Add_Click( {
+            Install-Software -Name $MSTeams.Text -Packages "Microsoft.Teams"
+        })
+
+    $Slack.Add_Click( {
+            Install-Software -Name $Slack.Text -Packages "SlackTechnologies.Slack"
+        })
+
+    $Zoom.Add_Click( {
+            Install-Software -Name $Zoom.Text -Packages "Zoom.Zoom"
+        })
+
+    $Telegram.Add_Click( {
+            Install-Software -Name $Telegram.Text -Packages "Telegram.TelegramDesktop"
+        })
+
+    $RocketChat.Add_Click( {
+            Install-Software -Name $RocketChat.Text -Packages "RocketChat.RocketChat"
+        })
+
+    $Steam.Add_Click( {
+            Install-Software -Name $Steam.Text -Packages "Valve.Steam"
+        })
+
+    $GogGalaxy.Add_Click( {
+            Install-Software -Name $GogGalaxy.Text -Packages "GOG.Galaxy"
+        })
+
+    $EpicGames.Add_Click( {
+            Install-Software -Name $EpicGames.Text -Packages "EpicGames.EpicGamesLauncher"
+        })
+
+    $EADesktop.Add_Click( {
+            Install-Software -Name $EADesktop.Text -Packages "ElectronicArts.EADesktop"
+        })
+
+    $UbisoftConnect.Add_Click( {
+            Install-Software -Name $UbisoftConnect.Text -Packages "Ubisoft.Connect"
+        })
+
+    $BorderlessGaming.Add_Click( {
+            Install-Software -Name $BorderlessGaming.Text -Packages "Codeusa.BorderlessGaming"
+        })
+
+    $Parsec.Add_Click( {
+            Install-Software -Name $Parsec.Text -Packages "Parsec.Parsec"
+        })
+
+    $AnyDesk.Add_Click( {
+            Install-Software -Name $AnyDesk.Text -Packages "AnyDeskSoftwareGmbH.AnyDesk"
+        })
+
+    $TeamViewer.Add_Click( {
+            Install-Software -Name $TeamViewer.Text -Packages "TeamViewer.TeamViewer"
+        })
+
+    $AndroidScrCpy.Add_Click( {
+            Install-Software -Name $AndroidScrCpy.Text -Packages "scrcpy" -InstallBlock { choco install -y $Package }
+        })
+
+    $ObsStudio.Add_Click( {
+            Install-Software -Name $ObsStudio.Text -Packages "OBSProject.OBSStudio"
+        })
+
+    $StreamlabsObs.Add_Click( {
+            Install-Software -Name $StreamlabsObs.Text -Packages "Streamlabs.StreamlabsOBS"
+        })
+
+    $HandBrake.Add_Click( {
+            Install-Software -Name $HandBrake.Text -Packages "HandBrake.HandBrake"
+        })
+
+    $Vlc.Add_Click( {
+            Install-Software -Name $Vlc.Text -Packages "VideoLAN.VLC"
+        })
+
+    $MpcHc.Add_Click( {
+            Install-Software -Name $MpcHc.Text -Packages "clsid2.mpc-hc"
+        })
+
+    $Spotify.Add_Click( {
+            Install-Software -Name $Spotify.Text -Packages "9NCBCSZSJRSB" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
+        })
+
+    $qBittorrent.Add_Click( {
+            Install-Software -Name $qBittorrent.Text -Packages "qBittorrent.qBittorrent"
         })
 
     [void]$Form.ShowDialog() # Show the Window
