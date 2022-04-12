@@ -5,7 +5,7 @@ function Start-Logging {
         [String] $File
     )
     $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
-    $File = "$File`_$Date.txt"
+    $File = "$File`_$Date.log"
 
     Write-Host -NoNewline "[@] " -ForegroundColor White
     Start-Transcript -Path "$LOGPATH\$File"

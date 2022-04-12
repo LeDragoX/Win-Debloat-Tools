@@ -69,7 +69,7 @@ function Optimize-ScheduledTasksList() {
             Invoke-Expression "$($Commands[0])"
         }
         Else {
-            Write-Warning "[?][TaskScheduler] $ScheduledTask was not found."
+            Write-Warning "[?][TaskScheduler] $ScheduledTask was not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 
@@ -86,7 +86,7 @@ function Optimize-ScheduledTasksList() {
             Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask
         }
         Else {
-            Write-Warning "[?][TaskScheduler] $ScheduledTask was not found."
+            Write-Host "[?][TaskScheduler] $ScheduledTask was not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 }

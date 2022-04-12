@@ -34,7 +34,7 @@ function WSLwithGraphicsInstall() {
             wsl --update
         }
         Else {
-            Write-Warning "[?] $OSArch is NOT supported!"
+            Write-Host "[?] $OSArch is NOT supported!" -ForegroundColor Yellow -BackgroundColor Black
             Break
         }
     }

@@ -11,7 +11,7 @@ function Remove-UWPAppsList() {
             Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online -AllUsers # Payload
         }
         Else {
-            Write-Warning "[?][UWP] $Bloat was already removed or not found."
+            Write-Host "[?][UWP] $Bloat was already removed or not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 }

@@ -125,7 +125,7 @@ function Optimize-RunningServicesList() {
             Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
         }
         Else {
-            Write-Warning "[?][Services] $Service ($((Get-Service $Service).DisplayName)) was not found."
+            Write-Host "[?][Services] $Service was not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 }

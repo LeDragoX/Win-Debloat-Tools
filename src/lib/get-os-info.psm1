@@ -64,7 +64,7 @@ function Get-OSArchitecture() {
         $Architecture = @("arm")
     }
     Else {
-        Write-Warning "[?] Couldn't identify the System Architecture '$Architecture'. :/"
+        Write-Host "[?] Couldn't identify the System Architecture '$Architecture'. :/" -ForegroundColor Yellow -BackgroundColor Black
         $Architecture = $null
     }
 
