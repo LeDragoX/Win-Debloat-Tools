@@ -693,6 +693,7 @@ function Show-GUI() {
         })
 
     $WindowsTerminalNerdFonts.Add_Click( {
+            Install-Software -Name $WindowsTerminalNerdFonts.Text -Packages "Microsoft.WindowsTerminal"
             $URI = "https://github.com/romkatv/powerlevel10k-media/raw/master"
             $FontFiles = @("MesloLGS NF Regular.ttf", "MesloLGS NF Bold.ttf", "MesloLGS NF Italic.ttf", "MesloLGS NF Bold Italic.ttf")
 
@@ -701,7 +702,6 @@ function Show-GUI() {
             }
 
             Install-Font -FontSourceFolder "$PSScriptRoot\src\tmp\Fonts"
-            Install-Software -Name $WindowsTerminalNerdFonts.Text -Packages "Microsoft.WindowsTerminal"
         })
 
     $GitGnupgSshSetup.Add_Click( {
