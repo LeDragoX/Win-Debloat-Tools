@@ -26,7 +26,7 @@ function Install-Font() {
       Copy-item $FontFile.FullName -Destination $SystemFontsPath
     }
     ElseIf (Test-Path "$TargetPath") {
-      Write-Warning "[?] $($FontFile.Name) is already installed!"
+      Write-Host "[?] $($FontFile.Name) is already installed!" -ForegroundColor Yellow -BackgroundColor Black
     }
   }
 }

@@ -22,7 +22,7 @@ function Optimize-PrivacyAndPerformance() {
     )
 
     If (($Revert)) {
-        Write-Warning "[<][Privacy/Performance] Reverting: $Revert."
+        Write-Host "[<][Privacy/Performance] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
         $Zero = 1
         $One = 0
         $EnableStatus = @(
@@ -88,7 +88,7 @@ function Optimize-PrivacyAndPerformance() {
         "SystemPaneSuggestionsEnabled"
     )
 
-    Write-Warning "[?][Privacy] From Path: [$PathToCUContentDeliveryManager]."
+    Write-Host "[?][Privacy] From Path: [$PathToCUContentDeliveryManager]." -ForegroundColor Yellow -BackgroundColor Black
     ForEach ($Name in $ContentDeliveryManagerDisableOnZero) {
         Write-Host "$($EnableStatus[0]) $($Name): $Zero"
         Set-ItemProperty -Path "$PathToCUContentDeliveryManager" -Name "$Name" -Type DWord -Value $Zero
@@ -166,7 +166,7 @@ function Optimize-PrivacyAndPerformance() {
         "UploadUserActivities"
     )
 
-    Write-Warning "[?][Privacy] From Path: [$PathToLMActivityHistory]"
+    Write-Host "[?][Privacy] From Path: [$PathToLMActivityHistory]" -ForegroundColor Yellow -BackgroundColor Black
     ForEach ($Name in $ActivityHistoryDisableOnZero) {
         Write-Host "$($EnableStatus[0]) $($Name): $Zero"
         Set-ItemProperty -Path "$PathToLMActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value $Zero
@@ -264,7 +264,7 @@ function Optimize-PrivacyAndPerformance() {
     )
 
     ForEach ($Name in $CloudContentDisableOnOne) {
-        Write-Warning "[?][Privacy] From Path: [$PathToCUPoliciesCloudContent]."
+        Write-Host "[?][Privacy] From Path: [$PathToCUPoliciesCloudContent]." -ForegroundColor Yellow -BackgroundColor Black
         Write-Host "$($EnableStatus[0]) $($Name): $One"
         Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "$Name" -Type DWord -Value $One
     }

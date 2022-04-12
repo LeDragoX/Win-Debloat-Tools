@@ -19,7 +19,7 @@ function Remove-Xbox() {
             Stop-Service "$Service" -Force -NoWait
         }
         Else {
-            Write-Warning "[?][Services] $Service was not found."
+            Write-Host "[?][Services] $Service was not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 
@@ -36,7 +36,7 @@ function Remove-Xbox() {
 
     Remove-UWPAppsList -Apps $XboxApps
 
-    Write-Host "[-][Priv&Perf] Disabling Xbox Game Bar & Game DVR..."
+    Write-Host "[-][Registry] Disabling Xbox Game Bar & Game DVR..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0

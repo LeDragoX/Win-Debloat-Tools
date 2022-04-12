@@ -22,10 +22,10 @@ function Install-PackageManager() {
         $err = $null
         $err = (Invoke-Expression "$CheckExistenceBlock")
         if (($LASTEXITCODE)) { throw $err } # 0 = False, 1 = True
-        Write-Warning "[?] $PackageManagerFullName is already installed."
+        Write-Host "[?] $PackageManagerFullName is already installed." -ForegroundColor Yellow -BackgroundColor Black
     }
     Catch {
-        Write-Warning "[?] $PackageManagerFullName was not found."
+        Write-Host "[?] $PackageManagerFullName was not found." -ForegroundColor Yellow -BackgroundColor Black
         Write-Host "[+] Downloading and Installing $PackageManagerFullName package manager."
 
         Invoke-Expression "$InstallCommandBlock"
@@ -70,7 +70,7 @@ function Install-WingetDependency() {
             Remove-Item -Path $WingetDepOutput
         }
         Else {
-            Write-Warning "[?] $OSArch is not supported!"
+            Write-Host "[?] $OSArch is not supported!" -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 }

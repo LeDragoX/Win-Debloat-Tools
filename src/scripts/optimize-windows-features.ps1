@@ -21,7 +21,7 @@ function Optimize-WindowsFeaturesList() {
     )
 
     If (($Revert)) {
-        Write-Warning "[<][Features] Reverting: $Revert."
+        Write-Host "[<][Features] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
         $EnableStatus = @(
             "[<][Features] Re-Installing",
             "[<][Features] Re-Uninstalling"
@@ -52,14 +52,14 @@ function Optimize-WindowsFeaturesList() {
     ForEach ($Feature in $DisableFeatures) {
         If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
             If (($Revert -eq $true) -and ($Feature -like "IIS-*")) {
-                Write-Warning "[?][Features] Skipping $Feature to avoid a security vulnerability ..."
+                Write-Host "[?][Features] Skipping $Feature to avoid a security vulnerability ..." -ForegroundColor Yellow -BackgroundColor Black
                 Continue
             }
             Write-Host "$($EnableStatus[0]) $Feature ..."
             Invoke-Expression "$($Commands[0])"
         }
         Else {
-            Write-Warning "[?][Features] $Feature was not found."
+            Write-Host "[?][Features] $Feature was not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 
@@ -81,7 +81,7 @@ function Optimize-WindowsFeaturesList() {
             Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
         }
         Else {
-            Write-Warning "[?][Features] $Feature was not found."
+            Write-Host "[?][Features] $Feature was not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 }
