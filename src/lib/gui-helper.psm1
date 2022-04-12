@@ -131,10 +131,11 @@ function Set-GUILayout() {
 
     # <===== COLOR PALETTE =====>
 
+    $Global:Gray = "#2C2C2C"
     $Global:Green = "#1FFF00"
-    $Global:LightBlue = "#00FFFF"
     $Global:LightGray = "#EEEEEE"
     $Global:Purple = "#996DFF"
+    $Global:WinBlue = "#08ABF7"
     $Global:WinDark = "#252525"
     $Global:WarningColor = "#EED202"
 
@@ -265,6 +266,7 @@ function New-Button() {
         [Int]    $FontSize,
         [String] $FontStyle = "Regular",
         [String] $ForeColor = $Global:LightGray,
+        [String] $BackColor = $Global:Gray,
         [String] $TextAlign = $Global:TextAlign
     )
 
@@ -276,6 +278,7 @@ function New-Button() {
     $Button.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
     $Button.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::$FontStyle))
     $Button.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
+    $Button.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $Button.TextAlign = $TextAlign
 
     return $Button
