@@ -378,6 +378,7 @@ function Optimize-PrivacyAndPerformance() {
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value $Zero
 
     Write-Host "[-][Performance] Disabling Ndu High RAM Usage..."
+    # [@] (2 = Enable Ndu, 4 = Disable Ndu)
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
 
     # Details: https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html

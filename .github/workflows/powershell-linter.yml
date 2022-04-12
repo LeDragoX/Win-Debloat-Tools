@@ -32,7 +32,8 @@ jobs:
           path: .\
           recurse: true 
           # Exclude rules that will not be worked on / are invalid
-          excludeRule: '"PSAvoidUsingInvokeExpression", "PSAvoidUsingWMICmdlet", "PSAvoidUsingWriteHost", "PSShouldProcess"'
+          # Command: invoke-scriptanalyzer . -excludeRule: "PSAvoidUsingInvokeExpression", "PSAvoidUsingWriteHost", "PSUseShouldProcessForStateChangingFunctions"
+          excludeRule: '"PSAvoidUsingInvokeExpression", "PSAvoidUsingWriteHost", "PSUseShouldProcessForStateChangingFunctions"'
           output: results.sarif
 
       # Upload the SARIF file generated in the previous step

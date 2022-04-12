@@ -150,6 +150,55 @@ function Set-GUILayout() {
     # Small Button Layout -> $ButtonWidth & $ButtonHeight
 }
 
+function New-Form {
+    [CmdletBinding()]
+    [OutputType([System.Windows.Forms.Form])]
+    param (
+        [Int]    $Width,
+        [Int]    $Height,
+        [String] $Text,
+        [String] $BackColor,
+        [Bool]   $Minimize = $false,
+        [Bool]   $Maximize = $false,
+        [String] $FormBorderStyle = 'FixedSingle',
+        [String] $StartPosition = 'CenterScreen',
+        [Bool]   $TopMost = $false
+    )
+
+    Write-Verbose "Form '$Text': W$Width, H$Height, BC$BackColor, Min $Minimize, Max $Maximize, FBS $FormBorderStyle, SP $StartPosition, TM $TopMost"
+    $Form = New-Object System.Windows.Forms.Form
+    $Form.Size = New-Object System.Drawing.Size($Width, $Height)
+    $Form.Text = $Text
+    $Form.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
+    $Form.MinimizeBox = $Minimize            # Hide the Minimize Button
+    $Form.MaximizeBox = $Maximize            # Hide the Maximize Button
+    $Form.FormBorderStyle = $FormBorderStyle # Not adjustable
+    $Form.StartPosition = $StartPosition     # Appears on the center
+    $Form.TopMost = $TopMost
+
+    return $Form
+}
+
+function New-FormIcon {
+    [CmdletBinding()]
+    [OutputType([System.Windows.Forms.Form])]
+    param (
+        [System.Windows.Forms.Form] $Form,
+        [String]                    $ImageLocation
+    )
+
+    # Adapted from: https://stackoverflow.com/a/53377253
+    Write-Verbose "FormIcon: IL $ImageLocation"
+    $IconBase64 = [Convert]::ToBase64String((Get-Content $ImageLocation -Encoding Byte))
+    $IconBytes = [Convert]::FromBase64String($IconBase64)
+    $Stream = New-Object IO.MemoryStream($IconBytes, 0, $IconBytes.Length)
+    $Stream.Write($IconBytes, 0, $IconBytes.Length);
+    $Form.Icon = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -Argument $Stream).GetHIcon())
+    $Stream.Dispose()
+
+    return $Form
+}
+
 function New-Panel() {
     [CmdletBinding()]
     param (
@@ -157,7 +206,7 @@ function New-Panel() {
         [Int] $Height,
         [Int] $LocationX,
         [Int] $LocationY,
-        [Bool] $HasVerticalScroll = $false
+        [Switch] $HasVerticalScroll
     )
 
     Write-Verbose "Panel$($Global:CurrentPanelIndex+1): W$Width, H$Height, X$LocationX, Y$LocationY"
@@ -229,4 +278,27 @@ function New-Button() {
     $Button.TextAlign = $TextAlign
 
     return $Button
+}
+
+function New-PictureBox {
+    [CmdletBinding()]
+    [OutputType([System.Windows.Forms.PictureBox])]
+    param (
+        [String] $ImageLocation,
+        [Int]    $Width,
+        [Int]    $Height,
+        [Int]    $LocationX,
+        [Int]    $LocationY,
+        [String] $SizeMode = 'Zoom' # Autosize, CenterImage, Normal, StretchImage, Zoom
+    )
+
+    Write-Verbose "PictureBox: IL $ImageLocation, W$Width, H$Height, X$LocationX, Y$LocationY, SM $SizeMode"
+    $PictureBox = New-Object System.Windows.Forms.PictureBox
+    $PictureBox.imageLocation = $ImageLocation
+    $PictureBox.Width = $Width
+    $PictureBox.Height = $Height
+    $PictureBox.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
+    $PictureBox.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::$SizeMode
+
+    return $PictureBox
 }
