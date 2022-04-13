@@ -89,7 +89,7 @@ function Optimize-RunningServicesList() {
 
     # Making the services to run only when needed as 'Manual' | Remove the # to set to Manual
     $ManualServices = @(
-        #"ndu"                   # | DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
+        "ndu"                    # | DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
         #"NetTcpPortSharing"     # | DEFAULT: Disabled  | Net.Tcp Port Sharing Service
         "SharedAccess"           # | DEFAULT: Manual    | Internet Connection Sharing (ICS)
         "stisvc"                 # | DEFAULT: Automatic | Windows Image Acquisition (WIA)
@@ -113,8 +113,8 @@ function Optimize-RunningServicesList() {
         # - NVIDIA services
         "NvContainerLocalSystem" # | DEFAULT: Automatic | NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
         # - Printer services
-        #"PrintNotify"           # WARNING! REMOVING WILL DISABLE PRINTING | DEFAULT: Manual    | Printer Extensions and Notifications
-        #"Spooler"               # WARNING! REMOVING WILL DISABLE PRINTING | DEFAULT: Automatic | Print Spooler
+        #"PrintNotify"           # WARNING! REMOVING WILL TURN PRINTING LESS MANAGEABLE | DEFAULT: Manual    | Printer Extensions and Notifications
+        #"Spooler"               # WARNING! REMOVING WILL DISABLE PRINTING              | DEFAULT: Automatic | Print Spooler
         # - Wi-Fi services
         #"WlanSvc"               # WARNING! REMOVING WILL DISABLE WI-FI | DEFAULT: Auto/Man. | WLAN AutoConfig
     )
