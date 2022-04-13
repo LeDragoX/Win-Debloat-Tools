@@ -39,13 +39,17 @@ function Install-Software() {
     }
 
     Write-Title "Installing $($Name) via $PkgMngr"
+    $DoneMessage += "`n`nInstalled:`n"
 
     ForEach ($Package in $Packages) {
         If ($UseMSStore) {
-            $Private:Counter = Write-TitleCounter -Text "$Package - $((winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' '))" -Counter $Counter -MaxLength $Packages.Length
+            $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
+            $DoneMessage += " - $PackageName ($Package)`n"
+            $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
         }
         Else {
             $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
+            $DoneMessage += " - $Package`n"
         }
         Invoke-Expression "$InstallBlock" | Out-Host
     }

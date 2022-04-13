@@ -844,7 +844,7 @@ function Show-GUI() {
         })
 
     $Ventoy.Add_Click( {
-            Install-Software -Name $Ventoy.Text -Packages "Ventoy" -UseChocolatey
+            Install-Software -Name $Ventoy.Text -Packages "ventoy" -UseChocolatey
         })
 
     $Rufus.Add_Click( {
