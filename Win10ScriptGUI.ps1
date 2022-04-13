@@ -477,13 +477,13 @@ function Show-GUI() {
     $Cemu = New-Button -Text "Cemu (Wii U)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Cemu.Location.Y + $Cemu.Height + $DistanceBetweenButtons
-    $Dolphin = New-Button -Text "Dolphin (GC/Wii)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Dolphin = New-Button -Text "Dolphin Stable (GC/Wii)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Dolphin.Location.Y + $Dolphin.Height + $DistanceBetweenButtons
     $MGba = New-Button -Text "mGBA (GBA)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $MGba.Location.Y + $MGba.Height + $DistanceBetweenButtons
-    $PCSX2 = New-Button -Text "PCSX2 (PS2|Stable|Portable)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $PCSX2 = New-Button -Text "PCSX2 Stable (PS2 | Portable)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $PCSX2.Location.Y + $PCSX2.Height + $DistanceBetweenButtons
     $PPSSPP = New-Button -Text "PPSSPP (PSP)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -492,7 +492,7 @@ function Show-GUI() {
     $Project64 = New-Button -Text "Project64 Dev (N64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Project64.Location.Y + $Project64.Height + $DistanceBetweenButtons
-    $RetroArch = New-Button -Text "RetroArch (AllInOne)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $RetroArch = New-Button -Text "RetroArch (All In One)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RetroArch.Location.Y + $RetroArch.Height + $DistanceBetweenButtons
     $Snes9x = New-Button -Text "Snes9x (SNES)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
