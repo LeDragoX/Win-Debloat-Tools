@@ -8,17 +8,44 @@ function Install-Software() {
         [Array]       $Packages,
         [ScriptBlock] $InstallBlock = { winget install --silent --source "winget" --id $Package },
         [Parameter(Mandatory = $false)]
-        [Switch]      $NoDialog
+        [Switch]      $NoDialog,
+        [String]      $PkgMngr = 'Winget',
+        [Switch]      $UseChocolatey,
+        [Switch]      $UseMSStore,
+        [Switch]      $UseWSL
     )
 
     $DoneTitle = "Information"
     $DoneMessage = "$Name installed successfully!"
 
+    If ($UseChocolatey) {
+        $UseMSStore, $UseWSL = $false, $false
+        $PkgMngr = 'Chocolatey'
+        $InstallBlock = { choco install --yes $Package }
+    }
+
+    If ($UseMSStore) {
+        $UseChocolatey, $UseWSL = $false, $false
+        $PkgMngr = 'Winget (MS Store)'
+        $InstallBlock = { winget install --source "msstore" --id $Package --accept-package-agreements }
+    }
+
+    If ($UseWSL) {
+        $UseChocolatey, $UseMSStore = $false, $false
+        $PkgMngr = 'WSL'
+        $InstallBlock = { wsl --install --distribution $Package }
+    }
+
     Clear-Host
-    Write-Title "Installing: $($Name)"
+    Write-Title "Installing $($Name) via $PkgMngr"
 
     ForEach ($Package in $Packages) {
-        $Private:Counter = Write-TitleCounter -Text "Installing: $Package" -Counter $Counter -MaxLength $Packages.Length
+        If ($UseMSStore) {
+            $Private:Counter = Write-TitleCounter -Text "$Package - $((winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' '))" -Counter $Counter -MaxLength $Packages.Length
+        }
+        Else {
+            $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
+        }
         Invoke-Expression "$InstallBlock" | Out-Host
     }
 
@@ -31,5 +58,8 @@ function Install-Software() {
 Example:
 Install-Software -Name "Brave Browser" -Packages "BraveSoftware.BraveBrowser"
 Install-Software -Name "Brave Browser" -Packages "BraveSoftware.BraveBrowser" -NoDialog
-Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -InstallBlock { choco install -y $Package }
+Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -UseChocolatey
+Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -UseChocolatey -NoDialog
+Install-Software -Name "Ubuntu" -Packages "Ubuntu" -UseWSL
+Install-Software -Name "Ubuntu" -Packages "Ubuntu" -UseWSL -NoDialog
 #>

@@ -750,7 +750,7 @@ function Show-GUI() {
         })
 
     $ADB.Add_Click( {
-            Install-Software -Name $ADB.Text -Packages "adb" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $ADB.Text -Packages "adb" -UseChocolatey
         })
 
     $AndroidStudio.Add_Click( {
@@ -774,7 +774,7 @@ function Show-GUI() {
         })
 
     $PaintNet.Add_Click( {
-            Install-Software -Name $PaintNet.Text -Packages "paint.net" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $PaintNet.Text -Packages "paint.net" -UseChocolatey
         })
 
     $Gimp.Add_Click( {
@@ -814,11 +814,11 @@ function Show-GUI() {
         })
 
     $Ventoy.Add_Click( {
-            Install-Software -Name $Ventoy.Text -Packages "Ventoy" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $Ventoy.Text -Packages "Ventoy" -UseChocolatey
         })
 
     $Rufus.Add_Click( {
-            Install-Software -Name $Rufus.Text -Packages "9PC3H3V7Q9CH" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
+            Install-Software -Name $Rufus.Text -Packages "9PC3H3V7Q9CH" -UseMSStore
         })
 
     $BalenaEtcher.Add_Click( {
@@ -860,35 +860,35 @@ function Show-GUI() {
         })
 
     $Ubuntu.Add_Click( {
-            Install-Software -Name $Ubuntu.Text -Packages "Ubuntu" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Ubuntu.Text -Packages "Ubuntu" -UseWSL
         })
 
     $Debian.Add_Click( {
-            Install-Software -Name $Debian.Text -Packages "Debian" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Debian.Text -Packages "Debian" -UseWSL
         })
 
     $KaliLinux.Add_Click( {
-            Install-Software -Name $KaliLinux.Text -Packages "kali-linux" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $KaliLinux.Text -Packages "kali-linux" -UseWSL
         })
 
     $OpenSuse.Add_Click( {
-            Install-Software -Name $OpenSuse.Text -Packages "openSUSE-42" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $OpenSuse.Text -Packages "openSUSE-42" -UseWSL
         })
 
     $SLES.Add_Click( {
-            Install-Software -Name $SLES.Text -Packages "SLES-12" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $SLES.Text -Packages "SLES-12" -UseWSL
         })
 
     $Ubuntu16LTS.Add_Click( {
-            Install-Software -Name $Ubuntu16LTS.Text -Packages "Ubuntu-16.04" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Ubuntu16LTS.Text -Packages "Ubuntu-16.04" -UseWSL
         })
 
     $Ubuntu18LTS.Add_Click( {
-            Install-Software -Name $Ubuntu18LTS.Text -Packages "Ubuntu-18.04" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Ubuntu18LTS.Text -Packages "Ubuntu-18.04" -UseWSL
         })
 
     $Ubuntu20LTS.Add_Click( {
-            Install-Software -Name $Ubuntu20LTS.Text -Packages "Ubuntu-20.04" -InstallBlock { wsl --install --distribution $Package }
+            Install-Software -Name $Ubuntu20LTS.Text -Packages "Ubuntu-20.04" -UseWSL
         })
 
     $ArchWSL.Add_Click( {
@@ -962,7 +962,7 @@ function Show-GUI() {
         })
 
     $AndroidScrCpy.Add_Click( {
-            Install-Software -Name $AndroidScrCpy.Text -Packages "scrcpy" -InstallBlock { choco install -y $Package }
+            Install-Software -Name $AndroidScrCpy.Text -Packages "scrcpy" -UseChocolatey
         })
 
     $ObsStudio.Add_Click( {
@@ -986,7 +986,7 @@ function Show-GUI() {
         })
 
     $Spotify.Add_Click( {
-            Install-Software -Name $Spotify.Text -Packages "9NCBCSZSJRSB" -InstallBlock { winget install --source "msstore" --id $Package --accept-package-agreements }
+            Install-Software -Name $Spotify.Text -Packages "9NCBCSZSJRSB" -UseMSStore
         })
 
     $qBittorrent.Add_Click( {
