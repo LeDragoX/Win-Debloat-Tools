@@ -21,13 +21,13 @@ function Show-GUI() {
     # Panels to put Labels and Buttons
     $Global:CurrentPanelIndex++
     $Panel1 = New-Panel -Width $PanelWidth -Height ($FormHeight - ($FormHeight * 0.1955)) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.45) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
+    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.50) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
     $Global:CurrentPanelIndex++
-    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.25) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.30) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.25) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.30) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.25) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.30) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     # Panel to put more Panels
     $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll
 
@@ -468,6 +468,35 @@ function Show-GUI() {
     $NextYLocation = $CaptionLabel5_6.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $qBittorrent = New-Button -Text "qBittorrent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
+    # --- Panel 5 ~> Caption Label
+    $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
+    $CaptionLabel5_7 = New-Label -Text "Emulation" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 5 ~> Small Buttons
+    $NextYLocation = $CaptionLabel5_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $Cemu = New-Button -Text "Cemu (Wii U)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Cemu.Location.Y + $Cemu.Height + $DistanceBetweenButtons
+    $Dolphin = New-Button -Text "Dolphin (GC/Wii)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Dolphin.Location.Y + $Dolphin.Height + $DistanceBetweenButtons
+    $MGba = New-Button -Text "mGBA (GBA)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $MGba.Location.Y + $MGba.Height + $DistanceBetweenButtons
+    $PCSX2 = New-Button -Text "PCSX2 (PS2|Stable|Portable)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $PCSX2.Location.Y + $PCSX2.Height + $DistanceBetweenButtons
+    $PPSSPP = New-Button -Text "PPSSPP (PSP)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $PPSSPP.Location.Y + $PPSSPP.Height + $DistanceBetweenButtons
+    $Project64 = New-Button -Text "Project64 Dev (N64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $Project64.Location.Y + $Project64.Height + $DistanceBetweenButtons
+    $RetroArch = New-Button -Text "RetroArch (AllInOne)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $RetroArch.Location.Y + $RetroArch.Height + $DistanceBetweenButtons
+    $Snes9x = New-Button -Text "Snes9x (SNES)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($FullPanel))
     # Add Elements to each Panel
@@ -495,6 +524,7 @@ function Show-GUI() {
     $Panel5.Controls.AddRange(@($CaptionLabel5_4, $ObsStudio, $StreamlabsObs, $HandBrake))
     $Panel5.Controls.AddRange(@($CaptionLabel5_5, $Vlc, $MpcHc, $Spotify))
     $Panel5.Controls.AddRange(@($CaptionLabel5_6, $qBittorrent))
+    $Panel5.Controls.AddRange(@($CaptionLabel5_7, $Cemu, $Dolphin, $MGba, $PCSX2, $PPSSPP, $Project64, $RetroArch, $Snes9x))
 
     # <===== CLICK EVENTS =====>
 
@@ -991,6 +1021,38 @@ function Show-GUI() {
 
     $qBittorrent.Add_Click( {
             Install-Software -Name $qBittorrent.Text -Packages "qBittorrent.qBittorrent"
+        })
+
+    $Cemu.Add_Click( {
+            Install-Software -Name $Cemu.Text -Packages "cemu" -UseChocolatey
+        })
+
+    $Dolphin.Add_Click( {
+            Install-Software -Name $Dolphin.Text -Packages "DolphinEmulator.Dolphin"
+        })
+
+    $MGba.Add_Click( {
+            Install-Software -Name $MGba.Text -Packages "JeffreyPfau.mGBA"
+        })
+
+    $PCSX2.Add_Click( {
+            Install-Software -Name $PCSX2.Text -Packages "pcsx2.portable" -UseChocolatey
+        })
+
+    $PPSSPP.Add_Click( {
+            Install-Software -Name $PPSSPP.Text -Packages "PPSSPPTeam.PPSSPP"
+        })
+
+    $Project64.Add_Click( {
+            Install-Software -Name $Project64.Text -Packages "Project64.Project64.Dev"
+        })
+
+    $RetroArch.Add_Click( {
+            Install-Software -Name $RetroArch.Text -Packages "retroarch" -UseChocolatey
+        })
+
+    $Snes9x.Add_Click( {
+            Install-Software -Name $Snes9x.Text -Packages "snes9x" -UseChocolatey
         })
 
     [void]$Form.ShowDialog() # Show the Window
