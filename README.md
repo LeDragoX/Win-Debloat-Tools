@@ -1,12 +1,13 @@
-[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml)
-[![Commit rate](https://img.shields.io/github/commit-activity/m/LeDragoX/Win-10-Smart-Debloat-Tools?label=Commits)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/commits/master)
-![GitHub](https://img.shields.io/github/license/LeDragoX/Win-10-Smart-Debloat-Tools?color=blue&label=License)
-![Lines of code](https://img.shields.io/tokei/lines/github/LeDragoX/Win-10-Smart-Debloat-Tools?color=blue&label=Total%20lines)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LeDragoX/Win-10-Smart-Debloat-Tools?color=gree&label=Code%20size)
-![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-10-Smart-Debloat-Tools?label=Issues)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/LeDragoX/Win-10-Smart-Debloat-Tools/main?label=Last%20commit)
+<h1 align="center">
 
----
+[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml)
+![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-10-Smart-Debloat-Tools?label=Issues)
+![GitHub](https://img.shields.io/github/license/LeDragoX/Win-10-Smart-Debloat-Tools?color=blue&label=License)
+[![Commit rate](https://img.shields.io/github/commit-activity/m/LeDragoX/Win-10-Smart-Debloat-Tools?label=Commits)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/commits/master)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/LeDragoX/Win-10-Smart-Debloat-Tools/main?label=Last%20commit)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LeDragoX/Win-10-Smart-Debloat-Tools?label=Code%20size)
+
+</h1>
 
 <h1 align="center">
 	<img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win 10+ Smart Debloat Tools
