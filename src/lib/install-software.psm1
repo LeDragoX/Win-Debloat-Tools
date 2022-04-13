@@ -17,11 +17,13 @@ function Install-Software() {
 
     $DoneTitle = "Information"
     $DoneMessage = "$Name installed successfully!"
+    Clear-Host
 
     If ($UseChocolatey) {
         $UseMSStore, $UseWSL = $false, $false
         $PkgMngr = 'Chocolatey'
-        $InstallBlock = { choco install --yes $Package }
+        $InstallBlock = { choco install --ignore-dependencies --yes $Package }
+        Write-Host "[?] Chocolatey is configured to ignore dependencies (bloat), you may need to install it before using any program." -ForegroundColor Yellow -BackgroundColor Black
     }
 
     If ($UseMSStore) {
@@ -36,7 +38,6 @@ function Install-Software() {
         $InstallBlock = { wsl --install --distribution $Package }
     }
 
-    Clear-Host
     Write-Title "Installing $($Name) via $PkgMngr"
 
     ForEach ($Package in $Packages) {
