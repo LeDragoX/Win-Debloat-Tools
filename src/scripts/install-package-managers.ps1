@@ -49,8 +49,9 @@ function Install-PackageManager() {
         }
 
         If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-            Write-Host "[@] ScheduledJob: $JobName FOUND!`n[@] Re-Creating with the command: '$("$UpdateScriptBlock".Trim(' '))'`n" -ForegroundColor White
+            Write-Host "[@] ScheduledJob: $JobName FOUND!`n[@] Re-Creating with the command:`n> { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor White
             Unregister-ScheduledJob -Name $JobName
+            Register-ScheduledJob @ScheduledJob | Out-Null
         }
         Else {
             Write-Host "[@] Creating Scheduled Job with the command: '$("$UpdateScriptBlock".Trim(' '))'`n" -ForegroundColor White
@@ -87,7 +88,7 @@ function Main() {
             Remove-Item -Path $WingetOutput
         },
         "12:00",
-        { winget upgrade --all --silent }
+        { Start-Transcript -Path "$env:TEMP\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"; winget upgrade --all --silent | Out-Host; Stop-Transcript }
     )
 
     $ChocolateyParams = @(
@@ -99,7 +100,7 @@ function Main() {
             Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
         },
         "13:00",
-        { choco upgrade all -y },
+        { Start-Transcript -Path "$env:TEMP\ChocolateyDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"; choco upgrade all -y | Out-Host; Stop-Transcript },
         { choco install -y "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
     )
 
