@@ -8,18 +8,18 @@ function Show-DebloatInfo {
         [Switch] $Silent
     )
 
-    $TotalScheduledTasks = (Get-ScheduledTask).Count
-    $DisabledScheduledTasks = (Get-ScheduledTask | Where-Object State -Like "Disabled").Count
+    $TotalScheduledTasks = (Get-ScheduledTask).Count # Slow
+    $DisabledScheduledTasks = (Get-ScheduledTask | Where-Object State -Like "Disabled").Count # Slow
     $TotalServices = (Get-Service).Count
     $DisabledServices = (Get-Service | Where-Object StartType -Like "Disabled").Count
     $ManualServices = (Get-Service | Where-Object StartType -Like "Manual").Count
-    $TotalWinFeatures = (Get-WindowsOptionalFeature -Online).Count
-    $DisabledWinFeatures = (Get-WindowsOptionalFeature -Online | Where-Object State -Like "Disabled*").Count
+    $TotalWinFeatures = (Get-CimInstance Win32_OptionalFeature).Count
+    $DisabledWinFeatures = (Get-WindowsOptionalFeature -Online | Where-Object State -Like "Disabled*").Count # Very Slow (Accurate)
     $TotalWinCapabilities = (Get-WindowsCapability -Online).Count
-    $DisabledWinCapabilities = (Get-WindowsCapability -Online | Where-Object State -Like "NotPresent").Count
+    $DisabledWinCapabilities = (Get-WindowsCapability -Online | Where-Object State -Like "NotPresent").Count # Slow
     $TotalAppx = (Get-AppxPackage).Count
     $TotalProvisionedAppx = (Get-AppxProvisionedPackage -Online).Count
-    $TotalWinPackages = (Get-WindowsPackage -Online).Count
+    $TotalWinPackages = (Get-WindowsPackage -Online).Count # Slow
     $NumberOfProcesses = (Get-Process).Count
     $RAMAvailable = [Int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)
     $RamInMB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1MB
