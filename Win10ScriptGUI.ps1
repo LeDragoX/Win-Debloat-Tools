@@ -1073,7 +1073,7 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"system-debloat-info.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-debloat-info.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
