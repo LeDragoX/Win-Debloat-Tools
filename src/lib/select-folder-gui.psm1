@@ -1,6 +1,6 @@
 # Adapted from: https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
 
-function Get-Folder() {
+function Select-Folder() {
     [CmdletBinding()]
     param (
         [String] $Description = "Select a folder",
@@ -28,6 +28,6 @@ function Get-Folder() {
 
 <#
 Example:
-$Folder = Get-Folder -Description "Select a folder where X files are located"
-$Folder = Get-Folder -Description "Select a folder where X files are located" -InitialDirectory "C:\Windows\Temp"
+$Folder = Select-Folder -Description "Select a folder where X files are located"
+$Folder = Select-Folder -Description "Select a folder where X files are located" -InitialDirectory "C:\Windows\Temp"
 #>

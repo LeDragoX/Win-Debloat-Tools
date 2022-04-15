@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-folder-gui.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"install-software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"select-folder-gui.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 
 function Request-AdminPrivilege() {
@@ -189,7 +189,7 @@ function Set-GPGKey() {
 function Import-KeysSshGpg() {
     [CmdletBinding()] param()
 
-    $Folder = Get-Folder -Description "Select the existing SSH keys folder"
+    $Folder = Select-Folder -Description "Select the existing SSH keys folder"
 
     If (!($null -eq $Folder)) {
         Write-Host "Importing SSH keys from: $Folder" -ForegroundColor Cyan
@@ -198,7 +198,7 @@ function Import-KeysSshGpg() {
         Pop-Location
 
         $Folder = $null
-        $Folder = Get-Folder -Description "Select the existing GPG keys folder"
+        $Folder = Select-Folder -Description "Select the existing GPG keys folder"
         If (!($null -eq $Folder)) {
             Write-Host "Importing GPG keys from: $Folder" -ForegroundColor Cyan
             Push-Location $Folder
@@ -209,7 +209,7 @@ function Import-KeysSshGpg() {
 }
 
 function Main() {
-    $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting signing keys on Windows.`n`nThis setup cover:`n- Git user name and email`n- SSH and GPG keys full creation and import (even other keys from ~\.ssh and ~\.gnupg)`n- Or import existing SSH and GPG keys (only changes git config gpg.program)`n`nDo you want to proceed?"
+    $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting up signing keys on Windows.`n`nThis setup cover:`n- Git user name and email`n- SSH and GPG keys full creation and import (even other keys from ~\.ssh and ~\.gnupg)`n- Or import existing SSH and GPG keys (only changes git config gpg.program)`n`nDo you want to proceed?"
 
     Request-AdminPrivilege
     Install-Software -Name "Git + GnuPG" -Packages @("Git.Git", "GnuPG.GnuPG") -NoDialog
