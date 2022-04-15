@@ -121,7 +121,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 	<summary>Click to expand</summary>
 
 - Import all necessary Modules before Executing everything; ([lib folder](./src/lib/))
-- Logs from both script versions on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs`;
+- Logs both script versions on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs`;
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./src/scripts/backup-system.ps1))
 - Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
   - Auto-Update every available software via `Winget` (12:00/day) and `Chocolatey` (13:00/day);
