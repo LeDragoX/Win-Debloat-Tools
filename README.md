@@ -121,10 +121,12 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 	<summary>Click to expand</summary>
 
 - Import all necessary Modules before Executing everything; ([lib folder](./src/lib/))
+- Logs both script versions on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs`;
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./src/scripts/backup-system.ps1))
 - Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
   - Auto-Update every available software via `Winget` (12:00/day) and `Chocolatey` (13:00/day);
   - Find the Scheduled Job on `Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\Chocolatey/Winget Daily Upgrade"`;
+  - Register daily upgrade logs on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs` and remove old log files;
 - Download AdwCleaner and Run the latest version of for Virus/Adware scan; ([`silent-debloat-softwares.ps1`](./src/scripts/silent-debloat-softwares.ps1))
 - Download OOShutUp10 and import all Recommended settings;
 - Disable Telemetry from Scheduled Tasks and Optimize it; ([`optimize-scheduled-tasks.ps1`](./src/scripts/optimize-scheduled-tasks.ps1))
@@ -158,7 +160,7 @@ Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Serv
 	<summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
 
 ```Powershell
-winget install --silent --source "msstore" --id "Microsoft.Skype"
+winget install --silent --source "winget" --id "Microsoft.Skype"
 ```
 
 </details>
@@ -169,6 +171,23 @@ winget install --silent --source "msstore" --id "Microsoft.Skype"
 1. Press `Win + R` then paste this protocol: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
 2. Then click `Get`/`Install`
 3. After this, open the `Taskbar Settings` and enable the `Widgets` button again
+
+</details>
+
+<details>
+	<summary>Fix <code>NVIDIA Control Panel</code></summary>
+
+> Only this time (Recommended - Consumes less RAM after boot)
+
+```Powershell
+Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Manual -PassThru | Start-Service
+```
+
+> Permanently (Keeps the service running along with the system)
+
+```Powershell
+Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automatic -PassThru | Start-Service
+```
 
 </details>
 
