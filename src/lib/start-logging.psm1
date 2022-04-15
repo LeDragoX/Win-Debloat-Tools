@@ -1,7 +1,7 @@
 function Start-Logging {
     [CmdletBinding()]
     param (
-        [String] $LOGPATH = $env:TEMP,
+        [String] $LOGPATH = "$env:TEMP\Win10-SDT-Logs",
         [String] $File
     )
     $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
