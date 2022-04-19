@@ -160,7 +160,7 @@ Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Serv
 	<summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
 
 ```Powershell
-winget install --silent --source "msstore" --id "Microsoft.Skype"
+winget install --silent --source "winget" --id "Microsoft.Skype"
 ```
 
 </details>
@@ -171,6 +171,23 @@ winget install --silent --source "msstore" --id "Microsoft.Skype"
 1. Press `Win + R` then paste this protocol: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
 2. Then click `Get`/`Install`
 3. After this, open the `Taskbar Settings` and enable the `Widgets` button again
+
+</details>
+
+<details>
+	<summary>Fix <code>NVIDIA Control Panel</code></summary>
+
+> Only this time (Recommended - Consumes less RAM after boot)
+
+```Powershell
+Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Manual -PassThru | Start-Service
+```
+
+> Permanently (Keeps the service running along with the system)
+
+```Powershell
+Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automatic -PassThru | Start-Service
+```
 
 </details>
 
