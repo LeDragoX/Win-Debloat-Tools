@@ -1,14 +1,14 @@
 function Start-Logging {
     [CmdletBinding()]
     param (
-        [String] $LOGPATH = "$env:TEMP\Win10-SDT-Logs",
+        [String] $Path = "$env:TEMP\Win10-SDT-Logs",
         [String] $File
     )
     $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
     $File = "$File`_$Date.log"
 
     Write-Host -NoNewline "[@] " -ForegroundColor White
-    Start-Transcript -Path "$LOGPATH\$File"
+    Start-Transcript -Path "$Path\$File"
     Write-Host
 }
 
@@ -17,3 +17,10 @@ function Stop-Logging {
     Stop-Transcript
     Write-Host
 }
+
+<#
+Example:
+Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
+Start-Logging -Path "$env:TEMP\Win10-SDT-Logs" -File "WingetDailyUpgrade" # Automatically uses .log format
+Stop-Logging # Only after logging has started
+#>
