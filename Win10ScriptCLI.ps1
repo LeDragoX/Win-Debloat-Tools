@@ -38,7 +38,7 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
-    Start-Logging -File $PSCommandPath.Split("\")[-1].Split(".")[-2]
+    Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Set-ConsoleStyle   # Makes the console look cooler
