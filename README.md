@@ -224,6 +224,7 @@ git clone --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools
 
 ## 🔧 Tweak Testers
 
+- All of _my friends and people_ that trusted on me to run the script;
 - [yCr-shiddy](https://github.com/yCr-shiddy) - Helped giving more ideas and fixes;
 
 ## 🏅 More Debloat Scripts (Community)
