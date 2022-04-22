@@ -23,7 +23,7 @@ function Optimize-RunningServicesList() {
     )
 
     If (($Revert)) {
-        Write-Warning "[<][Services] Reverting: $Revert."
+        Write-Host "[<][Services] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
         $EnableStatus = @(
             "[<][Services] Setting Startup Type as 'Manual' to",
             "[<][Services] Setting Startup Type as 'Disabled' to",
@@ -69,7 +69,7 @@ function Optimize-RunningServicesList() {
     ForEach ($Service in $DisableServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
             If (($Revert -eq $true) -and ($Service -like "RemoteRegistry")) {
-                Write-Warning "[?][Services] Skipping $Service to avoid a security vulnerability ($((Get-Service $Service).DisplayName)) ..."
+                Write-Host "[?][Services] Skipping $Service to avoid a security vulnerability ($((Get-Service $Service).DisplayName)) ..." -ForegroundColor Yellow -BackgroundColor Black
                 Continue
             }
 
@@ -83,7 +83,7 @@ function Optimize-RunningServicesList() {
             Invoke-Expression "$($Commands[0])"
         }
         Else {
-            Write-Warning "[?][Services] $Service ($((Get-Service $Service).DisplayName)) was not found."
+            Write-Host "[?][Services] $Service was not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 
