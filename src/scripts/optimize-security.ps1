@@ -14,7 +14,7 @@ function Optimize-Security() {
     $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 
     Write-Title -Text "Security Tweaks"
-    Write-Warning "if you already use another antivirus, nothing will happen."
+    Write-Warning "If you already use another antivirus, nothing will happen."
 
     Write-Host "[+][Security] Ensuring your Windows Defender is ENABLED..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Type DWORD -Value 0 -Force
@@ -90,7 +90,7 @@ function Optimize-Security() {
     Write-Host "[+][Security] Enabling 'SmartScreen' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
 
-    Write-Warning "For more tweaks, edit the 'src/scripts/optimize-security.ps1' file, then uncomment '#code' code lines"
+    Write-Warning "For more tweaks, edit the 'src/scripts/optimize-security.ps1' file, then uncomment '#code' code lines" 
     #Write-Host "[+][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
     #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
 

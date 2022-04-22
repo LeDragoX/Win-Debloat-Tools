@@ -21,7 +21,7 @@ function Optimize-ScheduledTasksList() {
     )
 
     If (($Revert)) {
-        Write-Warning "[<][TaskScheduler] Reverting: $Revert."
+        Write-Host "[<][TaskScheduler] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
         $EnableStatus = @(
             "[<][TaskScheduler] Re-Enabling",
             "[<][TaskScheduler] Re-Disabling"
@@ -69,7 +69,7 @@ function Optimize-ScheduledTasksList() {
             Invoke-Expression "$($Commands[0])"
         }
         Else {
-            Write-Warning "[?][TaskScheduler] $ScheduledTask was not found." -ForegroundColor Yellow -BackgroundColor Black
+            Write-Host "[?][TaskScheduler] $ScheduledTask was not found." -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 

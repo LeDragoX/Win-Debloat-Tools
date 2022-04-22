@@ -6,8 +6,8 @@ function Install-DriverUpdater() {
     # Check for CPU drivers
     If ($CPU.contains("AMD")) {
         Write-Section -Text "Installing AMD $CPU chipset drivers updaters!"
-        Write-Warning "Search for $CPU chipset driver on the AMD website."
-        Write-Warning "This will only download an updater if AMD makes one."
+        Write-Host "Search for $CPU chipset driver on the AMD website." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Host "This will only download an updater if AMD makes one." -ForegroundColor Yellow -BackgroundColor Black
     }
     ElseIf ($CPU.contains("Intel")) {
         Write-Section -Text "Installing Intel $CPU chipset drivers updaters!"
@@ -17,8 +17,8 @@ function Install-DriverUpdater() {
     # Check for GPU drivers then
     If ($GPU.contains("AMD") -or $GPU.contains("Radeon")) {
         Write-Title -Text "AMD $GPU GPU, you will have to install Manually!"
-        Write-Warning "Search for $GPU Graphics driver on the AMD website."
-        Write-Warning "This will only download an updater if AMD makes one."
+        Write-Host "Search for $GPU Graphics driver on the AMD website." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Host "This will only download an updater if AMD makes one." -ForegroundColor Yellow -BackgroundColor Black
     }
 
     If ($GPU.contains("Intel")) {
