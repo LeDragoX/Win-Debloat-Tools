@@ -90,7 +90,7 @@ function Optimize-Security() {
     Write-Host "[+][Security] Enabling 'SmartScreen' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
 
-    Write-Warning "For more tweaks, edit the 'src/scripts/optimize-security.ps1' file, then uncomment '#code' code lines" 
+    Write-Warning "For more tweaks, edit the 'src/scripts/optimize-security.ps1' file, then uncomment '#code' code lines"
     #Write-Host "[+][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
     #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
 
