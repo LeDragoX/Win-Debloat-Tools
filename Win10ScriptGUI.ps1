@@ -198,7 +198,7 @@ function Show-GUI() {
     $JavaJRE = New-Button -Text "Java JRE" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJRE.Location.Y + $JavaJRE.Height + $DistanceBetweenButtons
-    $JavaJDKs = New-Button -Text "AdoptiumJDK 8, 11 and 17" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $JavaJDKs = New-Button -Text "AdoptiumJDK 8, 11 and 18" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJDKs.Location.Y + $JavaJDKs.Height + $DistanceBetweenButtons
     $NodeJsLts = New-Button -Text "NodeJS LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -270,13 +270,19 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_2.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $VSCode = New-Button -Text "Visual Studio Code" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Atom = New-Button -Text "Atom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $VSCode.Location.Y + $VSCode.Height + $DistanceBetweenButtons
+    $NextYLocation = $Atom.Location.Y + $Atom.Height + $DistanceBetweenButtons
     $NotepadPlusPlus = New-Button -Text "Notepad++" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 4 ~> Caption Label
     $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
+    $VSCode = New-Button -Text "VS Code" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $VSCode.Location.Y + $VSCode.Height + $DistanceBetweenButtons
+    $VSCodium = New-Button -Text "VS Codium" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 4 ~> Caption Label
+    $NextYLocation = $VSCodium.Location.Y + $VSCodium.Height + $DistanceBetweenButtons
     $CaptionLabel4_3 = New-Label -Text "Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
@@ -308,8 +314,11 @@ function Show-GUI() {
     $NextYLocation = $CaptionLabel4_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $Notion = New-Button -Text "Notion" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    # Panel 4 ~> Caption Label
     $NextYLocation = $Notion.Location.Y + $Notion.Height + $DistanceBetweenButtons
+    $Obsidian = New-Button -Text "Obsidian" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 4 ~> Caption Label
+    $NextYLocation = $Obsidian.Location.Y + $Obsidian.Height + $DistanceBetweenButtons
     $CaptionLabel4_6 = New-Label -Text "Utilities" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
@@ -512,10 +521,10 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_6, $TwilioAuthy))
     $Panel3.Controls.AddRange(@($CaptionLabel3_7, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $JavaJRE, $JavaJDKs, $NodeJsLts, $NodeJs, $Python3, $Anaconda3, $Ruby, $RubyMSYS, $RustMSVC, $RustGNU, $ADB, $AndroidStudio, $DockerDesktop, $PostgreSQL, $MySQL, $Insomnia))
     $Panel4.Controls.AddRange(@($TitleLabel3, $CaptionLabel4_1, $PaintNet, $Gimp, $Inkscape, $IrfanView, $Krita, $ShareX))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_2, $VSCode, $NotepadPlusPlus))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Atom, $NotepadPlusPlus, $VSCode, $VSCodium))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $GoogleDrive, $Dropbox))
     $Panel4.Controls.AddRange(@($CaptionLabel4_4, $Ventoy, $Rufus, $BalenaEtcher))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_5, $Notion))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_5, $Notion, $Obsidian))
     $Panel4.Controls.AddRange(@($CaptionLabel4_6, $CPUZ, $GPUZ, $CrystalDiskInfo, $CrystalDiskMark, $NVCleanstall))
     $Panel4.Controls.AddRange(@($CaptionLabel4_7, $WSL2, $WSLPreview, $Ubuntu, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS, $ArchWSL))
     $Panel5.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel5_1, $Discord, $MSTeams, $Slack, $Zoom, $Telegram, $RocketChat))
@@ -744,7 +753,7 @@ function Show-GUI() {
         })
 
     $JavaJDKs.Add_Click( {
-            Install-Software -Name $JavaJDKs.Text -Packages @("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.17")
+            Install-Software -Name $JavaJDKs.Text -Packages @("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.18")
         })
 
     $NodeJsLts.Add_Click( {
@@ -827,12 +836,20 @@ function Show-GUI() {
             Install-Software -Name $ShareX.Text -Packages "ShareX.ShareX"
         })
 
-    $VSCode.Add_Click( {
-            Install-Software -Name $VSCode.Text -Packages "Microsoft.VisualStudioCode"
+    $Atom.Add_Click( {
+            Install-Software -Name $Atom.Text -Packages "GitHub.Atom"
         })
 
     $NotepadPlusPlus.Add_Click( {
             Install-Software -Name $NotepadPlusPlus.Text -Packages "Notepad++.Notepad++"
+        })
+
+    $VSCode.Add_Click( {
+            Install-Software -Name $VSCode.Text -Packages "Microsoft.VisualStudioCode"
+        })
+
+    $VSCodium.Add_Click( {
+            Install-Software -Name $VSCodium.Text -Packages "VSCodium.VSCodium"
         })
 
     $GoogleDrive.Add_Click( {
@@ -857,6 +874,10 @@ function Show-GUI() {
 
     $Notion.Add_Click( {
             Install-Software -Name $Notion.Text -Packages "Notion.Notion"
+        })
+
+    $Obsidian.Add_Click( {
+            Install-Software -Name $Obsidian.Text -Packages "Obsidian.Obsidian"
         })
 
     $CPUZ.Add_Click( {
