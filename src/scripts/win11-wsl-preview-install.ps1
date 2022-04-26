@@ -13,11 +13,11 @@ function WSLPreviewInstall() {
         Write-Host "[-][Features] Uninstalling WSL from Optional Features..."
         Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
 
-        Write-Host "[@] Updating WSL (if possible) ..."
+        Write-Mandatory "Updating WSL (if possible) ..."
         wsl --update
     }
     Catch {
-        Write-Host "[?] Couldn't install WSL Preview, you must be at least on Windows 11 ..." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Status -Symbol "?" -Type "WSL" -Status "Couldn't install WSL Preview, you must be at least on Windows 11 ..." -Warning
     }
 }
 

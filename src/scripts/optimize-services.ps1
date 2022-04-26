@@ -10,10 +10,10 @@ function Optimize-RunningServicesList() {
     [CmdletBinding()]
     param (
         [Switch] $Revert,
-        [Array]  $EnableStatus = @(
-            "[-][Services] Setting Startup Type as 'Disabled' to",
-            "[-][Services] Setting Startup Type as 'Manual' to",
-            "[=][Services] Setting Startup Type as 'Automatic' to"
+        $EnableStatus = @(
+            @{ Symbol = "-"; Status = "Setting Startup Type as 'Disabled' to" }
+            @{ Symbol = "-"; Status = "Setting Startup Type as 'Manual' to" }
+            @{ Symbol = "+"; Status = "Setting Startup Type as 'Automatic' to" }
         ),
         [Array]  $Commands = @(
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
@@ -21,13 +21,14 @@ function Optimize-RunningServicesList() {
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
         )
     )
+    $TweakType = "Service"
 
     If (($Revert)) {
-        Write-Host "[<][Services] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
         $EnableStatus = @(
-            "[<][Services] Setting Startup Type as 'Manual' to",
-            "[<][Services] Setting Startup Type as 'Disabled' to",
-            "[=][Services] Setting Startup Type as 'Automatic' to"
+            @{ Symbol = "<"; Status = "Setting Startup Type as 'Manual' to" }
+            @{ Symbol = "<"; Status = "Setting Startup Type as 'Disabled' to" }
+            @{ Symbol = "="; Status = "Setting Startup Type as 'Automatic' to" }
         )
         $Commands = @( # Only switch between Manual and Disabled to Revert
             { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
@@ -69,21 +70,21 @@ function Optimize-RunningServicesList() {
     ForEach ($Service in $DisableServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
             If (($Revert -eq $true) -and ($Service -like "RemoteRegistry")) {
-                Write-Host "[?][Services] Skipping $Service to avoid a security vulnerability ($((Get-Service $Service).DisplayName)) ..." -ForegroundColor Yellow -BackgroundColor Black
+                Write-Status -Symbol "?" -Type $TweakType -Status "Skipping $Service to avoid a security vulnerability ($((Get-Service $Service).DisplayName)) ..."
                 Continue
             }
 
             If (($IsSystemDriveSSD) -and ($Service -in $EnableServicesSSD)) {
-                Write-Host "$($EnableStatus[2]) $Service because in SSDs will have more benefits ($((Get-Service $Service).DisplayName)) ..."
+                Write-Status -Symbol $EnableStatus[2].Symbol -Type $TweakType -Status "$($EnableStatus[2].Status) $Service because in SSDs will have more benefits ($((Get-Service $Service).DisplayName)) ..."
                 Invoke-Expression "$($Commands[2])"
                 Continue
             }
 
-            Write-Host "$($EnableStatus[0]) $Service ($((Get-Service $Service).DisplayName)) ..."
+            Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) $Service ($((Get-Service $Service).DisplayName)) ..."
             Invoke-Expression "$($Commands[0])"
         }
         Else {
-            Write-Host "[?][Services] $Service was not found." -ForegroundColor Yellow -BackgroundColor Black
+            Write-Status -Symbol "?" -Type $TweakType -Status "$Service was not found." -Warning
         }
     }
 
@@ -121,11 +122,11 @@ function Optimize-RunningServicesList() {
 
     ForEach ($Service in $ManualServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
-            Write-Host "[-][Services] Setting Startup Type as 'Manual' to $Service ($((Get-Service $Service).DisplayName)) ..."
+            Write-Status -Symbol "-" -Type $TweakType -Status "Setting Startup Type as 'Manual' to $Service ($((Get-Service $Service).DisplayName)) ..."
             Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
         }
         Else {
-            Write-Host "[?][Services] $Service was not found." -ForegroundColor Yellow -BackgroundColor Black
+            Write-Status -Symbol "?" -Type $TweakType -Status "$Service was not found." -Warning
         }
     }
 }

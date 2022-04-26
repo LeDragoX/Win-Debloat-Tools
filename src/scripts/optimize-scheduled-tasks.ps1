@@ -11,20 +11,21 @@ function Optimize-ScheduledTasksList() {
     param (
         [Switch] $Revert,
         [Array]  $EnableStatus = @(
-            "[-][TaskScheduler] Disabling",
-            "[+][TaskScheduler] Enabling"
+            @{ Symbol = "-"; Status = "Disabling" }
+            @{ Symbol = "+"; Status = "Enabling" }
         ),
         [Array]  $Commands = @(
             { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask }, # R* = Ready/Running Tasks
             { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
         )
     )
+    $TweakType = "TaskScheduler"
 
     If (($Revert)) {
-        Write-Host "[<][TaskScheduler] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
         $EnableStatus = @(
-            "[<][TaskScheduler] Re-Enabling",
-            "[<][TaskScheduler] Re-Disabling"
+            @{ Symbol = "<"; Status = "Re-Enabling" }
+            @{ Symbol = "<"; Status = "Re-Disabling" }
         )
         $Commands = @(
             { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask },
@@ -65,11 +66,11 @@ function Optimize-ScheduledTasksList() {
 
     ForEach ($ScheduledTask in $DisableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
-            Write-Host "$($EnableStatus[0]) the $ScheduledTask Task ..."
+            Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) the $ScheduledTask Task ..."
             Invoke-Expression "$($Commands[0])"
         }
         Else {
-            Write-Host "[?][TaskScheduler] $ScheduledTask was not found." -ForegroundColor Yellow -BackgroundColor Black
+            Write-Status -Symbol "?" -Type $TweakType -Status "$ScheduledTask was not found." -Warning
         }
     }
 
@@ -82,11 +83,11 @@ function Optimize-ScheduledTasksList() {
 
     ForEach ($ScheduledTask in $EnableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
-            Write-Host "[+][TaskScheduler] Enabling the $ScheduledTask Task ..."
+            Write-Status -Symbol "+" -Type $TweakType -Status "Enabling the $ScheduledTask Task ..."
             Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask
         }
         Else {
-            Write-Host "[?][TaskScheduler] $ScheduledTask was not found." -ForegroundColor Yellow -BackgroundColor Black
+            Write-Status -Symbol "?" -Type $TweakType -Status "$ScheduledTask was not found." -Warning
         }
     }
 }

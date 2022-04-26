@@ -1,7 +1,9 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+
 function Unlock-ScriptUsage() {
     [CmdletBinding()] param ()
 
-    Write-Host "[@] Receiving permissions to run scripts..." -ForegroundColor White
+    Write-Mandatory "Receiving permissions to run scripts..."
     Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force
     Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
     Get-ExecutionPolicy -List | Out-Null
@@ -10,7 +12,7 @@ function Unlock-ScriptUsage() {
 function Block-ScriptUsage() {
     [CmdletBinding()] param ()
 
-    Write-Host "[@] Denying permissions to run scripts..." -ForegroundColor White
+    Write-Mandatory "Denying permissions to run scripts..."
     Set-ExecutionPolicy Restricted -Scope LocalMachine -Force
     Set-ExecutionPolicy Restricted -Scope CurrentUser -Force
     Get-ExecutionPolicy -List | Out-Null

@@ -7,8 +7,8 @@ function Optimize-WindowsFeaturesList() {
     param (
         [Switch] $Revert,
         [Array]  $EnableStatus = @(
-            "[-][Features] Uninstalling",
-            "[+][Features] Installing"
+            @{ Symbol = "-"; Status = "Uninstalling" }
+            @{ Symbol = "+"; Status = "Installing" }
         ),
         [Array]  $FeatureState = @(
             "Enabled",
@@ -19,12 +19,13 @@ function Optimize-WindowsFeaturesList() {
             { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Enable-WindowsOptionalFeature -Online -NoRestart }
         )
     )
+    $TweakType = "Feature"
 
     If (($Revert)) {
-        Write-Host "[<][Features] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
         $EnableStatus = @(
-            "[<][Features] Re-Installing",
-            "[<][Features] Re-Uninstalling"
+            @{ Symbol = "<"; Status = "Re-Installing" }
+            @{ Symbol = "<"; Status = "Re-Uninstalling" }
         )
         $FeatureState = @(
             "Disabled*",
@@ -52,14 +53,14 @@ function Optimize-WindowsFeaturesList() {
     ForEach ($Feature in $DisableFeatures) {
         If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
             If (($Revert -eq $true) -and ($Feature -like "IIS-*")) {
-                Write-Host "[?][Features] Skipping $Feature to avoid a security vulnerability ..." -ForegroundColor Yellow -BackgroundColor Black
+                Write-Status -Symbol "?" -Type $TweakType -Status "Skipping $Feature to avoid a security vulnerability ..." -Warning
                 Continue
             }
-            Write-Host "$($EnableStatus[0]) $Feature ..."
+            Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) $Feature ..."
             Invoke-Expression "$($Commands[0])"
         }
         Else {
-            Write-Host "[?][Features] $Feature was not found." -ForegroundColor Yellow -BackgroundColor Black
+            Write-Status -Symbol "?" -Type $TweakType -Status "$Feature was not found." -Warning
         }
     }
 
@@ -77,11 +78,11 @@ function Optimize-WindowsFeaturesList() {
 
     ForEach ($Feature in $EnableFeatures) {
         If (Get-WindowsOptionalFeature -Online -FeatureName $Feature) {
-            Write-Host "[+][Features] Installing $Feature ..."
+            Write-Status -Symbol "+" -Type $TweakType -Status "Installing $Feature ..."
             Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
         }
         Else {
-            Write-Host "[?][Features] $Feature was not found." -ForegroundColor Yellow -BackgroundColor Black
+            Write-Status -Symbol "?" -Type $TweakType -Status "$Feature was not found." -Warning
         }
     }
 }

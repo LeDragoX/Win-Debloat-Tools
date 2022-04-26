@@ -1,3 +1,5 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+
 function Request-FileDownload {
     [CmdletBinding()]
     [OutputType([String])]
@@ -10,7 +12,7 @@ function Request-FileDownload {
 
     Write-Verbose "[?] I'm at: $PWD"
     If (!(Test-Path "$PSScriptRoot\..\tmp")) {
-        Write-Host "[@] $PSScriptRoot\..\tmp doesn't exist, creating folder..." -ForegroundColor White
+        Write-Mandatory "$PSScriptRoot\..\tmp doesn't exist, creating folder..."
         mkdir "$PSScriptRoot\..\tmp" | Out-Null
     }
 
@@ -18,14 +20,16 @@ function Request-FileDownload {
 
     If ($OutputFolder) {
         If (!(Test-Path "$PSScriptRoot\..\tmp\$OutputFolder")) {
-            Write-Host "[@] $PSScriptRoot\..\tmp\$OutputFolder doesn't exist, creating folder..." -ForegroundColor White
+            Write-Mandatory "$PSScriptRoot\..\tmp\$OutputFolder doesn't exist, creating folder..."
             mkdir "$PSScriptRoot\..\tmp\$OutputFolder"
         }
         $FileLocation = "$PSScriptRoot\..\tmp\$OutputFolder\$OutputFile"
     }
 
     Import-Module BitsTransfer
-    Write-Host "`n[@] Downloading from '$FileURI' as '$OutputFile'`n[@] On '$FileLocation'" -ForegroundColor White
+    Write-Host
+    Write-Mandatory "Downloading from: '$FileURI' as '$OutputFile'"
+    Write-Mandatory "On: '$FileLocation'"
     Start-BitsTransfer -Dynamic -RetryTimeout 60 -TransferType Download -Source $FileURI -Destination $FileLocation
 
     return $FileLocation
