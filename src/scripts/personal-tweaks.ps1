@@ -229,8 +229,8 @@ function Register-PersonalTweaksList() {
     Write-Host "[=][Personal] Setting Hibernate size to reduced..."
     powercfg -hibernate -type reduced
 
-    Write-Host "[-][Personal] Disabling Hibernate..."
-    powercfg -hibernate off
+    Write-Host "[+][Personal] Enabling Hibernate (Boots faster on Laptops/PCs with HDD and generate $env:SystemDrive\hiberfil.sys file)..."
+    powercfg -hibernate on
 
     Write-Host "[+][Personal] Setting the Monitor Timeout to AC: $TimeoutScreenPluggedIn and DC: $TimeoutScreenBattery..."
     powercfg -Change Monitor-Timeout-AC $TimeoutScreenPluggedIn

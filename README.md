@@ -98,7 +98,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Remove Xbox from Windows`: Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR; ([`remove-and-disable-xbox.ps1`](./src/scripts/remove-and-disable-xbox.ps1))
 - `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
 - `Reinstall Pre-Installed Apps`: Rebloat Windows with all the Pre-Installed Apps; ([`reinstall-pre-installed-apps.ps1`](./src/utils/reinstall-pre-installed-apps.ps1))
-- `System Debloat Info`: Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference); ([`system-debloat-info.psm1`](./src/lib/system-debloat-info.psm1))
+- `Show Debloat Info`: Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference); ([`show-debloat-info.psm1`](./src/lib/show-debloat-info.psm1))
 - `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
 - `Enable/Disable Search Indexing`: Let you choose whether the **Windows Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
 - `Enable/Disable Background Apps`: Let you choose whether _ALL_ the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);

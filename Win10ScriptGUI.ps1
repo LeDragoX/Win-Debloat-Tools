@@ -193,55 +193,55 @@ function Show-GUI() {
 
     $NextYLocation = $WindowsTerminalNerdFonts.Location.Y + $WindowsTerminalNerdFonts.Height + $DistanceBetweenButtons
     $GitGnupgSshSetup = New-Button -Text "Git + GnuPG + SSH (Setup)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
-    
+
     $NextYLocation = $GitGnupgSshSetup.Location.Y + $GitGnupgSshSetup.Height + $DistanceBetweenButtons
     $ADB = New-Button -Text "Android Debug Bridge (ADB)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $ADB.Location.Y + $ADB.Height + $DistanceBetweenButtons
     $AndroidStudio = New-Button -Text "Android Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $AndroidStudio.Location.Y + $AndroidStudio.Height + $DistanceBetweenButtons
     $DockerDesktop = New-Button -Text "Docker Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $DockerDesktop.Location.Y + $DockerDesktop.Height + $DistanceBetweenButtons
     $Insomnia = New-Button -Text "Insomnia" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Insomnia.Location.Y + $Insomnia.Height + $DistanceBetweenButtons
     $JavaJDKs = New-Button -Text "Java - Adoptium JDK v8/v11/v18" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $JavaJDKs.Location.Y + $JavaJDKs.Height + $DistanceBetweenButtons
     $JavaJRE = New-Button -Text "Java Runtime Environment (JRE)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $JavaJRE.Location.Y + $JavaJRE.Height + $DistanceBetweenButtons
     $MySQL = New-Button -Text "MySQL" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $MySQL.Location.Y + $MySQL.Height + $DistanceBetweenButtons
     $NodeJs = New-Button -Text "NodeJS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $NodeJs.Location.Y + $NodeJs.Height + $DistanceBetweenButtons
     $NodeJsLTS = New-Button -Text "NodeJS LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $NodeJsLTS.Location.Y + $NodeJsLTS.Height + $DistanceBetweenButtons
     $PostgreSQL = New-Button -Text "PostgreSQL" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $PostgreSQL.Location.Y + $PostgreSQL.Height + $DistanceBetweenButtons
     $Python3 = New-Button -Text "Python 3" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $Python3.Location.Y + $Python3.Height + $DistanceBetweenButtons
     $PythonAnaconda3 = New-Button -Text "Python - Anaconda3" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $PythonAnaconda3.Location.Y + $PythonAnaconda3.Height + $DistanceBetweenButtons
     $Ruby = New-Button -Text "Ruby" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $Ruby.Location.Y + $Ruby.Height + $DistanceBetweenButtons
     $RubyMSYS = New-Button -Text "Ruby (MSYS2)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $RubyMSYS.Location.Y + $RubyMSYS.Height + $DistanceBetweenButtons
     $RustGNU = New-Button -Text "Rust (GNU)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     $NextYLocation = $RustGNU.Location.Y + $RustGNU.Height + $DistanceBetweenButtons
     $RustMSVC = New-Button -Text "Rust (MSVC)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-    
+
     # --- Panel 4 ~> Caption Label
     $CaptionLabel4_1 = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize1
 
