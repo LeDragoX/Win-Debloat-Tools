@@ -23,6 +23,10 @@ function Show-DebloatInfo {
     $NumberOfProcesses = (Get-Process).Count
     $RAMAvailable = [Int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)
     $RamInMB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1MB
+    $SystemDrive = (Get-PSDrive -Name $env:SystemDrive[0])
+    $AvailableStorage = $SystemDrive.Free / 1GB
+    $UsedStorage = $SystemDrive.Used / 1GB
+    $TotalStorage = $AvailableStorage + $UsedStorage
 
     $Title = "System Debloat Info"
     $Message = @"
@@ -38,6 +42,7 @@ Total of Windows Packages: $TotalWinPackages
 -----------------------------------------------------------------
 Number of Processes: $NumberOfProcesses
 RAM Available: $RAMAvailable/$RamInMB MB ($((($RAMAvailable / $RamInMB) * 100).ToString("#.##"))%)
+Storage Available ($env:SystemDrive): $($AvailableStorage.ToString("#.#"))/$($TotalStorage.ToString("#.#")) GB ($((($AvailableStorage / $TotalStorage) * 100).ToString("#.##"))%)
 "@ # Here-String
 
     If ($PostMessage) {
@@ -50,6 +55,12 @@ RAM Available: $RAMAvailable/$RamInMB MB ($((($RAMAvailable / $RamInMB) * 100).T
         Show-Message -Title "$Title" -Message "$Message"
     }
 }
+
+function Main() {
+    Show-DebloatInfo
+}
+
+Main
 
 <#
 Example:

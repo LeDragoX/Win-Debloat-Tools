@@ -1,5 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
 
 function WSLwithGraphicsInstall() {
     $OSArchList = Get-OSArchitecture

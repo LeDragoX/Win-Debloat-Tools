@@ -595,7 +595,8 @@ function Show-GUI() {
         })
 
     $ShowDebloatInfo.Add_Click( {
-            Show-DebloatInfo
+            $Scripts = @("show-debloat-info.ps1")
+            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog
         })
 
     $DarkTheme.Add_Click( {
@@ -1086,7 +1087,7 @@ function Main() {
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-os-info.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-font.psm1"
@@ -1094,7 +1095,6 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-debloat-info.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 

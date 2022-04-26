@@ -1,4 +1,4 @@
-﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-os-info.psm1"
+﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
