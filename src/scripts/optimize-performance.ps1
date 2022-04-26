@@ -106,7 +106,7 @@ function Optimize-Performance() {
 
 function Main() {
     If (!($Revert)) {
-        Optimize-Performance # Setup registries that slowdowns the system
+        Optimize-Performance # Change from stock configurations that slowdowns the system to improve performance
     }
     Else {
         Optimize-Performance -Revert
