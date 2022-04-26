@@ -80,12 +80,27 @@ function Get-OSDriveType() {
     $SystemDriveType = Get-PhysicalDisk | ForEach-Object {
         $PhysicalDisk = $_
         $PhysicalDisk | Get-Disk | Get-Partition |
-        Where-Object DriveLetter -EQ "$($env:SystemDrive[0])" | Select-Object DriveLetter, @{n = 'MediaType'; e = { $PhysicalDisk.MediaType }
-        }
+        Where-Object DriveLetter -EQ "$($env:SystemDrive[0])" | Select-Object DriveLetter, @{ n = 'MediaType'; e = { $PhysicalDisk.MediaType } }
     }
 
     $OSDriveType = $SystemDriveType.MediaType
     return "$OSDriveType"
+}
+
+function Get-DriveSpace() {
+    [CmdletBinding()]
+    [OutputType([String])]
+    param (
+        [Parameter(Mandatory = $false)]
+        [String] $DriveLetter = $env:SystemDrive[0]
+    )
+
+    $SystemDrive = (Get-PSDrive -Name $DriveLetter)
+    $AvailableStorage = $SystemDrive.Free / 1GB
+    $UsedStorage = $SystemDrive.Used / 1GB
+    $TotalStorage = $AvailableStorage + $UsedStorage
+
+    return "$DriveLetter`: $($AvailableStorage.ToString("#.#"))/$($TotalStorage.ToString("#.#")) GB ($((($AvailableStorage / $TotalStorage) * 100).ToString("#.#"))%)"
 }
 
 function Get-SystemSpec() {
