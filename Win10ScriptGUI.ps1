@@ -546,7 +546,8 @@ function Show-GUI() {
                 "optimize-scheduled-tasks.ps1",
                 "optimize-services.ps1",
                 "remove-bloatware-apps.ps1",
-                "optimize-privacy-and-performance.ps1",
+                "optimize-privacy.ps1",
+                "optimize-performance.ps1",
                 "personal-tweaks.ps1",
                 "optimize-security.ps1",
                 "remove-onedrive.ps1",
@@ -566,7 +567,8 @@ function Show-GUI() {
             $Scripts = @(
                 "optimize-scheduled-tasks.ps1",
                 "optimize-services.ps1",
-                "optimize-privacy-and-performance.ps1",
+                "optimize-privacy.ps1",
+                "optimize-performance.ps1",
                 "personal-tweaks.ps1",
                 "optimize-windows-features.ps1",
                 "reinstall-pre-installed-apps.ps1"

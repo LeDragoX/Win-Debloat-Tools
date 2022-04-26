@@ -157,7 +157,7 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
 
     Write-Host "$($EnableStatus[0]) 'Chat' icon from taskbar..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Type DWord -Value "TaskbarMn" $Zero
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "TaskbarMn" -Type DWord -Value $Zero
 
     Write-Host "$($EnableStatus[0]) creation of Thumbs.db thumbnail cache files..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One

@@ -1,13 +1,12 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"file-runner.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
 # Adapted from: https://youtu.be/hQSkPmZRCjc
 # Adapted from: https://github.com/ChrisTitusTech/win10script
 # Adapted from: https://github.com/Sycnex/Windows10Debloater
-# Adapted from: ://github.com/kalaspuffar/windows-debloat
+# Adapted from: https://github.com/kalaspuffar/windows-debloat
 
-function Optimize-PrivacyAndPerformance() {
+function Optimize-Privacy() {
     [CmdletBinding()]
     param(
         [Switch] $Revert,
@@ -15,21 +14,17 @@ function Optimize-PrivacyAndPerformance() {
         [Int]    $One = 1,
         [Array]  $EnableStatus = @(
             "[-][Privacy] Disabling",
-            "[+][Privacy] Enabling",
-            "[-][Performance] Disabling",
-            "[+][Performance] Enabling"
+            "[+][Privacy] Enabling"
         )
     )
 
     If (($Revert)) {
-        Write-Host "[<][Privacy/Performance] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Host "[<][Privacy] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
         $Zero = 1
         $One = 0
         $EnableStatus = @(
             "[<][Privacy] Re-Enabling",
-            "[<][Privacy] Re-Disabling",
-            "[<][Performance] Re-Enabling",
-            "[<][Performance] Re-Disabling"
+            "[<][Privacy] Re-Disabling"
         )
     }
 
@@ -39,18 +34,14 @@ function Optimize-PrivacyAndPerformance() {
     $PathToLMDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
     $PathToLMPoliciesAdvertisingInfo = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
     $PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-    $PathToLMPoliciesPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
     $PathToLMPoliciesSQMClient = "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows"
     $PathToLMPoliciesTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
     $PathToLMPoliciesTelemetry2 = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
     $PathToLMPoliciesToWifi = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
-    $PathToLMPoliciesWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
     $PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
-    $PathToLMPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
     $PathToLMWindowsTroubleshoot = "HKLM:\SOFTWARE\Microsoft\WindowsMitigation"
     $PathToCUContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
     $PathToCUDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
-    $PathToCUGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
     $PathToCUInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
     $PathToCUInputTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
     $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
@@ -58,7 +49,7 @@ function Optimize-PrivacyAndPerformance() {
     $PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
     $PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
 
-    Write-Title -Text "Privacy And Performance Tweaks"
+    Write-Title -Text "Privacy Tweaks"
     Write-Section -Text "Personalization"
     Write-Caption -Text "Start & Lockscreen"
     Write-Host "$($EnableStatus[0]) Show me the windows welcome experience after updates..."
@@ -350,82 +341,14 @@ function Optimize-PrivacyAndPerformance() {
         }
     }
 
-    Write-Title -Text "Performance Tweaks"
-
-    Write-Section -Text "Gaming"
-    Write-Host "$($EnableStatus[2]) Game Bar & Game DVR..."
-    $Scripts = @("disable-game-bar-dvr.reg")
-    If ($Revert) {
-        $Scripts = @("enable-game-bar-dvr.reg")
-    }
-    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle "" -DoneMessage "" -NoDialog
-
-    Write-Host "[=][Performance] Enabling game mode..."
-    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
-
-    Write-Section -Text "System"
-    Write-Caption -Text "Display"
-    Write-Host "[+][Performance] Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
-
-    Write-Host "$($EnableStatus[2]) SysMain/Superfetch..."
-    # As SysMain was already disabled on the Services, just need to remove it's key
-    # [@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
-    Set-ItemProperty -Path "$PathToLMPrefetchParams" -Name "EnableSuperfetch" -Type DWord -Value $Zero
-
-    Write-Host "$($EnableStatus[2]) Remote Assistance..."
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value $Zero
-
-    Write-Host "[-][Performance] Disabling Ndu High RAM Usage..."
-    # [@] (2 = Enable Ndu, 4 = Disable Ndu)
-    Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
-
-    # Details: https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
-    # Will reduce Processes number considerably on > 4GB of RAM systems
-    Write-Host "[+][Performance] Setting SVCHost to match RAM size..."
-    $RamInKB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1KB
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $RamInKB
-
-    Write-Host "[+][Performance] Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
-    If (!(Test-Path "$PathToLMPoliciesPsched")) {
-        New-Item -Path "$PathToLMPoliciesPsched" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
-
-    Write-Host "[=][Performance] Enabling Windows Store apps Automatic Updates..."
-    If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
-        New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
-    }
-    If ((Get-Item "$PathToLMPoliciesWindowsStore").GetValueNames() -like "AutoDownload") {
-        Remove-ItemProperty -Path "$PathToLMPoliciesWindowsStore" -Name "AutoDownload" # [@] (2 = Disable, 4 = Enable)
-    }
-
-    Write-Section -Text "Power Plan Tweaks"
-    Write-Host "[+][Performance] Setting Power Plan to High Performance..."
-    powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-
-    # Found on the registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\Default\PowerSchemes
-    Write-Host "[+][Performance] Enabling (Not setting) the Ultimate Performance Power Plan..."
-    powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
-
-    Write-Section -Text "Network & Internet"
-    Write-Caption -Text "Proxy"
-    Write-Host "[-][Performance] Fixing Edge slowdown by NOT Automatically Detecting Settings..."
-    # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
-    $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
-    $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings
-    $data[8] = 3
-    Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data
 }
 
 function Main() {
     If (!($Revert)) {
-        Optimize-PrivacyAndPerformance # Disable Registries that causes slowdowns and privacy invasion
+        Optimize-Privacy # Disable Registries that causes slowdowns and privacy invasion
     }
     Else {
-        Optimize-PrivacyAndPerformance -Revert
+        Optimize-Privacy -Revert
     }
 }
 
