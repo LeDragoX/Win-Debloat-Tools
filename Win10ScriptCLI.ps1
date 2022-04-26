@@ -38,10 +38,11 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
+    Set-ConsoleStyle   # Makes the console look cooler
     Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
+    Write-Caption "$((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
-    Set-ConsoleStyle   # Makes the console look cooler
     Unlock-ScriptUsage
     Use-WindowsForm
     Open-Script        # Run all scripts inside 'scripts' folder

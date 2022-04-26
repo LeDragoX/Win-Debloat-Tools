@@ -36,8 +36,9 @@ function Show-GUI() {
     $TitleLabel2 = New-Label -Text "Customize Tweaks" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold" -ForeColor $WinBlue
     $TitleLabel3 = New-Label -Text "Software Install" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold" -ForeColor $WinBlue
 
-    # Panel 3-4-5 ~> Caption Label
-    $CaptionLabel1 = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY ($FirstButtonY - 27) -FontSize $FontSize1 -ForeColor $Purple
+    # Panel 1, 3-4-5 ~> Caption Label
+    $CaptionLabel1_1 = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY ($FirstButtonY - 27) -FontSize $FontSize1 -ForeColor $Purple
+    $CaptionLabel1_2 = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY ($FirstButtonY - 27) -FontSize $FontSize1 -ForeColor $Purple
 
     # Panel 1 ~> Big Button
     $ApplyTweaks = New-Button -Text "Apply Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $WinBlue
@@ -509,9 +510,9 @@ function Show-GUI() {
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($FullPanel))
     # Add Elements to each Panel
-    $FullPanel.Controls.AddRange(@($CaptionLabel1))
+    $FullPanel.Controls.AddRange(@($CaptionLabel1_2))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $Panel5))
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ApplyTweaks, $RevertTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $ShowDebloatInfo, $PictureBox1))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $CaptionLabel1_1, $ApplyTweaks, $RevertTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $ShowDebloatInfo, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
@@ -1098,10 +1099,11 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
 
+    Set-ConsoleStyle            # Makes the console look cooler
     Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
+    Write-Caption "$((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
-    Set-ConsoleStyle            # Makes the console look cooler
     Unlock-ScriptUsage
     Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog # Install Winget and Chocolatey at the beginning
     Write-ScriptLogo            # Thanks Figlet

@@ -3,7 +3,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function WSLPreviewInstall() {
     Try {
         Write-Host "[?] Installing WSL Preview from MS Store for Windows 11+ ..." -ForegroundColor Yellow -BackgroundColor Black
-        Write-Host "[?] PRESS 'Y' AND ENTER TO CONTINUE IF STUCK (Winget bug) ..." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Host "[?] Press 'Y' and ENTER to continue if stuck (Winget bug) ..." -ForegroundColor Magenta -BackgroundColor Black
         $CheckExistenceBlock = { winget install --source "msstore" --id 9P9TQF7MRM4R --accept-package-agreements }
         $err = $null
         $err = (Invoke-Expression "$CheckExistenceBlock") | Out-Host
