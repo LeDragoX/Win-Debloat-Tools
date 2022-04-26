@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script/blob/master/win10debloat.ps1
 # Adapted from: https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1
@@ -39,7 +40,7 @@ function Install-PackageManager() {
     # Self-reminder, this part stay out of the Try-Catch block
     If ($UpdateScriptBlock) {
         # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-        Write-Host "[@] Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time." -ForegroundColor White
+        Write-Mandatory "Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
         $JobName = "$PackageManagerFullName Daily Upgrade"
         $ScheduledJob = @{
             Name               = $JobName
@@ -49,12 +50,15 @@ function Install-PackageManager() {
         }
 
         If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-            Write-Host "[@] ScheduledJob: $JobName FOUND!`n[@] Re-Creating with the command:`n { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor White
+            Write-Mandatory "ScheduledJob: $JobName FOUND!"
+            Write-Mandatory "Re-Creating with the command:"
+            Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Unregister-ScheduledJob -Name $JobName
             Register-ScheduledJob @ScheduledJob | Out-Null
         }
         Else {
-            Write-Host "[@] Creating Scheduled Job with the command:`n { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor White
+            Write-Mandatory "Creating Scheduled Job with the command:"
+            Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Register-ScheduledJob @ScheduledJob | Out-Null
         }
     }

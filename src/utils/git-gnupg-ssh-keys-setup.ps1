@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"install-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"select-folder-gui.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
@@ -146,9 +147,9 @@ function Set-GPGKey() {
     Write-Host "Then: [your passphrase again] [ENTER]." -ForegroundColor Cyan
     gpg --full-generate-key
 
-    Write-Host "[@] If you want to delete unwanted keys, this is just for reference" -ForegroundColor White
-    Write-Host '[@] gpg --delete-secret-keys $(git config --global user.name)' -ForegroundColor White
-    Write-Host '[@] gpg --delete-keys $(git config --global user.name)' -ForegroundColor White
+    Write-Mandatory "If you want to delete unwanted keys, this is just for reference"
+    Write-Mandatory 'gpg --delete-secret-keys $(git config --global user.name)'
+    Write-Mandatory 'gpg --delete-keys $(git config --global user.name)'
 
     Write-Host "Copying all files to $GnuPGPath"
     Copy-Item -Path "$GnuPGGeneratePath/*" -Destination "$GnuPGPath/" -Recurse

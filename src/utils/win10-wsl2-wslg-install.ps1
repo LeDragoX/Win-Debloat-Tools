@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function WSLwithGraphicsInstall() {
     $OSArchList = Get-OSArchitecture
@@ -30,7 +31,7 @@ function WSLwithGraphicsInstall() {
             Start-Process -FilePath $WSLgOutput -ArgumentList "/passive" -Wait
             Remove-Item -Path $WSLgOutput
 
-            Write-Host "[@] Updating WSL (if possible)..."
+            Write-Mandatory "Updating WSL (if possible)..."
             wsl --update
         }
         Else {
