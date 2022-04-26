@@ -54,7 +54,7 @@ function Remove-BloatwareAppsList() {
 
         # Default Windows 11 apps
         "MicrosoftWindows.Client.WebExperience"  # Taskbar Widgets
-        "*MicrosoftTeams*"                       # Microsoft Teams / Preview
+        "MicrosoftTeams"                         # Microsoft Teams / Preview
 
         # 3rd party Apps
         "*ACGMediaPlayer*"

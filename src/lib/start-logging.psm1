@@ -7,13 +7,13 @@ function Start-Logging {
     $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
     $File = "$File`_$Date.log"
 
-    Write-Host -NoNewline "[@] " -ForegroundColor White
+    Write-Host -NoNewline "[@] " -ForegroundColor Blue
     Start-Transcript -Path "$Path\$File"
     Write-Host
 }
 
 function Stop-Logging {
-    Write-Host -NoNewline "[@] " -ForegroundColor White
+    Write-Host -NoNewline "[@] " -ForegroundColor Blue
     Stop-Transcript
     Write-Host
 }

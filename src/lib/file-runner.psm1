@@ -17,7 +17,8 @@ function Open-PowerShellFilesCollection {
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
     ForEach ($FileName in $Scripts) {
-        $Private:Counter = Write-TitleCounter -Text "$FileName" -Counter $Counter -MaxLength $Scripts.Length
+        $LastAccessUtc = "v$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
+        $Private:Counter = Write-TitleCounter -Text "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
         If ($OpenFromGUI) {
             Import-Module -DisableNameChecking .\"$FileName" -Force
         }
@@ -46,7 +47,8 @@ function Open-RegFilesCollection {
     Push-Location -Path "$PSScriptRoot\..\..\$RelativeLocation"
 
     ForEach ($FileName in $Scripts) {
-        $Private:Counter = Write-TitleCounter -Text "$FileName" -Counter $Counter -MaxLength $Scripts.Length
+        $LastAccessUtc = "v$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
+        $Private:Counter = Write-TitleCounter -Text "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
         regedit /s "$FileName"
     }
 
