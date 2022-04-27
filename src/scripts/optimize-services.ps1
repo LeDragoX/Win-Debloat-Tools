@@ -66,9 +66,9 @@ function Optimize-RunningServicesList() {
         "PcaSvc"                                    # Program Compatibility Assistant (PCA)
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
+        "RetailDemo"                                # DEFAULT: Manual    | The Retail Demo Service controls device activity while the device is in retail demo mode.
         "SysMain"                                   # SysMain / Superfetch (100% Disk on HDDs)
         "TrkWks"                                    # Distributed Link Tracking Client
-        "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
         "WSearch"                                   # Windows Search (100% Disk on HDDs)
         # - Services which cannot be disabled ¯\_(ツ)_/¯
         #"wscsvc"                                   # DEFAULT: Automatic | Windows Security Center Service
@@ -98,13 +98,25 @@ function Optimize-RunningServicesList() {
 
     # Making the services to run only when needed as 'Manual' | Remove the # to set to Manual
     $ManualServices = @(
+        "BITS"                           # DEFAULT: Manual    | Background Intelligent Transfer Service
+        "cbdhsvc_*"                      # DEFAULT: Manual    | Clipboard User Service
+        "edgeupdate"                     # DEFAULT: Automatic | Microsoft Edge Update Service
+        "edgeupdatem"                    # DEFAULT: Manual    | Microsoft Edge Update Service²
+        "FontCache"                      # DEFAULT: Automatic | Windows Font Cache
+        "iphlpsvc"                       # DEFAULT: Automatic | IP Helper Service (IPv6 (6to4, ISATAP, Port Proxy and Teredo) and IP-HTTPS)
+        "lmhosts"                        # DEFAULT: Manual    | TCP/IP NetBIOS Helper
         "ndu"                            # DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
         #"NetTcpPortSharing"             # DEFAULT: Disabled  | Net.Tcp Port Sharing Service
+        "PhoneSvc"                       # DEFAULT: Manual    | Phone Service (Manages the telephony state on the device)
+        "SCardSvr"                       # DEFAULT: Manual    | Smart Card Service
         "SharedAccess"                   # DEFAULT: Manual    | Internet Connection Sharing (ICS)
-        "stisvc"                         # DEFAULT: Automatic | Windows Image Acquisition (WIA)
-        "Wecsvc"                         # DEFAULT: Manual    | Windows Event Collector
+        "stisvc"                         # DEFAULT: Automatic | Windows Image Acquisition (WIA) Service
+        "WbioSrvc"                       # DEFAULT: Manual    | Windows Biometric Service (required for Fingerprint reader / Facial detection)
+        "Wecsvc"                         # DEFAULT: Manual    | Windows Event Collector Service
         "WerSvc"                         # DEFAULT: Manual    | Windows Error Reporting Service
+        "wisvc"                          # DEFAULT: Manual    | Windows Insider Program Service
         "WMPNetworkSvc"                  # DEFAULT: Manual    | Windows Media Player Network Sharing Service
+        "WpnService"                     # DEFAULT: Automatic | Windows Push Notification Services (WNS)
         # - Diagnostic Services
         "DPS"                            # DEFAULT: Automatic | Diagnostic Policy Service
         "WdiServiceHost"                 # DEFAULT: Manual    | Diagnostic Service Host
@@ -116,17 +128,22 @@ function Optimize-RunningServicesList() {
         "RtkBtManServ"                   # DEFAULT: Automatic | Realtek Bluetooth Device Manager Service
         # - Xbox services
         "XblAuthManager"                 # DEFAULT: Manual    | Xbox Live Auth Manager
-        "XblGameSave"                    # DEFAULT: Manual    | Xbox Live Game Save Service
+        "XblGameSave"                    # DEFAULT: Manual    | Xbox Live Game Save
         "XboxGipSvc"                     # DEFAULT: Manual    | Xbox Accessory Management Service
         "XboxNetApiSvc"                  # DEFAULT: Manual    | Xbox Live Networking Service
         # - NVIDIA services
         "NVDisplay.ContainerLocalSystem" # DEFAULT: Automatic | NVIDIA Display Container LS (NVIDIA Control Panel)
         "NvContainerLocalSystem"         # DEFAULT: Automatic | NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
         # - Printer services
+        "Fax"                            # DEFAULT: Manual    | Fax Service
+        "fhsvc"                          # DEFAULT: Manual    | Fax History Service
         #"PrintNotify"                   # WARNING! REMOVING WILL TURN PRINTING LESS MANAGEABLE | DEFAULT: Manual    | Printer Extensions and Notifications
         #"Spooler"                       # WARNING! REMOVING WILL DISABLE PRINTING              | DEFAULT: Automatic | Print Spooler
         # - Wi-Fi services
-        #"WlanSvc"               # WARNING! REMOVING WILL DISABLE WI-FI | DEFAULT: Auto/Man. | WLAN AutoConfig
+        #"WlanSvc"                       # WARNING! REMOVING WILL DISABLE WI-FI | DEFAULT: Auto/Man. | WLAN AutoConfig
+        # - 3rd Party Services
+        "gupdate"                        # DEFAULT: Automatic | Google Update Service
+        "gupdatem"                       # DEFAULT: Manual    | Google Update Service²
     )
 
     ForEach ($Service in $ManualServices) {

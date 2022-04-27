@@ -149,15 +149,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 > and Open PowerShell as admin to copy + paste it's content:
 
 <details>
-	<summary>Fingerprint Reader / Facial Detection not Working (<code>WbioSrvc</code> service was disabled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/189">#189 from W4RH4WK</a></summary>
-
-```Powershell
-Get-Service WbioSrvc | Set-Service -StartupType Automatic -PassThru | Start-Service
-```
-
-</details>
-
-<details>
 	<summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
 
 ```Powershell
