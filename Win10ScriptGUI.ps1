@@ -21,13 +21,13 @@ function Show-GUI() {
     # Panels to put Labels and Buttons
     $Global:CurrentPanelIndex++
     $Panel1 = New-Panel -Width $PanelWidth -Height ($FormHeight - ($FormHeight * 0.1955)) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.50) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
+    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.55) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
     $Global:CurrentPanelIndex++
-    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.30) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.35) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.30) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.35) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Global:CurrentPanelIndex++
-    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.30) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.35) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     # Panel to put more Panels
     $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll
 
@@ -490,6 +490,9 @@ function Show-GUI() {
     $Dolphin = New-Button -Text "Dolphin Stable (GC/Wii)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Dolphin.Location.Y + $Dolphin.Height + $DistanceBetweenButtons
+    $KegaFusion = New-Button -Text "Kega Fusion (Sega Genesis)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    $NextYLocation = $KegaFusion.Location.Y + $KegaFusion.Height + $DistanceBetweenButtons
     $MGba = New-Button -Text "mGBA (GBA)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $MGba.Location.Y + $MGba.Height + $DistanceBetweenButtons
@@ -534,7 +537,7 @@ function Show-GUI() {
     $Panel5.Controls.AddRange(@($CaptionLabel5_4, $HandBrake, $ObsStudio, $StreamlabsObs))
     $Panel5.Controls.AddRange(@($CaptionLabel5_5, $MpcHc, $Spotify, $Vlc))
     $Panel5.Controls.AddRange(@($CaptionLabel5_6, $qBittorrent))
-    $Panel5.Controls.AddRange(@($CaptionLabel5_7, $Cemu, $Dolphin, $MGba, $PCSX2, $PPSSPP, $Project64, $RetroArch, $Snes9x))
+    $Panel5.Controls.AddRange(@($CaptionLabel5_7, $Cemu, $Dolphin, $KegaFusion, $MGba, $PCSX2, $PPSSPP, $Project64, $RetroArch, $Snes9x))
 
     # <===== CLICK EVENTS =====>
 
@@ -1054,6 +1057,10 @@ function Show-GUI() {
 
     $Dolphin.Add_Click( {
             Install-Software -Name $Dolphin.Text -Packages "DolphinEmulator.Dolphin"
+        })
+
+    $KegaFusion.Add_Click( {
+            Install-Software -Name $KegaFusion.Text -Packages "kega-fusion" -UseChocolatey
         })
 
     $MGba.Add_Click( {
