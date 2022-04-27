@@ -7,16 +7,14 @@ function Optimize-WindowsFeaturesList() {
     param (
         [Switch] $Revert,
         [Array]  $EnableStatus = @(
-            @{ Symbol = "-"; Status = "Uninstalling" }
-            @{ Symbol = "+"; Status = "Installing" }
-        ),
-        [Array]  $FeatureState = @(
-            "Enabled",
-            "Disabled*"
-        ),
-        [Array]  $Commands = @(
-            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[0])" | Disable-WindowsOptionalFeature -Online -NoRestart },
-            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Enable-WindowsOptionalFeature -Online -NoRestart }
+            @{
+                Symbol = "-"; Status = "Uninstalling";
+                Command = { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart }
+            }
+            @{
+                Symbol = "+"; Status = "Installing";
+                Command = { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart }
+            }
         )
     )
     $TweakType = "Feature"
@@ -24,16 +22,14 @@ function Optimize-WindowsFeaturesList() {
     If (($Revert)) {
         Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
         $EnableStatus = @(
-            @{ Symbol = "<"; Status = "Re-Installing" }
-            @{ Symbol = "<"; Status = "Re-Uninstalling" }
-        )
-        $FeatureState = @(
-            "Disabled*",
-            "Enabled"
-        )
-        $Commands = @(
-            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[0])" | Enable-WindowsOptionalFeature -Online -NoRestart },
-            { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "$($FeatureState[1])" | Disable-WindowsOptionalFeature -Online -NoRestart }
+            @{
+                Symbol = "<"; Status = "Re-Installing";
+                Command = { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart }
+            }
+            @{
+                Symbol = "<"; Status = "Re-Uninstalling";
+                Command = { Get-WindowsOptionalFeature -Online -FeatureName $Feature | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart }
+            }
         )
     }
 
@@ -57,7 +53,7 @@ function Optimize-WindowsFeaturesList() {
                 Continue
             }
             Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) $Feature ..."
-            Invoke-Expression "$($Commands[0])"
+            Invoke-Expression "$($EnableStatus[0].Command)"
         }
         Else {
             Write-Status -Symbol "?" -Type $TweakType -Status "$Feature was not found." -Warning

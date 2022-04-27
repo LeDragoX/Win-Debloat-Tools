@@ -11,12 +11,14 @@ function Optimize-ScheduledTasksList() {
     param (
         [Switch] $Revert,
         [Array]  $EnableStatus = @(
-            @{ Symbol = "-"; Status = "Disabling" }
-            @{ Symbol = "+"; Status = "Enabling" }
-        ),
-        [Array]  $Commands = @(
-            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask }, # R* = Ready/Running Tasks
-            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
+            @{
+                Symbol = "-"; Status = "Disabling";
+                Command = { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
+            }
+            @{
+                Symbol = "+"; Status = "Enabling";
+                Command = { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
+            }
         )
     )
     $TweakType = "TaskScheduler"
@@ -24,12 +26,14 @@ function Optimize-ScheduledTasksList() {
     If (($Revert)) {
         Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
         $EnableStatus = @(
-            @{ Symbol = "<"; Status = "Re-Enabling" }
-            @{ Symbol = "<"; Status = "Re-Disabling" }
-        )
-        $Commands = @(
-            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask },
-            { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
+            @{
+                Symbol = "<"; Status = "Re-Enabling";
+                Command = { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
+            }
+            @{
+                Symbol = "<"; Status = "Re-Disabling";
+                Command = { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
+            }
         )
     }
 
@@ -67,7 +71,7 @@ function Optimize-ScheduledTasksList() {
     ForEach ($ScheduledTask in $DisableScheduledTasks) {
         If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
             Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) the $ScheduledTask Task ..."
-            Invoke-Expression "$($Commands[0])"
+            Invoke-Expression "$($EnableStatus[0].Command)"
         }
         Else {
             Write-Status -Symbol "?" -Type $TweakType -Status "$ScheduledTask was not found." -Warning
