@@ -226,7 +226,7 @@ function Register-PersonalTweaksList() {
     $TimeoutHibernateBattery = 15
     $TimeoutHibernatePluggedIn = 30
 
-    Write-Host "[=][Personal] Setting Hibernate size to reduced..."
+    Write-Host "[+][Personal] Setting Hibernate size to reduced..."
     powercfg -hibernate -type reduced
 
     Write-Host "[+][Personal] Enabling Hibernate (Boots faster on Laptops/PCs with HDD and generate $env:SystemDrive\hiberfil.sys file)..."

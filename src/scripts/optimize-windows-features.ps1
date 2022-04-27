@@ -20,7 +20,7 @@ function Optimize-WindowsFeaturesList() {
     $TweakType = "Feature"
 
     If (($Revert)) {
-        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
         $EnableStatus = @(
             @{
                 Symbol = "<"; Status = "Re-Installing";
