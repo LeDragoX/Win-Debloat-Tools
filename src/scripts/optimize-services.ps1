@@ -11,29 +11,37 @@ function Optimize-RunningServicesList() {
     param (
         [Switch] $Revert,
         $EnableStatus = @(
-            @{ Symbol = "-"; Status = "Setting Startup Type as 'Disabled' to" }
-            @{ Symbol = "-"; Status = "Setting Startup Type as 'Manual' to" }
-            @{ Symbol = "+"; Status = "Setting Startup Type as 'Automatic' to" }
-        ),
-        [Array]  $Commands = @(
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
+            @{
+                Symbol = "-"; Status = "Setting Startup Type as 'Disabled' to";
+                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
+            }
+            @{
+                Symbol = "-"; Status = "Setting Startup Type as 'Manual' to";
+                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
+            }
+            @{
+                Symbol = "+"; Status = "Setting Startup Type as 'Automatic' to";
+                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
+            }
         )
     )
     $TweakType = "Service"
 
     If (($Revert)) {
         Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
-        $EnableStatus = @(
-            @{ Symbol = "<"; Status = "Setting Startup Type as 'Manual' to" }
-            @{ Symbol = "<"; Status = "Setting Startup Type as 'Disabled' to" }
-            @{ Symbol = "="; Status = "Setting Startup Type as 'Automatic' to" }
-        )
-        $Commands = @( # Only switch between Manual and Disabled to Revert
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual },
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled },
-            { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
+        $EnableStatus = @( # Only switch between Manual and Disabled to Revert
+            @{
+                Symbol = "<"; Status = "Setting Startup Type as 'Manual' to";
+                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
+            }
+            @{
+                Symbol = "<"; Status = "Setting Startup Type as 'Disabled' to";
+                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
+            }
+            @{
+                Symbol = "<"; Status = "Setting Startup Type as 'Automatic' to";
+                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
+            }
         )
     }
 
@@ -76,12 +84,12 @@ function Optimize-RunningServicesList() {
 
             If (($IsSystemDriveSSD) -and ($Service -in $EnableServicesSSD)) {
                 Write-Status -Symbol $EnableStatus[2].Symbol -Type $TweakType -Status "$($EnableStatus[2].Status) $Service because in SSDs will have more benefits ($((Get-Service $Service).DisplayName)) ..."
-                Invoke-Expression "$($Commands[2])"
+                Invoke-Expression "$($EnableStatus[2].Command)"
                 Continue
             }
 
             Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) $Service ($((Get-Service $Service).DisplayName)) ..."
-            Invoke-Expression "$($Commands[0])"
+            Invoke-Expression "$($EnableStatus[0].Command)"
         }
         Else {
             Write-Status -Symbol "?" -Type $TweakType -Status "$Service was not found." -Warning
