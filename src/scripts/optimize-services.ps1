@@ -12,15 +12,15 @@ function Optimize-RunningServicesList() {
         [Switch] $Revert,
         $EnableStatus = @(
             @{
-                Symbol = "-"; Status = "Setting Startup Type as 'Disabled' to";
+                Symbol = "-"; Status = "'Disabled' on Startup";
                 Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
             }
             @{
-                Symbol = "-"; Status = "Setting Startup Type as 'Manual' to";
+                Symbol = "-"; Status = "'Manual' on Startup";
                 Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
             }
             @{
-                Symbol = "+"; Status = "Setting Startup Type as 'Automatic' to";
+                Symbol = "+"; Status = "'Automatic' on Startup";
                 Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
             }
         )
@@ -31,15 +31,15 @@ function Optimize-RunningServicesList() {
         Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
         $EnableStatus = @( # Only switch between Manual and Disabled to Revert
             @{
-                Symbol = "<"; Status = "Setting Startup Type as 'Manual' to";
+                Symbol = "<"; Status = "'Manual' on Startup";
                 Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
             }
             @{
-                Symbol = "<"; Status = "Setting Startup Type as 'Disabled' to";
+                Symbol = "<"; Status = "'Disabled' on Startup";
                 Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
             }
             @{
-                Symbol = "<"; Status = "Setting Startup Type as 'Automatic' to";
+                Symbol = "<"; Status = "'Automatic' on Startup";
                 Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
             }
         )
@@ -71,24 +71,24 @@ function Optimize-RunningServicesList() {
         "WbioSrvc"                                  # Windows Biometric Service (required for Fingerprint reader / facial detection)
         "WSearch"                                   # Windows Search (100% Disk on HDDs)
         # - Services which cannot be disabled ¯\_(ツ)_/¯
-        #"wscsvc"                                   # | DEFAULT: Automatic | Windows Security Center Service
-        #"WdNisSvc"                                 # | DEFAULT: Manual    | Windows Defender Network Inspection Service
+        #"wscsvc"                                   # DEFAULT: Automatic | Windows Security Center Service
+        #"WdNisSvc"                                 # DEFAULT: Manual    | Windows Defender Network Inspection Service
     )
 
     ForEach ($Service in $DisableServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
             If (($Revert -eq $true) -and ($Service -like "RemoteRegistry")) {
-                Write-Status -Symbol "?" -Type $TweakType -Status "Skipping $Service to avoid a security vulnerability ($((Get-Service $Service).DisplayName)) ..."
+                Write-Status -Symbol "?" -Type $TweakType -Status "Skipping $Service ($((Get-Service $Service).DisplayName)) to avoid a security vulnerability ..." -Warning
                 Continue
             }
 
             If (($IsSystemDriveSSD) -and ($Service -in $EnableServicesSSD)) {
-                Write-Status -Symbol $EnableStatus[2].Symbol -Type $TweakType -Status "$($EnableStatus[2].Status) $Service because in SSDs will have more benefits ($((Get-Service $Service).DisplayName)) ..."
+                Write-Status -Symbol $EnableStatus[2].Symbol -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as $($EnableStatus[2].Status), because in SSDs will have more benefits ..." -Warning
                 Invoke-Expression "$($EnableStatus[2].Command)"
                 Continue
             }
 
-            Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) $Service ($((Get-Service $Service).DisplayName)) ..."
+            Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as $($EnableStatus[0].Status) ..."
             Invoke-Expression "$($EnableStatus[0].Command)"
         }
         Else {
@@ -98,39 +98,40 @@ function Optimize-RunningServicesList() {
 
     # Making the services to run only when needed as 'Manual' | Remove the # to set to Manual
     $ManualServices = @(
-        "ndu"                    # | DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
-        #"NetTcpPortSharing"     # | DEFAULT: Disabled  | Net.Tcp Port Sharing Service
-        "SharedAccess"           # | DEFAULT: Manual    | Internet Connection Sharing (ICS)
-        "stisvc"                 # | DEFAULT: Automatic | Windows Image Acquisition (WIA)
-        "Wecsvc"                 # | DEFAULT: Manual    | Windows Event Collector
-        "WerSvc"                 # | DEFAULT: Manual    | Windows Error Reporting Service
-        "WMPNetworkSvc"          # | DEFAULT: Manual    | Windows Media Player Network Sharing Service
+        "ndu"                            # DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
+        #"NetTcpPortSharing"             # DEFAULT: Disabled  | Net.Tcp Port Sharing Service
+        "SharedAccess"                   # DEFAULT: Manual    | Internet Connection Sharing (ICS)
+        "stisvc"                         # DEFAULT: Automatic | Windows Image Acquisition (WIA)
+        "Wecsvc"                         # DEFAULT: Manual    | Windows Event Collector
+        "WerSvc"                         # DEFAULT: Manual    | Windows Error Reporting Service
+        "WMPNetworkSvc"                  # DEFAULT: Manual    | Windows Media Player Network Sharing Service
         # - Diagnostic Services
-        "DPS"                    # | DEFAULT: Automatic | Diagnostic Policy Service
-        "WdiServiceHost"         # | DEFAULT: Manual    | Diagnostic Service Host
-        "WdiSystemHost"          # | DEFAULT: Manual    | Diagnostic System Host
+        "DPS"                            # DEFAULT: Automatic | Diagnostic Policy Service
+        "WdiServiceHost"                 # DEFAULT: Manual    | Diagnostic Service Host
+        "WdiSystemHost"                  # DEFAULT: Manual    | Diagnostic System Host
         # - Bluetooth services
-        "BTAGService"            # | DEFAULT: Manual    | Bluetooth Audio Gateway Service
-        "BthAvctpSvc"            # | DEFAULT: Manual    | AVCTP Service
-        "bthserv"                # | DEFAULT: Manual    | Bluetooth Support Service
-        "RtkBtManServ"           # | DEFAULT: Automatic | Realtek Bluetooth Device Manager Service
+        "BTAGService"                    # DEFAULT: Manual    | Bluetooth Audio Gateway Service
+        "BthAvctpSvc"                    # DEFAULT: Manual    | AVCTP Service
+        "bthserv"                        # DEFAULT: Manual    | Bluetooth Support Service
+        "RtkBtManServ"                   # DEFAULT: Automatic | Realtek Bluetooth Device Manager Service
         # - Xbox services
-        "XblAuthManager"         # | DEFAULT: Manual    | Xbox Live Auth Manager
-        "XblGameSave"            # | DEFAULT: Manual    | Xbox Live Game Save Service
-        "XboxGipSvc"             # | DEFAULT: Manual    | Xbox Accessory Management Service
-        "XboxNetApiSvc"          # | DEFAULT: Manual    | Xbox Live Networking Service
+        "XblAuthManager"                 # DEFAULT: Manual    | Xbox Live Auth Manager
+        "XblGameSave"                    # DEFAULT: Manual    | Xbox Live Game Save Service
+        "XboxGipSvc"                     # DEFAULT: Manual    | Xbox Accessory Management Service
+        "XboxNetApiSvc"                  # DEFAULT: Manual    | Xbox Live Networking Service
         # - NVIDIA services
-        "NvContainerLocalSystem" # | DEFAULT: Automatic | NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
+        "NVDisplay.ContainerLocalSystem" # DEFAULT: Automatic | NVIDIA Display Container LS (NVIDIA Control Panel)
+        "NvContainerLocalSystem"         # DEFAULT: Automatic | NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
         # - Printer services
-        #"PrintNotify"           # WARNING! REMOVING WILL TURN PRINTING LESS MANAGEABLE | DEFAULT: Manual    | Printer Extensions and Notifications
-        #"Spooler"               # WARNING! REMOVING WILL DISABLE PRINTING              | DEFAULT: Automatic | Print Spooler
+        #"PrintNotify"                   # WARNING! REMOVING WILL TURN PRINTING LESS MANAGEABLE | DEFAULT: Manual    | Printer Extensions and Notifications
+        #"Spooler"                       # WARNING! REMOVING WILL DISABLE PRINTING              | DEFAULT: Automatic | Print Spooler
         # - Wi-Fi services
         #"WlanSvc"               # WARNING! REMOVING WILL DISABLE WI-FI | DEFAULT: Auto/Man. | WLAN AutoConfig
     )
 
     ForEach ($Service in $ManualServices) {
         If (Get-Service $Service -ErrorAction SilentlyContinue) {
-            Write-Status -Symbol "-" -Type $TweakType -Status "Setting Startup Type as 'Manual' to $Service ($((Get-Service $Service).DisplayName)) ..."
+            Write-Status -Symbol "-" -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup ..."
             Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
         }
         Else {
