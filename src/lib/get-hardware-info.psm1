@@ -113,7 +113,7 @@ function Get-SystemSpec() {
         [String] $Separator = '|'
     )
 
-    Write-Mandatory "Loading system specs..."
+    Write-Status -Symbol "@" -Status "Loading system specs..."
     # Adapted From: https://www.delftstack.com/howto/powershell/find-windows-version-in-powershell/#using-the-wmi-class-with-get-wmiobject-cmdlet-in-powershell-to-get-the-windows-version
     $WinVer = (Get-CimInstance -class Win32_OperatingSystem).Caption -replace 'Microsoft ', ''
     $DisplayVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").DisplayVersion

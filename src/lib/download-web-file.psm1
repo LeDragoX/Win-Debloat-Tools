@@ -12,7 +12,7 @@ function Request-FileDownload {
 
     Write-Verbose "[?] I'm at: $PWD"
     If (!(Test-Path "$PSScriptRoot\..\tmp")) {
-        Write-Mandatory "$PSScriptRoot\..\tmp doesn't exist, creating folder..."
+        Write-Status -Symbol "@" -Status "$PSScriptRoot\..\tmp doesn't exist, creating folder..."
         mkdir "$PSScriptRoot\..\tmp" | Out-Null
     }
 
@@ -20,7 +20,7 @@ function Request-FileDownload {
 
     If ($OutputFolder) {
         If (!(Test-Path "$PSScriptRoot\..\tmp\$OutputFolder")) {
-            Write-Mandatory "$PSScriptRoot\..\tmp\$OutputFolder doesn't exist, creating folder..."
+            Write-Status -Symbol "@" -Status "$PSScriptRoot\..\tmp\$OutputFolder doesn't exist, creating folder..."
             mkdir "$PSScriptRoot\..\tmp\$OutputFolder"
         }
         $FileLocation = "$PSScriptRoot\..\tmp\$OutputFolder\$OutputFile"
@@ -28,8 +28,8 @@ function Request-FileDownload {
 
     Import-Module BitsTransfer
     Write-Host
-    Write-Mandatory "Downloading from: '$FileURI' as '$OutputFile'"
-    Write-Mandatory "On: '$FileLocation'"
+    Write-Status -Symbol "@" -Status "Downloading from: '$FileURI' as '$OutputFile'"
+    Write-Status -Symbol "@" -Status "On: '$FileLocation'"
     Start-BitsTransfer -Dynamic -RetryTimeout 60 -TransferType Download -Source $FileURI -Destination $FileLocation
 
     return $FileLocation

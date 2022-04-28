@@ -30,16 +30,6 @@ function Write-Caption() {
     Write-Host "$Text" -ForegroundColor White -BackgroundColor Black
 }
 
-function Write-Mandatory() {
-    [CmdletBinding()]
-    param (
-        [String] $Text = "No Text"
-    )
-
-    Write-Host "[@] " -NoNewline -ForegroundColor Blue -BackgroundColor Black
-    Write-Host "$Text" -ForegroundColor White -BackgroundColor Black
-}
-
 function Write-Status() {
     [CmdletBinding()]
     param (
@@ -114,7 +104,6 @@ Example:
 Write-Title -Text "Text" # Used to print Tweak introduction
 Write-Section -Text "Text" # Used to print Tweak Section
 Write-Caption -Text "Text" # Used to print Tweak Category
-Write-Mandatory -Text "Text" # Used to print mandatory configuration
 $Private:Counter = Write-TitleCounter -Text "Text" -Counter $Counter -MaxLenght 100 # Used to print when working with collections # No need to iterate $Counter before, as long it's private
 $Private:Counter = Write-TitleCounter -Text "Text" -Counter $Counter -MaxLenght 100 # Used to print when working with collections # No need to iterate $Counter before, as long it's private
 Write-ScriptLogo # Used at the start of the Script

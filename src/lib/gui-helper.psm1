@@ -3,7 +3,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Set-GUILayout() {
     [CmdletBinding()] param ()
 
-    Write-Mandatory "Loading GUI Layout..."
+    Write-Status -Symbol "@" -Status "Loading GUI Layout..."
     # Loading System Libs
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
