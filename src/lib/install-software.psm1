@@ -23,7 +23,7 @@ function Install-Software() {
         $UseMSStore, $UseWSL = $false, $false
         $PkgMngr = 'Chocolatey'
         $InstallBlock = { choco install --ignore-dependencies --yes $Package }
-        Write-Host "[?] Chocolatey is configured to ignore dependencies (bloat), you may need to install it before using any program." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Status -Symbol "?" -Status "Chocolatey is configured to ignore dependencies (bloat), you may need to install it before using any program." -Warning
     }
 
     If ($UseMSStore) {
@@ -44,12 +44,12 @@ function Install-Software() {
     ForEach ($Package in $Packages) {
         If ($UseMSStore) {
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
-            $DoneMessage += " - $PackageName ($Package)`n"
+            $DoneMessage += " + $PackageName ($Package)`n"
             $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
         }
         Else {
             $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
-            $DoneMessage += " - $Package`n"
+            $DoneMessage += " + $Package`n"
         }
         Invoke-Expression "$InstallBlock" | Out-Host
     }

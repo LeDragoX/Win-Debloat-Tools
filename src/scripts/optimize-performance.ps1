@@ -12,18 +12,19 @@ function Optimize-Performance() {
         [Int]    $Zero = 0,
         [Int]    $One = 1,
         [Array]  $EnableStatus = @(
-            "[-][Performance] Disabling",
-            "[+][Performance] Enabling"
+            @{ Symbol = "-"; Status = "Disabling"; }
+            @{ Symbol = "+"; Status = "Enabling"; }
         )
     )
+    $TweakType = "Performance"
 
     If (($Revert)) {
-        Write-Host "[<][Privacy/Performance] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
         $Zero = 1
         $One = 0
         $EnableStatus = @(
-            "[<][Performance] Re-Enabling",
-            "[<][Performance] Re-Disabling"
+            @{ Symbol = "<"; Status = "Re-Enabling"; }
+            @{ Symbol = "<"; Status = "Re-Disabling"; }
         )
     }
 
@@ -36,48 +37,48 @@ function Optimize-Performance() {
     Write-Title -Text "Performance Tweaks"
 
     Write-Section -Text "Gaming"
-    Write-Host "$($EnableStatus[0]) Game Bar & Game DVR..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Game Bar & Game DVR..."
     $Scripts = @("disable-game-bar-dvr.reg")
     If ($Revert) {
         $Scripts = @("enable-game-bar-dvr.reg")
     }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle "" -DoneMessage "" -NoDialog
 
-    Write-Host "[=][Performance] Enabling game mode..."
+    Write-Status -Symbol "=" -Type $TweakType -Status "Enabling game mode..."
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
 
     Write-Section -Text "System"
     Write-Caption -Text "Display"
-    Write-Host "[+][Performance] Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
 
-    Write-Host "$($EnableStatus[0]) SysMain/Superfetch..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) SysMain/Superfetch..."
     # As SysMain was already disabled on the Services, just need to remove it's key
     # [@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
     Set-ItemProperty -Path "$PathToLMPrefetchParams" -Name "EnableSuperfetch" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) Remote Assistance..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value $Zero
 
-    Write-Host "[-][Performance] Disabling Ndu High RAM Usage..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling Ndu High RAM Usage..."
     # [@] (2 = Enable Ndu, 4 = Disable Ndu)
     Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\Ndu" -Name "Start" -Type DWord -Value 4
 
     # Details: https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
     # Will reduce Processes number considerably on > 4GB of RAM systems
-    Write-Host "[+][Performance] Setting SVCHost to match RAM size..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Setting SVCHost to match RAM size..."
     $RamInKB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1KB
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $RamInKB
 
-    Write-Host "[+][Performance] Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
+    Write-Status -Symbol "+" -Type $TweakType -Status "Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
     If (!(Test-Path "$PathToLMPoliciesPsched")) {
         New-Item -Path "$PathToLMPoliciesPsched" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    Write-Host "[=][Performance] Enabling Windows Store apps Automatic Updates..."
+    Write-Status -Symbol "=" -Type $TweakType -Status "Enabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
         New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
     }
@@ -86,16 +87,16 @@ function Optimize-Performance() {
     }
 
     Write-Section -Text "Power Plan Tweaks"
-    Write-Host "[+][Performance] Setting Power Plan to High Performance..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Setting Power Plan to High Performance..."
     powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 
     # Found on the registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\Default\PowerSchemes
-    Write-Host "[+][Performance] Enabling (Not setting) the Ultimate Performance Power Plan..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling (Not setting) the Ultimate Performance Power Plan..."
     powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
 
     Write-Section -Text "Network & Internet"
     Write-Caption -Text "Proxy"
-    Write-Host "[-][Performance] Fixing Edge slowdown by NOT Automatically Detecting Settings..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Fixing Edge slowdown by NOT Automatically Detecting Settings..."
     # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
     $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
     $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings

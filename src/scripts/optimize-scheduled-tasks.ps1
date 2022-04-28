@@ -97,7 +97,7 @@ function Optimize-ScheduledTasksList() {
 }
 
 function Main() {
-    # List all Scheduled Tasks: Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName | Sort-Object State, TaskPath, TaskName | Out-GridView
+    # List all Scheduled Tasks: Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Out-GridView
     If (!($Revert)) {
         Optimize-ScheduledTasksList # Disable Scheduled Tasks that causes slowdowns
     }

@@ -7,6 +7,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Optimize-Security() {
     $CPU = Get-CPU -NameOnly
+    $TweakType = "Security"
     # Initialize all Path variables used to Registry Tweaks
     $PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge"
     $PathToLMPoliciesMRT = "HKLM:\SOFTWARE\Policies\Microsoft\MRT"
@@ -14,47 +15,47 @@ function Optimize-Security() {
     $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 
     Write-Title -Text "Security Tweaks"
-    Write-Warning "If you already use another antivirus, nothing will happen."
+    Write-Status -Symbol "?" -Type $TweakType -Status "If you already use another antivirus, nothing will happen." -Warning
 
-    Write-Host "[+][Security] Ensuring your Windows Defender is ENABLED..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Ensuring your Windows Defender is ENABLED..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Type DWORD -Value 0 -Force
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
 
-    Write-Host "[+][Security] Enabling Microsoft Defender Exploit Guard network protection..."
+    Write-Status -Symbol "+" -Type $TweakType -Status " Enabling Microsoft Defender Exploit Guard network protection..."
     Set-MpPreference -EnableNetworkProtection Enabled -Force
 
-    Write-Host "[+][Security] Enabling detection for potentially unwanted applications and block them..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling detection for potentially unwanted applications and block them..."
     Set-MpPreference -PUAProtection Enabled -Force
 
     # Details: https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858
-    Write-Host "[+][Security] Disabling SMB 1.0 protocol..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Disabling SMB 1.0 protocol..."
     Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 
     # Enable strong cryptography for .NET Framework (version 4 and above) - https://stackoverflow.com/a/47682111
-    Write-Host "[+][Security] Enabling .NET strong cryptography..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling .NET strong cryptography..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
 
-    Write-Host "[-][Security] Disabling Autoplay..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling Autoplay..."
     Set-ItemProperty -Path "$PathToCUExplorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
 
-    Write-Host "[-][Security] Disabling Autorun for all Drives..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling Autorun for all Drives..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
         New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Force | Out-Null
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
 
-    Write-Host "[-][Security] Disabling Search for App in Store for Unknown Extensions..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling Search for App in Store for Unknown Extensions..."
     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
         New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
     }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
 
-    Write-Host "[+][Security] Enabling Show file extensions in Explorer..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Show file extensions in Explorer..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "HideFileExt" -Type DWord -Value 0
 
     # Details: https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
-    Write-Host "[+][Security] Raising UAC level..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Raising UAC level..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System")) {
         New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null
     }
@@ -66,37 +67,37 @@ function Optimize-Security() {
         New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Force | Out-Null
     }
     If ($CPU.contains("Intel" -or "ARM")) {
-        Write-Host "[+][Security] Enabling Meltdown (CVE-2017-5754) compatibility flag..."
+        Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Meltdown (CVE-2017-5754) compatibility flag..."
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 0
     }
     else {
-        Write-Host "[-][Security] Your processor doesn't need Meltdown (CVE-2017-5754) compatibility flag..."
+        Write-Status -Symbol "-" -Type $TweakType -Status "Your processor doesn't need Meltdown (CVE-2017-5754) compatibility flag..."
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\QualityCompat" -Name "cadca5fe-87d3-4b96-b7fb-a231484277cc" -Type DWord -Value 1
     }
 
-    Write-Host "[+][Security] Enabling 'SmartScreen' for Microsoft Edge..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling 'SmartScreen' for Microsoft Edge..."
     If (!(Test-Path "$PathToLMPoliciesEdge\PhishingFilter")) {
         New-Item -Path "$PathToLMPoliciesEdge\PhishingFilter" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesEdge\PhishingFilter" -Name "EnabledV9" -Type DWord -Value 1
 
     # Details: https://forums.malwarebytes.com/topic/246740-new-potentially-unwanted-modification-disablemrt/
-    Write-Host "[+][Security] Enabling offer Malicious Software Removal Tool via Windows Update..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling offer Malicious Software Removal Tool via Windows Update..."
     If (!(Test-Path "$PathToLMPoliciesMRT")) {
         New-Item -Path "$PathToLMPoliciesMRT" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesMRT" -Name "DontOfferThroughWUAU" -Type DWord -Value 0
 
-    Write-Host "[+][Security] Enabling 'SmartScreen' for Store Apps..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling 'SmartScreen' for Store Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 1
 
     Write-Warning "For more tweaks, edit the '$PSCommandPath' file, then uncomment '#code' code lines"
-    #Write-Host "[+][Security] Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
+    #Write-Status -Symbol "+" -Type $TweakType -Status "Disabling Windows Script Host (execution of *.vbs scripts and alike)..."
     #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
 
     # Consumes more RAM - Make Windows Defender run in Sandbox Mode (MsMpEngCP.exe and MsMpEng.exe will run on background)
     # Details: https://www.microsoft.com/security/blog/2018/10/26/windows-defender-antivirus-can-now-run-in-a-sandbox/
-    #Write-Host "[+][Security] Enabling Windows Defender Sandbox mode..."
+    #Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Windows Defender Sandbox mode..."
     #setx /M MP_FORCE_USE_SANDBOX 1  # Restart the PC to apply the changes, 0 to Revert
 }
 
