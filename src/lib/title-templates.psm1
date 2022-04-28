@@ -1,4 +1,4 @@
-function Write-Title() {
+﻿function Write-Title() {
     [CmdletBinding()]
     param (
         [String] $Text = "No Text"
@@ -105,7 +105,7 @@ function Write-ScriptLogo() {
     Write-Host '  888  .d88P Y8b.     888 d88P 888 Y88..88P 888  888 Y88b.           888  Y88..88P Y88..88P 888      X88   ' -ForegroundColor Green -BackgroundColor Black
     Write-Host '  8888888P"   "Y8888  88888P"  888  "Y88P"  "Y888888  "Y888          888   "Y88P"   "Y88P"  888  88888P"   ' -ForegroundColor Green -BackgroundColor Black
     Write-Host "`n<=========================================================================================================>" -ForegroundColor White -BackgroundColor Black
-    Write-Host "                                        It's Time to Debloat Windows" -ForegroundColor Green -BackgroundColor Black
+    Write-Host "                                        It's Time to Debloat Windows 🧹" -ForegroundColor Green -BackgroundColor Black
     Write-Host "<=========================================================================================================>" -ForegroundColor White -BackgroundColor Black
 }
 
