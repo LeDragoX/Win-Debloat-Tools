@@ -32,7 +32,7 @@ function WSLwithGraphicsInstall() {
             Start-Process -FilePath $WSLgOutput -ArgumentList "/passive" -Wait
             Remove-Item -Path $WSLgOutput
 
-            Write-Mandatory "Updating WSL (if possible)..."
+            Write-Status -Symbol "@" -Status "Updating WSL (if possible)..."
             wsl --update
         }
         Else {
