@@ -3,7 +3,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function WSLwithGraphicsInstall() {
-    ´
     $OSArchList = Get-OSArchitecture
     $TweakType = "WSL"
 

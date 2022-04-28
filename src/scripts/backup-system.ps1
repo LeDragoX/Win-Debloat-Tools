@@ -27,7 +27,7 @@ function Backup-HostsFile() {
 }
 
 function Main() {
-    $TweakType = "Backup"
+    $Script:TweakType = "Backup"
     New-RestorePoint # This makes a restoration point before the script begins
     Backup-HostsFile # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system
 }
