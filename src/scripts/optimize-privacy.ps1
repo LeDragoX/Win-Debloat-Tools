@@ -13,18 +13,19 @@ function Optimize-Privacy() {
         [Int]    $Zero = 0,
         [Int]    $One = 1,
         [Array]  $EnableStatus = @(
-            "[-][Privacy] Disabling",
-            "[+][Privacy] Enabling"
+            @{ Symbol = "-"; Status = "Disabling"; }
+            @{ Symbol = "+"; Status = "Enabling"; }
         )
     )
+    $TweakType = "Privacy"
 
     If (($Revert)) {
         Write-Host "[<][Privacy] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
         $Zero = 1
         $One = 0
         $EnableStatus = @(
-            "[<][Privacy] Re-Enabling",
-            "[<][Privacy] Re-Disabling"
+            @{ Symbol = "<"; Status = "Re-Enabling"; }
+            @{ Symbol = "<"; Status = "Re-Disabling"; }
         )
     }
 
@@ -52,8 +53,8 @@ function Optimize-Privacy() {
     Write-Title -Text "Privacy Tweaks"
     Write-Section -Text "Personalization"
     Write-Caption -Text "Start & Lockscreen"
-    Write-Host "$($EnableStatus[0]) Show me the windows welcome experience after updates..."
-    Write-Host "$($EnableStatus[0]) 'Get fun facts and tips, etc. on lock screen'..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Show me the windows welcome experience after updates..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) 'Get fun facts and tips, etc. on lock screen'..."
 
     $ContentDeliveryManagerDisableOnZero = @(
         "SubscribedContent-310093Enabled"
@@ -79,36 +80,36 @@ function Optimize-Privacy() {
         "SystemPaneSuggestionsEnabled"
     )
 
-    Write-Host "[?][Privacy] From Path: [$PathToCUContentDeliveryManager]." -ForegroundColor Yellow -BackgroundColor Black
+    Write-Status -Symbol "?" -Type $TweakType -Status "From Path: [$PathToCUContentDeliveryManager]." -Warning
     ForEach ($Name in $ContentDeliveryManagerDisableOnZero) {
-        Write-Host "$($EnableStatus[0]) $($Name): $Zero"
+        Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) $($Name): $Zero"
         Set-ItemProperty -Path "$PathToCUContentDeliveryManager" -Name "$Name" -Type DWord -Value $Zero
     }
 
-    Write-Host "[-][Privacy] Disabling 'Suggested Content in the Settings App'..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling 'Suggested Content in the Settings App'..."
     If (Test-Path "$PathToCUContentDeliveryManager\Subscriptions") {
         Remove-Item -Path "$PathToCUContentDeliveryManager\Subscriptions" -Recurse
     }
 
-    Write-Host "$($EnableStatus[0]) 'Show Suggestions' in Start..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) 'Show Suggestions' in Start..."
     If (Test-Path "$PathToCUContentDeliveryManager\SuggestedApps") {
         Remove-Item -Path "$PathToCUContentDeliveryManager\SuggestedApps" -Recurse
     }
 
     Write-Section -Text "Privacy -> Windows Permissions"
     Write-Caption -Text "General"
-    Write-Host "$($EnableStatus[0]) Let apps use my advertising ID..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Let apps use my advertising ID..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value $Zero
     If (!(Test-Path "$PathToLMPoliciesAdvertisingInfo")) {
         New-Item -Path "$PathToLMPoliciesAdvertisingInfo" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesAdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value $One
 
-    Write-Host "$($EnableStatus[0]) 'Let websites provide locally relevant content by accessing my language list'..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) 'Let websites provide locally relevant content by accessing my language list'..."
     Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value $One
 
     Write-Caption -Text "Speech"
-    Write-Host "$($EnableStatus[0]) Online Speech Recognition..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Online Speech Recognition..."
     If (!(Test-Path "$PathToCUOnlineSpeech")) {
         New-Item -Path "$PathToCUOnlineSpeech" -Force | Out-Null
     }
@@ -122,25 +123,25 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value $Zero
 
     Write-Caption -Text "Diagnostics & Feedback"
-    Write-Host "$($EnableStatus[0]) telemetry..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) telemetry..."
     # [@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)
     Set-ItemProperty -Path "$PathToLMPoliciesTelemetry" -Name "AllowTelemetry" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToLMPoliciesTelemetry2" -Name "AllowTelemetry" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToLMPoliciesTelemetry" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) send inking and typing data to Microsoft..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) send inking and typing data to Microsoft..."
     If (!(Test-Path "$PathToCUInputTIPC")) {
         New-Item -Path "$PathToCUInputTIPC" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToCUInputTIPC" -Name "Enabled" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) Tailored Experiences..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Tailored Experiences..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) View diagnostic data..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) View diagnostic data..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack\EventTranscriptKey" -Name "EnableEventTranscript" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) feedback frequency..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) feedback frequency..."
     If (!(Test-Path "$PathToCUSiufRules")) {
         New-Item -Path "$PathToCUSiufRules" -Force | Out-Null
     }
@@ -150,16 +151,16 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "$PathToCUSiufRules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value $Zero
 
     Write-Caption -Text "Activity History"
-    Write-Host "$($EnableStatus[0]) Activity History..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Activity History..."
     $ActivityHistoryDisableOnZero = @(
         "EnableActivityFeed"
         "PublishUserActivities"
         "UploadUserActivities"
     )
 
-    Write-Host "[?][Privacy] From Path: [$PathToLMActivityHistory]" -ForegroundColor Yellow -BackgroundColor Black
+    Write-Status -Symbol "?" -Type $TweakType -Status "From Path: [$PathToLMActivityHistory]" -Warning
     ForEach ($Name in $ActivityHistoryDisableOnZero) {
-        Write-Host "$($EnableStatus[0]) $($Name): $Zero"
+        Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) $($Name): $Zero"
         Set-ItemProperty -Path "$PathToLMActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value $Zero
     }
 
@@ -182,7 +183,7 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
 
     Write-Caption -Text "Other Devices"
-    Write-Host "[-][Privacy] Denying device access..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Denying device access..."
     If (!(Test-Path "$PathToCUDeviceAccessGlobal\LooselyCoupled")) {
         New-Item -Path "$PathToCUDeviceAccessGlobal\LooselyCoupled" -Force | Out-Null
     }
@@ -192,18 +193,18 @@ function Optimize-Privacy() {
         If ($key.PSChildName -EQ "LooselyCoupled") {
             continue
         }
-        Write-Host "$($EnableStatus[1]) Setting $($key.PSChildName) value to 'Deny' ..."
+        Write-Status -Symbol $EnableStatus[1].Symbol -Type $TweakType -Status "$($EnableStatus[1].Status) Setting $($key.PSChildName) value to 'Deny' ..."
         Set-ItemProperty -Path ("$PathToCUDeviceAccessGlobal\" + $key.PSChildName) -Name "Value" -Value "Deny"
     }
 
     Write-Caption -Text "Background Apps"
-    Write-Host "$($EnableStatus[1]) Background Apps..."
+    Write-Status -Symbol $EnableStatus[1].Symbol -Type $TweakType -Status "$($EnableStatus[1].Status) Background Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 0
     Set-ItemProperty -Path "$PathToCUSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 1
 
     Write-Section -Text "Update & Security"
     Write-Caption -Text "Windows Update"
-    Write-Host "[-][Privacy] Disabling Automatic Download and Installation of Windows Updates..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling Automatic Download and Installation of Windows Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
         New-Item -Path "$PathToLMPoliciesWindowsUpdate" -Force | Out-Null
     }
@@ -211,22 +212,22 @@ function Optimize-Privacy() {
     # [@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)
     Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
 
-    Write-Host "$($EnableStatus[1]) Automatic Updates..."
+    Write-Status -Symbol $EnableStatus[1].Symbol -Type $TweakType -Status "$($EnableStatus[1].Status) Automatic Updates..."
     # [@] (0 = Enable Automatic Updates, 1 = Disable Automatic Updates)
     Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value $Zero
 
-    Write-Host "[+][Privacy] Setting Scheduled Day to Every day..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Setting Scheduled Day to Every day..."
     # [@] (0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4))
     Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
 
-    Write-Host "[-][Privacy] Setting Scheduled time to 03h00m..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Setting Scheduled time to 03h00m..."
     # [@] (0-23 = The time of day in 24-hour format)
     Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
 
-    Write-Host "$($EnableStatus[1]) Change Windows Updates to 'Notify to schedule restart'..."
+    Write-Status -Symbol $EnableStatus[1].Symbol -Type $TweakType -Status "$($EnableStatus[1].Status) Change Windows Updates to 'Notify to schedule restart'..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value $One
 
-    Write-Host "$($EnableStatus[1]) Restricting Windows Update P2P downloads for Local Network only..."
+    Write-Status -Symbol $EnableStatus[1].Symbol -Type $TweakType -Status "$($EnableStatus[1].Status) Restricting Windows Update P2P downloads for Local Network only..."
     If (!(Test-Path "$PathToLMDeliveryOptimizationCfg")) {
         New-Item -Path "$PathToLMDeliveryOptimizationCfg" -Force | Out-Null
     }
@@ -235,15 +236,15 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "$PathToLMDeliveryOptimizationCfg" -Name "DODownloadMode" -Type DWord -Value $One
 
     Write-Caption -Text "Troubleshooting"
-    Write-Host "[+][Privacy] Enabling Automatic Recommended Troubleshooting, then notify me..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Automatic Recommended Troubleshooting, then notify me..."
     If (!(Test-Path "$PathToLMWindowsTroubleshoot")) {
         New-Item -Path "$PathToLMWindowsTroubleshoot" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMWindowsTroubleshoot" -Name "UserPreference" -Type DWord -Value 3
 
-    Write-Host "$($EnableStatus[0]) Windows Spotlight Features..."
-    Write-Host "$($EnableStatus[0]) Third Party Suggestions..."
-    Write-Host "$($EnableStatus[0]) More Telemetry Features..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Windows Spotlight Features..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Third Party Suggestions..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) More Telemetry Features..."
 
     $CloudContentDisableOnOne = @(
         "DisableWindowsSpotlightFeatures"
@@ -254,9 +255,9 @@ function Optimize-Privacy() {
         "DisableThirdPartySuggestions"
     )
 
+    Write-Status -Symbol "?" -Type $TweakType -Status "From Path: [$PathToCUPoliciesCloudContent]." -Warning
     ForEach ($Name in $CloudContentDisableOnOne) {
-        Write-Host "[?][Privacy] From Path: [$PathToCUPoliciesCloudContent]." -ForegroundColor Yellow -BackgroundColor Black
-        Write-Host "$($EnableStatus[0]) $($Name): $One"
+        Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) $($Name): $One"
         Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "$Name" -Type DWord -Value $One
     }
     If (!(Test-Path "$PathToCUPoliciesCloudContent")) {
@@ -265,7 +266,7 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
     Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) Apps Suggestions..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) Apps Suggestions..."
     If (!(Test-Path "$PathToLMPoliciesCloudContent")) {
         New-Item -Path "$PathToLMPoliciesCloudContent" -Force | Out-Null
     }
@@ -273,7 +274,7 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value $One
 
     # Reference: https://forums.guru3d.com/threads/windows-10-registry-tweak-for-disabling-drivers-auto-update-controversy.418033/
-    Write-Host "$($EnableStatus[0]) automatic driver updates..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) automatic driver updates..."
     # [@] (0 = Yes, do this automatically, 1 = No, let me choose what to do, Always install the best, 2 = [...] Install driver software from Windows Update, 3 = [...] Never install driver software from Windows Update
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value $One
     # [@] (0 = Enhanced icons enabled, 1 = Enhanced icons disabled)
@@ -287,20 +288,20 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Name "DisableUAR" -Type DWord -Value $One
 
     # Details: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004#windows-system-startup-event-traces-autologgers
-    Write-Host "$($EnableStatus[0]) some startup event traces (AutoLoggers)..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) some startup event traces (AutoLoggers)..."
     If (!(Test-Path "$PathToLMAutoLogger\AutoLogger-Diagtrack-Listener")) {
         New-Item -Path "$PathToLMAutoLogger\AutoLogger-Diagtrack-Listener" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMAutoLogger\AutoLogger-Diagtrack-Listener" -Name "Start" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToLMAutoLogger\SQMLogger" -Name "Start" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) 'WiFi Sense: HotSpot Sharing'..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) 'WiFi Sense: HotSpot Sharing'..."
     If (!(Test-Path "$PathToLMPoliciesToWifi\AllowWiFiHotSpotReporting")) {
         New-Item -Path "$PathToLMPoliciesToWifi\AllowWiFiHotSpotReporting" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesToWifi\AllowWiFiHotSpotReporting" -Name "value" -Type DWord -Value $Zero
 
-    Write-Host "$($EnableStatus[0]) 'WiFi Sense: Shared HotSpot Auto-Connect'..."
+    Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) 'WiFi Sense: Shared HotSpot Auto-Connect'..."
     If (!(Test-Path "$PathToLMPoliciesToWifi\AllowAutoConnectToWiFiSenseHotspots")) {
         New-Item -Path "$PathToLMPoliciesToWifi\AllowAutoConnectToWiFiSenseHotspots" -Force | Out-Null
     }

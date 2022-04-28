@@ -44,17 +44,20 @@ function Write-Status() {
     [CmdletBinding()]
     param (
         [String] $Symbol = "No Symbol",
-        [String]   $Type = "No Type",
+        [Parameter(Mandatory = $false)]
+        [String]   $Type,
         [String] $Status = "No Text",
         [Switch] $Warning
     )
 
     Write-Host "[" -NoNewline -ForegroundColor Blue -BackgroundColor Black
     Write-Host "$Symbol" -NoNewline -ForegroundColor White -BackgroundColor Black
-    Write-Host "]" -NoNewline -ForegroundColor Blue -BackgroundColor Black
-    Write-Host "[" -NoNewline -ForegroundColor Blue -BackgroundColor Black
-    Write-Host "$Type" -NoNewline -ForegroundColor White -BackgroundColor Black
     Write-Host "] " -NoNewline -ForegroundColor Blue -BackgroundColor Black
+    If ($Type) {
+        Write-Host "[" -NoNewline -ForegroundColor Blue -BackgroundColor Black
+        Write-Host "$Type" -NoNewline -ForegroundColor White -BackgroundColor Black
+        Write-Host "] " -NoNewline -ForegroundColor Blue -BackgroundColor Black
+    }
     If ($Warning) {
         Write-Host "$Status" -ForegroundColor Yellow -BackgroundColor Black
     }
