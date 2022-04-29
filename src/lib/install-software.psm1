@@ -54,6 +54,8 @@ function Install-Software() {
         Invoke-Expression "$InstallBlock" | Out-Host
     }
 
+    Write-Host "$DoneMessage"
+
     If (!($NoDialog)) {
         Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
     }

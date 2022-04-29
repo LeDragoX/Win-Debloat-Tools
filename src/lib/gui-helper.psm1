@@ -106,7 +106,7 @@ function Set-GUILayout() {
     $Global:FormWidth = 1366 * 0.85 # ~ 1162
     $Global:FormHeight = 768 * 0.85 # ~ 653
     # To Panels
-    $Global:CurrentPanelIndex = -1
+    #$Global:CurrentPanelIndex = -1
     $NumOfPanels = 4
     [Int] $Global:PanelWidth = ($FormWidth / $NumOfPanels)
     # To Labels
@@ -206,14 +206,14 @@ function New-FormIcon {
 function New-Panel() {
     [CmdletBinding()]
     param (
-        [Int] $Width,
-        [Int] $Height,
-        [Int] $LocationX,
-        [Int] $LocationY,
+        [Int]    $Width,
+        [Int]    $Height,
+        [Int]    $LocationX,
+        [Int]    $LocationY,
         [Switch] $HasVerticalScroll
     )
 
-    Write-Verbose "Panel$($Global:CurrentPanelIndex+1): W$Width, H$Height, X$LocationX, Y$LocationY"
+    Write-Verbose "Panel$($CurrentPanelIndex+1): W$Width, H$Height, X$LocationX, Y$LocationY"
     $Panel = New-Object System.Windows.Forms.Panel
     $Panel.Width = $Width
     $Panel.Height = $Height
@@ -284,6 +284,35 @@ function New-Button() {
     $Button.TextAlign = $TextAlign
 
     return $Button
+}
+
+function New-CheckBox() {
+    [CmdletBinding()]
+    param (
+        [String] $Text,
+        [Int]    $Width,
+        [Int]    $Height,
+        [Int]    $LocationX,
+        [Int]    $LocationY,
+        [String] $Font = $Global:FontName,
+        [Int]    $FontSize,
+        [String] $FontStyle = "Regular",
+        [String] $ForeColor = $Global:LightGray,
+        [String] $BackColor = $Global:Gray,
+        [String] $TextAlign = "MiddleLeft"
+    )
+
+    $CheckBox = New-Object System.Windows.Forms.CheckBox
+    $CheckBox.Text = $Text
+    $CheckBox.Width = $Width
+    $CheckBox.Height = $Height
+    $CheckBox.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
+    $CheckBox.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::$FontStyle))
+    $CheckBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
+    $CheckBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
+    $CheckBox.TextAlign = $TextAlign
+
+    return $CheckBox
 }
 
 function New-PictureBox {
