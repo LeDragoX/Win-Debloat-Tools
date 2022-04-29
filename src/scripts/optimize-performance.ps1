@@ -42,7 +42,7 @@ function Optimize-Performance() {
     If ($Revert) {
         $Scripts = @("enable-game-bar-dvr.reg")
     }
-    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle "" -DoneMessage "" -NoDialog
+    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
 
     Write-Status -Symbol "=" -Type $TweakType -Status "Enabling game mode..."
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1

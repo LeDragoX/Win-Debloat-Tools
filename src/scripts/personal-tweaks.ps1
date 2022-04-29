@@ -43,7 +43,7 @@ function Register-PersonalTweaksList() {
     If ($Revert) {
         $Scripts = @("use-light-theme.reg", "enable-cortana.reg", "disable-photo-viewer.reg", "enable-clipboard-history.reg")
     }
-    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle "" -DoneMessage "" -NoDialog
+    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
 
     # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
     Write-Status -Symbol "+" -Type $TweakType -Status "Showing task manager details..."
