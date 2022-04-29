@@ -1,4 +1,4 @@
-function Request-AdminPrivilege() {
+﻿function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
@@ -69,52 +69,28 @@ function Show-GUI() {
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width 150 -Height 150 -LocationX (($PanelWidth * 0.72) - 150) -LocationY $NextYLocation -SizeMode 'Zoom'
 
     # Panel 2 ~> Small Buttons
-    $DarkTheme = New-Button -Text "⚫ Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize1
+    $DarkThemeCheckBox = New-CheckBox -Text "⚫ Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize1
 
-    $NextYLocation = $DarkTheme.Location.Y + $DarkTheme.Height + $DistanceBetweenButtons
-    $LightTheme = New-Button -Text "☀ Light Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $DarkThemeCheckBox.Location.Y + $DarkThemeCheckBox.Height + $DistanceBetweenButtons
+    $BackgroundsAppsCheckBox = New-CheckBox -Text "Enable Background Apps" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $LightTheme.Location.Y + $LightTheme.Height + $DistanceBetweenButtons
-    $EnableSearchIdx = New-Button -Text "Enable Search Indexing" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $BackgroundsAppsCheckBox.Location.Y + $BackgroundsAppsCheckBox.Height + $DistanceBetweenButtons
+    $ClipboardHistoryCheckBox = New-CheckBox -Text "Enable Clipboard History" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $EnableSearchIdx.Location.Y + $EnableSearchIdx.Height + $DistanceBetweenButtons
-    $DisableSearchIdx = New-Button -Text "Disable Search Indexing" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $ClipboardHistoryCheckBox.Location.Y + $ClipboardHistoryCheckBox.Height + $DistanceBetweenButtons
+    $CortanaCheckBox = New-CheckBox -Text "Enable Cortana" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $DisableSearchIdx.Location.Y + $DisableSearchIdx.Height + $DistanceBetweenButtons
-    $EnableBgApps = New-Button -Text "Enable Background Apps" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $CortanaCheckBox.Location.Y + $CortanaCheckBox.Height + $DistanceBetweenButtons
+    $OldVolumeControlCheckBox = New-CheckBox -Text "Enable Old Volume Control" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $EnableBgApps.Location.Y + $EnableBgApps.Height + $DistanceBetweenButtons
-    $DisableBgApps = New-Button -Text "Disable Background Apps" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $OldVolumeControlCheckBox.Location.Y + $OldVolumeControlCheckBox.Height + $DistanceBetweenButtons
+    $SearchIdxCheckBox = New-CheckBox -Text "Enable Search Indexing" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $DisableBgApps.Location.Y + $DisableBgApps.Height + $DistanceBetweenButtons
-    $EnableTelemetry = New-Button -Text "Enable Telemetry" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $SearchIdxCheckBox.Location.Y + $SearchIdxCheckBox.Height + $DistanceBetweenButtons
+    $TelemetryCheckBox = New-CheckBox -Text "Enable Telemetry" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $EnableTelemetry.Location.Y + $EnableTelemetry.Height + $DistanceBetweenButtons
-    $DisableTelemetry = New-Button -Text "Disable Telemetry" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $DisableTelemetry.Location.Y + $DisableTelemetry.Height + $DistanceBetweenButtons
-    $EnableCortana = New-Button -Text "Enable Cortana" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $EnableCortana.Location.Y + $EnableCortana.Height + $DistanceBetweenButtons
-    $DisableCortana = New-Button -Text "Disable Cortana" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $DisableCortana.Location.Y + $DisableCortana.Height + $DistanceBetweenButtons
-    $EnableGameBarAndDVR = New-Button -Text "Enable Xbox GameBar/DVR" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $EnableGameBarAndDVR.Location.Y + $EnableGameBarAndDVR.Height + $DistanceBetweenButtons
-    $DisableGameBarAndDVR = New-Button -Text "Disable Xbox GameBar/DVR" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $DisableGameBarAndDVR.Location.Y + $DisableGameBarAndDVR.Height + $DistanceBetweenButtons
-    $EnableClipboardHistory = New-Button -Text "Enable Clipboard History" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $EnableClipboardHistory.Location.Y + $EnableClipboardHistory.Height + $DistanceBetweenButtons
-    $DisableClipboardHistory = New-Button -Text "Disable Clipboard History" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $DisableClipboardHistory.Location.Y + $DisableClipboardHistory.Height + $DistanceBetweenButtons
-    $EnableOldVolumeControl = New-Button -Text "Enable Old Volume Control" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
-
-    $NextYLocation = $EnableOldVolumeControl.Location.Y + $EnableOldVolumeControl.Height + $DistanceBetweenButtons
-    $DisableOldVolumeControl = New-Button -Text "Disable Old Volume Control" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $TelemetryCheckBox.Location.Y + $TelemetryCheckBox.Height + $DistanceBetweenButtons
+    $XboxGameBarAndDVRCheckBox = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Big Button
     $InstallDrivers = New-Button -Text "Install CPU/GPU Drivers Updaters" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $WinBlue
@@ -125,13 +101,13 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_1.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $BraveBrowser = New-Button -Text "Brave Browser" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $BraveBrowser = New-CheckBox -Text "Brave Browser" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $BraveBrowser.Location.Y + $BraveBrowser.Height + $DistanceBetweenButtons
-    $GoogleChrome = New-Button -Text "Google Chrome" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $GoogleChrome = New-CheckBox -Text "Google Chrome" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GoogleChrome.Location.Y + $GoogleChrome.Height + $DistanceBetweenButtons
-    $MozillaFirefox = New-Button -Text "Mozilla Firefox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $MozillaFirefox = New-CheckBox -Text "Mozilla Firefox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $MozillaFirefox.Location.Y + $MozillaFirefox.Height + $DistanceBetweenButtons
@@ -139,10 +115,10 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_2.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $7Zip = New-Button -Text "7-Zip" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $7Zip = New-CheckBox -Text "7-Zip" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $7Zip.Location.Y + $7Zip.Height + $DistanceBetweenButtons
-    $WinRAR = New-Button -Text "WinRAR (Trial)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $WinRAR = New-CheckBox -Text "WinRAR (Trial)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $WinRAR.Location.Y + $WinRAR.Height + $DistanceBetweenButtons
@@ -150,13 +126,13 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_3.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $LibreOffice = New-Button -Text "LibreOffice" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $LibreOffice = New-CheckBox -Text "LibreOffice" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $LibreOffice.Location.Y + $LibreOffice.Height + $DistanceBetweenButtons
-    $OnlyOffice = New-Button -Text "ONLYOFFICE DesktopEditors" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $OnlyOffice = New-CheckBox -Text "ONLYOFFICE DesktopEditors" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $OnlyOffice.Location.Y + $OnlyOffice.Height + $DistanceBetweenButtons
-    $PowerBI = New-Button -Text "Power BI" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $PowerBI = New-CheckBox -Text "Power BI" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # --- Panel 3 ~> Caption Label
     $NextYLocation = $PowerBI.Location.Y + $PowerBI.Height + $DistanceBetweenButtons
@@ -164,7 +140,7 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_4.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Zotero = New-Button -Text "Zotero" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Zotero = New-CheckBox -Text "Zotero" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $Zotero.Location.Y + $Zotero.Height + $DistanceBetweenButtons
@@ -172,10 +148,10 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Hamachi = New-Button -Text "Hamachi (LAN)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Hamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Hamachi.Location.Y + $Hamachi.Height + $DistanceBetweenButtons
-    $RadminVPN = New-Button -Text "Radmin VPN (LAN)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $RadminVPN = New-CheckBox -Text "Radmin VPN (LAN)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $RadminVPN.Location.Y + $RadminVPN.Height + $DistanceBetweenButtons
@@ -183,7 +159,7 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_6.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $TwilioAuthy = New-Button -Text "Twilio Authy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $TwilioAuthy = New-CheckBox -Text "Twilio Authy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # --- Panel 3 ~> Caption Label
     $NextYLocation = $TwilioAuthy.Location.Y + $TwilioAuthy.Height + $DistanceBetweenButtons
@@ -191,80 +167,84 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $WindowsTerminalNerdFonts = New-Button -Text "Windows Terminal + Nerd Font" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $WindowsTerminalNerdFonts = New-CheckBox -Text "Windows Terminal + Nerd Font" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
 
     $NextYLocation = $WindowsTerminalNerdFonts.Location.Y + $WindowsTerminalNerdFonts.Height + $DistanceBetweenButtons
-    $GitGnupgSshSetup = New-Button -Text "Git + GnuPG + SSH (Setup)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $GitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
 
     $NextYLocation = $GitGnupgSshSetup.Location.Y + $GitGnupgSshSetup.Height + $DistanceBetweenButtons
-    $ADB = New-Button -Text "Android Debug Bridge (ADB)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $ADB = New-CheckBox -Text "Android Debug Bridge (ADB)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $ADB.Location.Y + $ADB.Height + $DistanceBetweenButtons
-    $AndroidStudio = New-Button -Text "Android Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $AndroidStudio = New-CheckBox -Text "Android Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $AndroidStudio.Location.Y + $AndroidStudio.Height + $DistanceBetweenButtons
-    $DockerDesktop = New-Button -Text "Docker Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $DockerDesktop = New-CheckBox -Text "Docker Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $DockerDesktop.Location.Y + $DockerDesktop.Height + $DistanceBetweenButtons
-    $Insomnia = New-Button -Text "Insomnia" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Insomnia = New-CheckBox -Text "Insomnia" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Insomnia.Location.Y + $Insomnia.Height + $DistanceBetweenButtons
-    $JavaJDKs = New-Button -Text "Java - Adoptium JDK v8/v11/v18" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $JavaJDKs = New-CheckBox -Text "Java - Adoptium JDK 8/11/18" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJDKs.Location.Y + $JavaJDKs.Height + $DistanceBetweenButtons
-    $JavaJRE = New-Button -Text "Java Runtime Environment (JRE)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $JavaJRE = New-CheckBox -Text "Java - Oracle JRE" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $JavaJRE.Location.Y + $JavaJRE.Height + $DistanceBetweenButtons
-    $MySQL = New-Button -Text "MySQL" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $MySQL = New-CheckBox -Text "MySQL" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $MySQL.Location.Y + $MySQL.Height + $DistanceBetweenButtons
-    $NodeJs = New-Button -Text "NodeJS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NodeJs = New-CheckBox -Text "NodeJS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $NodeJs.Location.Y + $NodeJs.Height + $DistanceBetweenButtons
-    $NodeJsLTS = New-Button -Text "NodeJS LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NodeJsLTS = New-CheckBox -Text "NodeJS LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $NodeJsLTS.Location.Y + $NodeJsLTS.Height + $DistanceBetweenButtons
-    $PostgreSQL = New-Button -Text "PostgreSQL" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $PostgreSQL = New-CheckBox -Text "PostgreSQL" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $PostgreSQL.Location.Y + $PostgreSQL.Height + $DistanceBetweenButtons
-    $Python3 = New-Button -Text "Python 3" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Python3 = New-CheckBox -Text "Python 3" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Python3.Location.Y + $Python3.Height + $DistanceBetweenButtons
-    $PythonAnaconda3 = New-Button -Text "Python - Anaconda3" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $PythonAnaconda3 = New-CheckBox -Text "Python - Anaconda3" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $PythonAnaconda3.Location.Y + $PythonAnaconda3.Height + $DistanceBetweenButtons
-    $Ruby = New-Button -Text "Ruby" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Ruby = New-CheckBox -Text "Ruby" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ruby.Location.Y + $Ruby.Height + $DistanceBetweenButtons
-    $RubyMSYS = New-Button -Text "Ruby (MSYS2)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $RubyMSYS = New-CheckBox -Text "Ruby (MSYS2)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RubyMSYS.Location.Y + $RubyMSYS.Height + $DistanceBetweenButtons
-    $RustGNU = New-Button -Text "Rust (GNU)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $RustGNU = New-CheckBox -Text "Rust (GNU)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RustGNU.Location.Y + $RustGNU.Height + $DistanceBetweenButtons
-    $RustMSVC = New-Button -Text "Rust (MSVC)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $RustMSVC = New-CheckBox -Text "Rust (MSVC)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+
+    # Panel 4 ~> Big Button
+    $InstallSelected = New-Button -Text "Install Selected" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Bold" -ForeColor $LightGray
 
     # --- Panel 4 ~> Caption Label
-    $CaptionLabel4_1 = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize1
+    $NextYLocation = $InstallSelected.Location.Y + $InstallSelected.Height + $DistanceBetweenButtons
+    $CaptionLabel4_1 = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_1.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Gimp = New-Button -Text "GIMP" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Gimp = New-CheckBox -Text "GIMP" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Gimp.Location.Y + $Gimp.Height + $DistanceBetweenButtons
-    $Inkscape = New-Button -Text "Inkscape" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Inkscape = New-CheckBox -Text "Inkscape" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Inkscape.Location.Y + $Inkscape.Height + $DistanceBetweenButtons
-    $IrfanView = New-Button -Text "IrfanView" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $IrfanView = New-CheckBox -Text "IrfanView" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $IrfanView.Location.Y + $IrfanView.Height + $DistanceBetweenButtons
-    $Krita = New-Button -Text "Krita" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Krita = New-CheckBox -Text "Krita" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Krita.Location.Y + $Krita.Height + $DistanceBetweenButtons
-    $PaintNet = New-Button -Text "Paint.NET" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $PaintNet = New-CheckBox -Text "Paint.NET" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $PaintNet.Location.Y + $PaintNet.Height + $DistanceBetweenButtons
-    $ShareX = New-Button -Text "ShareX (Screenshots/GIFs)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $ShareX = New-CheckBox -Text "ShareX (Screenshots/GIFs)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $ShareX.Location.Y + $ShareX.Height + $DistanceBetweenButtons
@@ -272,27 +252,27 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_2.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Atom = New-Button -Text "Atom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Atom = New-CheckBox -Text "Atom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Atom.Location.Y + $Atom.Height + $DistanceBetweenButtons
-    $NotepadPlusPlus = New-Button -Text "Notepad++" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NotepadPlusPlus = New-CheckBox -Text "Notepad++" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $NotepadPlusPlus.Location.Y + $NotepadPlusPlus.Height + $DistanceBetweenButtons
-    $VSCode = New-Button -Text "VS Code" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $VSCode = New-CheckBox -Text "VS Code" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $VSCode.Location.Y + $VSCode.Height + $DistanceBetweenButtons
-    $VSCodium = New-Button -Text "VS Codium" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $VSCodium = New-CheckBox -Text "VS Codium" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $VSCodium.Location.Y + $VSCodium.Height + $DistanceBetweenButtons
-    $CaptionLabel4_3 = New-Label -Text "☁ Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel4_3 = New-Label -Text "Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_3.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Dropbox = New-Button -Text "Dropbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Dropbox = New-CheckBox -Text "Dropbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Dropbox.Location.Y + $Dropbox.Height + $DistanceBetweenButtons
-    $GoogleDrive = New-Button -Text "Google Drive" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $GoogleDrive = New-CheckBox -Text "Google Drive" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # --- Panel 4 ~> Caption Label
     $NextYLocation = $GoogleDrive.Location.Y + $GoogleDrive.Height + $DistanceBetweenButtons
@@ -300,13 +280,13 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_4.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $BalenaEtcher = New-Button -Text "Etcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $BalenaEtcher = New-CheckBox -Text "Etcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $BalenaEtcher.Location.Y + $BalenaEtcher.Height + $DistanceBetweenButtons
-    $Rufus = New-Button -Text "Rufus" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Rufus = New-CheckBox -Text "Rufus" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Rufus.Location.Y + $Rufus.Height + $DistanceBetweenButtons
-    $Ventoy = New-Button -Text "Ventoy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Ventoy = New-CheckBox -Text "Ventoy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $Ventoy.Location.Y + $Ventoy.Height + $DistanceBetweenButtons
@@ -314,10 +294,10 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Notion = New-Button -Text "Notion" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Notion = New-CheckBox -Text "Notion" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Notion.Location.Y + $Notion.Height + $DistanceBetweenButtons
-    $Obsidian = New-Button -Text "Obsidian" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Obsidian = New-CheckBox -Text "Obsidian" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $Obsidian.Location.Y + $Obsidian.Height + $DistanceBetweenButtons
@@ -325,19 +305,19 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_6.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $CPUZ = New-Button -Text "CPU-Z" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CPUZ = New-CheckBox -Text "CPU-Z" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $CPUZ.Location.Y + $CPUZ.Height + $DistanceBetweenButtons
-    $CrystalDiskInfo = New-Button -Text "Crystal Disk Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $CrystalDiskInfo.Location.Y + $CrystalDiskInfo.Height + $DistanceBetweenButtons
-    $CrystalDiskMark = New-Button -Text "Crystal Disk Mark" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $CrystalDiskMark.Location.Y + $CrystalDiskMark.Height + $DistanceBetweenButtons
-    $GPUZ = New-Button -Text "GPU-Z" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $GPUZ = New-CheckBox -Text "GPU-Z" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GPUZ.Location.Y + $GPUZ.Height + $DistanceBetweenButtons
-    $NVCleanstall = New-Button -Text "NVCleanstall" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # --- Panel 4 ~> Caption Label
     $NextYLocation = $NVCleanstall.Location.Y + $NVCleanstall.Height + $DistanceBetweenButtons
@@ -345,63 +325,63 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $WSL2 = New-Button -Text "WSL2 + WSLg (Win10/Insider)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $WSL2 = New-CheckBox -Text "WSL2 + WSLg (Win10 / Insider)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
 
     $NextYLocation = $WSL2.Location.Y + $WSL2.Height + $DistanceBetweenButtons
-    $WSLPreview = New-Button -Text "WSL Preview (Win 11)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $WSLPreview = New-CheckBox -Text "WSL Preview (Win 11)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
 
     $NextYLocation = $WSLPreview.Location.Y + $WSLPreview.Height + $DistanceBetweenButtons
-    $ArchWSL = New-Button -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $ArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
 
     $NextYLocation = $ArchWSL.Location.Y + $ArchWSL.Height + $DistanceBetweenButtons
-    $Debian = New-Button -Text "Debian GNU/Linux" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Debian = New-CheckBox -Text "Debian GNU/Linux" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Debian.Location.Y + $Debian.Height + $DistanceBetweenButtons
-    $KaliLinux = New-Button -Text "Kali Linux Rolling" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $KaliLinux = New-CheckBox -Text "Kali Linux Rolling" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $KaliLinux.Location.Y + $KaliLinux.Height + $DistanceBetweenButtons
-    $OpenSuse = New-Button -Text "Open SUSE 42" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $OpenSuse = New-CheckBox -Text "Open SUSE 42" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $OpenSuse.Location.Y + $OpenSuse.Height + $DistanceBetweenButtons
-    $SLES = New-Button -Text "SLES v12" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $SLES = New-CheckBox -Text "SLES v12" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $SLES.Location.Y + $SLES.Height + $DistanceBetweenButtons
-    $Ubuntu = New-Button -Text "Ubuntu" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Ubuntu = New-CheckBox -Text "Ubuntu" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ubuntu.Location.Y + $Ubuntu.Height + $DistanceBetweenButtons
-    $Ubuntu16LTS = New-Button -Text "Ubuntu 16.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Ubuntu16LTS = New-CheckBox -Text "Ubuntu 16.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ubuntu16LTS.Location.Y + $Ubuntu16LTS.Height + $DistanceBetweenButtons
-    $Ubuntu18LTS = New-Button -Text "Ubuntu 18.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Ubuntu18LTS = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Ubuntu18LTS.Location.Y + $Ubuntu18LTS.Height + $DistanceBetweenButtons
-    $Ubuntu20LTS = New-Button -Text "Ubuntu 20.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Ubuntu20LTS = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 5 ~> Big Button
     $InstallGamingDependencies = New-Button -Text "Install Gaming Dependencies" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Italic" -ForeColor $WinBlue
 
     # --- Panel 5 ~> Caption Label
     $NextYLocation = $InstallGamingDependencies.Location.Y + $InstallGamingDependencies.Height + $DistanceBetweenButtons
-    $CaptionLabel5_1 = New-Label -Text "☎ Communication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel5_1 = New-Label -Text "Communication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 5 ~> Small Buttons
     $NextYLocation = $CaptionLabel5_1.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Discord = New-Button -Text "Discord" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Discord = New-CheckBox -Text "Discord" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Discord.Location.Y + $Discord.Height + $DistanceBetweenButtons
-    $MSTeams = New-Button -Text "Microsoft Teams" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $MSTeams = New-CheckBox -Text "Microsoft Teams" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $MSTeams.Location.Y + $MSTeams.Height + $DistanceBetweenButtons
-    $RocketChat = New-Button -Text "Rocket Chat" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $RocketChat = New-CheckBox -Text "Rocket Chat" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RocketChat.Location.Y + $RocketChat.Height + $DistanceBetweenButtons
-    $Slack = New-Button -Text "Slack" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Slack = New-CheckBox -Text "Slack" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Slack.Location.Y + $Slack.Height + $DistanceBetweenButtons
-    $Telegram = New-Button -Text "Telegram Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $TelegramDesktop = New-CheckBox -Text "Telegram Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $Telegram.Location.Y + $Telegram.Height + $DistanceBetweenButtons
-    $Zoom = New-Button -Text "Zoom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $TelegramDesktop.Location.Y + $TelegramDesktop.Height + $DistanceBetweenButtons
+    $Zoom = New-CheckBox -Text "Zoom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 5 ~> Caption Label
     $NextYLocation = $Zoom.Location.Y + $Zoom.Height + $DistanceBetweenButtons
@@ -409,22 +389,22 @@ function Show-GUI() {
 
     # Panel 5 ~> Small Buttons
     $NextYLocation = $CaptionLabel5_2.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $BorderlessGaming = New-Button -Text "Borderless Gaming" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $BorderlessGaming = New-CheckBox -Text "Borderless Gaming" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $BorderlessGaming.Location.Y + $BorderlessGaming.Height + $DistanceBetweenButtons
-    $EADesktop = New-Button -Text "EA Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $EADesktop = New-CheckBox -Text "EA Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $EADesktop.Location.Y + $EADesktop.Height + $DistanceBetweenButtons
-    $EpicGames = New-Button -Text "Epic Games Launcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $EpicGamesLauncher = New-CheckBox -Text "Epic Games Launcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $EpicGames.Location.Y + $EpicGames.Height + $DistanceBetweenButtons
-    $GogGalaxy = New-Button -Text "GOG Galaxy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $NextYLocation = $EpicGamesLauncher.Location.Y + $EpicGamesLauncher.Height + $DistanceBetweenButtons
+    $GogGalaxy = New-CheckBox -Text "GOG Galaxy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $GogGalaxy.Location.Y + $GogGalaxy.Height + $DistanceBetweenButtons
-    $Steam = New-Button -Text "Steam" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Steam = New-CheckBox -Text "Steam" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Steam.Location.Y + $Steam.Height + $DistanceBetweenButtons
-    $UbisoftConnect = New-Button -Text "Ubisoft Connect" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $UbisoftConnect = New-CheckBox -Text "Ubisoft Connect" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 5 ~> Caption Label
     $NextYLocation = $UbisoftConnect.Location.Y + $UbisoftConnect.Height + $DistanceBetweenButtons
@@ -432,16 +412,16 @@ function Show-GUI() {
 
     # Panel 5 ~> Small Buttons
     $NextYLocation = $CaptionLabel5_3.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $AnyDesk = New-Button -Text "AnyDesk" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $AnyDesk = New-CheckBox -Text "AnyDesk" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $AnyDesk.Location.Y + $AnyDesk.Height + $DistanceBetweenButtons
-    $Parsec = New-Button -Text "Parsec" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Parsec = New-CheckBox -Text "Parsec" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Parsec.Location.Y + $Parsec.Height + $DistanceBetweenButtons
-    $ScrCpy = New-Button -Text "ScrCpy (Android)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $ScrCpy = New-CheckBox -Text "ScrCpy (Android)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $ScrCpy.Location.Y + $ScrCpy.Height + $DistanceBetweenButtons
-    $TeamViewer = New-Button -Text "Team Viewer" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $TeamViewer = New-CheckBox -Text "Team Viewer" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # --- Panel 5 ~> Caption Label
     $NextYLocation = $TeamViewer.Location.Y + $TeamViewer.Height + $DistanceBetweenButtons
@@ -449,13 +429,13 @@ function Show-GUI() {
 
     # Panel 5 ~> Small Buttons
     $NextYLocation = $CaptionLabel5_4.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $HandBrake = New-Button -Text "HandBrake (Transcode)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $HandBrake = New-CheckBox -Text "HandBrake (Transcode)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $HandBrake.Location.Y + $HandBrake.Height + $DistanceBetweenButtons
-    $ObsStudio = New-Button -Text "OBS Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $ObsStudio = New-CheckBox -Text "OBS Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $ObsStudio.Location.Y + $ObsStudio.Height + $DistanceBetweenButtons
-    $StreamlabsObs = New-Button -Text "Streamlabs OBS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $StreamlabsObs = New-CheckBox -Text "Streamlabs OBS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 5 ~> Caption Label
     $NextYLocation = $StreamlabsObs.Location.Y + $StreamlabsObs.Height + $DistanceBetweenButtons
@@ -463,21 +443,21 @@ function Show-GUI() {
 
     # Panel 5 ~> Small Buttons
     $NextYLocation = $CaptionLabel5_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $MpcHc = New-Button -Text "Media Player Classic" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $MpcHc = New-CheckBox -Text "Media Player Classic H. C." -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
-    $Spotify = New-Button -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Spotify = New-CheckBox -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Spotify.Location.Y + $Spotify.Height + $DistanceBetweenButtons
-    $Vlc = New-Button -Text "VLC" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Vlc = New-CheckBox -Text "VLC" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 5 ~> Caption Label
     $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
-    $CaptionLabel5_6 = New-Label -Text "⬇ Torrent" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $CaptionLabel5_6 = New-Label -Text "Torrent" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 5 ~> Small Buttons
     $NextYLocation = $CaptionLabel5_6.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $qBittorrent = New-Button -Text "qBittorrent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $qBittorrent = New-CheckBox -Text "qBittorrent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # --- Panel 5 ~> Caption Label
     $NextYLocation = $qBittorrent.Location.Y + $qBittorrent.Height + $DistanceBetweenButtons
@@ -485,31 +465,31 @@ function Show-GUI() {
 
     # Panel 5 ~> Small Buttons
     $NextYLocation = $CaptionLabel5_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $Cemu = New-Button -Text "Cemu (Wii U)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Cemu = New-CheckBox -Text "Cemu (Wii U)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Cemu.Location.Y + $Cemu.Height + $DistanceBetweenButtons
-    $Dolphin = New-Button -Text "Dolphin Stable (GC/Wii)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Dolphin = New-CheckBox -Text "Dolphin Stable (GC/Wii)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Dolphin.Location.Y + $Dolphin.Height + $DistanceBetweenButtons
-    $KegaFusion = New-Button -Text "Kega Fusion (Sega Genesis)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $KegaFusion = New-CheckBox -Text "Kega Fusion (Sega Genesis)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $KegaFusion.Location.Y + $KegaFusion.Height + $DistanceBetweenButtons
-    $MGba = New-Button -Text "mGBA (GBA)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $MGba = New-CheckBox -Text "mGBA (GBA)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $MGba.Location.Y + $MGba.Height + $DistanceBetweenButtons
-    $PCSX2 = New-Button -Text "PCSX2 Stable (PS2 | Portable)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $PCSX2 = New-CheckBox -Text "PCSX2 Stable (PS2 | Portable)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $PCSX2.Location.Y + $PCSX2.Height + $DistanceBetweenButtons
-    $PPSSPP = New-Button -Text "PPSSPP (PSP)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $PPSSPP = New-CheckBox -Text "PPSSPP (PSP)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $PPSSPP.Location.Y + $PPSSPP.Height + $DistanceBetweenButtons
-    $Project64 = New-Button -Text "Project64 Dev (N64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Project64 = New-CheckBox -Text "Project64 Dev (N64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $Project64.Location.Y + $Project64.Height + $DistanceBetweenButtons
-    $RetroArch = New-Button -Text "RetroArch (All In One)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $RetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     $NextYLocation = $RetroArch.Location.Y + $RetroArch.Height + $DistanceBetweenButtons
-    $Snes9x = New-Button -Text "Snes9x (SNES)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
+    $Snes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($FullPanel))
@@ -517,7 +497,7 @@ function Show-GUI() {
     $FullPanel.Controls.AddRange(@($CaptionLabel1_2))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $Panel5))
     $Panel1.Controls.AddRange(@($TitleLabel1, $CaptionLabel1_1, $ApplyTweaks, $UndoTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $ShowDebloatInfo, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $DarkThemeCheckBox, $BackgroundsAppsCheckBox, $ClipboardHistoryCheckBox, $CortanaCheckBox, $OldVolumeControlCheckBox, $SearchIdxCheckBox, $TelemetryCheckBox, $XboxGameBarAndDVRCheckBox))
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
     $Panel3.Controls.AddRange(@($CaptionLabel3_3, $LibreOffice, $OnlyOffice, $PowerBI))
@@ -525,15 +505,15 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_5, $Hamachi, $RadminVPN))
     $Panel3.Controls.AddRange(@($CaptionLabel3_6, $TwilioAuthy))
     $Panel3.Controls.AddRange(@($CaptionLabel3_7, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $ADB, $AndroidStudio, $DockerDesktop, $Insomnia, $JavaJDKs, $JavaJRE, $MySQL, $NodeJs, $NodeJsLTS, $PostgreSQL, $Python3, $PythonAnaconda3, $Ruby, $RubyMSYS, $RustGNU, $RustMSVC))
-    $Panel4.Controls.AddRange(@($TitleLabel3, $CaptionLabel4_1, $Gimp, $Inkscape, $IrfanView, $Krita, $PaintNet, $ShareX))
+    $Panel4.Controls.AddRange(@($TitleLabel3, $InstallSelected, $CaptionLabel4_1, $Gimp, $Inkscape, $IrfanView, $Krita, $PaintNet, $ShareX))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Atom, $NotepadPlusPlus, $VSCode, $VSCodium))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Dropbox, $GoogleDrive))
     $Panel4.Controls.AddRange(@($CaptionLabel4_4, $BalenaEtcher, $Rufus, $Ventoy))
     $Panel4.Controls.AddRange(@($CaptionLabel4_5, $Notion, $Obsidian))
     $Panel4.Controls.AddRange(@($CaptionLabel4_6, $CPUZ, $CrystalDiskInfo, $CrystalDiskMark, $GPUZ, $NVCleanstall))
     $Panel4.Controls.AddRange(@($CaptionLabel4_7, $WSL2, $WSLPreview, $ArchWSL, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
-    $Panel5.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel5_1, $Discord, $MSTeams, $RocketChat, $Slack, $Telegram, $Zoom))
-    $Panel5.Controls.AddRange(@($CaptionLabel5_2, $BorderlessGaming, $EADesktop, $EpicGames, $GogGalaxy, $Steam, $UbisoftConnect))
+    $Panel5.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel5_1, $Discord, $MSTeams, $RocketChat, $Slack, $TelegramDesktop, $Zoom))
+    $Panel5.Controls.AddRange(@($CaptionLabel5_2, $BorderlessGaming, $EADesktop, $EpicGamesLauncher, $GogGalaxy, $Steam, $UbisoftConnect))
     $Panel5.Controls.AddRange(@($CaptionLabel5_3, $AnyDesk, $Parsec, $ScrCpy, $TeamViewer))
     $Panel5.Controls.AddRange(@($CaptionLabel5_4, $HandBrake, $ObsStudio, $StreamlabsObs))
     $Panel5.Controls.AddRange(@($CaptionLabel5_5, $MpcHc, $Spotify, $Vlc))
@@ -598,489 +578,610 @@ function Show-GUI() {
         })
 
     $ShowDebloatInfo.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("show-debloat-info.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog
+            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("show-debloat-info.ps1") -NoDialog
         })
 
-    $DarkTheme.Add_Click( {
-            $Scripts = @("use-dark-theme.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Dark Theme enabled!"
+    $DarkThemeCheckBox.Add_Click( {
+            If ($DarkThemeCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-dark-theme.reg") -NoDialog
+                $DarkThemeCheckBox.Text = "[ON] ⚫ Dark Theme"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-light-theme.reg") -NoDialog
+                $DarkThemeCheckBox.Text = "[OFF] ☀ Dark Theme"
+            }
         })
 
-    $LightTheme.Add_Click( {
-            $Scripts = @("use-light-theme.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Light Theme enabled!"
+    $BackgroundsAppsCheckBox.Add_Click( {
+            If ($BackgroundsAppsCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-bg-apps.reg") -NoDialog
+                $BackgroundsAppsCheckBox.Text = "[ON] Background Apps"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-bg-apps.reg") -NoDialog
+                $BackgroundsAppsCheckBox.Text = "[OFF] Background Apps"
+            }
         })
 
-    $EnableSearchIdx.Add_Click( {
-            $Scripts = @("enable-search-idx.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+    $ClipboardHistoryCheckBox.Add_Click( {
+            If ($ClipboardHistoryCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-clipboard-history.reg") -NoDialog
+                $ClipboardHistoryCheckBox.Text = "[ON] Clipboard History"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-clipboard-history.reg") -NoDialog
+                $ClipboardHistoryCheckBox.Text = "[OFF] Clipboard History"
+            }
         })
 
-    $DisableSearchIdx.Add_Click( {
-            $Scripts = @("disable-search-idx.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+    $CortanaCheckBox.Add_Click( {
+            If ($CortanaCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-cortana.reg") -NoDialog
+                $CortanaCheckBox.Text = "[ON] Cortana"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-cortana.reg") -NoDialog
+                $CortanaCheckBox.Text = "[OFF] Cortana"
+            }
         })
 
-    $EnableBgApps.Add_Click( {
-            $Scripts = @("enable-bg-apps.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Background Apps enabled!"
+    $OldVolumeControlCheckBox.Add_Click( {
+            If ($OldVolumeControlCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-old-volume-control.reg") -NoDialog
+                $OldVolumeControlCheckBox.Text = "[ON] Old Volume Control"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-old-volume-control.reg") -NoDialog
+                $OldVolumeControlCheckBox.Text = "[OFF] Old Volume Control"
+            }
         })
 
-    $DisableBgApps.Add_Click( {
-            $Scripts = @("disable-bg-apps.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Background Apps disabled!"
+    $SearchIdxCheckBox.Add_Click( {
+            If ($SearchIdxCheckBox.CheckState -eq "Checked") {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-search-idx.ps1") -NoDialog
+                $SearchIdxCheckBox.Text = "[ON] Search Indexing"
+            }
+            Else {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-search-idx.ps1") -NoDialog
+                $SearchIdxCheckBox.Text = "[OFF] Search Indexing"
+            }
         })
 
-    $EnableTelemetry.Add_Click( {
-            $Scripts = @("enable-telemetry.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Telemetry enabled!"
+    $TelemetryCheckBox.Add_Click( {
+            If ($TelemetryCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-telemetry.reg") -NoDialog
+                $TelemetryCheckBox.Text = "[ON] Telemetry"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-telemetry.reg") -NoDialog
+                $TelemetryCheckBox.Text = "[OFF] Telemetry"
+            }
         })
 
-    $DisableTelemetry.Add_Click( {
-            $Scripts = @("disable-telemetry.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Telemetry disabled!"
-        })
-
-    $EnableCortana.Add_Click( {
-            $Scripts = @("enable-cortana.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Cortana enabled!"
-        })
-
-    $DisableCortana.Add_Click( {
-            $Scripts = @("disable-cortana.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Cortana disabled!"
-        })
-
-    $EnableGameBarAndDVR.Add_Click( {
-            $Scripts = @("enable-game-bar-dvr.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Xbox GameBar/DVR enabled!"
-        })
-
-    $DisableGameBarAndDVR.Add_Click( {
-            $Scripts = @("disable-game-bar-dvr.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Xbox GameBar/DVR disabled!"
-        })
-
-    $EnableClipboardHistory.Add_Click( {
-            $Scripts = @("enable-clipboard-history.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Clipboard History enabled!"
-        })
-
-    $DisableClipboardHistory.Add_Click( {
-            $Scripts = @("disable-clipboard-history.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Clipboard History disabled!"
-        })
-
-    $EnableOldVolumeControl.Add_Click( {
-            $Scripts = @("enable-old-volume-control.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[+] Old Volume Control enabled!"
-        })
-
-    $DisableOldVolumeControl.Add_Click( {
-            $Scripts = @("disable-old-volume-control.reg")
-            Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage "[-] Old Volume Control disabled!"
+    $XboxGameBarAndDVRCheckBox.Add_Click( {
+            If ($XboxGameBarAndDVRCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-game-bar-dvr.reg") -NoDialog
+                $XboxGameBarAndDVRCheckBox.Text = "[ON] Xbox GameBar/DVR"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-game-bar-dvr.reg") -NoDialog
+                $XboxGameBarAndDVRCheckBox.Text = "[OFF] Xbox GameBar/DVR"
+            }
         })
 
     $InstallDrivers.Add_Click( {
-            $Scripts = @("install-drivers-updaters.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-        })
-
-    $BraveBrowser.Add_Click( {
-            Install-Software -Name $BraveBrowser.Text -Packages "BraveSoftware.BraveBrowser"
-        })
-
-    $GoogleChrome.Add_Click( {
-            Install-Software -Name $GoogleChrome.Text -Packages "Google.Chrome"
-        })
-
-    $MozillaFirefox.Add_Click( {
-            Install-Software -Name $MozillaFirefox.Text -Packages "Mozilla.Firefox"
-        })
-
-    $7Zip.Add_Click( {
-            Install-Software -Name $7Zip.Text -Packages "7zip.7zip"
-        })
-
-    $WinRAR.Add_Click( {
-            Install-Software -Name $WinRAR.Text -Packages "RARLab.WinRAR"
-        })
-
-    $LibreOffice.Add_Click( {
-            Install-Software -Name $LibreOffice.Text -Packages "LibreOffice.LibreOffice"
-        })
-
-    $OnlyOffice.Add_Click( {
-            Install-Software -Name $OnlyOffice.Text -Packages "ONLYOFFICE.DesktopEditors"
-        })
-
-    $PowerBI.Add_Click( {
-            Install-Software -Name $PowerBI.Text -Packages "Microsoft.PowerBI"
-        })
-
-    $Zotero.Add_Click( {
-            Install-Software -Name $Zotero.Text -Packages "Zotero.Zotero"
-        })
-
-    $Hamachi.Add_Click( {
-            Install-Software -Name $Hamachi.Text -Packages "LogMeIn.Hamachi"
-        })
-
-    $RadminVPN.Add_Click( {
-            Install-Software -Name $RadminVPN.Text -Packages "Radmin.VPN"
-        })
-
-    $TwilioAuthy.Add_Click( {
-            Install-Software -Name $TwilioAuthy.Text -Packages "Twilio.Authy"
-        })
-
-    $WindowsTerminalNerdFonts.Add_Click( {
-            Install-Software -Name $WindowsTerminalNerdFonts.Text -Packages "Microsoft.WindowsTerminal"
-            $URI = "https://github.com/romkatv/powerlevel10k-media/raw/master"
-            $FontFiles = @("MesloLGS NF Regular.ttf", "MesloLGS NF Bold.ttf", "MesloLGS NF Italic.ttf", "MesloLGS NF Bold Italic.ttf")
-
-            ForEach ($Font in $FontFiles) {
-                Request-FileDownload -FileURI "$URI/$Font" -OutputFolder "Fonts" -OutputFile "$Font"
-            }
-
-            Install-Font -FontSourceFolder "$PSScriptRoot\src\tmp\Fonts"
-        })
-
-    $GitGnupgSshSetup.Add_Click( {
-            $Scripts = @("git-gnupg-ssh-keys-setup.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-        })
-
-    $ADB.Add_Click( {
-            Install-Software -Name $ADB.Text -Packages "adb" -UseChocolatey
-        })
-
-    $AndroidStudio.Add_Click( {
-            Install-Software -Name $AndroidStudio.Text -Packages "Google.AndroidStudio"
-        })
-
-    $DockerDesktop.Add_Click( {
-            Install-Software -Name $DockerDesktop.Text -Packages "Docker.DockerDesktop"
-        })
-
-    $Insomnia.Add_Click( {
-            Install-Software -Name $Insomnia.Text -Packages "Insomnia.Insomnia"
-        })
-
-    $JavaJDKs.Add_Click( {
-            Install-Software -Name $JavaJDKs.Text -Packages @("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.18")
-        })
-
-    $JavaJRE.Add_Click( {
-            Install-Software -Name $JavaJRE.Text -Packages "Oracle.JavaRuntimeEnvironment"
-        })
-
-    $MySQL.Add_Click( {
-            Install-Software -Name $MySQL.Text -Packages "Oracle.MySQL"
-        })
-
-    $NodeJs.Add_Click( {
-            Install-Software -Name $NodeJs.Text -Packages "OpenJS.NodeJS"
-        })
-
-    $NodeJsLTS.Add_Click( {
-            Install-Software -Name $NodeJsLTS.Text -Packages "OpenJS.NodeJSLTS"
-        })
-
-    $PostgreSQL.Add_Click( {
-            Install-Software -Name $PostgreSQL.Text -Packages "PostgreSQL.PostgreSQL"
-        })
-
-    $Python3.Add_Click( {
-            Install-Software -Name $Python3.Text -Packages "Python.Python.3"
-        })
-
-    $PythonAnaconda3.Add_Click( {
-            Install-Software -Name $PythonAnaconda3.Text -Packages "Anaconda.Anaconda3"
-        })
-
-    $Ruby.Add_Click( {
-            Install-Software -Name $Ruby.Text -Packages "RubyInstallerTeam.Ruby"
-        })
-
-    $RubyMSYS.Add_Click( {
-            Install-Software -Name $RubyMSYS.Text -Packages "RubyInstallerTeam.RubyWithDevKit"
-        })
-
-    $RustGNU.Add_Click( {
-            Install-Software -Name $RustGNU.Text -Packages "Rustlang.Rust.GNU"
-        })
-
-    $RustMSVC.Add_Click( {
-            Install-Software -Name $RustMSVC.Text -Packages "Rustlang.Rust.MSVC"
-        })
-
-    $Gimp.Add_Click( {
-            Install-Software -Name $Gimp.Text -Packages "GIMP.GIMP"
-        })
-
-    $Inkscape.Add_Click( {
-            Install-Software -Name $Inkscape.Text -Packages "Inkscape.Inkscape"
-        })
-
-    $IrfanView.Add_Click( {
-            Install-Software -Name $IrfanView.Text -Packages "IrfanSkiljan.IrfanView"
-        })
-
-    $Krita.Add_Click( {
-            Install-Software -Name $Krita.Text -Packages "KDE.Krita"
-        })
-
-    $PaintNet.Add_Click( {
-            Install-Software -Name $PaintNet.Text -Packages "paint.net" -UseChocolatey
-        })
-
-    $ShareX.Add_Click( {
-            Install-Software -Name $ShareX.Text -Packages "ShareX.ShareX"
-        })
-
-    $Atom.Add_Click( {
-            Install-Software -Name $Atom.Text -Packages "GitHub.Atom"
-        })
-
-    $NotepadPlusPlus.Add_Click( {
-            Install-Software -Name $NotepadPlusPlus.Text -Packages "Notepad++.Notepad++"
-        })
-
-    $VSCode.Add_Click( {
-            Install-Software -Name $VSCode.Text -Packages "Microsoft.VisualStudioCode"
-        })
-
-    $VSCodium.Add_Click( {
-            Install-Software -Name $VSCodium.Text -Packages "VSCodium.VSCodium"
-        })
-
-    $Dropbox.Add_Click( {
-            Install-Software -Name $Dropbox.Text -Packages "Dropbox.Dropbox"
-        })
-
-    $GoogleDrive.Add_Click( {
-            Install-Software -Name $GoogleDrive.Text -Packages "Google.Drive"
-        })
-
-    $BalenaEtcher.Add_Click( {
-            Install-Software -Name $BalenaEtcher.Text -Packages "Balena.Etcher"
-        })
-
-    $Rufus.Add_Click( {
-            Install-Software -Name $Rufus.Text -Packages "9PC3H3V7Q9CH" -UseMSStore
-        })
-
-    $Ventoy.Add_Click( {
-            Install-Software -Name $Ventoy.Text -Packages "ventoy" -UseChocolatey
-        })
-
-    $Notion.Add_Click( {
-            Install-Software -Name $Notion.Text -Packages "Notion.Notion"
-        })
-
-    $Obsidian.Add_Click( {
-            Install-Software -Name $Obsidian.Text -Packages "Obsidian.Obsidian"
-        })
-
-    $CPUZ.Add_Click( {
-            Install-Software -Name $CPUZ.Text -Packages "CPUID.CPU-Z"
-        })
-
-    $CrystalDiskInfo.Add_Click( {
-            Install-Software -Name $CrystalDiskInfo.Text -Packages "CrystalDewWorld.CrystalDiskInfo"
-        })
-
-    $CrystalDiskMark.Add_Click( {
-            Install-Software -Name $CrystalDiskMark.Text -Packages "CrystalDewWorld.CrystalDiskMark"
-        })
-
-    $GPUZ.Add_Click( {
-            Install-Software -Name $GPUZ.Text -Packages "TechPowerUp.GPU-Z"
-        })
-
-    $NVCleanstall.Add_Click( {
-            Install-Software -Name $NVCleanstall.Text -Packages "TechPowerUp.NVCleanstall"
-        })
-
-    $WSL2.Add_Click( {
-            $Scripts = @("win10-wsl2-wslg-install.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-        })
-
-    $WSLPreview.Add_Click( {
-            $Scripts = @("win11-wsl-preview-install.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-        })
-
-    $ArchWSL.Add_Click( {
-            $Scripts = @("archwsl-install.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-        })
-
-    $Debian.Add_Click( {
-            Install-Software -Name $Debian.Text -Packages "Debian" -UseWSL
-        })
-
-    $KaliLinux.Add_Click( {
-            Install-Software -Name $KaliLinux.Text -Packages "kali-linux" -UseWSL
-        })
-
-    $OpenSuse.Add_Click( {
-            Install-Software -Name $OpenSuse.Text -Packages "openSUSE-42" -UseWSL
-        })
-
-    $SLES.Add_Click( {
-            Install-Software -Name $SLES.Text -Packages "SLES-12" -UseWSL
-        })
-
-    $Ubuntu.Add_Click( {
-            Install-Software -Name $Ubuntu.Text -Packages "Ubuntu" -UseWSL
-        })
-
-    $Ubuntu16LTS.Add_Click( {
-            Install-Software -Name $Ubuntu16LTS.Text -Packages "Ubuntu-16.04" -UseWSL
-        })
-
-    $Ubuntu18LTS.Add_Click( {
-            Install-Software -Name $Ubuntu18LTS.Text -Packages "Ubuntu-18.04" -UseWSL
-        })
-
-    $Ubuntu20LTS.Add_Click( {
-            Install-Software -Name $Ubuntu20LTS.Text -Packages "Ubuntu-20.04" -UseWSL
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("install-drivers-updaters.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallGamingDependencies.Add_Click( {
-            $Scripts = @("install-gaming-dependencies.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("install-gaming-dependencies.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
-    $Discord.Add_Click( {
-            Install-Software -Name $Discord.Text -Packages "Discord.Discord"
-        })
+    $InstallSelected.Add_Click( {
+            $AppsToInstall = @{
+                WingetApps     = [System.Collections.ArrayList]@()
+                MSStoreApps    = [System.Collections.ArrayList]@()
+                ChocolateyApps = [System.Collections.ArrayList]@()
+                WSLDistros     = [System.Collections.ArrayList]@()
+            }
 
-    $MSTeams.Add_Click( {
-            Install-Software -Name $MSTeams.Text -Packages "Microsoft.Teams"
-        })
+            If ($BraveBrowser.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("BraveSoftware.BraveBrowser")
+                $BraveBrowser.CheckState = "Unchecked"
+            }
 
-    $RocketChat.Add_Click( {
-            Install-Software -Name $RocketChat.Text -Packages "RocketChat.RocketChat"
-        })
+            If ($GoogleChrome.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Google.Chrome")
+                $GoogleChrome.CheckState = "Unchecked"
+            }
 
-    $Slack.Add_Click( {
-            Install-Software -Name $Slack.Text -Packages "SlackTechnologies.Slack"
-        })
+            If ($MozillaFirefox.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Mozilla.Firefox")
+                $MozillaFirefox.CheckState = "Unchecked"
+            }
 
-    $Telegram.Add_Click( {
-            Install-Software -Name $Telegram.Text -Packages "Telegram.TelegramDesktop"
-        })
+            If ($7Zip.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("7zip.7zip")
+                $7Zip.CheckState = "Unchecked"
+            }
 
-    $Zoom.Add_Click( {
-            Install-Software -Name $Zoom.Text -Packages "Zoom.Zoom"
-        })
+            If ($WinRAR.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("RARLab.WinRAR")
+                $WinRAR.CheckState = "Unchecked"
+            }
 
-    $BorderlessGaming.Add_Click( {
-            Install-Software -Name $BorderlessGaming.Text -Packages "Codeusa.BorderlessGaming"
-        })
+            If ($LibreOffice.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("LibreOffice.LibreOffice")
+                $LibreOffice.CheckState = "Unchecked"
+            }
 
-    $EADesktop.Add_Click( {
-            Install-Software -Name $EADesktop.Text -Packages "ElectronicArts.EADesktop"
-        })
+            If ($OnlyOffice.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("ONLYOFFICE.DesktopEditors")
+                $OnlyOffice.CheckState = "Unchecked"
+            }
 
-    $EpicGames.Add_Click( {
-            Install-Software -Name $EpicGames.Text -Packages "EpicGames.EpicGamesLauncher"
-        })
+            If ($PowerBI.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Microsoft.PowerBI")
+                $PowerBI.CheckState = "Unchecked"
+            }
 
-    $GogGalaxy.Add_Click( {
-            Install-Software -Name $GogGalaxy.Text -Packages "GOG.Galaxy"
-        })
+            If ($Zotero.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Zotero.Zotero")
+                $Zotero.CheckState = "Unchecked"
+            }
 
-    $Steam.Add_Click( {
-            Install-Software -Name $Steam.Text -Packages "Valve.Steam"
-        })
+            If ($Hamachi.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("LogMeIn.Hamachi")
+                $Hamachi.CheckState = "Unchecked"
+            }
 
-    $UbisoftConnect.Add_Click( {
-            Install-Software -Name $UbisoftConnect.Text -Packages "Ubisoft.Connect"
-        })
+            If ($RadminVPN.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Radmin.VPN")
+                $RadminVPN.CheckState = "Unchecked"
+            }
 
-    $AnyDesk.Add_Click( {
-            Install-Software -Name $AnyDesk.Text -Packages "AnyDeskSoftwareGmbH.AnyDesk"
-        })
+            If ($TwilioAuthy.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Twilio.Authy")
+                $TwilioAuthy.CheckState = "Unchecked"
+            }
 
-    $Parsec.Add_Click( {
-            Install-Software -Name $Parsec.Text -Packages "Parsec.Parsec"
-        })
+            If ($WindowsTerminalNerdFonts.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Microsoft.WindowsTerminal")
+                $WindowsTerminalNerdFonts.CheckState = "Unchecked"
+                $URI = "https://github.com/romkatv/powerlevel10k-media/raw/master"
+                $FontFiles = @("MesloLGS NF Regular.ttf", "MesloLGS NF Bold.ttf", "MesloLGS NF Italic.ttf", "MesloLGS NF Bold Italic.ttf")
 
-    $ScrCpy.Add_Click( {
-            Install-Software -Name $ScrCpy.Text -Packages "scrcpy" -UseChocolatey
-        })
+                ForEach ($Font in $FontFiles) {
+                    Request-FileDownload -FileURI "$URI/$Font" -OutputFolder "Fonts" -OutputFile "$Font"
+                }
 
-    $TeamViewer.Add_Click( {
-            Install-Software -Name $TeamViewer.Text -Packages "TeamViewer.TeamViewer"
-        })
+                Install-Font -FontSourceFolder "$PSScriptRoot\src\tmp\Fonts"
+            }
 
-    $HandBrake.Add_Click( {
-            Install-Software -Name $HandBrake.Text -Packages "HandBrake.HandBrake"
-        })
+            If ($GitGnupgSshSetup.CheckState -eq "Checked") {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("git-gnupg-ssh-keys-setup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                $GitGnupgSshSetup.CheckState = "Unchecked"
+            }
 
-    $ObsStudio.Add_Click( {
-            Install-Software -Name $ObsStudio.Text -Packages "OBSProject.OBSStudio"
-        })
+            If ($ADB.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("adb")
+                $ADB.CheckState = "Unchecked"
+            }
 
-    $StreamlabsObs.Add_Click( {
-            Install-Software -Name $StreamlabsObs.Text -Packages "Streamlabs.StreamlabsOBS"
-        })
+            If ($AndroidStudio.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Google.AndroidStudio")
+                $AndroidStudio.CheckState = "Unchecked"
+            }
 
-    $MpcHc.Add_Click( {
-            Install-Software -Name $MpcHc.Text -Packages "clsid2.mpc-hc"
-        })
+            If ($DockerDesktop.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Docker.DockerDesktop")
+                $DockerDesktop.CheckState = "Unchecked"
+            }
 
-    $Spotify.Add_Click( {
-            Install-Software -Name $Spotify.Text -Packages "9NCBCSZSJRSB" -UseMSStore
-        })
+            If ($Insomnia.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Insomnia.Insomnia")
+                $Insomnia.CheckState = "Unchecked"
+            }
 
-    $Vlc.Add_Click( {
-            Install-Software -Name $Vlc.Text -Packages "VideoLAN.VLC"
-        })
+            If ($JavaJDKs.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.18"))
+                $JavaJDKs.CheckState = "Unchecked"
+            }
 
-    $qBittorrent.Add_Click( {
-            Install-Software -Name $qBittorrent.Text -Packages "qBittorrent.qBittorrent"
-        })
+            If ($JavaJRE.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Oracle.JavaRuntimeEnvironment")
+                $JavaJRE.CheckState = "Unchecked"
+            }
 
-    $Cemu.Add_Click( {
-            Install-Software -Name $Cemu.Text -Packages "cemu" -UseChocolatey
-        })
+            If ($MySQL.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Oracle.MySQL")
+                $MySQL.CheckState = "Unchecked"
+            }
 
-    $Dolphin.Add_Click( {
-            Install-Software -Name $Dolphin.Text -Packages "DolphinEmulator.Dolphin"
-        })
+            If ($NodeJs.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("OpenJS.NodeJS")
+                $NodeJs.CheckState = "Unchecked"
+            }
 
-    $KegaFusion.Add_Click( {
-            Install-Software -Name $KegaFusion.Text -Packages "kega-fusion" -UseChocolatey
-        })
+            If ($NodeJsLTS.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("OpenJS.NodeJSLTS")
+                $NodeJsLTS.CheckState = "Unchecked"
+            }
 
-    $MGba.Add_Click( {
-            Install-Software -Name $MGba.Text -Packages "JeffreyPfau.mGBA"
-        })
+            If ($PostgreSQL.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("PostgreSQL.PostgreSQL")
+                $PostgreSQL.CheckState = "Unchecked"
+            }
 
-    $PCSX2.Add_Click( {
-            Install-Software -Name $PCSX2.Text -Packages "pcsx2.portable" -UseChocolatey
-        })
+            If ($Python3.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Python.Python.3")
+                $Python3.CheckState = "Unchecked"
+            }
 
-    $PPSSPP.Add_Click( {
-            Install-Software -Name $PPSSPP.Text -Packages "PPSSPPTeam.PPSSPP"
-        })
+            If ($PythonAnaconda3.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Anaconda.Anaconda3")
+                $PythonAnaconda3.CheckState = "Unchecked"
+            }
 
-    $Project64.Add_Click( {
-            Install-Software -Name $Project64.Text -Packages "Project64.Project64.Dev"
-        })
+            If ($Ruby.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("RubyInstallerTeam.Ruby")
+                $Ruby.CheckState = "Unchecked"
+            }
 
-    $RetroArch.Add_Click( {
-            Install-Software -Name $RetroArch.Text -Packages "retroarch" -UseChocolatey
-        })
+            If ($RubyMSYS.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("RubyInstallerTeam.RubyWithDevKit")
+                $RubyMSYS.CheckState = "Unchecked"
+            }
 
-    $Snes9x.Add_Click( {
-            Install-Software -Name $Snes9x.Text -Packages "snes9x" -UseChocolatey
+            If ($RustGNU.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Rustlang.Rust.GNU")
+                $RustGNU.CheckState = "Unchecked"
+            }
+
+            If ($RustMSVC.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Rustlang.Rust.MSVC")
+                $RustMSVC.CheckState = "Unchecked"
+            }
+
+            If ($Gimp.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("GIMP.GIMP")
+                $Gimp.CheckState = "Unchecked"
+            }
+
+            If ($Inkscape.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Inkscape.Inkscape")
+                $Inkscape.CheckState = "Unchecked"
+            }
+
+            If ($IrfanView.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("IrfanSkiljan.IrfanView")
+                $IrfanView.CheckState = "Unchecked"
+            }
+
+            If ($Krita.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("KDE.Krita")
+                $Krita.CheckState = "Unchecked"
+            }
+
+            If ($PaintNet.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("paint.net")
+                $PaintNet.CheckState = "Unchecked"
+            }
+
+            If ($ShareX.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("ShareX.ShareX")
+                $ShareX.CheckState = "Unchecked"
+            }
+
+            If ($Atom.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("GitHub.Atom")
+                $Atom.CheckState = "Unchecked"
+            }
+
+            If ($NotepadPlusPlus.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Notepad++.Notepad++")
+                $NotepadPlusPlus.CheckState = "Unchecked"
+            }
+
+            If ($VSCode.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Microsoft.VisualStudioCode")
+                $VSCode.CheckState = "Unchecked"
+            }
+
+            If ($VSCodium.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("VSCodium.VSCodium")
+                $VSCodium.CheckState = "Unchecked"
+            }
+
+            If ($Dropbox.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Dropbox.Dropbox")
+                $Dropbox.CheckState = "Unchecked"
+            }
+
+            If ($GoogleDrive.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Google.Drive")
+                $GoogleDrive.CheckState = "Unchecked"
+            }
+
+            If ($BalenaEtcher.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Balena.Etcher")
+                $BalenaEtcher.CheckState = "Unchecked"
+            }
+
+            If ($Rufus.CheckState -eq "Checked") {
+                $AppsToInstall.MSStoreApps.Add("9PC3H3V7Q9CH")
+                $Rufus.CheckState = "Unchecked"
+            }
+
+            If ($Ventoy.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("ventoy")
+                $Ventoy.CheckState = "Unchecked"
+            }
+
+            If ($Notion.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Notion.Notion")
+                $Notion.CheckState = "Unchecked"
+            }
+
+            If ($Obsidian.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Obsidian.Obsidian")
+                $Obsidian.CheckState = "Unchecked"
+            }
+
+            If ($CPUZ.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("CPUID.CPU-Z")
+                $CPUZ.CheckState = "Unchecked"
+            }
+
+            If ($CrystalDiskInfo.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("CrystalDewWorld.CrystalDiskInfo")
+                $CrystalDiskInfo.CheckState = "Unchecked"
+            }
+
+            If ($CrystalDiskMark.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("CrystalDewWorld.CrystalDiskMark")
+                $CrystalDiskMark.CheckState = "Unchecked"
+            }
+
+            If ($GPUZ.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("TechPowerUp.GPU-Z")
+                $GPUZ.CheckState = "Unchecked"
+            }
+
+            If ($NVCleanstall.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("TechPowerUp.NVCleanstall")
+                $NVCleanstall.CheckState = "Unchecked"
+            }
+
+            If ($WSL2.CheckState -eq "Checked") {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("win10-wsl2-wslg-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                $WSL2.CheckState = "Unchecked"
+            }
+
+            If ($WSLPreview.CheckState -eq "Checked") {
+                Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("win11-wsl-preview-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                $WSLPreview.CheckState = "Unchecked"
+            }
+
+            If ($ArchWSL.CheckState -eq "Checked") {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("archwsl-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                $ArchWSL.CheckState = "Unchecked"
+            }
+
+            If ($Debian.CheckState -eq "Checked") {
+                $AppsToInstall.WSLDistros.Add("Debian")
+                $Debian.CheckState = "Unchecked"
+            }
+
+            If ($KaliLinux.CheckState -eq "Checked") {
+                $AppsToInstall.WSLDistros.Add("kali-linux")
+                $KaliLinux.CheckState = "Unchecked"
+            }
+
+            If ($OpenSuse.CheckState -eq "Checked") {
+                $AppsToInstall.WSLDistros.Add("openSUSE-42")
+                $OpenSuse.CheckState = "Unchecked"
+            }
+
+            If ($SLES.CheckState -eq "Checked") {
+                $AppsToInstall.WSLDistros.Add("SLES-12")
+                $SLES.CheckState = "Unchecked"
+            }
+
+            If ($Ubuntu.CheckState -eq "Checked") {
+                $AppsToInstall.WSLDistros.Add("Ubuntu")
+                $Ubuntu.CheckState = "Unchecked"
+            }
+
+            If ($Ubuntu16LTS.CheckState -eq "Checked") {
+                $AppsToInstall.WSLDistros.Add("Ubuntu-16.04")
+                $Ubuntu16LTS.CheckState = "Unchecked"
+            }
+
+            If ($Ubuntu18LTS.CheckState -eq "Checked") {
+                $AppsToInstall.WSLDistros.Add("Ubuntu-18.04")
+                $Ubuntu18LTS.CheckState = "Unchecked"
+            }
+
+            If ($Ubuntu20LTS.CheckState -eq "Checked") {
+                $AppsToInstall.WSLDistros.Add("Ubuntu-20.04")
+                $Ubuntu20LTS.CheckState = "Unchecked"
+            }
+
+            If ($Discord.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Discord.Discord")
+                $Discord.CheckState = "Unchecked"
+            }
+
+            If ($MSTeams.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Microsoft.Teams")
+                $MSTeams.CheckState = "Unchecked"
+            }
+
+            If ($RocketChat.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("RocketChat.RocketChat")
+                $RocketChat.CheckState = "Unchecked"
+            }
+
+            If ($Slack.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("SlackTechnologies.Slack")
+                $Slack.CheckState = "Unchecked"
+            }
+
+            If ($TelegramDesktop.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Telegram.TelegramDesktop")
+                $TelegramDesktop.CheckState = "Unchecked"
+            }
+
+            If ($Zoom.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Zoom.Zoom")
+                $Zoom.CheckState = "Unchecked"
+            }
+
+            If ($BorderlessGaming.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Codeusa.BorderlessGaming")
+                $BorderlessGaming.CheckState = "Unchecked"
+            }
+
+            If ($EADesktop.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("ElectronicArts.EADesktop")
+                $EADesktop.CheckState = "Unchecked"
+            }
+
+            If ($EpicGamesLauncher.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("EpicGames.EpicGamesLauncher")
+                $EpicGamesLauncher.CheckState = "Unchecked"
+            }
+
+            If ($GogGalaxy.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("GOG.Galaxy")
+                $GogGalaxy.CheckState = "Unchecked"
+            }
+
+            If ($Steam.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Valve.Steam")
+                $Steam.CheckState = "Unchecked"
+            }
+
+            If ($UbisoftConnect.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Ubisoft.Connect")
+                $UbisoftConnect.CheckState = "Unchecked"
+            }
+
+            If ($AnyDesk.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("AnyDeskSoftwareGmbH.AnyDesk")
+                $AnyDesk.CheckState = "Unchecked"
+            }
+
+            If ($Parsec.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Parsec.Parsec")
+                $Parsec.CheckState = "Unchecked"
+            }
+
+            If ($ScrCpy.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("scrcpy")
+                $ScrCpy.CheckState = "Unchecked"
+            }
+
+            If ($TeamViewer.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("TeamViewer.TeamViewer")
+                $TeamViewer.CheckState = "Unchecked"
+            }
+
+            If ($HandBrake.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("HandBrake.HandBrake")
+                $HandBrake.CheckState = "Unchecked"
+            }
+
+            If ($ObsStudio.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("OBSProject.OBSStudio")
+                $ObsStudio.CheckState = "Unchecked"
+            }
+
+            If ($StreamlabsObs.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Streamlabs.StreamlabsOBS")
+                $StreamlabsObs.CheckState = "Unchecked"
+            }
+
+            If ($MpcHc.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("clsid2.mpc-hc")
+                $MpcHc.CheckState = "Unchecked"
+            }
+
+            If ($Spotify.CheckState -eq "Checked") {
+                $AppsToInstall.MSStoreApps.Add("9NCBCSZSJRSB")
+                $Spotify.CheckState = "Unchecked"
+            }
+
+            If ($Vlc.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("VideoLAN.VLC")
+                $Vlc.CheckState = "Unchecked"
+            }
+
+            If ($qBittorrent.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("qBittorrent.qBittorrent")
+                $qBittorrent.CheckState = "Unchecked"
+            }
+
+            If ($Cemu.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("cemu")
+                $Cemu.CheckState = "Unchecked"
+            }
+
+            If ($Dolphin.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("DolphinEmulator.Dolphin")
+                $Dolphin.CheckState = "Unchecked"
+            }
+
+            If ($KegaFusion.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("kega-fusion")
+                $KegaFusion.CheckState = "Unchecked"
+            }
+
+            If ($MGba.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("JeffreyPfau.mGBA")
+                $MGba.CheckState = "Unchecked"
+            }
+
+            If ($PCSX2.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("pcsx2.portable")
+                $PCSX2.CheckState = "Unchecked"
+            }
+
+            If ($PPSSPP.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("PPSSPPTeam.PPSSPP")
+                $PPSSPP.CheckState = "Unchecked"
+            }
+
+            If ($Project64.CheckState -eq "Checked") {
+                $AppsToInstall.WingetApps.Add("Project64.Project64.Dev")
+                $Project64.CheckState = "Unchecked"
+            }
+
+            If ($RetroArch.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("retroarch")
+                $RetroArch.CheckState = "Unchecked"
+            }
+
+            If ($Snes9x.CheckState -eq "Checked") {
+                $AppsToInstall.ChocolateyApps.Add("snes9x")
+                $Snes9x.CheckState = "Unchecked"
+            }
+
+            If ($AppsToInstall.WingetApps) {
+                Install-Software -Name "Apps from selection" -Packages $AppsToInstall.WingetApps
+            }
+            If ($AppsToInstall.MSStoreApps) {
+                Install-Software -Name "Apps from selection" -Packages $AppsToInstall.MSStoreApps -UseMSStore
+            }
+            If ($AppsToInstall.ChocolateyApps) {
+                Install-Software -Name "Apps from selection" -Packages $AppsToInstall.ChocolateyApps -UseChocolatey
+            }
+            If ($AppsToInstall.WSLDistros) {
+                Install-Software -Name "Apps from selection" -Packages $AppsToInstall.WSLDistros -UseWSL
+            }
+
+            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
         })
 
     [void]$Form.ShowDialog() # Show the Window
@@ -1110,7 +1211,7 @@ function Main() {
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Unlock-ScriptUsage
-    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog # Install Winget and Chocolatey at the beginning
+    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -NoDialog # Install Winget and Chocolatey at the beginning
     Write-ScriptLogo            # Thanks Figlet
     Show-GUI                    # Load the GUI
 
