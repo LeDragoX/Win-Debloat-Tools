@@ -1,4 +1,4 @@
-﻿function Request-AdminPrivilege() {
+function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
@@ -8,33 +8,34 @@
 function Show-GUI() {
     Set-GUILayout # Load the GUI Layout
 
-    $Global:NeedRestart = $false
+    $Script:NeedRestart = $false
     $DoneTitle = "Information"
     $DoneMessage = "Process Completed!"
 
     # Main Window:
-    $Form = New-Form -Width ($FormWidth + 15) -Height $FormHeight -Text "Win 10+ Smart Debloat Tools | $(Get-SystemSpec) | Made by LeDragoX" -BackColor "$WinDark" -Minimize $true # Loading the specs takes longer to load the script
+    $Form = New-Form -Width ($FormWidth + 15) -Height $FormHeight -Text "Win 10+ S. D. Tools | LeDragoX | $(Get-SystemSpec)" -BackColor "$WinDark" -Minimize $true # Loading the specs takes longer to load the script
 
     # Window Icon:
     $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
 
     # Panels to put Labels and Buttons
-    $Global:CurrentPanelIndex++
+    $CurrentPanelIndex = -1
+    $CurrentPanelIndex++
     $Panel1 = New-Panel -Width $PanelWidth -Height ($FormHeight - ($FormHeight * 0.1955)) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.55) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
-    $Global:CurrentPanelIndex++
-    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.35) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $Global:CurrentPanelIndex++
-    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.35) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $Global:CurrentPanelIndex++
-    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.35) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.60) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
+    $CurrentPanelIndex++
+    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.40) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $CurrentPanelIndex++
+    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.40) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $CurrentPanelIndex++
+    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.40) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     # Panel to put more Panels
     $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll
 
     # Panels 1, 2, 3-4-5 ~> Title Label
     $TitleLabel1 = New-Label -Text "System Tweaks" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold" -ForeColor $WinBlue
     $TitleLabel2 = New-Label -Text "Customize Tweaks" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold" -ForeColor $WinBlue
-    $TitleLabel3 = New-Label -Text "⬇ Software Install ⬇" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold" -ForeColor $WinBlue
+    $TitleLabel3 = New-Label -Text "Software Install" -Width $LabelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $FontSize4 -FontStyle "Bold" -ForeColor $WinBlue
 
     # Panel 1, 3-4-5 ~> Caption Label
     $CaptionLabel1_1 = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY ($FirstButtonY - 27) -FontSize $FontSize1 -ForeColor $Purple
@@ -45,10 +46,10 @@ function Show-GUI() {
 
     # Panel 2 ~> Big Button
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
-    $RevertTweaks = New-Button -Text "❌ Revert Tweaks" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
+    $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
 
     # Panel 1 ~> Small Buttons
-    $NextYLocation = $RevertTweaks.Location.Y + $RevertTweaks.Height + $DistanceBetweenButtons
+    $NextYLocation = $UndoTweaks.Location.Y + $UndoTweaks.Height + $DistanceBetweenButtons
     $RemoveXbox = New-Button -Text "Remove and Disable Xbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
 
     $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
@@ -515,7 +516,7 @@ function Show-GUI() {
     # Add Elements to each Panel
     $FullPanel.Controls.AddRange(@($CaptionLabel1_2))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $Panel5))
-    $Panel1.Controls.AddRange(@($TitleLabel1, $CaptionLabel1_1, $ApplyTweaks, $RevertTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $ShowDebloatInfo, $PictureBox1))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $CaptionLabel1_1, $ApplyTweaks, $UndoTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $ShowDebloatInfo, $PictureBox1))
     $Panel2.Controls.AddRange(@($TitleLabel2, $DarkTheme, $LightTheme, $EnableSearchIdx, $DisableSearchIdx, $EnableBgApps, $DisableBgApps, $EnableTelemetry, $DisableTelemetry, $EnableCortana, $DisableCortana, $EnableGameBarAndDVR, $DisableGameBarAndDVR, $EnableClipboardHistory, $DisableClipboardHistory, $EnableOldVolumeControl, $DisableOldVolumeControl))
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
@@ -562,10 +563,10 @@ function Show-GUI() {
             $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
             $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
-            $Global:NeedRestart = $true
+            $Script:NeedRestart = $true
         })
 
-    $RevertTweaks.Add_Click( {
+    $UndoTweaks.Add_Click( {
             $Global:Revert = $true
             $Scripts = @(
                 "optimize-scheduled-tasks.ps1",
@@ -581,28 +582,23 @@ function Show-GUI() {
         })
 
     $RemoveXbox.Add_Click( {
-            $Scripts = @("remove-and-disable-xbox.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-and-disable-xbox.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RepairWindows.Add_Click( {
-            $Scripts = @("backup-system.ps1", "repair-windows.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("backup-system.ps1", "repair-windows.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallOneDrive.Add_Click( {
-            $Scripts = @("install-onedrive.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ReinstallBloatApps.Add_Click( {
-            $Scripts = @("reinstall-pre-installed-apps.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("reinstall-pre-installed-apps.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ShowDebloatInfo.Add_Click( {
-            $Scripts = @("show-debloat-info.ps1")
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog
+            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("show-debloat-info.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage -NoDialog
         })
 
     $DarkTheme.Add_Click( {
@@ -1118,8 +1114,8 @@ function Main() {
     Write-ScriptLogo            # Thanks Figlet
     Show-GUI                    # Load the GUI
 
-    Write-Verbose "Restart: $Global:NeedRestart"
-    If ($Global:NeedRestart) {
+    Write-Verbose "Restart: $Script:NeedRestart"
+    If ($Script:NeedRestart) {
         Request-PcRestart       # Prompt options to Restart the PC
     }
     Stop-Logging
