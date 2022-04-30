@@ -974,6 +974,9 @@ function Show-GUI() {
                 If (!($Script:UninstallSwitch)) {
                     Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("archwsl-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 }
+                Else {
+                    $AppsSelected.WSLDistros.Add("Arch")
+                }
                 $ArchWSL.CheckState = "Unchecked"
             }
 
