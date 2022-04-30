@@ -221,10 +221,13 @@ function Show-GUI() {
     $RustMSVC = New-CheckBox -Text "Rust (MSVC)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Big Button
-    $InstallSelected = New-Button -Text "Install Selected" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Bold" -ForeColor $LightGray
+    $InstallSelected = New-Button -Text "Install Selected" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Bold" -ForeColor $LightGray
+
+    $NextYLocation = $InstallSelected.Location.Y + $InstallSelected.Height + $DistanceBetweenButtons
+    $UninstallMode = New-Button -Text "[OFF] Uninstall Mode" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize2 -FontStyle "Bold" -ForeColor $LightGray
 
     # --- Panel 4 ~> Caption Label
-    $NextYLocation = $InstallSelected.Location.Y + $InstallSelected.Height + $DistanceBetweenButtons
+    $NextYLocation = $UninstallMode.Location.Y + $UninstallMode.Height + $DistanceBetweenButtons
     $CaptionLabel4_1 = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Small Buttons
@@ -505,7 +508,7 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_5, $Hamachi, $RadminVPN))
     $Panel3.Controls.AddRange(@($CaptionLabel3_6, $TwilioAuthy))
     $Panel3.Controls.AddRange(@($CaptionLabel3_7, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $ADB, $AndroidStudio, $DockerDesktop, $Insomnia, $JavaJDKs, $JavaJRE, $MySQL, $NodeJs, $NodeJsLTS, $PostgreSQL, $Python3, $PythonAnaconda3, $Ruby, $RubyMSYS, $RustGNU, $RustMSVC))
-    $Panel4.Controls.AddRange(@($TitleLabel3, $InstallSelected, $CaptionLabel4_1, $Gimp, $Inkscape, $IrfanView, $Krita, $PaintNet, $ShareX))
+    $Panel4.Controls.AddRange(@($TitleLabel3, $InstallSelected, $UninstallMode, $CaptionLabel4_1, $Gimp, $Inkscape, $IrfanView, $Krita, $PaintNet, $ShareX))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Atom, $NotepadPlusPlus, $VSCode, $VSCodium))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Dropbox, $GoogleDrive))
     $Panel4.Controls.AddRange(@($CaptionLabel4_4, $BalenaEtcher, $Rufus, $Ventoy))
@@ -678,7 +681,7 @@ function Show-GUI() {
         })
 
     $InstallSelected.Add_Click( {
-            $AppsToInstall = @{
+            $AppsSelected = @{
                 WingetApps     = [System.Collections.ArrayList]@()
                 MSStoreApps    = [System.Collections.ArrayList]@()
                 ChocolateyApps = [System.Collections.ArrayList]@()
@@ -686,495 +689,537 @@ function Show-GUI() {
             }
 
             If ($BraveBrowser.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("BraveSoftware.BraveBrowser")
+                $AppsSelected.WingetApps.Add("BraveSoftware.BraveBrowser")
                 $BraveBrowser.CheckState = "Unchecked"
             }
 
             If ($GoogleChrome.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Google.Chrome")
+                $AppsSelected.WingetApps.Add("Google.Chrome")
                 $GoogleChrome.CheckState = "Unchecked"
             }
 
             If ($MozillaFirefox.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Mozilla.Firefox")
+                $AppsSelected.WingetApps.Add("Mozilla.Firefox")
                 $MozillaFirefox.CheckState = "Unchecked"
             }
 
             If ($7Zip.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("7zip.7zip")
+                $AppsSelected.WingetApps.Add("7zip.7zip")
                 $7Zip.CheckState = "Unchecked"
             }
 
             If ($WinRAR.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("RARLab.WinRAR")
+                $AppsSelected.WingetApps.Add("RARLab.WinRAR")
                 $WinRAR.CheckState = "Unchecked"
             }
 
             If ($LibreOffice.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("LibreOffice.LibreOffice")
+                $AppsSelected.WingetApps.Add("LibreOffice.LibreOffice")
                 $LibreOffice.CheckState = "Unchecked"
             }
 
             If ($OnlyOffice.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("ONLYOFFICE.DesktopEditors")
+                $AppsSelected.WingetApps.Add("ONLYOFFICE.DesktopEditors")
                 $OnlyOffice.CheckState = "Unchecked"
             }
 
             If ($PowerBI.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Microsoft.PowerBI")
+                $AppsSelected.WingetApps.Add("Microsoft.PowerBI")
                 $PowerBI.CheckState = "Unchecked"
             }
 
             If ($Zotero.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Zotero.Zotero")
+                $AppsSelected.WingetApps.Add("Zotero.Zotero")
                 $Zotero.CheckState = "Unchecked"
             }
 
             If ($Hamachi.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("LogMeIn.Hamachi")
+                $AppsSelected.WingetApps.Add("LogMeIn.Hamachi")
                 $Hamachi.CheckState = "Unchecked"
             }
 
             If ($RadminVPN.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Radmin.VPN")
+                $AppsSelected.WingetApps.Add("Radmin.VPN")
                 $RadminVPN.CheckState = "Unchecked"
             }
 
             If ($TwilioAuthy.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Twilio.Authy")
+                $AppsSelected.WingetApps.Add("Twilio.Authy")
                 $TwilioAuthy.CheckState = "Unchecked"
             }
 
             If ($WindowsTerminalNerdFonts.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Microsoft.WindowsTerminal")
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-nerd-fonts.ps1") -NoDialog
+                }
+                $AppsSelected.WingetApps.Add("Microsoft.WindowsTerminal")
                 $WindowsTerminalNerdFonts.CheckState = "Unchecked"
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-nerd-fonts.ps1") -NoDialog
             }
 
             If ($GitGnupgSshSetup.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("git-gnupg-ssh-keys-setup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("git-gnupg-ssh-keys-setup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                }
+                Else {
+                    $AppsSelected.WingetApps.AddRange(@("Git.Git", "GnuPG.GnuPG")) # Installed before inside the script
+                }
                 $GitGnupgSshSetup.CheckState = "Unchecked"
             }
 
             If ($ADB.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("adb")
+                $AppsSelected.ChocolateyApps.Add("adb")
                 $ADB.CheckState = "Unchecked"
             }
 
             If ($AndroidStudio.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Google.AndroidStudio")
+                $AppsSelected.WingetApps.Add("Google.AndroidStudio")
                 $AndroidStudio.CheckState = "Unchecked"
             }
 
             If ($DockerDesktop.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Docker.DockerDesktop")
+                $AppsSelected.WingetApps.Add("Docker.DockerDesktop")
                 $DockerDesktop.CheckState = "Unchecked"
             }
 
             If ($Insomnia.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Insomnia.Insomnia")
+                $AppsSelected.WingetApps.Add("Insomnia.Insomnia")
                 $Insomnia.CheckState = "Unchecked"
             }
 
             If ($JavaJDKs.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.18"))
+                $AppsSelected.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.18"))
                 $JavaJDKs.CheckState = "Unchecked"
             }
 
             If ($JavaJRE.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Oracle.JavaRuntimeEnvironment")
+                $AppsSelected.WingetApps.Add("Oracle.JavaRuntimeEnvironment")
                 $JavaJRE.CheckState = "Unchecked"
             }
 
             If ($MySQL.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Oracle.MySQL")
+                $AppsSelected.WingetApps.Add("Oracle.MySQL")
                 $MySQL.CheckState = "Unchecked"
             }
 
             If ($NodeJs.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("OpenJS.NodeJS")
+                $AppsSelected.WingetApps.Add("OpenJS.NodeJS")
                 $NodeJs.CheckState = "Unchecked"
             }
 
             If ($NodeJsLTS.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("OpenJS.NodeJSLTS")
+                $AppsSelected.WingetApps.Add("OpenJS.NodeJSLTS")
                 $NodeJsLTS.CheckState = "Unchecked"
             }
 
             If ($PostgreSQL.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("PostgreSQL.PostgreSQL")
+                $AppsSelected.WingetApps.Add("PostgreSQL.PostgreSQL")
                 $PostgreSQL.CheckState = "Unchecked"
             }
 
             If ($Python3.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Python.Python.3")
+                $AppsSelected.WingetApps.Add("Python.Python.3")
                 $Python3.CheckState = "Unchecked"
             }
 
             If ($PythonAnaconda3.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Anaconda.Anaconda3")
+                $AppsSelected.WingetApps.Add("Anaconda.Anaconda3")
                 $PythonAnaconda3.CheckState = "Unchecked"
             }
 
             If ($Ruby.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("RubyInstallerTeam.Ruby")
+                $AppsSelected.WingetApps.Add("RubyInstallerTeam.Ruby")
                 $Ruby.CheckState = "Unchecked"
             }
 
             If ($RubyMSYS.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("RubyInstallerTeam.RubyWithDevKit")
+                $AppsSelected.WingetApps.Add("RubyInstallerTeam.RubyWithDevKit")
                 $RubyMSYS.CheckState = "Unchecked"
             }
 
             If ($RustGNU.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Rustlang.Rust.GNU")
+                $AppsSelected.WingetApps.Add("Rustlang.Rust.GNU")
                 $RustGNU.CheckState = "Unchecked"
             }
 
             If ($RustMSVC.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Rustlang.Rust.MSVC")
+                $AppsSelected.WingetApps.Add("Rustlang.Rust.MSVC")
                 $RustMSVC.CheckState = "Unchecked"
             }
 
             If ($Gimp.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("GIMP.GIMP")
+                $AppsSelected.WingetApps.Add("GIMP.GIMP")
                 $Gimp.CheckState = "Unchecked"
             }
 
             If ($Inkscape.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Inkscape.Inkscape")
+                $AppsSelected.WingetApps.Add("Inkscape.Inkscape")
                 $Inkscape.CheckState = "Unchecked"
             }
 
             If ($IrfanView.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("IrfanSkiljan.IrfanView")
+                $AppsSelected.WingetApps.Add("IrfanSkiljan.IrfanView")
                 $IrfanView.CheckState = "Unchecked"
             }
 
             If ($Krita.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("KDE.Krita")
+                $AppsSelected.WingetApps.Add("KDE.Krita")
                 $Krita.CheckState = "Unchecked"
             }
 
             If ($PaintNet.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("paint.net")
+                $AppsSelected.ChocolateyApps.Add("paint.net")
                 $PaintNet.CheckState = "Unchecked"
             }
 
             If ($ShareX.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("ShareX.ShareX")
+                $AppsSelected.WingetApps.Add("ShareX.ShareX")
                 $ShareX.CheckState = "Unchecked"
             }
 
             If ($Atom.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("GitHub.Atom")
+                $AppsSelected.WingetApps.Add("GitHub.Atom")
                 $Atom.CheckState = "Unchecked"
             }
 
             If ($NotepadPlusPlus.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Notepad++.Notepad++")
+                $AppsSelected.WingetApps.Add("Notepad++.Notepad++")
                 $NotepadPlusPlus.CheckState = "Unchecked"
             }
 
             If ($VSCode.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Microsoft.VisualStudioCode")
+                $AppsSelected.WingetApps.Add("Microsoft.VisualStudioCode")
                 $VSCode.CheckState = "Unchecked"
             }
 
             If ($VSCodium.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("VSCodium.VSCodium")
+                $AppsSelected.WingetApps.Add("VSCodium.VSCodium")
                 $VSCodium.CheckState = "Unchecked"
             }
 
             If ($Dropbox.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Dropbox.Dropbox")
+                $AppsSelected.WingetApps.Add("Dropbox.Dropbox")
                 $Dropbox.CheckState = "Unchecked"
             }
 
             If ($GoogleDrive.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Google.Drive")
+                $AppsSelected.WingetApps.Add("Google.Drive")
                 $GoogleDrive.CheckState = "Unchecked"
             }
 
             If ($BalenaEtcher.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Balena.Etcher")
+                $AppsSelected.WingetApps.Add("Balena.Etcher")
                 $BalenaEtcher.CheckState = "Unchecked"
             }
 
             If ($Rufus.CheckState -eq "Checked") {
-                $AppsToInstall.MSStoreApps.Add("9PC3H3V7Q9CH")
+                $AppsSelected.MSStoreApps.Add("9PC3H3V7Q9CH")
                 $Rufus.CheckState = "Unchecked"
             }
 
             If ($Ventoy.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("ventoy")
+                $AppsSelected.ChocolateyApps.Add("ventoy")
                 $Ventoy.CheckState = "Unchecked"
             }
 
             If ($Notion.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Notion.Notion")
+                $AppsSelected.WingetApps.Add("Notion.Notion")
                 $Notion.CheckState = "Unchecked"
             }
 
             If ($Obsidian.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Obsidian.Obsidian")
+                $AppsSelected.WingetApps.Add("Obsidian.Obsidian")
                 $Obsidian.CheckState = "Unchecked"
             }
 
             If ($CPUZ.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("CPUID.CPU-Z")
+                $AppsSelected.WingetApps.Add("CPUID.CPU-Z")
                 $CPUZ.CheckState = "Unchecked"
             }
 
             If ($CrystalDiskInfo.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("CrystalDewWorld.CrystalDiskInfo")
+                $AppsSelected.WingetApps.Add("CrystalDewWorld.CrystalDiskInfo")
                 $CrystalDiskInfo.CheckState = "Unchecked"
             }
 
             If ($CrystalDiskMark.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("CrystalDewWorld.CrystalDiskMark")
+                $AppsSelected.WingetApps.Add("CrystalDewWorld.CrystalDiskMark")
                 $CrystalDiskMark.CheckState = "Unchecked"
             }
 
             If ($GPUZ.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("TechPowerUp.GPU-Z")
+                $AppsSelected.WingetApps.Add("TechPowerUp.GPU-Z")
                 $GPUZ.CheckState = "Unchecked"
             }
 
             If ($NVCleanstall.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("TechPowerUp.NVCleanstall")
+                $AppsSelected.WingetApps.Add("TechPowerUp.NVCleanstall")
                 $NVCleanstall.CheckState = "Unchecked"
             }
 
             If ($WSL2.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("win10-wsl2-wslg-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("win10-wsl2-wslg-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                }
                 $WSL2.CheckState = "Unchecked"
             }
 
             If ($WSLPreview.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("win11-wsl-preview-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("win11-wsl-preview-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                }
                 $WSLPreview.CheckState = "Unchecked"
             }
 
             If ($ArchWSL.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("archwsl-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("archwsl-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                }
                 $ArchWSL.CheckState = "Unchecked"
             }
 
             If ($Debian.CheckState -eq "Checked") {
-                $AppsToInstall.WSLDistros.Add("Debian")
+                If (!($Script:UninstallSwitch)) {
+                    $AppsSelected.WSLDistros.Add("Debian")
+                }
                 $Debian.CheckState = "Unchecked"
             }
 
             If ($KaliLinux.CheckState -eq "Checked") {
-                $AppsToInstall.WSLDistros.Add("kali-linux")
+                $AppsSelected.WSLDistros.Add("kali-linux")
                 $KaliLinux.CheckState = "Unchecked"
             }
 
             If ($OpenSuse.CheckState -eq "Checked") {
-                $AppsToInstall.WSLDistros.Add("openSUSE-42")
+                $AppsSelected.WSLDistros.Add("openSUSE-42")
                 $OpenSuse.CheckState = "Unchecked"
             }
 
             If ($SLES.CheckState -eq "Checked") {
-                $AppsToInstall.WSLDistros.Add("SLES-12")
+                $AppsSelected.WSLDistros.Add("SLES-12")
                 $SLES.CheckState = "Unchecked"
             }
 
             If ($Ubuntu.CheckState -eq "Checked") {
-                $AppsToInstall.WSLDistros.Add("Ubuntu")
+                $AppsSelected.WSLDistros.Add("Ubuntu")
                 $Ubuntu.CheckState = "Unchecked"
             }
 
             If ($Ubuntu16LTS.CheckState -eq "Checked") {
-                $AppsToInstall.WSLDistros.Add("Ubuntu-16.04")
+                $AppsSelected.WSLDistros.Add("Ubuntu-16.04")
                 $Ubuntu16LTS.CheckState = "Unchecked"
             }
 
             If ($Ubuntu18LTS.CheckState -eq "Checked") {
-                $AppsToInstall.WSLDistros.Add("Ubuntu-18.04")
+                $AppsSelected.WSLDistros.Add("Ubuntu-18.04")
                 $Ubuntu18LTS.CheckState = "Unchecked"
             }
 
             If ($Ubuntu20LTS.CheckState -eq "Checked") {
-                $AppsToInstall.WSLDistros.Add("Ubuntu-20.04")
+                $AppsSelected.WSLDistros.Add("Ubuntu-20.04")
                 $Ubuntu20LTS.CheckState = "Unchecked"
             }
 
             If ($Discord.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Discord.Discord")
+                $AppsSelected.WingetApps.Add("Discord.Discord")
                 $Discord.CheckState = "Unchecked"
             }
 
             If ($MSTeams.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Microsoft.Teams")
+                $AppsSelected.WingetApps.Add("Microsoft.Teams")
                 $MSTeams.CheckState = "Unchecked"
             }
 
             If ($RocketChat.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("RocketChat.RocketChat")
+                $AppsSelected.WingetApps.Add("RocketChat.RocketChat")
                 $RocketChat.CheckState = "Unchecked"
             }
 
             If ($Slack.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("SlackTechnologies.Slack")
+                $AppsSelected.WingetApps.Add("SlackTechnologies.Slack")
                 $Slack.CheckState = "Unchecked"
             }
 
             If ($TelegramDesktop.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Telegram.TelegramDesktop")
+                $AppsSelected.WingetApps.Add("Telegram.TelegramDesktop")
                 $TelegramDesktop.CheckState = "Unchecked"
             }
 
             If ($Zoom.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Zoom.Zoom")
+                $AppsSelected.WingetApps.Add("Zoom.Zoom")
                 $Zoom.CheckState = "Unchecked"
             }
 
             If ($BorderlessGaming.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Codeusa.BorderlessGaming")
+                $AppsSelected.WingetApps.Add("Codeusa.BorderlessGaming")
                 $BorderlessGaming.CheckState = "Unchecked"
             }
 
             If ($EADesktop.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("ElectronicArts.EADesktop")
+                $AppsSelected.WingetApps.Add("ElectronicArts.EADesktop")
                 $EADesktop.CheckState = "Unchecked"
             }
 
             If ($EpicGamesLauncher.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("EpicGames.EpicGamesLauncher")
+                $AppsSelected.WingetApps.Add("EpicGames.EpicGamesLauncher")
                 $EpicGamesLauncher.CheckState = "Unchecked"
             }
 
             If ($GogGalaxy.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("GOG.Galaxy")
+                $AppsSelected.WingetApps.Add("GOG.Galaxy")
                 $GogGalaxy.CheckState = "Unchecked"
             }
 
             If ($Steam.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Valve.Steam")
+                $AppsSelected.WingetApps.Add("Valve.Steam")
                 $Steam.CheckState = "Unchecked"
             }
 
             If ($UbisoftConnect.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Ubisoft.Connect")
+                $AppsSelected.WingetApps.Add("Ubisoft.Connect")
                 $UbisoftConnect.CheckState = "Unchecked"
             }
 
             If ($AnyDesk.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("AnyDeskSoftwareGmbH.AnyDesk")
+                $AppsSelected.WingetApps.Add("AnyDeskSoftwareGmbH.AnyDesk")
                 $AnyDesk.CheckState = "Unchecked"
             }
 
             If ($Parsec.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Parsec.Parsec")
+                $AppsSelected.WingetApps.Add("Parsec.Parsec")
                 $Parsec.CheckState = "Unchecked"
             }
 
             If ($ScrCpy.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("scrcpy")
+                $AppsSelected.ChocolateyApps.Add("scrcpy")
                 $ScrCpy.CheckState = "Unchecked"
             }
 
             If ($TeamViewer.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("TeamViewer.TeamViewer")
+                $AppsSelected.WingetApps.Add("TeamViewer.TeamViewer")
                 $TeamViewer.CheckState = "Unchecked"
             }
 
             If ($HandBrake.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("HandBrake.HandBrake")
+                $AppsSelected.WingetApps.Add("HandBrake.HandBrake")
                 $HandBrake.CheckState = "Unchecked"
             }
 
             If ($ObsStudio.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("OBSProject.OBSStudio")
+                $AppsSelected.WingetApps.Add("OBSProject.OBSStudio")
                 $ObsStudio.CheckState = "Unchecked"
             }
 
             If ($StreamlabsObs.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Streamlabs.StreamlabsOBS")
+                $AppsSelected.WingetApps.Add("Streamlabs.StreamlabsOBS")
                 $StreamlabsObs.CheckState = "Unchecked"
             }
 
             If ($MpcHc.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("clsid2.mpc-hc")
+                $AppsSelected.WingetApps.Add("clsid2.mpc-hc")
                 $MpcHc.CheckState = "Unchecked"
             }
 
             If ($Spotify.CheckState -eq "Checked") {
-                $AppsToInstall.MSStoreApps.Add("9NCBCSZSJRSB")
+                $AppsSelected.MSStoreApps.Add("9NCBCSZSJRSB")
                 $Spotify.CheckState = "Unchecked"
             }
 
             If ($Vlc.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("VideoLAN.VLC")
+                $AppsSelected.WingetApps.Add("VideoLAN.VLC")
                 $Vlc.CheckState = "Unchecked"
             }
 
             If ($qBittorrent.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("qBittorrent.qBittorrent")
+                $AppsSelected.WingetApps.Add("qBittorrent.qBittorrent")
                 $qBittorrent.CheckState = "Unchecked"
             }
 
             If ($Cemu.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("cemu")
+                $AppsSelected.ChocolateyApps.Add("cemu")
                 $Cemu.CheckState = "Unchecked"
             }
 
             If ($Dolphin.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("DolphinEmulator.Dolphin")
+                $AppsSelected.WingetApps.Add("DolphinEmulator.Dolphin")
                 $Dolphin.CheckState = "Unchecked"
             }
 
             If ($KegaFusion.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("kega-fusion")
+                $AppsSelected.ChocolateyApps.Add("kega-fusion")
                 $KegaFusion.CheckState = "Unchecked"
             }
 
             If ($MGba.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("JeffreyPfau.mGBA")
+                $AppsSelected.WingetApps.Add("JeffreyPfau.mGBA")
                 $MGba.CheckState = "Unchecked"
             }
 
             If ($PCSX2.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("pcsx2.portable")
+                $AppsSelected.ChocolateyApps.Add("pcsx2.portable")
                 $PCSX2.CheckState = "Unchecked"
             }
 
             If ($PPSSPP.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("PPSSPPTeam.PPSSPP")
+                $AppsSelected.WingetApps.Add("PPSSPPTeam.PPSSPP")
                 $PPSSPP.CheckState = "Unchecked"
             }
 
             If ($Project64.CheckState -eq "Checked") {
-                $AppsToInstall.WingetApps.Add("Project64.Project64.Dev")
+                $AppsSelected.WingetApps.Add("Project64.Project64.Dev")
                 $Project64.CheckState = "Unchecked"
             }
 
             If ($RetroArch.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("retroarch")
+                $AppsSelected.ChocolateyApps.Add("retroarch")
                 $RetroArch.CheckState = "Unchecked"
             }
 
             If ($Snes9x.CheckState -eq "Checked") {
-                $AppsToInstall.ChocolateyApps.Add("snes9x")
+                $AppsSelected.ChocolateyApps.Add("snes9x")
                 $Snes9x.CheckState = "Unchecked"
             }
 
-            If ($AppsToInstall.WingetApps) {
-                Install-Software -Name "Apps from selection" -Packages $AppsToInstall.WingetApps
+            If (!($Script:UninstallSwitch)) {
+                If ($AppsSelected.WingetApps) {
+                    Install-Software -Name "Apps from selection" -Packages $AppsSelected.WingetApps
+                }
+                If ($AppsSelected.MSStoreApps) {
+                    Install-Software -Name "Apps from selection" -Packages $AppsSelected.MSStoreApps -ViaMSStore
+                }
+                If ($AppsSelected.ChocolateyApps) {
+                    Install-Software -Name "Apps from selection" -Packages $AppsSelected.ChocolateyApps -ViaChocolatey
+                }
+                If ($AppsSelected.WSLDistros) {
+                    Install-Software -Name "Apps from selection" -Packages $AppsSelected.WSLDistros -ViaWSL
+                }
             }
-            If ($AppsToInstall.MSStoreApps) {
-                Install-Software -Name "Apps from selection" -Packages $AppsToInstall.MSStoreApps -UseMSStore
+            Else {
+                If ($AppsSelected.WingetApps) {
+                    Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.WingetApps
+                }
+                If ($AppsSelected.MSStoreApps) {
+                    Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.MSStoreApps -ViaMSStore
+                }
+                If ($AppsSelected.ChocolateyApps) {
+                    Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.ChocolateyApps -ViaChocolatey
+                }
+                If ($AppsSelected.WSLDistros) {
+                    Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.WSLDistros -ViaWSL
+                }
             }
-            If ($AppsToInstall.ChocolateyApps) {
-                Install-Software -Name "Apps from selection" -Packages $AppsToInstall.ChocolateyApps -UseChocolatey
-            }
-            If ($AppsToInstall.WSLDistros) {
-                Install-Software -Name "Apps from selection" -Packages $AppsToInstall.WSLDistros -UseWSL
-            }
+        })
 
-            Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+    $UninstallMode.Add_Click( {
+            If ($UninstallSwitch) {
+                $Script:UninstallSwitch = $false
+                $InstallSelected.Text = "Install Selected"
+                $UninstallMode.Text = "[OFF] Uninstall Mode"
+            }
+            Else {
+                $Script:UninstallSwitch = $true
+                $InstallSelected.Text = "Uninstall Selected"
+                $UninstallMode.Text = "[ON] Uninstall Mode"
+            }
         })
 
     [void]$Form.ShowDialog() # Show the Window
