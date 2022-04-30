@@ -24,6 +24,7 @@ function Install-Font() {
       $RegName = $ShellFolder.GetDetailsOf($ShellFile, 21) + ' ' + $FontType
       New-ItemProperty -Name $RegName -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -PropertyType String -Value $FontFile.Name -Force
       Copy-item $FontFile.FullName -Destination $SystemFontsPath
+      Remove-Item $FontFile.FullName
     }
     ElseIf (Test-Path "$TargetPath") {
       Write-Host "[?] $($FontFile.Name) is already installed!" -ForegroundColor Yellow -BackgroundColor Black

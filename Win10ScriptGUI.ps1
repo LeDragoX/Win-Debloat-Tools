@@ -748,14 +748,7 @@ function Show-GUI() {
             If ($WindowsTerminalNerdFonts.CheckState -eq "Checked") {
                 $AppsToInstall.WingetApps.Add("Microsoft.WindowsTerminal")
                 $WindowsTerminalNerdFonts.CheckState = "Unchecked"
-                $URI = "https://github.com/romkatv/powerlevel10k-media/raw/master"
-                $FontFiles = @("MesloLGS NF Regular.ttf", "MesloLGS NF Bold.ttf", "MesloLGS NF Italic.ttf", "MesloLGS NF Bold Italic.ttf")
-
-                ForEach ($Font in $FontFiles) {
-                    Request-FileDownload -FileURI "$URI/$Font" -OutputFolder "Fonts" -OutputFile "$Font"
-                }
-
-                Install-Font -FontSourceFolder "$PSScriptRoot\src\tmp\Fonts"
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-nerd-fonts.ps1") -NoDialog
             }
 
             If ($GitGnupgSshSetup.CheckState -eq "Checked") {
@@ -1197,7 +1190,6 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-font.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
