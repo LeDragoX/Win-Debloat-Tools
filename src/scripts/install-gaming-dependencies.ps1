@@ -22,7 +22,7 @@ function Install-GamingSoftwareRequirement() {
     )
 
     Write-Title -Text "Installing Packages with Chocolatey"
-    Install-Software -Name "Gaming Dependencies (Chocolatey)" -Packages $ChocoGamingPackages -NoDialog -UseChocolatey
+    Install-Software -Name "Gaming Dependencies (Chocolatey)" -Packages $ChocoGamingPackages -NoDialog -ViaChocolatey
 
     Write-Title -Text "Installing Packages with Winget"
     Install-Software -Name "Gaming Dependencies (Winget)" -Packages $WingetGamingPackages -NoDialog
