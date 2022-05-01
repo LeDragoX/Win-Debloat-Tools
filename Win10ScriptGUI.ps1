@@ -1,4 +1,4 @@
-﻿function Request-AdminPrivilege() {
+function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
@@ -1237,7 +1237,7 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
