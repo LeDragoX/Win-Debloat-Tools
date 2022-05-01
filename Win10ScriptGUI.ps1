@@ -1,4 +1,4 @@
-function Request-AdminPrivilege() {
+﻿function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
@@ -13,7 +13,7 @@ function Show-GUI() {
     $DoneMessage = "Process Completed!"
 
     # Main Window:
-    $Form = New-Form -Width ($FormWidth + 15) -Height $FormHeight -Text "Win 10+ S. D. Tools | LeDragoX | $(Get-SystemSpec)" -BackColor "$WinDark" -Minimize $true # Loading the specs takes longer to load the script
+    $Form = New-Form -Width ($FormWidth + 15) -Height $FormHeight -Text "Win 10+ S. D. Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Minimize $true # Loading the specs takes longer to load the script
 
     # Window Icon:
     $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
@@ -328,12 +328,9 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $WSL2 = New-CheckBox -Text "WSL2 + WSLg (Win10 / Insider)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $WSLTwoOrPreview = New-CheckBox -Text "WSL2(g) / Preview (Win 10+)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
 
-    $NextYLocation = $WSL2.Location.Y + $WSL2.Height + $DistanceBetweenButtons
-    $WSLPreview = New-CheckBox -Text "WSL Preview (Win 11)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
-
-    $NextYLocation = $WSLPreview.Location.Y + $WSLPreview.Height + $DistanceBetweenButtons
+    $NextYLocation = $WSLTwoOrPreview.Location.Y + $WSLTwoOrPreview.Height + $DistanceBetweenButtons
     $ArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
 
     $NextYLocation = $ArchWSL.Location.Y + $ArchWSL.Height + $DistanceBetweenButtons
@@ -514,7 +511,7 @@ function Show-GUI() {
     $Panel4.Controls.AddRange(@($CaptionLabel4_4, $BalenaEtcher, $Rufus, $Ventoy))
     $Panel4.Controls.AddRange(@($CaptionLabel4_5, $Notion, $Obsidian))
     $Panel4.Controls.AddRange(@($CaptionLabel4_6, $CPUZ, $CrystalDiskInfo, $CrystalDiskMark, $GPUZ, $NVCleanstall))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_7, $WSL2, $WSLPreview, $ArchWSL, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_7, $WSLTwoOrPreview, $ArchWSL, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
     $Panel5.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel5_1, $Discord, $MSTeams, $RocketChat, $Slack, $TelegramDesktop, $Zoom))
     $Panel5.Controls.AddRange(@($CaptionLabel5_2, $BorderlessGaming, $EADesktop, $EpicGamesLauncher, $GogGalaxy, $Steam, $UbisoftConnect))
     $Panel5.Controls.AddRange(@($CaptionLabel5_3, $AnyDesk, $Parsec, $ScrCpy, $TeamViewer))
@@ -538,8 +535,7 @@ function Show-GUI() {
                 "personal-tweaks.ps1",
                 "optimize-security.ps1",
                 "remove-onedrive.ps1",
-                "optimize-windows-features.ps1",
-                "win11-wsl-preview-install.ps1"
+                "optimize-windows-features.ps1"
             )
 
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
@@ -956,18 +952,11 @@ function Show-GUI() {
                 $NVCleanstall.CheckState = "Unchecked"
             }
 
-            If ($WSL2.CheckState -eq "Checked") {
+            If ($WSLTwoOrPreview.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("win10-wsl2-wslg-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("wslg-or-preview-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 }
-                $WSL2.CheckState = "Unchecked"
-            }
-
-            If ($WSLPreview.CheckState -eq "Checked") {
-                If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("win11-wsl-preview-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-                }
-                $WSLPreview.CheckState = "Unchecked"
+                $WSLTwoOrPreview.CheckState = "Unchecked"
             }
 
             If ($ArchWSL.CheckState -eq "Checked") {

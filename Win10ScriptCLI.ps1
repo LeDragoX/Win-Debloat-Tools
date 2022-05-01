@@ -20,8 +20,7 @@ function Open-Script() {
         "personal-tweaks.ps1",
         "optimize-security.ps1",
         "remove-onedrive.ps1",
-        "optimize-windows-features.ps1",
-        "win11-wsl-preview-install.ps1"
+        "optimize-windows-features.ps1"
     )
 
     Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -OpenFromGUI $false

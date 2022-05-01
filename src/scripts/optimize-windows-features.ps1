@@ -39,7 +39,7 @@ function Optimize-WindowsFeaturesList() {
         "FaxServicesClientPackage"             # Windows Fax and Scan
         "IIS-*"                                # Internet Information Services
         "LegacyComponents"                     # Legacy Components
-        #"MediaPlayback"                       # Media Features (Windows Media Player)
+        "MediaPlayback"                        # Media Features (Windows Media Player)
         "MicrosoftWindowsPowerShellV2"         # PowerShell 2.0
         "MicrosoftWindowsPowershellV2Root"     # PowerShell 2.0
         "Printing-PrintToPDFServices-Features" # Microsoft Print to PDF
@@ -66,10 +66,6 @@ function Optimize-WindowsFeaturesList() {
         "NetFx3"                            # NET Framework 3.5
         "NetFx4-AdvSrvs"                    # NET Framework 4
         "NetFx4Extended-ASPNET45"           # NET Framework 4.x + ASPNET 4.x
-        # WSL 2 Support Semi-Install
-        "HypervisorPlatform"                # Hypervisor Platform from Windows
-        "Microsoft-Windows-Subsystem-Linux" # WSL (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
-        "VirtualMachinePlatform"            # VM Platform
     )
 
     ForEach ($Feature in $EnableFeatures) {

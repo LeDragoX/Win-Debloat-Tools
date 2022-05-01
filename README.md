@@ -139,7 +139,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Help improve the Security of Windows while maintaining performance; ([`optimize-security.ps1`](./src/scripts/optimize-security.ps1))
 - Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
 - Disable/Enable Windows Features specially for Gaming/Productivity; ([`optimize-windows-features.ps1`](./src/scripts/optimize-windows-features.ps1))
-- Install WSL Preview (Only works for Windows 11); ([`win11-wsl-preview-install.ps1`](./src/scripts/win11-wsl-preview-install.ps1))
 - In the End it only locks Local Machine script execution. ([`set-script-policy.psm1`](./src/lib/set-script-policy.psm1))
 
 </details>
