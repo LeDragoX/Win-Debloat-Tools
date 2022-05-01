@@ -32,7 +32,7 @@ function Main() {
     Request-AdminPrivilege # Check admin rights
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"file-runner.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"

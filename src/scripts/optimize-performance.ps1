@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"file-runner.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"open-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://youtu.be/hQSkPmZRCjc
