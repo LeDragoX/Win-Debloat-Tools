@@ -956,6 +956,9 @@ function Show-GUI() {
                 If (!($Script:UninstallSwitch)) {
                     Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("wslg-or-preview-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 }
+                Else {
+                    $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
+                }
                 $WSLTwoOrPreview.CheckState = "Unchecked"
             }
 
