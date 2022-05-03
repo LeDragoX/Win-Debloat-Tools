@@ -9,11 +9,10 @@ function Get-CPU() {
         [String] $Separator = '|'
     )
 
-    $SplittedCPUName = (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ").Split(" ")
     $CPUName = ""
 
-    ForEach ($Item in $SplittedCPUName) {
-        If ($Item -ne " ") {
+    ForEach ($Item in (Get-ItemProperty "HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0").ProcessorNameString.Trim(" ").Split(" ")) {
+        If (($Item -ne " ") -or ($null -ne $Item)) {
             $CPUName = $CPUName.Trim(" ") + " " + $Item.Trim(" ")
         }
     }

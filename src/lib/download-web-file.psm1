@@ -39,20 +39,27 @@ function Get-APIFile {
     [CmdletBinding()]
     param (
         [String] $URI,
-        [String] $APIObjectContainer,
+        [String] $ObjectProperty,
         [String] $FileNameLike,
-        [String] $APIProperty,
+        [String] $PropertyValue,
+        [Parameter(Mandatory = $false)]
+        [String] $OutputFolder,
         [String] $OutputFile
     )
 
-    $APIResponse = Invoke-RestMethod -Method Get -Uri $URI | ForEach-Object $APIObjectContainer | Where-Object name -like $FileNameLike
-    $FileURI = $APIResponse."$APIProperty"
+    $Response = Invoke-RestMethod -Method Get -Uri $URI | ForEach-Object $ObjectProperty | Where-Object name -like $FileNameLike
+    $FileURI = $Response."$PropertyValue"
 
-    return Request-FileDownload -FileURI $FileURI -OutputFile $OutputFile
+    If ($OutputFolder) {
+        return Request-FileDownload -FileURI $FileURI -OutputFolder $OutputFolder -OutputFile $OutputFile
+    }
+    Else {
+        return Request-FileDownload -FileURI $FileURI -OutputFile $OutputFile
+    }
 }
 
 <#
 Example:
 $FileOutput = Request-FileDownload -FileURI "https://www.example.com/download/file.exe" -OutputFile "AnotherFileName.exe" # File will download on src\tmp
-$WSLgOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/wslg/releases/latest" -APIObjectContainer "assets" -FileNameLike "*$OSArch*.msi" -APIProperty "browser_download_url" -OutputFile "wsl_graphics_support.msi"
+$WSLgOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/wslg/releases/latest" -ObjectProperty "assets" -FileNameLike "*$OSArch*.msi" -PropertyValue "browser_download_url" -OutputFile "wsl_graphics_support.msi"
 #>

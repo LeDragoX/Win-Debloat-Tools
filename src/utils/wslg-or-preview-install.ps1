@@ -60,7 +60,7 @@ function Install-WSLTwoAndG() {
 
             wsl --set-default-version 2 | Out-Host
 
-            $WSLgOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/wslg/releases/latest" -APIObjectContainer "assets" -FileNameLike "*$OSArch*.msi" -APIProperty "browser_download_url" -OutputFile "wsl_graphics_support.msi"
+            $WSLgOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/wslg/releases/latest" -ObjectProperty "assets" -FileNameLike "*$OSArch*.msi" -PropertyValue "browser_download_url" -OutputFile "wsl_graphics_support.msi"
             Write-Status -Symbol "+" -Type $TweakType -Status "Installing WSL Graphics update (Insider only) ($OSArch)..."
             Start-Process -FilePath $WSLgOutput -ArgumentList "/passive" -Wait
             Remove-Item -Path $WSLgOutput

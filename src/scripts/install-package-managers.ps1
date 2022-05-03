@@ -86,7 +86,7 @@ function Main() {
         { winget --version },
         {
             Install-WingetDependency
-            $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -APIObjectContainer "assets" -FileNameLike "*.msixbundle" -APIProperty "browser_download_url" -OutputFile "winget-latest.appxbundle"
+            $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "winget-latest.appxbundle"
             Add-AppxPackage -Path $WingetOutput
             Remove-Item -Path $WingetOutput
         },

@@ -7,13 +7,13 @@ function ArchWSLInstall() {
 
     ForEach ($OSArch in $OSArchList) {
         If ($OSArch -like "x64") {
-            $CertOutput = Get-APIFile -URI "https://api.github.com/repos/yuk7/ArchWSL/releases/latest" -APIObjectContainer "assets" -FileNameLike "ArchWSL-AppX_*_$OSArch.cer" -APIProperty "browser_download_url" -OutputFile "ArchWSL.cer"
+            $CertOutput = Get-APIFile -URI "https://api.github.com/repos/yuk7/ArchWSL/releases/latest" -ObjectProperty "assets" -FileNameLike "ArchWSL-AppX_*_$OSArch.cer" -PropertyValue "browser_download_url" -OutputFile "ArchWSL.cer"
             Write-Status -Symbol "+" -Status "Installing ArchWSL Certificate ($OSArch) ..."
             Import-Certificate -FilePath $CertOutput -CertStoreLocation Cert:\LocalMachine\Root | Out-Host
             Write-Status -Symbol "?" -Status "The certificate needs to be installed manually, the cmdlet didn't work for some reason ..." -Warning
             Write-Status -Symbol "@" -Status "Steps: Install Certificate... (Next) > Select Local Machine (Next) > Next > Finish > OK" -Warning
             Start-Process -FilePath "$CertOutput" -Wait
-            $ArchWSLOutput = Get-APIFile -URI "https://api.github.com/repos/yuk7/ArchWSL/releases/latest" -APIObjectContainer "assets" -FileNameLike "ArchWSL-AppX_*_$OSArch.appx" -APIProperty "browser_download_url" -OutputFile "ArchWSL.appx"
+            $ArchWSLOutput = Get-APIFile -URI "https://api.github.com/repos/yuk7/ArchWSL/releases/latest" -ObjectProperty "assets" -FileNameLike "ArchWSL-AppX_*_$OSArch.appx" -PropertyValue "browser_download_url" -OutputFile "ArchWSL.appx"
             Write-Status -Symbol "+" -Status "Installing ArchWSL ($OSArch) ..."
             Add-AppxPackage -Path $ArchWSLOutput
             Write-Status -Symbol "@" -Status "Removing downloaded files ..."
