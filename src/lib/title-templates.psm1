@@ -35,7 +35,7 @@ function Write-Status() {
     param (
         [String] $Symbol = "No Symbol",
         [Parameter(Mandatory = $false)]
-        [String]   $Type,
+        [String] $Type,
         [String] $Status = "No Text",
         [Switch] $Warning
     )

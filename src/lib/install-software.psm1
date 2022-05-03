@@ -76,7 +76,7 @@ function Uninstall-Software() {
     )
 
     $DoneTitle = "Information"
-    $DoneMessage = "$Name installed successfully!"
+    $DoneMessage = "$Name uninstalled successfully!"
     Clear-Host
 
     If ($ViaChocolatey) {
