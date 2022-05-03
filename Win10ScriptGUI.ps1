@@ -19,8 +19,7 @@ function Show-GUI() {
     $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
 
     # Panels to put Labels and Buttons
-    $CurrentPanelIndex = -1
-    $CurrentPanelIndex++
+    $CurrentPanelIndex = 0
     $Panel1 = New-Panel -Width $PanelWidth -Height ($FormHeight - ($FormHeight * 0.1955)) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.60) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
     $CurrentPanelIndex++
@@ -46,11 +45,11 @@ function Show-GUI() {
 
     # Panel 2 ~> Big Button
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
-    $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
+    $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -FontStyle "Italic" -ForeColor $WarningColor
 
     # Panel 1 ~> Small Buttons
     $NextYLocation = $UndoTweaks.Location.Y + $UndoTweaks.Height + $DistanceBetweenButtons
-    $RemoveXbox = New-Button -Text "Remove and Disable Xbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WarningColor
+    $RemoveXbox = New-Button -Text "Remove and Disable Xbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -FontStyle "Italic" -ForeColor $WarningColor
 
     $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
     $RepairWindows = New-Button -Text "Repair Windows" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -167,10 +166,13 @@ function Show-GUI() {
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $WindowsTerminalNerdFonts = New-CheckBox -Text "Windows Terminal + Nerd Font" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $WindowsTerminal = New-CheckBox -Text "Windows Terminal" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
-    $NextYLocation = $WindowsTerminalNerdFonts.Location.Y + $WindowsTerminalNerdFonts.Height + $DistanceBetweenButtons
-    $GitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $NextYLocation = $WindowsTerminal.Location.Y + $WindowsTerminal.Height + $DistanceBetweenButtons
+    $NerdFonts = New-CheckBox -Text "Install Nerd Fonts" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -FontStyle "Italic" -ForeColor $WinBlue
+
+    $NextYLocation = $NerdFonts.Location.Y + $NerdFonts.Height + $DistanceBetweenButtons
+    $GitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -FontStyle "Italic" -ForeColor $WinBlue
 
     $NextYLocation = $GitGnupgSshSetup.Location.Y + $GitGnupgSshSetup.Height + $DistanceBetweenButtons
     $ADB = New-CheckBox -Text "Android Debug Bridge (ADB)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -221,10 +223,10 @@ function Show-GUI() {
     $RustMSVC = New-CheckBox -Text "Rust (MSVC)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
 
     # Panel 4 ~> Big Button
-    $InstallSelected = New-Button -Text "Install Selected" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize2 -FontStyle "Bold" -ForeColor $LightGray
+    $InstallSelected = New-Button -Text "Install Selected" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $FontSize1 -FontStyle "Bold" -ForeColor $LightGray
 
     $NextYLocation = $InstallSelected.Location.Y + $InstallSelected.Height + $DistanceBetweenButtons
-    $UninstallMode = New-Button -Text "[OFF] Uninstall Mode" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize2 -FontStyle "Bold" -ForeColor $LightGray
+    $UninstallMode = New-Button -Text "[OFF] Uninstall Mode" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -FontStyle "Bold" -ForeColor $LightGray
 
     # --- Panel 4 ~> Caption Label
     $NextYLocation = $UninstallMode.Location.Y + $UninstallMode.Height + $DistanceBetweenButtons
@@ -328,10 +330,10 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $WSLTwoOrPreview = New-CheckBox -Text "WSL2(g) / Preview (Win 10+)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $WSLgOrPreview = New-CheckBox -Text "WSLg / Preview (Win 10+)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -FontStyle "Italic" -ForeColor $WinBlue
 
-    $NextYLocation = $WSLTwoOrPreview.Location.Y + $WSLTwoOrPreview.Height + $DistanceBetweenButtons
-    $ArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -ForeColor $WinBlue
+    $NextYLocation = $WSLgOrPreview.Location.Y + $WSLgOrPreview.Height + $DistanceBetweenButtons
+    $ArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1 -FontStyle "Italic" -ForeColor $WinBlue
 
     $NextYLocation = $ArchWSL.Location.Y + $ArchWSL.Height + $DistanceBetweenButtons
     $Debian = New-CheckBox -Text "Debian GNU/Linux" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $FontSize1
@@ -504,14 +506,14 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($CaptionLabel3_4, $Zotero))
     $Panel3.Controls.AddRange(@($CaptionLabel3_5, $Hamachi, $RadminVPN))
     $Panel3.Controls.AddRange(@($CaptionLabel3_6, $TwilioAuthy))
-    $Panel3.Controls.AddRange(@($CaptionLabel3_7, $WindowsTerminalNerdFonts, $GitGnupgSshSetup, $ADB, $AndroidStudio, $DockerDesktop, $Insomnia, $JavaJDKs, $JavaJRE, $MySQL, $NodeJs, $NodeJsLTS, $PostgreSQL, $Python3, $PythonAnaconda3, $Ruby, $RubyMSYS, $RustGNU, $RustMSVC))
+    $Panel3.Controls.AddRange(@($CaptionLabel3_7, $WindowsTerminal, $NerdFonts, $GitGnupgSshSetup, $ADB, $AndroidStudio, $DockerDesktop, $Insomnia, $JavaJDKs, $JavaJRE, $MySQL, $NodeJs, $NodeJsLTS, $PostgreSQL, $Python3, $PythonAnaconda3, $Ruby, $RubyMSYS, $RustGNU, $RustMSVC))
     $Panel4.Controls.AddRange(@($TitleLabel3, $InstallSelected, $UninstallMode, $CaptionLabel4_1, $Gimp, $Inkscape, $IrfanView, $Krita, $PaintNet, $ShareX))
     $Panel4.Controls.AddRange(@($CaptionLabel4_2, $Atom, $NotepadPlusPlus, $VSCode, $VSCodium))
     $Panel4.Controls.AddRange(@($CaptionLabel4_3, $Dropbox, $GoogleDrive))
     $Panel4.Controls.AddRange(@($CaptionLabel4_4, $BalenaEtcher, $Rufus, $Ventoy))
     $Panel4.Controls.AddRange(@($CaptionLabel4_5, $Notion, $Obsidian))
     $Panel4.Controls.AddRange(@($CaptionLabel4_6, $CPUZ, $CrystalDiskInfo, $CrystalDiskMark, $GPUZ, $NVCleanstall))
-    $Panel4.Controls.AddRange(@($CaptionLabel4_7, $WSLTwoOrPreview, $ArchWSL, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
+    $Panel4.Controls.AddRange(@($CaptionLabel4_7, $WSLgOrPreview, $ArchWSL, $Debian, $KaliLinux, $OpenSuse, $SLES, $Ubuntu, $Ubuntu16LTS, $Ubuntu18LTS, $Ubuntu20LTS))
     $Panel5.Controls.AddRange(@($InstallGamingDependencies, $CaptionLabel5_1, $Discord, $MSTeams, $RocketChat, $Slack, $TelegramDesktop, $Zoom))
     $Panel5.Controls.AddRange(@($CaptionLabel5_2, $BorderlessGaming, $EADesktop, $EpicGamesLauncher, $GogGalaxy, $Steam, $UbisoftConnect))
     $Panel5.Controls.AddRange(@($CaptionLabel5_3, $AnyDesk, $Parsec, $ScrCpy, $TeamViewer))
@@ -744,12 +746,16 @@ function Show-GUI() {
                 $TwilioAuthy.CheckState = "Unchecked"
             }
 
-            If ($WindowsTerminalNerdFonts.CheckState -eq "Checked") {
-                If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-nerd-fonts.ps1") -NoDialog
-                }
+            If ($WindowsTerminal.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("Microsoft.WindowsTerminal")
-                $WindowsTerminalNerdFonts.CheckState = "Unchecked"
+                $WindowsTerminal.CheckState = "Unchecked"
+            }
+
+            If ($NerdFonts.CheckState -eq "Checked") {
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-nerd-fonts.ps1")
+                }
+                $NerdFonts.CheckState = "Unchecked"
             }
 
             If ($GitGnupgSshSetup.CheckState -eq "Checked") {
@@ -952,14 +958,14 @@ function Show-GUI() {
                 $NVCleanstall.CheckState = "Unchecked"
             }
 
-            If ($WSLTwoOrPreview.CheckState -eq "Checked") {
+            If ($WSLgOrPreview.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
                     Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("wslg-or-preview-install.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 }
                 Else {
                     $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
                 }
-                $WSLTwoOrPreview.CheckState = "Unchecked"
+                $WSLgOrPreview.CheckState = "Unchecked"
             }
 
             If ($ArchWSL.CheckState -eq "Checked") {
