@@ -12,7 +12,7 @@ function Install-WSLPreview() {
         Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Install updates to other Microsoft products (auto-update WSL and other products)..."
         # [@] (0 = Do not install updates to other Microsoft products , 1 = Install updates to other Microsoft products)
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AllowMUUpdateService" -Type DWord -Value 1
-    
+
         Write-Status -Symbol "?" -Type $TweakType "Installing WSL Preview from MS Store for Windows 11+ ..." -Warning
         Write-Host "[?] Press 'Y' and ENTER to continue if stuck (Winget bug) ..." -ForegroundColor Magenta -BackgroundColor Black
         $CheckExistenceBlock = { Install-Software -Name "WSL Preview (Win 11+)" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog }
