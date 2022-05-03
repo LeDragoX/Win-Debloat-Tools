@@ -106,7 +106,7 @@ function Set-GUILayout() {
     $Global:FormWidth = 1366 * 0.85 # ~ 1162
     $Global:FormHeight = 768 * 0.85 # ~ 653
     # To Panels
-    #$Global:CurrentPanelIndex = -1
+    # The 1st: $Global:CurrentPanelIndex = 0 / The Next ones: $CurrentPanelIndex++
     $NumOfPanels = 4
     [Int] $Global:PanelWidth = ($FormWidth / $NumOfPanels)
     # To Labels
@@ -296,7 +296,7 @@ function New-CheckBox() {
         [Int]    $LocationY,
         [String] $Font = $Global:FontName,
         [Int]    $FontSize,
-        [String] $FontStyle = "Regular",
+        [String] $FontStyle = "Italic",
         [String] $ForeColor = $Global:LightGray,
         [String] $BackColor = $Global:Gray,
         [String] $TextAlign = "MiddleLeft"
