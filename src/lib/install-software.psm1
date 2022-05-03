@@ -54,7 +54,7 @@ function Install-Software() {
         Invoke-Expression "$InstallBlock" | Out-Host
     }
 
-    Write-Host "$DoneMessage"
+    Write-Host "$DoneMessage" -ForegroundColor Cyan
 
     If (!($NoDialog)) {
         Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
@@ -114,7 +114,7 @@ function Uninstall-Software() {
         Invoke-Expression "$UninstallBlock" | Out-Host
     }
 
-    Write-Host "$DoneMessage"
+    Write-Host "$DoneMessage" -ForegroundColor Cyan
 
     If (!($NoDialog)) {
         Show-Message -Title "$DoneTitle" -Message "$DoneMessage"

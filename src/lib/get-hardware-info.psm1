@@ -21,7 +21,7 @@ function Get-CPU() {
         return "$CPUName"
     }
 
-    $CPUCoresAndThreads = "($((Get-CimInstance -class Win32_processor).NumberOfCores)C/$env:NUMBER_OF_PROCESSORS`rT)"
+    $CPUCoresAndThreads = "($((Get-CimInstance -class Win32_processor).NumberOfCores)C/$env:NUMBER_OF_PROCESSORS`T)"
 
     return "$Env:PROCESSOR_ARCHITECTURE $Separator $CPUName $CPUCoresAndThreads"
 }
@@ -43,7 +43,7 @@ function Get-RAM() {
     $RamInGB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB
     $RAMSpeed = (Get-CimInstance -ClassName Win32_PhysicalMemory).Speed[0]
 
-    return "$RamInGB`rGB ($RAMSpeed`rMHz)"
+    return "$RamInGB`GB ($RAMSpeed`MHz)"
 }
 
 function Get-OSArchitecture() {
