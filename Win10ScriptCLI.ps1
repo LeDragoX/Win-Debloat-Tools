@@ -31,12 +31,12 @@ function Main() {
     Request-AdminPrivilege # Check admin rights
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
 
     Set-ConsoleStyle   # Makes the console look cooler
     Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
