@@ -162,9 +162,9 @@ function New-Form {
         [Int]    $Height,
         [String] $Text,
         [String] $BackColor,
-        [Bool]   $Minimize = $false,
-        [Bool]   $Maximize = $false,
-        [String] $FormBorderStyle = 'FixedSingle',
+        [Bool]   $Minimize = $true,
+        [Bool]   $Maximize = $true,
+        [String] $FormBorderStyle = 'FixedSingle', # FixedSingle, Fixed3D, FixedDialog, Sizable, FixedToolWindow, SizableToolWindow
         [String] $StartPosition = 'CenterScreen',
         [Bool]   $TopMost = $false
     )
@@ -249,7 +249,7 @@ function New-Label() {
     $Label.Width = $Width
     $Label.Height = $Height
     $Label.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
-    $Label.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::$FontStyle))
+    $Label.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]::$FontStyle)
     $Label.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $Label.TextAlign = $TextAlign
 
@@ -278,7 +278,7 @@ function New-Button() {
     $Button.Width = $Width
     $Button.Height = $Height
     $Button.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
-    $Button.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::$FontStyle))
+    $Button.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]::$FontStyle)
     $Button.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $Button.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $Button.TextAlign = $TextAlign
@@ -307,7 +307,7 @@ function New-CheckBox() {
     $CheckBox.Width = $Width
     $CheckBox.Height = $Height
     $CheckBox.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
-    $CheckBox.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]([System.Drawing.FontStyle]::$FontStyle))
+    $CheckBox.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]::$FontStyle)
     $CheckBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $CheckBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $CheckBox.TextAlign = $TextAlign

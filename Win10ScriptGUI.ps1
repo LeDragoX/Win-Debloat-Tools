@@ -13,7 +13,7 @@ function Show-GUI() {
     $DoneMessage = "Process Completed!"
 
     # Main Window:
-    $Form = New-Form -Width ($FormWidth + 15) -Height $FormHeight -Text "Win 10+ S. D. Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Minimize $true # Loading the specs takes longer to load the script
+    $Form = New-Form -Width ($FormWidth + 15) -Height $FormHeight -Text "Win 10+ S. D. Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer to load the script
 
     # Window Icon:
     $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
@@ -1232,16 +1232,16 @@ function Main() {
     Request-AdminPrivilege # Check admin rights
     Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1"
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1"
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"gui-helper.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
 
     Set-ConsoleStyle            # Makes the console look cooler
     Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
