@@ -31,7 +31,7 @@ function Install-Font() {
             Write-Status -Symbol "@" -Status "Got an error, the font type is OpenType" -Warning
             $FontType = '(OpenType)'
             $RegName = ""
-            $NameHelper = $FontFile.Name.Replace("-", "").Replace(".ttf", "").Replace(".ttc", "").Replace(".otf", "").Trim(" ")
+            $NameHelper = $FontFile.Name.Replace("-", " ").Replace("_", " ").Replace(".ttf", "").Replace(".ttc", "").Replace(".otf", "").Trim(" ")
             $NameHelper = $NameHelper.Replace("Mono", " Mono").Replace("NF", " NF").Replace("NL", " NL").Trim(" ")
             $NameHelper = $NameHelper.Replace("Thin", " Thin").Replace("Semi", " Semi").Replace("Medium", " Medium").Replace("Extra", " Extra").Trim(" ")
             $NameHelper = $NameHelper.Replace("Bold", " Bold").Replace("Italic", " Italic").Replace("Light", " Light").Replace("Regular", " Regular").Trim(" ")
