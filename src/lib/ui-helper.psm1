@@ -1,17 +1,9 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Set-GUILayout() {
+function Set-UIFont() {
     [CmdletBinding()] param ()
 
-    Write-Status -Symbol "@" -Status "Loading GUI Layout..."
-    # Loading System Libs
-    Add-Type -AssemblyName System.Windows.Forms
-    Add-Type -AssemblyName System.Drawing
-    [System.Windows.Forms.Application]::EnableVisualStyles()  # Rounded Buttons :3
-
-    # <===== FONTS =====>
-
-    $Global:Fonts = @(
+    $Script:Fonts = @(
         "Arial"                 # 0
         "Bahnschrift"           # 1
         "Calibri"               # 2
@@ -96,62 +88,7 @@ function Set-GUILayout() {
         "Terminal"              # 80
     )
 
-    # <===== Used Font =====>
-
-    $Global:FontName = $Fonts[62]
-
-    # <===== SIZES LAYOUT =====>
-
-    # To Forms
-    $Global:FormWidth = 1366 * 0.85 # ~ 1162
-    $Global:FormHeight = 768 * 0.85 # ~ 653
-    # To Panels
-    # The 1st: $Global:CurrentPanelIndex = 0 / The Next ones: $CurrentPanelIndex++
-    $NumOfPanels = 4
-    [Int] $Global:PanelWidth = ($FormWidth / $NumOfPanels)
-    # To Labels
-    $Global:LabelWidth = $PanelWidth
-    $Global:TitleLabelHeight = 35
-    $Global:CaptionLabelHeight = 20
-    # To Buttons
-    $Global:ButtonWidth = $PanelWidth * 0.91
-    $Global:ButtonHeight = 30
-    $Global:DistanceBetweenButtons = 5
-    # To Fonts
-    $Global:FontSize1 = 12
-    $Global:FontSize2 = 14
-    $Global:FontSize3 = 16
-    $Global:FontSize4 = 20
-
-    # <===== LOCATIONS LAYOUT =====>
-
-    [Int] $Global:TitleLabelX = $PanelWidth * 0
-    [Int] $Global:TitleLabelY = $FormHeight * 0.01
-    [Int] $Global:CaptionLabelX = $PanelWidth * 0.25
-    [Int] $Global:ButtonX = $PanelWidth * 0.01
-    [Int] $Global:FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
-
-    # <===== COLOR PALETTE =====>
-
-    $Global:Gray = "#2C2C2C"
-    $Global:Green = "#1FFF00"
-    $Global:LightGray = "#EEEEEE"
-    $Global:Purple = "#996DFF"
-    $Global:WinBlue = "#08ABF7"
-    $Global:WinDark = "#252525"
-    $Global:WarningColor = "#EED202"
-
-    # <===== GUI ELEMENT LAYOUT =====>
-
-    $Global:TextAlign = "MiddleCenter"
-
-    # Panel Layout -> $PanelWidth & $FormHeight
-    # Title Label Layout - (Unique per Panel) -> $LabelWidth & $TitleLabelHeight
-    # Caption Label Layout
-    $Global:CaptionLabelWidth = $LabelWidth - ($LabelWidth - $ButtonWidth) # & $CaptionLabelHeight
-    # Big Button Layout (Unique per Panel) -> $ButtonWidth &
-    $Global:BBHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
-    # Small Button Layout -> $ButtonWidth & $ButtonHeight
+    $Script:MainFont = $Fonts[62]
 }
 
 function New-Form {
@@ -213,7 +150,7 @@ function New-Panel() {
         [Switch] $HasVerticalScroll
     )
 
-    Write-Verbose "Panel$($CurrentPanelIndex+1): W$Width, H$Height, X$LocationX, Y$LocationY"
+    Write-Verbose "Panel: W$Width, H$Height, X$LocationX, Y$LocationY VScroll $HasVerticalScroll"
     $Panel = New-Object System.Windows.Forms.Panel
     $Panel.Width = $Width
     $Panel.Height = $Height
@@ -236,11 +173,11 @@ function New-Label() {
         [Int]    $Height,
         [Int]    $LocationX,
         [Int]    $LocationY,
-        [String] $Font = $Global:FontName,
-        [Int]    $FontSize,
+        [String] $Font = $MainFont,
+        [Int]    $FontSize = 12,
         [String] $FontStyle = "Regular",
-        [String] $ForeColor = $Global:Green,
-        [String] $TextAlign = $Global:TextAlign
+        [String] $ForeColor = "#55EE00", # Green
+        [String] $TextAlign = "MiddleCenter"
     )
 
     Write-Verbose "Label '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
@@ -264,12 +201,12 @@ function New-Button() {
         [Int]    $Height,
         [Int]    $LocationX,
         [Int]    $LocationY,
-        [String] $Font = $Global:FontName,
-        [Int]    $FontSize,
+        [String] $Font = $MainFont,
+        [Int]    $FontSize = 12,
         [String] $FontStyle = "Regular",
-        [String] $ForeColor = $Global:LightGray,
-        [String] $BackColor = $Global:Gray,
-        [String] $TextAlign = $Global:TextAlign
+        [String] $ForeColor = "#FFFFFF", # White
+        [String] $BackColor = "#2C2C2C", # Dark Gray
+        [String] $TextAlign = "MiddleCenter"
     )
 
     Write-Verbose "Button '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
@@ -282,6 +219,8 @@ function New-Button() {
     $Button.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $Button.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $Button.TextAlign = $TextAlign
+    $Button.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+    $Button.FlatAppearance.BorderSize = 1
 
     return $Button
 }
@@ -294,14 +233,15 @@ function New-CheckBox() {
         [Int]    $Height,
         [Int]    $LocationX,
         [Int]    $LocationY,
-        [String] $Font = $Global:FontName,
-        [Int]    $FontSize,
+        [String] $Font = $MainFont,
+        [Int]    $FontSize = 12,
         [String] $FontStyle = "Italic",
-        [String] $ForeColor = $Global:LightGray,
-        [String] $BackColor = $Global:Gray,
+        [String] $ForeColor = "#FFFFFF", # White
+        [String] $BackColor = "#2C2C2C", # Dark Gray
         [String] $TextAlign = "MiddleLeft"
     )
 
+    Write-Verbose "CheckBox '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, BC $BackColor, TA $TextAlign"
     $CheckBox = New-Object System.Windows.Forms.CheckBox
     $CheckBox.Text = $Text
     $CheckBox.Width = $Width
@@ -311,6 +251,8 @@ function New-CheckBox() {
     $CheckBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $CheckBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $CheckBox.TextAlign = $TextAlign
+    $CheckBox.FlatStyle = [System.Windows.Forms.FlatStyle]::Standard
+    $CheckBox.FlatAppearance.BorderSize = 1
 
     return $CheckBox
 }
