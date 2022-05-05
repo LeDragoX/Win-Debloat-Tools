@@ -8,15 +8,19 @@ function Install-WSLPreview() {
 
     $TweakType = "WSL"
 
-    Try {
-        Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Install updates to other Microsoft products (auto-update WSL and other products)..."
-        # [@] (0 = Do not install updates to other Microsoft products , 1 = Install updates to other Microsoft products)
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AllowMUUpdateService" -Type DWord -Value 1
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Install updates to other Microsoft products (auto-update WSL and other products)..."
+    # [@] (0 = Do not install updates to other Microsoft products , 1 = Install updates to other Microsoft products)
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AllowMUUpdateService" -Type DWord -Value 1
 
+    Write-Status -Symbol "+" -Type $TweakType -Status "Installing VirtualMachinePlatform on Optional Features ..."
+    Get-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart # VM Platform
+    Write-Status -Symbol "+" -Type $TweakType -Status "Installing HypervisorPlatform on Optional Features ..."
+    Get-WindowsOptionalFeature -Online -FeatureName "HypervisorPlatform" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart # Hypervisor Platform from Windows
+
+    Try {
         Write-Status -Symbol "?" -Type $TweakType "Installing WSL Preview from MS Store for Windows 11+ ..." -Warning
         Write-Host "[?] Press 'Y' and ENTER to continue if stuck (Winget bug) ..." -ForegroundColor Magenta -BackgroundColor Black
         $CheckExistenceBlock = { Install-Software -Name "WSL Preview (Win 11+)" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog }
-        $err = $null
         $err = (Invoke-Expression "$CheckExistenceBlock") | Out-Host
         If (($LASTEXITCODE)) { throw $err } # !! 0 = False, 1 = True
 
@@ -44,12 +48,8 @@ function Install-WSLTwoAndG() {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
     }
 
-    Write-Status -Symbol "+" -Type $TweakType -Status "Installing Microsoft-Windows-Subsystem-Linux..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Installing Microsoft-Windows-Subsystem-Linux ..."
     Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart # WSL (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
-    Write-Status -Symbol "+" -Type $TweakType -Status "Installing VirtualMachinePlatform..."
-    Get-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart # VM Platform
-    Write-Status -Symbol "+" -Type $TweakType -Status "Installing HypervisorPlatform..."
-    Get-WindowsOptionalFeature -Online -FeatureName "HypervisorPlatform" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart # Hypervisor Platform from Windows
 
     ForEach ($OSArch in $OSArchList) {
         If ($OSArch -like "x64" -or "arm64") {
