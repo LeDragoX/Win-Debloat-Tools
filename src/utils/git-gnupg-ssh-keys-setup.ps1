@@ -230,7 +230,7 @@ function Main() {
                     Import-KeysSshGpg
                 }
                 'Cancel' {
-                    Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit
+                    Write-Host "Aborting..."
                 }
             }
         }
@@ -238,7 +238,7 @@ function Main() {
             Write-Host "Aborting..."
         }
         'Cancel' {
-            Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit
+            Write-Host "Aborting..."
         }
     }
 }

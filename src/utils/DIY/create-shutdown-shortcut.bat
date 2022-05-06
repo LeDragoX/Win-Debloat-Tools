@@ -5,13 +5,13 @@ echo Set oLink = oWS.CreateShortcut(sLinkFile) >> CreateShortcut.vbs
 echo oLink.TargetPath = "%SYSTEMROOT%\System32\shutdown.exe" >> CreateShortcut.vbs
 echo oLink.Arguments = "-s -f -t 0" >> CreateShortcut.vbs
 echo oLink.IconLocation = "%SYSTEMROOT%\System32\SHELL32.dll, 27" >> CreateShortcut.vbs REM 27 or 215 is the number of icon to shutdown in SHELL32.dll
-REM "%SYSTEMROOT%\system32\imageres.dll, 2" >> CreateShortcut.vbs REM Icons of Windows 10
-REM "%SYSTEMROOT%\system32\pifmgr.dll, 2" >> CreateShortcut.vbs REM Icons of Windows 95/98
-REM "%SYSTEMROOT%\explorer.exe, 2" >> CreateShortcut.vbs REM Icons of Windows Explorer
+REM "%SYSTEMROOT%\system32\imageres.dll, 2" >> CreateShortcut.vbs REM Icons from Windows 10
+REM "%SYSTEMROOT%\system32\pifmgr.dll, 2" >> CreateShortcut.vbs REM Icons from Windows 95/98
+REM "%SYSTEMROOT%\explorer.exe, 2" >> CreateShortcut.vbs REM Icons from Windows Explorer
 REM "%SYSTEMROOT%\system32\accessibilitycpl.dll, 2" >> CreateShortcut.vbs REM Icons of Accessibility
 REM "%SYSTEMROOT%\system32\ddores.dll, 2" >> CreateShortcut.vbs REM Icons of Hardware
 REM "%SYSTEMROOT%\system32\moricons.dll, 2" >> CreateShortcut.vbs REM Icons of MS-DOS
-REM "%SYSTEMROOT%\system32\mmcndmgr.dll, 2" >> CreateShortcut.vbs REM More Icons of Windows 95/98
+REM "%SYSTEMROOT%\system32\mmcndmgr.dll, 2" >> CreateShortcut.vbs REM More Icons from Windows 95/98
 REM "%SYSTEMROOT%\system32\mmres.dll, 2" >> CreateShortcut.vbs REM Icons of Audio
 REM "%SYSTEMROOT%\system32\netshell.dll, 2" >> CreateShortcut.vbs REM Icons of Network
 REM "%SYSTEMROOT%\system32\netcenter.dll, 2" >> CreateShortcut.vbs REM More Icons of Network

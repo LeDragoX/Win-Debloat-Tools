@@ -23,7 +23,7 @@ function Show-Question() {
     param (
         [String] $Title = "Insert title here",
         [Array]  $Message = "Crash`nBandicoot",
-        [String] $BoxButtons = "YesNoCancel",
+        [String] $BoxButtons = "YesNoCancel", # With Yes, No and Cancel, the user can press Esc to exit
         [String] $BoxIcon = "Question"
     )
 
