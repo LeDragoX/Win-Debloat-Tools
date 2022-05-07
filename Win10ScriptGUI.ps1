@@ -1,10 +1,12 @@
-﻿function Request-AdminPrivilege() {
+﻿# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
+# Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
+# Take Ownership tweak from: https://www.howtogeek.com/howto/windows-vista/add-take-ownership-to-explorer-right-click-menu-in-vista/
+
+function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 }
 
-# https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
-# Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 function Show-GUI() {
     Write-Status -Symbol "@" -Status "Loading GUI Layout..."
     # Loading System Libs
@@ -61,7 +63,7 @@ function Show-GUI() {
     # Panels to put Labels and Buttons
     $CurrentPanelIndex = 0
     $Panel1 = New-Panel -Width $PanelWidth -Height ($FormHeight - ($FormHeight * 0.1955)) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.60) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
+    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.00) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
     $CurrentPanelIndex++
     $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.40) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $CurrentPanelIndex++
@@ -111,6 +113,9 @@ function Show-GUI() {
     $DarkThemeCheckBox = New-CheckBox -Text "Use Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY
 
     $NextYLocation = $DarkThemeCheckBox.Location.Y + $DarkThemeCheckBox.Height + $DistanceBetweenButtons
+    $ActivityHistoryCheckBox = New-CheckBox -Text "Enable Activity History" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $ActivityHistoryCheckBox.Location.Y + $ActivityHistoryCheckBox.Height + $DistanceBetweenButtons
     $BackgroundsAppsCheckBox = New-CheckBox -Text "Enable Background Apps" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $BackgroundsAppsCheckBox.Location.Y + $BackgroundsAppsCheckBox.Height + $DistanceBetweenButtons
@@ -126,6 +131,9 @@ function Show-GUI() {
     $SearchIdxCheckBox = New-CheckBox -Text "Enable Search Indexing" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $SearchIdxCheckBox.Location.Y + $SearchIdxCheckBox.Height + $DistanceBetweenButtons
+    $TakeOwnershipCheckBox = New-CheckBox -Text "Enable Take Ownership menu" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $TakeOwnershipCheckBox.Location.Y + $TakeOwnershipCheckBox.Height + $DistanceBetweenButtons
     $TelemetryCheckBox = New-CheckBox -Text "Enable Telemetry" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $TelemetryCheckBox.Location.Y + $TelemetryCheckBox.Height + $DistanceBetweenButtons
@@ -161,7 +169,7 @@ function Show-GUI() {
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $WinRAR.Location.Y + $WinRAR.Height + $DistanceBetweenButtons
-    $CaptionLabel3_3 = New-Label -Text "Document Editors" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CaptionLabel3_3 = New-Label -Text "Document Editors/Readers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_3.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -183,7 +191,7 @@ function Show-GUI() {
 
     # Panel 3 ~> Caption Label
     $NextYLocation = $Zotero.Location.Y + $Zotero.Height + $DistanceBetweenButtons
-    $CaptionLabel3_5 = New-Label -Text "Networking" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CaptionLabel3_5 = New-Label -Text "Network Management" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -202,7 +210,7 @@ function Show-GUI() {
 
     # --- Panel 3 ~> Caption Label
     $NextYLocation = $TwilioAuthy.Location.Y + $TwilioAuthy.Height + $DistanceBetweenButtons
-    $CaptionLabel3_7 = New-Label -Text "⌨ Development (Windows)" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CaptionLabel3_7 = New-Label -Text "⌨ Development on Windows" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 3 ~> Small Buttons
     $NextYLocation = $CaptionLabel3_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -293,7 +301,7 @@ function Show-GUI() {
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $ShareX.Location.Y + $ShareX.Height + $DistanceBetweenButtons
-    $CaptionLabel4_2 = New-Label -Text "Text Editors / IDEs" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CaptionLabel4_2 = New-Label -Text "Text Editors/IDEs" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_2.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -335,7 +343,7 @@ function Show-GUI() {
 
     # Panel 4 ~> Caption Label
     $NextYLocation = $Ventoy.Location.Y + $Ventoy.Height + $DistanceBetweenButtons
-    $CaptionLabel4_5 = New-Label -Text "Planning" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CaptionLabel4_5 = New-Label -Text "Planning/Productivity" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -370,7 +378,7 @@ function Show-GUI() {
 
     # Panel 4 ~> Small Buttons
     $NextYLocation = $CaptionLabel4_7.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $WSLgOrPreview = New-CheckBox -Text "Install WSLg/Preview (Win 10+)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WinBlue
+    $WSLgOrPreview = New-CheckBox -Text "Install WSLg/Preview" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WinBlue
 
     $NextYLocation = $WSLgOrPreview.Location.Y + $WSLgOrPreview.Height + $DistanceBetweenButtons
     $ArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WinBlue
@@ -481,17 +489,17 @@ function Show-GUI() {
 
     # Panel 5 ~> Caption Label
     $NextYLocation = $StreamlabsObs.Location.Y + $StreamlabsObs.Height + $DistanceBetweenButtons
-    $CaptionLabel5_5 = New-Label -Text "Media Playing" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CaptionLabel5_5 = New-Label -Text "Audio/Video Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 5 ~> Small Buttons
     $NextYLocation = $CaptionLabel5_5.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $MpcHc = New-CheckBox -Text "Media Player Classic H. C." -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $MpcHc = New-CheckBox -Text "MPC-HC from clsid2 (Player)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $MpcHc.Location.Y + $MpcHc.Height + $DistanceBetweenButtons
-    $Spotify = New-CheckBox -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $Spotify = New-CheckBox -Text "Spotify (Player)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $Spotify.Location.Y + $Spotify.Height + $DistanceBetweenButtons
-    $Vlc = New-CheckBox -Text "VLC" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $Vlc = New-CheckBox -Text "VLC (Player)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 5 ~> Caption Label
     $NextYLocation = $Vlc.Location.Y + $Vlc.Height + $DistanceBetweenButtons
@@ -539,7 +547,7 @@ function Show-GUI() {
     $FullPanel.Controls.AddRange(@($CaptionLabel1_2))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $Panel5))
     $Panel1.Controls.AddRange(@($TitleLabel1, $CaptionLabel1_1, $ApplyTweaks, $UndoTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $ShowDebloatInfo, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $DarkThemeCheckBox, $BackgroundsAppsCheckBox, $ClipboardHistoryCheckBox, $CortanaCheckBox, $OldVolumeControlCheckBox, $SearchIdxCheckBox, $TelemetryCheckBox, $XboxGameBarAndDVRCheckBox))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $DarkThemeCheckBox, $ActivityHistoryCheckBox, $BackgroundsAppsCheckBox, $ClipboardHistoryCheckBox, $CortanaCheckBox, $OldVolumeControlCheckBox, $SearchIdxCheckBox, $TakeOwnershipCheckBox, $TelemetryCheckBox, $XboxGameBarAndDVRCheckBox))
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
     $Panel3.Controls.AddRange(@($CaptionLabel3_3, $LibreOffice, $OnlyOffice, $PowerBI))
@@ -629,14 +637,25 @@ function Show-GUI() {
             }
             Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-light-theme.reg") -NoDialog
-                $DarkThemeCheckBox.Text = "[OFF] ☀ Use Dark Theme"
+                $DarkThemeCheckBox.Text = "[OFF] ☀ Use Dark Theme (D.)"
+            }
+        })
+
+    $ActivityHistoryCheckBox.Add_Click( {
+            If ($ActivityHistoryCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-activity-history.reg") -NoDialog
+                $ActivityHistoryCheckBox.Text = "[ON]  Activity History (Default)"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-activity-history.reg") -NoDialog
+                $ActivityHistoryCheckBox.Text = "[OFF] Activity History"
             }
         })
 
     $BackgroundsAppsCheckBox.Add_Click( {
             If ($BackgroundsAppsCheckBox.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-bg-apps.reg") -NoDialog
-                $BackgroundsAppsCheckBox.Text = "[ON]  Background Apps"
+                $BackgroundsAppsCheckBox.Text = "[ON]  Background Apps (D.)"
             }
             Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-bg-apps.reg") -NoDialog
@@ -647,7 +666,7 @@ function Show-GUI() {
     $ClipboardHistoryCheckBox.Add_Click( {
             If ($ClipboardHistoryCheckBox.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-clipboard-history.reg") -NoDialog
-                $ClipboardHistoryCheckBox.Text = "[ON]  Clipboard History"
+                $ClipboardHistoryCheckBox.Text = "[ON]  Clipboard History (D.)"
             }
             Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-clipboard-history.reg") -NoDialog
@@ -658,7 +677,7 @@ function Show-GUI() {
     $CortanaCheckBox.Add_Click( {
             If ($CortanaCheckBox.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-cortana.reg") -NoDialog
-                $CortanaCheckBox.Text = "[ON]  Cortana"
+                $CortanaCheckBox.Text = "[ON]  Cortana (Default)"
             }
             Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-cortana.reg") -NoDialog
@@ -673,25 +692,36 @@ function Show-GUI() {
             }
             Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-old-volume-control.reg") -NoDialog
-                $OldVolumeControlCheckBox.Text = "[OFF] Old Volume Control"
+                $OldVolumeControlCheckBox.Text = "[OFF] Old Volume Control (D.)"
             }
         })
 
     $SearchIdxCheckBox.Add_Click( {
             If ($SearchIdxCheckBox.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-search-idx.ps1") -NoDialog
-                $SearchIdxCheckBox.Text = "[ON]  Search Indexing"
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-search-idx-service.ps1") -NoDialog
+                $SearchIdxCheckBox.Text = "[ON]  Search Indexing (Default)"
             }
             Else {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-search-idx.ps1") -NoDialog
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-search-idx-service.ps1") -NoDialog
                 $SearchIdxCheckBox.Text = "[OFF] Search Indexing"
+            }
+        })
+
+    $TakeOwnershipCheckBox.Add_Click( {
+            If ($TakeOwnershipCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-take-ownership-context-menu.reg") -NoDialog
+                $TakeOwnershipCheckBox.Text = "[ON]  Take Ownership..."
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-take-ownership-context-menu.reg") -NoDialog
+                $TakeOwnershipCheckBox.Text = "[OFF] Take Ownership... (D.)"
             }
         })
 
     $TelemetryCheckBox.Add_Click( {
             If ($TelemetryCheckBox.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-telemetry.reg") -NoDialog
-                $TelemetryCheckBox.Text = "[ON]  Telemetry"
+                $TelemetryCheckBox.Text = "[ON]  Telemetry (Default)"
             }
             Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-telemetry.reg") -NoDialog
@@ -702,7 +732,7 @@ function Show-GUI() {
     $XboxGameBarAndDVRCheckBox.Add_Click( {
             If ($XboxGameBarAndDVRCheckBox.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-game-bar-dvr.reg") -NoDialog
-                $XboxGameBarAndDVRCheckBox.Text = "[ON]  Xbox GameBar/DVR"
+                $XboxGameBarAndDVRCheckBox.Text = "[ON]  Xbox GameBar/DVR (D.)"
             }
             Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-game-bar-dvr.reg") -NoDialog

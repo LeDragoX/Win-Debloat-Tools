@@ -10,8 +10,8 @@
 </h1>
 
 <h1 align="center">
-	<img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win 10+ Smart Debloat Tools
-	<img width=30px src="src/assets/powershell-icon.png" style="vertical-align: bottom">
+ <img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win 10+ Smart Debloat Tools
+ <img width=30px src="src/assets/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
 <h2 align="center">This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a></h2>
@@ -30,24 +30,24 @@ Code located in the `main` branch is always considered under development,
 but you'll probably want the most recent version anyway.
 
 <div align="center">
-	<table>
-		<thead>
-			<tr>
-				<th>Download</th>
-				<th>Version(s) Supported</th>
-				<th>Edition(s)</th>
-				<th>PowerShell Version</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr align="center">
-				<td><h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Zip File ⬇️</a></h3></td>
-				<td>21H2 or Older</td>
-				<td>Home / Pro</td>
-				<td><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
-			</tr>
-		</tbody>
-	</table>
+ <table>
+  <thead>
+   <tr>
+    <th>Download</th>
+    <th>Version(s) Supported</th>
+    <th>Edition(s)</th>
+    <th>PowerShell Version</th>
+   </tr>
+  </thead>
+  <tbody>
+   <tr align="center">
+    <td><h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Zip File ⬇️</a></h3></td>
+    <td>21H2 or Older</td>
+    <td>Home / Pro</td>
+    <td><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
+   </tr>
+  </tbody>
+ </table>
 </div>
 
 ## 🔄️ Roll-Back
@@ -91,7 +91,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ## ✅ GUI Script Features
 
 <details>
-	<summary>Click to expand</summary>
+ <summary>Click to expand</summary>
 
 - `Apply Tweaks`: Run every Common Tweak scripts;
 - `Undo Tweaks`: Re-apply some tweaks and [Revert] all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
@@ -100,13 +100,15 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Reinstall Pre-Installed Apps`: Rebloat Windows with all the Pre-Installed Apps; ([`reinstall-pre-installed-apps.ps1`](./src/utils/reinstall-pre-installed-apps.ps1))
 - `Show Debloat Info`: Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference); ([`show-debloat-info.ps1`](./src/utils/show-debloat-info.ps1))
 - `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
-- `Enable/Disable Search Indexing`: Let you choose whether the **Windows Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
+- `Enable/Disable Activity History`: Let you choose whether the **Activity History** is [enabled](./src/utils/enable-activity-history.reg) or [disabled](src/utils/disable-activity-history.reg);
 - `Enable/Disable Background Apps`: Let you choose whether _ALL_ the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
-- `Enable Telemetry & Disable Telemetry`: Let you choose whether the **Windows Telemetry** is [enabled](./src/utils/enable-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
 - `Enable/Disable Cortana`: Let you choose whether the **Cortana** is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
-- `Enable/Disable Xbox GameBar/DVR`: Let you choose whether the **Xbox GameBar/DVR (In-Game)** is [enabled](./src/utils/enable-game-bar-dvr.reg) or [disabled](src/utils/disable-game-bar-dvr.reg);
 - `Enable/Disable Clipboard History`: Let you choose whether the **Clipboard History** is [enabled](./src/utils/enable-clipboard-history.reg) or [disabled](src/utils/disable-clipboard-history.reg);
 - `Enable/Disable Old Volume Control`: Let you choose whether the **Old Volume Control (Win 7/8.1)** is [enabled](./src/utils/enable-old-volume-control.reg) or [disabled](src/utils/disable-old-volume-control.reg);
+- `Enable/Disable Search Indexing`: Let you choose whether the **Windows Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
+- `Enable/Disable Take Ownership menu`: Let you choose whether the **Take Ownership context menu** is [enabled](./src/utils/enable-take-ownership-context-menu.reg) or [disabled](src/utils/disable-take-ownership-context-menu.reg);
+- `Enable/Disable Telemetry`: Let you choose whether the **Windows Telemetry** is [enabled](./src/utils/enable-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
+- `Enable/Disable Xbox GameBar/DVR`: Let you choose whether the **Xbox GameBar/DVR (In-Game)** is [enabled](./src/utils/enable-game-bar-dvr.reg) or [disabled](src/utils/disable-game-bar-dvr.reg);
 - `Install CPU/GPU Driver Updater`: This **WILL NOT** install anymore the drivers, only the drivers updater. ([`install-drivers-updaters.ps1`](./src/scripts/install-drivers-updaters.ps1));
   - The Latest CPU for driver updater. For `Intel`, `Intel DSA (Winget)` (Except AMD);
   - The Latest GPU driver updater. For `Intel (DSA)` and `NVIDIA`, `NVIDIA GeForce Experience (Winget)` (Except AMD);
@@ -119,7 +121,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ## ☑️ Common Script Features
 
 <details>
-	<summary>Click to expand</summary>
+ <summary>Click to expand</summary>
 
 - Import all necessary Modules before Executing everything; ([lib folder](./src/lib/))
 - Logs both script versions on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs`;
@@ -149,7 +151,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 > and Open PowerShell as admin to copy + paste it's content:
 
 <details>
-	<summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
+ <summary>Issues with Skype (<code>Microsoft.SkypeApp</code> app was uninstalled) - See <a href="https://github.com/W4RH4WK/Debloat-Windows-10/issues/79">#79 from W4RH4WK</a></summary>
 
 ```Powershell
 winget install --silent --source "winget" --id "Microsoft.Skype"
@@ -158,7 +160,7 @@ winget install --silent --source "winget" --id "Microsoft.Skype"
 </details>
 
 <details>
-	<summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/issues/7">#7</a></summary>
+ <summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/issues/7">#7</a></summary>
 
 1. Press `Win + R` then paste this protocol: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
 2. Then click `Get`/`Install`
@@ -167,7 +169,7 @@ winget install --silent --source "winget" --id "Microsoft.Skype"
 </details>
 
 <details>
-	<summary>Fix <code>NVIDIA Control Panel</code></summary>
+ <summary>Fix <code>NVIDIA Control Panel</code></summary>
 
 > Only this time (Recommended - Consumes less RAM after boot)
 
@@ -184,7 +186,7 @@ Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automati
 </details>
 
 <details>
-	<summary>Sysprep will hang (Not Tested).</summary>
+ <summary>Sysprep will hang (Not Tested).</summary>
 
 > _No solution yet, do a Google search_
 
@@ -236,8 +238,8 @@ git clone --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools
 ## 🔎 How did i find specific Tweaks?
 
 <details>
-	<summary>Click to expand</summary>
-	<p>How To (Advanced Users)</p>
+ <summary>Click to expand</summary>
+ <p>How To (Advanced Users)</p>
 
 By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe` i could track the `SystemSettings.exe` by filtering per Process Name `(Ctrl + L)`.
 
