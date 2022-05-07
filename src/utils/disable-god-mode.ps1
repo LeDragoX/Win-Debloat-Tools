@@ -1,7 +1,8 @@
-# Description: This scripts places the "God Mode" folder on the current user's desktop.
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Main() {
-    Write-Output @"
+    Write-Status -Symbol "@" -Status "Disabling God Mode hidden folder..." -Warning
+    Write-Host @"
 ###############################################################################
 #       _______  _______  ______     __   __  _______  ______   _______       #
 #      |       ||       ||      |   |  |_|  ||       ||      | |       |      #
@@ -11,12 +12,13 @@ function Main() {
 #      |   |_| ||       ||       |  | ||_|| ||       ||       ||   |___       #
 #      |_______||_______||______|   |_|   |_||_______||______| |_______|      #
 #                                                                             #
-#      God Mode has been enabled, check out the new link on your Desktop      #
+#         God Mode has been disabled, link removed from your Desktop          #
 #                                                                             #
 ###############################################################################
-"@
+"@ -ForegroundColor Cyan
+
     $DesktopPath = [Environment]::GetFolderPath("Desktop");
-    mkdir "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}"
+    Remove-Item -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}"
 }
 
 Main

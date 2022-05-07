@@ -35,7 +35,7 @@ function New-Shortcut() {
 }
 
 <#
-"$env:SystemRoot\System32\SHELL32.dll, 27"         >>> 27 or 215 is the number of icon to shutdown in SHELL32.dll
+"$env:SystemRoot\System32\shell32.dll, 27"         >>> 27 or 215 is the number of icon to shutdown in SHELL32.dll
 "$env:SystemRoot\System32\imageres.dll, 2"         >>> Icons from Windows 10
 "$env:SystemRoot\System32\pifmgr.dll, 2"           >>> Icons from Windows 95/98
 "$env:SystemRoot\explorer.exe, 2"                  >>> Icons from Windows Explorer

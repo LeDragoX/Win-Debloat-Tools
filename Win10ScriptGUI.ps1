@@ -14,7 +14,7 @@ function Show-GUI() {
     Add-Type -AssemblyName System.Drawing
     [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
 
-    Set-UIFont # Load the GUI Layout
+    Set-UIFont # Load the Layout Font
 
     $Script:NeedRestart = $false
     $DoneTitle = "Information"
@@ -78,9 +78,10 @@ function Show-GUI() {
     $TitleLabel2 = New-Label -Text "Customize Tweaks" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
     $TitleLabel3 = New-Label -Text "Software Install" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
 
-    # Panel 1, 3-4-5 ~> Caption Label
+    # Panel 1, 2, 3-4-5 ~> Caption Label
     $CaptionLabel1_1 = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY ($FirstButtonY - 27) -ForeColor $White
-    $CaptionLabel1_2 = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY ($FirstButtonY - 27) -ForeColor $White
+    $CaptionLabel1_2 = New-Label -Text "Enable/Disable Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY ($FirstButtonY - 27) -ForeColor $White
+    $CaptionLabel1_3 = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY ($FirstButtonY - 27) -ForeColor $White
 
     # Panel 1 ~> Big Button
     $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $Header3 -ForeColor $WinBlue
@@ -94,20 +95,20 @@ function Show-GUI() {
     $RemoveXbox = New-Button -Text "Remove and Disable Xbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WarningYellow
 
     $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
-    $RepairWindows = New-Button -Text "Repair Windows" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    # Image Logo from the Script
+    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width $ButtonWidth -Height (($BBHeight * 2) + $DistanceBetweenButtons) -LocationX $ButtonX -LocationY $NextYLocation -SizeMode 'Zoom'
 
-    $NextYLocation = $RepairWindows.Location.Y + $RepairWindows.Height + $DistanceBetweenButtons
+    $NextYLocation = $PictureBox1.Location.Y + $PictureBox1.Height + $DistanceBetweenButtons
     $InstallOneDrive = New-Button -Text "Install OneDrive" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallOneDrive.Location.Y + $InstallOneDrive.Height + $DistanceBetweenButtons
     $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $ReinstallBloatApps.Location.Y + $ReinstallBloatApps.Height + $DistanceBetweenButtons
-    $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $RepairWindows = New-Button -Text "Repair Windows" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ShowDebloatInfo.Location.Y + $ShowDebloatInfo.Height + $DistanceBetweenButtons
-    # Image Logo from the Script
-    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width 150 -Height 150 -LocationX (($PanelWidth * 0.72) - 150) -LocationY $NextYLocation -SizeMode 'Zoom'
+    $NextYLocation = $RepairWindows.Location.Y + $RepairWindows.Height + $DistanceBetweenButtons
+    $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 2 ~> Small Buttons
     $DarkThemeCheckBox = New-CheckBox -Text "Use Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY
@@ -131,13 +132,22 @@ function Show-GUI() {
     $SearchIdxCheckBox = New-CheckBox -Text "Enable Search Indexing" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $SearchIdxCheckBox.Location.Y + $SearchIdxCheckBox.Height + $DistanceBetweenButtons
-    $TakeOwnershipCheckBox = New-CheckBox -Text "Enable Take Ownership menu" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
-
-    $NextYLocation = $TakeOwnershipCheckBox.Location.Y + $TakeOwnershipCheckBox.Height + $DistanceBetweenButtons
     $TelemetryCheckBox = New-CheckBox -Text "Enable Telemetry" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $TelemetryCheckBox.Location.Y + $TelemetryCheckBox.Height + $DistanceBetweenButtons
     $XboxGameBarAndDVRCheckBox = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $XboxGameBarAndDVRCheckBox.Location.Y + $XboxGameBarAndDVRCheckBox.Height + $DistanceBetweenButtons
+    $CaptionLabel2_1 = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $NextYLocation -ForeColor $White
+
+    $NextYLocation = $CaptionLabel2_1.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $GodModeCheckBox = New-CheckBox -Text "Enable God Mode" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $GodModeCheckBox.Location.Y + $GodModeCheckBox.Height + $DistanceBetweenButtons
+    $TakeOwnershipCheckBox = New-CheckBox -Text "Enable Take Ownership menu" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $TakeOwnershipCheckBox.Location.Y + $TakeOwnershipCheckBox.Height + $DistanceBetweenButtons
+    $ShutdownPCShortcutCheckBox = New-CheckBox -Text "Enable Shutdown PC shortcut" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # Panel 3 ~> Big Button
     $InstallDrivers = New-Button -Text "Install CPU/GPU Drivers Updaters" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $Header3 -ForeColor $WinBlue
@@ -544,10 +554,11 @@ function Show-GUI() {
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($FullPanel))
     # Add Elements to each Panel
-    $FullPanel.Controls.AddRange(@($CaptionLabel1_2))
+    $FullPanel.Controls.AddRange(@($CaptionLabel1_3))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $Panel5))
-    $Panel1.Controls.AddRange(@($TitleLabel1, $CaptionLabel1_1, $ApplyTweaks, $UndoTweaks, $RemoveXbox, $RepairWindows, $InstallOneDrive, $ReinstallBloatApps, $ShowDebloatInfo, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $DarkThemeCheckBox, $ActivityHistoryCheckBox, $BackgroundsAppsCheckBox, $ClipboardHistoryCheckBox, $CortanaCheckBox, $OldVolumeControlCheckBox, $SearchIdxCheckBox, $TakeOwnershipCheckBox, $TelemetryCheckBox, $XboxGameBarAndDVRCheckBox))
+    $Panel1.Controls.AddRange(@($TitleLabel1, $CaptionLabel1_1, $ApplyTweaks, $UndoTweaks, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
+    $Panel2.Controls.AddRange(@($TitleLabel2, $CaptionLabel1_2, $DarkThemeCheckBox, $ActivityHistoryCheckBox, $BackgroundsAppsCheckBox, $ClipboardHistoryCheckBox, $CortanaCheckBox, $OldVolumeControlCheckBox, $SearchIdxCheckBox, $TelemetryCheckBox, $XboxGameBarAndDVRCheckBox))
+    $Panel2.Controls.AddRange(@($CaptionLabel2_1, $GodModeCheckBox, $TakeOwnershipCheckBox, $ShutdownPCShortcutCheckBox))
     $Panel3.Controls.AddRange(@($InstallDrivers, $CaptionLabel3_1, $BraveBrowser, $GoogleChrome, $MozillaFirefox))
     $Panel3.Controls.AddRange(@($CaptionLabel3_2, $7Zip, $WinRAR))
     $Panel3.Controls.AddRange(@($CaptionLabel3_3, $LibreOffice, $OnlyOffice, $PowerBI))
@@ -612,6 +623,9 @@ function Show-GUI() {
 
     $RemoveXbox.Add_Click( {
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-and-disable-xbox.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
+            $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
+            $Form.Update()
         })
 
     $RepairWindows.Add_Click( {
@@ -707,17 +721,6 @@ function Show-GUI() {
             }
         })
 
-    $TakeOwnershipCheckBox.Add_Click( {
-            If ($TakeOwnershipCheckBox.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-take-ownership-context-menu.reg") -NoDialog
-                $TakeOwnershipCheckBox.Text = "[ON]  Take Ownership..."
-            }
-            Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-take-ownership-context-menu.reg") -NoDialog
-                $TakeOwnershipCheckBox.Text = "[OFF] Take Ownership... (D.)"
-            }
-        })
-
     $TelemetryCheckBox.Add_Click( {
             If ($TelemetryCheckBox.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-telemetry.reg") -NoDialog
@@ -737,6 +740,39 @@ function Show-GUI() {
             Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-game-bar-dvr.reg") -NoDialog
                 $XboxGameBarAndDVRCheckBox.Text = "[OFF] Xbox GameBar/DVR"
+            }
+        })
+
+    $GodModeCheckBox.Add_Click( {
+            If ($GodModeCheckBox.CheckState -eq "Checked") {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-god-mode.ps1") -NoDialog
+                $GodModeCheckBox.Text = "[ON]  God Mode"
+            }
+            Else {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-god-mode.ps1") -NoDialog
+                $GodModeCheckBox.Text = "[OFF] God Mode (Default)"
+            }
+        })
+
+    $TakeOwnershipCheckBox.Add_Click( {
+            If ($TakeOwnershipCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-take-ownership-context-menu.reg") -NoDialog
+                $TakeOwnershipCheckBox.Text = "[ON]  Take Ownership menu"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-take-ownership-context-menu.reg") -NoDialog
+                $TakeOwnershipCheckBox.Text = "[OFF] Take Ownership... (D.)"
+            }
+        })
+
+    $ShutdownPCShortcutCheckBox.Add_Click( {
+            If ($ShutdownPCShortcutCheckBox.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-shutdown-pc-shortcut.ps1") -NoDialog
+                $ShutdownPCShortcutCheckBox.Text = "[ON]  Shutdown PC shortcut"
+            }
+            Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-shutdown-pc-shortcut.ps1") -NoDialog
+                $ShutdownPCShortcutCheckBox.Text = "[OFF] Shutdown PC... (Default)"
             }
         })
 

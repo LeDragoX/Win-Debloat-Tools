@@ -93,28 +93,42 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 <details>
  <summary>Click to expand</summary>
 
+### System Tweaks
+
 - `Apply Tweaks`: Run every Common Tweak scripts;
 - `Undo Tweaks`: Re-apply some tweaks and [Revert] all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
 - `Remove and Disable Xbox`: Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR; ([`remove-and-disable-xbox.ps1`](./src/scripts/remove-and-disable-xbox.ps1))
-- `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
+- `Install OneDrive`: Tries to re-install the built-in OneDrive; ([`install-onedrive.ps1`](./src/utils/install-onedrive.ps1))
 - `Reinstall Pre-Installed Apps`: Rebloat Windows with all the Pre-Installed Apps; ([`reinstall-pre-installed-apps.ps1`](./src/utils/reinstall-pre-installed-apps.ps1))
+- `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
 - `Show Debloat Info`: Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference); ([`show-debloat-info.ps1`](./src/utils/show-debloat-info.ps1))
+
+### Customize Tweaks (System Features)
+
 - `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
-- `Enable/Disable Activity History`: Let you choose whether the **Activity History** is [enabled](./src/utils/enable-activity-history.reg) or [disabled](src/utils/disable-activity-history.reg);
-- `Enable/Disable Background Apps`: Let you choose whether _ALL_ the **Background Apps** are [enabled](./src/utils/enable-bg-apps.reg) or [disabled](src/utils/disable-bg-apps.reg);
-- `Enable/Disable Cortana`: Let you choose whether the **Cortana** is [enabled](./src/utils/enable-cortana.reg) or [disabled](src/utils/disable-cortana.reg);
-- `Enable/Disable Clipboard History`: Let you choose whether the **Clipboard History** is [enabled](./src/utils/enable-clipboard-history.reg) or [disabled](src/utils/disable-clipboard-history.reg);
-- `Enable/Disable Old Volume Control`: Let you choose whether the **Old Volume Control (Win 7/8.1)** is [enabled](./src/utils/enable-old-volume-control.reg) or [disabled](src/utils/disable-old-volume-control.reg);
-- `Enable/Disable Search Indexing`: Let you choose whether the **Windows Search Service** is [enabled](./src/utils/enable-search-idx.ps1) or [disabled](src/utils/disable-search-idx.ps1);
-- `Enable/Disable Take Ownership menu`: Let you choose whether the **Take Ownership context menu** is [enabled](./src/utils/enable-take-ownership-context-menu.reg) or [disabled](src/utils/disable-take-ownership-context-menu.reg);
-- `Enable/Disable Telemetry`: Let you choose whether the **Windows Telemetry** is [enabled](./src/utils/enable-telemetry.reg) or [disabled](src/utils/disable-telemetry.reg);
-- `Enable/Disable Xbox GameBar/DVR`: Let you choose whether the **Xbox GameBar/DVR (In-Game)** is [enabled](./src/utils/enable-game-bar-dvr.reg) or [disabled](src/utils/disable-game-bar-dvr.reg);
-- `Install CPU/GPU Driver Updater`: This **WILL NOT** install anymore the drivers, only the drivers updater. ([`install-drivers-updaters.ps1`](./src/scripts/install-drivers-updaters.ps1));
+- `Enable/Disable Activity History`: [Enables](./src/utils/enable-activity-history.reg) or [Disables](src/utils/disable-activity-history.reg) the **Activity History**;
+- `Enable/Disable Background Apps`: [Enables](./src/utils/enable-bg-apps.reg) or [Disables](src/utils/disable-bg-apps.reg) _ALL_ the **Background Apps**;
+- `Enable/Disable Cortana`: [Enables](./src/utils/enable-cortana.reg) or [Disables](src/utils/disable-cortana.reg) the **Cortana**;
+- `Enable/Disable Clipboard History`: [Enables](./src/utils/enable-clipboard-history.reg) or [Disables](src/utils/disable-clipboard-history.reg) the **Clipboard History**;
+- `Enable/Disable Old Volume Control`: [Enables](./src/utils/enable-old-volume-control.reg) or [Disables](src/utils/disable-old-volume-control.reg) the **Old Volume Control (Win 7/8.1)**;
+- `Enable/Disable Search Indexing`: [Enables](./src/utils/enable-search-idx.ps1) or [Disables](src/utils/disable-search-idx.ps1) the **Windows Search Service**;
+- `Enable/Disable Telemetry`: [Enables](./src/utils/enable-telemetry.reg) or [Disables](src/utils/disable-telemetry.reg) the **Windows Telemetry**;
+- `Enable/Disable Xbox GameBar/DVR`: [Enables](./src/utils/enable-game-bar-dvr.reg) or [Disables](src/utils/disable-game-bar-dvr.reg) the **Xbox GameBar/DVR (In-Game)**;
+
+### Customize Tweaks (Miscellaneous Features)
+
+- `Enable/Disable God Mode`: [Enables](./src/utils/enable-god-mode.ps1) or [Disables](./src/utils/disable-god-mode.ps1) the hidden Desktop folder **God Mode**;
+- `Enable/Disable Take Ownership menu`: [Enables](./src/utils/enable-take-ownership-context-menu.reg) or [Disables](src/utils/disable-take-ownership-context-menu.reg) the **Take Ownership context menu**;
+- `Enable/Disable Shutdown PC shortcut`: [Enables](./src/utils/enable-shutdown-pc-shortcut.ps1) or [Disables](./src/utils/disable-shutdown-pc-shortcut.ps1) the **Shutdown Computer desktop shortcut** (May not work on the GUI);
+
+### Software Install
+
+- `Install CPU/GPU Driver Updater`: This **WILL NOT** install anymore the drivers, only the updater to the drivers. ([`install-drivers-updaters.ps1`](./src/scripts/install-drivers-updaters.ps1));
   - The Latest CPU for driver updater. For `Intel`, `Intel DSA (Winget)` (Except AMD);
   - The Latest GPU driver updater. For `Intel (DSA)` and `NVIDIA`, `NVIDIA GeForce Experience (Winget)` (Except AMD);
 - `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games (DirectX, VC++ 2005+ (x86 & x64), .NET Framework). ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-dependencies.ps1));
 - `Install Selected`: Install the selected apps by marking the checkbox(es);
-- `Uninstall Mode`: Default as OFF, clicking this will switch the `Install Selected` button to `Uninstall Selected` and uninstall every selected apps (Advice: Blue colored buttons may not be able to uninstall completely and WSL UWP Apps, but WSL Distros will be unregistered);
+- `Uninstall Mode`: Default as OFF, clicking this will switch the `Install Selected` button to `Uninstall Selected` and uninstall every selected apps (**Advice**: Blue colored buttons may not be able to uninstall completely and WSL UWP Apps, but WSL Distros will be unregistered);
 
 </details>
 
@@ -210,10 +224,10 @@ git clone --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools
 - [W4RH4WK](https://github.com/W4RH4WK) (For his project ^^);
 - [O&O Software GmbH](https://www.oo-software.com/en/company) (_ShutUp10 Company_);
 - [MalwareBytes](https://br.malwarebytes.com/company/) (_AdwCleaner Company_);
-- [Adamx's](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [_this video_](https://youtu.be/hQSkPmZRCjc);
-- [Baboo's](https://www.youtube.com/user/baboo) - by [_this video_](https://youtu.be/qWESrvP_uU8);
+- [Adamx's](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [_this video_](https://youtu.be/hQSkPmZRCjc) (and script);
+- [Baboo's](https://www.youtube.com/user/baboo) - by [_this video_](https://youtu.be/qWESrvP_uU8) (and commands);
 - [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - gave me more confidence to mess with PowerShell after [_this 🔴 LIVE_](https://youtu.be/ER27pGt5wH0)
-- [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [_this video_](https://youtu.be/EfrT_Bvgles);
+- [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [_this video_](https://youtu.be/EfrT_Bvgles) (and script explanation);
 - [matthewjberger](https://gist.github.com/matthewjberger) - by [_this script_](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
 
 ## 🔧 Tweak Testers
@@ -230,8 +244,8 @@ git clone --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools
 - [win10script](https://github.com/ChrisTitusTech/win10script) from [ChrisTitusTech](https://github.com/ChrisTitusTech) (Recommended);
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex);
 - [Sophia-Script-for-Windows](https://github.com/farag2/Sophia-Script-for-Windows) from [farag2](https://github.com/farag2);
-- [Windows-Optimize-Harden-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat);
-- [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat).
+- [Windows-Optimize-Harden-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat) from [SimeonOnSecurity](https://github.com/simeononsecurity);
+- [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat) from [SimeonOnSecurity](https://github.com/simeononsecurity).
 
 </details>
 
