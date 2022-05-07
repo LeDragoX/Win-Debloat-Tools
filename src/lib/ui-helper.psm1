@@ -91,7 +91,7 @@ function Set-UIFont() {
     $Script:MainFont = $Fonts[62]
 }
 
-function New-Form {
+function New-Form() {
     [CmdletBinding()]
     [OutputType([System.Windows.Forms.Form])]
     param (
@@ -120,7 +120,7 @@ function New-Form {
     return $Form
 }
 
-function New-FormIcon {
+function New-FormIcon() {
     [CmdletBinding()]
     [OutputType([System.Windows.Forms.Form])]
     param (
@@ -257,7 +257,7 @@ function New-CheckBox() {
     return $CheckBox
 }
 
-function New-PictureBox {
+function New-PictureBox() {
     [CmdletBinding()]
     [OutputType([System.Windows.Forms.PictureBox])]
     param (
@@ -271,7 +271,7 @@ function New-PictureBox {
 
     Write-Verbose "PictureBox: IL $ImageLocation, W$Width, H$Height, X$LocationX, Y$LocationY, SM $SizeMode"
     $PictureBox = New-Object System.Windows.Forms.PictureBox
-    $PictureBox.imageLocation = $ImageLocation
+    $PictureBox.ImageLocation = $ImageLocation
     $PictureBox.Width = $Width
     $PictureBox.Height = $Height
     $PictureBox.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
