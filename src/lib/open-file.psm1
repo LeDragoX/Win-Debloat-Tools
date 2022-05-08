@@ -23,7 +23,7 @@ function Open-PowerShellFilesCollection {
             Import-Module -DisableNameChecking .\"$FileName" -Force
         }
         Else {
-            PowerShell -NoProfile -ExecutionPolicy Bypass -file .\"$FileName"
+            PowerShell -NoProfile -ExecutionPolicy Bypass -File .\"$FileName"
         }
     }
 

@@ -777,11 +777,11 @@ function Show-GUI() {
 
     $CbShutdownPCShortcut.Add_Click( {
             If ($CbShutdownPCShortcut.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-shutdown-pc-shortcut.ps1") -NoDialog
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-shutdown-pc-shortcut.ps1") -NoDialog
                 $CbShutdownPCShortcut.Text = "[ON]  Shutdown PC shortcut"
             }
             Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-shutdown-pc-shortcut.ps1") -NoDialog
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-shutdown-pc-shortcut.ps1") -NoDialog
                 $CbShutdownPCShortcut.Text = "[OFF] Shutdown PC... (Default)"
             }
         })
