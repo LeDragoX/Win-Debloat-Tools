@@ -28,7 +28,7 @@ function New-Shortcut() {
     $Shortcut.TargetPath = $SourcePath
 
     If ($Hotkey) {
-        $Shortcut.Description += " ($Hotkey)"
+        $Shortcut.Description = "$Description ($Hotkey)"
     }
     Else {
         $Shortcut.Description = $Description
