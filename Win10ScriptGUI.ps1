@@ -520,9 +520,9 @@ function Show-GUI() {
     $InstallOracleVirtualBox = New-CheckBox -Text "Oracle VM VirtualBox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallOracleVirtualBox.Location.Y + $InstallOracleVirtualBox.Height + $DistanceBetweenButtons
-    $InstallQemuAndGuestAgent = New-CheckBox -Text "QEMU + Guest Agent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallQemu = New-CheckBox -Text "QEMU" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $InstallQemuAndGuestAgent.Location.Y + $InstallQemuAndGuestAgent.Height + $DistanceBetweenButtons
+    $NextYLocation = $InstallQemu.Location.Y + $InstallQemu.Height + $DistanceBetweenButtons
     $InstallVmWarePlayer = New-CheckBox -Text "VMware Workstation Player" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVmWarePlayer.Location.Y + $InstallVmWarePlayer.Height + $DistanceBetweenButtons
@@ -588,7 +588,7 @@ function Show-GUI() {
     $Panel5.Controls.AddRange(@($ClRecordingAndStreaming, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabsObs))
     $Panel5.Controls.AddRange(@($ClBootableUsb, $InstallBalenaEtcher, $InstallRufus, $InstallVentoy))
     $Panel5.Controls.AddRange(@($ClTorrent, $InstallqBittorrent))
-    $Panel5.Controls.AddRange(@($ClVirtualMachines, $InstallOracleVirtualBox, $InstallQemuAndGuestAgent, $InstallVmWarePlayer))
+    $Panel5.Controls.AddRange(@($ClVirtualMachines, $InstallOracleVirtualBox, $InstallQemu, $InstallVmWarePlayer))
     $Panel5.Controls.AddRange(@($ClEmulation, $InstallCemu, $InstallDolphin, $InstallKegaFusion, $InstallMGba, $InstallPCSX2, $InstallPPSSPP, $InstallProject64, $InstallRetroArch, $InstallSnes9x))
 
     # <===== CLICK EVENTS =====>
@@ -1319,9 +1319,9 @@ function Show-GUI() {
                 $InstallOracleVirtualBox.CheckState = "Unchecked"
             }
 
-            If ($InstallQemuAndGuestAgent.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.AddRange(@("SoftwareFreedomConservancy.QEMU", "SoftwareFreedomConservancy.QEMUGuestAgent"))
-                $InstallQemuAndGuestAgent.CheckState = "Unchecked"
+            If ($InstallQemu.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("SoftwareFreedomConservancy.QEMU")
+                $InstallQemu.CheckState = "Unchecked"
             }
 
             If ($InstallVmWarePlayer.CheckState -eq "Checked") {
