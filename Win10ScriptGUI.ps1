@@ -518,13 +518,13 @@ function Show-GUI() {
 
     $NextYLocation = $ClVirtualMachines.Location.Y + $ButtonHeight + $DistanceBetweenButtons
     $InstallOracleVirtualBox = New-CheckBox -Text "Oracle VM VirtualBox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
-    
+
     $NextYLocation = $InstallOracleVirtualBox.Location.Y + $InstallOracleVirtualBox.Height + $DistanceBetweenButtons
-    $InstallQemuAndGuestAgent = New-CheckBox -Text "QEMU + Guest Agent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation    
+    $InstallQemuAndGuestAgent = New-CheckBox -Text "QEMU + Guest Agent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallQemuAndGuestAgent.Location.Y + $InstallQemuAndGuestAgent.Height + $DistanceBetweenButtons
     $InstallVmWarePlayer = New-CheckBox -Text "VMware Workstation Player" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
-    
+
     $NextYLocation = $InstallVmWarePlayer.Location.Y + $InstallVmWarePlayer.Height + $DistanceBetweenButtons
     $ClEmulation = New-Label -Text "Emulation" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
