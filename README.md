@@ -119,7 +119,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Enable/Disable God Mode`: [Enables](./src/utils/enable-god-mode.ps1) or [Disables](./src/utils/disable-god-mode.ps1) the hidden Desktop folder **God Mode**;
 - `Enable/Disable Take Ownership menu`: [Enables](./src/utils/enable-take-ownership-context-menu.reg) or [Disables](src/utils/disable-take-ownership-context-menu.reg) the **Take Ownership context menu**;
-- `Enable/Disable Shutdown PC shortcut`: [Enables](./src/utils/enable-shutdown-pc-shortcut.ps1) or [Disables](./src/utils/disable-shutdown-pc-shortcut.ps1) the **Shutdown Computer desktop shortcut** (May not work on the GUI);
+- `Enable/Disable Shutdown PC shortcut`: [Enables](./src/utils/enable-shutdown-pc-shortcut.ps1) or [Disables](./src/utils/disable-shutdown-pc-shortcut.ps1) the **Shutdown Computer desktop shortcut**;
 
 ### Software Install
 

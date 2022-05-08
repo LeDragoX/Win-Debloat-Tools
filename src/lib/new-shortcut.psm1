@@ -26,11 +26,19 @@ function New-Shortcut() {
     $WScriptObj = New-Object -ComObject ("WScript.Shell")
     $Shortcut = $WScriptObj.CreateShortcut($ShortcutPath)
     $Shortcut.TargetPath = $SourcePath
-    $Shortcut.Description = $Description
+
+    If ($Hotkey) {
+        $Shortcut.Description += " ($Hotkey)"
+    }
+    Else {
+        $Shortcut.Description = $Description
+    }
+
     $Shortcut.Arguments = $Arguments
     $ShortCut.Hotkey = $Hotkey
     $Shortcut.IconLocation = $IconLocation
     $Shortcut.WindowStyle = $WindowStyle
+
     $Shortcut.Save()
 }
 
