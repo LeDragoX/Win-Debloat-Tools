@@ -71,11 +71,11 @@ function Show-GUI() {
     $Panel1 = New-Panel -Width $PanelWidth -Height ($FormHeight - ($FormHeight * 0.1955)) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.00) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
     $CurrentPanelIndex++
-    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.75) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.90) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $CurrentPanelIndex++
-    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.75) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.90) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $CurrentPanelIndex++
-    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.75) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.90) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     # Panel to put more Panels
     $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll
 
@@ -430,9 +430,21 @@ function Show-GUI() {
     $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # ==> Panel 5
-    $InstallGamingDependencies = New-Button -Text "Install Gaming Dependencies" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $Header3 -ForeColor $WinBlue
+    $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstButtonY
 
-    $NextYLocation = $InstallGamingDependencies.Location.Y + $InstallGamingDependencies.Height + $DistanceBetweenButtons
+    $NextYLocation = $ClApplicationRequirements.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallDirectX.Location.Y + $InstallDirectX.Height + $DistanceBetweenButtons
+    $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallMsDotNetFramework.Location.Y + $InstallMsDotNetFramework.Height + $DistanceBetweenButtons
+    $InstallMsVCppX64 = New-CheckBox -Text "MS VC++ 2005-2022 Redist (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallMsVCppX64.Location.Y + $InstallMsVCppX64.Height + $DistanceBetweenButtons
+    $InstallMsVCppX86 = New-CheckBox -Text "MS VC++ 2005-2022 Redist (x86)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallMsVCppX86.Location.Y + $InstallMsVCppX86.Height + $DistanceBetweenButtons
     $ClCommunication = New-Label -Text "Communication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $ClCommunication.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -596,7 +608,7 @@ function Show-GUI() {
     $Panel4.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
     $Panel4.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
     $Panel4.Controls.AddRange(@($ClWsl, $InstallWSLgOrPreview, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu16Lts, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
-    $Panel5.Controls.AddRange(@($InstallGamingDependencies))
+    $Panel5.Controls.AddRange(@($ClApplicationRequirements, $InstallDirectX, $InstallMsDotNetFramework, $InstallMsVCppX64, $InstallMsVCppX86))
     $Panel5.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
     $Panel5.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
     $Panel5.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
@@ -799,10 +811,6 @@ function Show-GUI() {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-shutdown-pc-shortcut.ps1") -NoDialog
                 $CbShutdownPCShortcut.Text = "[OFF] Shutdown PC... (Default)"
             }
-        })
-
-    $InstallGamingDependencies.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("install-gaming-dependencies.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallSelected.Add_Click( {
@@ -1210,6 +1218,36 @@ function Show-GUI() {
             }
 
             # ==> Panel 5
+            If ($InstallDirectX.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("directx")
+                $InstallDirectX.CheckState = "Unchecked"
+            }
+
+            If ($InstallMsDotNetFramework.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Microsoft.dotNetFramework")
+                $InstallMsDotNetFramework.CheckState = "Unchecked"
+            }
+
+            If ($InstallMsVCppX64.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.AddRange(
+                    @(
+                        "Microsoft.VC++2005Redist-x64", "Microsoft.VC++2008Redist-x64", "Microsoft.VC++2010Redist-x64",
+                        "Microsoft.VC++2012Redist-x64", "Microsoft.VC++2013Redist-x64", "Microsoft.VC++2015-2022Redist-x64"
+                    )
+                )
+                $InstallMsVCppX64.CheckState = "Unchecked"
+            }
+
+            If ($InstallMsVCppX86.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.AddRange(
+                    @(
+                        "Microsoft.VC++2005Redist-x86", "Microsoft.VC++2008Redist-x86", "Microsoft.VC++2010Redist-x86",
+                        "Microsoft.VC++2012Redist-x86", "Microsoft.VC++2013Redist-x86", "Microsoft.VC++2015-2022Redist-x86"
+                    )
+                )
+                $InstallMsVCppX86.CheckState = "Unchecked"
+            }
+
             If ($InstallDiscord.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("Discord.Discord")
                 $InstallDiscord.CheckState = "Unchecked"
