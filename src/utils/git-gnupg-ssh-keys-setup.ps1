@@ -11,36 +11,44 @@ function Request-AdminPrivilege() {
 function Initialize-GitUser() {
     [CmdletBinding()]
     param (
-        [String] $GIT_PROPERTY_NAME, # Ex: Name, Email
-        [String] $GitUserProperty    # Ex: Your Name, your@email.com
+        [String] $GIT_PROPERTY_NAME, # Ex: user, user, init
+        [String] $GIT_NAME_PROPERTY, # Ex: name, email, defaultBranch
+        [String] $GIT_PROPERTY_VALUE # Ex: Your Name, your@email.com
     )
 
-    If (($null -eq $GitUserProperty) -or ($GitUserProperty -eq "")) {
-        $GitUserProperty = $GitUserProperty.Trim(" ")
+    If (($null -eq $GIT_PROPERTY_VALUE) -or ($GIT_PROPERTY_VALUE -eq "")) {
+        $GIT_PROPERTY_VALUE = $GIT_PROPERTY_VALUE.Trim(" ")
 
-        While (($null -eq $GitUserProperty) -or ($GitUserProperty -eq "")) {
-            Write-Warning "GIT: Could not found 'git config --global user.$GIT_PROPERTY_NAME' value, is null or empty."
-            $GitUserProperty = Read-Host "GIT: Please enter your git user.$GIT_PROPERTY_NAME"
-            $GitUserProperty = $GitUserProperty.Trim(" ")
+        While (($null -eq $GIT_PROPERTY_VALUE) -or ($GIT_PROPERTY_VALUE -eq "")) {
+            Write-Warning "GIT: Could not found 'git config --global $GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY' value, is null or empty."
+            $GIT_PROPERTY_VALUE = Read-Host "GIT: Please enter your git $GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY"
+            $GIT_PROPERTY_VALUE = $GIT_PROPERTY_VALUE.Trim(" ")
         }
 
-        Write-Host "GIT: Setting your git user.$GIT_PROPERTY_NAME to '$GitUserProperty' ..." -ForegroundColor Cyan
-        git config --global user.$GIT_PROPERTY_NAME "$GitUserProperty"
+        Write-Host "GIT: Setting your git $GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY to '$GIT_PROPERTY_VALUE' ..." -ForegroundColor Cyan
+        git config --global "$GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY" "$GIT_PROPERTY_VALUE"
 
-        Write-Host "GIT: Your user.$GIT_PROPERTY_NAME on git is: $(git config --global user.$GIT_PROPERTY_NAME)`n" -ForegroundColor Cyan
+        Write-Host "GIT: Your $GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY on git is: $(git config --global "$GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY")`n" -ForegroundColor Cyan
     }
     Else {
-        Write-Warning "Your $GIT_PROPERTY_NAME already exists: $(git config --global user.$GIT_PROPERTY_NAME)`nSkipping..."
+        Write-Warning "Your $GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY already exists: $(git config --global "$GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY")`nSkipping..."
     }
 }
 
 function Set-GitProfile() {
     $GitUserName = $(git config --global user.name)
     $GitUserEmail = $(git config --global user.email)
-    $GIT_USER_PROPERTIES = @("name", "email")
+    $GitInitDefaultBranch = $(git config --global init.defaultBranch)
 
-    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[0] -GitUserProperty $GitUserName
-    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_USER_PROPERTIES[1] -GitUserProperty $GitUserEmail
+    $GIT_PROPERTIES = @(
+        @{ Name = "user"; Property = "name" },
+        @{ Name = "user"; Property = "email" },
+        @{ Name = "init"; Property = "defaultBranch" }
+    )
+
+    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_PROPERTIES[0].Name -GIT_NAME_PROPERTY $GIT_PROPERTIES[0].Property -GIT_PROPERTY_VALUE $GitUserName
+    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_PROPERTIES[1].Name -GIT_NAME_PROPERTY $GIT_PROPERTIES[1].Property -GIT_PROPERTY_VALUE $GitUserEmail
+    Initialize-GitUser -GIT_PROPERTY_NAME $GIT_PROPERTIES[2].Name -GIT_NAME_PROPERTY $GIT_PROPERTIES[2].Property -GIT_PROPERTY_VALUE $GitInitDefaultBranch
 }
 
 function Set-FileNamePrefix() {
@@ -106,7 +114,7 @@ function Set-SSHKey() {
     Write-Warning "I recommend you save your passphrase somewhere, in case you don't remember."
     Write-Host "Generating new SSH Key on $SSHPath\$SSHFileName" -ForegroundColor Cyan
     #           Encryption type        Comment                                Output file
-    ssh-keygen -t "$SSHEncryptionType" -C "$(git config --global user.email)" -f "$SSHFileName" | Out-Host
+    ssh-keygen -t "$SSHEncryptionType" -C "$(git config --global user.email) SSH Signing Key" -f "$SSHFileName" | Out-Host
 
     Write-Host "Importing your key on $SSHPath\$SSHFileName"
     ssh-add $SSHFileName # Remind: No QUOTES on import
@@ -180,7 +188,7 @@ function Set-GPGKey() {
     }
 
     Write-Host "Importing your key on $GnuPGPath\$($GnuPGFileName)_public.gpg and $($GnuPGFileName)_secret.gpg"
-    gpg --import $GnuPGFileName*.gpg # Remind: No QUOTES in variables
+    gpg --import $GnuPGFileName * .gpg # Remind: No QUOTES in variables
     Write-Host "Importing all GPG keys on $GnuPGPath" -ForegroundColor Cyan
     gpg --import *
 
@@ -192,20 +200,21 @@ function Import-KeysSshGpg() {
 
     $Folder = Select-Folder -Description "Select the existing SSH keys folder"
 
-    If (!($null -eq $Folder)) {
+    If ($null -ne $Folder) {
         Write-Host "Importing SSH keys from: $Folder" -ForegroundColor Cyan
         Push-Location $Folder
         ssh-add $(Get-ChildItem)
         Pop-Location
 
-        $Folder = $null
-        $Folder = Select-Folder -Description "Select the existing GPG keys folder"
-        If (!($null -eq $Folder)) {
-            Write-Host "Importing GPG keys from: $Folder" -ForegroundColor Cyan
-            Push-Location $Folder
-            gpg --import *
-            Pop-Location
-        }
+    }
+
+    $Folder = $null
+    $Folder = Select-Folder -Description "Select the existing GPG keys folder"
+    If ($null -ne $Folder) {
+        Write-Host "Importing GPG keys from: $Folder" -ForegroundColor Cyan
+        Push-Location $Folder
+        gpg --import *
+        Pop-Location
     }
 }
 
