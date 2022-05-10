@@ -20,7 +20,6 @@ function Select-Folder() {
     }
     ElseIf ($Response -eq "Cancel") {
         Write-Host "Aborting..."
-        break
     }
 
     return $Folder
