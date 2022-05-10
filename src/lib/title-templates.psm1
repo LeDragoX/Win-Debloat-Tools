@@ -26,7 +26,7 @@ function Write-Caption() {
         [String] $Text = "No Text"
     )
 
-    Write-Host "=====> " -NoNewline -ForegroundColor Cyan -BackgroundColor Black
+    Write-Host "==> " -NoNewline -ForegroundColor Cyan -BackgroundColor Black
     Write-Host "$Text" -ForegroundColor White -BackgroundColor Black
 }
 
