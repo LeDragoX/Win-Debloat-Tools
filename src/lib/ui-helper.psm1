@@ -206,7 +206,9 @@ function New-Button() {
         [String] $FontStyle = "Regular",
         [String] $ForeColor = "#FFFFFF", # White
         [String] $BackColor = "#2C2C2C", # Dark Gray
-        [String] $TextAlign = "MiddleCenter"
+        [String] $TextAlign = "MiddleCenter",
+        [String] $FlatStyle = "Flat", # Flat, Popup, Standard, System
+        [String] $BorderSize = 1
     )
 
     Write-Verbose "Button '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
@@ -219,8 +221,8 @@ function New-Button() {
     $Button.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $Button.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $Button.TextAlign = $TextAlign
-    $Button.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
-    $Button.FlatAppearance.BorderSize = 1
+    $Button.FlatStyle = [System.Windows.Forms.FlatStyle]::$FlatStyle
+    $Button.FlatAppearance.BorderSize = $BorderSize
 
     return $Button
 }
