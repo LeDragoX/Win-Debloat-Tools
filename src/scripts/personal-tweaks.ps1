@@ -227,12 +227,6 @@ function Register-PersonalTweaksList() {
     $TimeoutHibernateBattery = 15
     $TimeoutHibernatePluggedIn = 30
 
-    Write-Status -Symbol "+" -Type $TweakType -Status "Setting Hibernate size to reduced..."
-    powercfg -hibernate -type reduced
-
-    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Hibernate (Boots faster on Laptops/PCs with HDD and generate $env:SystemDrive\hiberfil.sys file)..."
-    powercfg -hibernate on
-
     Write-Status -Symbol "+" -Type $TweakType -Status "Setting the Monitor Timeout to AC: $TimeoutScreenPluggedIn and DC: $TimeoutScreenBattery..."
     powercfg -Change Monitor-Timeout-AC $TimeoutScreenPluggedIn
     powercfg -Change Monitor-Timeout-DC $TimeoutScreenBattery
