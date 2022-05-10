@@ -113,12 +113,12 @@ function Optimize-Performance() {
             }
             Else {
                 Write-Status -Symbol "-" -Type $TweakType -Status "Duplicated '$PowerPlanName' power plan found, deleting $PowerPlanGUID ..."
-                powercfg -Delete $PowerPlanGUID            
-            }            
+                powercfg -Delete $PowerPlanGUID
+            }
         }
         Catch {
             Write-Status -Symbol "-" -Type $TweakType -Status "Duplicated '$PowerPlanName' power plan found, deleting $PowerPlanGUID ..."
-            powercfg -Delete $PowerPlanGUID            
+            powercfg -Delete $PowerPlanGUID
         }
     }
 
