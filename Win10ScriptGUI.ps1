@@ -49,6 +49,12 @@ function Show-GUI() {
     $WinBlue = "#08ABF7"
     $WinDark = "#252525"
 
+    # Miscellaneous colors
+
+    $AmdRyzenPrimaryColor = "#E4700D"
+    $IntelPrimaryColor = "#0071C5"
+    $NVIDIAPrimaryColor = "#76B900"
+
     $CaptionLabelWidth = $PanelWidth - ($PanelWidth - $ButtonWidth) # & $CaptionLabelHeight
     $BBHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
 
@@ -148,9 +154,21 @@ function Show-GUI() {
     $CbShutdownPCShortcut = New-CheckBox -Text "Enable Shutdown PC shortcut" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # ==> Panel 3
-    $InstallDrivers = New-Button -Text "Install CPU/GPU Drivers Updaters" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $Header3 -ForeColor $WinBlue
+    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstButtonY
 
-    $NextYLocation = $InstallDrivers.Location.Y + $InstallDrivers.Height + $DistanceBetweenButtons
+    $NextYLocation = $ClCpuGpuDrivers.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $AmdRyzenPrimaryColor
+
+    $NextYLocation = $InstallAmdRyzenChipsetDriver.Location.Y + $InstallAmdRyzenChipsetDriver.Height + $DistanceBetweenButtons
+    $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $IntelPrimaryColor
+
+    $NextYLocation = $InstallIntelDSA.Location.Y + $InstallIntelDSA.Height + $DistanceBetweenButtons
+    $InstallNvidiaGeForceExperience = New-CheckBox -Text "NVIDIA GeForce Experience" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $NVIDIAPrimaryColor
+
+    $NextYLocation = $InstallNvidiaGeForceExperience.Location.Y + $InstallNvidiaGeForceExperience.Height + $DistanceBetweenButtons
+    $InstallNVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallNVCleanstall.Location.Y + $InstallNVCleanstall.Height + $DistanceBetweenButtons
     $ClWebBrowsers = New-Label -Text "Web Browsers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $ClWebBrowsers.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -343,9 +361,6 @@ function Show-GUI() {
     $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallHwInfo.Location.Y + $InstallHwInfo.Height + $DistanceBetweenButtons
-    $InstallNVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
-
-    $NextYLocation = $InstallNVCleanstall.Location.Y + $InstallNVCleanstall.Height + $DistanceBetweenButtons
     $ClCloudStorage = New-Label -Text "Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $ClCloudStorage.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -565,7 +580,7 @@ function Show-GUI() {
     $Panel2.Controls.AddRange(@($TitleLabel2, $ClCustomizableFeatures))
     $Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbSearchIdx, $CbTelemetry, $CbXboxGameBarAndDVR))
     $Panel2.Controls.AddRange(@($ClMiscFeatures, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
-    $Panel3.Controls.AddRange(@($InstallDrivers))
+    $Panel3.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
     $Panel3.Controls.AddRange(@($ClWebBrowsers, $InstallBraveBrowser, $InstallGoogleChrome, $InstallMozillaFirefox))
     $Panel3.Controls.AddRange(@($ClFileCompression, $Install7Zip, $InstallWinRar))
     $Panel3.Controls.AddRange(@($ClDocuments, $InstallAdobeReaderDC, $InstallLibreOffice, $InstallOnlyOffice, $InstallPowerBi, $InstallSumatraPDF))
@@ -576,7 +591,7 @@ function Show-GUI() {
     $Panel4.Controls.AddRange(@($TitleLabel3, $InstallSelected, $UninstallMode))
     $Panel4.Controls.AddRange(@($ClAudioVideoTools, $InstallAudacity, $InstallMpcHc, $InstallSpotify, $InstallVlc))
     $Panel4.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
-    $Panel4.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGpuZ, $InstallNVCleanstall, $InstallHwInfo))
+    $Panel4.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGpuZ, $InstallHwInfo))
     $Panel4.Controls.AddRange(@($ClCloudStorage, $InstallDropbox, $InstallGoogleDrive))
     $Panel4.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
     $Panel4.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
@@ -786,10 +801,6 @@ function Show-GUI() {
             }
         })
 
-    $InstallDrivers.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("install-drivers-updaters.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-        })
-
     $InstallGamingDependencies.Add_Click( {
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("install-gaming-dependencies.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
@@ -803,6 +814,26 @@ function Show-GUI() {
             }
 
             # ==> Panel 3
+            If ($InstallAmdRyzenChipsetDriver.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("amd-ryzen-chipset")
+                $InstallAmdRyzenChipsetDriver.CheckState = "Unchecked"
+            }
+
+            If ($InstallIntelDSA.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Intel.IntelDriverAndSupportAssistant")
+                $InstallIntelDSA.CheckState = "Unchecked"
+            }
+
+            If ($InstallNvidiaGeForceExperience.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Nvidia.GeForceExperience")
+                $InstallNvidiaGeForceExperience.CheckState = "Unchecked"
+            }
+
+            If ($InstallNVCleanstall.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("TechPowerUp.NVCleanstall")
+                $InstallNVCleanstall.CheckState = "Unchecked"
+            }
+
             If ($InstallBraveBrowser.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("BraveSoftware.BraveBrowser")
                 $InstallBraveBrowser.CheckState = "Unchecked"
@@ -1069,11 +1100,6 @@ function Show-GUI() {
             If ($InstallHwInfo.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("REALiX.HWiNFO")
                 $InstallHwInfo.CheckState = "Unchecked"
-            }
-
-            If ($InstallNVCleanstall.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("TechPowerUp.NVCleanstall")
-                $InstallNVCleanstall.CheckState = "Unchecked"
             }
 
             If ($InstallDropbox.CheckState -eq "Checked") {
