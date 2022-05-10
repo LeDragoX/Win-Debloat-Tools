@@ -123,9 +123,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ### Software Install
 
-- `Install CPU/GPU Driver Updater`: This **WILL NOT** install anymore the drivers, only the updater to the drivers. ([`install-drivers-updaters.ps1`](./src/scripts/install-drivers-updaters.ps1));
-  - The Latest CPU for driver updater. For `Intel`, `Intel DSA (Winget)` (Except AMD);
-  - The Latest GPU driver updater. For `Intel (DSA)` and `NVIDIA`, `NVIDIA GeForce Experience (Winget)` (Except AMD);
 - `Install Gaming Dependencies`: Install all Gaming Dependencies required to play games (DirectX, VC++ 2005+ (x86 & x64), .NET Framework). ([`install-gaming-dependencies.ps1`](./src/scripts/install-gaming-dependencies.ps1));
 - `Install Selected`: Install the selected apps by marking the checkbox(es);
 - `Uninstall Mode`: Default as OFF, clicking this will switch the `Install Selected` button to `Uninstall Selected` and uninstall every selected apps (**Advice**: Blue colored buttons may not be able to uninstall completely and WSL UWP Apps, but WSL Distros will be unregistered);
