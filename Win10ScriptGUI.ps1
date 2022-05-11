@@ -43,6 +43,7 @@ function Show-GUI() {
     [Int] $TitleLabelY = $FormHeight * 0.01
     [Int] $ButtonX = $PanelWidth * 0.01
     [Int] $FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
+    [Int] $FirstLabelY = $FirstButtonY - 27
 
     $WarningYellow = "#EED202"
     $White = "#FFFFFF"
@@ -80,14 +81,14 @@ function Show-GUI() {
     $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll
 
     # Panels 1, 2, 3-4-5 ~> Title Label
-    $TitleLabel1 = New-Label -Text "System Tweaks" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
-    $TitleLabel2 = New-Label -Text "Customize Tweaks" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
-    $TitleLabel3 = New-Label -Text "Software Install" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
+    $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
+    $TlCustomizeTweaks = New-Label -Text "Customize Tweaks" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
+    $TlSoftwareInstall = New-Label -Text "Software Install" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
 
     # Panel 1, 2, 3-4-5 ~> Caption Label
-    $ClScriptVersion = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY ($FirstButtonY - 27) -ForeColor $White
-    $ClCustomizableFeatures = New-Label -Text "Enable/Disable Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY ($FirstButtonY - 27) -ForeColor $White
-    $ClSoftwareInstall = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY ($FirstButtonY - 27) -ForeColor $White
+    $ClScriptVersion = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $FirstLabelY -ForeColor $White
+    $ClCustomizableFeatures = New-Label -Text "Enable/Disable Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $FirstLabelY -ForeColor $White
+    $ClSoftwareInstall = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY $FirstLabelY -ForeColor $White
 
     # ==> Panel 1
     $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $Header3 -ForeColor $WinBlue
@@ -154,10 +155,8 @@ function Show-GUI() {
     $CbShutdownPCShortcut = New-CheckBox -Text "Enable Shutdown PC shortcut" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # ==> Panel 3
-    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstButtonY
-
-    $NextYLocation = $ClCpuGpuDrivers.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $AmdRyzenPrimaryColor
+    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstLabelY
+    $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -ForeColor $AmdRyzenPrimaryColor
 
     $NextYLocation = $InstallAmdRyzenChipsetDriver.Location.Y + $InstallAmdRyzenChipsetDriver.Height + $DistanceBetweenButtons
     $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $IntelPrimaryColor
@@ -316,12 +315,24 @@ function Show-GUI() {
     $InstallMpcHc = New-CheckBox -Text "MPC-HC from clsid2 (Player)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMpcHc.Location.Y + $InstallMpcHc.Height + $DistanceBetweenButtons
-    $InstallSpotify = New-CheckBox -Text "Spotify (Player)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
-
-    $NextYLocation = $InstallSpotify.Location.Y + $InstallSpotify.Height + $DistanceBetweenButtons
     $InstallVlc = New-CheckBox -Text "VLC (Player)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVlc.Location.Y + $InstallVlc.Height + $DistanceBetweenButtons
+    $ClStreamingServices = New-Label -Text "Streaming Services" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $ClStreamingServices.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $InstallAmazonPrimeVideo = New-CheckBox -Text "Amazon Prime Video" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallAmazonPrimeVideo.Location.Y + $InstallAmazonPrimeVideo.Height + $DistanceBetweenButtons
+    $InstallDisneyPlus = New-CheckBox -Text "Disney+" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallDisneyPlus.Location.Y + $InstallDisneyPlus.Height + $DistanceBetweenButtons
+    $InstallSpotify = New-CheckBox -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallSpotify.Location.Y + $InstallSpotify.Height + $DistanceBetweenButtons
+    $InstallNetflix = New-CheckBox -Text "Netflix" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallNetflix.Location.Y + $InstallNetflix.Height + $DistanceBetweenButtons
     $ClImageTools = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $ClImageTools.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -430,10 +441,8 @@ function Show-GUI() {
     $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # ==> Panel 5
-    $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstButtonY
-
-    $NextYLocation = $ClApplicationRequirements.Location.Y + $ButtonHeight + $DistanceBetweenButtons
-    $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstLabelY
+    $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY
 
     $NextYLocation = $InstallDirectX.Location.Y + $InstallDirectX.Height + $DistanceBetweenButtons
     $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
@@ -587,9 +596,9 @@ function Show-GUI() {
     # Add Elements to each Panel
     $FullPanel.Controls.AddRange(@($ClSoftwareInstall))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $Panel5))
-    $Panel1.Controls.AddRange(@($TitleLabel1, $ClScriptVersion))
+    $Panel1.Controls.AddRange(@($TlSystemTweaks, $ClScriptVersion))
     $Panel1.Controls.AddRange(@($ApplyTweaks, $UndoTweaks, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TitleLabel2, $ClCustomizableFeatures))
+    $Panel2.Controls.AddRange(@($TlCustomizeTweaks, $ClCustomizableFeatures))
     $Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbSearchIdx, $CbTelemetry, $CbXboxGameBarAndDVR))
     $Panel2.Controls.AddRange(@($ClMiscFeatures, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
     $Panel3.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
@@ -600,8 +609,9 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($ClAcademicResearch, $InstallZotero))
     $Panel3.Controls.AddRange(@($Cl2fa, $InstallTwilioAuthy))
     $Panel3.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
-    $Panel4.Controls.AddRange(@($TitleLabel3, $InstallSelected, $UninstallMode))
-    $Panel4.Controls.AddRange(@($ClAudioVideoTools, $InstallAudacity, $InstallMpcHc, $InstallSpotify, $InstallVlc))
+    $Panel4.Controls.AddRange(@($TlSoftwareInstall, $InstallSelected, $UninstallMode))
+    $Panel4.Controls.AddRange(@($ClAudioVideoTools, $InstallAudacity, $InstallMpcHc, $InstallVlc))
+    $Panel4.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallDisneyPlus, $InstallSpotify, $InstallNetflix))
     $Panel4.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
     $Panel4.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGpuZ, $InstallHwInfo))
     $Panel4.Controls.AddRange(@($ClCloudStorage, $InstallDropbox, $InstallGoogleDrive))
@@ -1045,14 +1055,29 @@ function Show-GUI() {
                 $InstallMpcHc.CheckState = "Unchecked"
             }
 
+            If ($InstallVlc.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("VideoLAN.VLC")
+                $InstallVlc.CheckState = "Unchecked"
+            }
+
+            If ($InstallAmazonPrimeVideo.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9P6RC76MSMMJ")
+                $InstallAmazonPrimeVideo.CheckState = "Unchecked"
+            }
+
+            If ($InstallDisneyPlus.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9NXQXXLFST89")
+                $InstallDisneyPlus.CheckState = "Unchecked"
+            }
+
             If ($InstallSpotify.CheckState -eq "Checked") {
                 $AppsSelected.MSStoreApps.Add("9NCBCSZSJRSB")
                 $InstallSpotify.CheckState = "Unchecked"
             }
 
-            If ($InstallVlc.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("VideoLAN.VLC")
-                $InstallVlc.CheckState = "Unchecked"
+            If ($InstallNetflix.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9WZDNCRFJ3TJ")
+                $InstallNetflix.CheckState = "Unchecked"
             }
 
             If ($InstallGimp.CheckState -eq "Checked") {
