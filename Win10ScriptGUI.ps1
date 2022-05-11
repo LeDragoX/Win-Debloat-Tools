@@ -327,12 +327,12 @@ function Show-GUI() {
     $InstallDisneyPlus = New-CheckBox -Text "Disney+" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDisneyPlus.Location.Y + $InstallDisneyPlus.Height + $DistanceBetweenButtons
-    $InstallSpotify = New-CheckBox -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
-
-    $NextYLocation = $InstallSpotify.Location.Y + $InstallSpotify.Height + $DistanceBetweenButtons
     $InstallNetflix = New-CheckBox -Text "Netflix" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallNetflix.Location.Y + $InstallNetflix.Height + $DistanceBetweenButtons
+    $InstallSpotify = New-CheckBox -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallSpotify.Location.Y + $InstallSpotify.Height + $DistanceBetweenButtons
     $ClImageTools = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $ClImageTools.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -611,7 +611,7 @@ function Show-GUI() {
     $Panel3.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
     $Panel4.Controls.AddRange(@($TlSoftwareInstall, $InstallSelected, $UninstallMode))
     $Panel4.Controls.AddRange(@($ClAudioVideoTools, $InstallAudacity, $InstallMpcHc, $InstallVlc))
-    $Panel4.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallDisneyPlus, $InstallSpotify, $InstallNetflix))
+    $Panel4.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallDisneyPlus, $InstallNetflix, $InstallSpotify))
     $Panel4.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
     $Panel4.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGpuZ, $InstallHwInfo))
     $Panel4.Controls.AddRange(@($ClCloudStorage, $InstallDropbox, $InstallGoogleDrive))
@@ -1070,14 +1070,14 @@ function Show-GUI() {
                 $InstallDisneyPlus.CheckState = "Unchecked"
             }
 
-            If ($InstallSpotify.CheckState -eq "Checked") {
-                $AppsSelected.MSStoreApps.Add("9NCBCSZSJRSB")
-                $InstallSpotify.CheckState = "Unchecked"
-            }
-
             If ($InstallNetflix.CheckState -eq "Checked") {
                 $AppsSelected.MSStoreApps.Add("9WZDNCRFJ3TJ")
                 $InstallNetflix.CheckState = "Unchecked"
+            }
+
+            If ($InstallSpotify.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9NCBCSZSJRSB")
+                $InstallSpotify.CheckState = "Unchecked"
             }
 
             If ($InstallGimp.CheckState -eq "Checked") {
