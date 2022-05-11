@@ -119,5 +119,5 @@ function Get-SystemSpec() {
     $OldBuildNumber = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").ReleaseId
     $DisplayedVersionResult = '(' + @{ $true = $DisplayVersion; $false = $OldBuildNumber }[$null -ne $DisplayVersion] + ')'
 
-    return "$(Get-OSDriveType) $Separator $WinVer $DisplayedVersionResult $Separator $(Get-RAM) $Separator $(Get-CPU -Separator $Separator) $Separator $(Get-GPU)"
+    return $(Get-OSDriveType), $Separator, $WinVer, $DisplayedVersionResult, $Separator, $(Get-RAM), $Separator, $(Get-CPU -Separator $Separator), $Separator, $(Get-GPU)
 }
