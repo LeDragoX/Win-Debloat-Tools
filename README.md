@@ -26,8 +26,8 @@ These scripts will Customize, Debloat and Improve Privacy/Performance and System
 
 ## 🚀 Download Latest Version
 
-Code located in the `main` branch is always considered under development,
-but you'll probably want the most recent version anyway.
+Code located in the `main` branch is considered stable,
+the `develop` branch is the most recent version.
 
 <div align="center">
  <table>
