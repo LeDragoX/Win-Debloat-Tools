@@ -523,6 +523,9 @@ function Show-GUI() {
     $ClRecordingAndStreaming = New-Label -Text "Recording and Streaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $ClRecordingAndStreaming.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $InstallElgatoStreamDeck = New-CheckBox -Text "Elgato Stream Deck" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+
+    $NextYLocation = $InstallElgatoStreamDeck.Location.Y + $InstallElgatoStreamDeck.Height + $DistanceBetweenButtons
     $InstallHandBrake = New-CheckBox -Text "HandBrake (Transcode)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallHandBrake.Location.Y + $InstallHandBrake.Height + $DistanceBetweenButtons
@@ -622,7 +625,7 @@ function Show-GUI() {
     $Panel5.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
     $Panel5.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
     $Panel5.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
-    $Panel5.Controls.AddRange(@($ClRecordingAndStreaming, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
+    $Panel5.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
     $Panel5.Controls.AddRange(@($ClBootableUsb, $InstallBalenaEtcher, $InstallRufus, $InstallVentoy))
     $Panel5.Controls.AddRange(@($ClTorrent, $InstallqBittorrent))
     $Panel5.Controls.AddRange(@($ClVirtualMachines, $InstallOracleVirtualBox, $InstallQemu, $InstallVmWarePlayer))
@@ -1366,6 +1369,11 @@ function Show-GUI() {
             If ($InstallTeamViewer.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("TeamViewer.TeamViewer")
                 $InstallTeamViewer.CheckState = "Unchecked"
+            }
+
+            If ($InstallElgatoStreamDeck.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Elgato.StreamDeck")
+                $InstallElgatoStreamDeck.CheckState = "Unchecked"
             }
 
             If ($InstallHandBrake.CheckState -eq "Checked") {
