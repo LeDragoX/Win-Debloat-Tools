@@ -529,9 +529,9 @@ function Show-GUI() {
     $InstallObsStudio = New-CheckBox -Text "OBS Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallObsStudio.Location.Y + $InstallObsStudio.Height + $DistanceBetweenButtons
-    $InstallStreamlabsObs = New-CheckBox -Text "Streamlabs OBS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallStreamlabs = New-CheckBox -Text "Streamlabs" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $InstallStreamlabsObs.Location.Y + $InstallStreamlabsObs.Height + $DistanceBetweenButtons
+    $NextYLocation = $InstallStreamlabs.Location.Y + $InstallStreamlabs.Height + $DistanceBetweenButtons
     $ClBootableUsb = New-Label -Text "Bootable USB" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $ClBootableUsb.Location.Y + $ButtonHeight + $DistanceBetweenButtons
@@ -622,7 +622,7 @@ function Show-GUI() {
     $Panel5.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
     $Panel5.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
     $Panel5.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
-    $Panel5.Controls.AddRange(@($ClRecordingAndStreaming, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabsObs))
+    $Panel5.Controls.AddRange(@($ClRecordingAndStreaming, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
     $Panel5.Controls.AddRange(@($ClBootableUsb, $InstallBalenaEtcher, $InstallRufus, $InstallVentoy))
     $Panel5.Controls.AddRange(@($ClTorrent, $InstallqBittorrent))
     $Panel5.Controls.AddRange(@($ClVirtualMachines, $InstallOracleVirtualBox, $InstallQemu, $InstallVmWarePlayer))
@@ -1378,9 +1378,9 @@ function Show-GUI() {
                 $InstallObsStudio.CheckState = "Unchecked"
             }
 
-            If ($InstallStreamlabsObs.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("Streamlabs.StreamlabsOBS")
-                $InstallStreamlabsObs.CheckState = "Unchecked"
+            If ($InstallStreamlabs.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Streamlabs.Streamlabs")
+                $InstallStreamlabs.CheckState = "Unchecked"
             }
 
             If ($InstallBalenaEtcher.CheckState -eq "Checked") {
