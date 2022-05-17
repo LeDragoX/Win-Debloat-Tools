@@ -1,4 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
+﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-state.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
@@ -6,47 +7,14 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from: https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f
 # Adapted from: https://github.com/Sycnex/Windows10Debloater
 
-function Optimize-RunningServicesList() {
+function Optimize-ServicesRunning() {
     [CmdletBinding()]
     param (
-        [Switch] $Revert,
-        $EnableStatus = @(
-            @{
-                Symbol = "-"; Status = "'Disabled' on Startup";
-                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
-            }
-            @{
-                Symbol = "-"; Status = "'Manual' on Startup";
-                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
-            }
-            @{
-                Symbol = "+"; Status = "'Automatic' on Startup";
-                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
-            }
-        )
+        [Switch] $Revert
     )
-    $TweakType = "Service"
-
-    If (($Revert)) {
-        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
-        $EnableStatus = @( # Only switch between Manual and Disabled to Revert
-            @{
-                Symbol = "<"; Status = "'Manual' on Startup";
-                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual }
-            }
-            @{
-                Symbol = "<"; Status = "'Disabled' on Startup";
-                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled }
-            }
-            @{
-                Symbol = "<"; Status = "'Automatic' on Startup";
-                Command = { Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic }
-            }
-        )
-    }
 
     $IsSystemDriveSSD = ($(Get-OSDriveType) -eq "SSD")
-    $EnableServicesSSD = @(
+    $EnableServicesOnSSD = @(
         "SysMain" # SysMain / Superfetch (100% Disk on HDDs)
         "WSearch" # Windows Search (100% Disk on HDDs)
     )
@@ -54,10 +22,12 @@ function Optimize-RunningServicesList() {
     Write-Title -Text "Services tweaks"
 
     # Services which will be totally disabled
-    $DisableServices = @(
+    $ServicesToDisabled = @(
         "DiagTrack"                                 # Connected User Experiences and Telemetry
         "diagnosticshub.standardcollector.service"  # Microsoft (R) Diagnostics Hub Standard Collector Service
         "dmwappushservice"                          # Device Management Wireless Application Protocol (WAP)
+        "Fax"                                       # DEFAULT: Manual    | Fax Service
+        "fhsvc"                                     # DEFAULT: Manual    | Fax History Service
         "GraphicsPerfSvc"                           # Graphics performance monitor service
         "HomeGroupListener"                         # HomeGroup Listener
         "HomeGroupProvider"                         # HomeGroup Provider
@@ -67,37 +37,16 @@ function Optimize-RunningServicesList() {
         "RemoteAccess"                              # Routing and Remote Access
         "RemoteRegistry"                            # Remote Registry
         "RetailDemo"                                # DEFAULT: Manual    | The Retail Demo Service controls device activity while the device is in retail demo mode.
-        "SysMain"                                   # SysMain / Superfetch (100% Disk on HDDs)
+        "SysMain"                                   # SysMain / Superfetch (100% Disk usage on HDDs)
         "TrkWks"                                    # Distributed Link Tracking Client
-        "WSearch"                                   # Windows Search (100% Disk on HDDs)
-        # - Services which cannot be disabled ¯\_(ツ)_/¯
+        "WSearch"                                   # Windows Search (100% Disk usage on HDDs)
+        # - Services which cannot be disabled (and shouldn't)
         #"wscsvc"                                   # DEFAULT: Automatic | Windows Security Center Service
         #"WdNisSvc"                                 # DEFAULT: Manual    | Windows Defender Network Inspection Service
     )
 
-    ForEach ($Service in $DisableServices) {
-        If (Get-Service $Service -ErrorAction SilentlyContinue) {
-            If (($Revert -eq $true) -and ($Service -like "RemoteRegistry")) {
-                Write-Status -Symbol "?" -Type $TweakType -Status "Skipping $Service ($((Get-Service $Service).DisplayName)) to avoid a security vulnerability ..." -Warning
-                Continue
-            }
-
-            If (($IsSystemDriveSSD) -and ($Service -in $EnableServicesSSD)) {
-                Write-Status -Symbol $EnableStatus[2].Symbol -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as $($EnableStatus[2].Status), because in SSDs will have more benefits ..." -Warning
-                Invoke-Expression "$($EnableStatus[2].Command)"
-                Continue
-            }
-
-            Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as $($EnableStatus[0].Status) ..."
-            Invoke-Expression "$($EnableStatus[0].Command)"
-        }
-        Else {
-            Write-Status -Symbol "?" -Type $TweakType -Status "$Service was not found." -Warning
-        }
-    }
-
     # Making the services to run only when needed as 'Manual' | Remove the # to set to Manual
-    $ManualServices = @(
+    $ServicesToManual = @(
         "BITS"                           # DEFAULT: Manual    | Background Intelligent Transfer Service
         "cbdhsvc_*"                      # DEFAULT: Manual    | Clipboard User Service
         "edgeupdate"                     # DEFAULT: Automatic | Microsoft Edge Update Service
@@ -135,8 +84,6 @@ function Optimize-RunningServicesList() {
         "NVDisplay.ContainerLocalSystem" # DEFAULT: Automatic | NVIDIA Display Container LS (NVIDIA Control Panel)
         "NvContainerLocalSystem"         # DEFAULT: Automatic | NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
         # - Printer services
-        "Fax"                            # DEFAULT: Manual    | Fax Service
-        "fhsvc"                          # DEFAULT: Manual    | Fax History Service
         #"PrintNotify"                   # WARNING! REMOVING WILL TURN PRINTING LESS MANAGEABLE | DEFAULT: Manual    | Printer Extensions and Notifications
         #"Spooler"                       # WARNING! REMOVING WILL DISABLE PRINTING              | DEFAULT: Automatic | Print Spooler
         # - Wi-Fi services
@@ -146,25 +93,31 @@ function Optimize-RunningServicesList() {
         "gupdatem"                       # DEFAULT: Manual    | Google Update Service²
     )
 
-    ForEach ($Service in $ManualServices) {
-        If (Get-Service $Service -ErrorAction SilentlyContinue) {
-            Write-Status -Symbol "-" -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup ..."
-            Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
-        }
-        Else {
-            Write-Status -Symbol "?" -Type $TweakType -Status "$Service was not found." -Warning
-        }
+    If ($Revert) {
+        Write-Status -Symbol "<" -Type "Service" -Status "Reverting: $Revert" -Warning
+        Set-ServiceToManual -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
     }
+
+    If (!$Revert) {
+        Set-ServiceToDisabled -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
+    }
+
+    If ($IsSystemDriveSSD -or $Revert) {
+        $CustomMessage = { "The $Service ($((Get-Service $Service).DisplayName)) works better in 'Automatic' mode on SSDs ..." }
+        Set-ServiceToAutomatic -Services $EnableServicesOnSSD -CustomMessage $CustomMessage
+    }
+
+    Set-ServiceToManual -Services $ServicesToManual
 }
 
 function Main() {
     # List all services:
     #Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Out-GridView
     If (!($Revert)) {
-        Optimize-RunningServicesList # Enable essential Services and Disable bloating Services
+        Optimize-ServicesRunning # Enable essential Services and Disable bloating Services
     }
     Else {
-        Optimize-RunningServicesList -Revert
+        Optimize-ServicesRunning -Revert
     }
 }
 

@@ -1,10 +1,13 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-apps.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-state.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Remove-Xbox() {
+    $TweakType = "Xbox"
     $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 
-    Write-Host "[-][Services] Disabling ALL Xbox Services..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling ALL Xbox Services..."
     $XboxServices = @(
         "XblAuthManager"
         "XblGameSave"
@@ -12,18 +15,9 @@ function Remove-Xbox() {
         "XboxNetApiSvc"
     )
 
-    ForEach ($Service in $XboxServices) {
-        If (Get-Service $Service -ErrorAction SilentlyContinue) {
-            Write-Host "[-][Services] Setting Startup Type as 'Disable' to $Service at Startup and Stopping ..."
-            Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
-            Stop-Service "$Service" -Force -NoWait
-        }
-        Else {
-            Write-Host "[?][Services] $Service was not found." -ForegroundColor Yellow -BackgroundColor Black
-        }
-    }
+    Set-ServiceToDisabled -Services $XboxServices
 
-    Write-Host "[-][UWP] Wiping Xbox completely from Windows..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Wiping Xbox Apps completely from Windows..."
     $XboxApps = @(
         "Microsoft.XboxApp"                 # Xbox Console Companion (Replaced by new App)
         "Microsoft.XboxGameCallableUI"
@@ -34,9 +28,9 @@ function Remove-Xbox() {
         "Microsoft.Xbox.TCUI"               # Xbox Live API communication (Xbox Dependency)
     )
 
-    Remove-UWPAppsList -Apps $XboxApps
+    Remove-UWPAppx -AppxPackages $XboxApps
 
-    Write-Host "[-][Registry] Disabling Xbox Game Bar & Game DVR..."
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling Xbox Game Bar & Game DVR..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
