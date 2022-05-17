@@ -1527,7 +1527,7 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"ui-helper.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"install-software.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"manage-software.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
