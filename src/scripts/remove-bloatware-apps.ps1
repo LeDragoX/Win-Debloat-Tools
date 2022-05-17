@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-apps.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Remove-BloatwareAppsList() {
@@ -126,7 +126,7 @@ function Remove-BloatwareAppsList() {
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"
 
-        # <==========[ DIY ]==========> (Remove the # to Unninstall)
+        # <==========[ DIY ]==========> (Remove the # to Uninstall)
 
         # [DIY] Default apps i'll keep
 
@@ -161,12 +161,14 @@ function Remove-BloatwareAppsList() {
         #"Windows.ContactSupport"
     )
 
-    Remove-UWPAppsList -Apps $Apps
+    Remove-UWPAppx -AppxPackages $Apps
 }
 
 function Main() {
-    # List all Packages: Get-AppxPackage | Select-Object -Property Name, Architecture, Version, Publisher, InstallLocation, IsFramework, IsBundle, IsDevelopmentMode, NonRemovable, SignatureKind, Status, Dependencies | Sort-Object Publisher, Name, Architecture | Out-GridView
-    # List all Provisioned Packages: Get-AppxProvisionedPackage -Online | Select-Object -Property DisplayName, Architecture, Version, PublisherId, InstallLocation, Region, ResourceId | Sort-Object PublisherId, DisplayName, Architecture | Out-GridView
+    # List all Packages:
+    #Get-AppxPackage | Select-Object -Property Name, Architecture, Version, Publisher, InstallLocation, IsFramework, IsBundle, IsDevelopmentMode, NonRemovable, SignatureKind, Status, Dependencies | Sort-Object Publisher, Name, Architecture | Out-GridView
+    # List all Provisioned Packages:
+    #Get-AppxProvisionedPackage -Online | Select-Object -Property DisplayName, Architecture, Version, PublisherId, InstallLocation, Region, ResourceId | Sort-Object PublisherId, DisplayName, Architecture | Out-GridView
     Remove-BloatwareAppsList # Remove the main Bloat from Pre-installed Apps
 }
 

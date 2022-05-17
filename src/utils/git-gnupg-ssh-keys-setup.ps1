@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"install-software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"select-folder-gui.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"

@@ -1,4 +1,4 @@
-﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
@@ -158,7 +158,8 @@ function Optimize-RunningServicesList() {
 }
 
 function Main() {
-    # List all services: Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Out-GridView
+    # List all services:
+    #Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Out-GridView
     If (!($Revert)) {
         Optimize-RunningServicesList # Enable essential Services and Disable bloating Services
     }
