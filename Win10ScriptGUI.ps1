@@ -15,6 +15,7 @@ function Show-GUI() {
     [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
 
     Set-UIFont # Load the Layout Font
+    $ScreenWidth, $ScreenHeight = Get-CurrentResolution -IsScaling # Get the Screen Size
 
     $Script:NeedRestart = $false
     $DoneTitle = "Information"
@@ -22,15 +23,26 @@ function Show-GUI() {
 
     # <===== PERSONAL LAYOUT =====>
 
+    # To Scroll
+    $VerticalScrollWidth = 16.5
+    $HorizontalScrollHeight = 22.5
+
     # To Forms
-    $FormWidth = 1366 * 0.85 # ~ 1162
-    $FormHeight = 768 * 0.85 # ~ 653
+    If ($ScreenWidth -gt 1024) {
+        [Int] $FormWidth = ($ScreenWidth * 0.85) + $VerticalScrollWidth # Scaled Resolution Width + Scroll Width
+        [Int] $FormHeight = $ScreenHeight * 0.85
+    }
+    Else {
+        [Int] $FormWidth = ($ScreenWidth * 0.99) + $VerticalScrollWidth # ~ 870.4 + Scroll Width
+        [Int] $FormHeight = $ScreenHeight * 0.85
+    }
+
     # To Panels
     $NumOfPanels = 4
-    [Int] $PanelWidth = ($FormWidth / $NumOfPanels)
+    [Int] $PanelWidth = ($FormWidth / $NumOfPanels) - ($VerticalScrollWidth / $NumOfPanels) # - Scroll Width per Panel
     # To Labels
-    $TitleLabelHeight = 35
-    $CaptionLabelHeight = 20
+    $TitleLabelHeight = 65
+    $CaptionLabelHeight = 30
     # To Buttons
     $ButtonWidth = $PanelWidth * 0.91
     $ButtonHeight = 30
@@ -40,10 +52,9 @@ function Show-GUI() {
     $Header3 = 14
 
     [Int] $TitleLabelX = $PanelWidth * 0
-    [Int] $TitleLabelY = $FormHeight * 0.01
+    [Int] $TitleLabelY = 0
     [Int] $ButtonX = $PanelWidth * 0.01
-    [Int] $FirstButtonY = $TitleLabelY + $TitleLabelHeight + 30 # 70
-    [Int] $FirstLabelY = $FirstButtonY - 27
+    [Int] $FirstLabelY = $TitleLabelY + $TitleLabelHeight + $DistanceBetweenButtons
 
     $WarningYellow = "#EED202"
     $White = "#FFFFFF"
@@ -62,23 +73,23 @@ function Show-GUI() {
     # <===== UI =====>
 
     # Main Window:
-    $Form = New-Form -Width ($FormWidth + 15) -Height $FormHeight -Text "Win 10+ S. D. Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer to load the script
+    $Form = New-Form -Width $FormWidth -Height $FormHeight -Text "Win 10+ S. D. Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer to load the script
 
     # Window Icon:
     $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
 
     # Panels to put Labels and Buttons
     $CurrentPanelIndex = 0
-    $Panel1 = New-Panel -Width $PanelWidth -Height ($FormHeight - ($FormHeight * 0.1955)) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $Panel2 = New-Panel -Width $PanelWidth -Height ($FormHeight * 1.00) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
+    $Panel1 = New-Panel -Width $PanelWidth -Height 525 -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel2 = New-Panel -Width $PanelWidth -Height 575 -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY ($Panel1.Location.Y + $Panel1.Height)
     $CurrentPanelIndex++
-    $Panel3 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.90) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel3 = New-Panel -Width $PanelWidth -Height 1900 -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $CurrentPanelIndex++
-    $Panel4 = New-Panel -Width ($PanelWidth - 15) -Height ($FormHeight * 2.90) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel4 = New-Panel -Width $PanelWidth -Height 1900 -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     $CurrentPanelIndex++
-    $Panel5 = New-Panel -Width $PanelWidth -Height ($FormHeight * 2.90) -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $Panel5 = New-Panel -Width $PanelWidth -Height 1900 -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
     # Panel to put more Panels
-    $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height $FormHeight -LocationX 0 -LocationY 0 -HasVerticalScroll
+    $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height ($FormHeight - $HorizontalScrollHeight) -LocationX 0 -LocationY 0 -HasVerticalScroll
 
     # Panels 1, 2, 3-4-5 ~> Title Label
     $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
@@ -86,18 +97,19 @@ function Show-GUI() {
     $TlSoftwareInstall = New-Label -Text "Software Install" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
 
     # Panel 1, 2, 3-4-5 ~> Caption Label
-    $ClScriptVersion = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $FirstLabelY -ForeColor $White
-    $ClCustomizableFeatures = New-Label -Text "Enable/Disable Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $FirstLabelY -ForeColor $White
+    $ClSystemTweaks = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $FirstLabelY -ForeColor $White
+    $ClCustomizeFeatures = New-Label -Text "Enable/Disable Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $FirstLabelY -ForeColor $White
     $ClSoftwareInstall = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY $FirstLabelY -ForeColor $White
 
     # ==> Panel 1
-    $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontSize $Header3 -ForeColor $WinBlue
+    $NextYLocation = $ClSystemTweaks.Location.Y + $ClSystemTweaks.Height + $DistanceBetweenButtons
+    $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $Header3 -ForeColor $WinBlue
 
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
     $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WarningYellow
 
     $NextYLocation = $UndoTweaks.Location.Y + $UndoTweaks.Height + $DistanceBetweenButtons
-    $RemoveXbox = New-Button -Text "Remove and Disable Xbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WarningYellow
+    $RemoveXbox = New-Button -Text "Remove Xbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WarningYellow
 
     $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
     # Logo from the Script
@@ -116,7 +128,8 @@ function Show-GUI() {
     $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # ==> Panel 2
-    $CbDarkTheme = New-CheckBox -Text "Use Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY
+    $NextYLocation = $ClCustomizeFeatures.Location.Y + $ClCustomizeFeatures.Height + $DistanceBetweenButtons
+    $CbDarkTheme = New-CheckBox -Text "Use Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $CbDarkTheme.Location.Y + $CbDarkTheme.Height + $DistanceBetweenButtons
     $CbActivityHistory = New-CheckBox -Text "Enable Activity History" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
@@ -145,7 +158,7 @@ function Show-GUI() {
     $NextYLocation = $CbXboxGameBarAndDVR.Location.Y + $CbXboxGameBarAndDVR.Height + $DistanceBetweenButtons
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $NextYLocation -ForeColor $White
 
-    $NextYLocation = $ClMiscFeatures.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClMiscFeatures.Location.Y + $ClMiscFeatures.Height + $DistanceBetweenButtons
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $CbGodMode.Location.Y + $CbGodMode.Height + $DistanceBetweenButtons
@@ -156,7 +169,9 @@ function Show-GUI() {
 
     # ==> Panel 3
     $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstLabelY
-    $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -ForeColor $AmdRyzenPrimaryColor
+
+    $NextYLocation = $ClCpuGpuDrivers.Location.Y + $ClCpuGpuDrivers.Height + $DistanceBetweenButtons
+    $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $AmdRyzenPrimaryColor
 
     $NextYLocation = $InstallAmdRyzenChipsetDriver.Location.Y + $InstallAmdRyzenChipsetDriver.Height + $DistanceBetweenButtons
     $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $IntelPrimaryColor
@@ -170,7 +185,7 @@ function Show-GUI() {
     $NextYLocation = $InstallNVCleanstall.Location.Y + $InstallNVCleanstall.Height + $DistanceBetweenButtons
     $ClWebBrowsers = New-Label -Text "Web Browsers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClWebBrowsers.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClWebBrowsers.Location.Y + $ClWebBrowsers.Height + $DistanceBetweenButtons
     $InstallBraveBrowser = New-CheckBox -Text "Brave Browser" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallBraveBrowser.Location.Y + $InstallBraveBrowser.Height + $DistanceBetweenButtons
@@ -182,7 +197,7 @@ function Show-GUI() {
     $NextYLocation = $InstallMozillaFirefox.Location.Y + $InstallMozillaFirefox.Height + $DistanceBetweenButtons
     $ClFileCompression = New-Label -Text "File Compression" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClFileCompression.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClFileCompression.Location.Y + $ClFileCompression.Height + $DistanceBetweenButtons
     $Install7Zip = New-CheckBox -Text "7-Zip" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $Install7Zip.Location.Y + $Install7Zip.Height + $DistanceBetweenButtons
@@ -191,7 +206,7 @@ function Show-GUI() {
     $NextYLocation = $InstallWinRar.Location.Y + $InstallWinRar.Height + $DistanceBetweenButtons
     $ClDocuments = New-Label -Text "Document Editors/Readers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClDocuments.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClDocuments.Location.Y + $ClDocuments.Height + $DistanceBetweenButtons
     $InstallAdobeReaderDC = New-CheckBox -Text "Adobe Reader DC (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAdobeReaderDC.Location.Y + $InstallAdobeReaderDC.Height + $DistanceBetweenButtons
@@ -209,7 +224,7 @@ function Show-GUI() {
     $NextYLocation = $InstallSumatraPDF.Location.Y + $InstallSumatraPDF.Height + $DistanceBetweenButtons
     $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClTextEditors.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClTextEditors.Location.Y + $ClTextEditors.Height + $DistanceBetweenButtons
     $InstallAtom = New-CheckBox -Text "Atom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAtom.Location.Y + $InstallAtom.Height + $DistanceBetweenButtons
@@ -230,19 +245,19 @@ function Show-GUI() {
     $NextYLocation = $InstallVSCodium.Location.Y + $InstallVSCodium.Height + $DistanceBetweenButtons
     $ClAcademicResearch = New-Label -Text "Academic Research" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClAcademicResearch.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClAcademicResearch.Location.Y + $ClAcademicResearch.Height + $DistanceBetweenButtons
     $InstallZotero = New-CheckBox -Text "Zotero" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallZotero.Location.Y + $InstallZotero.Height + $DistanceBetweenButtons
     $Cl2fa = New-Label -Text "2-Factor Authentication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $Cl2fa.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $Cl2fa.Location.Y + $Cl2fa.Height + $DistanceBetweenButtons
     $InstallTwilioAuthy = New-CheckBox -Text "Twilio Authy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallTwilioAuthy.Location.Y + $InstallTwilioAuthy.Height + $DistanceBetweenButtons
     $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClDevelopment.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClDevelopment.Location.Y + $ClDevelopment.Height + $DistanceBetweenButtons
     $InstallWindowsTerminal = New-CheckBox -Text "Windows Terminal" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallWindowsTerminal.Location.Y + $InstallWindowsTerminal.Height + $DistanceBetweenButtons
@@ -300,7 +315,8 @@ function Show-GUI() {
     $InstallRustMsvc = New-CheckBox -Text "Rust (MSVC)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     # ==> Panel 4
-    $InstallSelected = New-Button -Text "Install Selected" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY -FontStyle "Bold"
+    $NextYLocation = $ClSoftwareInstall.Location.Y + $ClSoftwareInstall.Height + $DistanceBetweenButtons
+    $InstallSelected = New-Button -Text "Install Selected" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontStyle "Bold"
 
     $NextYLocation = $InstallSelected.Location.Y + $InstallSelected.Height + $DistanceBetweenButtons
     $UninstallMode = New-Button -Text "[OFF] Uninstall Mode" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontStyle "Bold"
@@ -308,7 +324,7 @@ function Show-GUI() {
     $NextYLocation = $UninstallMode.Location.Y + $UninstallMode.Height + $DistanceBetweenButtons
     $ClAudioVideoTools = New-Label -Text "Audio/Video Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClAudioVideoTools.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClAudioVideoTools.Location.Y + $ClAudioVideoTools.Height + $DistanceBetweenButtons
     $InstallAudacity = New-CheckBox -Text "Audacity (Editor)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAudacity.Location.Y + $InstallAudacity.Height + $DistanceBetweenButtons
@@ -320,7 +336,7 @@ function Show-GUI() {
     $NextYLocation = $InstallVlc.Location.Y + $InstallVlc.Height + $DistanceBetweenButtons
     $ClStreamingServices = New-Label -Text "Streaming Services" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClStreamingServices.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClStreamingServices.Location.Y + $ClStreamingServices.Height + $DistanceBetweenButtons
     $InstallAmazonPrimeVideo = New-CheckBox -Text "Amazon Prime Video" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAmazonPrimeVideo.Location.Y + $InstallAmazonPrimeVideo.Height + $DistanceBetweenButtons
@@ -335,7 +351,7 @@ function Show-GUI() {
     $NextYLocation = $InstallSpotify.Location.Y + $InstallSpotify.Height + $DistanceBetweenButtons
     $ClImageTools = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClImageTools.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClImageTools.Location.Y + $ClImageTools.Height + $DistanceBetweenButtons
     $InstallGimp = New-CheckBox -Text "GIMP" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallGimp.Location.Y + $InstallGimp.Height + $DistanceBetweenButtons
@@ -356,7 +372,7 @@ function Show-GUI() {
     $NextYLocation = $InstallShareX.Location.Y + $InstallShareX.Height + $DistanceBetweenButtons
     $ClUtilities = New-Label -Text "⚒ Utilities" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClUtilities.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClUtilities.Location.Y + $ClUtilities.Height + $DistanceBetweenButtons
     $InstallCpuZ = New-CheckBox -Text "CPU-Z" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallCpuZ.Location.Y + $InstallCpuZ.Height + $DistanceBetweenButtons
@@ -374,7 +390,7 @@ function Show-GUI() {
     $NextYLocation = $InstallHwInfo.Location.Y + $InstallHwInfo.Height + $DistanceBetweenButtons
     $ClCloudStorage = New-Label -Text "Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClCloudStorage.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClCloudStorage.Location.Y + $ClCloudStorage.Height + $DistanceBetweenButtons
     $InstallDropbox = New-CheckBox -Text "Dropbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDropbox.Location.Y + $InstallDropbox.Height + $DistanceBetweenButtons
@@ -383,7 +399,7 @@ function Show-GUI() {
     $NextYLocation = $InstallGoogleDrive.Location.Y + $InstallGoogleDrive.Height + $DistanceBetweenButtons
     $ClPlanningProductivity = New-Label -Text "Planning/Productivity" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClPlanningProductivity.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClPlanningProductivity.Location.Y + $ClPlanningProductivity.Height + $DistanceBetweenButtons
     $InstallNotion = New-CheckBox -Text "Notion" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallNotion.Location.Y + $InstallNotion.Height + $DistanceBetweenButtons
@@ -392,7 +408,7 @@ function Show-GUI() {
     $NextYLocation = $InstallObsidian.Location.Y + $InstallObsidian.Height + $DistanceBetweenButtons
     $ClNetworkManagement = New-Label -Text "Network Management" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClNetworkManagement.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClNetworkManagement.Location.Y + $ClNetworkManagement.Height + $DistanceBetweenButtons
     $InstallHamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallHamachi.Location.Y + $InstallHamachi.Height + $DistanceBetweenButtons
@@ -410,7 +426,7 @@ function Show-GUI() {
     $NextYLocation = $InstallWireshark.Location.Y + $InstallWireshark.Height + $DistanceBetweenButtons
     $ClWsl = New-Label -Text "⌨ Windows Subsystem For Linux" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClWsl.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClWsl.Location.Y + $ClWsl.Height + $DistanceBetweenButtons
     $InstallWSLgOrPreview = New-CheckBox -Text "Install WSLg/Preview" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WinBlue
 
     $NextYLocation = $InstallWSLgOrPreview.Location.Y + $InstallWSLgOrPreview.Height + $DistanceBetweenButtons
@@ -442,7 +458,9 @@ function Show-GUI() {
 
     # ==> Panel 5
     $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstLabelY
-    $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $FirstButtonY
+
+    $NextYLocation = $ClApplicationRequirements.Location.Y + $ClApplicationRequirements.Height + $DistanceBetweenButtons
+    $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDirectX.Location.Y + $InstallDirectX.Height + $DistanceBetweenButtons
     $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
@@ -456,7 +474,7 @@ function Show-GUI() {
     $NextYLocation = $InstallMsVCppX86.Location.Y + $InstallMsVCppX86.Height + $DistanceBetweenButtons
     $ClCommunication = New-Label -Text "Communication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClCommunication.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClCommunication.Location.Y + $ClCommunication.Height + $DistanceBetweenButtons
     $InstallDiscord = New-CheckBox -Text "Discord" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDiscord.Location.Y + $InstallDiscord.Height + $DistanceBetweenButtons
@@ -486,7 +504,7 @@ function Show-GUI() {
     $NextYLocation = $InstallZoom.Location.Y + $InstallZoom.Height + $DistanceBetweenButtons
     $ClGaming = New-Label -Text "Gaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClGaming.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClGaming.Location.Y + $ClGaming.Height + $DistanceBetweenButtons
     $InstallBorderlessGaming = New-CheckBox -Text "Borderless Gaming" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallBorderlessGaming.Location.Y + $InstallBorderlessGaming.Height + $DistanceBetweenButtons
@@ -507,7 +525,7 @@ function Show-GUI() {
     $NextYLocation = $InstallUbisoftConnect.Location.Y + $InstallUbisoftConnect.Height + $DistanceBetweenButtons
     $ClRemoteConnection = New-Label -Text "Remote Connection" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClRemoteConnection.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClRemoteConnection.Location.Y + $ClRemoteConnection.Height + $DistanceBetweenButtons
     $InstallAnyDesk = New-CheckBox -Text "AnyDesk" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAnyDesk.Location.Y + $InstallAnyDesk.Height + $DistanceBetweenButtons
@@ -522,7 +540,7 @@ function Show-GUI() {
     $NextYLocation = $InstallTeamViewer.Location.Y + $InstallTeamViewer.Height + $DistanceBetweenButtons
     $ClRecordingAndStreaming = New-Label -Text "Recording and Streaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClRecordingAndStreaming.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClRecordingAndStreaming.Location.Y + $ClRecordingAndStreaming.Height + $DistanceBetweenButtons
     $InstallElgatoStreamDeck = New-CheckBox -Text "Elgato Stream Deck" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallElgatoStreamDeck.Location.Y + $InstallElgatoStreamDeck.Height + $DistanceBetweenButtons
@@ -537,7 +555,7 @@ function Show-GUI() {
     $NextYLocation = $InstallStreamlabs.Location.Y + $InstallStreamlabs.Height + $DistanceBetweenButtons
     $ClBootableUsb = New-Label -Text "Bootable USB" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClBootableUsb.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClBootableUsb.Location.Y + $ClBootableUsb.Height + $DistanceBetweenButtons
     $InstallBalenaEtcher = New-CheckBox -Text "Etcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallBalenaEtcher.Location.Y + $InstallBalenaEtcher.Height + $DistanceBetweenButtons
@@ -549,13 +567,13 @@ function Show-GUI() {
     $NextYLocation = $InstallVentoy.Location.Y + $InstallVentoy.Height + $DistanceBetweenButtons
     $ClTorrent = New-Label -Text "Torrent" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClTorrent.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClTorrent.Location.Y + $ClTorrent.Height + $DistanceBetweenButtons
     $InstallqBittorrent = New-CheckBox -Text "qBittorrent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallqBittorrent.Location.Y + $InstallqBittorrent.Height + $DistanceBetweenButtons
     $ClVirtualMachines = New-Label -Text "Virtual Machines" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClVirtualMachines.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClVirtualMachines.Location.Y + $ClVirtualMachines.Height + $DistanceBetweenButtons
     $InstallOracleVirtualBox = New-CheckBox -Text "Oracle VM VirtualBox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallOracleVirtualBox.Location.Y + $InstallOracleVirtualBox.Height + $DistanceBetweenButtons
@@ -567,7 +585,7 @@ function Show-GUI() {
     $NextYLocation = $InstallVmWarePlayer.Location.Y + $InstallVmWarePlayer.Height + $DistanceBetweenButtons
     $ClEmulation = New-Label -Text "Emulation" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
 
-    $NextYLocation = $ClEmulation.Location.Y + $ButtonHeight + $DistanceBetweenButtons
+    $NextYLocation = $ClEmulation.Location.Y + $ClEmulation.Height + $DistanceBetweenButtons
     $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
 
     $NextYLocation = $InstallCemu.Location.Y + $InstallCemu.Height + $DistanceBetweenButtons
@@ -599,9 +617,9 @@ function Show-GUI() {
     # Add Elements to each Panel
     $FullPanel.Controls.AddRange(@($ClSoftwareInstall))
     $FullPanel.Controls.AddRange(@($Panel1, $Panel2, $Panel3, $Panel4, $Panel5))
-    $Panel1.Controls.AddRange(@($TlSystemTweaks, $ClScriptVersion))
+    $Panel1.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks))
     $Panel1.Controls.AddRange(@($ApplyTweaks, $UndoTweaks, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
-    $Panel2.Controls.AddRange(@($TlCustomizeTweaks, $ClCustomizableFeatures))
+    $Panel2.Controls.AddRange(@($TlCustomizeTweaks, $ClCustomizeFeatures))
     $Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbSearchIdx, $CbTelemetry, $CbXboxGameBarAndDVR))
     $Panel2.Controls.AddRange(@($ClMiscFeatures, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
     $Panel3.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
@@ -651,7 +669,6 @@ function Show-GUI() {
 
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
-            $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
             $Script:NeedRestart = $true
         })
@@ -672,9 +689,8 @@ function Show-GUI() {
         })
 
     $RemoveXbox.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-and-disable-xbox.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-xbox.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
-            $PictureBox1.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::StretchImage
             $Form.Update()
         })
 
