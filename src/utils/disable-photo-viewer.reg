@@ -1,0 +1,41 @@
+Windows Registry Editor Version 5.00
+
+; Change Extension's File Type
+[HKEY_CURRENT_USER\Software\Classes\.jpg]
+@=-
+
+; Change Extension's File Type
+[HKEY_CURRENT_USER\Software\Classes\.jpeg]
+@=-
+
+; Change Extension's File Type
+[HKEY_CURRENT_USER\Software\Classes\.gif]
+@=-
+
+; Change Extension's File Type
+[HKEY_CURRENT_USER\Software\Classes\.png]
+@=-
+
+; Change Extension's File Type
+[HKEY_CURRENT_USER\Software\Classes\.bmp]
+@=-
+
+; Change Extension's File Type
+[HKEY_CURRENT_USER\Software\Classes\.tiff]
+@=-
+
+; Change Extension's File Type
+[HKEY_CURRENT_USER\Software\Classes\.ico]
+@=-
+
+[-HKEY_CLASSES_ROOT\Applications\photoviewer.dll]
+
+[-HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell]
+
+[-HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\open]
+
+[-HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\open\command]
+
+[-HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\open\DropTarget]
+
+[-HKEY_CLASSES_ROOT\Applications\photoviewer.dll\shell\print]
