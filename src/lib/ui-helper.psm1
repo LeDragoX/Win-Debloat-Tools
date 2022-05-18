@@ -1,5 +1,29 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
+function Get-CurrentResolution {
+    [CmdletBinding()]
+    [OutputType([System.Object[]])]
+    param (
+        [Parameter(Mandatory = $false)]
+        [Switch] $IsScaling
+    )
+
+    If ($IsScaling) {
+        Add-Type -AssemblyName System.Windows.Forms
+        $DisplayInfo = [System.Windows.Forms.SystemInformation]::VirtualScreen
+        $ScreenWidth = $DisplayInfo.Width
+        $ScreenHeight = $DisplayInfo.Height
+    }
+    Else {
+        $DisplayInfo = Get-CimInstance -class "Win32_VideoController" | Select-Object *
+        $ScreenWidth = $DisplayInfo.CurrentHorizontalResolution
+        $ScreenHeight = $DisplayInfo.CurrentVerticalResolution
+    }
+
+    Write-Verbose "Width: $ScreenWidth, Height: $ScreenHeight"
+    return $ScreenWidth, $ScreenHeight
+}
+
 function Set-UIFont() {
     [CmdletBinding()] param ()
 
