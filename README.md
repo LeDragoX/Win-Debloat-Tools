@@ -31,7 +31,7 @@ the `develop` branch is the most recent version.
 
 <div align="center">
  <table>
-  <thead>
+  <thead align="center">
    <tr>
     <th>Download</th>
     <th>Version(s) Supported</th>
@@ -39,12 +39,19 @@ the `develop` branch is the most recent version.
     <th>PowerShell Version</th>
    </tr>
   </thead>
-  <tbody>
-   <tr align="center">
-    <td><h3><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Zip File ⬇️</a></h3></td>
-    <td>21H2 or Older</td>
-    <td>Home / Pro</td>
-    <td><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
+  <tbody align="center">
+   <tr>
+    <td align="left">
+      <h4><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Main - Stable</a></h4>
+    </td>
+    <td rowspan="2">21H2 or Older</td>
+    <td rowspan="2">Home / Pro</td>
+    <td rowspan="2"><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
+   </tr>
+   <tr>
+    <td align="left">
+      <h5><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/develop.zip">⬇️ Develop - Newer</a></h5>
+    </td>
    </tr>
   </tbody>
  </table>
