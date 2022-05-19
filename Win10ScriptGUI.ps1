@@ -29,32 +29,32 @@ function Show-GUI() {
 
     # To Forms
     If ($ScreenWidth -gt 1024) {
-        [Int] $FormWidth = ($ScreenWidth * 0.85) + $VerticalScrollWidth # Scaled Resolution Width + Scroll Width
-        [Int] $FormHeight = $ScreenHeight * 0.85
+        $FormWidth = ($ScreenWidth * 0.85) + $VerticalScrollWidth # Scaled Resolution Width + Scroll Width
+        $FormHeight = $ScreenHeight * 0.85
     }
     Else {
-        [Int] $FormWidth = ($ScreenWidth * 0.99) + $VerticalScrollWidth # ~ 870.4 + Scroll Width
-        [Int] $FormHeight = $ScreenHeight * 0.85
+        $FormWidth = ($ScreenWidth * 0.99) + $VerticalScrollWidth # ~ 870.4 + Scroll Width
+        $FormHeight = $ScreenHeight * 0.85
     }
 
     # To Panels
     $NumOfPanels = 4
-    [Int] $PanelWidth = ($FormWidth / $NumOfPanels) - ($VerticalScrollWidth / $NumOfPanels) # - Scroll Width per Panel
+    $PanelWidth = ($FormWidth / $NumOfPanels) - ($VerticalScrollWidth / $NumOfPanels) # - Scroll Width per Panel
+    $PanelElementMarginWidth = 0.025
+    $PanelElementWidth = $PanelWidth - ($PanelWidth * (2 * $PanelElementMarginWidth))
+    $PanelElementX = $PanelWidth * $PanelElementMarginWidth
     # To Labels
     $TitleLabelHeight = 65
     $CaptionLabelHeight = 30
     # To Buttons
-    $ButtonWidth = $PanelWidth * 0.91
     $ButtonHeight = 30
     $DistanceBetweenButtons = 5
     # To Fonts
     $Header1 = 20
     $Header3 = 14
 
-    [Int] $TitleLabelX = $PanelWidth * 0
-    [Int] $TitleLabelY = 0
-    [Int] $ButtonX = $PanelWidth * 0.01
-    [Int] $FirstLabelY = $TitleLabelY + $TitleLabelHeight + $DistanceBetweenButtons
+    $TitleLabelY = 0
+    $FirstLabelY = $TitleLabelY + $TitleLabelHeight + $DistanceBetweenButtons
 
     $WarningYellow = "#EED202"
     $White = "#FFFFFF"
@@ -67,7 +67,7 @@ function Show-GUI() {
     $IntelPrimaryColor = "#0071C5"
     $NVIDIAPrimaryColor = "#76B900"
 
-    $CaptionLabelWidth = $PanelWidth - ($PanelWidth - $ButtonWidth) # & $CaptionLabelHeight
+    $CaptionLabelWidth = $PanelWidth - ($PanelWidth - $PanelElementWidth) # & $CaptionLabelHeight
     $BBHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
 
     # <===== UI =====>
@@ -92,525 +92,527 @@ function Show-GUI() {
     $FullPanel = New-Panel -Width (($PanelWidth * ($CurrentPanelIndex + 1))) -Height ($FormHeight - $HorizontalScrollHeight) -LocationX 0 -LocationY 0 -HasVerticalScroll
 
     # Panels 1, 2, 3-4-5 ~> Title Label
-    $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
-    $TlCustomizeTweaks = New-Label -Text "Customize Tweaks" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
-    $TlSoftwareInstall = New-Label -Text "Software Install" -Width $PanelWidth -Height $TitleLabelHeight -LocationX $TitleLabelX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
+    $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $PanelElementWidth -Height $TitleLabelHeight -LocationX $PanelElementX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
+    $TlCustomizeTweaks = New-Label -Text "Customize Tweaks" -Width $PanelElementWidth -Height $TitleLabelHeight -LocationX $PanelElementX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
+    $TlSoftwareInstall = New-Label -Text "Software Install" -Width $PanelElementWidth -Height $TitleLabelHeight -LocationX $PanelElementX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
 
     # Panel 1, 2, 3-4-5 ~> Caption Label
-    $ClSystemTweaks = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $FirstLabelY -ForeColor $White
-    $ClCustomizeFeatures = New-Label -Text "Enable/Disable Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $FirstLabelY -ForeColor $White
+    $ClSystemTweaks = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $FirstLabelY -ForeColor $White
+
+    $ClCustomizeFeatures = New-Label -Text "Enable/Disable Features" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $FirstLabelY -ForeColor $White
+
     $ClSoftwareInstall = New-Label -Text "Package Managers: Winget and Chocolatey" -Width ($CaptionLabelWidth * 1.25) -Height $CaptionLabelHeight -LocationX (($PanelWidth * 2) - ($PanelWidth * 0.10)) -LocationY $FirstLabelY -ForeColor $White
 
     # ==> Panel 1
     $NextYLocation = $ClSystemTweaks.Location.Y + $ClSystemTweaks.Height + $DistanceBetweenButtons
-    $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $ButtonWidth -Height $BBHeight -LocationX $ButtonX -LocationY $NextYLocation -FontSize $Header3 -ForeColor $WinBlue
+    $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $PanelElementWidth -Height $BBHeight -LocationX $PanelElementX -LocationY $NextYLocation -FontSize $Header3 -ForeColor $WinBlue
 
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
-    $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WarningYellow
+    $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $WarningYellow
 
     $NextYLocation = $UndoTweaks.Location.Y + $UndoTweaks.Height + $DistanceBetweenButtons
-    $RemoveXbox = New-Button -Text "Remove Xbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WarningYellow
+    $RemoveXbox = New-Button -Text "Remove Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $WarningYellow
 
     $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
     # Logo from the Script
-    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width $ButtonWidth -Height (($BBHeight * 2) + $DistanceBetweenButtons) -LocationX $ButtonX -LocationY $NextYLocation -SizeMode 'Zoom'
+    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width $PanelElementWidth -Height (($BBHeight * 2) + $DistanceBetweenButtons) -LocationX $PanelElementX -LocationY $NextYLocation -SizeMode 'Zoom'
 
     $NextYLocation = $PictureBox1.Location.Y + $PictureBox1.Height + $DistanceBetweenButtons
-    $InstallOneDrive = New-Button -Text "Install OneDrive" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallOneDrive = New-Button -Text "Install OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallOneDrive.Location.Y + $InstallOneDrive.Height + $DistanceBetweenButtons
-    $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ReinstallBloatApps.Location.Y + $ReinstallBloatApps.Height + $DistanceBetweenButtons
-    $RepairWindows = New-Button -Text "Repair Windows" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $RepairWindows = New-Button -Text "Repair Windows" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $RepairWindows.Location.Y + $RepairWindows.Height + $DistanceBetweenButtons
-    $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     # ==> Panel 2
     $NextYLocation = $ClCustomizeFeatures.Location.Y + $ClCustomizeFeatures.Height + $DistanceBetweenButtons
-    $CbDarkTheme = New-CheckBox -Text "Use Dark Theme" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbDarkTheme = New-CheckBox -Text "Use Dark Theme" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbDarkTheme.Location.Y + $CbDarkTheme.Height + $DistanceBetweenButtons
-    $CbActivityHistory = New-CheckBox -Text "Enable Activity History" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbActivityHistory = New-CheckBox -Text "Enable Activity History" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbActivityHistory.Location.Y + $CbActivityHistory.Height + $DistanceBetweenButtons
-    $CbBackgroundsApps = New-CheckBox -Text "Enable Background Apps" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbBackgroundsApps = New-CheckBox -Text "Enable Background Apps" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbBackgroundsApps.Location.Y + $CbBackgroundsApps.Height + $DistanceBetweenButtons
-    $CbClipboardHistory = New-CheckBox -Text "Enable Clipboard History" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbClipboardHistory = New-CheckBox -Text "Enable Clipboard History" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbClipboardHistory.Location.Y + $CbClipboardHistory.Height + $DistanceBetweenButtons
-    $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbCortana.Location.Y + $CbCortana.Height + $DistanceBetweenButtons
-    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbOldVolumeControl.Location.Y + $CbOldVolumeControl.Height + $DistanceBetweenButtons
-    $CbSearchIdx = New-CheckBox -Text "Enable Search Indexing" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbSearchIdx = New-CheckBox -Text "Enable Search Indexing" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbSearchIdx.Location.Y + $CbSearchIdx.Height + $DistanceBetweenButtons
-    $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbTelemetry.Location.Y + $CbTelemetry.Height + $DistanceBetweenButtons
-    $CbXboxGameBarAndDVR = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbXboxGameBarAndDVR = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbXboxGameBarAndDVR.Location.Y + $CbXboxGameBarAndDVR.Height + $DistanceBetweenButtons
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $NextYLocation -ForeColor $White
 
     $NextYLocation = $ClMiscFeatures.Location.Y + $ClMiscFeatures.Height + $DistanceBetweenButtons
-    $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbGodMode.Location.Y + $CbGodMode.Height + $DistanceBetweenButtons
-    $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbTakeOwnership.Location.Y + $CbTakeOwnership.Height + $DistanceBetweenButtons
-    $CbShutdownPCShortcut = New-CheckBox -Text "Enable Shutdown PC shortcut" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $CbShutdownPCShortcut = New-CheckBox -Text "Enable Shutdown PC shortcut" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     # ==> Panel 3
-    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstLabelY
+    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $FirstLabelY
 
     $NextYLocation = $ClCpuGpuDrivers.Location.Y + $ClCpuGpuDrivers.Height + $DistanceBetweenButtons
-    $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $AmdRyzenPrimaryColor
+    $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $AmdRyzenPrimaryColor
 
     $NextYLocation = $InstallAmdRyzenChipsetDriver.Location.Y + $InstallAmdRyzenChipsetDriver.Height + $DistanceBetweenButtons
-    $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $IntelPrimaryColor
+    $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $IntelPrimaryColor
 
     $NextYLocation = $InstallIntelDSA.Location.Y + $InstallIntelDSA.Height + $DistanceBetweenButtons
-    $InstallNvidiaGeForceExperience = New-CheckBox -Text "NVIDIA GeForce Experience" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $NVIDIAPrimaryColor
+    $InstallNvidiaGeForceExperience = New-CheckBox -Text "NVIDIA GeForce Experience" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $NVIDIAPrimaryColor
 
     $NextYLocation = $InstallNvidiaGeForceExperience.Location.Y + $InstallNvidiaGeForceExperience.Height + $DistanceBetweenButtons
-    $InstallNVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallNVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallNVCleanstall.Location.Y + $InstallNVCleanstall.Height + $DistanceBetweenButtons
-    $ClWebBrowsers = New-Label -Text "Web Browsers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClWebBrowsers = New-Label -Text "Web Browsers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClWebBrowsers.Location.Y + $ClWebBrowsers.Height + $DistanceBetweenButtons
-    $InstallBraveBrowser = New-CheckBox -Text "Brave Browser" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallBraveBrowser = New-CheckBox -Text "Brave Browser" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallBraveBrowser.Location.Y + $InstallBraveBrowser.Height + $DistanceBetweenButtons
-    $InstallGoogleChrome = New-CheckBox -Text "Google Chrome" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallGoogleChrome = New-CheckBox -Text "Google Chrome" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallGoogleChrome.Location.Y + $InstallGoogleChrome.Height + $DistanceBetweenButtons
-    $InstallMozillaFirefox = New-CheckBox -Text "Mozilla Firefox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallMozillaFirefox = New-CheckBox -Text "Mozilla Firefox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMozillaFirefox.Location.Y + $InstallMozillaFirefox.Height + $DistanceBetweenButtons
-    $ClFileCompression = New-Label -Text "File Compression" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClFileCompression = New-Label -Text "File Compression" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClFileCompression.Location.Y + $ClFileCompression.Height + $DistanceBetweenButtons
-    $Install7Zip = New-CheckBox -Text "7-Zip" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $Install7Zip = New-CheckBox -Text "7-Zip" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $Install7Zip.Location.Y + $Install7Zip.Height + $DistanceBetweenButtons
-    $InstallWinRar = New-CheckBox -Text "WinRAR (Trial)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallWinRar = New-CheckBox -Text "WinRAR (Trial)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallWinRar.Location.Y + $InstallWinRar.Height + $DistanceBetweenButtons
-    $ClDocuments = New-Label -Text "Document Editors/Readers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClDocuments = New-Label -Text "Document Editors/Readers" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClDocuments.Location.Y + $ClDocuments.Height + $DistanceBetweenButtons
-    $InstallAdobeReaderDC = New-CheckBox -Text "Adobe Reader DC (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallAdobeReaderDC = New-CheckBox -Text "Adobe Reader DC (x64)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAdobeReaderDC.Location.Y + $InstallAdobeReaderDC.Height + $DistanceBetweenButtons
-    $InstallLibreOffice = New-CheckBox -Text "LibreOffice" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallLibreOffice = New-CheckBox -Text "LibreOffice" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallLibreOffice.Location.Y + $InstallLibreOffice.Height + $DistanceBetweenButtons
-    $InstallOnlyOffice = New-CheckBox -Text "ONLYOFFICE DesktopEditors" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallOnlyOffice = New-CheckBox -Text "ONLYOFFICE DesktopEditors" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallOnlyOffice.Location.Y + $InstallOnlyOffice.Height + $DistanceBetweenButtons
-    $InstallPowerBi = New-CheckBox -Text "Power BI" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallPowerBi = New-CheckBox -Text "Power BI" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallPowerBi.Location.Y + $InstallPowerBi.Height + $DistanceBetweenButtons
-    $InstallSumatraPDF = New-CheckBox -Text "Sumatra PDF" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallSumatraPDF = New-CheckBox -Text "Sumatra PDF" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallSumatraPDF.Location.Y + $InstallSumatraPDF.Height + $DistanceBetweenButtons
-    $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClTextEditors.Location.Y + $ClTextEditors.Height + $DistanceBetweenButtons
-    $InstallAtom = New-CheckBox -Text "Atom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallAtom = New-CheckBox -Text "Atom" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAtom.Location.Y + $InstallAtom.Height + $DistanceBetweenButtons
-    $InstallJetBrainsToolbox = New-CheckBox -Text "JetBrains Toolbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallJetBrainsToolbox = New-CheckBox -Text "JetBrains Toolbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallJetBrainsToolbox.Location.Y + $InstallJetBrainsToolbox.Height + $DistanceBetweenButtons
-    $InstallNotepadPlusPlus = New-CheckBox -Text "Notepad++" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallNotepadPlusPlus = New-CheckBox -Text "Notepad++" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallNotepadPlusPlus.Location.Y + $InstallNotepadPlusPlus.Height + $DistanceBetweenButtons
-    $InstallVisualStudioCommunity = New-CheckBox -Text "Visual Studio 2022 Community" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallVisualStudioCommunity = New-CheckBox -Text "Visual Studio 2022 Community" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVisualStudioCommunity.Location.Y + $InstallVisualStudioCommunity.Height + $DistanceBetweenButtons
-    $InstallVSCode = New-CheckBox -Text "VS Code" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallVSCode = New-CheckBox -Text "VS Code" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVSCode.Location.Y + $InstallVSCode.Height + $DistanceBetweenButtons
-    $InstallVSCodium = New-CheckBox -Text "VS Codium" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallVSCodium = New-CheckBox -Text "VS Codium" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVSCodium.Location.Y + $InstallVSCodium.Height + $DistanceBetweenButtons
-    $ClAcademicResearch = New-Label -Text "Academic Research" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClAcademicResearch = New-Label -Text "Academic Research" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClAcademicResearch.Location.Y + $ClAcademicResearch.Height + $DistanceBetweenButtons
-    $InstallZotero = New-CheckBox -Text "Zotero" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallZotero = New-CheckBox -Text "Zotero" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallZotero.Location.Y + $InstallZotero.Height + $DistanceBetweenButtons
-    $Cl2fa = New-Label -Text "2-Factor Authentication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $Cl2fa = New-Label -Text "2-Factor Authentication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $Cl2fa.Location.Y + $Cl2fa.Height + $DistanceBetweenButtons
-    $InstallTwilioAuthy = New-CheckBox -Text "Twilio Authy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallTwilioAuthy = New-CheckBox -Text "Twilio Authy" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallTwilioAuthy.Location.Y + $InstallTwilioAuthy.Height + $DistanceBetweenButtons
-    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClDevelopment.Location.Y + $ClDevelopment.Height + $DistanceBetweenButtons
-    $InstallWindowsTerminal = New-CheckBox -Text "Windows Terminal" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallWindowsTerminal = New-CheckBox -Text "Windows Terminal" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallWindowsTerminal.Location.Y + $InstallWindowsTerminal.Height + $DistanceBetweenButtons
-    $InstallNerdFonts = New-CheckBox -Text "Install Nerd Fonts" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WinBlue
+    $InstallNerdFonts = New-CheckBox -Text "Install Nerd Fonts" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $WinBlue
 
     $NextYLocation = $InstallNerdFonts.Location.Y + $InstallNerdFonts.Height + $DistanceBetweenButtons
-    $InstallGitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WinBlue
+    $InstallGitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $WinBlue
 
     $NextYLocation = $InstallGitGnupgSshSetup.Location.Y + $InstallGitGnupgSshSetup.Height + $DistanceBetweenButtons
-    $InstallAdb = New-CheckBox -Text "Android Debug Bridge (ADB)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallAdb = New-CheckBox -Text "Android Debug Bridge (ADB)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAdb.Location.Y + $InstallAdb.Height + $DistanceBetweenButtons
-    $InstallAndroidStudio = New-CheckBox -Text "Android Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallAndroidStudio = New-CheckBox -Text "Android Studio" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAndroidStudio.Location.Y + $InstallAndroidStudio.Height + $DistanceBetweenButtons
-    $InstallDockerDesktop = New-CheckBox -Text "Docker Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallDockerDesktop = New-CheckBox -Text "Docker Desktop" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDockerDesktop.Location.Y + $InstallDockerDesktop.Height + $DistanceBetweenButtons
-    $InstallInsomnia = New-CheckBox -Text "Insomnia" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallInsomnia = New-CheckBox -Text "Insomnia" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallInsomnia.Location.Y + $InstallInsomnia.Height + $DistanceBetweenButtons
-    $InstallJavaJdks = New-CheckBox -Text "Java - Adoptium JDK 8/11/18" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallJavaJdks = New-CheckBox -Text "Java - Adoptium JDK 8/11/18" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallJavaJdks.Location.Y + $InstallJavaJdks.Height + $DistanceBetweenButtons
-    $InstallJavaJre = New-CheckBox -Text "Java - Oracle JRE" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallJavaJre = New-CheckBox -Text "Java - Oracle JRE" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallJavaJre.Location.Y + $InstallJavaJre.Height + $DistanceBetweenButtons
-    $InstallMySql = New-CheckBox -Text "MySQL" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallMySql = New-CheckBox -Text "MySQL" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMySql.Location.Y + $InstallMySql.Height + $DistanceBetweenButtons
-    $InstallNodeJs = New-CheckBox -Text "NodeJS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallNodeJs = New-CheckBox -Text "NodeJS" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallNodeJs.Location.Y + $InstallNodeJs.Height + $DistanceBetweenButtons
-    $InstallNodeJsLts = New-CheckBox -Text "NodeJS LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallNodeJsLts = New-CheckBox -Text "NodeJS LTS" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallNodeJsLts.Location.Y + $InstallNodeJsLts.Height + $DistanceBetweenButtons
-    $InstallPostgreSql = New-CheckBox -Text "PostgreSQL" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallPostgreSql = New-CheckBox -Text "PostgreSQL" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallPostgreSql.Location.Y + $InstallPostgreSql.Height + $DistanceBetweenButtons
-    $InstallPython3 = New-CheckBox -Text "Python 3" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallPython3 = New-CheckBox -Text "Python 3" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallPython3.Location.Y + $InstallPython3.Height + $DistanceBetweenButtons
-    $InstallPythonAnaconda3 = New-CheckBox -Text "Python - Anaconda3" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallPythonAnaconda3 = New-CheckBox -Text "Python - Anaconda3" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallPythonAnaconda3.Location.Y + $InstallPythonAnaconda3.Height + $DistanceBetweenButtons
-    $InstallRuby = New-CheckBox -Text "Ruby" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallRuby = New-CheckBox -Text "Ruby" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallRuby.Location.Y + $InstallRuby.Height + $DistanceBetweenButtons
-    $InstallRubyMsys = New-CheckBox -Text "Ruby (MSYS2)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallRubyMsys = New-CheckBox -Text "Ruby (MSYS2)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallRubyMsys.Location.Y + $InstallRubyMsys.Height + $DistanceBetweenButtons
-    $InstallRustGnu = New-CheckBox -Text "Rust (GNU)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallRustGnu = New-CheckBox -Text "Rust (GNU)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallRustGnu.Location.Y + $InstallRustGnu.Height + $DistanceBetweenButtons
-    $InstallRustMsvc = New-CheckBox -Text "Rust (MSVC)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallRustMsvc = New-CheckBox -Text "Rust (MSVC)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     # ==> Panel 4
     $NextYLocation = $ClSoftwareInstall.Location.Y + $ClSoftwareInstall.Height + $DistanceBetweenButtons
-    $InstallSelected = New-Button -Text "Install Selected" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontStyle "Bold"
+    $InstallSelected = New-Button -Text "Install Selected" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -FontStyle "Bold"
 
     $NextYLocation = $InstallSelected.Location.Y + $InstallSelected.Height + $DistanceBetweenButtons
-    $UninstallMode = New-Button -Text "[OFF] Uninstall Mode" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -FontStyle "Bold"
+    $UninstallMode = New-Button -Text "[OFF] Uninstall Mode" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -FontStyle "Bold"
 
     $NextYLocation = $UninstallMode.Location.Y + $UninstallMode.Height + $DistanceBetweenButtons
-    $ClAudioVideoTools = New-Label -Text "Audio/Video Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClAudioVideoTools = New-Label -Text "Audio/Video Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClAudioVideoTools.Location.Y + $ClAudioVideoTools.Height + $DistanceBetweenButtons
-    $InstallAudacity = New-CheckBox -Text "Audacity (Editor)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallAudacity = New-CheckBox -Text "Audacity (Editor)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAudacity.Location.Y + $InstallAudacity.Height + $DistanceBetweenButtons
-    $InstallMpcHc = New-CheckBox -Text "MPC-HC from clsid2 (Player)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallMpcHc = New-CheckBox -Text "MPC-HC from clsid2 (Player)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMpcHc.Location.Y + $InstallMpcHc.Height + $DistanceBetweenButtons
-    $InstallVlc = New-CheckBox -Text "VLC (Player)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallVlc = New-CheckBox -Text "VLC (Player)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVlc.Location.Y + $InstallVlc.Height + $DistanceBetweenButtons
-    $ClStreamingServices = New-Label -Text "Streaming Services" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClStreamingServices = New-Label -Text "Streaming Services" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClStreamingServices.Location.Y + $ClStreamingServices.Height + $DistanceBetweenButtons
-    $InstallAmazonPrimeVideo = New-CheckBox -Text "Amazon Prime Video" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallAmazonPrimeVideo = New-CheckBox -Text "Amazon Prime Video" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAmazonPrimeVideo.Location.Y + $InstallAmazonPrimeVideo.Height + $DistanceBetweenButtons
-    $InstallDisneyPlus = New-CheckBox -Text "Disney+" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallDisneyPlus = New-CheckBox -Text "Disney+" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDisneyPlus.Location.Y + $InstallDisneyPlus.Height + $DistanceBetweenButtons
-    $InstallNetflix = New-CheckBox -Text "Netflix" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallNetflix = New-CheckBox -Text "Netflix" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallNetflix.Location.Y + $InstallNetflix.Height + $DistanceBetweenButtons
-    $InstallSpotify = New-CheckBox -Text "Spotify" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallSpotify = New-CheckBox -Text "Spotify" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallSpotify.Location.Y + $InstallSpotify.Height + $DistanceBetweenButtons
-    $ClImageTools = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClImageTools = New-Label -Text "Image Tools" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClImageTools.Location.Y + $ClImageTools.Height + $DistanceBetweenButtons
-    $InstallGimp = New-CheckBox -Text "GIMP" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallGimp = New-CheckBox -Text "GIMP" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallGimp.Location.Y + $InstallGimp.Height + $DistanceBetweenButtons
-    $InstallInkscape = New-CheckBox -Text "Inkscape" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallInkscape = New-CheckBox -Text "Inkscape" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallInkscape.Location.Y + $InstallInkscape.Height + $DistanceBetweenButtons
-    $InstallIrfanView = New-CheckBox -Text "IrfanView" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallIrfanView = New-CheckBox -Text "IrfanView" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallIrfanView.Location.Y + $InstallIrfanView.Height + $DistanceBetweenButtons
-    $InstallKrita = New-CheckBox -Text "Krita" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallKrita = New-CheckBox -Text "Krita" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallKrita.Location.Y + $InstallKrita.Height + $DistanceBetweenButtons
-    $InstallPaintNet = New-CheckBox -Text "Paint.NET" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallPaintNet = New-CheckBox -Text "Paint.NET" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallPaintNet.Location.Y + $InstallPaintNet.Height + $DistanceBetweenButtons
-    $InstallShareX = New-CheckBox -Text "ShareX (Screenshots/GIFs)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallShareX = New-CheckBox -Text "ShareX (Screenshots/GIFs)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallShareX.Location.Y + $InstallShareX.Height + $DistanceBetweenButtons
-    $ClUtilities = New-Label -Text "⚒ Utilities" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClUtilities = New-Label -Text "⚒ Utilities" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClUtilities.Location.Y + $ClUtilities.Height + $DistanceBetweenButtons
-    $InstallCpuZ = New-CheckBox -Text "CPU-Z" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallCpuZ = New-CheckBox -Text "CPU-Z" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallCpuZ.Location.Y + $InstallCpuZ.Height + $DistanceBetweenButtons
-    $InstallCrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallCrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallCrystalDiskInfo.Location.Y + $InstallCrystalDiskInfo.Height + $DistanceBetweenButtons
-    $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallCrystalDiskMark.Location.Y + $InstallCrystalDiskMark.Height + $DistanceBetweenButtons
-    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallGpuZ.Location.Y + $InstallGpuZ.Height + $DistanceBetweenButtons
-    $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallHwInfo.Location.Y + $InstallHwInfo.Height + $DistanceBetweenButtons
-    $ClCloudStorage = New-Label -Text "Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClCloudStorage = New-Label -Text "Cloud Storage" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClCloudStorage.Location.Y + $ClCloudStorage.Height + $DistanceBetweenButtons
-    $InstallDropbox = New-CheckBox -Text "Dropbox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallDropbox = New-CheckBox -Text "Dropbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDropbox.Location.Y + $InstallDropbox.Height + $DistanceBetweenButtons
-    $InstallGoogleDrive = New-CheckBox -Text "Google Drive" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallGoogleDrive = New-CheckBox -Text "Google Drive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallGoogleDrive.Location.Y + $InstallGoogleDrive.Height + $DistanceBetweenButtons
-    $ClPlanningProductivity = New-Label -Text "Planning/Productivity" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClPlanningProductivity = New-Label -Text "Planning/Productivity" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClPlanningProductivity.Location.Y + $ClPlanningProductivity.Height + $DistanceBetweenButtons
-    $InstallNotion = New-CheckBox -Text "Notion" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallNotion = New-CheckBox -Text "Notion" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallNotion.Location.Y + $InstallNotion.Height + $DistanceBetweenButtons
-    $InstallObsidian = New-CheckBox -Text "Obsidian" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallObsidian = New-CheckBox -Text "Obsidian" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallObsidian.Location.Y + $InstallObsidian.Height + $DistanceBetweenButtons
-    $ClNetworkManagement = New-Label -Text "Network Management" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClNetworkManagement = New-Label -Text "Network Management" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClNetworkManagement.Location.Y + $ClNetworkManagement.Height + $DistanceBetweenButtons
-    $InstallHamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallHamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallHamachi.Location.Y + $InstallHamachi.Height + $DistanceBetweenButtons
-    $InstallPuTty = New-CheckBox -Text "PuTTY" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallPuTty = New-CheckBox -Text "PuTTY" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallPuTty.Location.Y + $InstallPuTty.Height + $DistanceBetweenButtons
-    $InstallRadminVpn = New-CheckBox -Text "Radmin VPN (LAN)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallRadminVpn = New-CheckBox -Text "Radmin VPN (LAN)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallRadminVpn.Location.Y + $InstallRadminVpn.Height + $DistanceBetweenButtons
-    $InstallWinScp = New-CheckBox -Text "WinSCP" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallWinScp = New-CheckBox -Text "WinSCP" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallWinScp.Location.Y + $InstallWinScp.Height + $DistanceBetweenButtons
-    $InstallWireshark = New-CheckBox -Text "Wireshark" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallWireshark = New-CheckBox -Text "Wireshark" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallWireshark.Location.Y + $InstallWireshark.Height + $DistanceBetweenButtons
-    $ClWsl = New-Label -Text "⌨ Windows Subsystem For Linux" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClWsl = New-Label -Text "⌨ Windows Subsystem For Linux" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClWsl.Location.Y + $ClWsl.Height + $DistanceBetweenButtons
-    $InstallWSLgOrPreview = New-CheckBox -Text "Install WSLg/Preview" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WinBlue
+    $InstallWSLgOrPreview = New-CheckBox -Text "Install WSLg/Preview" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $WinBlue
 
     $NextYLocation = $InstallWSLgOrPreview.Location.Y + $InstallWSLgOrPreview.Height + $DistanceBetweenButtons
-    $InstallArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation -ForeColor $WinBlue
+    $InstallArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $WinBlue
 
     $NextYLocation = $InstallArchWSL.Location.Y + $InstallArchWSL.Height + $DistanceBetweenButtons
-    $InstallDebian = New-CheckBox -Text "Debian GNU/Linux" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallDebian = New-CheckBox -Text "Debian GNU/Linux" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDebian.Location.Y + $InstallDebian.Height + $DistanceBetweenButtons
-    $InstallKaliLinux = New-CheckBox -Text "Kali Linux Rolling" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallKaliLinux = New-CheckBox -Text "Kali Linux Rolling" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallKaliLinux.Location.Y + $InstallKaliLinux.Height + $DistanceBetweenButtons
-    $InstallOpenSuse = New-CheckBox -Text "Open SUSE 42" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallOpenSuse = New-CheckBox -Text "Open SUSE 42" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallOpenSuse.Location.Y + $InstallOpenSuse.Height + $DistanceBetweenButtons
-    $InstallSles = New-CheckBox -Text "SLES v12" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallSles = New-CheckBox -Text "SLES v12" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallSles.Location.Y + $InstallSles.Height + $DistanceBetweenButtons
-    $InstallUbuntu = New-CheckBox -Text "Ubuntu" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallUbuntu = New-CheckBox -Text "Ubuntu" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallUbuntu.Location.Y + $InstallUbuntu.Height + $DistanceBetweenButtons
-    $InstallUbuntu16Lts = New-CheckBox -Text "Ubuntu 16.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallUbuntu16Lts = New-CheckBox -Text "Ubuntu 16.04 LTS" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallUbuntu16Lts.Location.Y + $InstallUbuntu16Lts.Height + $DistanceBetweenButtons
-    $InstallUbuntu18Lts = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallUbuntu18Lts = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallUbuntu18Lts.Location.Y + $InstallUbuntu18Lts.Height + $DistanceBetweenButtons
-    $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     # ==> Panel 5
-    $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $FirstLabelY
+    $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $FirstLabelY
 
     $NextYLocation = $ClApplicationRequirements.Location.Y + $ClApplicationRequirements.Height + $DistanceBetweenButtons
-    $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDirectX.Location.Y + $InstallDirectX.Height + $DistanceBetweenButtons
-    $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMsDotNetFramework.Location.Y + $InstallMsDotNetFramework.Height + $DistanceBetweenButtons
-    $InstallMsVCppX64 = New-CheckBox -Text "MS VC++ 2005-2022 Redist (x64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallMsVCppX64 = New-CheckBox -Text "MSVC++ 2005-2022 Redist (x64)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMsVCppX64.Location.Y + $InstallMsVCppX64.Height + $DistanceBetweenButtons
-    $InstallMsVCppX86 = New-CheckBox -Text "MS VC++ 2005-2022 Redist (x86)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallMsVCppX86 = New-CheckBox -Text "MSVC++ 2005-2022 Redist (x86)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMsVCppX86.Location.Y + $InstallMsVCppX86.Height + $DistanceBetweenButtons
-    $ClCommunication = New-Label -Text "Communication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClCommunication = New-Label -Text "Communication" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClCommunication.Location.Y + $ClCommunication.Height + $DistanceBetweenButtons
-    $InstallDiscord = New-CheckBox -Text "Discord" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallDiscord = New-CheckBox -Text "Discord" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDiscord.Location.Y + $InstallDiscord.Height + $DistanceBetweenButtons
-    $InstallMSTeams = New-CheckBox -Text "Microsoft Teams" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallMSTeams = New-CheckBox -Text "Microsoft Teams" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMSTeams.Location.Y + $InstallMSTeams.Height + $DistanceBetweenButtons
-    $InstallRocketChat = New-CheckBox -Text "Rocket Chat" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallRocketChat = New-CheckBox -Text "Rocket Chat" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallRocketChat.Location.Y + $InstallRocketChat.Height + $DistanceBetweenButtons
-    $InstallSignal = New-CheckBox -Text "Signal" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallSignal = New-CheckBox -Text "Signal" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallSignal.Location.Y + $InstallSignal.Height + $DistanceBetweenButtons
-    $InstallSkype = New-CheckBox -Text "Skype" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallSkype = New-CheckBox -Text "Skype" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallSkype.Location.Y + $InstallSkype.Height + $DistanceBetweenButtons
-    $InstallSlack = New-CheckBox -Text "Slack" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallSlack = New-CheckBox -Text "Slack" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallSlack.Location.Y + $InstallSlack.Height + $DistanceBetweenButtons
-    $InstallTelegramDesktop = New-CheckBox -Text "Telegram Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallTelegramDesktop = New-CheckBox -Text "Telegram Desktop" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallTelegramDesktop.Location.Y + $InstallTelegramDesktop.Height + $DistanceBetweenButtons
-    $InstallWhatsAppDesktop = New-CheckBox -Text "WhatsApp Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallWhatsAppDesktop = New-CheckBox -Text "WhatsApp Desktop" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallWhatsAppDesktop.Location.Y + $InstallWhatsAppDesktop.Height + $DistanceBetweenButtons
-    $InstallZoom = New-CheckBox -Text "Zoom" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallZoom = New-CheckBox -Text "Zoom" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallZoom.Location.Y + $InstallZoom.Height + $DistanceBetweenButtons
-    $ClGaming = New-Label -Text "Gaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClGaming = New-Label -Text "Gaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClGaming.Location.Y + $ClGaming.Height + $DistanceBetweenButtons
-    $InstallBorderlessGaming = New-CheckBox -Text "Borderless Gaming" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallBorderlessGaming = New-CheckBox -Text "Borderless Gaming" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallBorderlessGaming.Location.Y + $InstallBorderlessGaming.Height + $DistanceBetweenButtons
-    $InstallEADesktop = New-CheckBox -Text "EA Desktop" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallEADesktop = New-CheckBox -Text "EA Desktop" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallEADesktop.Location.Y + $InstallEADesktop.Height + $DistanceBetweenButtons
-    $InstallEpicGamesLauncher = New-CheckBox -Text "Epic Games Launcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallEpicGamesLauncher = New-CheckBox -Text "Epic Games Launcher" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallEpicGamesLauncher.Location.Y + $InstallEpicGamesLauncher.Height + $DistanceBetweenButtons
-    $InstallGogGalaxy = New-CheckBox -Text "GOG Galaxy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallGogGalaxy = New-CheckBox -Text "GOG Galaxy" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallGogGalaxy.Location.Y + $InstallGogGalaxy.Height + $DistanceBetweenButtons
-    $InstallSteam = New-CheckBox -Text "Steam" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallSteam = New-CheckBox -Text "Steam" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallSteam.Location.Y + $InstallSteam.Height + $DistanceBetweenButtons
-    $InstallUbisoftConnect = New-CheckBox -Text "Ubisoft Connect" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallUbisoftConnect = New-CheckBox -Text "Ubisoft Connect" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallUbisoftConnect.Location.Y + $InstallUbisoftConnect.Height + $DistanceBetweenButtons
-    $ClRemoteConnection = New-Label -Text "Remote Connection" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClRemoteConnection = New-Label -Text "Remote Connection" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClRemoteConnection.Location.Y + $ClRemoteConnection.Height + $DistanceBetweenButtons
-    $InstallAnyDesk = New-CheckBox -Text "AnyDesk" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallAnyDesk = New-CheckBox -Text "AnyDesk" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallAnyDesk.Location.Y + $InstallAnyDesk.Height + $DistanceBetweenButtons
-    $InstallParsec = New-CheckBox -Text "Parsec" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallParsec = New-CheckBox -Text "Parsec" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallParsec.Location.Y + $InstallParsec.Height + $DistanceBetweenButtons
-    $InstallScrCpy = New-CheckBox -Text "ScrCpy (Android)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallScrCpy = New-CheckBox -Text "ScrCpy (Android)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallScrCpy.Location.Y + $InstallScrCpy.Height + $DistanceBetweenButtons
-    $InstallTeamViewer = New-CheckBox -Text "Team Viewer" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallTeamViewer = New-CheckBox -Text "Team Viewer" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallTeamViewer.Location.Y + $InstallTeamViewer.Height + $DistanceBetweenButtons
-    $ClRecordingAndStreaming = New-Label -Text "Recording and Streaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClRecordingAndStreaming = New-Label -Text "Recording and Streaming" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClRecordingAndStreaming.Location.Y + $ClRecordingAndStreaming.Height + $DistanceBetweenButtons
-    $InstallElgatoStreamDeck = New-CheckBox -Text "Elgato Stream Deck" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallElgatoStreamDeck = New-CheckBox -Text "Elgato Stream Deck" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallElgatoStreamDeck.Location.Y + $InstallElgatoStreamDeck.Height + $DistanceBetweenButtons
-    $InstallHandBrake = New-CheckBox -Text "HandBrake (Transcode)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallHandBrake = New-CheckBox -Text "HandBrake (Transcode)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallHandBrake.Location.Y + $InstallHandBrake.Height + $DistanceBetweenButtons
-    $InstallObsStudio = New-CheckBox -Text "OBS Studio" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallObsStudio = New-CheckBox -Text "OBS Studio" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallObsStudio.Location.Y + $InstallObsStudio.Height + $DistanceBetweenButtons
-    $InstallStreamlabs = New-CheckBox -Text "Streamlabs" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallStreamlabs = New-CheckBox -Text "Streamlabs" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallStreamlabs.Location.Y + $InstallStreamlabs.Height + $DistanceBetweenButtons
-    $ClBootableUsb = New-Label -Text "Bootable USB" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClBootableUsb = New-Label -Text "Bootable USB" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClBootableUsb.Location.Y + $ClBootableUsb.Height + $DistanceBetweenButtons
-    $InstallBalenaEtcher = New-CheckBox -Text "Etcher" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallBalenaEtcher = New-CheckBox -Text "Etcher" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallBalenaEtcher.Location.Y + $InstallBalenaEtcher.Height + $DistanceBetweenButtons
-    $InstallRufus = New-CheckBox -Text "Rufus" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallRufus = New-CheckBox -Text "Rufus" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallRufus.Location.Y + $InstallRufus.Height + $DistanceBetweenButtons
-    $InstallVentoy = New-CheckBox -Text "Ventoy" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallVentoy = New-CheckBox -Text "Ventoy" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVentoy.Location.Y + $InstallVentoy.Height + $DistanceBetweenButtons
-    $ClTorrent = New-Label -Text "Torrent" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClTorrent = New-Label -Text "Torrent" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClTorrent.Location.Y + $ClTorrent.Height + $DistanceBetweenButtons
-    $InstallqBittorrent = New-CheckBox -Text "qBittorrent" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallqBittorrent = New-CheckBox -Text "qBittorrent" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallqBittorrent.Location.Y + $InstallqBittorrent.Height + $DistanceBetweenButtons
-    $ClVirtualMachines = New-Label -Text "Virtual Machines" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClVirtualMachines = New-Label -Text "Virtual Machines" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClVirtualMachines.Location.Y + $ClVirtualMachines.Height + $DistanceBetweenButtons
-    $InstallOracleVirtualBox = New-CheckBox -Text "Oracle VM VirtualBox" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallOracleVirtualBox = New-CheckBox -Text "Oracle VM VirtualBox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallOracleVirtualBox.Location.Y + $InstallOracleVirtualBox.Height + $DistanceBetweenButtons
-    $InstallQemu = New-CheckBox -Text "QEMU" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallQemu = New-CheckBox -Text "QEMU" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallQemu.Location.Y + $InstallQemu.Height + $DistanceBetweenButtons
-    $InstallVmWarePlayer = New-CheckBox -Text "VMware Workstation Player" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallVmWarePlayer = New-CheckBox -Text "VMware Workstation Player" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVmWarePlayer.Location.Y + $InstallVmWarePlayer.Height + $DistanceBetweenButtons
-    $ClEmulation = New-Label -Text "Emulation" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $ClEmulation = New-Label -Text "Emulation" -Width $CaptionLabelWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClEmulation.Location.Y + $ClEmulation.Height + $DistanceBetweenButtons
-    $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallCemu.Location.Y + $InstallCemu.Height + $DistanceBetweenButtons
-    $InstallDolphin = New-CheckBox -Text "Dolphin Stable (GC/Wii)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallDolphin = New-CheckBox -Text "Dolphin Stable (GC/Wii)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallDolphin.Location.Y + $InstallDolphin.Height + $DistanceBetweenButtons
-    $InstallKegaFusion = New-CheckBox -Text "Kega Fusion (Sega Genesis)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallKegaFusion = New-CheckBox -Text "Kega Fusion (Sega Genesis)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallKegaFusion.Location.Y + $InstallKegaFusion.Height + $DistanceBetweenButtons
-    $InstallMGba = New-CheckBox -Text "mGBA (GBA)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallMGba = New-CheckBox -Text "mGBA (GBA)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallMGba.Location.Y + $InstallMGba.Height + $DistanceBetweenButtons
-    $InstallPCSX2 = New-CheckBox -Text "PCSX2 Stable (PS2 | Portable)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallPCSX2 = New-CheckBox -Text "PCSX2 Stable (PS2 | Portable)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallPCSX2.Location.Y + $InstallPCSX2.Height + $DistanceBetweenButtons
-    $InstallPPSSPP = New-CheckBox -Text "PPSSPP (PSP)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallPPSSPP = New-CheckBox -Text "PPSSPP (PSP)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallPPSSPP.Location.Y + $InstallPPSSPP.Height + $DistanceBetweenButtons
-    $InstallProject64 = New-CheckBox -Text "Project64 Dev (N64)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallProject64 = New-CheckBox -Text "Project64 Dev (N64)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallProject64.Location.Y + $InstallProject64.Height + $DistanceBetweenButtons
-    $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallRetroArch.Location.Y + $InstallRetroArch.Height + $DistanceBetweenButtons
-    $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $ButtonWidth -Height $ButtonHeight -LocationX $ButtonX -LocationY $NextYLocation
+    $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     # Add all Panels to the Form (Screen)
     $Form.Controls.AddRange(@($FullPanel))
