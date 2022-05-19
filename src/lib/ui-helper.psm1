@@ -1,20 +1,24 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
+# Adapted from: https://stackoverflow.com/a/35965782
+# Adapted from: https://www.osdeploy.com/modules/pshot/technical/resolution-scale-and-dpi
+
 function Get-CurrentResolution {
     [CmdletBinding()]
     [OutputType([System.Object[]])]
-    param (
-        [Parameter(Mandatory = $false)]
-        [Switch] $IsScaling
-    )
+    param ()
 
-    If ($IsScaling) {
-        Add-Type -AssemblyName System.Windows.Forms
-        $DisplayInfo = [System.Windows.Forms.SystemInformation]::VirtualScreen
-        $ScreenWidth = $DisplayInfo.Width
-        $ScreenHeight = $DisplayInfo.Height
-    }
-    Else {
+    $ScreenWidth = $null
+    $ScreenHeight = $null
+
+    # Accepts Scaling/DPI
+    Add-Type -AssemblyName System.Windows.Forms
+    $DisplayInfo = [System.Windows.Forms.SystemInformation]::VirtualScreen
+    $ScreenWidth = $DisplayInfo.Width
+    $ScreenHeight = $DisplayInfo.Height
+
+    # Doesn't accepts Scaling/DPI (rollback method)
+    If (!$ScreenWidth -or !$ScreenHeight) {
         $DisplayInfo = Get-CimInstance -class "Win32_VideoController" | Select-Object *
         $ScreenWidth = $DisplayInfo.CurrentHorizontalResolution
         $ScreenHeight = $DisplayInfo.CurrentVerticalResolution
