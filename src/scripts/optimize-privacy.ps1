@@ -19,8 +19,8 @@ function Optimize-Privacy() {
     )
     $TweakType = "Privacy"
 
-    If (($Revert)) {
-        Write-Host "[<][Privacy] Reverting: $Revert." -ForegroundColor Yellow -BackgroundColor Black
+    If ($Revert) {
+        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $Zero = 1
         $One = 0
         $EnableStatus = @(
@@ -345,7 +345,7 @@ function Optimize-Privacy() {
 }
 
 function Main() {
-    If (!($Revert)) {
+    If (!$Revert) {
         Optimize-Privacy # Disable Registries that causes slowdowns and privacy invasion
     }
     Else {

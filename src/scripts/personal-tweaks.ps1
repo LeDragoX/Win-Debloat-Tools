@@ -19,7 +19,7 @@ function Register-PersonalTweaksList() {
     $TweakType = "Personal"
 
     If ($Revert) {
-        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert."
+        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $Zero = 1
         $One = 0
         $EnableStatus = @(
@@ -245,7 +245,7 @@ function Register-PersonalTweaksList() {
 }
 
 function Main() {
-    If (!($Revert)) {
+    If (!$Revert) {
         Register-PersonalTweaksList # Personal UI, Network, Energy and Accessibility Optimizations
     }
     Else {
