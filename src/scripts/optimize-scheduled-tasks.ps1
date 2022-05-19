@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-scheduled-task-state.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
@@ -9,36 +10,8 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Optimize-ScheduledTasksList() {
     [CmdletBinding()]
     param (
-        [Switch] $Revert,
-        [Array]  $EnableStatus = @(
-            @{
-                Symbol = "-"; Status = "Disabling";
-                Command = { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
-            }
-            @{
-                Symbol = "+"; Status = "Enabling";
-                Command = { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
-            }
-        )
+        [Switch] $Revert
     )
-    $TweakType = "TaskScheduler"
-
-    If (($Revert)) {
-        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
-        $EnableStatus = @(
-            @{
-                Symbol = "<"; Status = "Re-Enabling";
-                Command = { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask }
-            }
-            @{
-                Symbol = "<"; Status = "Re-Disabling";
-                Command = { Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "R*" | Disable-ScheduledTask } # R* = Ready/Running Tasks
-            }
-        )
-    }
-
-    Write-Title -Text "Scheduled Tasks tweaks"
-    Write-Section -Text "Disabling Scheduled Tasks"
 
     # Adapted from: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
     $DisableScheduledTasks = @(
@@ -68,39 +41,33 @@ function Optimize-ScheduledTasksList() {
         "\Microsoft\Windows\Windows Media Sharing\UpdateLibrary"                          # Recommended state for VDI use
     )
 
-    ForEach ($ScheduledTask in $DisableScheduledTasks) {
-        If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
-            Write-Status -Symbol $EnableStatus[0].Symbol -Type $TweakType -Status "$($EnableStatus[0].Status) the $ScheduledTask Task ..."
-            Invoke-Expression "$($EnableStatus[0].Command)"
-        }
-        Else {
-            Write-Status -Symbol "?" -Type $TweakType -Status "$ScheduledTask was not found." -Warning
-        }
-    }
-
-    Write-Section -Text "Enabling Scheduled Tasks"
     $EnableScheduledTasks = @(
         "\Microsoft\Windows\Maintenance\WinSAT"                     # WinSAT detects incorrect system configurations, that causes performance loss, then sends it via telemetry | Reference (PT-BR): https://youtu.be/wN1I0IPgp6U?t=16
         "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"        # Verify the Recovery Environment integrity, it's the Diagnostic tools and Troubleshooting when your PC isn't healthy on BOOT, need this ON.
         "\Microsoft\Windows\Windows Error Reporting\QueueReporting" # Windows Error Reporting event, needed to improve compatibility with your hardware
     )
 
-    ForEach ($ScheduledTask in $EnableScheduledTasks) {
-        If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
-            Write-Status -Symbol "+" -Type $TweakType -Status "Enabling the $ScheduledTask Task ..."
-            Get-ScheduledTask -TaskName "$ScheduledTask".Split("\")[-1] | Where-Object State -Like "Disabled" | Enable-ScheduledTask
-        }
-        Else {
-            Write-Status -Symbol "?" -Type $TweakType -Status "$ScheduledTask was not found." -Warning
-        }
+    Write-Title -Text "Scheduled Tasks tweaks"
+    Write-Section -Text "Disabling Scheduled Tasks"
+
+    If ($Revert) {
+        Write-Status -Symbol "<" -Type "TaskScheduler" -Status "Reverting: $Revert." -Warning
+        $CustomMessage = { "Resetting the $ScheduledTask task as 'Ready' ..." }
+        Set-ScheduledTaskState -Ready -ScheduledTask $DisableScheduledTasks -CustomMessage $CustomMessage
     }
+    Else {
+        Set-ScheduledTaskState -Disabled -ScheduledTask $DisableScheduledTasks
+    }
+
+    Write-Section -Text "Enabling Scheduled Tasks"
+    Set-ScheduledTaskState -Ready -ScheduledTask $EnableScheduledTasks
 }
 
 function Main() {
     # List all Scheduled Tasks:
     #Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Out-GridView
 
-    If (!($Revert)) {
+    If (!$Revert) {
         Optimize-ScheduledTasksList # Disable Scheduled Tasks that causes slowdowns
     }
     Else {
