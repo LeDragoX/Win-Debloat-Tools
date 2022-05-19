@@ -81,7 +81,7 @@ function Optimize-ScheduledTasksList() {
     Write-Section -Text "Enabling Scheduled Tasks"
     $EnableScheduledTasks = @(
         "\Microsoft\Windows\Maintenance\WinSAT"                     # WinSAT detects incorrect system configurations, that causes performance loss, then sends it via telemetry | Reference (PT-BR): https://youtu.be/wN1I0IPgp6U?t=16
-        "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"        # It's about the Recovery before starting Windows, with Diagnostic tools and Troubleshooting when your PC isn't healthy, need this ON.
+        "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"        # Verify the Recovery Environment integrity, it's the Diagnostic tools and Troubleshooting when your PC isn't healthy on BOOT, need this ON.
         "\Microsoft\Windows\Windows Error Reporting\QueueReporting" # Windows Error Reporting event, needed to improve compatibility with your hardware
     )
 
@@ -97,7 +97,9 @@ function Optimize-ScheduledTasksList() {
 }
 
 function Main() {
-    # List all Scheduled Tasks: Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Out-GridView
+    # List all Scheduled Tasks:
+    #Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Out-GridView
+
     If (!($Revert)) {
         Optimize-ScheduledTasksList # Disable Scheduled Tasks that causes slowdowns
     }

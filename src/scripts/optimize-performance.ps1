@@ -138,10 +138,10 @@ function Optimize-Performance() {
     Write-Caption -Text "Proxy"
     Write-Status -Symbol "-" -Type $TweakType -Status "Fixing Edge slowdown by NOT Automatically Detecting Settings..."
     # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
-    $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
-    $data = (Get-ItemProperty -Path $key -Name DefaultConnectionSettings).DefaultConnectionSettings
-    $data[8] = 3
-    Set-ItemProperty -Path $key -Name DefaultConnectionSettings -Value $data
+    $Key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
+    $Data = (Get-ItemProperty -Path $Key -Name DefaultConnectionSettings).DefaultConnectionSettings
+    $Data[8] = 3
+    Set-ItemProperty -Path $Key -Name DefaultConnectionSettings -Value $Data
 
 }
 

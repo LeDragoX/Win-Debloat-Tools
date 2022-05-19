@@ -80,9 +80,15 @@ function Optimize-WindowsFeaturesList() {
 }
 
 function Main() {
-    # List all Optional Features: Get-WindowsOptionalFeature -Online | Select-Object -Property State, FeatureName | Sort-Object State, FeatureName | Out-GridView
-    # List all Windows Packages: Get-WindowsPackage -Online | Select-Object -Property ReleaseType, PackageName, PackageState, InstallTime | Sort-Object ReleaseType, PackageState, PackageName | Out-GridView
-    # List all Windows Capabilities: Get-WindowsCapability -Online | Select-Object -Property State, Name | Sort-Object State, Name | Out-GridView
+    # List all Optional Features:
+    #Get-WindowsOptionalFeature -Online | Select-Object -Property State, FeatureName | Sort-Object State, FeatureName | Out-GridView
+
+    # List all Windows Packages:
+    #Get-WindowsPackage -Online | Select-Object -Property ReleaseType, PackageName, PackageState, InstallTime | Sort-Object ReleaseType, PackageState, PackageName | Out-GridView
+
+    # List all Windows Capabilities:
+    #Get-WindowsCapability -Online | Select-Object -Property State, Name | Sort-Object State, Name | Out-GridView
+
     If (!($Revert)) {
         Optimize-WindowsFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
     }

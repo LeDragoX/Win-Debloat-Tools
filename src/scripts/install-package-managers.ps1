@@ -32,7 +32,7 @@ function Install-PackageManager() {
         Invoke-Expression "$InstallCommandBlock"
 
         If ($PostInstallBlock) {
-            Write-Status -Symbol "+" -Status "Executing post install script: { $($PostInstallBlock.Trim(" ")) }."
+            Write-Status -Symbol "+" -Status "Executing post install script: { $("$PostInstallBlock".Trim(' ')) }."
             Invoke-Expression "$PostInstallBlock"
         }
     }
