@@ -12,7 +12,7 @@ function Open-Script() {
         "backup-system.ps1",
         "install-package-managers.ps1",
         "silent-debloat-softwares.ps1",
-        "optimize-scheduled-tasks.ps1",
+        "optimize-task-scheduler.ps1",
         "optimize-services.ps1",
         "remove-bloatware-apps.ps1",
         "optimize-privacy.ps1",

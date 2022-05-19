@@ -149,7 +149,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
   - Register daily upgrade logs on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs` and remove old log files;
 - Download AdwCleaner and Run the latest version of for Virus/Adware scan; ([`silent-debloat-softwares.ps1`](./src/scripts/silent-debloat-softwares.ps1))
 - Download OOShutUp10 and import all Recommended settings;
-- Disable Telemetry from Scheduled Tasks and Optimize it; ([`optimize-scheduled-tasks.ps1`](./src/scripts/optimize-scheduled-tasks.ps1))
+- Disable Telemetry from Scheduled Tasks and Optimize it; ([`optimize-task-scheduler.ps1`](./src/scripts/optimize-task-scheduler.ps1))
 - Disable heavy Services, but enable some on SSDs for optimum performance; ([`optimize-services.ps1`](./src/scripts/optimize-services.ps1))
 - Remove Bloatware UWP Apps that comes with Windows 10+, except from my choice; ([`remove-bloatware-apps.ps1`](./src/scripts/remove-bloatware-apps.ps1))
 - Optimize Privacy by disabling more telemetry stuff and changing GPOs; ([`optimize-privacy.ps1`](./src/scripts/optimize-privacy.ps1))

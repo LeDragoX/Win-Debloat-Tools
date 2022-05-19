@@ -15,7 +15,7 @@ function Show-GUI() {
     [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
 
     Set-UIFont # Load the Layout Font
-    $ScreenWidth, $ScreenHeight = Get-CurrentResolution -IsScaling # Get the Screen Size
+    $ScreenWidth, $ScreenHeight = Get-CurrentResolution # Get the Screen Size
 
     $Script:NeedRestart = $false
     $DoneTitle = "Information"
@@ -656,7 +656,7 @@ function Show-GUI() {
                 # [Recommended order]
                 "backup-system.ps1",
                 "silent-debloat-softwares.ps1",
-                "optimize-scheduled-tasks.ps1",
+                "optimize-task-scheduler.ps1",
                 "optimize-services.ps1",
                 "remove-bloatware-apps.ps1",
                 "optimize-privacy.ps1",
@@ -676,7 +676,7 @@ function Show-GUI() {
     $UndoTweaks.Add_Click( {
             $Global:Revert = $true
             $Scripts = @(
-                "optimize-scheduled-tasks.ps1",
+                "optimize-task-scheduler.ps1",
                 "optimize-services.ps1",
                 "optimize-privacy.ps1",
                 "optimize-performance.ps1",
@@ -1530,7 +1530,7 @@ function Show-GUI() {
             }
         })
 
-    [void]$Form.ShowDialog() # Show the Window
+    [void] $Form.ShowDialog() # Show the Window
     $Form.Dispose() # When done, dispose of the GUI
 }
 
