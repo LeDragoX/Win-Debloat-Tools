@@ -48,10 +48,10 @@ function Optimize-TaskScheduler() {
     )
 
     Write-Title -Text "Task Scheduler tweaks"
-    Write-Section -Text "Disabling Scheduled Tasks"
+    Write-Section -Text "Disabling Scheduled Tasks from Windows"
 
     If ($Revert) {
-        Write-Status -Symbol "<" -Type "TaskScheduler" -Status "Reverting: $Revert." -Warning
+        Write-Status -Symbol "<" -Type "TaskScheduler" -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $CustomMessage = { "Resetting the $ScheduledTask task as 'Ready' ..." }
         Set-ScheduledTaskState -Ready -ScheduledTask $DisableScheduledTasks -CustomMessage $CustomMessage
     }
@@ -59,7 +59,7 @@ function Optimize-TaskScheduler() {
         Set-ScheduledTaskState -Disabled -ScheduledTask $DisableScheduledTasks
     }
 
-    Write-Section -Text "Enabling Scheduled Tasks"
+    Write-Section -Text "Enabling Scheduled Tasks from Windows"
     Set-ScheduledTaskState -Ready -ScheduledTask $EnableScheduledTasks
 }
 

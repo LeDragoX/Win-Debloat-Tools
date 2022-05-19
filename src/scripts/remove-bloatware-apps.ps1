@@ -160,6 +160,7 @@ function Remove-BloatwareAppsList() {
     )
 
     Write-Title -Text "Remove Bloatware Apps"
+    Write-Section -Text "Removing Windows unneeded Apps"
     Remove-UWPAppx -AppxPackages $Apps
 }
 

@@ -19,7 +19,7 @@ function Optimize-Performance() {
     $TweakType = "Performance"
 
     If (($Revert)) {
-        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting: $Revert." -Warning
+        Write-Status -Symbol "<" -Type $TweakType -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $Zero = 1
         $One = 0
         $EnableStatus = @(
@@ -146,7 +146,7 @@ function Optimize-Performance() {
 }
 
 function Main() {
-    If (!($Revert)) {
+    If (!$Revert) {
         Optimize-Performance # Change from stock configurations that slowdowns the system to improve performance
     }
     Else {

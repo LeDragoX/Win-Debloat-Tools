@@ -34,12 +34,12 @@ function Set-ServiceStartup() {
         [ScriptBlock] $CustomMessage
     )
 
-    $Script:EnabledSecurityFilter = @("RemoteAccess", "RemoteRegistry")
+    $Script:SecurityFilterOnEnable = @("RemoteAccess", "RemoteRegistry")
     $Script:TweakType = "Service"
 
     ForEach ($Service in $Services) {
         If (Find-Service $Service) {
-            If (($Service -in $EnabledSecurityFilter) -and (($Automatic) -or ($Manual))) {
+            If (($Service -in $SecurityFilterOnEnable) -and (($Automatic) -or ($Manual))) {
                 Write-Status -Symbol "?" -Type $TweakType -Status "Skipping $Service ($((Get-Service $Service).DisplayName)) to avoid a security vulnerability ..." -Warning
                 Continue
             }
