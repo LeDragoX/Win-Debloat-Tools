@@ -7,7 +7,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 # Adapted from: https://github.com/Sycnex/Windows10Debloater
 # Adapted from: https://github.com/kalaspuffar/windows-debloat
 
-function Optimize-ScheduledTasksList() {
+function Optimize-TaskScheduler() {
     [CmdletBinding()]
     param (
         [Switch] $Revert
@@ -47,7 +47,7 @@ function Optimize-ScheduledTasksList() {
         "\Microsoft\Windows\Windows Error Reporting\QueueReporting" # Windows Error Reporting event, needed to improve compatibility with your hardware
     )
 
-    Write-Title -Text "Scheduled Tasks tweaks"
+    Write-Title -Text "Task Scheduler tweaks"
     Write-Section -Text "Disabling Scheduled Tasks"
 
     If ($Revert) {
@@ -68,10 +68,10 @@ function Main() {
     #Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Out-GridView
 
     If (!$Revert) {
-        Optimize-ScheduledTasksList # Disable Scheduled Tasks that causes slowdowns
+        Optimize-TaskScheduler # Disable Scheduled Tasks that causes slowdowns
     }
     Else {
-        Optimize-ScheduledTasksList -Revert
+        Optimize-TaskScheduler -Revert
     }
 }
 
