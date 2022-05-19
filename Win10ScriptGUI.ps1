@@ -15,7 +15,7 @@ function Show-GUI() {
     [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
 
     Set-UIFont # Load the Layout Font
-    $ScreenWidth, $ScreenHeight = Get-CurrentResolution -IsScaling # Get the Screen Size
+    $ScreenWidth, $ScreenHeight = Get-CurrentResolution # Get the Screen Size
 
     $Script:NeedRestart = $false
     $DoneTitle = "Information"
@@ -1530,7 +1530,7 @@ function Show-GUI() {
             }
         })
 
-    [void]$Form.ShowDialog() # Show the Window
+    [void] $Form.ShowDialog() # Show the Window
     $Form.Dispose() # When done, dispose of the GUI
 }
 
