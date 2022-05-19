@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-state.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
@@ -7,7 +7,6 @@ function Remove-Xbox() {
     $TweakType = "Xbox"
     $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 
-    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling ALL Xbox Services..."
     $XboxServices = @(
         "XblAuthManager"
         "XblGameSave"
@@ -15,9 +14,6 @@ function Remove-Xbox() {
         "XboxNetApiSvc"
     )
 
-    Set-ServiceToDisabled -Services $XboxServices
-
-    Write-Status -Symbol "-" -Type $TweakType -Status "Wiping Xbox Apps completely from Windows..."
     $XboxApps = @(
         "Microsoft.XboxApp"                 # Xbox Console Companion (Replaced by new App)
         "Microsoft.XboxGameCallableUI"
@@ -28,6 +24,10 @@ function Remove-Xbox() {
         "Microsoft.Xbox.TCUI"               # Xbox Live API communication (Xbox Dependency)
     )
 
+    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling ALL Xbox Services..."
+    Set-ServiceStartup -Disabled -Services $XboxServices
+
+    Write-Status -Symbol "-" -Type $TweakType -Status "Wiping Xbox Apps completely from Windows..."
     Remove-UWPAppx -AppxPackages $XboxApps
 
     Write-Status -Symbol "-" -Type $TweakType -Status "Disabling Xbox Game Bar & Game DVR..."
