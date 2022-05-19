@@ -92,10 +92,10 @@ function Optimize-ServicesRunning() {
 
     If ($Revert) {
         Write-Status -Symbol "<" -Type "Service" -Status "Reverting: $Revert" -Warning
-        Set-ServiceStartup -Manual -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
+        $CustomMessage = { "Resetting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup ..." }
+        Set-ServiceStartup -Manual -Services $ServicesToDisabled -Filter $EnableServicesOnSSD -CustomMessage $CustomMessage
     }
-
-    If (!$Revert) {
+    Else {
         Set-ServiceStartup -Disabled -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
     }
 
@@ -111,7 +111,7 @@ function Main() {
     # List all services:
     #Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Out-GridView
 
-    If (!($Revert)) {
+    If (!$Revert) {
         Optimize-ServicesRunning # Enable essential Services and Disable bloating Services
     }
     Else {

@@ -1,10 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Initialize-ServicesModule() {
-    $Script:EnabledSecurityFilter = @("RemoteAccess", "RemoteRegistry")
-    $Script:TweakType = "Service"
-}
-
 function Find-Service() {
     [CmdletBinding()]
     [OutputType([Bool])]
@@ -17,7 +12,7 @@ function Find-Service() {
         return $true
     }
     Else {
-        Write-Status -Symbol "?" -Type $TweakType -Status "The $Service was not found." -Warning
+        Write-Status -Symbol "?" -Type $TweakType -Status "The $Service service was not found ..." -Warning
         return $false
     }
 }
@@ -39,7 +34,8 @@ function Set-ServiceStartup() {
         [ScriptBlock] $CustomMessage
     )
 
-    Initialize-ServicesModule
+    $Script:EnabledSecurityFilter = @("RemoteAccess", "RemoteRegistry")
+    $Script:TweakType = "Service"
 
     ForEach ($Service in $Services) {
         If (Find-Service $Service) {
