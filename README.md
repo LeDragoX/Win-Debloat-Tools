@@ -10,8 +10,8 @@
 </h1>
 
 <h1 align="center">
- <img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win 10+ Smart Debloat Tools
- <img width=30px src="src/assets/powershell-icon.png" style="vertical-align: bottom">
+  <img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win 10+ Smart Debloat Tools
+  <img width=30px src="src/assets/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
 <h2 align="center">This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a></h2>
@@ -30,31 +30,31 @@ Code located in the `main` branch is considered stable,
 the `develop` branch is the most recent version.
 
 <div align="center">
- <table>
-  <thead align="center">
-   <tr>
-    <th>Download</th>
-    <th>Version(s) Supported</th>
-    <th>Edition(s)</th>
-    <th>PowerShell Version</th>
-   </tr>
-  </thead>
-  <tbody align="center">
-   <tr>
-    <td align="left">
-      <h4><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Main - Stable</a></h4>
-    </td>
-    <td rowspan="2">21H2 or Older</td>
-    <td rowspan="2">Home / Pro</td>
-    <td rowspan="2"><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
-   </tr>
-   <tr>
-    <td align="left">
-      <h5><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/develop.zip">⬇️ Develop - Newer</a></h5>
-    </td>
-   </tr>
-  </tbody>
- </table>
+  <table>
+    <thead align="center">
+      <tr>
+        <th>Download</th>
+        <th>Version(s) Supported</th>
+        <th>Edition(s)</th>
+        <th>PowerShell Version</th>
+      </tr>
+    </thead>
+    <tbody align="center">
+      <tr>
+        <td align="left">
+            <h4><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Main - Stable</a></h4>
+        </td>
+        <td rowspan="2">21H2 or Older</td>
+        <td rowspan="2">Home / Pro</td>
+        <td rowspan="2"><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
+      </tr>
+      <tr>
+        <td align="left">
+            <h5><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/develop.zip">⬇️ Develop - Newer</a></h5>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 ## 🔄️ Roll-Back
@@ -98,7 +98,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ## ✅ GUI Script Features
 
 <details>
- <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
 ### System Tweaks
 
@@ -138,7 +138,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 ## ☑️ Common Script Features
 
 <details>
- <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
 - Import all necessary Modules before Executing everything; ([lib folder](./src/lib/))
 - Logs both script versions on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs`;
@@ -168,7 +168,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 > and Open PowerShell as admin to copy + paste it's content:
 
 <details>
- <summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/issues/7">#7</a></summary>
+  <summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/issues/7">#7</a></summary>
 
 1. Press `Win + R` then paste this protocol: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
 2. Then click `Get`/`Install`
@@ -177,7 +177,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 </details>
 
 <details>
- <summary>Fix <code>NVIDIA Control Panel</code></summary>
+  <summary>Fix <code>NVIDIA Control Panel</code></summary>
 
 > Only this time (Recommended - Consumes less RAM after boot)
 
@@ -194,75 +194,45 @@ Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automati
 </details>
 
 <details>
- <summary>Sysprep will hang (Not Tested).</summary>
+  <summary>Sysprep will hang (Not Tested).</summary>
 
 > _No solution yet, do a Google search_
 
 </details>
 
-## ➕ Contribute
-
-I would be happy to extend the collection of scripts.
-Just open an issue or send me a pull request. (Yes, if it's useful, you can).
-
-> TIP: To clone quickly, use this command:
-
-```sh
-git clone --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools.git
-```
-
-## 🤍 Credits
-
-- Special thanks to the [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
-
-- [W4RH4WK](https://github.com/W4RH4WK) (For his project ^^);
-- [O&O Software GmbH](https://www.oo-software.com/en/company) (_ShutUp10 Company_);
-- [MalwareBytes](https://br.malwarebytes.com/company/) (_AdwCleaner Company_);
-- [Adamx's](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [_this video_](https://youtu.be/hQSkPmZRCjc) (and script);
-- [Baboo's](https://www.youtube.com/user/baboo) - by [_this video_](https://youtu.be/qWESrvP_uU8) (and commands);
-- [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - gave me more confidence to mess with PowerShell after [_this 🔴 LIVE_](https://youtu.be/ER27pGt5wH0)
-- [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [_this video_](https://youtu.be/EfrT_Bvgles) (and script explanation);
-- [matthewjberger](https://gist.github.com/matthewjberger) - by [_this script_](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
-
-## 🔧 Tweak Testers
-
-- All of _my friends and people_ who trusted on me to run the script;
-- [yCr-shiddy](https://github.com/yCr-shiddy) - Helped giving more ideas and fixes;
-
 ## 🏅 More Debloat Scripts (Community)
 
 <details>
-    <summary>Click to expand</summary>
-<p>The scripts are designed to run With/Without (GUI/CLI) any user interaction. Modify them beforehand. If you want a more interactive approach check out:</p>
+  <summary>Click to expand</summary>
+  <p>The scripts are designed to run With/Without (GUI/CLI) any user interaction. Modify them beforehand. If you want a more interactive approach check out:</p>
 
-- [win10script](https://github.com/ChrisTitusTech/win10script) and [winutils](https://github.com/ChrisTitusTech/winutil) (Recommended) from [ChrisTitusTech](https://github.com/ChrisTitusTech);
+- [win10script](https://github.com/ChrisTitusTech/win10script) and [winutil](https://github.com/ChrisTitusTech/winutil) (Recommended) from [ChrisTitusTech](https://github.com/ChrisTitusTech);
 - [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex);
 - [Sophia-Script-for-Windows](https://github.com/farag2/Sophia-Script-for-Windows) from [farag2](https://github.com/farag2);
 - [Windows-Optimize-Harden-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat) and [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat) from [SimeonOnSecurity](https://github.com/simeononsecurity);
 
 </details>
 
-## 🔎 How did i find specific Tweaks?
+## 🔧 Tweak Testers
 
-<details>
- <summary>Click to expand</summary>
- <p>How To (Advanced Users)</p>
+- All of _my friends and people_ who trusted on me to run the script;
+- [yCr-shiddy](https://github.com/yCr-shiddy) - Helped giving more ideas and fixes;
 
-By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) `Procmon(64).exe` i could track the `SystemSettings.exe` by filtering per Process Name `(Ctrl + L)`.
+## 🤍 Credits
 
-- But, not every time filtering the application you want will show the registry tweaks that were applied, so make sure other processes appear.
-- Then use `Clearing the list (Ctrl + X)` (But make sure it is `Capturing the Events (Ctrl + E)`) and finally, applying an option of the Windows Configurations
-  and searching the Registry Key inside `Procmon(64).exe`.
-- Also make sure to disable the Events being captured `(Ctrl + E)` after applying a specific config.
+- Special thanks to the [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
+- [W4RH4WK](https://github.com/W4RH4WK) (For his project ^^);
 
-![Grab the current tweak on registry with Procmon64.exe](./src/assets/grab-the-current-tweak-on-registry-with-procmon64.png)
+## 📚 Used code references
 
-After finding the right register Key, you just need to Right-Click and select `Jump To... (Ctrl + J)` to get on it's directory.
-
-![Showing on regedit](./src/assets/showing-on-regedit.png)
-
-</details>
+- [Adamx's](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [_this video_](https://youtu.be/hQSkPmZRCjc) (and script);
+- [Baboo's](https://www.youtube.com/user/baboo) - by [_this video_](https://youtu.be/qWESrvP_uU8) (and commands);
+- [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - by having taught how to mess with PowerShell in [this Stream](https://youtu.be/ER27pGt5wH0) (and his _open-source_ debloat script);
+- [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [_this video_](https://youtu.be/EfrT_Bvgles) (and script explanation);
+- [matthewjberger](https://gist.github.com/matthewjberger) - by [_this script_](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
 
 ## 📝 License
 
 Licensed under the [MIT](LICENSE.txt) license.
+
+**MalwareBytes AdwCleaner** and **O&O ShutUp10++** have their own licenses.
