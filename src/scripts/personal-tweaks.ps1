@@ -247,8 +247,7 @@ function Register-PersonalTweaksList() {
 function Main() {
     If (!$Revert) {
         Register-PersonalTweaksList # Personal UI, Network, Energy and Accessibility Optimizations
-    }
-    Else {
+    } Else {
         Register-PersonalTweaksList -Revert
     }
 }

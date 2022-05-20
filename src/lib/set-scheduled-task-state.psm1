@@ -10,8 +10,7 @@ function Find-ScheduledTask() {
 
     If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
         return $true
-    }
-    Else {
+    } Else {
         Write-Status -Symbol "?" -Type $TweakType -Status "The $ScheduledTask task was not found." -Warning
         return $false
     }
@@ -44,22 +43,18 @@ function Set-ScheduledTaskState() {
             If (!$CustomMessage) {
                 If ($Disabled) {
                     Write-Status -Symbol "-" -Type $TweakType -Status "Disabling the $ScheduledTask task ..."
-                }
-                ElseIf ($Ready) {
+                } ElseIf ($Ready) {
                     Write-Status -Symbol "+" -Type $TweakType -Status "Enabling the $ScheduledTask task ..."
-                }
-                Else {
+                } Else {
                     Write-Status -Symbol "?" -Type $TweakType -Status "No parameter received (valid params: -Disabled or -Ready)" -Warning
                 }
-            }
-            Else {
+            } Else {
                 Write-Status -Symbol "@" -Type $TweakType -Status $(Invoke-Expression "$CustomMessage")
             }
 
             If ($Disabled) {
                 Get-ScheduledTask -TaskName (Split-Path -Path $ScheduledTask -Leaf) | Where-Object State -Like "R*" | Disable-ScheduledTask # R* = Ready/Running
-            }
-            ElseIf ($Ready) {
+            } ElseIf ($Ready) {
                 Get-ScheduledTask -TaskName (Split-Path -Path $ScheduledTask -Leaf) | Where-Object State -Like "Disabled" | Enable-ScheduledTask
             }
         }

@@ -12,8 +12,7 @@ function Remove-UWPAppx() {
             Write-Status -Symbol "-" -Type $TweakType -Status "Trying to remove $AppxPackage from ALL users ..."
             Get-AppxPackage -AllUsers -Name $AppxPackage | Remove-AppxPackage # App
             Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $AppxPackage | Remove-AppxProvisionedPackage -Online -AllUsers # Payload
-        }
-        Else {
+        } Else {
             Write-Status -Symbol "?" -Type $TweakType -Status "$AppxPackage was already removed or not found ..." -Warning
         }
     }

@@ -7,15 +7,13 @@ function Main() {
 
     If ([string]::IsNullOrEmpty($PackageFilter)) {
         Write-Warning "No filter specified, attempting to re-register all provisioned apps."
-    }
-    Else {
+    } Else {
         $Packages = $Packages | Where-Object { $_.Name -like $PackageFilter }
 
         If ($null -eq $Packages) {
             Write-Warning "No provisioned apps match the specified filter."
             exit
-        }
-        Else {
+        } Else {
             Write-Host "Registering the provisioned apps that match $PackageFilter ..."
         }
     }

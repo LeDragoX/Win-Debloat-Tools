@@ -21,8 +21,7 @@ function Open-PowerShellFilesCollection {
         $Private:Counter = Write-TitleCounter -Text "$FileName ( $LastAccessUtc )" -Counter $Counter -MaxLength $Scripts.Length
         If ($OpenFromGUI) {
             Import-Module -DisableNameChecking .\"$FileName" -Force
-        }
-        Else {
+        } Else {
             PowerShell -NoProfile -ExecutionPolicy Bypass -File .\"$FileName"
         }
     }

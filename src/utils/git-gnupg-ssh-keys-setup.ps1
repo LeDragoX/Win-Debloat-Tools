@@ -29,8 +29,7 @@ function Initialize-GitUser() {
         git config --global "$GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY" "$GIT_PROPERTY_VALUE"
 
         Write-Host "GIT: Your $GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY on git is: $(git config --global "$GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY")`n" -ForegroundColor Cyan
-    }
-    Else {
+    } Else {
         Write-Warning "Your $GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY already exists: $(git config --global "$GIT_PROPERTY_NAME.$GIT_NAME_PROPERTY")`nSkipping..."
     }
 }
@@ -182,8 +181,7 @@ function Set-GPGKey() {
 
         Write-Host "Copy and Paste the lines below on your`nGithub/Gitlab > Settings > SSH and GPG Keys > New GPG Key"
         Get-Content "$GnuPGPath/$($GnuPGFileName)_public.gpg"
-    }
-    Else {
+    } Else {
         Write-Host "Failed to retrieve your key_id: $key_id"
     }
 
