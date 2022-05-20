@@ -25,8 +25,7 @@ function Install-Font() {
 
             # Update Registry and copy Font to Font directory
             $RegName = $ShellFolder.GetDetailsOf($ShellFile, 21) + ' ' + $FontType
-        }
-        Catch {
+        } Catch {
             # This may not be the better way, but this workaround worked
             Write-Status -Symbol "@" -Status "Got an error, the font type is OpenType" -Warning
             $FontType = '(OpenType)'

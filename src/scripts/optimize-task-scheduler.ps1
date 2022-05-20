@@ -54,8 +54,7 @@ function Optimize-TaskScheduler() {
         Write-Status -Symbol "<" -Type "TaskScheduler" -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $CustomMessage = { "Resetting the $ScheduledTask task as 'Ready' ..." }
         Set-ScheduledTaskState -Ready -ScheduledTask $DisableScheduledTasks -CustomMessage $CustomMessage
-    }
-    Else {
+    } Else {
         Set-ScheduledTaskState -Disabled -ScheduledTask $DisableScheduledTasks
     }
 
@@ -69,8 +68,7 @@ function Main() {
 
     If (!$Revert) {
         Optimize-TaskScheduler # Disable Scheduled Tasks that causes slowdowns
-    }
-    Else {
+    } Else {
         Optimize-TaskScheduler -Revert
     }
 }

@@ -50,8 +50,7 @@ function Write-Status() {
     }
     If ($Warning) {
         Write-Host "$Status" -ForegroundColor Yellow -BackgroundColor Black
-    }
-    Else {
+    } Else {
         Write-Host "$Status" -ForegroundColor Green -BackgroundColor Black
     }
 }

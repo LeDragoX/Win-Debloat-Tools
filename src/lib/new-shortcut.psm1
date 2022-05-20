@@ -29,8 +29,7 @@ function New-Shortcut() {
 
     If ($Hotkey) {
         $Shortcut.Description = "$Description ($Hotkey)"
-    }
-    Else {
+    } Else {
         $Shortcut.Description = $Description
     }
 

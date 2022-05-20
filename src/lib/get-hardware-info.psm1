@@ -54,17 +54,13 @@ function Get-OSArchitecture() {
 
     If ($Architecture -like "*64*bit*") {
         $Architecture = @("x64")
-    }
-    ElseIf ($Architecture -like "*32*bit*") {
+    } ElseIf ($Architecture -like "*32*bit*") {
         $Architecture = @("x86")
-    }
-    ElseIf (($Architecture -like "*ARM") -and ($Architecture -like "*64")) {
+    } ElseIf (($Architecture -like "*ARM") -and ($Architecture -like "*64")) {
         $Architecture = @("arm64")
-    }
-    ElseIf ($Architecture -like "*ARM") {
+    } ElseIf ($Architecture -like "*ARM") {
         $Architecture = @("arm")
-    }
-    Else {
+    } Else {
         Write-Host "[?] Couldn't identify the System Architecture '$Architecture'. :/" -ForegroundColor Yellow -BackgroundColor Black
         $Architecture = $null
     }

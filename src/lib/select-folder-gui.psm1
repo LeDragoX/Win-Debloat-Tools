@@ -17,8 +17,7 @@ function Select-Folder() {
     If ($Response -eq "OK") {
         $Folder += $FolderName.SelectedPath
         Write-Host "Folder Selected: $Folder"
-    }
-    ElseIf ($Response -eq "Cancel") {
+    } ElseIf ($Response -eq "Cancel") {
         Write-Host "Aborting..."
     }
 

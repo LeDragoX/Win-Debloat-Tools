@@ -26,8 +26,7 @@ function Install-WSLPreview() {
 
         Write-Status -Symbol "-" -Type $TweakType -Status "Uninstalling WSL from Optional Features ..."
         Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
-    }
-    Catch {
+    } Catch {
         Write-Status -Symbol "?" -Type $TweakType -Status "Couldn't install WSL Preview, you must be at least on Windows 11 ..." -Warning
         Install-WSLTwoAndG
     }
@@ -64,8 +63,7 @@ function Install-WSLTwoAndG() {
             Write-Status -Symbol "+" -Type $TweakType -Status "Installing WSL Graphics update (Insider only) ($OSArch)..."
             Start-Process -FilePath $WSLgOutput -ArgumentList "/passive" -Wait
             Remove-Item -Path $WSLgOutput
-        }
-        Else {
+        } Else {
             Write-Status -Symbol "?" -Type $TweakType -Status "$OSArch is NOT supported!" -Warning
             Break
         }

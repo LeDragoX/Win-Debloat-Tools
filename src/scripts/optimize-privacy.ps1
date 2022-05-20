@@ -347,8 +347,7 @@ function Optimize-Privacy() {
 function Main() {
     If (!$Revert) {
         Optimize-Privacy # Disable Registries that causes slowdowns and privacy invasion
-    }
-    Else {
+    } Else {
         Optimize-Privacy -Revert
     }
 }

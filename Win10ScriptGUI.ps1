@@ -31,8 +31,7 @@ function Show-GUI() {
     If ($ScreenWidth -gt 1024) {
         $FormWidth = ($ScreenWidth * 0.85) + $VerticalScrollWidth # Scaled Resolution Width + Scroll Width
         $FormHeight = $ScreenHeight * 0.85
-    }
-    Else {
+    } Else {
         $FormWidth = ($ScreenWidth * 0.99) + $VerticalScrollWidth # ~ 870.4 + Scroll Width
         $FormHeight = $ScreenHeight * 0.85
     }
@@ -716,8 +715,7 @@ function Show-GUI() {
             If ($CbDarkTheme.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-dark-theme.reg") -NoDialog
                 $CbDarkTheme.Text = "[ON]  ⚫ Use Dark Theme"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-light-theme.reg") -NoDialog
                 $CbDarkTheme.Text = "[OFF] ☀ Use Dark Theme (D.)"
             }
@@ -727,8 +725,7 @@ function Show-GUI() {
             If ($CbActivityHistory.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-activity-history.reg") -NoDialog
                 $CbActivityHistory.Text = "[ON]  Activity History (Default)"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-activity-history.reg") -NoDialog
                 $CbActivityHistory.Text = "[OFF] Activity History"
             }
@@ -738,8 +735,7 @@ function Show-GUI() {
             If ($CbBackgroundsApps.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-bg-apps.reg") -NoDialog
                 $CbBackgroundsApps.Text = "[ON]  Background Apps (D.)"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-bg-apps.reg") -NoDialog
                 $CbBackgroundsApps.Text = "[OFF] Background Apps"
             }
@@ -749,8 +745,7 @@ function Show-GUI() {
             If ($CbClipboardHistory.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-clipboard-history.reg") -NoDialog
                 $CbClipboardHistory.Text = "[ON]  Clipboard History (D.)"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-clipboard-history.reg") -NoDialog
                 $CbClipboardHistory.Text = "[OFF] Clipboard History"
             }
@@ -760,8 +755,7 @@ function Show-GUI() {
             If ($CbCortana.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-cortana.reg") -NoDialog
                 $CbCortana.Text = "[ON]  Cortana (Default)"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-cortana.reg") -NoDialog
                 $CbCortana.Text = "[OFF] Cortana"
             }
@@ -771,8 +765,7 @@ function Show-GUI() {
             If ($CbOldVolumeControl.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-old-volume-control.reg") -NoDialog
                 $CbOldVolumeControl.Text = "[ON]  Old Volume Control"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-old-volume-control.reg") -NoDialog
                 $CbOldVolumeControl.Text = "[OFF] Old Volume Control (D.)"
             }
@@ -782,8 +775,7 @@ function Show-GUI() {
             If ($CbSearchIdx.CheckState -eq "Checked") {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-search-idx-service.ps1") -NoDialog
                 $CbSearchIdx.Text = "[ON]  Search Indexing (Default)"
-            }
-            Else {
+            } Else {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-search-idx-service.ps1") -NoDialog
                 $CbSearchIdx.Text = "[OFF] Search Indexing"
             }
@@ -793,8 +785,7 @@ function Show-GUI() {
             If ($CbTelemetry.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-telemetry.reg") -NoDialog
                 $CbTelemetry.Text = "[ON]  Telemetry (Default)"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-telemetry.reg") -NoDialog
                 $CbTelemetry.Text = "[OFF] Telemetry"
             }
@@ -804,8 +795,7 @@ function Show-GUI() {
             If ($CbXboxGameBarAndDVR.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-game-bar-dvr.reg") -NoDialog
                 $CbXboxGameBarAndDVR.Text = "[ON]  Xbox GameBar/DVR (D.)"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-game-bar-dvr.reg") -NoDialog
                 $CbXboxGameBarAndDVR.Text = "[OFF] Xbox GameBar/DVR"
             }
@@ -815,8 +805,7 @@ function Show-GUI() {
             If ($CbGodMode.CheckState -eq "Checked") {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-god-mode.ps1") -NoDialog
                 $CbGodMode.Text = "[ON]  God Mode"
-            }
-            Else {
+            } Else {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-god-mode.ps1") -NoDialog
                 $CbGodMode.Text = "[OFF] God Mode (Default)"
             }
@@ -826,8 +815,7 @@ function Show-GUI() {
             If ($CbTakeOwnership.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-take-ownership-context-menu.reg") -NoDialog
                 $CbTakeOwnership.Text = "[ON]  Take Ownership menu"
-            }
-            Else {
+            } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-take-ownership-context-menu.reg") -NoDialog
                 $CbTakeOwnership.Text = "[OFF] Take Ownership... (D.)"
             }
@@ -837,8 +825,7 @@ function Show-GUI() {
             If ($CbShutdownPCShortcut.CheckState -eq "Checked") {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-shutdown-pc-shortcut.ps1") -NoDialog
                 $CbShutdownPCShortcut.Text = "[ON]  Shutdown PC shortcut"
-            }
-            Else {
+            } Else {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-shutdown-pc-shortcut.ps1") -NoDialog
                 $CbShutdownPCShortcut.Text = "[OFF] Shutdown PC... (Default)"
             }
@@ -978,8 +965,7 @@ function Show-GUI() {
             If ($InstallGitGnupgSshSetup.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
                     Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("git-gnupg-ssh-keys-setup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-                }
-                Else {
+                } Else {
                     $AppsSelected.WingetApps.AddRange(@("Git.Git", "GnuPG.GnuPG")) # Installed before inside the script
                 }
                 $InstallGitGnupgSshSetup.CheckState = "Unchecked"
@@ -1204,8 +1190,7 @@ function Show-GUI() {
             If ($InstallWSLgOrPreview.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
                     Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-wslg-or-preview.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-                }
-                Else {
+                } Else {
                     $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
                 }
                 $InstallWSLgOrPreview.CheckState = "Unchecked"
@@ -1214,8 +1199,7 @@ function Show-GUI() {
             If ($InstallArchWSL.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
                     Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-archwsl.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-                }
-                Else {
+                } Else {
                     $AppsSelected.WSLDistros.Add("Arch")
                 }
                 $InstallArchWSL.CheckState = "Unchecked"
@@ -1502,8 +1486,7 @@ function Show-GUI() {
                 If ($AppsSelected.WSLDistros) {
                     Install-Software -Name "Apps from selection" -Packages $AppsSelected.WSLDistros -ViaWSL
                 }
-            }
-            Else {
+            } Else {
                 If ($AppsSelected.WingetApps) {
                     Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.WingetApps
                 }
@@ -1524,8 +1507,7 @@ function Show-GUI() {
                 $Script:UninstallSwitch = $false
                 $InstallSelected.Text = "Install Selected"
                 $UninstallMode.Text = "[OFF] Uninstall Mode"
-            }
-            Else {
+            } Else {
                 $Script:UninstallSwitch = $true
                 $InstallSelected.Text = "Uninstall Selected"
                 $UninstallMode.Text = "[ON]  Uninstall Mode"

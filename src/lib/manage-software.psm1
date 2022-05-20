@@ -46,8 +46,7 @@ function Install-Software() {
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
             $DoneMessage += " + $PackageName ($Package)`n"
             $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
-        }
-        Else {
+        } Else {
             $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
             $DoneMessage += " + $Package`n"
         }
@@ -106,8 +105,7 @@ function Uninstall-Software() {
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
             $DoneMessage += " - $PackageName ($Package)`n"
             $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
-        }
-        Else {
+        } Else {
             $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
             $DoneMessage += " - $Package`n"
         }

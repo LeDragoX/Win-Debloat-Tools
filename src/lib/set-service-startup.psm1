@@ -10,8 +10,7 @@ function Find-Service() {
 
     If (Get-Service $Service -ErrorAction SilentlyContinue) {
         return $true
-    }
-    Else {
+    } Else {
         Write-Status -Symbol "?" -Type $TweakType -Status "The $Service service was not found ..." -Warning
         return $false
     }
@@ -52,28 +51,22 @@ function Set-ServiceStartup() {
             If (!$CustomMessage) {
                 If ($Automatic) {
                     Write-Status -Symbol "+" -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Automatic' on Startup ..."
-                }
-                ElseIf ($Disabled) {
+                } ElseIf ($Disabled) {
                     Write-Status -Symbol "-" -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Disabled' on Startup ..."
-                }
-                ElseIf ($Manual) {
+                } ElseIf ($Manual) {
                     Write-Status -Symbol "-" -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup ..."
-                }
-                Else {
+                } Else {
                     Write-Status -Symbol "?" -Type $TweakType -Status "No parameter received (valid params: -Automatic, -Disabled or -Manual)" -Warning
                 }
-            }
-            Else {
+            } Else {
                 Write-Status -Symbol "@" -Type $TweakType -Status $(Invoke-Expression "$CustomMessage")
             }
 
             If ($Automatic) {
                 Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic
-            }
-            ElseIf ($Disabled) {
+            } ElseIf ($Disabled) {
                 Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
-            }
-            ElseIf ($Manual) {
+            } ElseIf ($Manual) {
                 Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
             }
         }
