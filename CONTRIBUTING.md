@@ -62,7 +62,7 @@ git clone -b develop --filter=tree:0 git@github.com:LeDragoX/Win-10-Smart-Debloa
 The most registry tweaks can be easily found on the Internet, but what about the ones no one covered?
 
 <details>
- <summary>Click to expand</summary>
+  <summary>Click to expand</summary>
 
 ### How To: using SysInternal Suite
 
