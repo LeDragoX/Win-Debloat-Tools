@@ -24,8 +24,7 @@ function Install-PackageManager() {
         $err = (Invoke-Expression "$CheckExistenceBlock")
         if (($LASTEXITCODE)) { throw $err } # 0 = False, 1 = True
         Write-Status -Symbol "?" -Status "$PackageManagerFullName is already installed." -Warning
-    }
-    Catch {
+    } Catch {
         Write-Status -Symbol "?" -Status "$PackageManagerFullName was not found." -Warning
         Write-Status -Symbol "+" -Status "Downloading and Installing $PackageManagerFullName package manager."
 
@@ -55,8 +54,7 @@ function Install-PackageManager() {
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Unregister-ScheduledJob -Name $JobName
             Register-ScheduledJob @ScheduledJob | Out-Null
-        }
-        Else {
+        } Else {
             Write-Status -Symbol "@" -Status "Creating Scheduled Job with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Register-ScheduledJob @ScheduledJob | Out-Null
@@ -73,8 +71,7 @@ function Install-WingetDependency() {
             $WingetDepOutput = Request-FileDownload -FileURI "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx" -OutputFile "Microsoft.VCLibs.14.00.Desktop.appx"
             Add-AppxPackage -Path $WingetDepOutput
             Remove-Item -Path $WingetDepOutput
-        }
-        Else {
+        } Else {
             Write-Status -Symbol "?" -Status "$OSArch is not supported!" -Warning
         }
     }

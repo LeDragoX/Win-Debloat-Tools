@@ -10,8 +10,7 @@ function Find-OptionalFeature() {
 
     If (Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature) {
         return $true
-    }
-    Else {
+    } Else {
         Write-Status -Symbol "?" -Type $TweakType -Status "The $OptionalFeature optional feature was not found." -Warning
         return $false
     }
@@ -50,22 +49,18 @@ function Set-OptionalFeatureState() {
             If (!$CustomMessage) {
                 If ($Disabled) {
                     Write-Status -Symbol "-" -Type $TweakType -Status "Uninstalling the $OptionalFeature optional feature ..."
-                }
-                ElseIf ($Enabled) {
+                } ElseIf ($Enabled) {
                     Write-Status -Symbol "+" -Type $TweakType -Status "Installing the $OptionalFeature optional feature ..."
-                }
-                Else {
+                } Else {
                     Write-Status -Symbol "?" -Type $TweakType -Status "No parameter received (valid params: -Disabled or -Enabled)" -Warning
                 }
-            }
-            Else {
+            } Else {
                 Write-Status -Symbol "@" -Type $TweakType -Status $(Invoke-Expression "$CustomMessage")
             }
 
             If ($Disabled) {
                 Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
-            }
-            ElseIf ($Enabled) {
+            } ElseIf ($Enabled) {
                 Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
             }
         }

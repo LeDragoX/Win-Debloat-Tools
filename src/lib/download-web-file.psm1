@@ -52,8 +52,7 @@ function Get-APIFile {
 
     If ($OutputFolder) {
         return Request-FileDownload -FileURI $FileURI -OutputFolder $OutputFolder -OutputFile $OutputFile
-    }
-    Else {
+    } Else {
         return Request-FileDownload -FileURI $FileURI -OutputFile $OutputFile
     }
 }

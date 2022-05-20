@@ -95,8 +95,7 @@ function Optimize-ServicesRunning() {
         Write-Status -Symbol "<" -Type "Service" -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $CustomMessage = { "Resetting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup ..." }
         Set-ServiceStartup -Manual -Services $ServicesToDisabled -Filter $EnableServicesOnSSD -CustomMessage $CustomMessage
-    }
-    Else {
+    } Else {
         Set-ServiceStartup -Disabled -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
     }
 
@@ -116,8 +115,7 @@ function Main() {
 
     If (!$Revert) {
         Optimize-ServicesRunning # Enable essential Services and Disable bloating Services
-    }
-    Else {
+    } Else {
         Optimize-ServicesRunning -Revert
     }
 }

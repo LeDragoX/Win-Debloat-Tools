@@ -35,8 +35,7 @@ function Optimize-WindowsFeaturesList() {
         Write-Status -Symbol "<" -Type "OptionalFeature" -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $CustomMessage = { "Re-Installing the $OptionalFeature optional feature ..." }
         Set-OptionalFeatureState -Enabled -OptionalFeatures $DisableFeatures -CustomMessage $CustomMessage
-    }
-    Else {
+    } Else {
         Set-OptionalFeatureState -Disabled -OptionalFeatures $DisableFeatures
     }
 
@@ -56,8 +55,7 @@ function Main() {
 
     If (!$Revert) {
         Optimize-WindowsFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
-    }
-    Else {
+    } Else {
         Optimize-WindowsFeaturesList -Revert
     }
 }

@@ -110,13 +110,11 @@ function Optimize-Performance() {
         Try {
             If (($PowerPlanName -notin $UniquePowerPlans.Keys) -and ($PowerPlanGUID -notin $UniquePowerPlans.Values)) {
                 $UniquePowerPlans.Add($PowerPlanName, $PowerPlanGUID)
-            }
-            Else {
+            } Else {
                 Write-Status -Symbol "-" -Type $TweakType -Status "Duplicated '$PowerPlanName' power plan found, deleting $PowerPlanGUID ..."
                 powercfg -Delete $PowerPlanGUID
             }
-        }
-        Catch {
+        } Catch {
             Write-Status -Symbol "-" -Type $TweakType -Status "Duplicated '$PowerPlanName' power plan found, deleting $PowerPlanGUID ..."
             powercfg -Delete $PowerPlanGUID
         }
@@ -148,8 +146,7 @@ function Optimize-Performance() {
 function Main() {
     If (!$Revert) {
         Optimize-Performance # Change from stock configurations that slowdowns the system to improve performance
-    }
-    Else {
+    } Else {
         Optimize-Performance -Revert
     }
 }

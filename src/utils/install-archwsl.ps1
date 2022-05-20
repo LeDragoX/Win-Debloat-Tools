@@ -19,8 +19,7 @@ function ArchWSLInstall() {
             Write-Status -Symbol "@" -Status "Removing downloaded files ..."
             Remove-Item -Path $CertOutput
             Remove-Item -Path $ArchWSLOutput
-        }
-        Else {
+        } Else {
             Write-Status -Symbol "?" -Status "$OSArch is NOT supported!" -Warning
             Break
         }
