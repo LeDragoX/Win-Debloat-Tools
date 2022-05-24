@@ -3,6 +3,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-Software() {
     [CmdletBinding()]
+    [OutputType([String])]
     param (
         [String]      $Name,
         [Array]       $Packages,
@@ -58,10 +59,13 @@ function Install-Software() {
     If (!($NoDialog)) {
         Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
     }
+
+    return $DoneMessage
 }
 
 function Uninstall-Software() {
     [CmdletBinding()]
+    [OutputType([String])]
     param (
         [String]      $Name,
         [Array]       $Packages,
@@ -117,6 +121,8 @@ function Uninstall-Software() {
     If (!($NoDialog)) {
         Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
     }
+
+    return $DoneMessage
 }
 
 <#
