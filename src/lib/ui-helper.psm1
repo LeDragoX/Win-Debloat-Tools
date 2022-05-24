@@ -1,7 +1,13 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+[System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
+
 # Adapted from: https://stackoverflow.com/a/35965782
 # Adapted from: https://www.osdeploy.com/modules/pshot/technical/resolution-scale-and-dpi
+# Adapted from: https://stackoverflow.com/a/53377253
+# Adapted from: https://stackoverflow.com/a/68296985
 
 function Get-CurrentResolution {
     [CmdletBinding()]
@@ -12,7 +18,6 @@ function Get-CurrentResolution {
     $ScreenHeight = $null
 
     # Accepts Scaling/DPI
-    Add-Type -AssemblyName System.Windows.Forms
     $DisplayInfo = [System.Windows.Forms.SystemInformation]::VirtualScreen
     $ScreenWidth = $DisplayInfo.Width
     $ScreenHeight = $DisplayInfo.Height
@@ -126,7 +131,7 @@ function New-Form() {
         [Int]    $Width,
         [Int]    $Height,
         [String] $Text,
-        [String] $BackColor,
+        [String] $BackColor = "#252525", # Windows Dark
         [Bool]   $Minimize = $true,
         [Bool]   $Maximize = $true,
         [String] $FormBorderStyle = 'FixedSingle', # FixedSingle, Fixed3D, FixedDialog, Sizable, FixedToolWindow, SizableToolWindow
@@ -156,7 +161,6 @@ function New-FormIcon() {
         [String]                    $ImageLocation
     )
 
-    # Adapted from: https://stackoverflow.com/a/53377253
     Write-Verbose "FormIcon: IL $ImageLocation"
     $IconBase64 = [Convert]::ToBase64String((Get-Content $ImageLocation -Encoding Byte))
     $IconBytes = [Convert]::FromBase64String($IconBase64)
@@ -167,6 +171,50 @@ function New-FormIcon() {
 
     return $Form
 }
+
+function New-TabControl() {
+    [CmdletBinding()]
+    [OutputType([System.Windows.Forms.TabControl])]
+    param (
+        [Int] $Width,
+        [Int] $Height,
+        [Int] $LocationX,
+        [Int] $LocationY,
+        [String] $ForeColor = "#FFFFFF", # White
+        [String] $BackColor = "#252525" # Windows Dark
+    )
+
+    $FormTabControl = New-object System.Windows.Forms.TabControl
+    $FormTabControl.Size = "$Width,$Height"
+    $FormTabControl.Location = "$LocationX,$LocationY"
+    $FormTabControl.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
+    $FormTabControl.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
+
+    return $FormTabControl
+}
+
+function New-TabPage() {
+    [CmdletBinding()]
+    [OutputType([System.Windows.Forms.Form])]
+    param (
+        [String] $Name,
+        [String] $Text,
+        [String] $ForeColor = "#FFFFFF", # White
+        [String] $BackColor = "#252525" # Windows Dark
+    )
+
+    $FormTabPage = New-object System.Windows.Forms.TabPage
+    $FormTabPage.DataBindings.DefaultDataSourceUpdateMode = 0
+    $FormTabPage.UseVisualStyleBackColor = $True
+    $FormTabPage.Name = $Name
+    $FormTabPage.Text = $Text
+    $FormTabPage.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
+    $FormTabPage.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
+    $FormTabPage.AutoScroll = $True
+
+    return $FormTabPage
+}
+
 
 function New-Panel() {
     [CmdletBinding()]

@@ -25,7 +25,7 @@ function Optimize-Security() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware" -Type DWORD -Value 0 -Force
     Set-MpPreference -DisableRealtimeMonitoring $false -Force
 
-    Write-Status -Symbol "+" -Type $TweakType -Status " Enabling Microsoft Defender Exploit Guard network protection..."
+    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling Microsoft Defender Exploit Guard network protection..."
     Set-MpPreference -EnableNetworkProtection Enabled -Force
 
     Write-Status -Symbol "+" -Type $TweakType -Status "Enabling detection for potentially unwanted applications and block them..."
