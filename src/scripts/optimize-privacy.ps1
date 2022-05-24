@@ -337,11 +337,10 @@ function Optimize-Privacy() {
 
     ForEach ($Key in $KeysToDelete) {
         If ((Test-Path $Key)) {
-            Write-Host "[Privacy] Removing Key: [$Key]"
+            Write-Status -Symbol '-' -Type $TweakType -Status "Removing Key: [$Key]"
             Remove-Item $Key -Recurse
         }
     }
-
 }
 
 function Main() {
