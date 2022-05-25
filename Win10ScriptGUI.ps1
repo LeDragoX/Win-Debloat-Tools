@@ -43,7 +43,7 @@ function Show-GUI() {
     $PanelElementWidth = $PanelWidth - ($PanelWidth * (2 * $PanelElementMarginWidth))
     $PanelElementX = $PanelWidth * $PanelElementMarginWidth
     # To Labels
-    $TitleLabelHeight = 65
+    $TitleLabelHeight = 45
     $CaptionLabelHeight = 30
     # To Buttons
     $ButtonHeight = 30
@@ -53,7 +53,6 @@ function Show-GUI() {
     $Header3 = 14
 
     $TitleLabelY = 0
-    $FirstLabelY = $TitleLabelY + $TitleLabelHeight + $DistanceBetweenButtons
 
     $BBHeight = ($ButtonHeight * 2) + $DistanceBetweenButtons
 
@@ -70,49 +69,38 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SoftwareInstallHeight = 1525
+    $SystemTweaksHeight = 550
+    $SoftwareInstallHeight = 1500
 
     # <===== UI =====>
 
     # Main Window:
-    $Form = New-Form -Width $FormWidth -Height $FormHeight -Text "Win 10+ S. D. Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer to load the script
+    $Form = New-Form -Width $FormWidth -Height $FormHeight -Text "Win 10+ S. D. Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer time to load the GUI
 
-    # Window Icon:
     $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
 
     $FormTabControl = New-TabControl -Width ($FormWidth - 8) -Height ($FormHeight - 35) -LocationX -4 -LocationY 0
     $TabSystemTweaks = New-TabPage -Name "Tab1" -Text "System Tweaks"
     $TabSoftwareInstall = New-TabPage -Name "Tab2" -Text "Software Install"
 
-    # Panels to put Labels and Buttons
+    $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $TotalWidth -Height $TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
+
+    $NextYLocation = $TlSystemTweaks.Location.Y + $TlSystemTweaks.Height + $DistanceBetweenButtons
+    $ClSystemTweaks = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $TotalWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $NextYLocation -ForeColor $White
+
     $CurrentPanelIndex = 0
-    $T1Panel1 = New-Panel -Width $PanelWidth -Height 525 -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $CurrentPanelIndex++
-    $T1Panel2 = New-Panel -Width $PanelWidth -Height 600 -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $CurrentPanelIndex = 0
-    $T2Panel1 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $CurrentPanelIndex++
-    $T2Panel2 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $CurrentPanelIndex++
-    $T2Panel3 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
-    $CurrentPanelIndex++
-    $T2Panel4 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $NextYLocation = $ClSystemTweaks.Location.Y + $ClSystemTweaks.Height + $DistanceBetweenButtons
+    $T1Panel1 = New-Panel -Width $PanelWidth -Height $SystemTweaksHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY $NextYLocation
 
-    # Panels T1-1, T1-2, T2-Center ~> Title Label
-    $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $PanelElementWidth -Height $TitleLabelHeight -LocationX $PanelElementX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
-    $TlCustomizeTweaks = New-Label -Text "Customize Tweaks" -Width $PanelElementWidth -Height $TitleLabelHeight -LocationX $PanelElementX -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
-    $TlSoftwareInstall = New-Label -Text "Software Install" -Width $TotalWidth -Height $TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
-
-    # Panel 1, 2, 3-4-5 ~> Caption Label
-    $ClSystemTweaks = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $FirstLabelY -ForeColor $White
-
-    $ClCustomizeFeatures = New-Label -Text "Enable/Disable Features" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $FirstLabelY -ForeColor $White
-
-    $NextYLocation = $TlSoftwareInstall.Location.Y + $TlSoftwareInstall.Height + $DistanceBetweenButtons
-    $ClSoftwareInstall = New-Label -Text "Package Managers: Winget and Chocolatey" -Width $TotalWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $NextYLocation -ForeColor $White
+    $CurrentPanelIndex++
+    $NextYLocation = $ClSystemTweaks.Location.Y + $ClSystemTweaks.Height + $DistanceBetweenButtons
+    $T1Panel2 = New-Panel -Width $PanelWidth -Height $SystemTweaksHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY $NextYLocation
 
     # ==> T1 Panel 1
     $NextYLocation = $ClSystemTweaks.Location.Y + $ClSystemTweaks.Height + $DistanceBetweenButtons
+    $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0
+
+    $NextYLocation = $ClDebloatTools.Location.Y + $ClDebloatTools.Height + $DistanceBetweenButtons
     $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $PanelElementWidth -Height $BBHeight -LocationX $PanelElementX -LocationY $NextYLocation -FontSize $Header3 -ForeColor $WinBlue
 
     $NextYLocation = $ApplyTweaks.Location.Y + $ApplyTweaks.Height + $DistanceBetweenButtons
@@ -122,7 +110,7 @@ function Show-GUI() {
     $RemoveXbox = New-Button -Text "Remove Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $WarningYellow
 
     $NextYLocation = $RemoveXbox.Location.Y + $RemoveXbox.Height + $DistanceBetweenButtons
-    # Logo from the Script
+
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width $PanelElementWidth -Height (($BBHeight * 2) + $DistanceBetweenButtons) -LocationX $PanelElementX -LocationY $NextYLocation -SizeMode 'Zoom'
 
     $NextYLocation = $PictureBox1.Location.Y + $PictureBox1.Height + $DistanceBetweenButtons
@@ -138,6 +126,8 @@ function Show-GUI() {
     $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     # ==> T1 Panel 2
+    $ClCustomizeFeatures = New-Label -Text "Customize System Features" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0
+
     $NextYLocation = $ClCustomizeFeatures.Location.Y + $ClCustomizeFeatures.Height + $DistanceBetweenButtons
     $CbDarkTheme = New-CheckBox -Text "Use Dark Theme" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
@@ -169,7 +159,7 @@ function Show-GUI() {
     $CbXboxGameBarAndDVR = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $CbXboxGameBarAndDVR.Location.Y + $CbXboxGameBarAndDVR.Height + $DistanceBetweenButtons
-    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $NextYLocation -ForeColor $White
+    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $NextYLocation
 
     $NextYLocation = $ClMiscFeatures.Location.Y + $ClMiscFeatures.Height + $DistanceBetweenButtons
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
@@ -181,6 +171,20 @@ function Show-GUI() {
     $CbShutdownPCShortcut = New-CheckBox -Text "Enable Shutdown PC shortcut" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     # ==> T2 Panel 1
+    $CurrentPanelIndex = 0
+    $T2Panel1 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $CurrentPanelIndex++
+    $T2Panel2 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $CurrentPanelIndex++
+    $T2Panel3 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+    $CurrentPanelIndex++
+    $T2Panel4 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -LocationY 0
+
+    $TlSoftwareInstall = New-Label -Text "Software Install" -Width $TotalWidth -Height $TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
+
+    $NextYLocation = $TlSoftwareInstall.Location.Y + $TlSoftwareInstall.Height + $DistanceBetweenButtons
+    $ClSoftwareInstall = New-Label -Text "Package Managers: Winget and Chocolatey" -Width $TotalWidth -Height $CaptionLabelHeight -LocationX 0 -LocationY $NextYLocation -ForeColor $White
+
     $NextYLocation = $ClSoftwareInstall.Location.Y + $ClSoftwareInstall.Height + $DistanceBetweenButtons
     $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
@@ -542,7 +546,7 @@ function Show-GUI() {
     $InstallVSCodium = New-CheckBox -Text "VS Codium" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $InstallVSCodium.Location.Y + $InstallVSCodium.Height + $DistanceBetweenButtons
-    $ClWsl = New-Label -Text "⌨ Windows Subsystem For Linux" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
+    $ClWsl = New-Label -Text "Windows Subsystem For Linux" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY $NextYLocation
 
     $NextYLocation = $ClWsl.Location.Y + $ClWsl.Height + $DistanceBetweenButtons
     $InstallWSLgOrPreview = New-CheckBox -Text "Install WSLg/Preview" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY $NextYLocation -ForeColor $WinBlue
@@ -638,12 +642,11 @@ function Show-GUI() {
     $Form.Controls.AddRange(@($FormTabControl))
     # Tabs
     $FormTabControl.Controls.AddRange(@($TabSystemTweaks, $TabSoftwareInstall))
-    $TabSystemTweaks.Controls.AddRange(@($T1Panel1, $T1Panel2))
+    $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2))
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Panel
-    $T1Panel1.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks))
-    $T1Panel1.Controls.AddRange(@($ApplyTweaks, $UndoTweaks, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
-    $T1Panel2.Controls.AddRange(@($TlCustomizeTweaks, $ClCustomizeFeatures))
+    $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
+    $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures))
     $T1Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbPhotoViewer, $CbSearchIdx, $CbTelemetry, $CbXboxGameBarAndDVR))
     $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
 
