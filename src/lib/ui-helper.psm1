@@ -250,7 +250,7 @@ function New-Label() {
         [Int]    $LocationX,
         [Int]    $LocationY,
         [String] $Font = $MainFont,
-        [Int]    $FontSize = 12,
+        [Int]    $FontSize = 14,
         [String] $FontStyle = "Regular",
         [String] $ForeColor = "#55EE00", # Green
         [String] $TextAlign = "MiddleCenter"
