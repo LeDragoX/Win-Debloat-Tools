@@ -102,6 +102,8 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ### System Tweaks
 
+#### System Debloat Tools
+
 - `Apply Tweaks`: Run every Common Tweak scripts;
 - `Undo Tweaks`: Re-apply some tweaks and [Revert] all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
 - `Remove Xbox`: Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR; ([`remove-xbox.ps1`](./src/scripts/remove-xbox.ps1))
@@ -110,7 +112,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
 - `Show Debloat Info`: Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference); ([`show-debloat-info.ps1`](./src/utils/show-debloat-info.ps1))
 
-### Customize Tweaks (System Features)
+#### Customize System Features
 
 - `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
 - `Enable/Disable Activity History`: [Enables](./src/utils/enable-activity-history.reg) or [Disables](src/utils/disable-activity-history.reg) the **Activity History**;
@@ -123,7 +125,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Enable/Disable Telemetry`: [Enables](./src/utils/enable-telemetry.reg) or [Disables](src/utils/disable-telemetry.reg) the **Windows Telemetry**;
 - `Enable/Disable Xbox GameBar/DVR`: [Enables](./src/utils/enable-game-bar-dvr.reg) or [Disables](src/utils/disable-game-bar-dvr.reg) the **Xbox GameBar/DVR (In-Game)**;
 
-### Customize Tweaks (Miscellaneous Features)
+#### Miscellaneous Features
 
 - `Enable/Disable God Mode`: [Enables](./src/utils/enable-god-mode.ps1) or [Disables](./src/utils/disable-god-mode.ps1) the hidden Desktop folder **God Mode**;
 - `Enable/Disable Take Ownership menu`: [Enables](./src/utils/enable-take-ownership-context-menu.reg) or [Disables](src/utils/disable-take-ownership-context-menu.reg) the **Take Ownership context menu**;
