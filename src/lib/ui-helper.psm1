@@ -1,13 +1,13 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
-[System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
-
 # Adapted from: https://stackoverflow.com/a/35965782
 # Adapted from: https://www.osdeploy.com/modules/pshot/technical/resolution-scale-and-dpi
 # Adapted from: https://stackoverflow.com/a/53377253
 # Adapted from: https://stackoverflow.com/a/68296985
+
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+[System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3 (Win 11)
 
 function Get-CurrentResolution {
     [CmdletBinding()]
@@ -176,10 +176,10 @@ function New-TabControl() {
     [CmdletBinding()]
     [OutputType([System.Windows.Forms.TabControl])]
     param (
-        [Int] $Width,
-        [Int] $Height,
-        [Int] $LocationX,
-        [Int] $LocationY,
+        [Int]    $Width,
+        [Int]    $Height,
+        [Int]    $LocationX,
+        [Int]    $LocationY,
         [String] $ForeColor = "#FFFFFF", # White
         [String] $BackColor = "#252525" # Windows Dark
     )
@@ -219,22 +219,27 @@ function New-TabPage() {
 function New-Panel() {
     [CmdletBinding()]
     param (
-        [Int]    $Width,
-        [Int]    $Height,
-        [Int]    $LocationX,
-        [Int]    $LocationY,
-        [Switch] $HasVerticalScroll
+        [Int]           $Width,
+        [Int]           $Height,
+        [System.Object] $ElementBefore,
+        [Int]           $MarginTop = 0,
+        [Int]           $LocationX,
+        [Int]           $LocationY,
+        [Switch]        $HasScroll
     )
 
-    Write-Verbose "Panel: W$Width, H$Height, X$LocationX, Y$LocationY VScroll $HasVerticalScroll"
+    Write-Verbose "Panel: W$Width, H$Height, X$LocationX, Y$LocationY VScroll $HasScroll"
     $Panel = New-Object System.Windows.Forms.Panel
     $Panel.Width = $Width
     $Panel.Height = $Height
-    $Panel.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
 
-    if ($HasVerticalScroll) {
-        $Panel.HorizontalScroll.Enabled = $false
-        $Panel.HorizontalScroll.Visible = $false
+    If (!$ElementBefore) {
+        $Panel.Location = New-Object System.Drawing.Point($LocationX, ($LocationY + $MarginTop))
+    } Else {
+        $Panel.Location = New-Object System.Drawing.Point($LocationX, ($ElementBefore.Location.Y + $ElementBefore.Height + $MarginTop))
+    }
+
+    if ($HasScroll) {
         $Panel.AutoScroll = $true
     }
 
@@ -244,16 +249,18 @@ function New-Panel() {
 function New-Label() {
     [CmdletBinding()]
     param (
-        [String] $Text,
-        [Int]    $Width,
-        [Int]    $Height,
-        [Int]    $LocationX,
-        [Int]    $LocationY,
-        [String] $Font = $MainFont,
-        [Int]    $FontSize = 14,
-        [String] $FontStyle = "Regular",
-        [String] $ForeColor = "#55EE00", # Green
-        [String] $TextAlign = "MiddleCenter"
+        [String]        $Text,
+        [Int]           $Width,
+        [Int]           $Height,
+        [System.Object] $ElementBefore,
+        [Int]           $MarginTop = 0,
+        [Int]           $LocationX,
+        [Int]           $LocationY,
+        [String]        $Font = $MainFont,
+        [Int]           $FontSize = 14,
+        [String]        $FontStyle = "Regular",
+        [String]        $ForeColor = "#55EE00", # Green
+        [String]        $TextAlign = "MiddleCenter"
     )
 
     Write-Verbose "Label '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
@@ -261,10 +268,15 @@ function New-Label() {
     $Label.Text = $Text
     $Label.Width = $Width
     $Label.Height = $Height
-    $Label.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
     $Label.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]::$FontStyle)
     $Label.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $Label.TextAlign = $TextAlign
+
+    If (!$ElementBefore) {
+        $Label.Location = New-Object System.Drawing.Point($LocationX, ($LocationY + $MarginTop))
+    } Else {
+        $Label.Location = New-Object System.Drawing.Point($LocationX, ($ElementBefore.Location.Y + $ElementBefore.Height + $MarginTop))
+    }
 
     return $Label
 }
@@ -272,19 +284,21 @@ function New-Label() {
 function New-Button() {
     [CmdletBinding()]
     param (
-        [String] $Text,
-        [Int]    $Width,
-        [Int]    $Height,
-        [Int]    $LocationX,
-        [Int]    $LocationY,
-        [String] $Font = $MainFont,
-        [Int]    $FontSize = 12,
-        [String] $FontStyle = "Regular",
-        [String] $ForeColor = "#FFFFFF", # White
-        [String] $BackColor = "#2C2C2C", # Dark Gray
-        [String] $TextAlign = "MiddleCenter",
-        [String] $FlatStyle = "Flat", # Flat, Popup, Standard, System
-        [String] $BorderSize = 1
+        [String]        $Text,
+        [Int]           $Width,
+        [Int]           $Height,
+        [System.Object] $ElementBefore,
+        [Int]           $MarginTop = 5,
+        [Int]           $LocationX,
+        [Int]           $LocationY,
+        [String]        $Font = $MainFont,
+        [Int]           $FontSize = 12,
+        [String]        $FontStyle = "Regular",
+        [String]        $ForeColor = "#FFFFFF", # White
+        [String]        $BackColor = "#2C2C2C", # Dark Gray
+        [String]        $TextAlign = "MiddleCenter",
+        [String]        $FlatStyle = "Flat", # Flat, Popup, Standard, System
+        [String]        $BorderSize = 1
     )
 
     Write-Verbose "Button '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, TA $TextAlign"
@@ -292,7 +306,6 @@ function New-Button() {
     $Button.Text = $Text
     $Button.Width = $Width
     $Button.Height = $Height
-    $Button.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
     $Button.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]::$FontStyle)
     $Button.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $Button.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
@@ -300,23 +313,31 @@ function New-Button() {
     $Button.FlatStyle = [System.Windows.Forms.FlatStyle]::$FlatStyle
     $Button.FlatAppearance.BorderSize = $BorderSize
 
+    If (!$ElementBefore) {
+        $Button.Location = New-Object System.Drawing.Point($LocationX, ($LocationY + $MarginTop))
+    } Else {
+        $Button.Location = New-Object System.Drawing.Point($LocationX, ($ElementBefore.Location.Y + $ElementBefore.Height + $MarginTop))
+    }
+
     return $Button
 }
 
 function New-CheckBox() {
     [CmdletBinding()]
     param (
-        [String] $Text,
-        [Int]    $Width,
-        [Int]    $Height,
-        [Int]    $LocationX,
-        [Int]    $LocationY,
-        [String] $Font = $MainFont,
-        [Int]    $FontSize = 12,
-        [String] $FontStyle = "Italic",
-        [String] $ForeColor = "#FFFFFF", # White
-        [String] $BackColor = "#2C2C2C", # Dark Gray
-        [String] $TextAlign = "MiddleLeft"
+        [String]        $Text,
+        [Int]           $Width,
+        [Int]           $Height,
+        [System.Object] $ElementBefore,
+        [Int]           $MarginTop = 5,
+        [Int]           $LocationX,
+        [Int]           $LocationY,
+        [String]        $Font = $MainFont,
+        [Int]           $FontSize = 12,
+        [String]        $FontStyle = "Italic",
+        [String]        $ForeColor = "#FFFFFF", # White
+        [String]        $BackColor = "#2C2C2C", # Dark Gray
+        [String]        $TextAlign = "MiddleLeft"
     )
 
     Write-Verbose "CheckBox '$Text': W$Width, H$Height, X$LocationX, Y$LocationY, F $Font, FSize $FontSize, FStyle $FontStyle, FC $ForeColor, BC $BackColor, TA $TextAlign"
@@ -324,13 +345,18 @@ function New-CheckBox() {
     $CheckBox.Text = $Text
     $CheckBox.Width = $Width
     $CheckBox.Height = $Height
-    $CheckBox.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
     $CheckBox.Font = New-Object System.Drawing.Font($Font, $FontSize, [System.Drawing.FontStyle]::$FontStyle)
     $CheckBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $CheckBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $CheckBox.TextAlign = $TextAlign
     $CheckBox.FlatStyle = [System.Windows.Forms.FlatStyle]::Standard
     $CheckBox.FlatAppearance.BorderSize = 1
+
+    If (!$ElementBefore) {
+        $CheckBox.Location = New-Object System.Drawing.Point($LocationX, ($LocationY + $MarginTop))
+    } Else {
+        $CheckBox.Location = New-Object System.Drawing.Point($LocationX, ($ElementBefore.Location.Y + $ElementBefore.Height + $MarginTop))
+    }
 
     return $CheckBox
 }
@@ -339,12 +365,14 @@ function New-PictureBox() {
     [CmdletBinding()]
     [OutputType([System.Windows.Forms.PictureBox])]
     param (
-        [String] $ImageLocation,
-        [Int]    $Width,
-        [Int]    $Height,
-        [Int]    $LocationX,
-        [Int]    $LocationY,
-        [String] $SizeMode = 'Zoom' # Autosize, CenterImage, Normal, StretchImage, Zoom
+        [String]        $ImageLocation,
+        [Int]           $Width,
+        [Int]           $Height,
+        [System.Object] $ElementBefore,
+        [Int]           $MarginTop = 0,
+        [Int]           $LocationX,
+        [Int]           $LocationY,
+        [String]        $SizeMode = 'Zoom' # Autosize, CenterImage, Normal, StretchImage, Zoom
     )
 
     Write-Verbose "PictureBox: IL $ImageLocation, W$Width, H$Height, X$LocationX, Y$LocationY, SM $SizeMode"
@@ -352,8 +380,13 @@ function New-PictureBox() {
     $PictureBox.ImageLocation = $ImageLocation
     $PictureBox.Width = $Width
     $PictureBox.Height = $Height
-    $PictureBox.Location = New-Object System.Drawing.Point($LocationX, $LocationY)
     $PictureBox.SizeMode = [System.Windows.Forms.PictureBoxSizeMode]::$SizeMode
+
+    If (!$ElementBefore) {
+        $PictureBox.Location = New-Object System.Drawing.Point($LocationX, ($LocationY + $MarginTop))
+    } Else {
+        $PictureBox.Location = New-Object System.Drawing.Point($LocationX, ($ElementBefore.Location.Y + $ElementBefore.Height + $MarginTop))
+    }
 
     return $PictureBox
 }
