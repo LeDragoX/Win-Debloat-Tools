@@ -1234,7 +1234,6 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"manage-software.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
@@ -1244,7 +1243,6 @@ function Main() {
     Write-Caption "$((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
-    Unlock-ScriptUsage
     Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -NoDialog # Install Winget and Chocolatey at the beginning
     Write-ScriptLogo            # Thanks Figlet
     Show-GUI                    # Load the GUI
@@ -1254,7 +1252,6 @@ function Main() {
         Request-PcRestart       # Prompt options to Restart the PC
     }
     Stop-Logging
-    Block-ScriptUsage
 }
 
 Main

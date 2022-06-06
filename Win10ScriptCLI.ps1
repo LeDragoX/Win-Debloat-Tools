@@ -33,7 +33,6 @@ function Main() {
 
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-script-policy.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
@@ -43,11 +42,9 @@ function Main() {
     Write-Caption "$((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
-    Unlock-ScriptUsage
     Use-WindowsForm
     Open-Script        # Run all scripts inside 'scripts' folder
     Stop-Logging
-    Block-ScriptUsage
     Write-ScriptLogo   # Thanks Figlet
     Request-PcRestart  # Prompt options to Restart the PC
 }
