@@ -91,6 +91,7 @@ function Main() {
         {
             Remove-Item -Path "$env:TEMP\Win10-SDT-Logs\*" -Include "WingetDailyUpgrade_*.log"
             Start-Transcript -Path "$env:TEMP\Win10-SDT-Logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
+            Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force # Only needed to run Winget
             winget upgrade --all --silent | Out-Host
             Stop-Transcript
         }
