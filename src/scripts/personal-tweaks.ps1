@@ -17,7 +17,6 @@ function Register-PersonalTweaksList() {
         )
     )
     $TweakType = "Personal"
-    $WinVer = (Get-CimInstance -class Win32_OperatingSystem).Caption
 
     If ($Revert) {
         Write-Status -Symbol "<" -Type $TweakType -Status "Reverting the tweaks is set to '$Revert'." -Warning
