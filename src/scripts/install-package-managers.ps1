@@ -23,15 +23,15 @@ function Install-PackageManager() {
         $err = $null
         $err = (Invoke-Expression "$CheckExistenceBlock")
         if (($LASTEXITCODE)) { throw $err } # 0 = False, 1 = True
-        Write-Status -Symbol "?" -Status "$PackageManagerFullName is already installed." -Warning
+        Write-Status -Types "?" -Status "$PackageManagerFullName is already installed." -Warning
     } Catch {
-        Write-Status -Symbol "?" -Status "$PackageManagerFullName was not found." -Warning
-        Write-Status -Symbol "+" -Status "Downloading and Installing $PackageManagerFullName package manager."
+        Write-Status -Types "?" -Status "$PackageManagerFullName was not found." -Warning
+        Write-Status -Types "+" -Status "Downloading and Installing $PackageManagerFullName package manager."
 
         Invoke-Expression "$InstallCommandBlock"
 
         If ($PostInstallBlock) {
-            Write-Status -Symbol "+" -Status "Executing post install script: { $("$PostInstallBlock".Trim(' ')) }."
+            Write-Status -Types "+" -Status "Executing post install script: { $("$PostInstallBlock".Trim(' ')) }."
             Invoke-Expression "$PostInstallBlock"
         }
     }
@@ -39,7 +39,7 @@ function Install-PackageManager() {
     # Self-reminder, this part stay out of the Try-Catch block
     If ($UpdateScriptBlock) {
         # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-        Write-Status -Symbol "@" -Status "Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
+        Write-Status -Types "@" -Status "Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
         $JobName = "$PackageManagerFullName Daily Upgrade"
         $ScheduledJob = @{
             Name               = $JobName
@@ -49,13 +49,13 @@ function Install-PackageManager() {
         }
 
         If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
-            Write-Status -Symbol "@" -Status "ScheduledJob: $JobName FOUND!"
-            Write-Status -Symbol "@" -Status "Re-Creating with the command:"
+            Write-Status -Types "@" -Status "ScheduledJob: $JobName FOUND!"
+            Write-Status -Types "@" -Status "Re-Creating with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Unregister-ScheduledJob -Name $JobName
             Register-ScheduledJob @ScheduledJob | Out-Null
         } Else {
-            Write-Status -Symbol "@" -Status "Creating Scheduled Job with the command:"
+            Write-Status -Types "@" -Status "Creating Scheduled Job with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Register-ScheduledJob @ScheduledJob | Out-Null
         }
@@ -72,7 +72,7 @@ function Install-WingetDependency() {
             Add-AppxPackage -Path $WingetDepOutput
             Remove-Item -Path $WingetDepOutput
         } Else {
-            Write-Status -Symbol "?" -Status "$OSArch is not supported!" -Warning
+            Write-Status -Types "?" -Status "$OSArch is not supported!" -Warning
         }
     }
 }

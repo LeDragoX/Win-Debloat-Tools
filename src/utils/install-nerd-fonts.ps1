@@ -6,14 +6,14 @@ function Install-NerdFont() {
     Push-Location -Path "$PSScriptRoot\..\tmp"
     mkdir "Fonts" | Out-Null
 
-    Write-Status -Symbol "@" -Status "Downloading JetBrains Mono ..."
+    Write-Status -Types "@" -Status "Downloading JetBrains Mono ..."
     Install-JetBrainsMono
-    Write-Status -Symbol "@" -Status "Downloading MesloLGS NF ..."
+    Write-Status -Types "@" -Status "Downloading MesloLGS NF ..."
     Install-MesloLGS
 
-    Write-Status -Symbol "+" -Status "Installing downloaded fonts on $pwd\Fonts ..."
+    Write-Status -Types "+" -Status "Installing downloaded fonts on $pwd\Fonts ..."
     Install-Font -FontSourceFolder "Fonts"
-    Write-Status -Symbol "@" -Status "Cleaning up ..."
+    Write-Status -Types "@" -Status "Cleaning up ..."
     Remove-Item -Path "Fonts" -Recurse
     Pop-Location
 }

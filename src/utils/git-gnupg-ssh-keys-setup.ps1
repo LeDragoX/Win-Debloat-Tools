@@ -154,9 +154,9 @@ function Set-GPGKey() {
     Write-Host "Then: [your passphrase again] [ENTER]." -ForegroundColor Cyan
     gpg --full-generate-key
 
-    Write-Status -Symbol "@" -Status "If you want to delete unwanted keys, this is just for reference"
-    Write-Status -Symbol "@" -Status 'gpg --delete-secret-keys $(git config --global user.name)'
-    Write-Status -Symbol "@" -Status 'gpg --delete-keys $(git config --global user.name)'
+    Write-Status -Types "@" -Status "If you want to delete unwanted keys, this is just for reference"
+    Write-Status -Types "@" -Status 'gpg --delete-secret-keys $(git config --global user.name)'
+    Write-Status -Types "@" -Status 'gpg --delete-keys $(git config --global user.name)'
 
     Write-Host "Copying all files to $GnuPGPath"
     Copy-Item -Path "$GnuPGGeneratePath/*" -Destination "$GnuPGPath/" -Recurse

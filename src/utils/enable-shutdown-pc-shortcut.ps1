@@ -11,7 +11,7 @@ function Main() {
     $Arguments = "-s -f -t 0"
     $Hotkey = "CTRL+ALT+F12"
 
-    Write-Status -Symbol "@" -Status "Creating a shortcut to shutdown the computer on the Desktop..."
+    Write-Status -Types "@" -Status "Creating a shortcut to shutdown the computer on the Desktop..."
     New-Shortcut -SourcePath $SourcePath -ShortcutPath $ShortcutPath -Description $Description -IconLocation $IconLocation -Arguments $Arguments -Hotkey $Hotkey
 }
 
