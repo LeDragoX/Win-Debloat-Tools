@@ -11,7 +11,7 @@ function Find-Service() {
     If (Get-Service $Service -ErrorAction SilentlyContinue) {
         return $true
     } Else {
-        Write-Status -Symbol "?" -Type $TweakType -Status "The $Service service was not found ..." -Warning
+        Write-Status -Types "?", $TweakType -Status "The $Service service was not found ..." -Warning
         return $false
     }
 }
@@ -39,27 +39,27 @@ function Set-ServiceStartup() {
     ForEach ($Service in $Services) {
         If (Find-Service $Service) {
             If (($Service -in $SecurityFilterOnEnable) -and (($Automatic) -or ($Manual))) {
-                Write-Status -Symbol "?" -Type $TweakType -Status "Skipping $Service ($((Get-Service $Service).DisplayName)) to avoid a security vulnerability ..." -Warning
+                Write-Status -Types "?", $TweakType -Status "Skipping $Service ($((Get-Service $Service).DisplayName)) to avoid a security vulnerability ..." -Warning
                 Continue
             }
 
             If ($Service -in $Filter) {
-                Write-Status -Symbol "?" -Type $TweakType -Status "The $Service ($((Get-Service $Service).DisplayName)) will be skipped as set on Filter ..." -Warning
+                Write-Status -Types "?", $TweakType -Status "The $Service ($((Get-Service $Service).DisplayName)) will be skipped as set on Filter ..." -Warning
                 Continue
             }
 
             If (!$CustomMessage) {
                 If ($Automatic) {
-                    Write-Status -Symbol "+" -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Automatic' on Startup ..."
+                    Write-Status -Types "+", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Automatic' on Startup ..."
                 } ElseIf ($Disabled) {
-                    Write-Status -Symbol "-" -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Disabled' on Startup ..."
+                    Write-Status -Types "-", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Disabled' on Startup ..."
                 } ElseIf ($Manual) {
-                    Write-Status -Symbol "-" -Type $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup ..."
+                    Write-Status -Types "-", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup ..."
                 } Else {
-                    Write-Status -Symbol "?" -Type $TweakType -Status "No parameter received (valid params: -Automatic, -Disabled or -Manual)" -Warning
+                    Write-Status -Types "?", $TweakType -Status "No parameter received (valid params: -Automatic, -Disabled or -Manual)" -Warning
                 }
             } Else {
-                Write-Status -Symbol "@" -Type $TweakType -Status $(Invoke-Expression "$CustomMessage")
+                Write-Status -Types "@", $TweakType -Status $(Invoke-Expression "$CustomMessage")
             }
 
             If ($Automatic) {

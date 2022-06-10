@@ -11,7 +11,7 @@ function Find-ScheduledTask() {
     If (Get-ScheduledTaskInfo -TaskName $ScheduledTask -ErrorAction SilentlyContinue) {
         return $true
     } Else {
-        Write-Status -Symbol "?" -Type $TweakType -Status "The $ScheduledTask task was not found." -Warning
+        Write-Status -Types "?", $TweakType -Status "The $ScheduledTask task was not found." -Warning
         return $false
     }
 }
@@ -36,20 +36,20 @@ function Set-ScheduledTaskState() {
     ForEach ($ScheduledTask in $ScheduledTasks) {
         If (Find-ScheduledTask $ScheduledTask) {
             If ($ScheduledTask -in $Filter) {
-                Write-Status -Symbol "?" -Type $TweakType -Status "The $ScheduledTask ($((Get-ScheduledTask $ScheduledTask).TaskName)) will be skipped as set on Filter ..." -Warning
+                Write-Status -Types "?", $TweakType -Status "The $ScheduledTask ($((Get-ScheduledTask $ScheduledTask).TaskName)) will be skipped as set on Filter ..." -Warning
                 Continue
             }
 
             If (!$CustomMessage) {
                 If ($Disabled) {
-                    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling the $ScheduledTask task ..."
+                    Write-Status -Types "-", $TweakType -Status "Disabling the $ScheduledTask task ..."
                 } ElseIf ($Ready) {
-                    Write-Status -Symbol "+" -Type $TweakType -Status "Enabling the $ScheduledTask task ..."
+                    Write-Status -Types "+", $TweakType -Status "Enabling the $ScheduledTask task ..."
                 } Else {
-                    Write-Status -Symbol "?" -Type $TweakType -Status "No parameter received (valid params: -Disabled or -Ready)" -Warning
+                    Write-Status -Types "?", $TweakType -Status "No parameter received (valid params: -Disabled or -Ready)" -Warning
                 }
             } Else {
-                Write-Status -Symbol "@" -Type $TweakType -Status $(Invoke-Expression "$CustomMessage")
+                Write-Status -Types "@", $TweakType -Status $(Invoke-Expression "$CustomMessage")
             }
 
             If ($Disabled) {

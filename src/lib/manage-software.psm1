@@ -24,7 +24,7 @@ function Install-Software() {
         $ViaMSStore, $ViaWSL = $false, $false
         $PkgMngr = 'Chocolatey'
         $InstallBlock = { choco install --ignore-dependencies --yes $Package }
-        Write-Status -Symbol "?" -Status "Chocolatey is configured to ignore dependencies (bloat), you may need to install it before using any program." -Warning
+        Write-Status -Types "?" -Status "Chocolatey is configured to ignore dependencies (bloat), you may need to install it before using any program." -Warning
     }
 
     If ($ViaMSStore) {
@@ -86,7 +86,7 @@ function Uninstall-Software() {
         $ViaMSStore, $ViaWSL = $false, $false
         $PkgMngr = 'Chocolatey'
         $UninstallBlock = { choco uninstall --remove-dependencies --yes $Package }
-        Write-Status -Symbol "?" -Status "Chocolatey is configured to remove dependencies (bloat), you may need to install it before using any program." -Warning
+        Write-Status -Types "?" -Status "Chocolatey is configured to remove dependencies (bloat), you may need to install it before using any program." -Warning
     }
 
     If ($ViaMSStore) {

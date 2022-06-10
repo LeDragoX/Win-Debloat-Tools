@@ -8,7 +8,7 @@ function Request-AdminPrivilege() {
 }
 
 function Show-GUI() {
-    Write-Status -Symbol "@" -Status "Loading GUI Layout..."
+    Write-Status -Types "@" -Status "Loading GUI Layout..."
     # Loading System Libs
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
@@ -397,17 +397,17 @@ function Show-GUI() {
     $CbDarkTheme.Add_Click( {
             If ($CbDarkTheme.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-dark-theme.reg") -NoDialog
-                $CbDarkTheme.Text = "[ON]  ⚫ Use Dark Theme"
+                $CbDarkTheme.Text = "[ON]  Use Dark Theme"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-light-theme.reg") -NoDialog
-                $CbDarkTheme.Text = "[OFF] ☀ Use Dark Theme (D.)"
+                $CbDarkTheme.Text = "[OFF] Use Dark Theme *"
             }
         })
 
     $CbActivityHistory.Add_Click( {
             If ($CbActivityHistory.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-activity-history.reg") -NoDialog
-                $CbActivityHistory.Text = "[ON]  Activity History (Default)"
+                $CbActivityHistory.Text = "[ON]  Activity History *"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-activity-history.reg") -NoDialog
                 $CbActivityHistory.Text = "[OFF] Activity History"
@@ -417,7 +417,7 @@ function Show-GUI() {
     $CbBackgroundsApps.Add_Click( {
             If ($CbBackgroundsApps.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-bg-apps.reg") -NoDialog
-                $CbBackgroundsApps.Text = "[ON]  Background Apps (D.)"
+                $CbBackgroundsApps.Text = "[ON]  Background Apps *"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-bg-apps.reg") -NoDialog
                 $CbBackgroundsApps.Text = "[OFF] Background Apps"
@@ -427,7 +427,7 @@ function Show-GUI() {
     $CbClipboardHistory.Add_Click( {
             If ($CbClipboardHistory.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-clipboard-history.reg") -NoDialog
-                $CbClipboardHistory.Text = "[ON]  Clipboard History (D.)"
+                $CbClipboardHistory.Text = "[ON]  Clipboard History *"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-clipboard-history.reg") -NoDialog
                 $CbClipboardHistory.Text = "[OFF] Clipboard History"
@@ -437,7 +437,7 @@ function Show-GUI() {
     $CbCortana.Add_Click( {
             If ($CbCortana.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-cortana.reg") -NoDialog
-                $CbCortana.Text = "[ON]  Cortana (Default)"
+                $CbCortana.Text = "[ON]  Cortana *"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-cortana.reg") -NoDialog
                 $CbCortana.Text = "[OFF] Cortana"
@@ -450,7 +450,7 @@ function Show-GUI() {
                 $CbOldVolumeControl.Text = "[ON]  Old Volume Control"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-old-volume-control.reg") -NoDialog
-                $CbOldVolumeControl.Text = "[OFF] Old Volume Control (D.)"
+                $CbOldVolumeControl.Text = "[OFF] Old Volume Control *"
             }
         })
 
@@ -460,14 +460,14 @@ function Show-GUI() {
                 $CbPhotoViewer.Text = "[ON]  Photo Viewer"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-photo-viewer.reg") -NoDialog
-                $CbPhotoViewer.Text = "[OFF] Photo Viewer (D.)"
+                $CbPhotoViewer.Text = "[OFF] Photo Viewer *"
             }
         })
 
     $CbSearchIdx.Add_Click( {
             If ($CbSearchIdx.CheckState -eq "Checked") {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-search-idx-service.ps1") -NoDialog
-                $CbSearchIdx.Text = "[ON]  Search Indexing (Default)"
+                $CbSearchIdx.Text = "[ON]  Search Indexing *"
             } Else {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-search-idx-service.ps1") -NoDialog
                 $CbSearchIdx.Text = "[OFF] Search Indexing"
@@ -477,7 +477,7 @@ function Show-GUI() {
     $CbTelemetry.Add_Click( {
             If ($CbTelemetry.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-telemetry.reg") -NoDialog
-                $CbTelemetry.Text = "[ON]  Telemetry (Default)"
+                $CbTelemetry.Text = "[ON]  Telemetry *"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-telemetry.reg") -NoDialog
                 $CbTelemetry.Text = "[OFF] Telemetry"
@@ -487,7 +487,7 @@ function Show-GUI() {
     $CbXboxGameBarAndDVR.Add_Click( {
             If ($CbXboxGameBarAndDVR.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-game-bar-dvr.reg") -NoDialog
-                $CbXboxGameBarAndDVR.Text = "[ON]  Xbox GameBar/DVR (D.)"
+                $CbXboxGameBarAndDVR.Text = "[ON]  Xbox GameBar/DVR *"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-game-bar-dvr.reg") -NoDialog
                 $CbXboxGameBarAndDVR.Text = "[OFF] Xbox GameBar/DVR"
@@ -500,7 +500,7 @@ function Show-GUI() {
                 $CbGodMode.Text = "[ON]  God Mode"
             } Else {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-god-mode.ps1") -NoDialog
-                $CbGodMode.Text = "[OFF] God Mode (Default)"
+                $CbGodMode.Text = "[OFF] God Mode *"
             }
         })
 
@@ -510,7 +510,7 @@ function Show-GUI() {
                 $CbTakeOwnership.Text = "[ON]  Take Ownership menu"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-take-ownership-context-menu.reg") -NoDialog
-                $CbTakeOwnership.Text = "[OFF] Take Ownership... (D.)"
+                $CbTakeOwnership.Text = "[OFF] Take Ownership... *"
             }
         })
 
@@ -520,7 +520,7 @@ function Show-GUI() {
                 $CbShutdownPCShortcut.Text = "[ON]  Shutdown PC shortcut"
             } Else {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-shutdown-pc-shortcut.ps1") -NoDialog
-                $CbShutdownPCShortcut.Text = "[OFF] Shutdown PC... (Default)"
+                $CbShutdownPCShortcut.Text = "[OFF] Shutdown PC... *"
             }
         })
 

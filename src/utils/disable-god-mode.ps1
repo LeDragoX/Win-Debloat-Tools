@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Main() {
-    Write-Status -Symbol "@" -Status "Disabling God Mode hidden folder..." -Warning
+    Write-Status -Types "@" -Status "Disabling God Mode hidden folder..." -Warning
     Write-Host @"
 ###############################################################################
 #       _______  _______  ______     __   __  _______  ______   _______       #

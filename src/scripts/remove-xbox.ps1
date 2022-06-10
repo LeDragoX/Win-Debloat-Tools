@@ -24,13 +24,13 @@ function Remove-Xbox() {
         "Microsoft.Xbox.TCUI"               # Xbox Live API communication (Xbox Dependency)
     )
 
-    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling ALL Xbox Services..."
+    Write-Status -Types "-", $TweakType -Status "Disabling ALL Xbox Services..."
     Set-ServiceStartup -Disabled -Services $XboxServices
 
-    Write-Status -Symbol "-" -Type $TweakType -Status "Wiping Xbox Apps completely from Windows..."
+    Write-Status -Types "-", $TweakType -Status "Wiping Xbox Apps completely from Windows..."
     Remove-UWPAppx -AppxPackages $XboxApps
 
-    Write-Status -Symbol "-" -Type $TweakType -Status "Disabling Xbox Game Bar & Game DVR..."
+    Write-Status -Types "-", $TweakType -Status "Disabling Xbox Game Bar & Game DVR..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0

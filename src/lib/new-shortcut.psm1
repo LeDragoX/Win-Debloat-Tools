@@ -19,7 +19,7 @@ function New-Shortcut() {
     )
 
     If (!(Test-Path -Path (Split-Path -Path $ShortcutPath))) {
-        Write-Status -Symbol "?" -Status "$((Split-Path -Path $ShortcutPath)) does not exist, creating it..."
+        Write-Status -Types "?" -Status "$((Split-Path -Path $ShortcutPath)) does not exist, creating it..."
         New-Item -Path (Split-Path -Path $ShortcutPath) -ItemType Directory -Force
     }
 

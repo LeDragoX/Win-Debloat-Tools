@@ -47,7 +47,7 @@ function Repair-System() {
     Write-Caption -Text "Re-registering all Windows Apps via AppXManifest.xml ..."
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableXamlStartMenu" -Type Dword -Value 0
     Get-AppxPackage -AllUsers | ForEach-Object {
-        Write-Status -Symbol "@" -Status "Trying to register package: $($_.InstallLocation)"
+        Write-Status -Types "@" -Status "Trying to register package: $($_.InstallLocation)"
         Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"
     }
     Write-Caption -Text "Restarting Windows Explorer..."
@@ -55,11 +55,11 @@ function Repair-System() {
 
     Write-Section -Text "Solving Network problems"
     Write-Caption -Text "Resetting IPv4 and IPv6 addresses..."
-    Write-Status -Symbol "?" -Status "Your internet may fall during the process, please be patient..." -Warning
+    Write-Status -Types "?" -Status "Your internet may fall during the process, please be patient..." -Warning
     ipconfig -Release | Out-Host
     ipconfig -Release6 | Out-Host
     Write-Caption -Text "Renewing IPv4 address..."
-    Write-Status -Symbol "?" -Status "This may take time, please be patient..." -Warning
+    Write-Status -Types "?" -Status "This may take time, please be patient..." -Warning
     ipconfig -Renew *Ethernet* | Out-Host
     Write-Caption -Text "Renewing IPv6 address..."
     ipconfig -Renew6 *Ethernet* | Out-Host

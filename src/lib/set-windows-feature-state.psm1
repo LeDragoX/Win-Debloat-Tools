@@ -11,7 +11,7 @@ function Find-OptionalFeature() {
     If (Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature) {
         return $true
     } Else {
-        Write-Status -Symbol "?" -Type $TweakType -Status "The $OptionalFeature optional feature was not found." -Warning
+        Write-Status -Types "?", $TweakType -Status "The $OptionalFeature optional feature was not found." -Warning
         return $false
     }
 }
@@ -37,25 +37,25 @@ function Set-OptionalFeatureState() {
     ForEach ($OptionalFeature in $OptionalFeatures) {
         If (Find-OptionalFeature $OptionalFeature) {
             If (($OptionalFeature -in $SecurityFilterOnEnable) -and ($Enabled)) {
-                Write-Status -Symbol "?" -Type $TweakType -Status "Skipping $OptionalFeature to avoid a security vulnerability ..." -Warning
+                Write-Status -Types "?", $TweakType -Status "Skipping $OptionalFeature to avoid a security vulnerability ..." -Warning
                 Continue
             }
 
             If ($OptionalFeature -in $Filter) {
-                Write-Status -Symbol "?" -Type $TweakType -Status "The $OptionalFeature will be skipped as set on Filter ..." -Warning
+                Write-Status -Types "?", $TweakType -Status "The $OptionalFeature will be skipped as set on Filter ..." -Warning
                 Continue
             }
 
             If (!$CustomMessage) {
                 If ($Disabled) {
-                    Write-Status -Symbol "-" -Type $TweakType -Status "Uninstalling the $OptionalFeature optional feature ..."
+                    Write-Status -Types "-", $TweakType -Status "Uninstalling the $OptionalFeature optional feature ..."
                 } ElseIf ($Enabled) {
-                    Write-Status -Symbol "+" -Type $TweakType -Status "Installing the $OptionalFeature optional feature ..."
+                    Write-Status -Types "+", $TweakType -Status "Installing the $OptionalFeature optional feature ..."
                 } Else {
-                    Write-Status -Symbol "?" -Type $TweakType -Status "No parameter received (valid params: -Disabled or -Enabled)" -Warning
+                    Write-Status -Types "?", $TweakType -Status "No parameter received (valid params: -Disabled or -Enabled)" -Warning
                 }
             } Else {
-                Write-Status -Symbol "@" -Type $TweakType -Status $(Invoke-Expression "$CustomMessage")
+                Write-Status -Types "@", $TweakType -Status $(Invoke-Expression "$CustomMessage")
             }
 
             If ($Disabled) {
