@@ -14,7 +14,7 @@ function Install-Font() {
     ForEach ($FontFile in Get-ChildItem $FontSourceFolder -Include '*.ttf', '*.ttc', '*.otf' -Recurse) {
         $TargetPath = Join-Path $SystemFontsPath $FontFile.Name
 
-        Write-Status -Symbol "+" -Status "Installing '$($FontFile.Name)' Font on $TargetPath ..."
+        Write-Status -Types "+" -Status "Installing '$($FontFile.Name)' Font on $TargetPath ..."
 
         Try {
             # Extract Font information for Reqistry
@@ -27,7 +27,7 @@ function Install-Font() {
             $RegName = $ShellFolder.GetDetailsOf($ShellFile, 21) + ' ' + $FontType
         } Catch {
             # This may not be the better way, but this workaround worked
-            Write-Status -Symbol "@" -Status "Got an error, the font type is OpenType" -Warning
+            Write-Status -Types "@" -Status "Got an error, the font type is OpenType" -Warning
             $FontType = '(OpenType)'
             $RegName = ""
             $NameHelper = $FontFile.Name.Replace("-", " ").Replace("_", " ").Replace(".ttf", "").Replace(".ttc", "").Replace(".otf", "").Trim(" ")
@@ -43,7 +43,7 @@ function Install-Font() {
             }
         }
 
-        Write-Status -Symbol "+" -Status "Creating new Registry to $RegName on: $PathToLMWindowsFonts"
+        Write-Status -Types "+" -Status "Creating new Registry to $RegName on: $PathToLMWindowsFonts"
         New-ItemProperty -Path "$PathToLMWindowsFonts" -Name $RegName -PropertyType String -Value $FontFile.Name -Force
         Copy-item $FontFile.FullName -Destination $SystemFontsPath
         Remove-Item $FontFile.FullName

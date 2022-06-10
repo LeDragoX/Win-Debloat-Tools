@@ -33,21 +33,19 @@ function Write-Caption() {
 function Write-Status() {
     [CmdletBinding()]
     param (
-        [String] $Symbol = "No Symbol",
-        [Parameter(Mandatory = $false)]
-        [String] $Type,
-        [String] $Status = "No Text",
+        [Parameter(Mandatory)]
+        [Array]  $Types,
+        [Parameter(Mandatory)]
+        [String] $Status,
         [Switch] $Warning
     )
 
-    Write-Host "[" -NoNewline -ForegroundColor Blue -BackgroundColor Black
-    Write-Host "$Symbol" -NoNewline -ForegroundColor White -BackgroundColor Black
-    Write-Host "] " -NoNewline -ForegroundColor Blue -BackgroundColor Black
-    If ($Type) {
+    ForEach ($Type in $Types) {
         Write-Host "[" -NoNewline -ForegroundColor Blue -BackgroundColor Black
         Write-Host "$Type" -NoNewline -ForegroundColor White -BackgroundColor Black
         Write-Host "] " -NoNewline -ForegroundColor Blue -BackgroundColor Black
     }
+
     If ($Warning) {
         Write-Host "$Status" -ForegroundColor Yellow -BackgroundColor Black
     } Else {
@@ -103,7 +101,8 @@ Example:
 Write-Title -Text "Text" # Used to print Tweak introduction
 Write-Section -Text "Text" # Used to print Tweak Section
 Write-Caption -Text "Text" # Used to print Tweak Category
-Write-Status -Symbol "?" [-Type ""] -Status "Doing something"
+Write-Status -Types "?", ... -Status "Doing something"
+Write-Status -Types "?", ... -Status "Doing something" -Warning
 $Private:Counter = Write-TitleCounter -Text "Text" -Counter $Counter -MaxLenght 100 # Used to print when working with collections # No need to iterate $Counter before, as long it's private
 $Private:Counter = Write-TitleCounter -Text "Text" -Counter $Counter -MaxLenght 100 # Used to print when working with collections # No need to iterate $Counter before, as long it's private
 Write-ScriptLogo # Used at the start of the Script
