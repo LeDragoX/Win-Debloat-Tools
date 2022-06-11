@@ -114,7 +114,7 @@ function Show-GUI() {
     $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbClipboardHistory
     $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbCortana
     $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbOldVolumeControl
-    $CbSearchIdx = New-CheckBox -Text "Enable Search Indexing" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
+    $CbSearchIdx = New-CheckBox -Text "Enable WSearch Service" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
     $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbSearchIdx
     $CbXboxGameBarAndDVR = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTelemetry
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarAndDVR
@@ -204,7 +204,9 @@ function Show-GUI() {
     $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallCrystalDiskInfo
     $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallCrystalDiskMark
     $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallGpuZ
-    $ClNetworkManagement = New-Label -Text "Network Management" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallHwInfo
+    $InstallInternetDownloadManager = New-CheckBox -Text "Internet Download Manager (Trial)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallHwInfo
+    $InstallRtxVoice = New-CheckBox -Text "RTX Voice" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallInternetDownloadManager
+    $ClNetworkManagement = New-Label -Text "Network Management" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallRtxVoice
     $InstallHamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClNetworkManagement
     $InstallPuTty = New-CheckBox -Text "PuTTY" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallHamachi
     $InstallRadminVpn = New-CheckBox -Text "Radmin VPN (LAN)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPuTty
@@ -321,7 +323,7 @@ function Show-GUI() {
     $T2Panel2.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
     $T2Panel2.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallDisneyPlus, $InstallNetflix, $InstallSpotify))
     $T2Panel2.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
-    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGpuZ, $InstallHwInfo))
+    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallRtxVoice))
     $T2Panel2.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
     $T2Panel3.Controls.AddRange(@($UninstallMode))
     $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
@@ -466,11 +468,11 @@ function Show-GUI() {
 
     $CbSearchIdx.Add_Click( {
             If ($CbSearchIdx.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-search-idx-service.ps1") -NoDialog
-                $CbSearchIdx.Text = "[ON]  Search Indexing *"
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-wsearch-service.ps1") -NoDialog
+                $CbSearchIdx.Text = "[ON]  WSearch Service *"
             } Else {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-search-idx-service.ps1") -NoDialog
-                $CbSearchIdx.Text = "[OFF] Search Indexing"
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-wsearch-service.ps1") -NoDialog
+                $CbSearchIdx.Text = "[OFF] WSearch Service"
             }
         })
 
@@ -787,6 +789,16 @@ function Show-GUI() {
             If ($InstallHwInfo.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("REALiX.HWiNFO")
                 $InstallHwInfo.CheckState = "Unchecked"
+            }
+
+            If ($InstallInternetDownloadManager.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Tonec.InternetDownloadManager")
+                $InstallInternetDownloadManager.CheckState = "Unchecked"
+            }
+
+            If ($InstallRtxVoice.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Nvidia.RTXVoice")
+                $InstallRtxVoice.CheckState = "Unchecked"
             }
 
             If ($InstallHamachi.CheckState -eq "Checked") {

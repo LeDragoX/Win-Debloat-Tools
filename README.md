@@ -121,7 +121,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Enable/Disable Clipboard History`: [Enables](./src/utils/enable-clipboard-history.reg) or [Disables](src/utils/disable-clipboard-history.reg) the **Clipboard History**;
 - `Enable/Disable Old Volume Control`: [Enables](./src/utils/enable-old-volume-control.reg) or [Disables](src/utils/disable-old-volume-control.reg) the **Old Volume Control (Win 7/8.1)**;
 - `Enable/Disable Photo Viewer`: [Enables](./src/utils/enable-photo-viewer.reg) or [Disables](src/utils/disable-photo-viewer.reg) the **Photo Viewer (Win 7/8.1)**;
-- `Enable/Disable Search Indexing`: [Enables](./src/utils/enable-search-idx.ps1) or [Disables](src/utils/disable-search-idx.ps1) the **Windows Search Service**;
+- `Enable/Disable WSearch Service`: [Enables](./src/utils/enable-wsearch-service.ps1) or [Disables](src/utils/disable-wsearch-service.ps1) the **Windows Search Service**;
 - `Enable/Disable Telemetry`: [Enables](./src/utils/enable-telemetry.reg) or [Disables](src/utils/disable-telemetry.reg) the **Windows Telemetry**;
 - `Enable/Disable Xbox GameBar/DVR`: [Enables](./src/utils/enable-game-bar-dvr.reg) or [Disables](src/utils/disable-game-bar-dvr.reg) the **Xbox GameBar/DVR (In-Game)**;
 
