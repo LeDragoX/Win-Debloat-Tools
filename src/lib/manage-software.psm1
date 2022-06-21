@@ -18,7 +18,6 @@ function Install-Software() {
 
     $DoneTitle = "Information"
     $DoneMessage = "$Name installed successfully!"
-    Clear-Host
 
     If ($ViaChocolatey) {
         $ViaMSStore, $ViaWSL = $false, $false
@@ -44,6 +43,7 @@ function Install-Software() {
 
     ForEach ($Package in $Packages) {
         If ($ViaMSStore) {
+            Write-Status -Types "?" -Status "Reminder: Press 'Y' and ENTER to continue if stuck (1st time only) ..." -Warning
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
             $DoneMessage += " + $PackageName ($Package)`n"
             $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length

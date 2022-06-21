@@ -19,7 +19,6 @@ function Install-WSLPreview() {
 
     Try {
         Write-Status -Types "?", $TweakType "Installing WSL Preview from MS Store for Windows 11+ ..." -Warning
-        Write-Host "[?] Press 'Y' and ENTER to continue if stuck (Winget bug) ..." -ForegroundColor Magenta -BackgroundColor Black
         $CheckExistenceBlock = { Install-Software -Name "WSL Preview (Win 11+)" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog }
         $err = (Invoke-Expression "$CheckExistenceBlock") | Out-Host
         If (($LASTEXITCODE)) { throw $err } # !! 0 = False, 1 = True
