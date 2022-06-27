@@ -607,7 +607,7 @@ function Show-GUI() {
             }
 
             If ($InstallLibreOffice.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("LibreOffice.LibreOffice")
+                $AppsSelected.WingetApps.Add("TheDocumentFoundation.LibreOffice")
                 $InstallLibreOffice.CheckState = "Unchecked"
             }
 
