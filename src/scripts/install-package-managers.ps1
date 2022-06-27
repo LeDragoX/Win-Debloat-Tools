@@ -78,16 +78,18 @@ function Install-WingetDependency() {
 }
 
 function Main() {
-    $WingetParams = @(
-        "Winget",
-        { winget --version },
+    $WingetParams = @{
+        Name                = "Winget"
+        CheckExistenceBlock = { winget --version }
+        InstallCommandBlock =
         {
             Install-WingetDependency
             $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "winget-latest.appxbundle"
             Add-AppxPackage -Path $WingetOutput
             Remove-Item -Path $WingetOutput
-        },
-        "12:00",
+        }
+        Time                = "12:00"
+        UpdateScriptBlock   =
         {
             Remove-Item -Path "$env:TEMP\Win10-SDT-Logs\*" -Include "WingetDailyUpgrade_*.log"
             Start-Transcript -Path "$env:TEMP\Win10-SDT-Logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
@@ -95,30 +97,32 @@ function Main() {
             winget upgrade --all --silent | Out-Host
             Stop-Transcript
         }
-    )
+    }
 
-    $ChocolateyParams = @(
-        "Chocolatey",
-        { choco --version },
+    $ChocolateyParams = @{
+        Name                = "Chocolatey"
+        CheckExistenceBlock = { choco --version }
+        InstallCommandBlock =
         {
             Set-ExecutionPolicy Bypass -Scope Process -Force
             [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
             Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-        },
-        "13:00",
+        }
+        Time                = "13:00"
+        UpdateScriptBlock   =
         {
             Remove-Item -Path "$env:TEMP\Win10-SDT-Logs\*" -Include "ChocolateyDailyUpgrade_*.log"
             Start-Transcript -Path "$env:TEMP\Win10-SDT-Logs\ChocolateyDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
             choco upgrade all -y | Out-Host
             Stop-Transcript
-        },
-        { choco install -y "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
-    )
+        }
+        PostInstallBlock    = { choco install -y "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
+    }
 
     # Install Winget on Windows
-    Install-PackageManager -PackageManagerFullName $WingetParams[0] -CheckExistenceBlock $WingetParams[1] -InstallCommandBlock $WingetParams[2] -Time $WingetParams[3] -UpdateScriptBlock $WingetParams[4]
+    Install-PackageManager -PackageManagerFullName $WingetParams.Name -CheckExistenceBlock $WingetParams.CheckExistenceBlock -InstallCommandBlock $WingetParams.InstallCommandBlock -Time $WingetParams.Time -UpdateScriptBlock $WingetParams.UpdateScriptBlock
     # Install Chocolatey on Windows
-    Install-PackageManager -PackageManagerFullName $ChocolateyParams[0] -CheckExistenceBlock $ChocolateyParams[1] -InstallCommandBlock $ChocolateyParams[2] -Time $ChocolateyParams[3] -UpdateScriptBlock $ChocolateyParams[4] -PostInstallBlock $ChocolateyParams[5]
+    Install-PackageManager -PackageManagerFullName $ChocolateyParams.Name -CheckExistenceBlock $ChocolateyParams.CheckExistenceBlock -InstallCommandBlock $ChocolateyParams.InstallCommandBlock -Time $ChocolateyParams.Time -UpdateScriptBlock $ChocolateyParams.UpdateScriptBlock -PostInstallBlock $ChocolateyParams.PostInstallBlock
 }
 
 Main
