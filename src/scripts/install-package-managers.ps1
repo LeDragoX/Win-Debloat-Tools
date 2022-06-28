@@ -91,8 +91,8 @@ function Main() {
         Time                = "12:00"
         UpdateScriptBlock   =
         {
-            Remove-Item -Path "$env:TEMP\Win10-SDT-Logs\*" -Include "WingetDailyUpgrade_*.log"
-            Start-Transcript -Path "$env:TEMP\Win10-SDT-Logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
+            Remove-Item -Path "$env:TEMP\Win-DT-Logs\*" -Include "WingetDailyUpgrade_*.log"
+            Start-Transcript -Path "$env:TEMP\Win-DT-Logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
             Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force # Only needed to run Winget
             winget upgrade --all --silent | Out-Host
             Stop-Transcript
@@ -111,9 +111,9 @@ function Main() {
         Time                = "13:00"
         UpdateScriptBlock   =
         {
-            Remove-Item -Path "$env:TEMP\Win10-SDT-Logs\*" -Include "ChocolateyDailyUpgrade_*.log"
-            Start-Transcript -Path "$env:TEMP\Win10-SDT-Logs\ChocolateyDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
-            choco upgrade all -y | Out-Host
+            Remove-Item -Path "$env:TEMP\Win-DT-Logs\*" -Include "ChocolateyDailyUpgrade_*.log"
+            Start-Transcript -Path "$env:TEMP\Win-DT-Logs\ChocolateyDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
+            choco upgrade all --ignore-dependencies --yes | Out-Host
             Stop-Transcript
         }
         PostInstallBlock    = { choco install --ignore-dependencies --yes "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }

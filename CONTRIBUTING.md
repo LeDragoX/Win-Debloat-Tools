@@ -48,13 +48,13 @@ Follow at least the minimal required to help.
 ### Via HTTPS
 
 ```sh
-git clone -b develop --filter=tree:0 https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools.git
+git clone -b develop --filter=tree:0 https://github.com/LeDragoX/Win-Debloat-Tools.git
 ```
 
 ### Or SSH
 
 ```sh
-git clone -b develop --filter=tree:0 git@github.com:LeDragoX/Win-10-Smart-Debloat-Tools.git
+git clone -b develop --filter=tree:0 git@github.com:LeDragoX/Win-Debloat-Tools.git
 ```
 
 ## 🔎 How to find specific Tweaks? (One method)
