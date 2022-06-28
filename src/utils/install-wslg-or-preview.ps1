@@ -19,10 +19,9 @@ function Install-WSLPreview() {
 
     Try {
         Write-Status -Types "?", $TweakType "Installing WSL Preview from MS Store for Windows 11+ ..." -Warning
-        Write-Host "[?] Press 'Y' and ENTER to continue if stuck (Winget bug) ..." -ForegroundColor Magenta -BackgroundColor Black
         $CheckExistenceBlock = { Install-Software -Name "WSL Preview (Win 11+)" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog }
-        $err = (Invoke-Expression "$CheckExistenceBlock") | Out-Host
-        If (($LASTEXITCODE)) { throw $err } # !! 0 = False, 1 = True
+        $Err = (Invoke-Expression "$CheckExistenceBlock") | Out-Host
+        If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
 
         Write-Status -Types "-", $TweakType -Status "Uninstalling WSL from Optional Features ..."
         Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
@@ -32,7 +31,7 @@ function Install-WSLPreview() {
     }
 
     Write-Status -Types "@", $TweakType -Status "Updating WSL (if possible) ..."
-    wsl --update
+    wsl --update | Out-Host
 }
 
 function Install-WSLTwoAndG() {

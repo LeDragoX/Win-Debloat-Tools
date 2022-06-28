@@ -71,13 +71,13 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SystemTweaksHeight = 625
-    $SoftwareInstallHeight = 1600
+    $SystemTweaksHeight = 650
+    $SoftwareInstallHeight = 1650
 
     # <===== UI =====>
 
     # Main Window:
-    $Form = New-Form -Width $FormWidth -Height $FormHeight -Text "Win 10+ S. D. Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer time to load the GUI
+    $Form = New-Form -Width $FormWidth -Height $FormHeight -Text "Win Debloat Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer time to load the GUI
 
     $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
 
@@ -118,7 +118,8 @@ function Show-GUI() {
     $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbSearchIdx
     $CbXboxGameBarAndDVR = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTelemetry
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarAndDVR
-    $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClMiscFeatures
+    $HEVCSupport = New-Button -Text "Get H.265 video codec" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClMiscFeatures
+    $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $HEVCSupport
     $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbGodMode
     $CbShutdownPCShortcut = New-CheckBox -Text "Enable Shutdown PC shortcut" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTakeOwnership
 
@@ -136,7 +137,8 @@ function Show-GUI() {
     $T2Panel4 = New-Panel -Width $PanelWidth -Height $SoftwareInstallHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSoftwareInstall
 
     # ==> T2 Panel 1
-    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY ($ButtonHeight + $DistanceBetweenElements)
+    $UpgradeAll = New-Button -Text "Upgrade All Packages" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY 0
+    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $UpgradeAll
     $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClCpuGpuDrivers -ForeColor $AmdRyzenPrimaryColor
     $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallAmdRyzenChipsetDriver -ForeColor $IntelPrimaryColor
     $InstallNvidiaGeForceExperience = New-CheckBox -Text "NVIDIA GeForce Experience" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallIntelDSA -ForeColor $NVIDIAPrimaryColor
@@ -253,7 +255,8 @@ function Show-GUI() {
     $InstallPPSSPP = New-CheckBox -Text "PPSSPP (PSP)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPCSX2
     $InstallProject64 = New-CheckBox -Text "Project64 Dev (N64)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPPSSPP
     $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallProject64
-    $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallRetroArch
+    $InstallRyujinx = New-CheckBox -Text "Ryujinx (Switch)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallRetroArch
+    $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallRyujinx
 
     # ==> T2 Panel 4
     $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY ($ButtonHeight + $DistanceBetweenElements)
@@ -305,8 +308,9 @@ function Show-GUI() {
     $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures))
     $T1Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbPhotoViewer, $CbSearchIdx, $CbTelemetry, $CbXboxGameBarAndDVR))
-    $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
+    $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $HEVCSupport, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
 
+    $T2Panel1.Controls.AddRange(@($UpgradeAll))
     $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
     $T2Panel1.Controls.AddRange(@($ClApplicationRequirements, $InstallDirectX, $InstallMsDotNetFramework, $InstallMsVCppX64, $InstallMsVCppX86))
     $T2Panel1.Controls.AddRange(@($ClFileCompression, $Install7Zip, $InstallWinRar))
@@ -330,7 +334,7 @@ function Show-GUI() {
     $T2Panel3.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
     $T2Panel3.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
     $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs, $InstallVoicemod))
-    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallBSnesHd, $InstallCemu, $InstallDolphin, $InstallKegaFusion, $InstallMGba, $InstallPCSX2, $InstallPPSSPP, $InstallProject64, $InstallRetroArch, $InstallSnes9x))
+    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallBSnesHd, $InstallCemu, $InstallDolphin, $InstallKegaFusion, $InstallMGba, $InstallPCSX2, $InstallPPSSPP, $InstallProject64, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
     $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallAtom, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
     $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSLgOrPreview, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu16Lts, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
     $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
@@ -496,6 +500,10 @@ function Show-GUI() {
             }
         })
 
+    $HEVCSupport.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("get-hevc-support.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
     $CbGodMode.Add_Click( {
             If ($CbGodMode.CheckState -eq "Checked") {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-god-mode.ps1") -NoDialog
@@ -524,6 +532,10 @@ function Show-GUI() {
                 Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-shutdown-pc-shortcut.ps1") -NoDialog
                 $CbShutdownPCShortcut.Text = "[OFF] Shutdown PC... *"
             }
+        })
+
+    $UpgradeAll.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("upgrade-all-packages.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallSelected.Add_Click( {
@@ -602,7 +614,7 @@ function Show-GUI() {
             }
 
             If ($InstallLibreOffice.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("LibreOffice.LibreOffice")
+                $AppsSelected.WingetApps.Add("TheDocumentFoundation.LibreOffice")
                 $InstallLibreOffice.CheckState = "Unchecked"
             }
 
@@ -989,6 +1001,11 @@ function Show-GUI() {
             If ($InstallRetroArch.CheckState -eq "Checked") {
                 $AppsSelected.ChocolateyApps.Add("retroarch")
                 $InstallRetroArch.CheckState = "Unchecked"
+            }
+
+            If ($InstallRyujinx.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("ryujinx")
+                $InstallRyujinx.CheckState = "Unchecked"
             }
 
             If ($InstallSnes9x.CheckState -eq "Checked") {

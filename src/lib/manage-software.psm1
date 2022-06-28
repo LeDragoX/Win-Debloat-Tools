@@ -18,7 +18,6 @@ function Install-Software() {
 
     $DoneTitle = "Information"
     $DoneMessage = "$Name installed successfully!"
-    Clear-Host
 
     If ($ViaChocolatey) {
         $ViaMSStore, $ViaWSL = $false, $false
@@ -44,14 +43,32 @@ function Install-Software() {
 
     ForEach ($Package in $Packages) {
         If ($ViaMSStore) {
+            Write-Status -Types "?" -Status "Reminder: Press 'Y' and ENTER to continue if stuck (1st time only) ..." -Warning
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
-            $DoneMessage += " + $PackageName ($Package)`n"
             $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
         } Else {
             $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
-            $DoneMessage += " + $Package`n"
         }
-        Invoke-Expression "$InstallBlock" | Out-Host
+
+        Try {
+            Invoke-Expression "$InstallBlock" | Out-Host
+            If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
+
+            If ($ViaMSStore) {
+                $DoneMessage += " + $PackageName ($Package)`n"
+            } Else {
+                $DoneMessage += " + $Package`n"
+            }
+        } Catch {
+            Write-Status -Types "!" -Status "Failed to install package via $PkgMngr" -Warning
+
+            If ($ViaMSStore) {
+                Start-Process "ms-windows-store://pdp/?ProductId=$Package"
+                $DoneMessage += "[!] $PackageName ($Package)`n"
+            } Else {
+                $DoneMessage += "[!] $Package`n"
+            }
+        }
     }
 
     Write-Host "$DoneMessage" -ForegroundColor Cyan
@@ -80,7 +97,6 @@ function Uninstall-Software() {
 
     $DoneTitle = "Information"
     $DoneMessage = "$Name uninstalled successfully!"
-    Clear-Host
 
     If ($ViaChocolatey) {
         $ViaMSStore, $ViaWSL = $false, $false
@@ -107,13 +123,29 @@ function Uninstall-Software() {
     ForEach ($Package in $Packages) {
         If ($ViaMSStore) {
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
-            $DoneMessage += " - $PackageName ($Package)`n"
             $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
         } Else {
             $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
-            $DoneMessage += " - $Package`n"
         }
-        Invoke-Expression "$UninstallBlock" | Out-Host
+
+        Try {
+            Invoke-Expression "$UninstallBlock" | Out-Host
+            If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
+
+            If ($ViaMSStore) {
+                $DoneMessage += " - $PackageName ($Package)`n"
+            } Else {
+                $DoneMessage += " - $Package`n"
+            }
+        } Catch {
+            Write-Status -Types "!" -Status "Failed to uninstall package via $PkgMngr" -Warning
+
+            If ($ViaMSStore) {
+                $DoneMessage += "[!] $PackageName ($Package)`n"
+            } Else {
+                $DoneMessage += "[!] $Package`n"
+            }
+        }
     }
 
     Write-Host "$DoneMessage" -ForegroundColor Cyan
