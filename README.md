@@ -9,7 +9,7 @@ I need to change these files:
 -->
 
 <h1 align="center">
-  <img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom">Win Debloat Tools (10+)
+  <img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win Debloat Tools (10+)
   <img width=30px src="src/assets/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
@@ -142,6 +142,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ### Software Install
 
+- `Upgrade All Packages`: Upgrades all Softwares installed on your machine installed through _Winget_, _Chocolatey_ (WSL will only update itself, not the distros installed)
 - `Install Selected`: Install the selected apps by marking the checkbox(es);
 - `Uninstall Mode`: Default as OFF, clicking this will switch the `Install Selected` button to `Uninstall Selected` and uninstall every selected apps (**Advice**: Blue colored buttons may not be able to uninstall completely and WSL UWP Apps, but WSL Distros will be unregistered);
 
@@ -155,7 +156,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Import all necessary Modules before Executing everything; ([lib folder](./src/lib/))
 - Logs both script versions on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs`;
 - Make a Restore Point and Backup the Hosts file; ([`backup-system.ps1`](./src/scripts/backup-system.ps1))
-- Install _Chocolatey/Winget_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
+- Install _Winget/Chocolatey_ by default; ([`install-package-managers.ps1`](./src/scripts/install-package-managers.ps1))
   - Auto-Update every available software via `Winget` (12:00/day) and `Chocolatey` (13:00/day);
   - Find the Scheduled Job on `Task Scheduler > "Microsoft\Windows\PowerShell\ScheduledJobs\Chocolatey/Winget Daily Upgrade"`;
   - Register daily upgrade logs on `C:\Users\Username\AppData\Local\Temp\Win10-SDT-Logs` and remove old log files;
