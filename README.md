@@ -1,28 +1,36 @@
+<!--
+Self reminder: If i'm willing to change the repository name (again...why???)
+I need to change these files:
+- src\lib\start-logging.psm1
+- src\lib\title-templates.psm1 (LOGO)
+- CONTRIBUTING.md
+- README.md
+- Win10ScriptGUI.ps1 (Window Title)
+-->
+
 <h1 align="center">
-
-[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/actions/workflows/powershell-linter.yml)
-![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-10-Smart-Debloat-Tools?label=Issues)
-![GitHub](https://img.shields.io/github/license/LeDragoX/Win-10-Smart-Debloat-Tools?color=blue&label=License)
-[![Commit rate](https://img.shields.io/github/commit-activity/m/LeDragoX/Win-10-Smart-Debloat-Tools?label=Commits)](https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/commits/master)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/LeDragoX/Win-10-Smart-Debloat-Tools/main?label=Last%20commit)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LeDragoX/Win-10-Smart-Debloat-Tools?label=Code%20size)
-
-</h1>
-
-<h1 align="center">
-  <img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win 10+ Smart Debloat Tools
+  <img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom">Win Debloat Tools (10+)
   <img width=30px src="src/assets/powershell-icon.png" style="vertical-align: bottom">
 </h1>
 
-<h2 align="center">This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a></h2>
-
-## 📄 Resume
+<h2 align="center"><i>This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a></i></h2>
 
 These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+.
 
 > _Use on a fresh windows install to note the differences._
 
 ⚠️ **Disclaimer:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
+
+<h1 align="center">
+
+[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml)
+![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-Debloat-Tools?label=Issues)
+![GitHub](https://img.shields.io/github/license/LeDragoX/Win-Debloat-Tools?color=blue&label=License)
+[![Commit rate](https://img.shields.io/github/commit-activity/m/LeDragoX/Win-Debloat-Tools?label=Commits)](https://github.com/LeDragoX/Win-Debloat-Tools/commits/master)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/LeDragoX/Win-Debloat-Tools/main?label=Last%20commit)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LeDragoX/Win-Debloat-Tools?label=Code%20size)
+
+</h1>
 
 ## 🚀 Download Latest Version
 
@@ -42,7 +50,7 @@ the `develop` branch is the most recent version.
     <tbody align="center">
       <tr>
         <td align="left">
-            <h4><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/main.zip">⬇️ Main - Stable</a></h4>
+            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main - Stable</a></h4>
         </td>
         <td rowspan="2">21H2 or Older</td>
         <td rowspan="2">Home / Pro</td>
@@ -50,7 +58,7 @@ the `develop` branch is the most recent version.
       </tr>
       <tr>
         <td align="left">
-            <h5><a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/archive/develop.zip">⬇️ Develop - Newer</a></h5>
+            <h5><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/develop.zip">⬇️ Develop - Newer</a></h5>
         </td>
       </tr>
     </tbody>
@@ -171,7 +179,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 > and Open PowerShell as admin to copy + paste it's content:
 
 <details>
-  <summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-10-Smart-Debloat-Tools/issues/7">#7</a></summary>
+  <summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-Debloat-Tools/issues/7">#7</a></summary>
 
 1. Press `Win + R` then paste this protocol: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
 2. Then click `Get`/`Install`
