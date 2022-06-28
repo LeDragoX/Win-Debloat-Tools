@@ -20,9 +20,9 @@ function Install-PackageManager() {
     )
 
     Try {
-        $err = $null
-        $err = (Invoke-Expression "$CheckExistenceBlock")
-        if (($LASTEXITCODE)) { throw $err } # 0 = False, 1 = True
+        $Err = $null
+        $Err = (Invoke-Expression "$CheckExistenceBlock")
+        if (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
         Write-Status -Types "?" -Status "$PackageManagerFullName is already installed." -Warning
     } Catch {
         Write-Status -Types "?" -Status "$PackageManagerFullName was not found." -Warning
@@ -116,7 +116,7 @@ function Main() {
             choco upgrade all -y | Out-Host
             Stop-Transcript
         }
-        PostInstallBlock    = { choco install -y "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
+        PostInstallBlock    = { choco install --ignore-dependencies --yes "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
     }
 
     # Install Winget on Windows
