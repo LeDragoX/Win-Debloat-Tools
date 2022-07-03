@@ -1,4 +1,4 @@
-﻿# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
+# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 # Take Ownership tweak from: https://www.howtogeek.com/howto/windows-vista/add-take-ownership-to-explorer-right-click-menu-in-vista/
 
@@ -15,8 +15,11 @@ function Show-GUI() {
     [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
 
     Set-UIFont # Load the Layout Font
-    $ScreenWidth, $ScreenHeight = Get-CurrentResolution # Get the Screen Size
-
+  
+    # Get the Screen Size
+    # Accounts for multi-monitor setup (I teseted with 3)
+    $ScreenWidth, $ScreenHeight = Get-WmiObject -Class Win32_DesktopMonitor | ForEach-Object {$_.ScreenWidth, $_.ScreenHeight}
+    
     $Script:NeedRestart = $false
     $DoneTitle = "Information"
     $DoneMessage = "Process Completed!"
