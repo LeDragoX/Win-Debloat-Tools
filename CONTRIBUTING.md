@@ -9,7 +9,7 @@ Just open an **issue** or send me a **pull request** to the `develop` branch.
 
 These aren't extremely strict rules, just the necessary to keep being productive and not staring at rules the entire time.
 
-You can use this guide to help with coding on PowerShell (better than i do), link: <https://github.com/PoshCode/PowerShellPracticeAndStyle>
+You can use [this guide](https://github.com/PoshCode/PowerShellPracticeAndStyle) to help with coding on PowerShell (better than i do).
 
 ### VS Code settings (Json)
 

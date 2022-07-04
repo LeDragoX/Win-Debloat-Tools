@@ -25,7 +25,7 @@ These scripts will Customize, Debloat and Improve Privacy/Performance and System
 
 [![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml)
 ![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-Debloat-Tools?label=Issues)
-![GitHub](https://img.shields.io/github/license/LeDragoX/Win-Debloat-Tools?color=blue&label=License)
+![GitHub license](https://img.shields.io/github/license/LeDragoX/Win-Debloat-Tools?color=blue&label=License)
 [![Commit rate](https://img.shields.io/github/commit-activity/m/LeDragoX/Win-Debloat-Tools?label=Commits)](https://github.com/LeDragoX/Win-Debloat-Tools/commits/master)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/LeDragoX/Win-Debloat-Tools/main?label=Last%20commit)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LeDragoX/Win-Debloat-Tools?label=Code%20size)
@@ -242,6 +242,10 @@ Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automati
 - [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - by having taught how to mess with PowerShell in [this Stream](https://youtu.be/ER27pGt5wH0) (and his _open-source_ debloat script);
 - [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [_this video_](https://youtu.be/EfrT_Bvgles) (and script explanation);
 - [matthewjberger](https://gist.github.com/matthewjberger) - by [_this script_](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
+
+## ➕ Contributing
+
+If you want to contribute, please check out the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## 📝 License
 
