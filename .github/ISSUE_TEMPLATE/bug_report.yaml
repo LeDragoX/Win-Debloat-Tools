@@ -49,11 +49,8 @@ body:
       label: Operating System
       description: Versions before Windows 10 are not supported
       options:
-      - Windows 11 (64-bits)
-      - Windows 11 (ARM64)
-      - Windows 10 (64-bits)
-      - Windows 10 (32-bits)
-      - Windows 10 (ARM64)
+      - Windows 11
+      - Windows 10
     validations:
       required: true
   - type: input
@@ -86,8 +83,8 @@ body:
       label: Logs
       description: |
         **Only needed if it's error related**
-        Put your log file from: C:\Users\{ Your User }\AppData\Local\Temp\Win10ScriptXXX_YYYY-MM-DD_hh-mm-ss.txt
-        TIP: press `Win + R` and type: `%Temp%`, then find the log file
+        Put your log file from: C:\Users\{ Your User }\AppData\Local\Temp\Win-DT-Logs\Win10ScriptXXX_YYYY-MM-DD_hh-mm-ss.txt
+        TIP: press `Win + R` and type `%Temp%` then hit `ENTER`, now find the log file
     validations:
       required: false
   - type: textarea
