@@ -16,6 +16,7 @@ function Show-GUI() {
 
     Set-UIFont # Load the Layout Font
     $ScreenWidth, $ScreenHeight = Get-CurrentResolution # Get the Screen Size
+    $ScreenProportion = $ScreenWidth / $ScreenHeight # 16:9 ~1.777...
 
     $Script:NeedRestart = $false
     $DoneTitle = "Information"
@@ -27,11 +28,14 @@ function Show-GUI() {
     $VerticalScrollWidth = 17
 
     # To Forms
-    If ($ScreenWidth -gt 1024) {
+    If ($ScreenProportion -lt 1.5) {
+        $FormWidth = ($ScreenWidth * 0.99) + $VerticalScrollWidth # Small Resolution Width + Scroll Width
+        $FormHeight = $ScreenHeight * 0.85
+    } ElseIf ($ScreenProportion -lt 2.0) {
         $FormWidth = ($ScreenWidth * 0.85) + $VerticalScrollWidth # Scaled Resolution Width + Scroll Width
         $FormHeight = $ScreenHeight * 0.85
-    } Else {
-        $FormWidth = ($ScreenWidth * 0.99) + $VerticalScrollWidth # ~ 870.4 + Scroll Width
+    } ElseIf ($ScreenProportion -ge 2.0) {
+        $FormWidth = ($ScreenWidth * 0.65) + $VerticalScrollWidth # Scaled Resolution Width + Scroll Width
         $FormHeight = $ScreenHeight * 0.85
     }
 
