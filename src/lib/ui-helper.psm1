@@ -18,15 +18,31 @@ function Get-CurrentResolution {
     $ScreenHeight = $null
 
     # Accepts Scaling/DPI
-    $DisplayInfo = [System.Windows.Forms.SystemInformation]::VirtualScreen
-    $ScreenWidth = $DisplayInfo.Width
-    $ScreenHeight = $DisplayInfo.Height
+    [System.Windows.Forms.SystemInformation]::VirtualScreen | ForEach-Object {
+        If (!$ScreenWidth -or !$ScreenHeight) {
+            $ScreenWidth = $_.Width
+            $ScreenHeight = $_.Height
+        }
+
+        If (($_.Width) -and ($_.Width -le $ScreenWidth)) {
+            $ScreenWidth = $_.Width
+            $ScreenHeight = $_.Height
+        }
+    }
 
     # Doesn't accepts Scaling/DPI (rollback method)
     If (!$ScreenWidth -or !$ScreenHeight) {
-        $DisplayInfo = Get-CimInstance -class "Win32_VideoController" | Select-Object *
-        $ScreenWidth = $DisplayInfo.CurrentHorizontalResolution
-        $ScreenHeight = $DisplayInfo.CurrentVerticalResolution
+        Get-CimInstance -Class "Win32_VideoController" | ForEach-Object {
+            If (!$ScreenWidth -or !$ScreenHeight) {
+                $ScreenWidth = $_.CurrentHorizontalResolution
+                $ScreenHeight = $_.CurrentVerticalResolution
+            }
+
+            If (($_.CurrentHorizontalResolution) -and ($_.CurrentHorizontalResolution -le $ScreenWidth)) {
+                $ScreenWidth = $_.CurrentHorizontalResolution
+                $ScreenHeight = $_.CurrentVerticalResolution
+            }
+        }
     }
 
     Write-Verbose "Width: $ScreenWidth, Height: $ScreenHeight"
