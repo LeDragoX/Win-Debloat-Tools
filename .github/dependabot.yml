@@ -12,4 +12,4 @@ updates:
     schedule:
       interval: "daily"
       time: "00:00"
-      timezone: 00:00 UTC
+      timezone: "00:00"
