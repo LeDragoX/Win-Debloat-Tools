@@ -75,7 +75,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SystemTweaksHeight = 650
+    $SystemTweaksHeight = 700
     $SoftwareInstallHeight = 1650
 
     # <===== UI =====>
@@ -93,7 +93,7 @@ function Show-GUI() {
     $ClSystemTweaks = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $TotalWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $TlSystemTweaks -MarginTop $DistanceBetweenElements -ForeColor $White
 
     # ==> Tab 1
-    $CurrentPanelIndex = 0
+    $CurrentPanelIndex = 1
     $T1Panel1 = New-Panel -Width $PanelWidth -Height $SystemTweaksHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSystemTweaks
     $CurrentPanelIndex++
     $T1Panel2 = New-Panel -Width $PanelWidth -Height $SystemTweaksHeight -LocationX ($PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSystemTweaks
@@ -102,7 +102,8 @@ function Show-GUI() {
     $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0
     $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $PanelElementWidth -Height $BBHeight -LocationX $PanelElementX -ElementBefore $ClDebloatTools -FontSize $Header3 -ForeColor $WinBlue
     $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $ApplyTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
-    $RemoveXbox = New-Button -Text "Remove Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $UndoTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $UndoTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveXbox = New-Button -Text "Remove Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RemoveOneDrive -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width $PanelElementWidth -Height (($BBHeight * 2) + $DistanceBetweenElements) -LocationX $PanelElementX -ElementBefore $RemoveXbox -MarginTop $DistanceBetweenElements -SizeMode 'Zoom'
     $InstallOneDrive = New-Button -Text "Install OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $PictureBox1 -MarginTop $DistanceBetweenElements
     $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallOneDrive -MarginTop $DistanceBetweenElements
@@ -116,7 +117,8 @@ function Show-GUI() {
     $CbBackgroundsApps = New-CheckBox -Text "Enable Background Apps" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbActivityHistory
     $CbClipboardHistory = New-CheckBox -Text "Enable Clipboard History" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbBackgroundsApps
     $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbClipboardHistory
-    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbCortana
+    $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbCortana
+    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbEncryptedDNS
     $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbOldVolumeControl
     $CbSearchIdx = New-CheckBox -Text "Enable WSearch Service" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
     $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbSearchIdx
@@ -309,9 +311,9 @@ function Show-GUI() {
     $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2))
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Tab Panel
-    $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
+    $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveOneDrive, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures))
-    $T1Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbPhotoViewer, $CbSearchIdx, $CbTelemetry, $CbXboxGameBarAndDVR))
+    $T1Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbEncryptedDNS, $CbOldVolumeControl, $CbPhotoViewer, $CbSearchIdx, $CbTelemetry, $CbXboxGameBarAndDVR))
     $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $HEVCSupport, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
@@ -357,7 +359,6 @@ function Show-GUI() {
                 "optimize-performance.ps1",
                 "personal-tweaks.ps1",
                 "optimize-security.ps1",
-                "remove-onedrive.ps1",
                 "optimize-windows-features.ps1"
             )
 
@@ -380,6 +381,12 @@ function Show-GUI() {
             )
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $Global:Revert = $false
+        })
+
+    $RemoveOneDrive.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
+            $Form.Update()
         })
 
     $RemoveXbox.Add_Click( {
@@ -407,10 +414,10 @@ function Show-GUI() {
     $CbDarkTheme.Add_Click( {
             If ($CbDarkTheme.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-dark-theme.reg") -NoDialog
-                $CbDarkTheme.Text = "[ON]  Use Dark Theme"
+                $CbDarkTheme.Text = "[ON]  Dark Theme"
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-light-theme.reg") -NoDialog
-                $CbDarkTheme.Text = "[OFF] Use Dark Theme *"
+                $CbDarkTheme.Text = "[OFF] Dark Theme *"
             }
         })
 
@@ -451,6 +458,16 @@ function Show-GUI() {
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-cortana.reg") -NoDialog
                 $CbCortana.Text = "[OFF] Cortana"
+            }
+        })
+
+    $CbEncryptedDNS.Add_Click( {
+            If ($CbEncryptedDNS.CheckState -eq "Checked") {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-encrypted-dns-doh.ps1") -NoDialog
+                $CbEncryptedDNS.Text = "[ON]  Encrypted DNS"
+            } Else {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-encrypted-dns-doh.ps1") -NoDialog
+                $CbEncryptedDNS.Text = "[OFF] Encrypted DNS *"
             }
         })
 

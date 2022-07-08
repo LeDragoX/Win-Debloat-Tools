@@ -19,7 +19,7 @@ function Open-Script() {
         "optimize-performance.ps1",
         "personal-tweaks.ps1",
         "optimize-security.ps1",
-        "remove-onedrive.ps1",
+        #"remove-onedrive.ps1",
         "optimize-windows-features.ps1"
     )
 
