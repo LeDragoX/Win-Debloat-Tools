@@ -15,7 +15,7 @@ I need to change these files:
 
 <h2 align="center"><i>This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a></i></h2>
 
-These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+.
+These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+. A collection of scripts to organize the tweaks per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
 
 > _Use on a fresh windows install to note the differences._
 
@@ -114,6 +114,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Apply Tweaks`: Run every Common Tweak scripts;
 - `Undo Tweaks`: Re-apply some tweaks and [Revert] all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
+- `Remove OneDrive`: completely removes OneDrive from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
 - `Remove Xbox`: Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR; ([`remove-xbox.ps1`](./src/scripts/remove-xbox.ps1))
 - `Install OneDrive`: Tries to re-install the built-in OneDrive; ([`install-onedrive.ps1`](./src/utils/install-onedrive.ps1))
 - `Reinstall Pre-Installed Apps`: Rebloat Windows with all the Pre-Installed Apps; ([`reinstall-pre-installed-apps.ps1`](./src/utils/reinstall-pre-installed-apps.ps1))
@@ -125,8 +126,9 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
 - `Enable/Disable Activity History`: [Enables](./src/utils/enable-activity-history.reg) or [Disables](src/utils/disable-activity-history.reg) the **Activity History**;
 - `Enable/Disable Background Apps`: [Enables](./src/utils/enable-bg-apps.reg) or [Disables](src/utils/disable-bg-apps.reg) _ALL_ the **Background Apps**;
-- `Enable/Disable Cortana`: [Enables](./src/utils/enable-cortana.reg) or [Disables](src/utils/disable-cortana.reg) the **Cortana**;
 - `Enable/Disable Clipboard History`: [Enables](./src/utils/enable-clipboard-history.reg) or [Disables](src/utils/disable-clipboard-history.reg) the **Clipboard History**;
+- `Enable/Disable Cortana`: [Enables](./src/utils/enable-cortana.reg) or [Disables](src/utils/disable-cortana.reg) the **Cortana**;
+- [Enable](src/utils/enable-encrypted-dns-doh.ps1)/[Disable](src/utils/disable-encrypted-dns-doh.ps1) `Encrypted DNS`: Sets the DNS Client Servers to **Cloudflare's** and **Google's** (ipv4 and ipv6), and enables **DNS Over HTTPS** on _Windows 11_.
 - `Enable/Disable Old Volume Control`: [Enables](./src/utils/enable-old-volume-control.reg) or [Disables](src/utils/disable-old-volume-control.reg) the **Old Volume Control (Win 7/8.1)**;
 - `Enable/Disable Photo Viewer`: [Enables](./src/utils/enable-photo-viewer.reg) or [Disables](src/utils/disable-photo-viewer.reg) the **Photo Viewer (Win 7/8.1)**;
 - `Enable/Disable WSearch Service`: [Enables](./src/utils/enable-wsearch-service.ps1) or [Disables](src/utils/disable-wsearch-service.ps1) the **Windows Search Service**;
@@ -169,7 +171,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - Optimize Performance by changing away from stock configurations that slowdowns the system; ([`optimize-performance.ps1`](./src/scripts/optimize-performance.ps1))
 - Apply General Personalization tweaks via Registry and Powershell commands; ([`personal-tweaks.ps1`](./src/scripts/personal-tweaks.ps1))
 - Help improve the Security of Windows while maintaining performance; ([`optimize-security.ps1`](./src/scripts/optimize-security.ps1))
-- Remove OneDrive completely from the System, re-install is possible via Win Store; ([`remove-onedrive.ps1`](./src/scripts/remove-onedrive.ps1))
 - Disable/Enable Windows Features specially for Gaming/Productivity; ([`optimize-windows-features.ps1`](./src/scripts/optimize-windows-features.ps1))
 
 </details>
