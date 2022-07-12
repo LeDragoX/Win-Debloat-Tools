@@ -14,24 +14,25 @@ function Get-CurrentResolution {
     [OutputType([System.Object[]])]
     param ()
 
+    $NumberOfScreens = (Get-CimInstance -Class "Win32_VideoController" | ForEach-Object { "$_" }).Count
     $ScreenWidth = $null
     $ScreenHeight = $null
 
-    # Accepts Scaling/DPI
-    [System.Windows.Forms.SystemInformation]::VirtualScreen | ForEach-Object {
-        If (!$ScreenWidth -or !$ScreenHeight) {
-            $ScreenWidth = $_.Width
-            $ScreenHeight = $_.Height
-        }
+    If ($NumberOfScreens -eq 1) {
+        # Accepts Scaling/DPI
+        [System.Windows.Forms.SystemInformation]::VirtualScreen | ForEach-Object {
+            If (!$ScreenWidth -or !$ScreenHeight) {
+                $ScreenWidth = $_.Width
+                $ScreenHeight = $_.Height
+            }
 
-        If (($_.Width) -and ($_.Width -le $ScreenWidth)) {
-            $ScreenWidth = $_.Width
-            $ScreenHeight = $_.Height
+            If (($_.Width) -and ($_.Width -le $ScreenWidth)) {
+                $ScreenWidth = $_.Width
+                $ScreenHeight = $_.Height
+            }
         }
-    }
-
-    # Doesn't accepts Scaling/DPI (rollback method)
-    If (!$ScreenWidth -or !$ScreenHeight) {
+    } Else {
+        # Doesn't accepts Scaling/DPI (rollback method)
         Get-CimInstance -Class "Win32_VideoController" | ForEach-Object {
             If (!$ScreenWidth -or !$ScreenHeight) {
                 $ScreenWidth = $_.CurrentHorizontalResolution
