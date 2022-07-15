@@ -1,9 +1,9 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"install-font.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"install-font.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 
 function Install-NerdFont() {
-    Push-Location -Path "$PSScriptRoot\..\tmp"
+    Push-Location -Path "$PSScriptRoot\..\..\tmp"
     mkdir "Fonts" | Out-Null
 
     Write-Status -Types "@" -Status "Downloading JetBrains Mono ..."
@@ -35,8 +35,4 @@ function Install-MesloLGS() {
     }
 }
 
-function Main() {
-    Install-NerdFont
-}
-
-Main
+Install-NerdFont

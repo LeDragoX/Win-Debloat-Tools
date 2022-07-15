@@ -1,7 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"select-folder-gui.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"manage-software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"select-folder-gui.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"show-dialog-window.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 
 function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
@@ -216,38 +216,34 @@ function Import-KeysSshGpg() {
     }
 }
 
-function Main() {
-    $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting up signing keys on Windows.`n`nThis setup cover:`n- Git user name and email`n- SSH and GPG keys full creation and import (even other keys from ~\.ssh and ~\.gnupg)`n- Or import existing SSH and GPG keys (only changes git config gpg.program)`n`nDo you want to proceed?"
+$Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting up signing keys on Windows.`n`nThis setup cover:`n- Git user name and email`n- SSH and GPG keys full creation and import (even other keys from ~\.ssh and ~\.gnupg)`n- Or import existing SSH and GPG keys (only changes git config gpg.program)`n`nDo you want to proceed?"
 
-    Request-AdminPrivilege
-    Install-Software -Name "Git + GnuPG" -Packages @("Git.Git", "GnuPG.GnuPG") -NoDialog
+Request-AdminPrivilege
+Install-Software -Name "Git + GnuPG" -Packages @("Git.Git", "GnuPG.GnuPG") -NoDialog
 
-    switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
-        'Yes' {
-            Set-GitProfile
-            $Ask = "Are you creating new SSH and GPG keys?`n`nYes: Proceed to keys creation`nNo: Import Keys from selected folder`n`nReminder: for those who selected 'No', you must do manually, the configs for`n- git config --global user.signingkey (YOUR KEY)`n- git config --global commit.gpgsign true"
-            Enable-SshAndGpgAgent
+switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
+    'Yes' {
+        Set-GitProfile
+        $Ask = "Are you creating new SSH and GPG keys?`n`nYes: Proceed to keys creation`nNo: Import Keys from selected folder`n`nReminder: for those who selected 'No', you must do manually, the configs for`n- git config --global user.signingkey (YOUR KEY)`n- git config --global commit.gpgsign true"
+        Enable-SshAndGpgAgent
 
-            switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
-                'Yes' {
-                    Set-SSHKey
-                    Set-GPGKey
-                }
-                'No' {
-                    Import-KeysSshGpg
-                }
-                'Cancel' {
-                    Write-Host "Aborting..."
-                }
+        switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
+            'Yes' {
+                Set-SSHKey
+                Set-GPGKey
+            }
+            'No' {
+                Import-KeysSshGpg
+            }
+            'Cancel' {
+                Write-Host "Aborting..."
             }
         }
-        'No' {
-            Write-Host "Aborting..."
-        }
-        'Cancel' {
-            Write-Host "Aborting..."
-        }
+    }
+    'No' {
+        Write-Host "Aborting..."
+    }
+    'Cancel' {
+        Write-Host "Aborting..."
     }
 }
-
-Main

@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 
 function Install-OneDrive() {
     Write-Status -Types "+" -Status "Installing OneDrive..."
@@ -6,8 +6,4 @@ function Install-OneDrive() {
     Start-Process -FilePath "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
 }
 
-function Main() {
-    Install-OneDrive
-}
-
-Main
+Install-OneDrive

@@ -1,4 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"show-dialog-window.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"ui-helper.psm1" # Load UI libs
 
 function Show-DebloatInfo {
     [CmdletBinding()]
@@ -56,11 +57,7 @@ Storage Available ($env:SystemDrive): $($AvailableStorage.ToString("#.#"))/$($To
     }
 }
 
-function Main() {
-    Show-DebloatInfo
-}
-
-Main
+Show-DebloatInfo
 
 <#
 Example:
