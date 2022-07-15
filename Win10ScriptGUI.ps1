@@ -120,9 +120,9 @@ function Show-GUI() {
     $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbCortana
     $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbEncryptedDNS
     $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbOldVolumeControl
-    $CbSearchIdx = New-CheckBox -Text "Enable WSearch Service" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
-    $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbSearchIdx
-    $CbXboxGameBarAndDVR = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTelemetry
+    $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
+    $CbWSearchService = New-CheckBox -Text "Enable WSearch Service" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTelemetry
+    $CbXboxGameBarAndDVR = New-CheckBox -Text "Enable Xbox GameBar/DVR" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbWSearchService
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarAndDVR
     $HEVCSupport = New-Button -Text "Get H.265 video codec" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClMiscFeatures
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $HEVCSupport
@@ -189,7 +189,7 @@ function Show-GUI() {
     $InstallMozillaFirefox = New-CheckBox -Text "Mozilla Firefox" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallGoogleChrome
     $ClAudioVideoTools = New-Label -Text "Audio/Video Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallMozillaFirefox
     $InstallAudacity = New-CheckBox -Text "Audacity (Editor)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClAudioVideoTools
-    $InstallMpcHc = New-CheckBox -Text "MPC-HC from clsid2 (Player)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallAudacity
+    $InstallMpcHc = New-CheckBox -Text "MPC-HC (Player)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallAudacity
     $InstallVlc = New-CheckBox -Text "VLC (Player)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallMpcHc
     $ClImageTools = New-Label -Text "Image Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallVlc
     $InstallGimp = New-CheckBox -Text "GIMP" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClImageTools
@@ -313,7 +313,7 @@ function Show-GUI() {
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveOneDrive, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures))
-    $T1Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbEncryptedDNS, $CbOldVolumeControl, $CbPhotoViewer, $CbSearchIdx, $CbTelemetry, $CbXboxGameBarAndDVR))
+    $T1Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbEncryptedDNS, $CbOldVolumeControl, $CbPhotoViewer, $CbTelemetry, $CbWSearchService, $CbXboxGameBarAndDVR))
     $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $HEVCSupport, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
@@ -400,7 +400,7 @@ function Show-GUI() {
         })
 
     $InstallOneDrive.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ReinstallBloatApps.Add_Click( {
@@ -408,7 +408,7 @@ function Show-GUI() {
         })
 
     $ShowDebloatInfo.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("show-debloat-info.ps1") -NoDialog
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("show-debloat-info.ps1") -NoDialog
         })
 
     $CbDarkTheme.Add_Click( {
@@ -491,16 +491,6 @@ function Show-GUI() {
             }
         })
 
-    $CbSearchIdx.Add_Click( {
-            If ($CbSearchIdx.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-wsearch-service.ps1") -NoDialog
-                $CbSearchIdx.Text = "[ON]  WSearch Service *"
-            } Else {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-wsearch-service.ps1") -NoDialog
-                $CbSearchIdx.Text = "[OFF] WSearch Service"
-            }
-        })
-
     $CbTelemetry.Add_Click( {
             If ($CbTelemetry.CheckState -eq "Checked") {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-telemetry.reg") -NoDialog
@@ -508,6 +498,16 @@ function Show-GUI() {
             } Else {
                 Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-telemetry.reg") -NoDialog
                 $CbTelemetry.Text = "[OFF] Telemetry"
+            }
+        })
+
+    $CbWSearchService.Add_Click( {
+            If ($CbWSearchService.CheckState -eq "Checked") {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-wsearch-service.ps1") -NoDialog
+                $CbWSearchService.Text = "[ON]  WSearch Service *"
+            } Else {
+                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-wsearch-service.ps1") -NoDialog
+                $CbWSearchService.Text = "[OFF] WSearch Service"
             }
         })
 
@@ -522,7 +522,7 @@ function Show-GUI() {
         })
 
     $HEVCSupport.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("get-hevc-support.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("get-hevc-support.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $CbGodMode.Add_Click( {
@@ -556,7 +556,7 @@ function Show-GUI() {
         })
 
     $UpgradeAll.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("upgrade-all-packages.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("update-all-packages.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallSelected.Add_Click( {
@@ -1066,7 +1066,7 @@ function Show-GUI() {
 
             If ($InstallWSLgOrPreview.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-wslg-or-preview.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-wslg-or-preview.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
                 }
@@ -1075,7 +1075,7 @@ function Show-GUI() {
 
             If ($InstallArchWSL.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-archwsl.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-archwsl.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.WSLDistros.Add("Arch")
                 }
@@ -1131,14 +1131,14 @@ function Show-GUI() {
 
             If ($InstallNerdFonts.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("install-nerd-fonts.ps1")
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-nerd-fonts.ps1")
                 }
                 $InstallNerdFonts.CheckState = "Unchecked"
             }
 
             If ($InstallGitGnupgSshSetup.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("git-gnupg-ssh-keys-setup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("git-gnupg-ssh-keys-setup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.WingetApps.AddRange(@("Git.Git", "GnuPG.GnuPG")) # Installed before inside the script
                 }

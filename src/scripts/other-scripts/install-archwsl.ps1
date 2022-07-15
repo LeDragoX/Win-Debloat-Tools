@@ -1,8 +1,8 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"get-hardware-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 
-function ArchWSLInstall() {
+function Install-ArchWSL() {
     $OSArchList = Get-OSArchitecture
 
     ForEach ($OSArch in $OSArchList) {
@@ -26,8 +26,4 @@ function ArchWSLInstall() {
     }
 }
 
-function Main() {
-    ArchWSLInstall
-}
-
-Main
+Install-ArchWSL

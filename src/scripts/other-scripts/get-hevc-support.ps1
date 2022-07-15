@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"manage-software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 
 function Get-HEVCSupport() {
     Write-Status -Types "+" -Status "Adding support to HEVC/H.265 video codec (MUST HAVE)..."

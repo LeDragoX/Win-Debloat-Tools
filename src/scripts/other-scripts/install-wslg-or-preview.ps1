@@ -1,7 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"get-hardware-info.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"manage-software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 
 function Install-WSLPreview() {
     [CmdletBinding()] param()
@@ -20,8 +20,8 @@ function Install-WSLPreview() {
     Try {
         Write-Status -Types "?", $TweakType "Installing WSL Preview from MS Store for Windows 11+ ..." -Warning
         $CheckExistenceBlock = { Install-Software -Name "WSL Preview (Win 11+)" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog }
-        $Err = (Invoke-Expression "$CheckExistenceBlock") | Out-Host
-        If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
+        Invoke-Expression "$CheckExistenceBlock" | Out-Host
+        If (($LASTEXITCODE)) { throw "This package is not available for Windows 10, you must be on Windows 11+" } # 0 = False, 1 = True
 
         Write-Status -Types "-", $TweakType -Status "Uninstalling WSL from Optional Features ..."
         Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
@@ -69,8 +69,4 @@ function Install-WSLTwoAndG() {
     }
 }
 
-function Main {
-    Install-WSLPreview
-}
-
-Main
+Install-WSLPreview
