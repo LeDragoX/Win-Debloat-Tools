@@ -13,7 +13,7 @@ function Open-PowerShellFilesCollection {
         [Switch] $NoDialog
     )
 
-    Push-Location -Path "$PSScriptRoot\..\..\$RelativeLocation"
+    Push-Location -Path $(Join-Path -Path "$PSScriptRoot\..\.." -ChildPath "$RelativeLocation")
     Get-ChildItem -Recurse *.ps*1 | Unblock-File
 
     ForEach ($FileName in $Scripts) {
@@ -43,7 +43,7 @@ function Open-RegFilesCollection {
         [Switch] $NoDialog
     )
 
-    Push-Location -Path "$PSScriptRoot\..\..\$RelativeLocation"
+    Push-Location -Path $(Join-Path -Path "$PSScriptRoot\..\.." -ChildPath "$RelativeLocation")
 
     ForEach ($FileName in $Scripts) {
         $LastAccessUtc = "v$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"

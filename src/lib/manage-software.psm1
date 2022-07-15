@@ -52,21 +52,21 @@ function Install-Software() {
 
         Try {
             Invoke-Expression "$InstallBlock" | Out-Host
-            If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
+            If (($LASTEXITCODE)) { throw "Couldn't install package." } # 0 = False, 1 = True
 
             If ($ViaMSStore) {
-                $DoneMessage += " + $PackageName ($Package)`n"
+                $DoneMessage += "+ $PackageName ($Package)`n"
             } Else {
-                $DoneMessage += " + $Package`n"
+                $DoneMessage += "+ $Package`n"
             }
         } Catch {
             Write-Status -Types "!" -Status "Failed to install package via $PkgMngr" -Warning
 
             If ($ViaMSStore) {
                 Start-Process "ms-windows-store://pdp/?ProductId=$Package"
-                $DoneMessage += "[!] $PackageName ($Package)`n"
+                $DoneMessage += "! $PackageName ($Package)`n"
             } Else {
-                $DoneMessage += "[!] $Package`n"
+                $DoneMessage += "! $Package`n"
             }
         }
     }
@@ -130,20 +130,20 @@ function Uninstall-Software() {
 
         Try {
             Invoke-Expression "$UninstallBlock" | Out-Host
-            If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
+            If (($LASTEXITCODE)) { throw "Couldn't uninstall package." } # 0 = False, 1 = True
 
             If ($ViaMSStore) {
-                $DoneMessage += " - $PackageName ($Package)`n"
+                $DoneMessage += "- $PackageName ($Package)`n"
             } Else {
-                $DoneMessage += " - $Package`n"
+                $DoneMessage += "- $Package`n"
             }
         } Catch {
             Write-Status -Types "!" -Status "Failed to uninstall package via $PkgMngr" -Warning
 
             If ($ViaMSStore) {
-                $DoneMessage += "[!] $PackageName ($Package)`n"
+                $DoneMessage += "! $PackageName ($Package)`n"
             } Else {
-                $DoneMessage += "[!] $Package`n"
+                $DoneMessage += "! $Package`n"
             }
         }
     }
