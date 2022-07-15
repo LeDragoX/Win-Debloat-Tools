@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"open-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"unregister-duplicated-power-plans.psm1"
 
 # Adapted from: https://youtu.be/hQSkPmZRCjc
 # Adapted from: https://github.com/ChrisTitusTech/win10script
@@ -28,15 +29,6 @@ function Optimize-Performance() {
         )
     }
 
-    $ExistingPowerPlans = $((powercfg -L)[3..(powercfg -L).Count])
-    # Found on the registry: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\User\Default\PowerSchemes
-    $BuiltInPowerPlans = @{
-        "Power Saver"            = "a1841308-3541-4fab-bc81-f71556f20b4a"
-        "Balanced (recommended)" = "381b4222-f694-41f0-9685-ff5bb260df2e"
-        "High Performance"       = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
-        "Ultimate Performance"   = "e9a42b02-d5df-448d-aa00-03f14749eb61"
-    }
-    $UniquePowerPlans = $BuiltInPowerPlans.Clone()
     # Initialize all Path variables used to Registry Tweaks
     $PathToLMPoliciesPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
     $PathToLMPoliciesWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
@@ -97,34 +89,13 @@ function Optimize-Performance() {
 
     Write-Section -Text "Power Plan Tweaks"
 
-    Write-Status -Types "@", $TweakType -Status "Cleaning up duplicated Power plans..."
-    ForEach ($PowerCfgString in $ExistingPowerPlans) {
-        $PowerPlanGUID = $PowerCfgString.Split(':')[1].Split('(')[0].Trim()
-        $PowerPlanName = $PowerCfgString.Split('(')[-1].Replace(')', '').Trim()
-
-        If (($PowerPlanGUID -in $BuiltInPowerPlans.Values)) {
-            Write-Status -Types "@", $TweakType -Status "The '$PowerPlanName' power plan` is built-in, skipping $PowerPlanGUID ..." -Warning
-            Continue
-        }
-
-        Try {
-            If (($PowerPlanName -notin $UniquePowerPlans.Keys) -and ($PowerPlanGUID -notin $UniquePowerPlans.Values)) {
-                $UniquePowerPlans.Add($PowerPlanName, $PowerPlanGUID)
-            } Else {
-                Write-Status -Types "-", $TweakType -Status "Duplicated '$PowerPlanName' power plan found, deleting $PowerPlanGUID ..."
-                powercfg -Delete $PowerPlanGUID
-            }
-        } Catch {
-            Write-Status -Types "-", $TweakType -Status "Duplicated '$PowerPlanName' power plan found, deleting $PowerPlanGUID ..."
-            powercfg -Delete $PowerPlanGUID
-        }
-    }
-
     Write-Status -Types "+", $TweakType -Status "Setting Power Plan to High Performance..."
     powercfg -SetActive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 
     Write-Status -Types "+", $TweakType -Status "Creating the Ultimate Performance hidden Power Plan..."
     powercfg -DuplicateScheme e9a42b02-d5df-448d-aa00-03f14749eb61
+
+    Unregister-DuplicatedPowerPlan
 
     Write-Status -Types "+", $TweakType -Status "Setting Hibernate size to reduced..."
     powercfg -Hibernate -type Reduced
@@ -140,7 +111,6 @@ function Optimize-Performance() {
     $Data = (Get-ItemProperty -Path $Key -Name DefaultConnectionSettings).DefaultConnectionSettings
     $Data[8] = 3
     Set-ItemProperty -Path $Key -Name DefaultConnectionSettings -Value $Data
-
 }
 
 function Main() {
