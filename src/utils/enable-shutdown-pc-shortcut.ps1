@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"new-shortcut.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Main() {
+function Enable-ShutdownShortcut() {
     $DesktopPath = [Environment]::GetFolderPath("Desktop");
 
     $SourcePath = "$env:SystemRoot\System32\shutdown.exe"
@@ -15,4 +15,4 @@ function Main() {
     New-Shortcut -SourcePath $SourcePath -ShortcutPath $ShortcutPath -Description $Description -IconLocation $IconLocation -Arguments $Arguments -Hotkey $Hotkey
 }
 
-Main
+Enable-ShutdownShortcut

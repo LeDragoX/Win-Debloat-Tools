@@ -20,12 +20,12 @@ function Optimize-Privacy() {
     $TweakType = "Privacy"
 
     If ($Revert) {
-        Write-Status -Types "<", $TweakType -Status "Reverting the tweaks is set to '$Revert'." -Warning
+        Write-Status -Types "*", $TweakType -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $Zero = 1
         $One = 0
         $EnableStatus = @(
-            @{ Symbol = "<"; Status = "Re-Enabling"; }
-            @{ Symbol = "<"; Status = "Re-Disabling"; }
+            @{ Symbol = "*"; Status = "Re-Enabling"; }
+            @{ Symbol = "*"; Status = "Re-Disabling"; }
         )
     }
 

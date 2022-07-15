@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Main() {
-    Write-Status -Types "@" -Status "Disabling God Mode hidden folder..." -Warning
+function Disable-GodMode() {
+    Write-Status -Types "*" -Status "Disabling God Mode hidden folder..." -Warning
     Write-Host @"
 ###############################################################################
 #       _______  _______  ______     __   __  _______  ______   _______       #
@@ -21,4 +21,4 @@ function Main() {
     Remove-Item -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}"
 }
 
-Main
+Disable-GodMode
