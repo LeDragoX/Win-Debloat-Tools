@@ -1,6 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Main() {
+function Enable-GodMode() {
     Write-Status -Types "@" -Status "Enabling God Mode hidden folder on Desktop..."
     Write-Host @"
 ###############################################################################
@@ -21,4 +21,4 @@ function Main() {
     New-Item -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}" -ItemType Directory -Force
 }
 
-Main
+Enable-GodMode
