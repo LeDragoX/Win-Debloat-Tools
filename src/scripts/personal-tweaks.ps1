@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"open-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script
 # Adapted from: https://github.com/Sycnex/Windows10Debloater
@@ -39,9 +40,16 @@ function Register-PersonalTweaksList() {
     $PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
 
     Write-Title -Text "My Personal Tweaks"
-    $Scripts = @("use-dark-theme.reg", "disable-cortana.reg", "enable-photo-viewer.reg", "disable-clipboard-history.reg")
-    If ($Revert) {
-        $Scripts = @("use-light-theme.reg", "enable-cortana.reg", "disable-photo-viewer.reg", "enable-clipboard-history.reg")
+    If (!$Revert) {
+        $Scripts = @("enable-photo-viewer.reg")
+        Disable-ClipboardHistory
+        Disable-Cortana
+        Enable-DarkTheme
+    } Else {
+        $Scripts = @("disable-photo-viewer.reg")
+        Enable-ClipboardHistory
+        Enable-Cortana
+        Disable-DarkTheme
     }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
 

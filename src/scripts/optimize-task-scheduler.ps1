@@ -13,7 +13,7 @@ function Optimize-TaskScheduler() {
         [Switch] $Revert
     )
 
-    # Adapted from: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
+    # Adapted from: https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/rds-vdi-recommendations#task-scheduler
     $DisableScheduledTasks = @(
         "\Microsoft\Office\OfficeTelemetryAgentLogOn"
         "\Microsoft\Office\OfficeTelemetryAgentFallBack"

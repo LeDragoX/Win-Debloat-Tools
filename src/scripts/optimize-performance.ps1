@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"open-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"unregister-duplicated-power-plans.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 # Adapted from: https://youtu.be/hQSkPmZRCjc
 # Adapted from: https://github.com/ChrisTitusTech/win10script
@@ -38,12 +39,11 @@ function Optimize-Performance() {
     Write-Title -Text "Performance Tweaks"
 
     Write-Section -Text "Gaming"
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Game Bar & Game DVR..."
-    $Scripts = @("disable-game-bar-dvr.reg")
-    If ($Revert) {
-        $Scripts = @("enable-game-bar-dvr.reg")
+    If (!$Revert) {
+        Disable-XboxGameBarDVR
+    } Else {
+        Enable-XboxGameBarDVR
     }
-    Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
 
     Write-Status -Types "=", $TweakType -Status "Enabling game mode..."
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
