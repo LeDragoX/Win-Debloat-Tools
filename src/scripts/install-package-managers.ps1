@@ -63,7 +63,7 @@ function Install-PackageManager() {
 }
 
 function Install-WingetDependency() {
-    # Dependency for Winget: https://docs.microsoft.com/pt-br/troubleshoot/cpp/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
+    # Dependency for Winget: https://docs.microsoft.com/en-us/troubleshoot/developer/visualstudio/cpp/libraries/c-runtime-packages-desktop-bridge#how-to-install-and-update-desktop-framework-packages
     $OSArchList = Get-OSArchitecture
 
     ForEach ($OSArch in $OSArchList) {

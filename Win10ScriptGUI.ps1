@@ -2,6 +2,38 @@
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 # Take Ownership tweak from: https://www.howtogeek.com/howto/windows-vista/add-take-ownership-to-explorer-right-click-menu-in-vista/
 
+function Main() {
+    Clear-Host
+    Request-AdminPrivilege # Check admin rights
+    Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
+
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"ui-helper.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"manage-software.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"individual-tweaks.psm1" -Force
+
+    Set-ConsoleStyle            # Makes the console look cooler
+    Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
+    Write-Caption "$((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
+    Write-Host "Your Current Folder $pwd"
+    Write-Host "Script Root Folder $PSScriptRoot"
+    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -NoDialog # Install Winget and Chocolatey at the beginning
+    Write-ScriptLogo            # Thanks Figlet
+    Show-GUI                    # Load the GUI
+
+    Write-Verbose "Restart: $Script:NeedRestart"
+    If ($Script:NeedRestart) {
+        Request-PcRestart       # Prompt options to Restart the PC
+    }
+    Stop-Logging
+}
+
 function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
@@ -112,7 +144,7 @@ function Show-GUI() {
 
     # ==> T1 Panel 2
     $ClCustomizeFeatures = New-Label -Text "Customize System Features" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0
-    $CbDarkTheme = New-CheckBox -Text "Use Dark Theme" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClCustomizeFeatures -MarginTop $DistanceBetweenElements
+    $CbDarkTheme = New-CheckBox -Text "Enable Dark Theme" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClCustomizeFeatures -MarginTop $DistanceBetweenElements
     $CbActivityHistory = New-CheckBox -Text "Enable Activity History" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbDarkTheme
     $CbBackgroundsApps = New-CheckBox -Text "Enable Background Apps" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbActivityHistory
     $CbClipboardHistory = New-CheckBox -Text "Enable Clipboard History" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbBackgroundsApps
@@ -127,7 +159,7 @@ function Show-GUI() {
     $HEVCSupport = New-Button -Text "Get H.265 video codec" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClMiscFeatures
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $HEVCSupport
     $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbGodMode
-    $CbShutdownPCShortcut = New-CheckBox -Text "Enable Shutdown PC shortcut" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTakeOwnership
+    $CbFastShutdownPCShortcut = New-CheckBox -Text "Enable Fast Shutdown shortcut" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTakeOwnership
 
     # ==> Tab 2
     $TlSoftwareInstall = New-Label -Text "Software Install" -Width $TotalWidth -Height $TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
@@ -314,7 +346,7 @@ function Show-GUI() {
     $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveOneDrive, $RemoveXbox, $InstallOneDrive, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures))
     $T1Panel2.Controls.AddRange(@($CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbEncryptedDNS, $CbOldVolumeControl, $CbPhotoViewer, $CbTelemetry, $CbWSearchService, $CbXboxGameBarAndDVR))
-    $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $HEVCSupport, $CbGodMode, $CbTakeOwnership, $CbShutdownPCShortcut))
+    $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $HEVCSupport, $CbGodMode, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
     $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
@@ -413,70 +445,70 @@ function Show-GUI() {
 
     $CbDarkTheme.Add_Click( {
             If ($CbDarkTheme.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-dark-theme.reg") -NoDialog
+                Enable-DarkTheme
                 $CbDarkTheme.Text = "[ON]  Dark Theme"
             } Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("use-light-theme.reg") -NoDialog
+                Disable-DarkTheme
                 $CbDarkTheme.Text = "[OFF] Dark Theme *"
             }
         })
 
     $CbActivityHistory.Add_Click( {
             If ($CbActivityHistory.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-activity-history.reg") -NoDialog
+                Enable-ActivityHistory
                 $CbActivityHistory.Text = "[ON]  Activity History *"
             } Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-activity-history.reg") -NoDialog
+                Disable-ActivityHistory
                 $CbActivityHistory.Text = "[OFF] Activity History"
             }
         })
 
     $CbBackgroundsApps.Add_Click( {
             If ($CbBackgroundsApps.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-bg-apps.reg") -NoDialog
+                Enable-BackgroundApps
                 $CbBackgroundsApps.Text = "[ON]  Background Apps *"
             } Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-bg-apps.reg") -NoDialog
+                Disable-BackgroundApps
                 $CbBackgroundsApps.Text = "[OFF] Background Apps"
             }
         })
 
     $CbClipboardHistory.Add_Click( {
             If ($CbClipboardHistory.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-clipboard-history.reg") -NoDialog
+                Enable-ClipboardHistory
                 $CbClipboardHistory.Text = "[ON]  Clipboard History *"
             } Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-clipboard-history.reg") -NoDialog
+                Disable-ClipboardHistory
                 $CbClipboardHistory.Text = "[OFF] Clipboard History"
             }
         })
 
     $CbCortana.Add_Click( {
             If ($CbCortana.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-cortana.reg") -NoDialog
+                Enable-Cortana
                 $CbCortana.Text = "[ON]  Cortana *"
             } Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-cortana.reg") -NoDialog
+                Disable-Cortana
                 $CbCortana.Text = "[OFF] Cortana"
             }
         })
 
     $CbEncryptedDNS.Add_Click( {
             If ($CbEncryptedDNS.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-encrypted-dns-doh.ps1") -NoDialog
+                Enable-EncryptedDNS
                 $CbEncryptedDNS.Text = "[ON]  Encrypted DNS"
             } Else {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-encrypted-dns-doh.ps1") -NoDialog
+                Disable-EncryptedDNS
                 $CbEncryptedDNS.Text = "[OFF] Encrypted DNS *"
             }
         })
 
     $CbOldVolumeControl.Add_Click( {
             If ($CbOldVolumeControl.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-old-volume-control.reg") -NoDialog
+                Enable-OldVolumeControl
                 $CbOldVolumeControl.Text = "[ON]  Old Volume Control"
             } Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-old-volume-control.reg") -NoDialog
+                Disable-OldVolumeControl
                 $CbOldVolumeControl.Text = "[OFF] Old Volume Control *"
             }
         })
@@ -493,30 +525,30 @@ function Show-GUI() {
 
     $CbTelemetry.Add_Click( {
             If ($CbTelemetry.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-telemetry.reg") -NoDialog
+                Enable-Telemetry
                 $CbTelemetry.Text = "[ON]  Telemetry *"
             } Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-telemetry.reg") -NoDialog
+                Disable-Telemetry
                 $CbTelemetry.Text = "[OFF] Telemetry"
             }
         })
 
     $CbWSearchService.Add_Click( {
             If ($CbWSearchService.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-wsearch-service.ps1") -NoDialog
+                Enable-WSearchService
                 $CbWSearchService.Text = "[ON]  WSearch Service *"
             } Else {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-wsearch-service.ps1") -NoDialog
+                Disable-WSearchService
                 $CbWSearchService.Text = "[OFF] WSearch Service"
             }
         })
 
     $CbXboxGameBarAndDVR.Add_Click( {
             If ($CbXboxGameBarAndDVR.CheckState -eq "Checked") {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-game-bar-dvr.reg") -NoDialog
+                Enable-XboxGameBarDVR
                 $CbXboxGameBarAndDVR.Text = "[ON]  Xbox GameBar/DVR *"
             } Else {
-                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-game-bar-dvr.reg") -NoDialog
+                Disable-XboxGameBarDVR
                 $CbXboxGameBarAndDVR.Text = "[OFF] Xbox GameBar/DVR"
             }
         })
@@ -527,10 +559,10 @@ function Show-GUI() {
 
     $CbGodMode.Add_Click( {
             If ($CbGodMode.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-god-mode.ps1") -NoDialog
+                Enable-GodMode
                 $CbGodMode.Text = "[ON]  God Mode"
             } Else {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-god-mode.ps1") -NoDialog
+                Disable-GodMode
                 $CbGodMode.Text = "[OFF] God Mode *"
             }
         })
@@ -545,13 +577,13 @@ function Show-GUI() {
             }
         })
 
-    $CbShutdownPCShortcut.Add_Click( {
-            If ($CbShutdownPCShortcut.CheckState -eq "Checked") {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-shutdown-pc-shortcut.ps1") -NoDialog
-                $CbShutdownPCShortcut.Text = "[ON]  Shutdown PC shortcut"
+    $CbFastShutdownPCShortcut.Add_Click( {
+            If ($CbFastShutdownPCShortcut.CheckState -eq "Checked") {
+                Enable-FastShutdownShortcut
+                $CbFastShutdownPCShortcut.Text = "[ON]  Fast Shutdown shortcut"
             } Else {
-                Open-PowerShellFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-shutdown-pc-shortcut.ps1") -NoDialog
-                $CbShutdownPCShortcut.Text = "[OFF] Shutdown PC... *"
+                Disable-FastShutdownShortcut
+                $CbFastShutdownPCShortcut.Text = "[OFF] Fast Shutdown shortcut *"
             }
         })
 
@@ -1271,37 +1303,6 @@ function Show-GUI() {
 
     [void] $Form.ShowDialog() # Show the Window
     $Form.Dispose() # When done, dispose of the GUI
-}
-
-function Main() {
-    Clear-Host
-    Request-AdminPrivilege # Check admin rights
-    Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
-
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"ui-helper.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"manage-software.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
-
-    Set-ConsoleStyle            # Makes the console look cooler
-    Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
-    Write-Caption "$((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
-    Write-Host "Your Current Folder $pwd"
-    Write-Host "Script Root Folder $PSScriptRoot"
-    Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -NoDialog # Install Winget and Chocolatey at the beginning
-    Write-ScriptLogo            # Thanks Figlet
-    Show-GUI                    # Load the GUI
-
-    Write-Verbose "Restart: $Script:NeedRestart"
-    If ($Script:NeedRestart) {
-        Request-PcRestart       # Prompt options to Restart the PC
-    }
-    Stop-Logging
 }
 
 Main
