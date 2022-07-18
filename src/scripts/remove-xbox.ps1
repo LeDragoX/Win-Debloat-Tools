@@ -2,6 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 function Remove-Xbox() {
     $TweakType = "Xbox"
@@ -30,14 +31,7 @@ function Remove-Xbox() {
     Write-Status -Types "-", $TweakType -Status "Wiping Xbox Apps completely from Windows..."
     Remove-UWPAppx -AppxPackages $XboxApps
 
-    Write-Status -Types "-", $TweakType -Status "Disabling Xbox Game Bar & Game DVR..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
-    If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
-        New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
+    Disable-XboxGameBarDVR
 }
 
 function Main() {

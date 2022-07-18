@@ -34,4 +34,3 @@ function Unregister-DuplicatedPowerPlan() {
         }
     }
 }
-
