@@ -495,7 +495,7 @@ function Show-GUI() {
         })
 
     $InstallTaskbarWidgets.Add_Click( {
-            Install-TaskbarWidgets
+            Install-TaskbarWidgetsApp
         })
 
     $InstallUWPWMediaPlayer.Add_Click( {
@@ -626,20 +626,20 @@ function Show-GUI() {
 
     $CbPrintToPDFServices.Add_Click( {
             If ($CbPrintToPDFServices.CheckState -eq "Checked") {
-                Enable-PrintToPDFServices
+                Enable-PrintToPDFServicesToogle
                 $CbPrintToPDFServices.Text = "[ON]  Print To PDF Services *"
             } Else {
-                Disable-PrintToPDFServices
+                Disable-PrintToPDFServicesToogle
                 $CbPrintToPDFServices.Text = "[OFF] Print To PDF Services"
             }
         })
 
     $CbPrintingXPSServices.Add_Click( {
             If ($CbPrintingXPSServices.CheckState -eq "Checked") {
-                Enable-PrintingXPSServices
+                Enable-PrintingXPSServicesToogle
                 $CbPrintingXPSServices.Text = "[ON]  Printing XPS Services *"
             } Else {
-                Disable-PrintingXPSServices
+                Disable-PrintingXPSServicesToogle
                 $CbPrintingXPSServices.Text = "[OFF] Printing XPS Services"
             }
         })
