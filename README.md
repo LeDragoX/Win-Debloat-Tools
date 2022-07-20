@@ -121,30 +121,44 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Repair Windows`: Try to Completely fix the Windows worst problems via Command Line; ([`backup-system.ps1`](./src/scripts/backup-system.ps1) and [`repair-windows.ps1`](./src/scripts/repair-windows.ps1))
 - `Show Debloat Info`: Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference); ([`show-debloat-info.ps1`](./src/utils/show-debloat-info.ps1))
 
-#### Customize System Features
+#### [System Apps](src/utils/install-individual-system-apps.psm1)
 
-- `Dark Theme & Light Theme`: Apply [Dark Theme](./src/utils/use-dark-theme.reg) or [Light Theme](./src/utils/use-light-theme.reg) on Windows;
-- `Enable/Disable Activity History`: [Enables](./src/utils/enable-activity-history.reg) or [Disables](src/utils/disable-activity-history.reg) the **Activity History**;
-- `Enable/Disable Background Apps`: [Enables](./src/utils/enable-bg-apps.reg) or [Disables](src/utils/disable-bg-apps.reg) _ALL_ the **Background Apps**;
-- `Enable/Disable Clipboard History`: [Enables](./src/utils/enable-clipboard-history.reg) or [Disables](src/utils/disable-clipboard-history.reg) the **Clipboard History**;
-- `Enable/Disable Cortana`: [Enables](./src/utils/enable-cortana.reg) or [Disables](src/utils/disable-cortana.reg) the **Cortana**;
-- [Enable](src/utils/enable-encrypted-dns-doh.ps1)/[Disable](src/utils/disable-encrypted-dns-doh.ps1) `Encrypted DNS`: Sets the DNS Client Servers to **Cloudflare's** and **Google's** (ipv4 and ipv6), and enables **DNS Over HTTPS** on _Windows 11_.
-- `Enable/Disable Old Volume Control`: [Enables](./src/utils/enable-old-volume-control.reg) or [Disables](src/utils/disable-old-volume-control.reg) the **Old Volume Control (Win 7/8.1)**;
+- This section contains options to restore the system apps, by downloading them from the **MS Store** (mostly) and doing **Stock configurations** (for some Apps).
+
+#### Other Tools
+
+- This section contains tools to solve some Windows problems and get info about how much debloated the system is.
+
+#### [Customize System Features](src/utils/individual-tweaks.psm1)
+
+- `Enable/Disable Dark Theme`: Apply `Dark Theme` or `Light Theme` on Windows;
+- `Enable/Disable Activity History`: Enables or Disables the **Activity History**;
+- `Enable/Disable Background Apps`: Enables or Disables _ALL_ the **Background Apps**;
+- `Enable/Disable Clipboard History`: Enables or Disables the **Clipboard History**;
+- `Enable/Disable Cortana`: Enables or Disables the **Cortana**;
+- `Enable/Disable Old Volume Control`: Enables or Disables the **Old Volume Control (Win 7/8.1)**;
 - `Enable/Disable Photo Viewer`: [Enables](./src/utils/enable-photo-viewer.reg) or [Disables](src/utils/disable-photo-viewer.reg) the **Photo Viewer (Win 7/8.1)**;
-- `Enable/Disable WSearch Service`: [Enables](./src/utils/enable-wsearch-service.ps1) or [Disables](src/utils/disable-wsearch-service.ps1) the **Windows Search Service**;
-- `Enable/Disable Telemetry`: [Enables](./src/utils/enable-telemetry.reg) or [Disables](src/utils/disable-telemetry.reg) the **Windows Telemetry**;
-- `Enable/Disable Xbox GameBar/DVR`: [Enables](./src/utils/enable-game-bar-dvr.reg) or [Disables](src/utils/disable-game-bar-dvr.reg) the **Xbox GameBar/DVR (In-Game)**;
+- `Enable/Disable Search App for Unknown Ext.`: When running a unknown extension file, be able to search through **MS Store** for an App that can open it.
+- `Enable/Disable Telemetry`: Enables or Disables the **Windows Telemetry**;
+- `Enable/Disable WSearch Service`: Enables or Disables the **Windows Search Service**;
+- `Enable/Disable Xbox GameBar/DVR`: Enables or Disables the **Xbox GameBar DVR (In-Game)**, that can record clips from games;
 
-#### Miscellaneous Features
+#### [Optional Features](src/utils/individual-tweaks.psm1)
 
-- `Get H.265 video codec`: Get the missing HEVC support to run H.265 videos through MS Store, it's a must have and not stock feature (Free and DIY).
-- `Enable/Disable God Mode`: [Enables](./src/utils/enable-god-mode.ps1) or [Disables](./src/utils/disable-god-mode.ps1) the hidden Desktop folder **God Mode**;
+- This section can manually adjust `Optional Features` from the system, working as a ON/OFF toggle.
+
+#### [Miscellaneous Features](src/utils/individual-tweaks.psm1)
+
+- `Get H.265 video codec`: Get the missing HEVC support to run **H.265 videos** through MS Store, it's a must have and not stock feature (Free and DIY).
+- `Enable/Disable Encrypted DNS`: Sets the DNS Client Servers to **Cloudflare's** and **Google's** (ipv4 and ipv6), and enables **DNS Over HTTPS** on _Windows 11_.
+- `Enable/Disable God Mode`: Enables or Disables the hidden Desktop folder **God Mode**;
 - `Enable/Disable Take Ownership menu`: [Enables](./src/utils/enable-take-ownership-context-menu.reg) or [Disables](src/utils/disable-take-ownership-context-menu.reg) the **Take Ownership context menu**;
-- `Enable/Disable Shutdown PC shortcut`: [Enables](./src/utils/enable-shutdown-pc-shortcut.ps1) or [Disables](./src/utils/disable-shutdown-pc-shortcut.ps1) the **Shutdown Computer desktop shortcut**;
+- `Enable/Disable Shutdown PC shortcut`: Enables or Disables the **Shutdown Computer desktop shortcut**;
 
 ### Software Install
 
-- `Upgrade All Packages`: Upgrades all Softwares installed on your machine installed through _Winget_, _Chocolatey_ (WSL will only update itself, not the distros installed)
+- `Upgrade All Softwares`: Upgrades all Softwares installed on your machine installed through _Winget_ and _Chocolatey_.
+  - WSL will only update itself, not the distros installed.
 - `Install Selected`: Install the selected apps by marking the checkbox(es);
 - `Uninstall Mode`: Default as OFF, clicking this will switch the `Install Selected` button to `Uninstall Selected` and uninstall every selected apps (**Advice**: Blue colored buttons may not be able to uninstall completely and WSL UWP Apps, but WSL Distros will be unregistered);
 
@@ -179,15 +193,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 > For each issue, expand the issue you're looking for,
 > and Open PowerShell as admin to copy + paste it's content:
-
-<details>
-  <summary>Bring back Taskbar <code>Widgets</code> (Windows 11) - See <a href="https://github.com/LeDragoX/Win-Debloat-Tools/issues/7">#7</a></summary>
-
-1. Press `Win + R` then paste this protocol: `ms-windows-store://pdp/?ProductId=9MSSGKG348SP`
-2. Then click `Get`/`Install`
-3. After this, open the `Taskbar Settings` and enable the `Widgets` button again
-
-</details>
 
 <details>
   <summary>Fix <code>NVIDIA Control Panel</code></summary>
@@ -233,8 +238,9 @@ Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automati
 
 ## 🤍 Credits
 
-- Special thanks to the [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
-- [W4RH4WK](https://github.com/W4RH4WK) (For his project ^^);
+- Special thanks to [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
+- Special thanks to [Fabio Akita](https://youtu.be/sjrW74Hx5Po?t=318), for making this script famous <3
+- [W4RH4WK](https://github.com/W4RH4WK) - For his project ^^
 
 ## 📚 Used code references
 
