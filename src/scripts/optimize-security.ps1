@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 # Adapted from: https://youtu.be/xz3oXHleKoM
 # Adapted from: https://github.com/ChrisTitusTech/win10script
@@ -63,18 +64,14 @@ function Optimize-Security() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
 
     Write-Section -Text "Microsoft Store"
-    Write-Status -Types "-", $TweakType -Status "Disabling Search for App in Store for Unknown Extensions..."
-    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
-        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
+    Disable-SearchAppForUnknownExt
 
     Write-Section -Text "Windows Explorer"
     Write-Status -Types "+", $TweakType -Status "Enabling Show file extensions in Explorer..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "HideFileExt" -Type DWord -Value 0
 
     Write-Section -Text "User Account Control (UAC)"
-    # Details: https://docs.microsoft.com/pt-br/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
+    # Details: https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings
     Write-Status -Types "+", $TweakType -Status "Raising UAC level..."
     If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System")) {
         New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Force | Out-Null

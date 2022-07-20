@@ -92,7 +92,7 @@ function Optimize-ServicesRunning() {
     Write-Section -Text "Disabling services from Windows"
 
     If ($Revert) {
-        Write-Status -Types "<", "Service" -Status "Reverting the tweaks is set to '$Revert'." -Warning
+        Write-Status -Types "*", "Service" -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $CustomMessage = { "Resetting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup ..." }
         Set-ServiceStartup -Manual -Services $ServicesToDisabled -Filter $EnableServicesOnSSD -CustomMessage $CustomMessage
     } Else {

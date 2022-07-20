@@ -54,8 +54,4 @@ function Remove-OneDrive() {
     Start-Sleep 5
 }
 
-function Main() {
-    Remove-OneDrive
-}
-
-Main
+Remove-OneDrive

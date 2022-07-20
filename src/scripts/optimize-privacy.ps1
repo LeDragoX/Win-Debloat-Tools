@@ -1,4 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
 # Adapted from: https://youtu.be/hQSkPmZRCjc
@@ -20,24 +21,21 @@ function Optimize-Privacy() {
     $TweakType = "Privacy"
 
     If ($Revert) {
-        Write-Status -Types "<", $TweakType -Status "Reverting the tweaks is set to '$Revert'." -Warning
+        Write-Status -Types "*", $TweakType -Status "Reverting the tweaks is set to '$Revert'." -Warning
         $Zero = 1
         $One = 0
         $EnableStatus = @(
-            @{ Symbol = "<"; Status = "Re-Enabling"; }
-            @{ Symbol = "<"; Status = "Re-Disabling"; }
+            @{ Symbol = "*"; Status = "Re-Enabling"; }
+            @{ Symbol = "*"; Status = "Re-Disabling"; }
         )
     }
 
     # Initialize all Path variables used to Registry Tweaks
-    $PathToLMActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
     $PathToLMAutoLogger = "HKLM:\SYSTEM\CurrentControlSet\Control\WMI\AutoLogger"
     $PathToLMDeliveryOptimizationCfg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
     $PathToLMPoliciesAdvertisingInfo = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
     $PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
     $PathToLMPoliciesSQMClient = "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows"
-    $PathToLMPoliciesTelemetry = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
-    $PathToLMPoliciesTelemetry2 = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection"
     $PathToLMPoliciesToWifi = "HKLM:\Software\Microsoft\PolicyManager\default\WiFi"
     $PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
     $PathToLMWindowsTroubleshoot = "HKLM:\SOFTWARE\Microsoft\WindowsMitigation"
@@ -47,7 +45,6 @@ function Optimize-Privacy() {
     $PathToCUInputTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
     $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
     $PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-    $PathToCUSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
     $PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
 
     Write-Title -Text "Privacy Tweaks"
@@ -123,11 +120,11 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value $Zero
 
     Write-Caption -Text "Diagnostics & Feedback"
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) telemetry..."
-    # [@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)
-    Set-ItemProperty -Path "$PathToLMPoliciesTelemetry" -Name "AllowTelemetry" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToLMPoliciesTelemetry2" -Name "AllowTelemetry" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToLMPoliciesTelemetry" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value $Zero
+    If (!$Revert) {
+        Disable-Telemetry
+    } Else {
+        Enable-Telemetry
+    }
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) send inking and typing data to Microsoft..."
     If (!(Test-Path "$PathToCUInputTIPC")) {
@@ -151,17 +148,10 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "$PathToCUSiufRules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value $Zero
 
     Write-Caption -Text "Activity History"
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Activity History..."
-    $ActivityHistoryDisableOnZero = @(
-        "EnableActivityFeed"
-        "PublishUserActivities"
-        "UploadUserActivities"
-    )
-
-    Write-Status -Types "?", $TweakType -Status "From Path: [$PathToLMActivityHistory]" -Warning
-    ForEach ($Name in $ActivityHistoryDisableOnZero) {
-        Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) $($Name): $Zero"
-        Set-ItemProperty -Path "$PathToLMActivityHistory" -Name "$ActivityHistoryDisableOnZero" -Type DWord -Value $Zero
+    If ($Revert) {
+        Enable-ActivityHistory
+    } Else {
+        Disable-ActivityHistory
     }
 
     Write-Section -Text "Privacy -> Apps Permissions"
@@ -191,16 +181,14 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "$PathToCUDeviceAccessGlobal\LooselyCoupled" -Name "Value" -Value "Deny"
     ForEach ($key in (Get-ChildItem "$PathToCUDeviceAccessGlobal")) {
         If ($key.PSChildName -EQ "LooselyCoupled") {
-            continue
+            Continue
         }
         Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Setting $($key.PSChildName) value to 'Deny' ..."
         Set-ItemProperty -Path ("$PathToCUDeviceAccessGlobal\" + $key.PSChildName) -Name "Value" -Value "Deny"
     }
 
     Write-Caption -Text "Background Apps"
-    Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Background Apps..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToCUSearch" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 1
+    Enable-BackgroundAppsToogle
 
     Write-Section -Text "Update & Security"
     Write-Caption -Text "Windows Update"
@@ -291,7 +279,7 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Name "AITEnable" -Type DWord -Value $Zero
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppCompat" -Name "DisableUAR" -Type DWord -Value $One
 
-    # Details: https://docs.microsoft.com/pt-br/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004#windows-system-startup-event-traces-autologgers
+    # Details: https://docs.microsoft.com/en-us/windows-server/remote/remote-desktop-services/rds-vdi-recommendations-2004#windows-system-startup-event-traces-autologgers
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) some startup event traces (AutoLoggers)..."
     If (!(Test-Path "$PathToLMAutoLogger\AutoLogger-Diagtrack-Listener")) {
         New-Item -Path "$PathToLMAutoLogger\AutoLogger-Diagtrack-Listener" -Force | Out-Null

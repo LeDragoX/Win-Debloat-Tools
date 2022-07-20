@@ -14,8 +14,11 @@ You can use [this guide](https://github.com/PoshCode/PowerShellPracticeAndStyle)
 ### VS Code settings (Json)
 
 ```json
+  "editor.detectIndentation": false,
   "[powershell]": {
     "editor.defaultFormatter": "ms-vscode.powershell",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
     "files.trimTrailingWhitespace": true
   },
   "powershell.codeFormatting.preset": "OTBS",
