@@ -17,6 +17,7 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"individual-tweaks.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"install-individual-system-apps.psm1" -Force
 
     Set-ConsoleStyle            # Makes the console look cooler
     Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
@@ -107,7 +108,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SystemTweaksHeight = 700
+    $SystemTweaksHeight = 850
     $SoftwareInstallHeight = 1650
 
     # <===== UI =====>
@@ -140,10 +141,15 @@ function Show-GUI() {
 
     $ClSystemApps = New-Label -Text "System Apps" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $PictureBox1
     $EnableHEVCSupport = New-Button -Text "Get H.265 video codec" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClSystemApps
-    $InstallOneDrive = New-Button -Text "Install OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $EnableHEVCSupport -MarginTop $DistanceBetweenElements
-    $InstallUWPWMediaPlayer = New-Button -Text "Install W. Media Player (UWP)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallOneDrive -MarginTop $DistanceBetweenElements
+    $InstallDolbyAudio = New-Button -Text "Install Dolby Audio" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $EnableHEVCSupport -MarginTop $DistanceBetweenElements
+    $InstallOneDrive = New-Button -Text "Install OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallDolbyAudio -MarginTop $DistanceBetweenElements
+    $InstallPaintPaint3D = New-Button -Text "Install Paint + Paint 3D" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallOneDrive
+    $InstallSoundRecorder = New-Button -Text "Install Sound Recorder" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPaintPaint3D
+    $InstallTaskbarWidgets = New-Button -Text "Install Taskbar Widgets" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallSoundRecorder
+    $InstallUWPWMediaPlayer = New-Button -Text "Install W. Media Player (UWP)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallTaskbarWidgets -MarginTop $DistanceBetweenElements
+    $InstallXbox = New-Button -Text "Install Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallUWPWMediaPlayer -MarginTop $DistanceBetweenElements
 
-    $ClOtherTools = New-Label -Text "Other Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0 -ElementBefore $InstallUWPWMediaPlayer
+    $ClOtherTools = New-Label -Text "Other Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0 -ElementBefore $InstallXbox
     $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $ClOtherTools -MarginTop $DistanceBetweenElements
     $RepairWindows = New-Button -Text "Repair Windows" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $ReinstallBloatApps -MarginTop $DistanceBetweenElements
     $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RepairWindows -MarginTop $DistanceBetweenElements
@@ -157,11 +163,16 @@ function Show-GUI() {
     $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbClipboardHistory
     $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbCortana
     $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbOldVolumeControl
-    $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
+    $CbSearchAppForUnknownExt = New-CheckBox -Text "Enable Search App for Unknown Ext." -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
+    $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbSearchAppForUnknownExt
     $CbWSearchService = New-CheckBox -Text "Enable WSearch Service" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTelemetry
     $CbXboxGameBarDVR = New-CheckBox -Text "Enable Xbox GameBar DVR" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbWSearchService
 
-    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarDVR
+    $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarDVR
+    $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClOptionalFeatures
+    $CbPrintingXPSServices = New-CheckBox -Text "Printing-XPSServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPrintToPDFServices
+
+    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbPrintingXPSServices
     $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClMiscFeatures
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbEncryptedDNS
     $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbGodMode
@@ -374,9 +385,10 @@ function Show-GUI() {
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
-    $T1Panel1.Controls.AddRange(@($ClSystemApps, $EnableHEVCSupport, $InstallOneDrive, $InstallUWPWMediaPlayer))
+    $T1Panel1.Controls.AddRange(@($ClSystemApps, $EnableHEVCSupport, $InstallDolbyAudio, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallSoundRecorder, $InstallXbox))
     $T1Panel1.Controls.AddRange(@($ClOtherTools, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
-    $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbPhotoViewer, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVR))
+    $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVR))
+    $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbPrintToPDFServices, $CbPrintingXPSServices))
     $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
@@ -463,15 +475,35 @@ function Show-GUI() {
         })
 
     $EnableHEVCSupport.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-hevc-support.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Install-HEVCSupport
+        })
+
+    $InstallDolbyAudio.Add_Click( {
+            Install-DolbyAudio
         })
 
     $InstallOneDrive.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Install-OneDrive
+        })
+
+    $InstallPaintPaint3D.Add_Click( {
+            Install-PaintPaint3D
+        })
+
+    $InstallSoundRecorder.Add_Click( {
+            Install-SoundRecorder
+        })
+
+    $InstallTaskbarWidgets.Add_Click( {
+            Install-TaskbarWidgets
         })
 
     $InstallUWPWMediaPlayer.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-uwp-media-player.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Install-UWPWindowsMediaPlayer
+        })
+
+    $InstallXbox.Add_Click( {
+            Install-Xbox
         })
 
     $ReinstallBloatApps.Add_Click( {
@@ -504,10 +536,10 @@ function Show-GUI() {
 
     $CbBackgroundsApps.Add_Click( {
             If ($CbBackgroundsApps.CheckState -eq "Checked") {
-                Enable-BackgroundApps
+                Enable-BackgroundAppsToogle
                 $CbBackgroundsApps.Text = "[ON]  Background Apps *"
             } Else {
-                Disable-BackgroundApps
+                Disable-BackgroundAppsToogle
                 $CbBackgroundsApps.Text = "[OFF] Background Apps"
             }
         })
@@ -552,6 +584,16 @@ function Show-GUI() {
             }
         })
 
+    $CbSearchAppForUnknownExt.Add_Click( {
+            If ($CbSearchAppForUnknownExt.CheckState -eq "Checked") {
+                Enable-SearchAppForUnknownExt
+                $CbSearchAppForUnknownExt.Text = "[ON]  Search App for Unknown Ext. *"
+            } Else {
+                Disable-SearchAppForUnknownExt
+                $CbSearchAppForUnknownExt.Text = "[OFF] Search App for Unknown Ext."
+            }
+        })
+
     $CbTelemetry.Add_Click( {
             If ($CbTelemetry.CheckState -eq "Checked") {
                 Enable-Telemetry
@@ -579,6 +621,26 @@ function Show-GUI() {
             } Else {
                 Disable-XboxGameBarDVR
                 $CbXboxGameBarDVR.Text = "[OFF] Xbox GameBar/DVR"
+            }
+        })
+
+    $CbPrintToPDFServices.Add_Click( {
+            If ($CbPrintToPDFServices.CheckState -eq "Checked") {
+                Enable-PrintToPDFServices
+                $CbPrintToPDFServices.Text = "[ON]  Print To PDF Services *"
+            } Else {
+                Disable-PrintToPDFServices
+                $CbPrintToPDFServices.Text = "[OFF] Print To PDF Services"
+            }
+        })
+
+    $CbPrintingXPSServices.Add_Click( {
+            If ($CbPrintingXPSServices.CheckState -eq "Checked") {
+                Enable-PrintingXPSServices
+                $CbPrintingXPSServices.Text = "[ON]  Printing XPS Services *"
+            } Else {
+                Disable-PrintingXPSServices
+                $CbPrintingXPSServices.Text = "[OFF] Printing XPS Services"
             }
         })
 

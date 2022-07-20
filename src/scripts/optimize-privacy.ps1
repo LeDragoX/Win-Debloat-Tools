@@ -188,7 +188,7 @@ function Optimize-Privacy() {
     }
 
     Write-Caption -Text "Background Apps"
-    Enable-BackgroundApps
+    Enable-BackgroundAppsToogle
 
     Write-Section -Text "Update & Security"
     Write-Caption -Text "Windows Update"
