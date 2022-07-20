@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"new-shortcut.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-windows-feature-state.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Disable-ActivityHistory() {
@@ -21,13 +22,13 @@ function Enable-ActivityHistory() {
     Set-ItemProperty -Path $PathToLMActivityHistory -Name "UploadUserActivities" -Type DWord -Value 1
 }
 
-function Disable-BackgroundApps() {
+function Disable-BackgroundAppsToogle() {
     Write-Status -Types "-", "Misc" -Status "Disabling Background Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
 }
 
-function Enable-BackgroundApps() {
+function Enable-BackgroundAppsToogle() {
     Write-Status -Types "*", "Misc" -Status "Enabling Background Apps..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 1
@@ -170,6 +171,38 @@ function Enable-OldVolumeControl() {
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc" -Type DWord -Value 0
 }
 
+function Disable-PrintToPDFServices() {
+    Set-OptionalFeatureState -Disabled -OptionalFeatures @("Printing-PrintToPDFServices-Features")
+}
+
+function Enable-PrintToPDFServices() {
+    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Printing-PrintToPDFServices-Features")
+}
+
+function Disable-PrintingXPSServices() {
+    Set-OptionalFeatureState -Disabled -OptionalFeatures @("Printing-XPSServices-Features")
+}
+
+function Enable-PrintingXPSServices() {
+    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Printing-XPSServices-Features")
+}
+
+function Disable-SearchAppForUnknownExt() {
+    Write-Status -Types "-", "Misc" -Status "Disabling Search for App in Store for Unknown Extensions..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
+}
+
+function Enable-SearchAppForUnknownExt() {
+    Write-Status -Types "*", "Misc" -Status "Enabling Search for App in Store for Unknown Extensions..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 0
+}
+
 function Disable-Telemetry() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Telemetry..."
     # [@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)
@@ -205,11 +238,9 @@ function Disable-XboxGameBarDVR() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
-
     If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
-
     Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
 }
 
@@ -220,10 +251,8 @@ function Enable-XboxGameBarDVR() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 1
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
     Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
-
     If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
-
     Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 1
 }

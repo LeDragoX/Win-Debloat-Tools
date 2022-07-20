@@ -16,7 +16,6 @@ function Remove-BloatwareAppsList() {
         "Microsoft.BingWeather"                  # Weather
         "Microsoft.CommsPhone"
         "Microsoft.ConnectivityStore"
-        "Microsoft.GamingServices"
         "Microsoft.GetHelp"
         "Microsoft.Getstarted"
         "Microsoft.Messaging"
@@ -41,11 +40,8 @@ function Remove-BloatwareAppsList() {
         "Microsoft.WindowsMaps"                  # Maps
         "Microsoft.WindowsPhone"
         "Microsoft.WindowsReadingList"
-        "Microsoft.WindowsSoundRecorder"
+        "Microsoft.WindowsSoundRecorder"         # Windows Sound Recorder
         "Microsoft.XboxApp"                      # Xbox Console Companion (Replaced by new App)
-        "Microsoft.XboxGameCallableUI"
-        "Microsoft.XboxGameOverlay"
-        "Microsoft.XboxSpeechToTextOverlay"
         "Microsoft.YourPhone"                    # Your Phone
         "Microsoft.ZuneMusic"                    # Groove Music / (New) Windows Media Player
         "Microsoft.ZuneVideo"                    # Movies & TV

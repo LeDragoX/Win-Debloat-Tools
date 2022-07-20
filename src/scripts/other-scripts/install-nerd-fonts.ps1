@@ -4,7 +4,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1
 
 function Install-NerdFont() {
     Push-Location -Path "$PSScriptRoot\..\..\tmp"
-    mkdir "Fonts" | Out-Null
+    New-Item -Path "Fonts" -ItemType Directory | Out-Null
 
     Write-Status -Types "@" -Status "Downloading JetBrains Mono ..."
     Install-JetBrainsMono
