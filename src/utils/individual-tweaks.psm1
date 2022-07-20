@@ -171,19 +171,19 @@ function Enable-OldVolumeControl() {
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc" -Type DWord -Value 0
 }
 
-function Disable-PrintToPDFServices() {
+function Disable-PrintToPDFServicesToogle() {
     Set-OptionalFeatureState -Disabled -OptionalFeatures @("Printing-PrintToPDFServices-Features")
 }
 
-function Enable-PrintToPDFServices() {
+function Enable-PrintToPDFServicesToogle() {
     Set-OptionalFeatureState -Enabled -OptionalFeatures @("Printing-PrintToPDFServices-Features")
 }
 
-function Disable-PrintingXPSServices() {
+function Disable-PrintingXPSServicesToogle() {
     Set-OptionalFeatureState -Disabled -OptionalFeatures @("Printing-XPSServices-Features")
 }
 
-function Enable-PrintingXPSServices() {
+function Enable-PrintingXPSServicesToogle() {
     Set-OptionalFeatureState -Enabled -OptionalFeatures @("Printing-XPSServices-Features")
 }
 

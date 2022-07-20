@@ -27,7 +27,7 @@ function Install-SoundRecorder() {
     Install-Software -Name "Sound Recorder" -Packages $Apps -ViaMSStore
 }
 
-function Install-TaskbarWidgets() {
+function Install-TaskbarWidgetsApp() {
     $Apps = @("9MSSGKG348SP")
 
     Write-Status -Types "*", "Apps" -Status "Installing Taskbar Widgets..."
