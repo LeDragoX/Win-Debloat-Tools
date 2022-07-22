@@ -219,6 +219,14 @@ function Enable-Telemetry() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 3
 }
 
+function Disable-WindowsMediaPlayer() {
+    Set-OptionalFeatureState -Disabled -OptionalFeatures @("MediaPlayback")
+}
+
+function Enable-WindowsMediaPlayer() {
+    Set-OptionalFeatureState -Enabled -OptionalFeatures @("MediaPlayback")
+}
+
 function Disable-WSearchService() {
     Write-Status -Types "-", "Service" -Status "Disabling Search Indexing (Recommended for HDDs)..."
     Get-Service -Name "WSearch" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
