@@ -20,9 +20,8 @@ function Install-PackageManager() {
     )
 
     Try {
-        $Err = $null
         $Err = (Invoke-Expression "$CheckExistenceBlock")
-        if (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
+        If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
         Write-Status -Types "?" -Status "$PackageManagerFullName is already installed." -Warning
     } Catch {
         Write-Status -Types "?" -Status "$PackageManagerFullName was not found." -Warning
@@ -48,7 +47,7 @@ function Install-PackageManager() {
             ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
         }
 
-        If (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue) {
+        If (Get-ScheduledTask -TaskName $JobName -ErrorAction SilentlyContinue) {
             Write-Status -Types "@" -Status "ScheduledJob: $JobName FOUND!"
             Write-Status -Types "@" -Status "Re-Creating with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
@@ -69,7 +68,17 @@ function Install-WingetDependency() {
     ForEach ($OSArch in $OSArchList) {
         If ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
             $WingetDepOutput = Request-FileDownload -FileURI "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx" -OutputFile "Microsoft.VCLibs.14.00.Desktop.appx"
-            Add-AppxPackage -Path $WingetDepOutput
+
+            Try {
+                $InstallPackageCommand = (Add-AppxPackage -Path $WingetDepOutput)
+                Invoke-Expression "$InstallPackageCommand"
+                If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
+            } Catch {
+                Start-Process -FilePath $WingetDepOutput
+                $AppInstallerId = (Get-Process AppInstaller).Id
+                Wait-Process -Id $AppInstallerId
+            }
+
             Remove-Item -Path $WingetDepOutput
         } Else {
             Write-Status -Types "?" -Status "$OSArch is not supported!" -Warning
@@ -85,7 +94,17 @@ function Main() {
         {
             Install-WingetDependency
             $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "winget-latest.appxbundle"
-            Add-AppxPackage -Path $WingetOutput
+
+            Try {
+                $InstallPackageCommand = (Add-AppxPackage -Path $WingetOutput)
+                Invoke-Expression "$InstallPackageCommand"
+                If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
+            } Catch {
+                Start-Process -FilePath $WingetOutput
+                $AppInstallerId = (Get-Process AppInstaller).Id
+                Wait-Process -Id $AppInstallerId
+            }
+
             Remove-Item -Path $WingetOutput
         }
         Time                = "12:00"
