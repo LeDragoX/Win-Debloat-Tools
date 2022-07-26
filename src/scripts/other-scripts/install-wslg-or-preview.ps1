@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"get-hardware-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"manage-software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"set-windows-feature-state.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 
 function Install-WSLPreview() {
@@ -12,19 +13,15 @@ function Install-WSLPreview() {
     # [@] (0 = Do not install updates to other Microsoft products , 1 = Install updates to other Microsoft products)
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AllowMUUpdateService" -Type DWord -Value 1
 
-    Write-Status -Types "+", $TweakType -Status "Installing VirtualMachinePlatform on Optional Features ..."
-    Get-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart # VM Platform
-    Write-Status -Types "+", $TweakType -Status "Installing HypervisorPlatform on Optional Features ..."
-    Get-WindowsOptionalFeature -Online -FeatureName "HypervisorPlatform" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart # Hypervisor Platform from Windows
+    Set-OptionalFeatureState -Enabled -OptionalFeatures @("VirtualMachinePlatform", "HypervisorPlatform") # VM Platform / Hypervisor Platform from Windows
 
     Try {
         Write-Status -Types "?", $TweakType "Installing WSL Preview from MS Store for Windows 11+ ..." -Warning
-        $CheckExistenceBlock = { Install-Software -Name "WSL Preview (Win 11+)" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog }
+        $CheckExistenceBlock = (Install-Software -Name "WSL Preview (Win 11+)" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog)
         Invoke-Expression "$CheckExistenceBlock" | Out-Host
-        If (($LASTEXITCODE)) { throw "This package is not available for Windows 10, you must be on Windows 11+" } # 0 = False, 1 = True
+        If ($LASTEXITCODE) { Throw "This package is not available for Windows 10, you must be on Windows 11+" } # 0 = False, 1 = True
 
-        Write-Status -Types "-", $TweakType -Status "Uninstalling WSL from Optional Features ..."
-        Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
+        Set-OptionalFeatureState -Disabled -OptionalFeatures @("Microsoft-Windows-Subsystem-Linux") # WSL (Old)
     } Catch {
         Write-Status -Types "?", $TweakType -Status "Couldn't install WSL Preview, you must be at least on Windows 11 ..." -Warning
         Install-WSLTwoAndG
@@ -46,8 +43,7 @@ function Install-WSLTwoAndG() {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
     }
 
-    Write-Status -Types "+", $TweakType -Status "Installing Microsoft-Windows-Subsystem-Linux ..."
-    Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart # WSL (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
+    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Microsoft-Windows-Subsystem-Linux") # WSL (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
 
     ForEach ($OSArch in $OSArchList) {
         If ($OSArch -like "x64" -or "arm64") {

@@ -1393,7 +1393,9 @@ function Show-GUI() {
                 }
             }
 
-            Show-Message -Title "$DoneTitle" -Message "$SoftwareList"
+            If (($AppsSelected.WingetApps.Count -ge 1) -or ($AppsSelected.MSStoreApps.Count -ge 1) -or ($AppsSelected.ChocolateyApps.Count -ge 1) -or ($AppsSelected.WSLDistros.Count -ge 1)) {
+                Show-Message -Title "$DoneTitle" -Message "$SoftwareList"
+            }
             $SoftwareList = ""
         })
 
