@@ -16,14 +16,15 @@ function Request-FileDownload {
         mkdir "$PSScriptRoot\..\tmp" | Out-Null
     }
 
-    $FileLocation = "$PSScriptRoot\..\tmp\$OutputFile"
+    $FileLocation = $(Join-Path -Path "$PSScriptRoot\..\tmp\" -ChildPath "$OutputFile")
 
     If ($OutputFolder) {
         If (!(Test-Path "$PSScriptRoot\..\tmp\$OutputFolder")) {
             Write-Status -Types "@" -Status "$PSScriptRoot\..\tmp\$OutputFolder doesn't exist, creating folder..."
             mkdir "$PSScriptRoot\..\tmp\$OutputFolder"
         }
-        $FileLocation = "$PSScriptRoot\..\tmp\$OutputFolder\$OutputFile"
+
+        $FileLocation = $(Join-Path -Path "$PSScriptRoot\..\tmp\" -ChildPath "$OutputFolder\$OutputFile")
     }
 
     Import-Module BitsTransfer
@@ -32,7 +33,7 @@ function Request-FileDownload {
     Write-Status -Types "@" -Status "On: '$FileLocation'"
     Start-BitsTransfer -Dynamic -RetryTimeout 60 -TransferType Download -Source $FileURI -Destination $FileLocation
 
-    return $FileLocation
+    return "$FileLocation"
 }
 
 function Get-APIFile {
