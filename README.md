@@ -139,9 +139,9 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#☑️-common-script-features));
 - `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
-- [`Remove OneDrive`: completely removes OneDrive from the System, re-install is possible via Win Store](./src/scripts/remove-onedrive.ps1);
-- [`Remove Xbox`: Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR](./src/scripts/remove-xbox.ps1);
-- [`Install OneDrive`: Tries to re-install the built-in OneDrive](./src/utils/install-onedrive.ps1);
+- [`Remove OneDrive`](./src/scripts/remove-onedrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
+- [`Remove Xbox`](./src/scripts/remove-xbox.ps1): Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
+- [`Install OneDrive`](./src/utils/install-onedrive.ps1): Tries to re-install the built-in OneDrive;
 
 #### Install System Apps ([Can be found here](src/utils/install-individual-system-apps.psm1))
 
@@ -160,9 +160,9 @@ _This section contains options to restore the system apps, by downloading them f
 
 _This section contains tools to solve some Windows problems and get info about how much debloated the system is._
 
-- [`Reinstall Pre-Installed Apps`: Rebloat Windows with all the Pre-Installed Apps](./src/utils/reinstall-pre-installed-apps.ps1);
-- [`Repair Windows`: Try to Completely fix the Windows worst problems via Command Line](./src/scripts/repair-windows.ps1);
-- [`Show Debloat Info`: Make an overall check-up from disabled and enabled Windows Components](./src/utils/show-debloat-info.ps1) (Compare before and after applying tweaks, it's a great difference);
+- [`Reinstall Pre-Installed Apps`](./src/utils/reinstall-pre-installed-apps.ps1): Rebloat Windows with all the Pre-Installed Apps;
+- [`Repair Windows`](./src/scripts/repair-windows.ps1): Try to Completely fix the Windows worst problems via Command Line;
+- [`Show Debloat Info`](./src/utils/show-debloat-info.ps1): Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference);
 
 #### Customize System Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
@@ -248,7 +248,7 @@ Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automati
 ## 🤍 Credits
 
 - Special thanks to [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
-- Special thanks to [Fabio Akita](https://youtu.be/sjrW74Hx5Po?t=318), for believing this project and making this script famous 🤍.
+- Special thanks to [Fabio Akita](https://youtu.be/sjrW74Hx5Po?t=318), for believing in this project and making this script famous 🤍.
 - [W4RH4WK](https://github.com/W4RH4WK) - For his project ^^
 
 ## 📚 Used code references
