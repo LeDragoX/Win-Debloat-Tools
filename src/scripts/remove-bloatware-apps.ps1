@@ -133,12 +133,6 @@ function Remove-BloatwareAppsList() {
         #"Microsoft.WindowsFeedbackHub"     # Feedback Hub
         #"Microsoft.Windows.Photos"         # Photos
 
-        # [DIY] Xbox Apps and Dependencies
-
-        #"Microsoft.XboxGamingOverlay"      # Xbox Game Bar
-        #"Microsoft.XboxIdentityProvider"   # Xbox Identity Provider (Xbox Dependency)
-        #"Microsoft.Xbox.TCUI"              # Xbox Live API communication (Xbox Dependency)
-
         # [DIY] Common Streaming services
 
         #"*Netflix*"                        # Netflix

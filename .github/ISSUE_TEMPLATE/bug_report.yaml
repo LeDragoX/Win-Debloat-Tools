@@ -61,14 +61,6 @@ body:
       placeholder: "Example: 21H2"
     validations:
       required: true
-  - type: input
-    id: dateExecuted
-    attributes:
-      label: Date Executed
-      description: The date you ran the scripts
-      placeholder: "Example: 2021-11-22"
-    validations:
-      required: true
   - type: textarea
     id: screenshots
     attributes:
