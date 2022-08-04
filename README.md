@@ -76,8 +76,8 @@ Code located in the `main` branch is considered stable, the `develop` branch con
 
 The `Win10Script(CLI/GUI).ps1` do not make everything automatically, so follow these steps.
 
-- Extract the `.zip` file.
-- Run `OpenTerminalHere.cmd` (For beginners) or _PowerShell_ as admin on the script's root folder.
+- Extract the `.zip` file to another folder.
+- Run `OpenTerminalHere.cmd` (try as admin if nothing happens at all).
 - Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory (Down below).
 
 ### **GUI Version**
