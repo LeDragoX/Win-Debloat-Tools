@@ -16,3 +16,6 @@
 
 # Ignore installers, WSL2 update in this case
 *.msi*
+
+# GIMP project files
+*.xcf

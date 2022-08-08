@@ -9,8 +9,7 @@ I need to change these files:
 -->
 
 <h1 align="center">
-  <img width=30px src="src/assets/windows-11-logo.png" style="vertical-align: bottom"> Win Debloat Tools
-  <img width=30px src="src/assets/powershell-icon.png" style="vertical-align: bottom">
+  <img src="src/assets/script-image.png" style="vertical-align: bottom">
 </h1>
 
 <h2 align="center"><i>This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a></i></h2>
