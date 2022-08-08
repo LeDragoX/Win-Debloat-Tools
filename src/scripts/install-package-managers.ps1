@@ -68,12 +68,15 @@ function Install-WingetDependency() {
     ForEach ($OSArch in $OSArchList) {
         If ($OSArch -like "x64" -or "x86" -or "arm64" -or "arm") {
             $WingetDepOutput = Request-FileDownload -FileURI "https://aka.ms/Microsoft.VCLibs.$OSArch.14.00.Desktop.appx" -OutputFile "Microsoft.VCLibs.14.00.Desktop.appx"
+            $AppName = Split-Path -Path $WingetDepOutput -Leaf
 
             Try {
-                $InstallPackageCommand = (Add-AppxPackage -Path $WingetDepOutput)
+                Write-Status -Types "@" -Status "Trying to install the App: $AppName"
+                $InstallPackageCommand = { Add-AppxPackage -Path $WingetDepOutput }
                 Invoke-Expression "$InstallPackageCommand"
                 If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
             } Catch {
+                Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
                 Start-Process -FilePath $WingetDepOutput
                 $AppInstallerId = (Get-Process AppInstaller).Id
                 Wait-Process -Id $AppInstallerId
@@ -93,16 +96,17 @@ function Main() {
         InstallCommandBlock =
         {
             Install-WingetDependency
-            $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "winget-latest.appxbundle"
+            $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "Microsoft.DesktopAppInstaller.msixbundle"
+            $AppName = Split-Path -Path $WingetOutput -Leaf
 
             Try {
-                $InstallPackageCommand = (Add-AppxPackage -Path $WingetOutput)
+                Write-Status -Types "@" -Status "Trying to install the App: $AppName"
+                $InstallPackageCommand = { Add-AppxPackage -Path $WingetOutput }
                 Invoke-Expression "$InstallPackageCommand"
                 If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
             } Catch {
-                Start-Process -FilePath $WingetOutput
-                $AppInstallerId = (Get-Process AppInstaller).Id
-                Wait-Process -Id $AppInstallerId
+                Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
+                Start-Process "ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1" -Wait # GUI App installer can't install itself
             }
 
             Remove-Item -Path $WingetOutput
