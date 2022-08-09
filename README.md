@@ -8,11 +8,12 @@ I need to change these files:
 - Win10ScriptGUI.ps1 (Window Title)
 -->
 
-<h1 align="center">
-  <img src="src/assets/script-image.png" style="vertical-align: bottom">
-</h1>
-
-<h2 align="center"><i>This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a></i></h2>
+<img src="src/assets/script-image.png" style="vertical-align: bottom">
+<h2 align="center">
+  <i>
+    This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a>
+  </i>
+</h2>
 
 These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+. This has a collection of scripts to tweak the system per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
 
