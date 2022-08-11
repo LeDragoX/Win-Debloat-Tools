@@ -16,6 +16,7 @@ function Remove-BloatwareAppsList() {
         "Microsoft.BingWeather"                  # Weather
         "Microsoft.CommsPhone"
         "Microsoft.ConnectivityStore"
+        "Microsoft.549981C3F5F10"                # Cortana
         "Microsoft.GetHelp"
         "Microsoft.Getstarted"
         "Microsoft.Messaging"
@@ -144,7 +145,6 @@ function Remove-BloatwareAppsList() {
 
         # Apps which cannot be removed using Remove-AppxPackage
         #"Microsoft.BioEnrollment"
-        #"Microsoft.Windows.Cortana"        # Cortana
         #"Microsoft.WindowsFeedback"        # Feedback Module
         #"Windows.ContactSupport"
     )
