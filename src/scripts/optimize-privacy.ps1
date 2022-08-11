@@ -43,7 +43,6 @@ function Optimize-Privacy() {
     $PathToCUDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
     $PathToCUInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
     $PathToCUInputTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
-    $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
     $PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
     $PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
 
@@ -106,12 +105,11 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value $One
 
     Write-Caption -Text "Speech"
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Online Speech Recognition..."
-    If (!(Test-Path "$PathToCUOnlineSpeech")) {
-        New-Item -Path "$PathToCUOnlineSpeech" -Force | Out-Null
+    If (!$Revert) {
+        Disable-OnlineSpeechRecognition
+    } Else {
+        Enable-OnlineSpeechRecognition
     }
-    # [@] (0 = Decline, 1 = Accept)
-    Set-ItemProperty -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value $Zero
 
     Write-Caption -Text "Inking & Typing Personalization"
     Set-ItemProperty -Path "$PathToCUInputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value $Zero
