@@ -4,22 +4,24 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-windows-feature-state.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
-function Disable-ActivityHistory() {
-    $PathToLMActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$DesktopPath = [Environment]::GetFolderPath("Desktop");
+$PathToLMPoliciesActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
+$PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
+$PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 
+function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "EnableActivityFeed" -Type DWord -Value 0
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "PublishUserActivities" -Type DWord -Value 0
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "UploadUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "EnableActivityFeed" -Type DWord -Value 0
+    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "PublishUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "UploadUserActivities" -Type DWord -Value 0
 }
 
 function Enable-ActivityHistory() {
-    $PathToLMActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
-
     Write-Status -Types "*", "Privacy" -Status "Enabling Activity History..."
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "EnableActivityFeed" -Type DWord -Value 1
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "PublishUserActivities" -Type DWord -Value 1
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "UploadUserActivities" -Type DWord -Value 1
+    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "EnableActivityFeed"
+    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "PublishUserActivities"
+    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "UploadUserActivities"
 }
 
 function Disable-BackgroundAppsToogle() {
@@ -47,8 +49,6 @@ function Enable-ClipboardHistory() {
 }
 
 function Disable-Cortana() {
-    $PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
-
     Write-Status -Types "-", "Privacy" -Status "Disabling Cortana..."
     Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "AllowCortana" -Type DWord -Value 0
     Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "AllowCloudSearch" -Type DWord -Value 0
@@ -57,8 +57,6 @@ function Disable-Cortana() {
 }
 
 function Enable-Cortana() {
-    $PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
-
     Write-Status -Types "*", "Privacy" -Status "Enabling Cortana..."
     Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "AllowCortana" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "AllowCloudSearch" -Type DWord -Value 1
@@ -68,14 +66,14 @@ function Enable-Cortana() {
 
 function Disable-DarkTheme() {
     Write-Status -Types "*", "Personal" -Status "Disabling Dark Theme..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUThemes" -Name "AppsUseLightTheme" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUThemes" -Name "SystemUsesLightTheme" -Type DWord -Value 1
 }
 
 function Enable-DarkTheme() {
     Write-Status -Types "+", "Personal" -Status "Enabling Dark Theme..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToCUThemes" -Name "AppsUseLightTheme" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToCUThemes" -Name "SystemUsesLightTheme" -Type DWord -Value 0
 }
 
 function Disable-EncryptedDNS() {
@@ -99,15 +97,11 @@ function Enable-EncryptedDNS() {
 }
 
 function Disable-FastShutdownShortcut() {
-    $DesktopPath = [Environment]::GetFolderPath("Desktop");
-
     Write-Status -Types "*" -Status "Removing the shortcut to shutdown the computer on the Desktop..." -Warning
     Remove-Item -Path "$DesktopPath\Fast Shutdown.lnk"
 }
 
 function Enable-FastShutdownShortcut() {
-    $DesktopPath = [Environment]::GetFolderPath("Desktop");
-
     $SourcePath = "$env:SystemRoot\System32\shutdown.exe"
     $ShortcutPath = "$DesktopPath\Fast Shutdown.lnk"
     $Description = "Turns off the computer without any prompt"
@@ -163,12 +157,34 @@ function Enable-GodMode() {
 
 function Disable-OldVolumeControl() {
     Write-Status -Types "*", "Misc" -Status "Disabling Old Volume Control..."
-    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc" -Type DWord -Value 1
+    Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc"
 }
 
 function Enable-OldVolumeControl() {
     Write-Status -Types "+", "Misc" -Status "Enabling Old Volume Control..."
     Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc" -Type DWord -Value 0
+}
+
+function Disable-OnlineSpeechRecognition() {
+    Write-Status -Types "-", "Privacy" -Status "Disabling Online Speech Recognition..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization" -Type DWord -Value 0
+
+    If (!(Test-Path "$PathToCUOnlineSpeech")) {
+        New-Item -Path "$PathToCUOnlineSpeech" -Force | Out-Null
+    }
+    # [@] (0 = Decline, 1 = Accept)
+    Set-ItemProperty -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 0
+}
+
+function Enable-OnlineSpeechRecognition() {
+    Write-Status -Types "+", "Privacy" -Status "Enabling Online Speech Recognition..."
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization"
+
+    If (!(Test-Path "$PathToCUOnlineSpeech")) {
+        New-Item -Path "$PathToCUOnlineSpeech" -Force | Out-Null
+    }
+    # [@] (0 = Decline, 1 = Accept)
+    Set-ItemProperty -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 1
 }
 
 function Disable-PrintToPDFServicesToogle() {
@@ -200,7 +216,7 @@ function Enable-SearchAppForUnknownExt() {
     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
         New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
     }
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 0
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith"
 }
 
 function Disable-Telemetry() {
@@ -209,14 +225,16 @@ function Disable-Telemetry() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 }
 
 function Enable-Telemetry() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Telemetry..."
     # [@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 3
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 3
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry"
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry"
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
 }
 
 function Disable-WindowsMediaPlayer() {
@@ -256,11 +274,11 @@ function Enable-XboxGameBarDVR() {
     $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 
     Write-Status -Types "*", "Performance" -Status "Enabling Xbox Game Bar DVR..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value"
+    Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled"
+    Remove-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled"
     If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 1
+    Remove-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR"
 }

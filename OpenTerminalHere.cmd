@@ -52,6 +52,8 @@
  setlocal & cd /d %~dp0
  if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
-REM "Your script here"
+REM DESCRIPTION
+REM This will open Windows Terminal if Winget is already installed, otherwise it will open PowerShell
+REM (Prevents bug when installing winget through Windows Terminal)
 
-powershell "cmd.exe '/c wt.exe --startingDirectory ""%~dp0"" --profile ""Windows PowerShell""'" || start PowerShell
+(winget --version && powershell "cmd.exe '/c wt.exe --startingDirectory ""%~dp0"" --profile ""Windows PowerShell""'") || start PowerShell

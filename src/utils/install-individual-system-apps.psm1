@@ -1,6 +1,13 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
+function Install-Cortana() {
+    $Apps = @("9NFFX4SZZ23L")
+
+    Write-Status -Types "*", "Apps" -Status "Installing Cortana..."
+    Install-Software -Name "Cortana" -Packages $Apps -ViaMSStore
+}
+
 function Install-DolbyAudio() {
     $Apps = @("9NJZD5S7QN99")
 
