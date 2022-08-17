@@ -5,6 +5,7 @@ function Remove-BloatwareAppsList() {
     $Apps = @(
         # Default Windows 10+ apps
         "Microsoft.3DBuilder"                    # 3D Builder
+        "Microsoft.549981C3F5F10"                # Cortana
         "Microsoft.Appconnector"
         "Microsoft.BingFinance"                  # Finance
         "Microsoft.BingFoodAndDrink"             # Food And Drink
@@ -16,7 +17,6 @@ function Remove-BloatwareAppsList() {
         "Microsoft.BingWeather"                  # Weather
         "Microsoft.CommsPhone"
         "Microsoft.ConnectivityStore"
-        "Microsoft.549981C3F5F10"                # Cortana
         "Microsoft.GetHelp"
         "Microsoft.Getstarted"
         "Microsoft.Messaging"
@@ -30,7 +30,7 @@ function Remove-BloatwareAppsList() {
         "Microsoft.Office.Sway"
         "Microsoft.OneConnect"
         "Microsoft.People"                       # People
-        "Microsoft.MSPaint"                      # Paint 3D (Where every artist truly start as a kid, i mean, on original Paint, not this 3D)
+        "Microsoft.MSPaint"                      # Paint 3D
         "Microsoft.Print3D"                      # Print 3D
         "Microsoft.SkypeApp"                     # Skype (Who still uses Skype? Use Discord)
         "Microsoft.Todos"                        # Microsoft To Do
@@ -98,8 +98,10 @@ function Remove-BloatwareAppsList() {
         "*Wunderlist*"
         "*XING*"
 
-        # SAMSUNG Bloat
+        # Apps which other apps depend on
+        "Microsoft.Advertising.Xaml"
 
+        # SAMSUNG Bloat
         #"SAMSUNGELECTRONICSCO.LTD.SamsungSettings1.2"          # Allow user to Tweak some hardware settings
         "SAMSUNGELECTRONICSCO.LTD.1412377A9806A"
         "SAMSUNGELECTRONICSCO.LTD.NewVoiceNote"
@@ -117,9 +119,6 @@ function Remove-BloatwareAppsList() {
         "SAMSUNGELECTRONICSCO.LTD.PCGallery"
         "SAMSUNGELECTRONICSCO.LTD.OnlineSupportSService"
         "4AE8B7C2.BOOKING.COMPARTNERAPPSAMSUNGEDITION"
-
-        # Apps which other apps depend on
-        "Microsoft.Advertising.Xaml"
 
         # <==========[ DIY ]==========> (Remove the # to Uninstall)
 
