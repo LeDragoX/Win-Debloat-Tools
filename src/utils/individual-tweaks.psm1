@@ -5,23 +5,23 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-windows-feature-sta
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
-$PathToLMActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$PathToLMPoliciesActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
 $PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
 $PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 
 function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "EnableActivityFeed" -Type DWord -Value 0
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "PublishUserActivities" -Type DWord -Value 0
-    Set-ItemProperty -Path $PathToLMActivityHistory -Name "UploadUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "EnableActivityFeed" -Type DWord -Value 0
+    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "PublishUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "UploadUserActivities" -Type DWord -Value 0
 }
 
 function Enable-ActivityHistory() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Activity History..."
-    Remove-ItemProperty -Path $PathToLMActivityHistory -Name "EnableActivityFeed"
-    Remove-ItemProperty -Path $PathToLMActivityHistory -Name "PublishUserActivities"
-    Remove-ItemProperty -Path $PathToLMActivityHistory -Name "UploadUserActivities"
+    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "EnableActivityFeed"
+    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "PublishUserActivities"
+    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "UploadUserActivities"
 }
 
 function Disable-BackgroundAppsToogle() {
