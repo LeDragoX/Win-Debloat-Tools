@@ -243,6 +243,10 @@ function Show-GUI() {
     $InstallDropbox = New-CheckBox -Text "Dropbox" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClCloudStorage
     $InstallGoogleDrive = New-CheckBox -Text "Google Drive" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallDropbox
 
+    $ClUICustomization = New-Label -Text "UI Customization" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallGoogleDrive
+    $InstallRoundedTB = New-CheckBox -Text "RoundedTB" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClUICustomization
+    $InstallTranslucentTB = New-CheckBox -Text "TranslucentTB" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallRoundedTB
+
     # ==> T2 Panel 2
     $InstallSelected = New-Button -Text "Install Selected" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -LocationY 0 -FontStyle "Bold"
 
@@ -278,7 +282,8 @@ function Show-GUI() {
     $InstallCpuZ = New-CheckBox -Text "CPU-Z" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClUtilities
     $InstallCrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallCpuZ
     $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallCrystalDiskInfo
-    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallCrystalDiskMark
+    $InstallGeekbench5 = New-CheckBox -Text "Geekbench 5" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallCrystalDiskMark
+    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallGeekbench5
     $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallGpuZ
     $InstallInternetDownloadManager = New-CheckBox -Text "Internet Download Manager (Trial)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallHwInfo
     $InstallMsiAfterburner = New-CheckBox -Text "MSI Afterburner" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallInternetDownloadManager
@@ -406,13 +411,14 @@ function Show-GUI() {
     $T2Panel1.Controls.AddRange(@($ClBootableUsb, $InstallBalenaEtcher, $InstallRufus, $InstallVentoy))
     $T2Panel1.Controls.AddRange(@($ClVirtualMachines, $InstallOracleVirtualBox, $InstallQemu, $InstallVmWarePlayer))
     $T2Panel1.Controls.AddRange(@($ClCloudStorage, $InstallDropbox, $InstallGoogleDrive))
+    $T2Panel1.Controls.AddRange(@($ClUICustomization, $InstallRoundedTB, $InstallTranslucentTB))
     $T2Panel2.Controls.AddRange(@($InstallSelected))
     $T2Panel2.Controls.AddRange(@($ClWebBrowsers, $InstallBraveBrowser, $InstallGoogleChrome, $InstallMozillaFirefox))
     $T2Panel2.Controls.AddRange(@($ClAudioVideoTools, $InstallAudacity, $InstallMpcHc, $InstallVlc))
     $T2Panel2.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
     $T2Panel2.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallDisneyPlus, $InstallNetflix, $InstallSpotify))
     $T2Panel2.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
-    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod))
+    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGeekbench5, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod))
     $T2Panel2.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
     $T2Panel3.Controls.AddRange(@($UninstallMode))
     $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
@@ -861,6 +867,16 @@ function Show-GUI() {
                 $InstallDropbox.CheckState = "Unchecked"
             }
 
+            If ($InstallRoundedTB.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9MTFTXSJ9M7F")
+                $InstallRoundedTB.CheckState = "Unchecked"
+            }
+
+            If ($InstallTranslucentTB.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9PF4KZ2VN4W9")
+                $InstallTranslucentTB.CheckState = "Unchecked"
+            }
+
             If ($InstallGoogleDrive.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("Google.Drive")
                 $InstallGoogleDrive.CheckState = "Unchecked"
@@ -969,6 +985,11 @@ function Show-GUI() {
             If ($InstallCrystalDiskMark.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("CrystalDewWorld.CrystalDiskMark")
                 $InstallCrystalDiskMark.CheckState = "Unchecked"
+            }
+
+            If ($InstallGeekbench5.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("PrimateLabs.Geekbench.5")
+                $InstallGeekbench5.CheckState = "Unchecked"
             }
 
             If ($InstallGpuZ.CheckState -eq "Checked") {
