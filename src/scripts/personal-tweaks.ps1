@@ -181,8 +181,8 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Write-Caption -Text "Colors"
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) taskbar transparency..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value $Zero
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "Re-Enabling taskbar transparency..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 
     Write-Section -Text "System"
     Write-Caption -Text "Multitasking"
