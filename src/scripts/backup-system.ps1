@@ -14,7 +14,7 @@ function Backup-HostsFile() {
     Push-Location "$PathToHostsFile"
 
     If (!(Test-Path "$PathToHostsFile\Hosts_Backup")) {
-        Write-Status -Types "?", $TweakType -Status "Backup folder not found! Creating a new one..." -ForegroundColor Yellow -BackgroundColor Black
+        Write-Status -Types "?", $TweakType -Status "Backup folder not found! Creating a new one..." -Warning
         mkdir -Path "$PathToHostsFile\Hosts_Backup"
     }
     Push-Location "Hosts_Backup"
