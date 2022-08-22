@@ -143,6 +143,9 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'News and Interest' from taskbar..."
+    If (!(Test-Path "$PathToLMPoliciesNewsAndInterest")) {
+        New-Item -Path "$PathToLMPoliciesNewsAndInterest" -Force | Out-Null
+    }
     # [@] (0 = Disable, 1 = Enable)
     Set-ItemProperty -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value $Zero
 

@@ -1,6 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 
-Function New-SystemColor() {
+function New-SystemColor() {
     $ColorHistory = Get-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\History\Colors"
     $HexColor = "{0:X6}" -f (Get-Random -Maximum 0xFFFFFF)
     $HexColorBGR = "$($HexColor[4..5] + $HexColor[2..3] + $HexColor[0..1])".Split(" ") -join ""
