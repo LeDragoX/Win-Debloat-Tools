@@ -39,6 +39,7 @@ function Register-PersonalTweaksList() {
     $PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
     $PathToCUWindowsSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
     $PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
+    $PathToLMPoliciesWindowsSearch = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 
     Write-Title -Text "My Personal Tweaks"
     If (!$Revert) {
@@ -119,7 +120,7 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value $One
 
     Write-Status -Types "-", $TweakType -Status "Disabling '- Shortcut' name after creating a shortcut..."
-    Set-ItemProperty -Path "$PathToCUExplorer" -Name "link" -Value ([byte[]](0x00, 0x00, 0x00, 0x00))
+    Set-ItemProperty -Path "$PathToCUExplorer" -Name "link" -Type Binary -Value ([byte[]](0x00, 0x00, 0x00, 0x00))
 
     Write-Section -Text "Personalization"
     Write-Section -Text "Task Bar Tweaks"
@@ -129,7 +130,10 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Windows search highlights from taskbar..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "EnableDynamicContentInWSB" -Type DWord -Value $Zero
+    If (!(Test-Path "$PathToLMPoliciesWindowsSearch")) {
+        New-Item -Path "$PathToLMPoliciesWindowsSearch" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToLMPoliciesWindowsSearch" -Name "EnableDynamicContentInWSB" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Task View' icon from taskbar..."
     # [@] (0 = Hide Task view, 1 = Show Task view)

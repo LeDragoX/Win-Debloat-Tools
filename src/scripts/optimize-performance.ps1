@@ -33,7 +33,6 @@ function Optimize-Performance() {
     # Initialize all Path variables used to Registry Tweaks
     $PathToLMPoliciesPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
     $PathToLMPoliciesWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
-    $PathToLMPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
     $PathToCUGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
 
     Write-Title -Text "Performance Tweaks"
@@ -54,11 +53,6 @@ function Optimize-Performance() {
     Write-Status -Types "+", $TweakType -Status "Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) SysMain/Superfetch..."
-    # As SysMain was already disabled on the Services, just need to remove it's key
-    # [@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
-    Set-ItemProperty -Path "$PathToLMPrefetchParams" -Name "EnableSuperfetch" -Type DWord -Value $Zero
-
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value $Zero
 
@@ -68,7 +62,7 @@ function Optimize-Performance() {
 
     # Details: https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
     # Will reduce Processes number considerably on > 4GB of RAM systems
-    Write-Status -Types "+", $TweakType -Status "Setting SVCHost to match RAM size..."
+    Write-Status -Types "+", $TweakType -Status "Setting SVCHost to match installed RAM size..."
     $RamInKB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1KB
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $RamInKB
 
