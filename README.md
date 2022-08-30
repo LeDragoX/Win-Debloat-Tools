@@ -17,7 +17,7 @@ I need to change these files:
 
 These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+. This has a collection of scripts to tweak the system per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
 
-> _Use on a fresh windows install to note the differences._
+> _Use on a fresh Windows install to note the differences. Using an admin account is recommended to avoid any compatibility issues._
 
 ⚠️ **DISCLAIMER:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
 

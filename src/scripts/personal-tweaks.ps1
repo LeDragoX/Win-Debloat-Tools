@@ -44,13 +44,9 @@ function Register-PersonalTweaksList() {
     Write-Title -Text "My Personal Tweaks"
     If (!$Revert) {
         $Scripts = @("enable-photo-viewer.reg")
-        Disable-ClipboardHistory
-        Disable-Cortana
         Enable-DarkTheme
     } Else {
         $Scripts = @("disable-photo-viewer.reg")
-        Enable-ClipboardHistory
-        Enable-Cortana
         Disable-DarkTheme
     }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
@@ -71,7 +67,7 @@ function Register-PersonalTweaksList() {
     }
 
     Write-Section -Text "Windows Explorer Tweaks"
-    Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Quick Access from Windows Explorer..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Quick Access from Windows Explorer..."
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "HubMode" -Type DWord -Value $One
@@ -95,9 +91,6 @@ function Register-PersonalTweaksList() {
 
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Show Drives without Media..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
-
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) File Explorer Ads (OneDrive, New Features etc.)..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) MRU lists (jump lists) of XAML apps in Start Menu..."
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
@@ -188,7 +181,7 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Write-Caption -Text "Colors"
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "Re-Enabling taskbar transparency..."
+    Write-Status -Types "=", $TweakType -Status "Re-Enabling taskbar transparency..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 
     Write-Section -Text "System"
@@ -221,8 +214,8 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "=", $TweakType -Status "Show me history and favorite suggestions and other data using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
 
-    Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Error reporting..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value $Zero
+    Write-Status -Types "=", $TweakType -Status "Re-Enabling Error reporting..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
 
     Write-Status -Types "+", $TweakType -Status "Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
