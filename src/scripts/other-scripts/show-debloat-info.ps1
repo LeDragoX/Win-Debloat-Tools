@@ -23,7 +23,8 @@ function Show-DebloatInfo {
     $TotalWinPackages = (Get-WindowsPackage -Online).Count # Slow
     $NumberOfProcesses = (Get-Process).Count
     $RAMAvailable = [Int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)
-    $RamInMB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1MB
+    $RAMInMB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1MB
+    $RAMUsed = $RAMInMB - $RAMAvailable
     $SystemDrive = (Get-PSDrive -Name $env:SystemDrive[0])
     $AvailableStorage = $SystemDrive.Free / 1GB
     $UsedStorage = $SystemDrive.Used / 1GB
@@ -42,8 +43,8 @@ Total of UWP Provisioned Apps: $TotalProvisionedAppx
 Total of Windows Packages: $TotalWinPackages
 -----------------------------------------------------------------
 Number of Processes: $NumberOfProcesses
-RAM Available: $RAMAvailable/$RamInMB MB ($((($RAMAvailable / $RamInMB) * 100).ToString("#.##"))%)
-Storage Available ($env:SystemDrive): $($AvailableStorage.ToString("#.#"))/$($TotalStorage.ToString("#.#")) GB ($((($AvailableStorage / $TotalStorage) * 100).ToString("#.##"))%)
+RAM Used: $RAMUsed/$RAMInMB MB ($((($RAMUsed / $RAMInMB) * 100).ToString("#.##"))%)
+Storage Used ($env:SystemDrive): $($UsedStorage.ToString("#.#"))/$($TotalStorage.ToString("#.#")) GB ($((($UsedStorage / $TotalStorage) * 100).ToString("#.##"))%)
 "@ # Here-String
 
     If ($PostMessage) {
