@@ -135,7 +135,8 @@ function Show-GUI() {
     $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0
     $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $PanelElementWidth -Height $BBHeight -LocationX $PanelElementX -ElementBefore $ClDebloatTools -FontSize $Header3 -ForeColor $WinBlue
     $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $ApplyTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
-    $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $UndoTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $UndoTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RemoveMSEdge -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
     $RemoveXbox = New-Button -Text "Remove Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RemoveOneDrive -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width $PanelElementWidth -Height (($BBHeight * 2) + $DistanceBetweenElements) -LocationX $PanelElementX -ElementBefore $RemoveXbox -MarginTop $DistanceBetweenElements -SizeMode 'Zoom'
 
@@ -394,7 +395,7 @@ function Show-GUI() {
     $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2))
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Tab Panel
-    $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
+    $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
     $T1Panel1.Controls.AddRange(@($ClInstallSystemApps, $EnableHEVCSupport, $InstallCortana, $InstallDolbyAudio, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallSoundRecorder, $InstallXbox))
     $T1Panel1.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVR))
@@ -467,6 +468,10 @@ function Show-GUI() {
             )
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $Global:Revert = $false
+        })
+
+    $RemoveMSEdge.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-msedge.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RemoveOneDrive.Add_Click( {

@@ -158,7 +158,7 @@ function Register-PersonalTweaksList() {
     }
     Set-ItemProperty -Path $PathToCUPoliciesLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value $One
 
-    Write-Status -Types "=", $TweakType -Status "Enabling Auto tray icons..."
+    Write-Status -Types "*", $TweakType -Status "Enabling Auto tray icons..."
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Meet now' icon on taskbar..."
@@ -181,7 +181,7 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Write-Caption -Text "Colors"
-    Write-Status -Types "=", $TweakType -Status "Re-Enabling taskbar transparency..."
+    Write-Status -Types "*", $TweakType -Status "Re-Enabling taskbar transparency..."
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 
     Write-Section -Text "System"
@@ -208,13 +208,13 @@ function Register-PersonalTweaksList() {
 
     Write-Section -Text "Microsoft Edge Policies"
     Write-Caption -Text "Privacy, search and services / Address bar and search"
-    Write-Status -Types "=", $TweakType -Status "Show me search and site suggestions using my typed characters..."
+    Write-Status -Types "*", $TweakType -Status "Show me search and site suggestions using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
 
-    Write-Status -Types "=", $TweakType -Status "Show me history and favorite suggestions and other data using my typed characters..."
+    Write-Status -Types "*", $TweakType -Status "Show me history and favorite suggestions and other data using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
 
-    Write-Status -Types "=", $TweakType -Status "Re-Enabling Error reporting..."
+    Write-Status -Types "*", $TweakType -Status "Re-Enabling Error reporting..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
 
     Write-Status -Types "+", $TweakType -Status "Bringing back F8 alternative Boot Modes..."

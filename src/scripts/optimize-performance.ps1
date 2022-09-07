@@ -44,7 +44,7 @@ function Optimize-Performance() {
         Enable-XboxGameBarDVR
     }
 
-    Write-Status -Types "=", $TweakType -Status "Enabling game mode..."
+    Write-Status -Types "*", $TweakType -Status "Enabling game mode..."
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
 
@@ -73,7 +73,7 @@ function Optimize-Performance() {
     Set-ItemProperty -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    Write-Status -Types "=", $TweakType -Status "Enabling Windows Store apps Automatic Updates..."
+    Write-Status -Types "*", $TweakType -Status "Enabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
         New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
     }
@@ -101,10 +101,14 @@ function Optimize-Performance() {
     Write-Caption -Text "Proxy"
     Write-Status -Types "-", $TweakType -Status "Fixing Edge slowdown by NOT Automatically Detecting Settings..."
     # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
-    $Key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
+    $Key = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections"
     $Data = (Get-ItemProperty -Path $Key -Name DefaultConnectionSettings).DefaultConnectionSettings
     $Data[8] = 3
     Set-ItemProperty -Path $Key -Name DefaultConnectionSettings -Value $Data
+
+    # Details: https://windowsreport.com/how-to-speed-up-windows-11-animations/
+    Write-Status -Types "+", $TweakType -Status "Setting animation speed to 100ms on Windows 11..."
+    Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type DWord -Value 100 # Default: 400
 }
 
 function Main() {

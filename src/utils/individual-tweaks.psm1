@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"new-shortcut.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-windows-feature-state.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
@@ -226,6 +227,9 @@ function Disable-Telemetry() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+
+    Stop-Service "DiagTrack" -NoWait -Force
+    Set-ServiceStartup -Disabled -Services "DiagTrack"
 }
 
 function Enable-Telemetry() {
@@ -235,6 +239,9 @@ function Enable-Telemetry() {
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry"
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
+
+    Set-ServiceStartup -Manual -Services "DiagTrack"
+    Start-Service "DiagTrack"
 }
 
 function Disable-WindowsMediaPlayer() {
