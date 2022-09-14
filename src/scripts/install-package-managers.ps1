@@ -47,7 +47,7 @@ function Install-PackageManager() {
             ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
         }
 
-        If (Get-ScheduledTask -TaskName $JobName -ErrorAction SilentlyContinue) {
+        If ((Get-ScheduledTask -TaskName $JobName -ErrorAction SilentlyContinue) -or (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue)) {
             Write-Status -Types "@" -Status "ScheduledJob: $JobName FOUND!"
             Write-Status -Types "@" -Status "Re-Creating with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan

@@ -4,9 +4,9 @@
         [String] $Text = "No Text"
     )
 
-    Write-Host "`n<===================={ " -NoNewline -ForegroundColor Blue -BackgroundColor Black
-    Write-Host "$Text " -NoNewline -ForegroundColor White -BackgroundColor Black
-    Write-Host "}====================>" -ForegroundColor Blue -BackgroundColor Black
+    Write-Host "`n<•••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -ForegroundColor Blue -BackgroundColor Black
+    Write-Host "   $Text" -ForegroundColor White -BackgroundColor Black
+    Write-Host "<•••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -ForegroundColor Blue -BackgroundColor Black
 }
 
 function Write-Section() {
@@ -15,9 +15,9 @@ function Write-Section() {
         [String] $Text = "No Text"
     )
 
-    Write-Host "`n<=========={ " -NoNewline -ForegroundColor Cyan -BackgroundColor Black
+    Write-Host "`n<••••••••••{ " -NoNewline -ForegroundColor Cyan -BackgroundColor Black
     Write-Host "$Text " -NoNewline -ForegroundColor White -BackgroundColor Black
-    Write-Host "}==========>`n" -ForegroundColor Cyan -BackgroundColor Black
+    Write-Host "}••••••••••>`n" -ForegroundColor Cyan -BackgroundColor Black
 }
 
 function Write-Caption() {
@@ -26,7 +26,7 @@ function Write-Caption() {
         [String] $Text = "No Text"
     )
 
-    Write-Host "==> " -NoNewline -ForegroundColor Cyan -BackgroundColor Black
+    Write-Host "••> " -NoNewline -ForegroundColor Cyan -BackgroundColor Black
     Write-Host "$Text" -ForegroundColor White -BackgroundColor Black
 }
 
@@ -63,9 +63,9 @@ function Write-TitleCounter() {
     )
 
     $Counter += 1
-    Write-Host "`n<===================={ " -NoNewline -ForegroundColor Blue -BackgroundColor Black
-    Write-Host "( $Counter/$MaxLength ) - { $Text } " -NoNewline -ForegroundColor White -BackgroundColor Black
-    Write-Host "}====================>" -ForegroundColor Blue -BackgroundColor Black
+    Write-Host "`n<•••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -ForegroundColor Blue -BackgroundColor Black
+    Write-Host "   ($Counter/$MaxLength) – $Text" -ForegroundColor White -BackgroundColor Black
+    Write-Host "<•••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -ForegroundColor Blue -BackgroundColor Black
 
     return $Counter
 }
@@ -73,7 +73,6 @@ function Write-TitleCounter() {
 function Write-ScriptLogo() {
     [CmdletBinding()] param ()
 
-    Write-Host "<=========================================================================================================>`n" -ForegroundColor White -BackgroundColor Black
     Write-Host '            888       888 d8b               8888888b.           888      888                   888    ' -ForegroundColor Green -BackgroundColor Black
     Write-Host '            888   o   888 Y8P               888  "Y88b          888      888                   888    ' -ForegroundColor Green -BackgroundColor Black
     Write-Host '            888  d8b  888                   888    888          888      888                   888    ' -ForegroundColor Green -BackgroundColor Black
@@ -91,9 +90,8 @@ function Write-ScriptLogo() {
     Write-Host '                                        888  888  888 888  888 888 "Y8888b.' -ForegroundColor Green -BackgroundColor Black
     Write-Host '                                        888  Y88..88P Y88..88P 888      X88' -ForegroundColor Green -BackgroundColor Black
     Write-Host '                                        888   "Y88P"   "Y88P"  888  88888P"' -ForegroundColor Green -BackgroundColor Black
-    Write-Host "`n<=========================================================================================================>" -ForegroundColor White -BackgroundColor Black
+    Write-Host "`n<•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -ForegroundColor White -BackgroundColor Black
     Write-Host "                                        It's Time to Debloat Windows 🧹" -ForegroundColor Green -BackgroundColor Black
-    Write-Host "<=========================================================================================================>" -ForegroundColor White -BackgroundColor Black
 }
 
 <#

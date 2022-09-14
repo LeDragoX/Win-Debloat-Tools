@@ -108,7 +108,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SystemTweaksHeight = 925
+    $SystemTweaksHeight = 950
     $SoftwareInstallHeight = 1650
 
     # <===== UI =====>
