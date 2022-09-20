@@ -156,6 +156,21 @@ function Enable-GodMode() {
     New-Item -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}" -ItemType Directory -Force
 }
 
+# Code from: https://answers.microsoft.com/en-us/windows/forum/all/set-the-mouse-scroll-direction-to-reverse-natural/ede4ccc4-3846-4184-a86d-a028515040c0
+function Disable-MouseNaturalScroll() {
+    Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
+        Write-Status -Types "*" -Status "Disabling mouse natural mode on $($_.Name): $($_.DeviceID) (needs restart!)"
+        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 0
+    }
+}
+
+function Enable-MouseNaturalScroll() {
+    Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
+        Write-Status -Types "+" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (needs restart!)"
+        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 1
+    }
+}
+
 function Disable-OldVolumeControl() {
     Write-Status -Types "*", "Misc" -Status "Disabling Old Volume Control..."
     Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc"

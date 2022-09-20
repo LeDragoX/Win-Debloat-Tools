@@ -137,11 +137,12 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 #### System Debloat Tools
 
-- `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#☑️-common-script-features));
+- `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
 - `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
+- [`Remove Microsoft Edge`](./src/scripts/remove-msedge.ps1): uninstalls Microsoft Edge/WebView, then remove the remaining files;
 - [`Remove OneDrive`](./src/scripts/remove-onedrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
-- [`Remove Xbox`](./src/scripts/remove-xbox.ps1): Wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
-- [`Install OneDrive`](./src/utils/install-onedrive.ps1): Tries to re-install the built-in OneDrive;
+- [`Remove Xbox`](./src/scripts/remove-xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
+- [`Install OneDrive`](./src/utils/install-onedrive.ps1): tries to re-install the built-in OneDrive;
 
 #### Install System Apps ([Can be found here](src/utils/install-individual-system-apps.psm1))
 
@@ -186,6 +187,7 @@ _This section can manually adjust `Optional Features` from the system, working a
 
 - `Enable/Disable Encrypted DNS`: Sets the DNS Client Servers to **Cloudflare's** and **Google's** (ipv4 and ipv6), and enables **DNS Over HTTPS** on _Windows 11_.
 - `Enable/Disable God Mode`: Manages the hidden Desktop folder called "**God Mode**";
+- `Enable/Disable Mouse Natural Scroll`: Sets the mac-like mouse scrolling behavior, basically reverts mouse scroll direction;
 - `Enable/Disable Take Ownership menu`: [_Enables_](./src/utils/enable-take-ownership-context-menu.reg) or [_Disables_](src/utils/disable-take-ownership-context-menu.reg) the **Take Ownership context menu**;
 - `Enable/Disable Shutdown PC shortcut`: Manages the **Shutdown Computer desktop shortcut**;
 
