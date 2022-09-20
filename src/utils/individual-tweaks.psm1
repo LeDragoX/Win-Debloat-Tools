@@ -156,6 +156,14 @@ function Enable-GodMode() {
     New-Item -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}" -ItemType Directory -Force
 }
 
+function Disable-InternetExplorer() {
+    Set-OptionalFeatureState -Disabled -OptionalFeatures @("Internet-Explorer-Optional-*")
+}
+
+function Enable-InternetExplorer() {
+    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Internet-Explorer-Optional-*")
+}
+
 # Code from: https://answers.microsoft.com/en-us/windows/forum/all/set-the-mouse-scroll-direction-to-reverse-natural/ede4ccc4-3846-4184-a86d-a028515040c0
 function Disable-MouseNaturalScroll() {
     Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {

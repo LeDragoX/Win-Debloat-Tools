@@ -15,7 +15,9 @@ I need to change these files:
   </i>
 </h2>
 
-These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+. This has a collection of scripts to tweak the system per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
+_These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+._
+
+This has a collection of scripts to tweak the system per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
 
 > _Use on a fresh Windows install to note the differences. Using an admin account is recommended to avoid any compatibility issues._
 
@@ -49,7 +51,7 @@ Code located in the `main` branch is considered stable, the `develop` branch con
     <tbody align="center">
       <tr>
         <td align="left">
-            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main - Stable</a></h4>
+            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main – Stable</a></h4>
         </td>
         <td rowspan="2">21H2 or Older</td>
         <td rowspan="2">Home / Pro</td>
@@ -57,7 +59,7 @@ Code located in the `main` branch is considered stable, the `develop` branch con
       </tr>
       <tr>
         <td align="left">
-            <h5><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/develop.zip">⬇️ Develop - Newer</a></h5>
+            <h5><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/develop.zip">⬇️ Develop – Newer</a></h5>
         </td>
       </tr>
     </tbody>
@@ -142,7 +144,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - [`Remove Microsoft Edge`](./src/scripts/remove-msedge.ps1): uninstalls Microsoft Edge/WebView, then remove the remaining files;
 - [`Remove OneDrive`](./src/scripts/remove-onedrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
 - [`Remove Xbox`](./src/scripts/remove-xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
-- [`Install OneDrive`](./src/utils/install-onedrive.ps1): tries to re-install the built-in OneDrive;
 
 #### Install System Apps ([Can be found here](src/utils/install-individual-system-apps.psm1))
 
@@ -161,9 +162,10 @@ _This section contains options to restore the system apps, by downloading them f
 
 _This section contains tools to solve some Windows problems and get info about how much debloated the system is._
 
-- [`Reinstall Pre-Installed Apps`](./src/utils/reinstall-pre-installed-apps.ps1): Rebloat Windows with all the Pre-Installed Apps;
+- [`Randomize System Color`](./src/scripts/other-scripts/new-system-color.ps1): Changes the Windows color pallette to a random generated hex color;
+- [`Reinstall Pre-Installed Apps`](./src/scripts/reinstall-pre-installed-apps.ps1): Rebloat Windows with all the Pre-Installed Apps;
 - [`Repair Windows`](./src/scripts/repair-windows.ps1): Try to Completely fix the Windows worst problems via Command Line;
-- [`Show Debloat Info`](./src/utils/show-debloat-info.ps1): Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference);
+- [`Show Debloat Info`](./src/scripts/other-scripts/show-debloat-info.ps1): Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference);
 
 #### Customize System Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
