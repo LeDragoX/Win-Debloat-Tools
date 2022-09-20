@@ -63,9 +63,7 @@ function Write-TitleCounter() {
     )
 
     $Counter += 1
-    Write-Host "`n<•••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -ForegroundColor Blue -BackgroundColor Black
-    Write-Host "   ($Counter/$MaxLength) – $Text" -ForegroundColor White -BackgroundColor Black
-    Write-Host "<•••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -ForegroundColor Blue -BackgroundColor Black
+    Write-Title -Text "($Counter/$MaxLength) – $Text"
 
     return $Counter
 }

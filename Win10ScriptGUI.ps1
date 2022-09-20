@@ -180,7 +180,8 @@ function Show-GUI() {
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbWindowsMediaPlayer
     $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClMiscFeatures
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbEncryptedDNS
-    $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbGodMode
+    $CbMouseNaturalScroll = New-CheckBox -Text "Enable Mouse Natural Scroll" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbGodMode
+    $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbMouseNaturalScroll
     $CbFastShutdownPCShortcut = New-CheckBox -Text "Enable Fast Shutdown shortcut" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTakeOwnership
 
     # ==> Tab 2
@@ -400,7 +401,7 @@ function Show-GUI() {
     $T1Panel1.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVR))
     $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
-    $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbTakeOwnership, $CbFastShutdownPCShortcut))
+    $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
     $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
@@ -705,6 +706,16 @@ function Show-GUI() {
             } Else {
                 Disable-GodMode
                 $CbGodMode.Text = "[OFF] God Mode *"
+            }
+        })
+
+    $CbMouseNaturalScroll.Add_Click( {
+            If ($CbMouseNaturalScroll.CheckState -eq "Checked") {
+                Enable-MouseNaturalScroll
+                $CbMouseNaturalScroll.Text = "[ON]  Mouse Natural Scroll"
+            } Else {
+                Disable-MouseNaturalScroll
+                $CbMouseNaturalScroll.Text = "[OFF] Mouse Natural Scroll *"
             }
         })
 
