@@ -25,15 +25,15 @@ function New-SystemColor() {
             $Byte = "0x00"
         }
 
-        If ($i -in (1, 5, 9, 13)) {
+        If ($i -in (1, 5, 9, 13, 17, 21, 25)) {
             $Byte = "0x$($HexColor[0..1])".Split(" ") -join ""
         }
 
-        If ($i -in (2, 6, 10, 14)) {
+        If ($i -in (2, 6, 10, 14, 18, 22, 26)) {
             $Byte = "0x$($HexColor[2..3])".Split(" ") -join ""
         }
 
-        If ($i -in (3, 7, 11, 15)) {
+        If ($i -in (3, 7, 11, 15, 19, 23, 27)) {
             $Byte = "0x$($HexColor[4..5])".Split(" ") -join ""
         }
 

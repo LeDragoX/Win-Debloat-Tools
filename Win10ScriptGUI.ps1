@@ -108,7 +108,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SystemTweaksHeight = 950
+    $SystemTweaksHeight = 975
     $SoftwareInstallHeight = 1650
 
     # <===== UI =====>
@@ -173,7 +173,8 @@ function Show-GUI() {
     $CbXboxGameBarDVR = New-CheckBox -Text "Enable Xbox GameBar DVR" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbWSearchService
 
     $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarDVR
-    $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClOptionalFeatures
+    $CbInternetExplorer = New-CheckBox -Text "Internet Explorer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClOptionalFeatures
+    $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbInternetExplorer
     $CbPrintingXPSServices = New-CheckBox -Text "Printing-XPSServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPrintToPDFServices
     $CbWindowsMediaPlayer = New-CheckBox -Text "Windows Media Player" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPrintingXPSServices
 
@@ -400,7 +401,7 @@ function Show-GUI() {
     $T1Panel1.Controls.AddRange(@($ClInstallSystemApps, $EnableHEVCSupport, $InstallCortana, $InstallDolbyAudio, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallSoundRecorder, $InstallXbox))
     $T1Panel1.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVR))
-    $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
+    $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
     $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
@@ -656,6 +657,16 @@ function Show-GUI() {
             } Else {
                 Disable-XboxGameBarDVR
                 $CbXboxGameBarDVR.Text = "[OFF] Xbox GameBar/DVR"
+            }
+        })
+
+    $CbInternetExplorer.Add_Click( {
+            If ($CbInternetExplorer.CheckState -eq "Checked") {
+                Enable-InternetExplorer
+                $CbInternetExplorer.Text = "[ON]  Internet Explorer"
+            } Else {
+                Disable-InternetExplorer
+                $CbInternetExplorer.Text = "[OFF] Internet Explorer *"
             }
         })
 
