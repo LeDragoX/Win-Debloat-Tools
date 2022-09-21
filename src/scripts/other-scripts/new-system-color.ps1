@@ -47,7 +47,7 @@ function New-SystemColor() {
     Set-ItemProperty -Path "$PathToCUExplorerAccent" -Name "AccentPalette" -Type Binary -Value ([byte[]]($RandomBytes[0], $RandomBytes[1], $RandomBytes[2], $RandomBytes[3], $RandomBytes[4], $RandomBytes[5], $RandomBytes[6], $RandomBytes[7], $RandomBytes[8], $RandomBytes[9], $RandomBytes[10], $RandomBytes[11], $RandomBytes[12], $RandomBytes[13], $RandomBytes[14], $RandomBytes[15], $RandomBytes[16], $RandomBytes[17], $RandomBytes[18], $RandomBytes[19], $RandomBytes[20], $RandomBytes[21], $RandomBytes[22], $RandomBytes[23], $RandomBytes[24], $RandomBytes[25], $RandomBytes[26], $RandomBytes[27], $RandomBytes[28], $RandomBytes[29], $RandomBytes[30], $RandomBytes[31]))
 
     # Window Top Color
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "AccentColor" -Type DWord -Value 0xff$HexColorBGR
+    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "AccentColor" -Type DWord -Value 0xff$HexColor
     Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationAfterglow" -Type DWord -Value 0xc4$HexColor
     Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationColor" -Type DWord -Value 0xc4$HexColor
 
