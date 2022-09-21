@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"new-shortcut.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-windows-feature-state.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
@@ -155,6 +156,29 @@ function Enable-GodMode() {
     New-Item -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}" -ItemType Directory -Force
 }
 
+function Disable-InternetExplorer() {
+    Set-OptionalFeatureState -Disabled -OptionalFeatures @("Internet-Explorer-Optional-*")
+}
+
+function Enable-InternetExplorer() {
+    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Internet-Explorer-Optional-*")
+}
+
+# Code from: https://answers.microsoft.com/en-us/windows/forum/all/set-the-mouse-scroll-direction-to-reverse-natural/ede4ccc4-3846-4184-a86d-a028515040c0
+function Disable-MouseNaturalScroll() {
+    Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
+        Write-Status -Types "*" -Status "Disabling mouse natural mode on $($_.Name): $($_.DeviceID) (needs restart!)"
+        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 0
+    }
+}
+
+function Enable-MouseNaturalScroll() {
+    Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
+        Write-Status -Types "+" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (needs restart!)"
+        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 1
+    }
+}
+
 function Disable-OldVolumeControl() {
     Write-Status -Types "*", "Misc" -Status "Disabling Old Volume Control..."
     Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc"
@@ -226,6 +250,9 @@ function Disable-Telemetry() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+
+    Stop-Service "DiagTrack" -NoWait -Force
+    Set-ServiceStartup -Disabled -Services "DiagTrack"
 }
 
 function Enable-Telemetry() {
@@ -235,6 +262,9 @@ function Enable-Telemetry() {
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry"
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
+
+    Set-ServiceStartup -Manual -Services "DiagTrack"
+    Start-Service "DiagTrack"
 }
 
 function Disable-WindowsMediaPlayer() {

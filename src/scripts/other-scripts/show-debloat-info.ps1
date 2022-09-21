@@ -22,8 +22,9 @@ function Show-DebloatInfo {
     $TotalProvisionedAppx = (Get-AppxProvisionedPackage -Online).Count
     $TotalWinPackages = (Get-WindowsPackage -Online).Count # Slow
     $NumberOfProcesses = (Get-Process).Count
-    $RAMAvailable = [Int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1KB)
-    $RamInMB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1MB
+    $RAMAvailableInGB = ((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1MB) # Accurate
+    $TotalRAMInGB = ((Get-CimInstance -ClassName Win32_ComputerSystem).TotalPhysicalMemory / 1GB) # Accurate (Not equal installed memory)
+    $RAMUsedInGB = ($TotalRAMInGB - $RAMAvailableInGB)
     $SystemDrive = (Get-PSDrive -Name $env:SystemDrive[0])
     $AvailableStorage = $SystemDrive.Free / 1GB
     $UsedStorage = $SystemDrive.Used / 1GB
@@ -31,19 +32,19 @@ function Show-DebloatInfo {
 
     $Title = "System Debloat Info"
     $Message = @"
-Disabled Scheduled Tasks: $DisabledScheduledTasks / $TotalScheduledTasks ($((($DisabledScheduledTasks / $TotalScheduledTasks) * 100).ToString("#.##"))%)
-Disabled Services: $DisabledServices / $TotalServices ($((($DisabledServices / $TotalServices) * 100).ToString("#.##"))%)
-Manual Services: $ManualServices / $TotalServices ($((($ManualServices / $TotalServices) * 100).ToString("#.##"))%)
-Disabled Windows Features: $DisabledWinFeatures / $TotalWinFeatures ($((($DisabledWinFeatures / $TotalWinFeatures) * 100).ToString("#.##"))%)
-Disabled Windows Capabilities: $DisabledWinCapabilities / $TotalWinCapabilities ($((($DisabledWinCapabilities / $TotalWinCapabilities) * 100).ToString("#.##"))%)
+Disabled Scheduled Tasks: $DisabledScheduledTasks/$TotalScheduledTasks ($((($DisabledScheduledTasks / $TotalScheduledTasks) * 100).ToString("#.#"))%)
+Disabled Services: $DisabledServices/$TotalServices ($((($DisabledServices / $TotalServices) * 100).ToString("#.#"))%)
+Manual Services: $ManualServices/$TotalServices ($((($ManualServices / $TotalServices) * 100).ToString("#.#"))%)
+Disabled Windows Features: $DisabledWinFeatures/$TotalWinFeatures ($((($DisabledWinFeatures / $TotalWinFeatures) * 100).ToString("#.#"))%)
+Disabled Windows Capabilities: $DisabledWinCapabilities/$TotalWinCapabilities ($((($DisabledWinCapabilities / $TotalWinCapabilities) * 100).ToString("#.#"))%)
 -----------------------------------------------------------------
 Total of UWP Apps: $TotalAppx
 Total of UWP Provisioned Apps: $TotalProvisionedAppx
 Total of Windows Packages: $TotalWinPackages
 -----------------------------------------------------------------
 Number of Processes: $NumberOfProcesses
-RAM Available: $RAMAvailable/$RamInMB MB ($((($RAMAvailable / $RamInMB) * 100).ToString("#.##"))%)
-Storage Available ($env:SystemDrive): $($AvailableStorage.ToString("#.#"))/$($TotalStorage.ToString("#.#")) GB ($((($AvailableStorage / $TotalStorage) * 100).ToString("#.##"))%)
+RAM Used: $($RAMUsedInGB.ToString("#.#"))/$($TotalRAMInGB.ToString("#.#")) GB ($((($RAMUsedInGB / $TotalRAMInGB) * 100).ToString("#.#"))%)
+Storage Used ($env:SystemDrive): $($UsedStorage.ToString("#.#"))/$($TotalStorage.ToString("#.#")) GB ($((($UsedStorage / $TotalStorage) * 100).ToString("#.#"))%)
 "@ # Here-String
 
     If ($PostMessage) {

@@ -43,7 +43,6 @@ function Optimize-ServicesRunning() {
     # Making the services to run only when needed as 'Manual' | Remove the # to set to Manual
     $ServicesToManual = @(
         "BITS"                           # DEFAULT: Manual    | Background Intelligent Transfer Service
-        "cbdhsvc_*"                      # DEFAULT: Manual    | Clipboard User Service
         "edgeupdate"                     # DEFAULT: Automatic | Microsoft Edge Update Service
         "edgeupdatem"                    # DEFAULT: Manual    | Microsoft Edge Update Service²
         "FontCache"                      # DEFAULT: Automatic | Windows Font Cache

@@ -33,7 +33,6 @@ function Optimize-Performance() {
     # Initialize all Path variables used to Registry Tweaks
     $PathToLMPoliciesPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
     $PathToLMPoliciesWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
-    $PathToLMPrefetchParams = "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters"
     $PathToCUGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
 
     Write-Title -Text "Performance Tweaks"
@@ -45,7 +44,7 @@ function Optimize-Performance() {
         Enable-XboxGameBarDVR
     }
 
-    Write-Status -Types "=", $TweakType -Status "Enabling game mode..."
+    Write-Status -Types "*", $TweakType -Status "Enabling game mode..."
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
 
@@ -53,11 +52,6 @@ function Optimize-Performance() {
     Write-Caption -Text "Display"
     Write-Status -Types "+", $TweakType -Status "Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
-
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) SysMain/Superfetch..."
-    # As SysMain was already disabled on the Services, just need to remove it's key
-    # [@] (0 = Disable SysMain, 1 = Enable when program is launched, 2 = Enable on Boot, 3 = Enable on everything)
-    Set-ItemProperty -Path "$PathToLMPrefetchParams" -Name "EnableSuperfetch" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Remote Assistance..."
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value $Zero
@@ -68,7 +62,7 @@ function Optimize-Performance() {
 
     # Details: https://www.tenforums.com/tutorials/94628-change-split-threshold-svchost-exe-windows-10-a.html
     # Will reduce Processes number considerably on > 4GB of RAM systems
-    Write-Status -Types "+", $TweakType -Status "Setting SVCHost to match RAM size..."
+    Write-Status -Types "+", $TweakType -Status "Setting SVCHost to match installed RAM size..."
     $RamInKB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1KB
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $RamInKB
 
@@ -79,7 +73,7 @@ function Optimize-Performance() {
     Set-ItemProperty -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    Write-Status -Types "=", $TweakType -Status "Enabling Windows Store apps Automatic Updates..."
+    Write-Status -Types "*", $TweakType -Status "Enabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
         New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
     }
@@ -107,10 +101,14 @@ function Optimize-Performance() {
     Write-Caption -Text "Proxy"
     Write-Status -Types "-", $TweakType -Status "Fixing Edge slowdown by NOT Automatically Detecting Settings..."
     # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
-    $Key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections'
+    $Key = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections"
     $Data = (Get-ItemProperty -Path $Key -Name DefaultConnectionSettings).DefaultConnectionSettings
     $Data[8] = 3
     Set-ItemProperty -Path $Key -Name DefaultConnectionSettings -Value $Data
+
+    # Details: https://windowsreport.com/how-to-speed-up-windows-11-animations/
+    Write-Status -Types "+", $TweakType -Status "Setting animation speed to 100ms on Windows 11..."
+    Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type DWord -Value 100 # Default: 400
 }
 
 function Main() {

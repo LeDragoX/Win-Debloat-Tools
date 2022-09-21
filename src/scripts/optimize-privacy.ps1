@@ -40,12 +40,24 @@ function Optimize-Privacy() {
     $PathToLMWindowsTroubleshoot = "HKLM:\SOFTWARE\Microsoft\WindowsMitigation"
     $PathToCUContentDeliveryManager = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
     $PathToCUDeviceAccessGlobal = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global"
+    $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     $PathToCUInputPersonalization = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
     $PathToCUInputTIPC = "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
     $PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
     $PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
 
     Write-Title -Text "Privacy Tweaks"
+    If (!$Revert) {
+        Disable-ClipboardHistory
+        Disable-Cortana
+    } Else {
+        Enable-ClipboardHistory
+        Enable-Cortana
+    }
+
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) File Explorer Ads (OneDrive, New Features etc.)..."
+    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value $Zero
+
     Write-Section -Text "Personalization"
     Write-Caption -Text "Start & Lockscreen"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Show me the windows welcome experience after updates..."

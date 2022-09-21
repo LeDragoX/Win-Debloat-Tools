@@ -47,7 +47,7 @@ function Install-PackageManager() {
             ScheduledJobOption = New-ScheduledJobOption -RunElevated -MultipleInstancePolicy StopExisting -RequireNetwork
         }
 
-        If (Get-ScheduledTask -TaskName $JobName -ErrorAction SilentlyContinue) {
+        If ((Get-ScheduledTask -TaskName $JobName -ErrorAction SilentlyContinue) -or (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue)) {
             Write-Status -Types "@" -Status "ScheduledJob: $JobName FOUND!"
             Write-Status -Types "@" -Status "Re-Creating with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
@@ -71,7 +71,7 @@ function Install-WingetDependency() {
             $AppName = Split-Path -Path $WingetDepOutput -Leaf
 
             Try {
-                Write-Status -Types "@" -Status "Trying to install the App: $AppName"
+                Write-Status -Types "@" -Status "Trying to install the App: $AppName" -Warning
                 $InstallPackageCommand = { Add-AppxPackage -Path $WingetDepOutput }
                 Invoke-Expression "$InstallPackageCommand"
                 If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
@@ -97,12 +97,19 @@ function Main() {
         {
             Install-WingetDependency
             $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "Microsoft.DesktopAppInstaller.msixbundle"
+            $WingetLicenseOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*License*.xml" -PropertyValue "browser_download_url" -OutputFile "WingetLicense.xml"
             $AppName = Split-Path -Path $WingetOutput -Leaf
 
             Try {
-                Write-Status -Types "@" -Status "Trying to install the App: $AppName"
-                $InstallPackageCommand = { Add-AppxPackage -Path $WingetOutput }
+                # Method from: https://github.com/microsoft/winget-cli/blob/master/doc/troubleshooting/README.md#machine-wide-provisioning
+                Write-Status -Types "@" -Status "Trying to install the App (w/ license): $AppName" -Warning
+                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -LicensePath $WingetLicenseOutput | Out-Null }
                 Invoke-Expression "$InstallPackageCommand"
+                If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
+
+                Write-Status -Types "@" -Status "Trying to install the App (w/out license): $AppName" -Warning
+                $OldInstallPackageCommand = { Add-AppxPackage -Path $WingetOutput }
+                Invoke-Expression "$OldInstallPackageCommand"
                 If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
             } Catch {
                 Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
@@ -110,6 +117,7 @@ function Main() {
             }
 
             Remove-Item -Path $WingetOutput
+            Remove-Item -Path $WingetLicenseOutput
         }
         Time                = "12:00"
         UpdateScriptBlock   =

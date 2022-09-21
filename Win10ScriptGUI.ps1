@@ -108,7 +108,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SystemTweaksHeight = 900
+    $SystemTweaksHeight = 1000
     $SoftwareInstallHeight = 1650
 
     # <===== UI =====>
@@ -135,7 +135,8 @@ function Show-GUI() {
     $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0
     $ApplyTweaks = New-Button -Text "✔ Apply Tweaks" -Width $PanelElementWidth -Height $BBHeight -LocationX $PanelElementX -ElementBefore $ClDebloatTools -FontSize $Header3 -ForeColor $WinBlue
     $UndoTweaks = New-Button -Text "❌ Undo Tweaks" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $ApplyTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
-    $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $UndoTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $UndoTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RemoveMSEdge -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
     $RemoveXbox = New-Button -Text "Remove Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RemoveOneDrive -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width $PanelElementWidth -Height (($BBHeight * 2) + $DistanceBetweenElements) -LocationX $PanelElementX -ElementBefore $RemoveXbox -MarginTop $DistanceBetweenElements -SizeMode 'Zoom'
 
@@ -143,7 +144,8 @@ function Show-GUI() {
     $EnableHEVCSupport = New-Button -Text "Get H.265 video codec" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClInstallSystemApps
     $InstallCortana = New-Button -Text "Cortana" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $EnableHEVCSupport -MarginTop $DistanceBetweenElements
     $InstallDolbyAudio = New-Button -Text "Dolby Audio" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallCortana -MarginTop $DistanceBetweenElements
-    $InstallOneDrive = New-Button -Text "OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallDolbyAudio -MarginTop $DistanceBetweenElements
+    $InstallMicrosoftEdge = New-Button -Text "Microsoft Edge" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallDolbyAudio -MarginTop $DistanceBetweenElements
+    $InstallOneDrive = New-Button -Text "OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallMicrosoftEdge -MarginTop $DistanceBetweenElements
     $InstallPaintPaint3D = New-Button -Text "Paint + Paint 3D" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallOneDrive
     $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPaintPaint3D
     $InstallTaskbarWidgets = New-Button -Text "Taskbar Widgets" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallSoundRecorder
@@ -151,7 +153,8 @@ function Show-GUI() {
     $InstallXbox = New-Button -Text "Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallUWPWMediaPlayer -MarginTop $DistanceBetweenElements
 
     $ClOtherTools = New-Label -Text "Other Tools" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0 -ElementBefore $InstallXbox
-    $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $ClOtherTools -MarginTop $DistanceBetweenElements
+    $RandomizeSystemColor = New-Button -Text "Randomize System Color" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $ClOtherTools -MarginTop $DistanceBetweenElements
+    $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RandomizeSystemColor -MarginTop $DistanceBetweenElements
     $RepairWindows = New-Button -Text "Repair Windows" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $ReinstallBloatApps -MarginTop $DistanceBetweenElements
     $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RepairWindows -MarginTop $DistanceBetweenElements
 
@@ -171,14 +174,16 @@ function Show-GUI() {
     $CbXboxGameBarDVR = New-CheckBox -Text "Enable Xbox GameBar DVR" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbWSearchService
 
     $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarDVR
-    $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClOptionalFeatures
+    $CbInternetExplorer = New-CheckBox -Text "Internet Explorer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClOptionalFeatures
+    $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbInternetExplorer
     $CbPrintingXPSServices = New-CheckBox -Text "Printing-XPSServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPrintToPDFServices
     $CbWindowsMediaPlayer = New-CheckBox -Text "Windows Media Player" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPrintingXPSServices
 
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbWindowsMediaPlayer
     $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClMiscFeatures
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbEncryptedDNS
-    $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbGodMode
+    $CbMouseNaturalScroll = New-CheckBox -Text "Enable Mouse Natural Scroll" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbGodMode
+    $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbMouseNaturalScroll
     $CbFastShutdownPCShortcut = New-CheckBox -Text "Enable Fast Shutdown shortcut" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTakeOwnership
 
     # ==> Tab 2
@@ -393,12 +398,12 @@ function Show-GUI() {
     $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2))
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Tab Panel
-    $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
-    $T1Panel1.Controls.AddRange(@($ClInstallSystemApps, $EnableHEVCSupport, $InstallCortana, $InstallDolbyAudio, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallSoundRecorder, $InstallXbox))
-    $T1Panel1.Controls.AddRange(@($ClOtherTools, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
+    $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
+    $T1Panel1.Controls.AddRange(@($ClInstallSystemApps, $EnableHEVCSupport, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallSoundRecorder, $InstallXbox))
+    $T1Panel1.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVR))
-    $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
-    $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbTakeOwnership, $CbFastShutdownPCShortcut))
+    $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
+    $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
     $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
@@ -468,6 +473,10 @@ function Show-GUI() {
             $Global:Revert = $false
         })
 
+    $RemoveMSEdge.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-msedge.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
     $RemoveOneDrive.Add_Click( {
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
@@ -496,6 +505,10 @@ function Show-GUI() {
             Install-DolbyAudio
         })
 
+    $InstallMicrosoftEdge.Add_Click( {
+            Install-MicrosoftEdge
+        })
+
     $InstallOneDrive.Add_Click( {
             Install-OneDrive
         })
@@ -518,6 +531,10 @@ function Show-GUI() {
 
     $InstallXbox.Add_Click( {
             Install-Xbox
+        })
+
+    $RandomizeSystemColor.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("new-system-color.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ReinstallBloatApps.Add_Click( {
@@ -648,6 +665,16 @@ function Show-GUI() {
             }
         })
 
+    $CbInternetExplorer.Add_Click( {
+            If ($CbInternetExplorer.CheckState -eq "Checked") {
+                Enable-InternetExplorer
+                $CbInternetExplorer.Text = "[ON]  Internet Explorer"
+            } Else {
+                Disable-InternetExplorer
+                $CbInternetExplorer.Text = "[OFF] Internet Explorer *"
+            }
+        })
+
     $CbPrintToPDFServices.Add_Click( {
             If ($CbPrintToPDFServices.CheckState -eq "Checked") {
                 Enable-PrintToPDFServicesToogle
@@ -695,6 +722,16 @@ function Show-GUI() {
             } Else {
                 Disable-GodMode
                 $CbGodMode.Text = "[OFF] God Mode *"
+            }
+        })
+
+    $CbMouseNaturalScroll.Add_Click( {
+            If ($CbMouseNaturalScroll.CheckState -eq "Checked") {
+                Enable-MouseNaturalScroll
+                $CbMouseNaturalScroll.Text = "[ON]  Mouse Natural Scroll"
+            } Else {
+                Disable-MouseNaturalScroll
+                $CbMouseNaturalScroll.Text = "[OFF] Mouse Natural Scroll *"
             }
         })
 

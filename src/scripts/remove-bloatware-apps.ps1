@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
+﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Remove-BloatwareAppsList() {
@@ -48,6 +48,7 @@ function Remove-BloatwareAppsList() {
         "Microsoft.ZuneVideo"                    # Movies & TV
 
         # Default Windows 11 apps
+        "Clipchamp.Clipchamp"				     # Clipchamp – Video Editor
         "MicrosoftWindows.Client.WebExperience"  # Taskbar Widgets
         "MicrosoftTeams"                         # Microsoft Teams / Preview
 

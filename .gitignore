@@ -6,6 +6,7 @@
 **/tmp/**/*.cer
 **/tmp/**/*.exe
 **/tmp/**/*.ttf
+**/tmp/**/*.xml
 **/tmp/Fonts/*
 
 # Downloaded temporary files

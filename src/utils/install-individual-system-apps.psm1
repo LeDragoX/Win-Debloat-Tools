@@ -20,6 +20,17 @@ function Install-HEVCSupport() {
     Install-Software -Name "HEVC Video Extensions from Device Manufacturer" -Packages "9N4WGH0Z6VHQ" -ViaMSStore # Gives error
 }
 
+function Install-MicrosoftEdge() {
+    Write-Status -Types "*", "Apps" -Status "Installing Microsoft Edge..."
+    Install-Software -Name "Microsoft Edge" -Packages "Microsoft.Edge"
+}
+
+function Install-OneDrive() {
+    Write-Status -Types "*" -Status "Installing OneDrive..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 0
+    Start-Process -FilePath "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
+}
+
 function Install-PaintPaint3D() {
     $Apps = @("9PCFS5B6T72H", "9NBLGGH5FV99")
 
@@ -39,12 +50,6 @@ function Install-TaskbarWidgetsApp() {
 
     Write-Status -Types "*", "Apps" -Status "Installing Taskbar Widgets..."
     Install-Software -Name "Taskbar Widgets" -Packages $Apps -ViaMSStore
-}
-
-function Install-OneDrive() {
-    Write-Status -Types "*" -Status "Installing OneDrive..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 0
-    Start-Process -FilePath "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
 }
 
 function Install-UWPWindowsMediaPlayer() {
