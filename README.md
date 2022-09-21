@@ -151,6 +151,7 @@ _This section contains options to restore the system apps, by downloading them f
 
 - `Get H.265 video codec`: Get the missing HEVC support to run **H.265 videos** through MS Store, it's a must have that didn't came with (Free and DIY).
 - `Dolby Audio`;
+- `Microsoft Edge`;
 - `OneDrive`;
 - `Paint + Paint 3D`;
 - `Sound Recorder`;
