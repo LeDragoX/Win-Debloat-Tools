@@ -48,6 +48,7 @@ function Remove-BloatwareAppsList() {
         "Microsoft.ZuneVideo"                    # Movies & TV
 
         # Default Windows 11 apps
+	    "Clipchamp.Clipchamp"				     # Clipchamp – Video Editor
         "MicrosoftWindows.Client.WebExperience"  # Taskbar Widgets
         "MicrosoftTeams"                         # Microsoft Teams / Preview
 
