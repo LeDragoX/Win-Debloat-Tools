@@ -76,7 +76,7 @@ Code located in the `main` branch is considered stable, the `develop` branch con
 
 ## ❗ Usage Requirements
 
-The `Win10Script(CLI/GUI).ps1` do not make everything automatically, so follow these steps.
+The `Win10Script(CLI/GUI).ps1` does not make everything automatically, so follow these steps.
 
 - Extract the `.zip` file to another folder.
 - Run `OpenTerminalHere.cmd` (try as admin if nothing happens at all).
