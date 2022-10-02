@@ -109,7 +109,7 @@ function Show-GUI() {
     # <===== Specific Layout =====>
 
     $SystemTweaksHeight = 1000
-    $SoftwareInstallHeight = 1650
+    $SoftwareInstallHeight = 1700
 
     # <===== UI =====>
 
@@ -294,8 +294,9 @@ function Show-GUI() {
     $InstallMsiAfterburner = New-CheckBox -Text "MSI Afterburner" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallInternetDownloadManager
     $InstallRtxVoice = New-CheckBox -Text "RTX Voice" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallMsiAfterburner
     $InstallVoicemod = New-CheckBox -Text "Voicemod" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallRtxVoice
+    $InstallVoiceMeeter = New-CheckBox -Text "Voice Meeter (Potato)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallVoicemod
 
-    $ClNetworkManagement = New-Label -Text "Network Management" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallVoicemod
+    $ClNetworkManagement = New-Label -Text "Network Management" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallVoiceMeeter
     $InstallHamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClNetworkManagement
     $InstallPuTty = New-CheckBox -Text "PuTTY" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallHamachi
     $InstallRadminVpn = New-CheckBox -Text "Radmin VPN (LAN)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPuTty
@@ -423,7 +424,7 @@ function Show-GUI() {
     $T2Panel2.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
     $T2Panel2.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallDisneyPlus, $InstallNetflix, $InstallSpotify))
     $T2Panel2.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
-    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGeekbench5, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod))
+    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGeekbench5, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter))
     $T2Panel2.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
     $T2Panel3.Controls.AddRange(@($UninstallMode))
     $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
@@ -1057,6 +1058,11 @@ function Show-GUI() {
             If ($InstallVoicemod.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("Voicemod.Voicemod")
                 $InstallVoicemod.CheckState = "Unchecked"
+            }
+
+            If ($InstallVoiceMeeter.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("VB-Audio.Voicemeeter.Potato")
+                $InstallVoiceMeeter.CheckState = "Unchecked"
             }
 
             If ($InstallHamachi.CheckState -eq "Checked") {
