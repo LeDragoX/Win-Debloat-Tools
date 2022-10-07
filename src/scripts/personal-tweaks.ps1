@@ -224,13 +224,13 @@ function Register-PersonalTweaksList() {
     $TimeoutScreenPluggedIn = 10
 
     $TimeoutStandByBattery = 15
-    $TimeoutStandByPluggedIn = 30
+    $TimeoutStandByPluggedIn = 180
 
-    $TimeoutDiskBattery = 15
+    $TimeoutDiskBattery = 20
     $TimeoutDiskPluggedIn = 30
 
     $TimeoutHibernateBattery = 15
-    $TimeoutHibernatePluggedIn = 30
+    $TimeoutHibernatePluggedIn = 15
 
     Write-Status -Types "+", $TweakType -Status "Setting the Monitor Timeout to AC: $TimeoutScreenPluggedIn and DC: $TimeoutScreenBattery..."
     powercfg -Change Monitor-Timeout-AC $TimeoutScreenPluggedIn
