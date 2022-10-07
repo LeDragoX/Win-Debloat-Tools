@@ -294,7 +294,7 @@ function Show-GUI() {
     $InstallMsiAfterburner = New-CheckBox -Text "MSI Afterburner" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallInternetDownloadManager
     $InstallRtxVoice = New-CheckBox -Text "RTX Voice" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallMsiAfterburner
     $InstallVoicemod = New-CheckBox -Text "Voicemod" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallRtxVoice
-    $InstallVoiceMeeter = New-CheckBox -Text "Voice Meeter (Potato)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallVoicemod
+    $InstallVoiceMeeter = New-CheckBox -Text "Voicemeeter Potato" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallVoicemod
 
     $ClNetworkManagement = New-Label -Text "Network Management" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallVoiceMeeter
     $InstallHamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClNetworkManagement
