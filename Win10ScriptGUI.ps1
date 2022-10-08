@@ -211,8 +211,8 @@ function Show-GUI() {
     $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallNVCleanstall
     $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClApplicationRequirements
     $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallDirectX
-    $InstallMsVCppX64 = New-CheckBox -Text "MSVC++ 2005-2022 Redist (x64)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallMsDotNetFramework
-    $InstallMsVCppX86 = New-CheckBox -Text "MSVC++ 2005-2022 Redist (x86)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallMsVCppX64
+    $InstallMsVCppX64 = New-CheckBox -Text "MSVC Redist 2005-2022 (x64)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallMsDotNetFramework
+    $InstallMsVCppX86 = New-CheckBox -Text "MSVC Redist 2005-2022 (x86)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallMsVCppX64
 
     $ClFileCompression = New-Label -Text "File Compression" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallMsVCppX86
     $Install7Zip = New-CheckBox -Text "7-Zip" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClFileCompression
@@ -803,8 +803,8 @@ function Show-GUI() {
             If ($InstallMsVCppX64.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.AddRange(
                     @(
-                        "Microsoft.VC++2005Redist-x64", "Microsoft.VC++2008Redist-x64", "Microsoft.VC++2010Redist-x64",
-                        "Microsoft.VC++2012Redist-x64", "Microsoft.VC++2013Redist-x64", "Microsoft.VC++2015-2022Redist-x64"
+                        "Microsoft.VCRedist.2005.x64", "Microsoft.VCRedist.2008.x64", "Microsoft.VCRedist.2010.x64",
+                        "Microsoft.VCRedist.2012.x64", "Microsoft.VCRedist.2013.x64", "Microsoft.VCRedist.2015+.x64"
                     )
                 )
                 $InstallMsVCppX64.CheckState = "Unchecked"
@@ -813,8 +813,8 @@ function Show-GUI() {
             If ($InstallMsVCppX86.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.AddRange(
                     @(
-                        "Microsoft.VC++2005Redist-x86", "Microsoft.VC++2008Redist-x86", "Microsoft.VC++2010Redist-x86",
-                        "Microsoft.VC++2012Redist-x86", "Microsoft.VC++2013Redist-x86", "Microsoft.VC++2015-2022Redist-x86"
+                        "Microsoft.VCRedist.2005.x86", "Microsoft.VCRedist.2008.x86", "Microsoft.VCRedist.2010.x86",
+                        "Microsoft.VCRedist.2012.x86", "Microsoft.VCRedist.2013.x86", "Microsoft.VCRedist.2015+.x86"
                     )
                 )
                 $InstallMsVCppX86.CheckState = "Unchecked"
