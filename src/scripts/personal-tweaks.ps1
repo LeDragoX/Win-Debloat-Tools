@@ -35,6 +35,7 @@ function Register-PersonalTweaksList() {
     $PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
     $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     $PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+    $PathToCUPoliciesExplorer2 = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
     $PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
     $PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
     $PathToCUWindowsSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
@@ -197,6 +198,7 @@ function Register-PersonalTweaksList() {
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToCUPoliciesExplorer2" -Name "DisableSearchBoxSuggestions" -Type DWord -Value $One
 
     Write-Section -Text "Ease of Access"
     Write-Caption -Text "Keyboard"
