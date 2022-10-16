@@ -1412,7 +1412,7 @@ function Show-GUI() {
             }
 
             If ($InstallNodeJsLts.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("OpenJS.NodeJSLTS")
+                $AppsSelected.WingetApps.Add("OpenJS.NodeJS.LTS")
                 $InstallNodeJsLts.CheckState = "Unchecked"
             }
 
