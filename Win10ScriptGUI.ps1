@@ -462,6 +462,7 @@ function Show-GUI() {
     $UndoTweaks.Add_Click( {
             $Global:Revert = $true
             $Scripts = @(
+                "silent-debloat-softwares.ps1",
                 "optimize-task-scheduler.ps1",
                 "optimize-services.ps1",
                 "optimize-privacy.ps1",
