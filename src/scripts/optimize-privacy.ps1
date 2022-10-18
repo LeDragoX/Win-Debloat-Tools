@@ -49,9 +49,11 @@ function Optimize-Privacy() {
     Write-Title -Text "Privacy Tweaks"
     If (!$Revert) {
         Disable-ClipboardHistory
+        Disable-ClipboardSyncAcrossDevice
         Disable-Cortana
     } Else {
         Enable-ClipboardHistory
+        Enable-ClipboardSyncAcrossDevice
         Enable-Cortana
     }
 
