@@ -6,23 +6,30 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-windows-feature-sta
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
-$PathToLMPoliciesActivityHistory = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$PathToLMPoliciesSystem = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
 $PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
+$PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+$PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
 $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
 $PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 
 function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
-    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "EnableActivityFeed" -Type DWord -Value 0
-    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "PublishUserActivities" -Type DWord -Value 0
-    Set-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "UploadUserActivities" -Type DWord -Value 0
+
+    If (!(Test-Path "$PathToLMPoliciesSystem")) {
+        New-Item -Path "$PathToLMPoliciesSystem" -Force | Out-Null
+    }
+
+    Set-ItemProperty -Path $PathToLMPoliciesSystem -Name "EnableActivityFeed" -Type DWord -Value 0
+    Set-ItemProperty -Path $PathToLMPoliciesSystem -Name "PublishUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path $PathToLMPoliciesSystem -Name "UploadUserActivities" -Type DWord -Value 0
 }
 
 function Enable-ActivityHistory() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Activity History..."
-    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "EnableActivityFeed"
-    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "PublishUserActivities"
-    Remove-ItemProperty -Path $PathToLMPoliciesActivityHistory -Name "UploadUserActivities"
+    Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "EnableActivityFeed"
+    Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "PublishUserActivities"
+    Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "UploadUserActivities"
 }
 
 function Disable-BackgroundAppsToogle() {
@@ -39,14 +46,43 @@ function Enable-BackgroundAppsToogle() {
 
 function Disable-ClipboardHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Clipboard History (requires reboot!)..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "AllowClipboardHistory" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Clipboard" -Name "EnableClipboardHistory" -Type DWord -Value 0
+    Remove-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowClipboardHistory"
+    Remove-ItemProperty -Path "$PathToCUClipboard" -Name "EnableClipboardHistory"
 }
 
 function Enable-ClipboardHistory() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Clipboard History (requires reboot!)..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "AllowClipboardHistory" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Clipboard" -Name "EnableClipboardHistory" -Type DWord -Value 1
+
+    If (!(Test-Path "$PathToLMPoliciesSystem")) {
+        New-Item -Path "$PathToLMPoliciesSystem" -Force | Out-Null
+    }
+
+    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowClipboardHistory" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUClipboard" -Name "EnableClipboardHistory" -Type DWord -Value 1
+}
+
+function Disable-ClipboardSyncAcrossDevice() {
+    Write-Status -Types "-", "Privacy" -Status "Disabling Clipboard across devices (must be using MS account)..."
+
+    If (!(Test-Path "$PathToLMPoliciesSystem")) {
+        New-Item -Path "$PathToLMPoliciesSystem" -Force | Out-Null
+    }
+
+    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 0
+    Remove-ItemProperty -Path "$PathToCUClipboard" -Name "EnableCloudClipboard"
+    Remove-ItemProperty -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload"
+}
+
+function Enable-ClipboardSyncAcrossDevice() {
+    Write-Status -Types "*", "Privacy" -Status "Enabling Clipboard across devices (must be using MS account)..."
+
+    If (!(Test-Path "$PathToLMPoliciesSystem")) {
+        New-Item -Path "$PathToLMPoliciesSystem" -Force | Out-Null
+    }
+
+    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUClipboard" -Name "EnableCloudClipboard " -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload" -Type DWord -Value 1
 }
 
 function Disable-Cortana() {
@@ -288,8 +324,6 @@ function Enable-WSearchService() {
 }
 
 function Disable-XboxGameBarDVR() {
-    $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
-
     Write-Status -Types "-", "Performance" -Status "Disabling Xbox Game Bar DVR..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
@@ -301,8 +335,6 @@ function Disable-XboxGameBarDVR() {
 }
 
 function Enable-XboxGameBarDVR() {
-    $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
-
     Write-Status -Types "*", "Performance" -Status "Enabling Xbox Game Bar DVR..."
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value"
     Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled"
