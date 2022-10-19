@@ -140,7 +140,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 #### System Debloat Tools
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
-- `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
+- `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the, `ShutUp10 settings`, `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
 - [`Remove Microsoft Edge`](./src/scripts/remove-msedge.ps1): uninstalls Microsoft Edge/WebView, then remove the remaining files;
 - [`Remove OneDrive`](./src/scripts/remove-onedrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
 - [`Remove Xbox`](./src/scripts/remove-xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
@@ -171,16 +171,18 @@ _This section contains tools to solve some Windows problems and get info about h
 #### Customize System Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
 - `Enable/Disable Dark Theme`: Apply _Dark Theme_ or _Light Theme_ on Windows;
-- `Enable/Disable Activity History`: Manages the **Activity History**;
-- `Enable/Disable Background Apps`: Manages _ALL_ the **Background Apps**;
-- `Enable/Disable Clipboard History`: Manages the **Clipboard History**;
-- `Enable/Disable Cortana`: Manages the **Cortana**;
-- `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)**;
+- `Enable/Disable Activity History`: Manages the **Activity History** setting;
+- `Enable/Disable Background Apps`: Manages _ALL_ the **Background Apps** settings;
+- `Enable/Disable Clipboard History`: Manages the **Clipboard History** setting, that keeps a history from your clipboard pressing `Windows + V` key;
+- `Enable/Disable Clipboard Sync Across Devices`: Manages the **Clipboard Sync Across Devices** setting, which allows to use the same clipboard for multiple devices (must be using a MS account);
+- `Enable/Disable Cortana`: Manages the **Cortana** setting;
+- `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)** setting;
+- `Enable/Disable Online Speech Recognition`: Manages the **Online Speech Recognition** setting, by pressing the keys `Windows + H` you can speak through your mic, then use it to type text using your voice;
 - `Enable/Disable Photo Viewer`: [_Enables_](./src/utils/enable-photo-viewer.reg) or [_Disables_](src/utils/disable-photo-viewer.reg) the old **Photo Viewer (Win 7/8.1)**;
 - `Enable/Disable Search App for Unknown Ext.`: When running a unknown extension file, be able to search through **MS Store** for an App that can open it.
-- `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level**;
-- `Enable/Disable WSearch Service`: Manages the **Windows Search Service**;
-- `Enable/Disable Xbox GameBar DVR`: Manages the **Xbox GameBar DVR (In-Game)**, that can record clips from games;
+- `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level** setting;
+- `Enable/Disable WSearch Service`: Manages the **Windows Search Service** setting;
+- `Enable/Disable Xbox GameBar DVR`: Manages the **Xbox GameBar DVR (In-Game)** setting, that can record clips from games;
 
 #### Optional Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
