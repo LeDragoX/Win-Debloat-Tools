@@ -16,18 +16,18 @@ function Install-WSLPreview() {
     Set-OptionalFeatureState -Enabled -OptionalFeatures @("VirtualMachinePlatform", "HypervisorPlatform") # VM Platform / Hypervisor Platform from Windows
 
     Try {
-        Write-Status -Types "?", $TweakType "Installing WSL Preview from MS Store for Windows 11+ ..." -Warning
+        Write-Status -Types "?", $TweakType "Installing WSL Preview from MS Store for Windows 11+..." -Warning
         $CheckExistenceBlock = (Install-Software -Name "WSL Preview (Win 11+)" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog)
         Invoke-Expression "$CheckExistenceBlock" | Out-Host
         If ($LASTEXITCODE) { Throw "This package is not available for Windows 10, you must be on Windows 11+" } # 0 = False, 1 = True
 
         Set-OptionalFeatureState -Disabled -OptionalFeatures @("Microsoft-Windows-Subsystem-Linux") # WSL (Old)
     } Catch {
-        Write-Status -Types "?", $TweakType -Status "Couldn't install WSL Preview, you must be at least on Windows 11 ..." -Warning
+        Write-Status -Types "?", $TweakType -Status "Couldn't install WSL Preview, you must be at least on Windows 11..." -Warning
         Install-WSLTwoAndG
     }
 
-    Write-Status -Types "@", $TweakType -Status "Updating WSL (if possible) ..."
+    Write-Status -Types "@", $TweakType -Status "Updating WSL (if possible)..."
     wsl --update | Out-Host
 }
 
