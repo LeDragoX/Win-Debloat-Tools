@@ -33,7 +33,7 @@ function Optimize-WindowsFeaturesList() {
 
     If ($Revert) {
         Write-Status -Types "*", "OptionalFeature" -Status "Reverting the tweaks is set to '$Revert'." -Warning
-        $CustomMessage = { "Re-Installing the $OptionalFeature optional feature ..." }
+        $CustomMessage = { "Re-Installing the $OptionalFeature optional feature..." }
         Set-OptionalFeatureState -Enabled -OptionalFeatures $DisableFeatures -CustomMessage $CustomMessage
     } Else {
         Set-OptionalFeatureState -Disabled -OptionalFeatures $DisableFeatures
@@ -45,7 +45,7 @@ function Optimize-WindowsFeaturesList() {
 
 function Main() {
     # List all Optional Features:
-    #Get-WindowsOptionalFeature -Online | Select-Object -Property State, FeatureName | Sort-Object State, FeatureName | Out-GridView
+    #Get-WindowsOptionalFeature -Online | Select-Object -Property State, FeatureName, DisplayName, Description | Sort-Object State, FeatureName | Out-GridView
 
     # List all Windows Packages:
     #Get-WindowsPackage -Online | Select-Object -Property ReleaseType, PackageName, PackageState, InstallTime | Sort-Object ReleaseType, PackageState, PackageName | Out-GridView
