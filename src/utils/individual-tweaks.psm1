@@ -69,8 +69,8 @@ function Disable-ClipboardSyncAcrossDevice() {
     }
 
     Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 0
-    Remove-ItemProperty -Path "$PathToCUClipboard" -Name "EnableCloudClipboard"
     Remove-ItemProperty -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload"
+    Remove-ItemProperty -Path "$PathToCUClipboard" -Name "EnableCloudClipboard"
 }
 
 function Enable-ClipboardSyncAcrossDevice() {
@@ -81,8 +81,8 @@ function Enable-ClipboardSyncAcrossDevice() {
     }
 
     Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUClipboard" -Name "EnableCloudClipboard " -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUClipboard" -Name "EnableCloudClipboard " -Type DWord -Value 1
 }
 
 function Disable-Cortana() {
