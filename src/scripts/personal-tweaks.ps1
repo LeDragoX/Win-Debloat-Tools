@@ -198,6 +198,10 @@ function Register-PersonalTweaksList() {
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Bing Search in Start Menu..."
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
+
+    If (!(Test-Path "$PathToCUPoliciesExplorer2")) {
+        New-Item -Path "$PathToCUPoliciesExplorer2" -Force | Out-Null
+    }
     Set-ItemProperty -Path "$PathToCUPoliciesExplorer2" -Name "DisableSearchBoxSuggestions" -Type DWord -Value $One
 
     Write-Section -Text "Ease of Access"
