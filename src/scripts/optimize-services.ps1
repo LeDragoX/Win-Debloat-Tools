@@ -22,7 +22,7 @@ function Optimize-ServicesRunning() {
         "diagnosticshub.standardcollector.service"  # DEFAULT: Manual    | Microsoft (R) Diagnostics Hub Standard Collector Service
         "dmwappushservice"                          # DEFAULT: Manual    | Device Management Wireless Application Protocol (WAP)
         "Fax"                                       # DEFAULT: Manual    | Fax Service
-        "fhsvc"                                     # DEFAULT: Manual    | Fax History Service
+        "fhsvc"                                     # DEFAULT: Manual    | File History Service
         "GraphicsPerfSvc"                           # DEFAULT: Manual    | Graphics performance monitor service
         "HomeGroupListener"                         # NOT FOUND (Win 10+)| HomeGroup Listener
         "HomeGroupProvider"                         # NOT FOUND (Win 10+)| HomeGroup Provider
@@ -46,43 +46,45 @@ function Optimize-ServicesRunning() {
         "edgeupdate"                     # DEFAULT: Automatic | Microsoft Edge Update Service
         "edgeupdatem"                    # DEFAULT: Manual    | Microsoft Edge Update Service²
         "FontCache"                      # DEFAULT: Automatic | Windows Font Cache
-        "iphlpsvc"                       # DEFAULT: Automatic | IP Helper Service (IPv6 (6to4, ISATAP, Port Proxy and Teredo) and IP-HTTPS)
-        "lmhosts"                        # DEFAULT: Manual    | TCP/IP NetBIOS Helper
-        "ndu"                            # DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
-        #"NetTcpPortSharing"             # DEFAULT: Disabled  | Net.Tcp Port Sharing Service
         "PhoneSvc"                       # DEFAULT: Manual    | Phone Service (Manages the telephony state on the device)
         "SCardSvr"                       # DEFAULT: Manual    | Smart Card Service
-        "SharedAccess"                   # DEFAULT: Manual    | Internet Connection Sharing (ICS)
         "stisvc"                         # DEFAULT: Automatic | Windows Image Acquisition (WIA) Service
         "WbioSrvc"                       # DEFAULT: Manual    | Windows Biometric Service (required for Fingerprint reader / Facial detection)
-        "Wecsvc"                         # DEFAULT: Manual    | Windows Event Collector Service
-        "WerSvc"                         # DEFAULT: Manual    | Windows Error Reporting Service
         "wisvc"                          # DEFAULT: Manual    | Windows Insider Program Service
         "WMPNetworkSvc"                  # DEFAULT: Manual    | Windows Media Player Network Sharing Service
         "WpnService"                     # DEFAULT: Automatic | Windows Push Notification Services (WNS)
-        # - Diagnostic Services
-        "DPS"                            # DEFAULT: Automatic | Diagnostic Policy Service
-        "WdiServiceHost"                 # DEFAULT: Manual    | Diagnostic Service Host
-        "WdiSystemHost"                  # DEFAULT: Manual    | Diagnostic System Host
-        # - Bluetooth services
+        <# Bluetooth services #>
         "BTAGService"                    # DEFAULT: Manual    | Bluetooth Audio Gateway Service
         "BthAvctpSvc"                    # DEFAULT: Manual    | AVCTP Service
         "bthserv"                        # DEFAULT: Manual    | Bluetooth Support Service
         "RtkBtManServ"                   # DEFAULT: Automatic | Realtek Bluetooth Device Manager Service
-        # - Xbox services
+        <# Diagnostic Services #>
+        "DPS"                            # DEFAULT: Automatic | Diagnostic Policy Service
+        "WdiServiceHost"                 # DEFAULT: Manual    | Diagnostic Service Host
+        "WdiSystemHost"                  # DEFAULT: Manual    | Diagnostic System Host
+        <# Network Services #>
+        "iphlpsvc"                       # DEFAULT: Automatic | IP Helper Service (IPv6 (6to4, ISATAP, Port Proxy and Teredo) and IP-HTTPS)
+        "lmhosts"                        # DEFAULT: Manual    | TCP/IP NetBIOS Helper
+        "ndu"                            # DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
+        #"NetTcpPortSharing"             # DEFAULT: Disabled  | Net.Tcp Port Sharing Service
+        "SharedAccess"                   # DEFAULT: Manual    | Internet Connection Sharing (ICS)
+        <# Telemetry Services #>
+        "Wecsvc"                         # DEFAULT: Manual    | Windows Event Collector Service
+        "WerSvc"                         # DEFAULT: Manual    | Windows Error Reporting Service
+        <# Xbox services #>
         "XblAuthManager"                 # DEFAULT: Manual    | Xbox Live Auth Manager
         "XblGameSave"                    # DEFAULT: Manual    | Xbox Live Game Save
         "XboxGipSvc"                     # DEFAULT: Manual    | Xbox Accessory Management Service
         "XboxNetApiSvc"                  # DEFAULT: Manual    | Xbox Live Networking Service
-        # - NVIDIA services
+        <# NVIDIA services #>
         "NVDisplay.ContainerLocalSystem" # DEFAULT: Automatic | NVIDIA Display Container LS (NVIDIA Control Panel)
         "NvContainerLocalSystem"         # DEFAULT: Automatic | NVIDIA LocalSystem Container (GeForce Experience / NVIDIA Telemetry)
-        # - Printer services
+        <# Printer services #>
         #"PrintNotify"                   # DEFAULT: Manual    | WARNING! REMOVING WILL TURN PRINTING LESS MANAGEABLE | Printer Extensions and Notifications
         #"Spooler"                       # DEFAULT: Automatic | WARNING! REMOVING WILL DISABLE PRINTING              | Print Spooler
-        # - Wi-Fi services
+        <# Wi-Fi services #>
         #"WlanSvc"                       # DEFAULT: Manual (No Wi-Fi devices) / Automatic (Wi-Fi devices) | WARNING! REMOVING WILL DISABLE WI-FI | WLAN AutoConfig
-        # - 3rd Party Services
+        <# 3rd Party Services #>
         "gupdate"                        # DEFAULT: Automatic | Google Update Service
         "gupdatem"                       # DEFAULT: Manual    | Google Update Service²
     )
