@@ -5,7 +5,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Install-Font() {
     [CmdletBinding()]
     param (
-        [String] $FontSourceFolder = "$PSScriptRoot\src\tmp\Fonts"
+        [String] $FontSourceFolder = "$PSScriptRoot\src\tmp\fonts"
     )
 
     $PathToLMWindowsFonts = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts"
@@ -30,8 +30,10 @@ function Install-Font() {
             Write-Status -Types "@" -Status "Got an error, the font type is OpenType" -Warning
             $FontType = '(OpenType)'
             $RegName = ""
-            $NameHelper = $FontFile.Name.Replace("-", " ").Replace("_", " ").Replace(".ttf", "").Replace(".ttc", "").Replace(".otf", "").Trim(" ")
-            $NameHelper = $NameHelper.Replace("Mono", " Mono").Replace("NF", " NF").Replace("NL", " NL").Trim(" ")
+            $NameHelper = $FontFile.Name.Replace("-", " ").Replace("_", " ").Trim(" ")
+            $NameHelper = $FontFile.Name.Replace("[", " ").Replace("]", " ").Trim(" ")
+            $NameHelper = $FontFile.Name.Replace(".ttf", "").Replace(".ttc", "").Replace(".otf", "").Trim(" ")
+            $NameHelper = $NameHelper.Replace("Mono", " Mono").Replace("NF", " NF").Replace("NL", " NL").Replace("VF", " VF").Replace("wght", " Variable").Trim(" ")
             $NameHelper = $NameHelper.Replace("Thin", " Thin").Replace("Semi", " Semi").Replace("Medium", " Medium").Replace("Extra", " Extra").Trim(" ")
             $NameHelper = $NameHelper.Replace("Bold", " Bold").Replace("Italic", " Italic").Replace("Light", " Light").Replace("Regular", " Regular").Trim(" ")
             $NameHelper = $NameHelper + " " + $FontType
