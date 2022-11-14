@@ -7,7 +7,8 @@
 **/tmp/**/*.exe
 **/tmp/**/*.ttf
 **/tmp/**/*.xml
-**/tmp/Fonts/*
+**/tmp/fonts/*
+**/tmp/winget-install/*
 
 # Downloaded temporary files
 *.tmp
