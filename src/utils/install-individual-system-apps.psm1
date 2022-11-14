@@ -58,7 +58,6 @@ function Install-UWPWindowsMediaPlayer() {
 }
 
 function Install-Xbox() {
-    $PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
     $PathToLMServicesXbgm = "HKLM:\SYSTEM\CurrentControlSet\Services\xbgm"
     $TweakType = "Xbox"
 
