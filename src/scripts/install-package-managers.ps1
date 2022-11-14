@@ -117,7 +117,7 @@ function Main() {
     }
 
     $WingetParams2 = @{
-        Name                = "Winget"
+        Name                = "Winget (Method 2)"
         CheckExistenceBlock = { winget --version }
         InstallCommandBlock =
         {

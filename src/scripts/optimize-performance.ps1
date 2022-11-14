@@ -137,9 +137,9 @@ function Optimize-Performance() {
     Write-Section -Text "Gaming Responsiveness Tweaks"
 
     If (!$Revert) {
-        Disable-XboxGameBarDVR
+        Disable-XboxGameBarDVRandMode
     } Else {
-        Enable-XboxGameBarDVR
+        Enable-XboxGameBarDVRandMode
     }
 
     Write-Status -Types "*", $TweakType -Status "Enabling game mode..."

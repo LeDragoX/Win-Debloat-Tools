@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"grant-registry-permission.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"new-shortcut.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
@@ -12,6 +13,7 @@ $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 $PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
 $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
 $PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+$PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
 
 function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
@@ -329,7 +331,8 @@ function Enable-WSearchService() {
     Start-Service "WSearch"
 }
 
-function Disable-XboxGameBarDVR() {
+function Disable-XboxGameBarDVRandMode() {
+    # Adapted from: https://docs.microsoft.com/en-us/answers/questions/241800/completely-disable-and-remove-xbox-apps-and-relate.html
     Write-Status -Types "-", "Performance" -Status "Disabling Xbox Game Bar DVR..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value" -Type DWord -Value 0
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
@@ -338,15 +341,44 @@ function Disable-XboxGameBarDVR() {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
+    Set-ServiceStartup -Disabled -Services "BcastDVRUserService*"
+
+    Write-Status -Types "-", "Performance" -Status "Enabling Game mode..."
+    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 0
+    Write-Status -Types "-", "Performance" -Status "Enabling Game Mode Notifications..."
+    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowGameModeNotifications" -Type DWord -Value 0
+    Write-Status -Types "-", "Performance" -Status "Enabling Game Bar tips..."
+    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowStartupPanel" -Type DWord -Value 0
+    Write-Status -Types "-", "Performance" -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
+    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 0
+
+    Grant-RegistryPermission -Key "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter"
+    Write-Status -Types "-", "Performance" -Status "Disabling GameBar Presence Writer..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 0
 }
 
-function Enable-XboxGameBarDVR() {
+function Enable-XboxGameBarDVRandMode() {
     Write-Status -Types "*", "Performance" -Status "Enabling Xbox Game Bar DVR..."
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value"
-    Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled"
-    Remove-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
     If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
     Remove-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR"
+    Set-ServiceStartup -Manual -Services "BcastDVRUserService*"
+
+    Write-Status -Types "*", "Performance" -Status "Enabling Game mode..."
+    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
+    Write-Status -Types "*", "Performance" -Status "Enabling Game Mode Notifications..."
+    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowGameModeNotifications" -Type DWord -Value 1
+    Write-Status -Types "*", "Performance" -Status "Enabling Game Bar tips..."
+    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowStartupPanel" -Type DWord -Value 1
+    Write-Status -Types "*", "Performance" -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
+    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 1
+
+    Grant-RegistryPermission -Key "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter"
+    Write-Status -Types "*", "Performance" -Status "Enabling GameBar Presence Writer..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 1
+
 }
