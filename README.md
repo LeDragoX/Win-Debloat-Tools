@@ -8,11 +8,19 @@ I need to change these files:
 - Win10ScriptGUI.ps1 (Window Title)
 -->
 
-<img src="src/assets/script-image.png" style="vertical-align: bottom">
 <h2 align="center">
-  <i>
-    This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a>
-  </i>
+<img src="src/assets/script-image.png" style="vertical-align: bottom" width="75%">
+
+[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml)
+![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-Debloat-Tools?label=Issues)
+![GitHub license](https://img.shields.io/github/license/LeDragoX/Win-Debloat-Tools?color=blue&label=License)
+[![Commit rate](https://img.shields.io/github/commit-activity/m/LeDragoX/Win-Debloat-Tools?label=Commit%20rate)](https://github.com/LeDragoX/Win-Debloat-Tools/commits/master)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/LeDragoX/Win-Debloat-Tools/main?label=Last%20commit)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LeDragoX/Win-Debloat-Tools?label=Code%20size)
+
+<i>
+  This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a>
+</i>
 </h2>
 
 _These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+._
@@ -22,17 +30,6 @@ This has a collection of scripts to tweak the system per category, using differe
 > _Use on a fresh Windows install to note the differences. Using an admin account is recommended to avoid any compatibility issues._
 
 ⚠️ **DISCLAIMER:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
-
-<h1 align="center">
-
-[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml)
-![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-Debloat-Tools?label=Issues)
-![GitHub license](https://img.shields.io/github/license/LeDragoX/Win-Debloat-Tools?color=blue&label=License)
-[![Commit rate](https://img.shields.io/github/commit-activity/m/LeDragoX/Win-Debloat-Tools?label=Commit%20rate)](https://github.com/LeDragoX/Win-Debloat-Tools/commits/master)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/LeDragoX/Win-Debloat-Tools/main?label=Last%20commit)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LeDragoX/Win-Debloat-Tools?label=Code%20size)
-
-</h1>
 
 ## 🚀 Download Latest Version
 
