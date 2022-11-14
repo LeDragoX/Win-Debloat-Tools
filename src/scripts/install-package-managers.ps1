@@ -82,11 +82,13 @@ function Install-WingetDependency() {
                 Wait-Process -Id $AppInstallerId
             }
 
-            Remove-Item -Path $WingetDepOutput
+            Return $WingetDepOutput
         } Else {
             Write-Status -Types "?" -Status "$OSArch is not supported!" -Warning
         }
     }
+
+    Return $false
 }
 
 function Main() {
@@ -95,29 +97,13 @@ function Main() {
         CheckExistenceBlock = { winget --version }
         InstallCommandBlock =
         {
-            Install-WingetDependency
-            $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "Microsoft.DesktopAppInstaller.msixbundle"
-            $WingetLicenseOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*License*.xml" -PropertyValue "browser_download_url" -OutputFile "WingetLicense.xml"
-            $AppName = Split-Path -Path $WingetOutput -Leaf
-
-            Try {
-                # Method from: https://github.com/microsoft/winget-cli/blob/master/doc/troubleshooting/README.md#machine-wide-provisioning
-                Write-Status -Types "@" -Status "Trying to install the App (w/ license): $AppName" -Warning
-                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -LicensePath $WingetLicenseOutput | Out-Null }
-                Invoke-Expression "$InstallPackageCommand"
-                If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
-
-                Write-Status -Types "@" -Status "Trying to install the App (w/out license): $AppName" -Warning
-                $OldInstallPackageCommand = { Add-AppxPackage -Path $WingetOutput }
-                Invoke-Expression "$OldInstallPackageCommand"
-                If ($LASTEXITCODE) { Throw "Couldn't install automatically" }
-            } Catch {
-                Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
-                Start-Process "ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1" -Wait # GUI App installer can't install itself
-            }
-
-            Remove-Item -Path $WingetOutput
-            Remove-Item -Path $WingetLicenseOutput
+            New-Item -Path "$PWD\..\tmp\" -Name "winget-install" -ItemType Directory -Force | Out-Null
+            Push-Location -Path "$PWD\..\tmp\winget-install\"
+            Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+            Install-Script -Name winget-install -Force
+            winget-install.ps1
+            Pop-Location
+            Remove-Item -Path "$PWD\..\tmp\winget-install\"
         }
         Time                = "12:00"
         UpdateScriptBlock   =
@@ -127,6 +113,37 @@ function Main() {
             Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force # Only needed to run Winget
             winget upgrade --all --silent | Out-Host
             Stop-Transcript
+        }
+    }
+
+    $WingetParams2 = @{
+        Name                = "Winget"
+        CheckExistenceBlock = { winget --version }
+        InstallCommandBlock =
+        {
+            $WingetDepOutput = Install-WingetDependency
+            $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "Microsoft.DesktopAppInstaller.msixbundle"
+            $WingetLicenseOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*License*.xml" -PropertyValue "browser_download_url" -OutputFile "WingetLicense.xml"
+            $AppName = Split-Path -Path $WingetOutput -Leaf
+
+            Try {
+                # Method from: https://github.com/microsoft/winget-cli/blob/master/doc/troubleshooting/README.md#machine-wide-provisioning
+                If ($WingetDepOutput) {
+                    Write-Status -Types "@" -Status "Trying to install the App (w/ license + dependency): $AppName" -Warning
+                    $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -LicensePath $WingetLicenseOutput -DependencyPackagePath $WingetDepOutput | Out-Null }
+                    Invoke-Expression "$InstallPackageCommand"
+                }
+
+                Write-Status -Types "@" -Status "Trying to install the App (w/ license): $AppName" -Warning
+                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -LicensePath $WingetLicenseOutput | Out-Null }
+                Invoke-Expression "$InstallPackageCommand"
+            } Catch {
+                Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
+                Start-Process "ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1" -Wait # GUI App installer can't install itself
+            }
+
+            Remove-Item -Path $WingetOutput
+            Remove-Item -Path $WingetLicenseOutput
         }
     }
 
@@ -150,8 +167,10 @@ function Main() {
         PostInstallBlock    = { choco install --ignore-dependencies --yes "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
     }
 
-    # Install Winget on Windows
+    # Install Winget on Windows (Method 1)
     Install-PackageManager -PackageManagerFullName $WingetParams.Name -CheckExistenceBlock $WingetParams.CheckExistenceBlock -InstallCommandBlock $WingetParams.InstallCommandBlock -Time $WingetParams.Time -UpdateScriptBlock $WingetParams.UpdateScriptBlock
+    # Install Winget on Windows (Method 2)
+    Install-PackageManager -PackageManagerFullName $WingetParams2.Name -CheckExistenceBlock $WingetParams2.CheckExistenceBlock -InstallCommandBlock $WingetParams2.InstallCommandBlock
     # Install Chocolatey on Windows
     Install-PackageManager -PackageManagerFullName $ChocolateyParams.Name -CheckExistenceBlock $ChocolateyParams.CheckExistenceBlock -InstallCommandBlock $ChocolateyParams.InstallCommandBlock -Time $ChocolateyParams.Time -UpdateScriptBlock $ChocolateyParams.UpdateScriptBlock -PostInstallBlock $ChocolateyParams.PostInstallBlock
 }
