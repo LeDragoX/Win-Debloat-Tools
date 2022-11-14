@@ -20,8 +20,11 @@ function Main() {
     Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"install-individual-system-apps.psm1" -Force
 
     Set-ConsoleStyle            # Makes the console look cooler
-    Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
-    Write-Caption "$((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
+    $CurrentFileName = (Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]
+    $CurrentFileLastModified = (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
+    (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
+    Start-Logging -File $CurrentFileName
+    Write-Caption "$CurrentFileName v$CurrentFileLastModified"
     Write-Host "Your Current Folder $pwd"
     Write-Host "Script Root Folder $PSScriptRoot"
     Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -NoDialog # Install Winget and Chocolatey at the beginning
@@ -123,7 +126,7 @@ function Show-GUI() {
     $TabSoftwareInstall = New-TabPage -Name "Tab2" -Text "Software Install"
 
     $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $TotalWidth -Height $TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $Header1 -FontStyle "Bold" -ForeColor $WinBlue
-    $ClSystemTweaks = New-Label -Text "($((Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]) v$((Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"))" -Width $TotalWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $TlSystemTweaks -MarginTop $DistanceBetweenElements -ForeColor $White
+    $ClSystemTweaks = New-Label -Text "$CurrentFileName v$CurrentFileLastModified" -Width $TotalWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $TlSystemTweaks -MarginTop $DistanceBetweenElements -ForeColor $White
 
     # ==> Tab 1
     $CurrentPanelIndex = 1
@@ -172,9 +175,9 @@ function Show-GUI() {
     $CbSearchAppForUnknownExt = New-CheckBox -Text "Enable Search App for Unknown Ext." -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
     $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbSearchAppForUnknownExt
     $CbWSearchService = New-CheckBox -Text "Enable WSearch Service" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTelemetry
-    $CbXboxGameBarDVR = New-CheckBox -Text "Enable Xbox GameBar DVR" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbWSearchService
+    $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game: Bar/DVR/Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbWSearchService
 
-    $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarDVR
+    $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarDVRandMode
     $CbInternetExplorer = New-CheckBox -Text "Internet Explorer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClOptionalFeatures
     $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbInternetExplorer
     $CbPrintingXPSServices = New-CheckBox -Text "Printing-XPSServices-Features" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPrintToPDFServices
@@ -404,7 +407,7 @@ function Show-GUI() {
     $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
     $T1Panel1.Controls.AddRange(@($ClInstallSystemApps, $EnableHEVCSupport, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallSoundRecorder, $InstallXbox))
     $T1Panel1.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
-    $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVR))
+    $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
     $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
@@ -669,13 +672,13 @@ function Show-GUI() {
             }
         })
 
-    $CbXboxGameBarDVR.Add_Click( {
-            If ($CbXboxGameBarDVR.CheckState -eq "Checked") {
-                Enable-XboxGameBarDVR
-                $CbXboxGameBarDVR.Text = "[ON]  Xbox GameBar/DVR *"
+    $CbXboxGameBarDVRandMode.Add_Click( {
+            If ($CbXboxGameBarDVRandMode.CheckState -eq "Checked") {
+                Enable-XboxGameBarDVRandMode
+                $CbXboxGameBarDVRandMode.Text = "[ON]  Xbox Game: Bar/DVR/Mode *"
             } Else {
-                Disable-XboxGameBarDVR
-                $CbXboxGameBarDVR.Text = "[OFF] Xbox GameBar/DVR"
+                Disable-XboxGameBarDVRandMode
+                $CbXboxGameBarDVRandMode.Text = "[OFF] Xbox Game: Bar/DVR/Mode"
             }
         })
 
