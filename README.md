@@ -47,16 +47,16 @@ Code located in the `main` branch is considered stable, the `develop` branch con
     </thead>
     <tbody align="center">
       <tr>
-        <td align="left">
-            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main – Stable</a></h4>
+        <td>
+            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main</a></h4>(Stable)
         </td>
         <td rowspan="2">22H2 or Older</td>
         <td rowspan="2">Home / Pro</td>
         <td rowspan="2"><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
       </tr>
       <tr>
-        <td align="left">
-            <h5><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/develop.zip">⬇️ Develop – Newer</a></h5>
+        <td>
+            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/develop.zip">⬇️ Develop</a></h4>(Newer)
         </td>
       </tr>
     </tbody>
