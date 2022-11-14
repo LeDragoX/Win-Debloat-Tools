@@ -223,7 +223,8 @@ function Show-GUI() {
     $InstallAdobeReaderDC = New-CheckBox -Text "Adobe Reader DC (x64)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClDocuments
     $InstallLibreOffice = New-CheckBox -Text "LibreOffice" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallAdobeReaderDC
     $InstallOnlyOffice = New-CheckBox -Text "ONLYOFFICE DesktopEditors" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallLibreOffice
-    $InstallPowerBi = New-CheckBox -Text "Power BI" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallOnlyOffice
+    $InstallPDFCreator = New-CheckBox -Text "PDFCreator (PDF Converter)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallOnlyOffice
+    $InstallPowerBi = New-CheckBox -Text "Power BI" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPDFCreator
     $InstallSumatraPDF = New-CheckBox -Text "Sumatra PDF" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPowerBi
 
     $ClTorrent = New-Label -Text "Torrent" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallSumatraPDF
@@ -411,7 +412,7 @@ function Show-GUI() {
     $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
     $T2Panel1.Controls.AddRange(@($ClApplicationRequirements, $InstallDirectX, $InstallMsDotNetFramework, $InstallMsVCppX64, $InstallMsVCppX86))
     $T2Panel1.Controls.AddRange(@($ClFileCompression, $Install7Zip, $InstallWinRar))
-    $T2Panel1.Controls.AddRange(@($ClDocuments, $InstallAdobeReaderDC, $InstallLibreOffice, $InstallOnlyOffice, $InstallPowerBi, $InstallSumatraPDF))
+    $T2Panel1.Controls.AddRange(@($ClDocuments, $InstallAdobeReaderDC, $InstallLibreOffice, $InstallOnlyOffice, $InstallPDFCreator, $InstallPowerBi, $InstallSumatraPDF))
     $T2Panel1.Controls.AddRange(@($ClTorrent, $InstallqBittorrent))
     $T2Panel1.Controls.AddRange(@($ClAcademicResearch, $InstallZotero))
     $T2Panel1.Controls.AddRange(@($Cl2fa, $InstallTwilioAuthy))
@@ -860,6 +861,11 @@ function Show-GUI() {
             If ($InstallSumatraPDF.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("SumatraPDF.SumatraPDF")
                 $InstallSumatraPDF.CheckState = "Unchecked"
+            }
+
+            If ($InstallPDFCreator.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("PDFCreator")
+                $InstallPDFCreator.CheckState = "Unchecked"
             }
 
             If ($InstallPowerBi.CheckState -eq "Checked") {
