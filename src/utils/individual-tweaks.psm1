@@ -255,6 +255,18 @@ function Enable-OnlineSpeechRecognition() {
     Set-ItemProperty -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 1
 }
 
+function Disable-PhoneLink() {
+    Write-Status -Types "-", "Privacy" -Status "Disabling Phone Link (Your Phone)..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 0
+}
+
+function Enable-PhoneLink() {
+    Write-Status -Types "*", "Privacy" -Status "Enabling Phone Link (Your Phone)..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 1
+}
+
 function Disable-PrintToPDFServicesToogle() {
     Set-OptionalFeatureState -Disabled -OptionalFeatures @("Printing-PrintToPDFServices-Features")
 }

@@ -9,7 +9,7 @@ I need to change these files:
 -->
 
 <h2 align="center">
-<img src="src/assets/script-image.png" style="vertical-align: bottom" width="75%">
+<img src="src/assets/script-image.png" style="vertical-align: bottom" width="90%">
 
 [![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml)
 ![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-Debloat-Tools?label=Issues)
@@ -29,7 +29,7 @@ This has a collection of scripts to tweak the system per category, using differe
 
 > _Use on a fresh Windows install to note the differences. Using an admin account is recommended to avoid any compatibility issues._
 
-⚠️ **DISCLAIMER:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
+⚠️ **DISCLAIMER:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored.
 
 ## 🚀 Download Latest Version
 
@@ -39,7 +39,7 @@ Code located in the `main` branch is considered stable, the `develop` branch con
   <table>
     <thead align="center">
       <tr>
-        <th>Download</th>
+        <th>Branch to Download</th>
         <th>Version(s) Supported</th>
         <th>Edition(s)</th>
         <th>PowerShell Version</th>
@@ -175,6 +175,7 @@ _This section contains tools to solve some Windows problems and get info about h
 - `Enable/Disable Cortana`: Manages the **Cortana** setting;
 - `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)** setting;
 - `Enable/Disable Online Speech Recognition`: Manages the **Online Speech Recognition** setting, by pressing the keys `Windows + H` you can speak through your mic, then use it to type text using your voice;
+- `Enable/Disable Phone Link`: Manages the **Phone Link** setting, which can link your Android/iPhone devices notifications to Windows;
 - `Enable/Disable Photo Viewer`: [_Enables_](./src/utils/enable-photo-viewer.reg) or [_Disables_](src/utils/disable-photo-viewer.reg) the old **Photo Viewer (Win 7/8.1)**;
 - `Enable/Disable Search App for Unknown Ext.`: When running a unknown extension file, be able to search through **MS Store** for an App that can open it.
 - `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level** setting;

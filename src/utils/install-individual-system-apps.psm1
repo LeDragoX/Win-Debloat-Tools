@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 function Install-Cortana() {
     $Apps = @("9NFFX4SZZ23L")
@@ -36,6 +37,14 @@ function Install-PaintPaint3D() {
 
     Write-Status -Types "*", "Apps" -Status "Installing Paint + Paint 3D..."
     Install-Software -Name "Paint + Paint 3D" -Packages $Apps -ViaMSStore
+}
+
+function Install-PhoneLink() {
+    $Apps = @("9NMPJ99VJBWV")
+
+    Write-Status -Types "*", "Apps" -Status "Installing Phone Link (Your Phone)..."
+    Install-Software -Name "Phone Link (Your Phone)" -Packages $Apps -ViaMSStore
+    Enable-PhoneLink
 }
 
 function Install-SoundRecorder() {

@@ -111,7 +111,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SystemTweaksHeight = 1025
+    $SystemTweaksHeight = 1050
     $SoftwareInstallHeight = 1700
 
     # <===== UI =====>
@@ -150,7 +150,8 @@ function Show-GUI() {
     $InstallMicrosoftEdge = New-Button -Text "Microsoft Edge" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallDolbyAudio -MarginTop $DistanceBetweenElements
     $InstallOneDrive = New-Button -Text "OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallMicrosoftEdge -MarginTop $DistanceBetweenElements
     $InstallPaintPaint3D = New-Button -Text "Paint + Paint 3D" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallOneDrive
-    $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPaintPaint3D
+    $InstallPhoneLink = New-Button -Text "Phone Link" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPaintPaint3D
+    $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallPhoneLink
     $InstallTaskbarWidgets = New-Button -Text "Taskbar Widgets" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallSoundRecorder
     $InstallUWPWMediaPlayer = New-Button -Text "Windows Media Player (UWP)" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallTaskbarWidgets -MarginTop $DistanceBetweenElements
     $InstallXbox = New-Button -Text "Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $InstallUWPWMediaPlayer -MarginTop $DistanceBetweenElements
@@ -171,7 +172,8 @@ function Show-GUI() {
     $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbClipboardSyncAcrossDevice
     $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbCortana
     $CbOnlineSpeechRecognition = New-CheckBox -Text "Enable Online Speech Recognition" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbOldVolumeControl
-    $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbOnlineSpeechRecognition
+    $CbPhoneLink = New-CheckBox -Text "Enable Phone Link" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbOnlineSpeechRecognition
+    $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhoneLink
     $CbSearchAppForUnknownExt = New-CheckBox -Text "Enable Search App for Unknown Ext." -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
     $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbSearchAppForUnknownExt
     $CbWSearchService = New-CheckBox -Text "Enable WSearch Service" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTelemetry
@@ -405,9 +407,9 @@ function Show-GUI() {
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
-    $T1Panel1.Controls.AddRange(@($ClInstallSystemApps, $EnableHEVCSupport, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallSoundRecorder, $InstallXbox))
+    $T1Panel1.Controls.AddRange(@($ClInstallSystemApps, $EnableHEVCSupport, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallPhoneLink, $InstallSoundRecorder, $InstallXbox))
     $T1Panel1.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
-    $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
+    $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
     $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
@@ -524,6 +526,10 @@ function Show-GUI() {
             Install-PaintPaint3D
         })
 
+    $InstallPhoneLink.Add_Click( {
+            Install-PhoneLink
+        })
+
     $InstallSoundRecorder.Add_Click( {
             Install-SoundRecorder
         })
@@ -629,6 +635,16 @@ function Show-GUI() {
             } Else {
                 Disable-OnlineSpeechRecognition
                 $CbOnlineSpeechRecognition.Text = "[OFF] Online Speech Recognition"
+            }
+        })
+
+    $CbPhoneLink.Add_Click( {
+            If ($CbPhoneLink.CheckState -eq "Checked") {
+                Enable-PhoneLink
+                $CbPhoneLink.Text = "[ON]  Phone Link *"
+            } Else {
+                Disable-PhoneLink
+                $CbPhoneLink.Text = "[OFF] Phone Link"
             }
         })
 
