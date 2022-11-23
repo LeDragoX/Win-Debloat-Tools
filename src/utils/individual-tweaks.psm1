@@ -7,6 +7,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-windows-feature-sta
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
+$PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $PathToLMPoliciesSystem = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
 $PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
@@ -257,13 +258,13 @@ function Enable-OnlineSpeechRecognition() {
 
 function Disable-PhoneLink() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Phone Link (Your Phone)..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
     Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 0
 }
 
 function Enable-PhoneLink() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Phone Link (Your Phone)..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 0
     Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 1
 }
 
@@ -371,13 +372,15 @@ function Disable-XboxGameBarDVRandMode() {
 
 function Enable-XboxGameBarDVRandMode() {
     Write-Status -Types "*", "Performance" -Status "Enabling Xbox Game Bar DVR..."
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Name "value"
+    Write-Status -Types "*", "Performance" -Status "Removing GameDVR policies..."
+    Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR" -Recurse
     Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
     Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
     If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
     Remove-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR"
+
     Set-ServiceStartup -Manual -Services "BcastDVRUserService*"
 
     Write-Status -Types "*", "Performance" -Status "Enabling Game mode..."
