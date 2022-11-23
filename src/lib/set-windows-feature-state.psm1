@@ -37,20 +37,20 @@ function Set-OptionalFeatureState() {
     ForEach ($OptionalFeature in $OptionalFeatures) {
         If (Find-OptionalFeature $OptionalFeature) {
             If (($OptionalFeature -in $SecurityFilterOnEnable) -and ($Enabled)) {
-                Write-Status -Types "?", $TweakType -Status "Skipping $OptionalFeature to avoid a security vulnerability ..." -Warning
+                Write-Status -Types "?", $TweakType -Status "Skipping $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) to avoid a security vulnerability..." -Warning
                 Continue
             }
 
             If ($OptionalFeature -in $Filter) {
-                Write-Status -Types "?", $TweakType -Status "The $OptionalFeature will be skipped as set on Filter ..." -Warning
+                Write-Status -Types "?", $TweakType -Status "The $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) will be skipped as set on Filter..." -Warning
                 Continue
             }
 
             If (!$CustomMessage) {
                 If ($Disabled) {
-                    Write-Status -Types "-", $TweakType -Status "Uninstalling the $OptionalFeature optional feature ..."
+                    Write-Status -Types "-", $TweakType -Status "Uninstalling the $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) optional feature..."
                 } ElseIf ($Enabled) {
-                    Write-Status -Types "+", $TweakType -Status "Installing the $OptionalFeature optional feature ..."
+                    Write-Status -Types "+", $TweakType -Status "Installing the $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) optional feature..."
                 } Else {
                     Write-Status -Types "?", $TweakType -Status "No parameter received (valid params: -Disabled or -Enabled)" -Warning
                 }

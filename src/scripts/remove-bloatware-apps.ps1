@@ -79,6 +79,7 @@ function Remove-BloatwareAppsList() {
         "*Keeper*"
         "*LinkedInforWindows*"
         "*MarchofEmpires*"
+        "*Netflix*"                              # Netflix
         "*NYTCrossword*"
         "*OneCalendar*"
         "*PandoraMediaInc*"
@@ -136,7 +137,6 @@ function Remove-BloatwareAppsList() {
 
         # [DIY] Common Streaming services
 
-        #"*Netflix*"                        # Netflix
         #"*SpotifyMusic*"                   # Spotify
 
         # [DIY] Can't be reinstalled

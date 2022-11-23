@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 function Install-Cortana() {
     $Apps = @("9NFFX4SZZ23L")
@@ -38,6 +39,14 @@ function Install-PaintPaint3D() {
     Install-Software -Name "Paint + Paint 3D" -Packages $Apps -ViaMSStore
 }
 
+function Install-PhoneLink() {
+    $Apps = @("9NMPJ99VJBWV")
+
+    Write-Status -Types "*", "Apps" -Status "Installing Phone Link (Your Phone)..."
+    Install-Software -Name "Phone Link (Your Phone)" -Packages $Apps -ViaMSStore
+    Enable-PhoneLink
+}
+
 function Install-SoundRecorder() {
     $Apps = @("9WZDNCRFHWKN")
 
@@ -58,7 +67,6 @@ function Install-UWPWindowsMediaPlayer() {
 }
 
 function Install-Xbox() {
-    $PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
     $PathToLMServicesXbgm = "HKLM:\SYSTEM\CurrentControlSet\Services\xbgm"
     $TweakType = "Xbox"
 
@@ -77,23 +85,11 @@ function Install-Xbox() {
     Write-Status -Types "*", $TweakType -Status "Installing Xbox Apps again..."
     Install-Software -Name "Missing Xbox Apps" -Packages $XboxApps -ViaMSStore -NoDialog
 
-    Enable-XboxGameBarDVR
-
-    Write-Status -Types "*", $TweakType -Status "Enabling Game mode..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
-    Write-Status -Types "*", $TweakType -Status "Enabling Game Mode Notifications..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowGameModeNotifications" -Type DWord -Value 1
-    Write-Status -Types "*", $TweakType -Status "Enabling Game Bar tips..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowStartupPanel" -Type DWord -Value 1
-    Write-Status -Types "*", $TweakType -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 1
-
-    Write-Status -Types "*", $TweakType -Status "Enabling GameBar Presence Writer..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 1
-
     Write-Status -Types "*", $TweakType -Status "Enabling Xbox Game Monitoring..."
     If (!(Test-Path "$PathToLMServicesXbgm")) {
         New-Item -Path "$PathToLMServicesXbgm" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMServicesXbgm" -Name "Start" -Type DWord -Value 3
+
+    Enable-XboxGameBarDVRandMode
 }

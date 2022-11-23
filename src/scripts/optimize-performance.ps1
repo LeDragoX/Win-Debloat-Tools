@@ -5,6 +5,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm
 
 # Adapted from: https://youtu.be/hQSkPmZRCjc
 # Adapted from: https://github.com/ChrisTitusTech/win10script
+# Adapted from: https://github.com/ChrisTitusTech/winutil
 # Adapted from: https://github.com/Sycnex/Windows10Debloater
 
 function Optimize-Performance() {
@@ -31,22 +32,15 @@ function Optimize-Performance() {
     }
 
     # Initialize all Path variables used to Registry Tweaks
+    $PathToLMMultimediaSystemProfile = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile"
+    $PathToLMMultimediaSystemProfileOnGameTasks = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
     $PathToLMPoliciesPsched = "HKLM:\SOFTWARE\Policies\Microsoft\Psched"
     $PathToLMPoliciesWindowsStore = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+    $PathToUsersControlPanelDesktop = "Registry::HKEY_USERS\.DEFAULT\Control Panel\Desktop"
+    $PathToCUControlPanelDesktop = "HKCU:\Control Panel\Desktop"
     $PathToCUGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
 
     Write-Title -Text "Performance Tweaks"
-
-    Write-Section -Text "Gaming"
-    If (!$Revert) {
-        Disable-XboxGameBarDVR
-    } Else {
-        Enable-XboxGameBarDVR
-    }
-
-    Write-Status -Types "*", $TweakType -Status "Enabling game mode..."
-    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
 
     Write-Section -Text "System"
     Write-Caption -Text "Display"
@@ -71,7 +65,7 @@ function Optimize-Performance() {
         New-Item -Path "$PathToLMPoliciesPsched" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
+    Set-ItemProperty -Path "$PathToLMMultimediaSystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
     Write-Status -Types "*", $TweakType -Status "Enabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
@@ -106,9 +100,59 @@ function Optimize-Performance() {
     $Data[8] = 3
     Set-ItemProperty -Path $Key -Name DefaultConnectionSettings -Value $Data
 
-    # Details: https://windowsreport.com/how-to-speed-up-windows-11-animations/
-    Write-Status -Types "+", $TweakType -Status "Setting animation speed to 100ms on Windows 11..."
-    Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type DWord -Value 100 # Default: 400
+    Write-Section -Text "System & Apps Timeout behaviors"
+    Write-Status -Types "+", $TweakType -Status "Reducing Time to services app timeout to 2s to ALL users..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "WaitToKillServiceTimeout" -Type DWord -Value 2000 # Default: 20000 / 5000
+    Write-Status -Types "*", $TweakType -Status "Don't clear page file at shutdown (takes more time) to ALL users..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name "ClearPageFileAtShutdown" -Type DWord -Value 0 # Default: 0
+
+    Write-Status -Types "+", $TweakType -Status "Reducing mouse hover time events to 10ms..."
+    Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseHoverTime" -Type DWord -Value 10 # Default: 400
+
+    # Details: https://windowsreport.com/how-to-speed-up-windows-11-animations/ and https://www.tenforums.com/tutorials/97842-change-hungapptimeout-value-windows-10-a.html
+    ForEach ($DesktopRegistryPath in @($PathToUsersControlPanelDesktop, $PathToCUControlPanelDesktop)) {
+        <# $DesktopRegistryPath is the path related to all users and current user configuration #>
+        If ($DesktopRegistryPath -eq $PathToUsersControlPanelDesktop) {
+            Write-Caption -Text "TO ALL USERS"
+        } ElseIf ($DesktopRegistryPath -eq $PathToCUControlPanelDesktop) {
+            Write-Caption -Text "TO CURRENT USER"
+        }
+
+        Write-Status -Types "+", $TweakType -Status "Don't prompt user to end tasks on shutdown..."
+        Set-ItemProperty -Path "$DesktopRegistryPath" -Name "AutoEndTasks" -Type DWord -Value 1 # Default: Removed or 0
+
+        Write-Status -Types "*", $TweakType -Status "Returning 'Hung App Timeout' to default..."
+        If ((Get-Item "$DesktopRegistryPath").Property -contains "HungAppTimeout") {
+            Remove-ItemProperty -Path "$DesktopRegistryPath" -Name "HungAppTimeout"
+        }
+
+        Write-Status -Types "+", $TweakType -Status "Reducing mouse and keyboard hooks timeout to 1s..."
+        Set-ItemProperty -Path "$DesktopRegistryPath" -Name "LowLevelHooksTimeout" -Type DWord -Value 1000 # Default: Removed or 5000
+        Write-Status -Types "+", $TweakType -Status "Reducing animation speed delay to 1ms on Windows 11..."
+        Set-ItemProperty -Path "$DesktopRegistryPath" -Name "MenuShowDelay" -Type DWord -Value 1 # Default: 400
+        Write-Status -Types "+", $TweakType -Status "Reducing Time to kill apps timeout to 5s..."
+        Set-ItemProperty -Path "$DesktopRegistryPath" -Name "WaitToKillAppTimeout" -Type DWord -Value 5000 # Default: 20000
+    }
+
+    Write-Section -Text "Gaming Responsiveness Tweaks"
+
+    If (!$Revert) {
+        Disable-XboxGameBarDVRandMode
+    } Else {
+        Enable-XboxGameBarDVRandMode
+    }
+
+    Write-Status -Types "*", $TweakType -Status "Enabling game mode..."
+    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AllowAutoGameMode" -Type DWord -Value 1
+    Set-ItemProperty -Path "$PathToCUGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
+
+    # Details: https://www.reddit.com/r/killerinstinct/comments/4fcdhy/an_excellent_guide_to_optimizing_your_windows_10/
+    Write-Status -Types "+", $TweakType -Status "Reserving 100% of CPU to Multimedia/Gaming tasks..."
+    Set-ItemProperty -Path "$PathToLMMultimediaSystemProfile" -Name "SystemResponsiveness" -Type DWord -Value 0 # Default: 20
+    Write-Status -Types "+", $TweakType -Status "Dedicate more CPU/GPU usage to Gaming tasks..."
+    Set-ItemProperty -Path "$PathToLMMultimediaSystemProfileOnGameTasks" -Name "GPU Priority" -Type DWord -Value 8 # Default: 8
+    Set-ItemProperty -Path "$PathToLMMultimediaSystemProfileOnGameTasks" -Name "Priority" -Type DWord -Value 6 # Default: 2
+    Set-ItemProperty -Path "$PathToLMMultimediaSystemProfileOnGameTasks" -Name "Scheduling Category" -Type String -Value "High" # Default: "Medium"
 }
 
 function Main() {

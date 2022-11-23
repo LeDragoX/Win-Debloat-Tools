@@ -34,10 +34,11 @@ function Register-PersonalTweaksList() {
     $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
     $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-    $PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+    $PathToCUPoliciesExplorer = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
     $PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
     $PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
     $PathToCUWindowsSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
+    $PathToLMPoliciesExplorer = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
     $PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
     $PathToLMPoliciesWindowsSearch = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 
@@ -161,11 +162,11 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Meet now' icon on taskbar..."
-    If (!(Test-Path "$PathToCUPoliciesExplorer")) {
-        New-Item -Path "$PathToCUPoliciesExplorer" -Force | Out-Null
+    If (!(Test-Path "$PathToLMPoliciesExplorer")) {
+        New-Item -Path "$PathToLMPoliciesExplorer" -Force | Out-Null
     }
     # [@] (0 = Show Meet Now, 1 = Hide Meet Now)
-    Set-ItemProperty -Path "$PathToCUPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToLMPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
 
     Write-Caption -Text "Task Bar - Windows 11 Compatible"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Widgets' icon from taskbar..."
@@ -198,6 +199,11 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
 
+    If (!(Test-Path "$PathToCUPoliciesExplorer")) {
+        New-Item -Path "$PathToCUPoliciesExplorer" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToCUPoliciesExplorer" -Name "DisableSearchBoxSuggestions" -Type DWord -Value $One
+
     Write-Section -Text "Ease of Access"
     Write-Caption -Text "Keyboard"
     Write-Status -Types "-", $TweakType -Status "Disabling Sticky Keys..."
@@ -224,13 +230,13 @@ function Register-PersonalTweaksList() {
     $TimeoutScreenPluggedIn = 10
 
     $TimeoutStandByBattery = 15
-    $TimeoutStandByPluggedIn = 30
+    $TimeoutStandByPluggedIn = 180
 
-    $TimeoutDiskBattery = 15
+    $TimeoutDiskBattery = 20
     $TimeoutDiskPluggedIn = 30
 
     $TimeoutHibernateBattery = 15
-    $TimeoutHibernatePluggedIn = 30
+    $TimeoutHibernatePluggedIn = 15
 
     Write-Status -Types "+", $TweakType -Status "Setting the Monitor Timeout to AC: $TimeoutScreenPluggedIn and DC: $TimeoutScreenBattery..."
     powercfg -Change Monitor-Timeout-AC $TimeoutScreenPluggedIn

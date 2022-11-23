@@ -26,7 +26,6 @@ function Optimize-TaskScheduler() {
         "\Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask"       # Recommended state for VDI use
         "\Microsoft\Windows\Customer Experience Improvement Program\Uploader"
         "\Microsoft\Windows\Customer Experience Improvement Program\UsbCeip"              # Recommended state for VDI use
-        "\Microsoft\Windows\Defrag\ScheduledDefrag"                                       # Recommended state for VDI use
         "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector"
         "\Microsoft\Windows\Location\Notifications"                                       # Recommended state for VDI use
         "\Microsoft\Windows\Location\WindowsActionDialog"                                 # Recommended state for VDI use
@@ -42,6 +41,7 @@ function Optimize-TaskScheduler() {
     )
 
     $EnableScheduledTasks = @(
+        "\Microsoft\Windows\Defrag\ScheduledDefrag"                 # Defragments all internal storages connected to your computer
         "\Microsoft\Windows\Maintenance\WinSAT"                     # WinSAT detects incorrect system configurations, that causes performance loss, then sends it via telemetry | Reference (PT-BR): https://youtu.be/wN1I0IPgp6U?t=16
         "\Microsoft\Windows\RecoveryEnvironment\VerifyWinRE"        # Verify the Recovery Environment integrity, it's the Diagnostic tools and Troubleshooting when your PC isn't healthy on BOOT, need this ON.
         "\Microsoft\Windows\Windows Error Reporting\QueueReporting" # Windows Error Reporting event, needed to improve compatibility with your hardware
@@ -52,7 +52,7 @@ function Optimize-TaskScheduler() {
 
     If ($Revert) {
         Write-Status -Types "*", "TaskScheduler" -Status "Reverting the tweaks is set to '$Revert'." -Warning
-        $CustomMessage = { "Resetting the $ScheduledTask task as 'Ready' ..." }
+        $CustomMessage = { "Resetting the $ScheduledTask task as 'Ready'..." }
         Set-ScheduledTaskState -Ready -ScheduledTask $DisableScheduledTasks -CustomMessage $CustomMessage
     } Else {
         Set-ScheduledTaskState -Disabled -ScheduledTask $DisableScheduledTasks

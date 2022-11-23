@@ -8,22 +8,8 @@ I need to change these files:
 - Win10ScriptGUI.ps1 (Window Title)
 -->
 
-<img src="src/assets/script-image.png" style="vertical-align: bottom">
 <h2 align="center">
-  <i>
-    This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a>
-  </i>
-</h2>
-
-_These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+._
-
-This has a collection of scripts to tweak the system per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
-
-> _Use on a fresh Windows install to note the differences. Using an admin account is recommended to avoid any compatibility issues._
-
-⚠️ **DISCLAIMER:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur.
-
-<h1 align="center">
+<img src="src/assets/script-image.png" style="vertical-align: bottom" width="90%">
 
 [![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml)
 ![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-Debloat-Tools?label=Issues)
@@ -32,7 +18,18 @@ This has a collection of scripts to tweak the system per category, using differe
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/LeDragoX/Win-Debloat-Tools/main?label=Last%20commit)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/LeDragoX/Win-Debloat-Tools?label=Code%20size)
 
-</h1>
+<i>
+  This Project was adapted from <a href="https://github.com/W4RH4WK/Debloat-Windows-10">W4RH4WK's Project</a>
+</i>
+</h2>
+
+_These scripts will Customize, Debloat and Improve Privacy/Performance and System Responsiveness on Windows 10+._
+
+This has a collection of scripts to tweak the system per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
+
+> _Use on a fresh Windows install to note the differences. Using an admin account is recommended to avoid any compatibility issues._
+
+⚠️ **DISCLAIMER:** _You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored._
 
 ## 🚀 Download Latest Version
 
@@ -42,7 +39,7 @@ Code located in the `main` branch is considered stable, the `develop` branch con
   <table>
     <thead align="center">
       <tr>
-        <th>Download</th>
+        <th>Branch to Download</th>
         <th>Version(s) Supported</th>
         <th>Edition(s)</th>
         <th>PowerShell Version</th>
@@ -50,16 +47,16 @@ Code located in the `main` branch is considered stable, the `develop` branch con
     </thead>
     <tbody align="center">
       <tr>
-        <td align="left">
-            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main – Stable</a></h4>
+        <td>
+            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main</a></h4>(Stable)
         </td>
         <td rowspan="2">22H2 or Older</td>
         <td rowspan="2">Home / Pro</td>
         <td rowspan="2"><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
       </tr>
       <tr>
-        <td align="left">
-            <h5><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/develop.zip">⬇️ Develop – Newer</a></h5>
+        <td>
+            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/develop.zip">⬇️ Develop</a></h4>(Newer)
         </td>
       </tr>
     </tbody>
@@ -140,7 +137,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 #### System Debloat Tools
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
-- `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
+- `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the, `ShutUp10 settings`, `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
 - [`Remove Microsoft Edge`](./src/scripts/remove-msedge.ps1): uninstalls Microsoft Edge/WebView, then remove the remaining files;
 - [`Remove OneDrive`](./src/scripts/remove-onedrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
 - [`Remove Xbox`](./src/scripts/remove-xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
@@ -171,16 +168,19 @@ _This section contains tools to solve some Windows problems and get info about h
 #### Customize System Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
 - `Enable/Disable Dark Theme`: Apply _Dark Theme_ or _Light Theme_ on Windows;
-- `Enable/Disable Activity History`: Manages the **Activity History**;
-- `Enable/Disable Background Apps`: Manages _ALL_ the **Background Apps**;
-- `Enable/Disable Clipboard History`: Manages the **Clipboard History**;
-- `Enable/Disable Cortana`: Manages the **Cortana**;
-- `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)**;
+- `Enable/Disable Activity History`: Manages the **Activity History** setting;
+- `Enable/Disable Background Apps`: Manages _ALL_ the **Background Apps** settings;
+- `Enable/Disable Clipboard History`: Manages the **Clipboard History** setting, that keeps a history from your clipboard pressing `Windows + V` key;
+- `Enable/Disable Clipboard Sync Across Devices`: Manages the **Clipboard Sync Across Devices** setting, which allows to use the same clipboard for multiple devices (must be using a MS account);
+- `Enable/Disable Cortana`: Manages the **Cortana** setting;
+- `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)** setting;
+- `Enable/Disable Online Speech Recognition`: Manages the **Online Speech Recognition** setting, by pressing the keys `Windows + H` you can speak through your mic, then use it to type text using your voice;
+- `Enable/Disable Phone Link`: Manages the **Phone Link** setting, which can link your Android/iPhone devices notifications to Windows;
 - `Enable/Disable Photo Viewer`: [_Enables_](./src/utils/enable-photo-viewer.reg) or [_Disables_](src/utils/disable-photo-viewer.reg) the old **Photo Viewer (Win 7/8.1)**;
 - `Enable/Disable Search App for Unknown Ext.`: When running a unknown extension file, be able to search through **MS Store** for an App that can open it.
-- `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level**;
-- `Enable/Disable WSearch Service`: Manages the **Windows Search Service**;
-- `Enable/Disable Xbox GameBar DVR`: Manages the **Xbox GameBar DVR (In-Game)**, that can record clips from games;
+- `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level** setting;
+- `Enable/Disable WSearch Service`: Manages the **Windows Search Service** setting;
+- `Enable/Disable Xbox Game Bar/DVR/Mode`: Manages the **Xbox Game Bar/DVR/Mode** setting, that can open Game Bar anywhere, record clips from games and change Game Mode;
 
 #### Optional Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
@@ -222,13 +222,6 @@ Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Manual -
 ```Powershell
 Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
-
-</details>
-
-<details>
-  <summary>Sysprep will hang (Not Tested).</summary>
-
-> _No solution yet, do a Google search_
 
 </details>
 

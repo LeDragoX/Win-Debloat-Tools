@@ -14,7 +14,7 @@ function Main() {
             Write-Warning "No provisioned apps match the specified filter."
             exit
         } Else {
-            Write-Host "Registering the provisioned apps that match $PackageFilter ..."
+            Write-Host "Registering the provisioned apps that match $PackageFilter..."
         }
     }
 
@@ -23,7 +23,7 @@ function Main() {
         $PackageName = $Package | Get-ItemProperty | Select-Object -ExpandProperty PSChildName
         $PackagePath = [System.Environment]::ExpandEnvironmentVariables(($Package | Get-ItemProperty | Select-Object -ExpandProperty Path))
         # Register the package
-        Write-Host "Attempting to register package: $PackageName ..."
+        Write-Host "Attempting to register package: $PackageName..."
         Add-AppxPackage -register $PackagePath -DisableDevelopmentMode
     }
 }
