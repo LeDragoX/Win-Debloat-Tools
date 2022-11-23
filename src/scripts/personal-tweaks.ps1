@@ -34,8 +34,7 @@ function Register-PersonalTweaksList() {
     $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
     $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-    $PathToCUPoliciesExplorer = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-    $PathToCUPoliciesExplorer2 = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
+    $PathToCUPoliciesExplorer = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
     $PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
     $PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
     $PathToCUWindowsSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
@@ -200,10 +199,10 @@ function Register-PersonalTweaksList() {
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
     Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
 
-    If (!(Test-Path "$PathToCUPoliciesExplorer2")) {
-        New-Item -Path "$PathToCUPoliciesExplorer2" -Force | Out-Null
+    If (!(Test-Path "$PathToCUPoliciesExplorer")) {
+        New-Item -Path "$PathToCUPoliciesExplorer" -Force | Out-Null
     }
-    Set-ItemProperty -Path "$PathToCUPoliciesExplorer2" -Name "DisableSearchBoxSuggestions" -Type DWord -Value $One
+    Set-ItemProperty -Path "$PathToCUPoliciesExplorer" -Name "DisableSearchBoxSuggestions" -Type DWord -Value $One
 
     Write-Section -Text "Ease of Access"
     Write-Caption -Text "Keyboard"
