@@ -177,7 +177,7 @@ function Show-GUI() {
     $CbSearchAppForUnknownExt = New-CheckBox -Text "Enable Search App for Unknown Ext." -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbPhotoViewer
     $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbSearchAppForUnknownExt
     $CbWSearchService = New-CheckBox -Text "Enable WSearch Service" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbTelemetry
-    $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game: Bar/DVR/Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbWSearchService
+    $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game Bar/DVR/Mode" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbWSearchService
 
     $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $CbXboxGameBarDVRandMode
     $CbInternetExplorer = New-CheckBox -Text "Internet Explorer" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClOptionalFeatures
@@ -691,10 +691,10 @@ function Show-GUI() {
     $CbXboxGameBarDVRandMode.Add_Click( {
             If ($CbXboxGameBarDVRandMode.CheckState -eq "Checked") {
                 Enable-XboxGameBarDVRandMode
-                $CbXboxGameBarDVRandMode.Text = "[ON]  Xbox Game: Bar/DVR/Mode *"
+                $CbXboxGameBarDVRandMode.Text = "[ON]  Xbox Game Bar/DVR/Mode *"
             } Else {
                 Disable-XboxGameBarDVRandMode
-                $CbXboxGameBarDVRandMode.Text = "[OFF] Xbox Game: Bar/DVR/Mode"
+                $CbXboxGameBarDVRandMode.Text = "[OFF] Xbox Game Bar/DVR/Mode"
             }
         })
 
