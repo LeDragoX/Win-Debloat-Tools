@@ -29,7 +29,7 @@ This has a collection of scripts to tweak the system per category, using differe
 
 > _Use on a fresh Windows install to note the differences. Using an admin account is recommended to avoid any compatibility issues._
 
-⚠️ **DISCLAIMER:** You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored.
+⚠️ **DISCLAIMER:** _You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored._
 
 ## 🚀 Download Latest Version
 
@@ -222,13 +222,6 @@ Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Manual -
 ```Powershell
 Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
-
-</details>
-
-<details>
-  <summary>Sysprep will hang (Not Tested).</summary>
-
-> _No solution yet, do a Google search_
 
 </details>
 
