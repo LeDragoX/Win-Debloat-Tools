@@ -180,7 +180,7 @@ _This section contains tools to solve some Windows problems and get info about h
 - `Enable/Disable Search App for Unknown Ext.`: When running a unknown extension file, be able to search through **MS Store** for an App that can open it.
 - `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level** setting;
 - `Enable/Disable WSearch Service`: Manages the **Windows Search Service** setting;
-- `Enable/Disable Xbox GameBar DVR`: Manages the **Xbox GameBar DVR (In-Game)** setting, that can record clips from games;
+- `Enable/Disable Xbox Game Bar/DVR/Mode`: Manages the **Xbox Game Bar/DVR/Mode** setting, that can open Game Bar anywhere, record clips from games and change Game Mode;
 
 #### Optional Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
