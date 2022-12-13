@@ -60,13 +60,6 @@ function Optimize-Performance() {
     $RamInKB = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1KB
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $RamInKB
 
-    Write-Status -Types "+", $TweakType -Status "Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
-    If (!(Test-Path "$PathToLMPoliciesPsched")) {
-        New-Item -Path "$PathToLMPoliciesPsched" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToLMMultimediaSystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
-
     Write-Status -Types "*", $TweakType -Status "Enabling Windows Store apps Automatic Updates..."
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
         New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
@@ -92,13 +85,12 @@ function Optimize-Performance() {
     powercfg -Hibernate on
 
     Write-Section -Text "Network & Internet"
-    Write-Caption -Text "Proxy"
-    Write-Status -Types "-", $TweakType -Status "Fixing Edge slowdown by NOT Automatically Detecting Settings..."
-    # Code from: https://www.reddit.com/r/PowerShell/comments/5iarip/set_proxy_settings_to_automatically_detect/?utm_source=share&utm_medium=web2x&context=3
-    $Key = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Connections"
-    $Data = (Get-ItemProperty -Path $Key -Name DefaultConnectionSettings).DefaultConnectionSettings
-    $Data[8] = 3
-    Set-ItemProperty -Path $Key -Name DefaultConnectionSettings -Value $Data
+    Write-Status -Types "+", $TweakType -Status "Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
+    If (!(Test-Path "$PathToLMPoliciesPsched")) {
+        New-Item -Path "$PathToLMPoliciesPsched" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
+    Set-ItemProperty -Path "$PathToLMMultimediaSystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
     Write-Section -Text "System & Apps Timeout behaviors"
     Write-Status -Types "+", $TweakType -Status "Reducing Time to services app timeout to 2s to ALL users..."
