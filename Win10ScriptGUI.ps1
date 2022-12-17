@@ -828,7 +828,7 @@ function Show-GUI() {
             }
 
             If ($InstallMsDotNetFramework.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("Microsoft.dotNetFramework")
+                $AppsSelected.WingetApps.Add("Microsoft.DotNet.Framework.DeveloperPack_4")
                 $InstallMsDotNetFramework.CheckState = "Unchecked"
             }
 
