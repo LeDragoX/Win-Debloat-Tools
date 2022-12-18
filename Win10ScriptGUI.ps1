@@ -368,8 +368,8 @@ function Show-GUI() {
     $InstallVSCodium = New-CheckBox -Text "VS Codium" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallVSCode
 
     $ClWsl = New-Label -Text "Windows Subsystem For Linux" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $InstallVSCodium
-    $InstallWSLgOrPreview = New-CheckBox -Text "Install WSLg/Preview" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClWsl -ForeColor $WinBlue
-    $InstallArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallWSLgOrPreview -ForeColor $WinBlue
+    $InstallWSL = New-CheckBox -Text "Install WSL" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClWsl -ForeColor $WinBlue
+    $InstallArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallWSL -ForeColor $WinBlue
     $InstallDebian = New-CheckBox -Text "Debian GNU/Linux" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallArchWSL
     $InstallKaliLinux = New-CheckBox -Text "Kali Linux Rolling" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallDebian
     $InstallOpenSuse = New-CheckBox -Text "Open SUSE 42" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $InstallKaliLinux
@@ -441,7 +441,7 @@ function Show-GUI() {
     $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
     $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallBSnesHd, $InstallCemu, $InstallDolphin, $InstallKegaFusion, $InstallMGba, $InstallPCSX2, $InstallPPSSPP, $InstallProject64, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
     $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallAtom, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
-    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSLgOrPreview, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu16Lts, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
+    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu16Lts, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
     $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
 
     # <===== CLICK EVENTS =====>
@@ -1333,13 +1333,13 @@ function Show-GUI() {
                 $InstallVSCodium.CheckState = "Unchecked"
             }
 
-            If ($InstallWSLgOrPreview.CheckState -eq "Checked") {
+            If ($InstallWSL.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-wslg-or-preview.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-wsl.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
                 }
-                $InstallWSLgOrPreview.CheckState = "Unchecked"
+                $InstallWSL.CheckState = "Unchecked"
             }
 
             If ($InstallArchWSL.CheckState -eq "Checked") {
