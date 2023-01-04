@@ -38,6 +38,7 @@ function Remove-BloatwareAppsList() {
         "Microsoft.Whiteboard"                   # Microsoft Whiteboard
         "Microsoft.WindowsAlarms"                # Alarms
         "microsoft.windowscommunicationsapps"
+        "Microsoft.WindowsFeedbackHub"           # Feedback Hub
         "Microsoft.WindowsMaps"                  # Maps
         "Microsoft.WindowsPhone"
         "Microsoft.WindowsReadingList"
@@ -132,7 +133,6 @@ function Remove-BloatwareAppsList() {
         #"Microsoft.WindowsCalculator"      # Calculator
         #"Microsoft.WindowsCamera"          # Camera
         #"Microsoft.ScreenSketch"           # Snip and Sketch (now called Snipping tool, replaces the Win32 version in clean installs)
-        #"Microsoft.WindowsFeedbackHub"     # Feedback Hub
         #"Microsoft.Windows.Photos"         # Photos
 
         # [DIY] Common Streaming services
