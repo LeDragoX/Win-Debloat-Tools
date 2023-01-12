@@ -165,6 +165,10 @@ _This section contains tools to solve some Windows problems and get info about h
 - [`Repair Windows`](./src/scripts/repair-windows.ps1): Try to Completely fix the Windows worst problems via Command Line;
 - [`Show Debloat Info`](./src/scripts/other-scripts/show-debloat-info.ps1): Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference);
 
+#### Windows Update ([Can be found here](src/utils/individual-tweaks.psm1))
+
+- `Enable/Disable Automatic Windows Update`: Set Windows updates to automatic or manual;
+
 #### Customize System Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
 - `Enable/Disable Dark Theme`: Apply _Dark Theme_ or _Light Theme_ on Windows;
