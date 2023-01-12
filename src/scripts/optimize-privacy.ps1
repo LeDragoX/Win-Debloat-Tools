@@ -262,9 +262,9 @@ function Optimize-Privacy() {
     Set-ItemProperty -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value $One
 
     # Reference (the path may differ, but the description matches): https://admx.help/?Category=Windows_11_2022&Policy=Microsoft.Policies.DeviceSoftwareSetup::DriverSearchPlaces_SearchOrderConfiguration
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Windows Update from downloading broken drivers..."
+    Write-Status -Types "+", $TweakType -Status "Enabling Windows Update to search Drivers..."
     # [@] (0 = Do not search Windows Update, 1 = Always search Windows Update, 2 = Search Windows Update only if needed)
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 1
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) enhanced icons..."
     # [@] (0 = Enhanced icons enabled, 1 = Enhanced icons disabled)
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value $One
