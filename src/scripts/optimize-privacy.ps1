@@ -206,17 +206,11 @@ function Optimize-Privacy() {
 
     Write-Section -Text "Update & Security"
     Write-Caption -Text "Windows Update"
-    Write-Status -Types "-", $TweakType -Status "Disabling Automatic Download and Installation of Windows Updates..."
-    If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
-        New-Item -Path "$PathToLMPoliciesWindowsUpdate" -Force | Out-Null
-    }
-    # [@] (2 = Notify before download, 3 = Automatically download and notify of installation)
-    # [@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)
-    Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
+    Enable-AutomaticWindowsUpdate
 
-    Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Automatic Updates..."
+    Write-Status -Types "*", $TweakType -Status "Enabling Automatic Updates..."
     # [@] (0 = Enable Automatic Updates, 1 = Disable Automatic Updates)
-    Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value $Zero
+    Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value 0
 
     Write-Status -Types "+", $TweakType -Status "Setting Scheduled Day to Every day..."
     # [@] (0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4))
