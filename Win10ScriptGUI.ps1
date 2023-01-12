@@ -111,7 +111,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $SystemTweaksHeight = 1050
+    $SystemTweaksHeight = 1125
     $SoftwareInstallHeight = 1725
 
     # <===== UI =====>
@@ -163,7 +163,9 @@ function Show-GUI() {
     $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RepairWindows -MarginTop $DistanceBetweenElements
 
     # ==> T1 Panel 2
-    $ClCustomizeFeatures = New-Label -Text "Customize System Features" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0
+    $ClWindowsUpdate = New-Label -Text "Windows Update" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -LocationY 0
+    $CbAutomaticWindowsUpdate = New-CheckBox -Text "Enable Automatic Windows Update" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClWindowsUpdate -MarginTop $DistanceBetweenElements
+    $ClCustomizeFeatures = New-Label -Text "Customize System Features" -Width $PanelElementWidth -Height $CaptionLabelHeight -LocationX $PanelElementX -ElementBefore $CbAutomaticWindowsUpdate -MarginTop $DistanceBetweenElements
     $CbDarkTheme = New-CheckBox -Text "Enable Dark Theme" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClCustomizeFeatures -MarginTop $DistanceBetweenElements
     $CbActivityHistory = New-CheckBox -Text "Enable Activity History" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbDarkTheme
     $CbBackgroundsApps = New-CheckBox -Text "Enable Background Apps" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $CbActivityHistory
@@ -410,7 +412,7 @@ function Show-GUI() {
     $T1Panel1.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
     $T1Panel1.Controls.AddRange(@($ClInstallSystemApps, $EnableHEVCSupport, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallPhoneLink, $InstallSoundRecorder, $InstallXbox))
     $T1Panel1.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
-    $T1Panel2.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
+    $T1Panel2.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate, $ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
     $T1Panel2.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
@@ -557,6 +559,16 @@ function Show-GUI() {
 
     $ShowDebloatInfo.Add_Click( {
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("show-debloat-info.ps1") -NoDialog
+        })
+
+    $CbAutomaticWindowsUpdate.Add_Click( {
+            If ($CbAutomaticWindowsUpdate.CheckState -eq "Checked") {
+                Enable-AutomaticWindowsUpdate
+                $CbAutomaticWindowsUpdate.Text = "[ON]  Automatic Windows Update *"
+            } Else {
+                Disable-AutomaticWindowsUpdate
+                $CbAutomaticWindowsUpdate.Text = "[OFF] Automatic Windows Update"
+            }
         })
 
     $CbDarkTheme.Add_Click( {

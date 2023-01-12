@@ -12,6 +12,7 @@ $PathToLMPoliciesAppGameDVR = "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Ap
 $PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
 $PathToLMPoliciesSystem = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
 $PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
 $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
 $PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
@@ -34,6 +35,24 @@ function Enable-ActivityHistory() {
     Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "EnableActivityFeed"
     Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "PublishUserActivities"
     Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "UploadUserActivities"
+}
+
+function Disable-AutomaticWindowsUpdate() {
+    Write-Status -Types "-", "WU" -Status "Disabling Automatic Download and Installation of Windows Updates..."
+    If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
+        New-Item -Path "$PathToLMPoliciesWindowsUpdate" -Force | Out-Null
+    }
+    # [@] (2 = Notify before download, 3 = Automatically download and notify of installation)
+    # [@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)
+    Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
+}
+
+function Enable-AutomaticWindowsUpdate() {
+    Write-Status -Types "*", "WU" -Status "Enabling Automatic Download and Installation of Windows Updates..."
+    If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
+        New-Item -Path "$PathToLMPoliciesWindowsUpdate" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 5
 }
 
 function Disable-BackgroundAppsToogle() {
