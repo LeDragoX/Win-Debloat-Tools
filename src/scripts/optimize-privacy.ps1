@@ -265,7 +265,7 @@ function Optimize-Privacy() {
     Write-Status -Types "+", $TweakType -Status "Enabling Windows Update to search Drivers..."
     # [@] (0 = Do not search Windows Update, 1 = Always search Windows Update, 2 = Search Windows Update only if needed)
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" -Name "SearchOrderConfig" -Type DWord -Value 1
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) enhanced icons..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) enhanced icons and manufacturer apps (escape from broken drivers and bloatware)..."
     # [@] (0 = Enhanced icons enabled, 1 = Enhanced icons disabled)
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value $One
 
