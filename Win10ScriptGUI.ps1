@@ -141,7 +141,7 @@ function Show-GUI() {
     $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $UndoTweaks -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
     $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RemoveMSEdge -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
     $RemoveXbox = New-Button -Text "Remove Xbox" -Width $PanelElementWidth -Height $ButtonHeight -LocationX $PanelElementX -ElementBefore $RemoveOneDrive -MarginTop $DistanceBetweenElements -ForeColor $WarningYellow
-    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-logo.png" -Width $PanelElementWidth -Height (($BBHeight * 2) + $DistanceBetweenElements) -LocationX $PanelElementX -ElementBefore $RemoveXbox -MarginTop $DistanceBetweenElements -SizeMode 'Zoom'
+    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-image.png" -Width $PanelElementWidth -Height (($BBHeight * 2) + $DistanceBetweenElements) -LocationX $PanelElementX -ElementBefore $RemoveXbox -MarginTop $DistanceBetweenElements -SizeMode 'Zoom'
 
     $ClInstallSystemApps = New-Label -Text "Install System Apps" -Width $PanelWidth -Height $CaptionLabelHeight -LocationX 0 -ElementBefore $PictureBox1
     $EnableHEVCSupport = New-Button -Text "Get H.265 video codec" -Width $PanelElementWidth -Height $CheckBoxHeight -LocationX $PanelElementX -ElementBefore $ClInstallSystemApps
@@ -464,7 +464,7 @@ function Show-GUI() {
             )
 
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
+            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-image2.png"
             $Form.Update()
             $Script:NeedRestart = $true
         })
@@ -491,13 +491,13 @@ function Show-GUI() {
 
     $RemoveOneDrive.Add_Click( {
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
+            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-image2.png"
             $Form.Update()
         })
 
     $RemoveXbox.Add_Click( {
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-xbox.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-logo2.png"
+            $PictureBox1.imageLocation = "$PSScriptRoot\src\assets\script-image2.png"
             $Form.Update()
         })
 
