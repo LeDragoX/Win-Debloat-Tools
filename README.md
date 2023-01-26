@@ -9,7 +9,7 @@ I need to change these files:
 -->
 
 <h2 align="center">
-<img src="src/assets/script-image.png" style="vertical-align: bottom" width="90%">
+<img src="src/assets/script-logo.png" style="vertical-align: bottom" width="90%">
 
 [![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml)
 ![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-Debloat-Tools?label=Issues)
