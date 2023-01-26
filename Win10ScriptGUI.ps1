@@ -119,7 +119,7 @@ function Show-GUI() {
     # Main Window:
     $Form = New-Form -Width $FormWidth -Height $FormHeight -Text "Win Debloat Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer time to load the GUI
 
-    $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\windows-11-logo.png"
+    $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\script-icon-32px.png"
 
     $FormTabControl = New-TabControl -Width ($FormWidth - 8) -Height ($FormHeight - 35) -LocationX -4 -LocationY 0
     $TabSystemTweaks = New-TabPage -Name "Tab1" -Text "System Tweaks"
