@@ -78,11 +78,11 @@ function Optimize-Performance() {
 
     Unregister-DuplicatedPowerPlan
 
-    Write-Status -Types "+", $TweakType -Status "Setting Hibernate size to reduced..."
-    powercfg -Hibernate -type Reduced
-
     Write-Status -Types "+", $TweakType -Status "Enabling Hibernate (Boots faster on Laptops/PCs with HDD and generate '$env:SystemDrive\hiberfil.sys' file)..."
     powercfg -Hibernate on
+
+    Write-Status -Types "+", $TweakType -Status "Setting Hibernate size to reduced (hides hibernate option as hiberfil.sys takes less size)..."
+    powercfg -Hibernate -Type Reduced
 
     Write-Section -Text "Network & Internet"
     Write-Status -Types "+", $TweakType -Status "Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
