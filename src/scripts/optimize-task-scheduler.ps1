@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-scheduled-task-state.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"scheduled-task-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
@@ -64,7 +64,7 @@ function Optimize-TaskScheduler() {
 
 function Main() {
     # List all Scheduled Tasks:
-    #Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Out-GridView
+    #Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Format-Table
 
     If (!$Revert) {
         Optimize-TaskScheduler # Disable Scheduled Tasks that causes slowdowns
