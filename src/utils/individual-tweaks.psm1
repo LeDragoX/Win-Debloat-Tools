@@ -222,11 +222,11 @@ function Enable-GodMode() {
 }
 
 function Disable-InternetExplorer() {
-    Set-OptionalFeatureState -Disabled -OptionalFeatures @("Internet-Explorer-Optional-*")
+    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Internet-Explorer-Optional-*")
 }
 
 function Enable-InternetExplorer() {
-    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Internet-Explorer-Optional-*")
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Internet-Explorer-Optional-*")
 }
 
 # Code from: https://answers.microsoft.com/en-us/windows/forum/all/set-the-mouse-scroll-direction-to-reverse-natural/ede4ccc4-3846-4184-a86d-a028515040c0
@@ -289,19 +289,19 @@ function Enable-PhoneLink() {
 }
 
 function Disable-PrintToPDFServicesToogle() {
-    Set-OptionalFeatureState -Disabled -OptionalFeatures @("Printing-PrintToPDFServices-Features")
+    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Printing-PrintToPDFServices-Features")
 }
 
 function Enable-PrintToPDFServicesToogle() {
-    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Printing-PrintToPDFServices-Features")
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Printing-PrintToPDFServices-Features")
 }
 
 function Disable-PrintingXPSServicesToogle() {
-    Set-OptionalFeatureState -Disabled -OptionalFeatures @("Printing-XPSServices-Features")
+    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Printing-XPSServices-Features")
 }
 
 function Enable-PrintingXPSServicesToogle() {
-    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Printing-XPSServices-Features")
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Printing-XPSServices-Features")
 }
 
 function Disable-SearchAppForUnknownExt() {
@@ -329,7 +329,7 @@ function Disable-Telemetry() {
     Set-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 
     Stop-Service "DiagTrack" -NoWait -Force
-    Set-ServiceStartup -Disabled -Services "DiagTrack"
+    Set-ServiceStartup -State 'Disabled' -Services "DiagTrack"
 }
 
 function Enable-Telemetry() {
@@ -340,16 +340,16 @@ function Enable-Telemetry() {
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
 
-    Set-ServiceStartup -Manual -Services "DiagTrack"
+    Set-ServiceStartup -State 'Manual' -Services "DiagTrack"
     Start-Service "DiagTrack"
 }
 
 function Disable-WindowsMediaPlayer() {
-    Set-OptionalFeatureState -Disabled -OptionalFeatures @("MediaPlayback")
+    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("MediaPlayback")
 }
 
 function Enable-WindowsMediaPlayer() {
-    Set-OptionalFeatureState -Enabled -OptionalFeatures @("MediaPlayback")
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("MediaPlayback")
 }
 
 function Disable-WSearchService() {
@@ -374,7 +374,7 @@ function Disable-XboxGameBarDVRandMode() {
         New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
     }
     Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
-    Set-ServiceStartup -Disabled -Services "BcastDVRUserService*"
+    Set-ServiceStartup -State 'Disabled' -Services "BcastDVRUserService*"
 
     Write-Status -Types "-", "Performance" -Status "Enabling Game mode..."
     Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 0
@@ -403,7 +403,7 @@ function Enable-XboxGameBarDVRandMode() {
     }
     Remove-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR"
 
-    Set-ServiceStartup -Manual -Services "BcastDVRUserService*"
+    Set-ServiceStartup -State 'Manual' -Services "BcastDVRUserService*"
 
     Write-Status -Types "*", "Performance" -Status "Enabling Game mode..."
     Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1

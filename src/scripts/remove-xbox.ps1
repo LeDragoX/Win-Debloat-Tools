@@ -43,7 +43,7 @@ function Remove-Xbox() {
     )
 
     Write-Status -Types "-", $TweakType -Status "Disabling ALL Xbox Services..."
-    Set-ServiceStartup -Disabled -Services $XboxServices
+    Set-ServiceStartup -State 'Disabled' -Services $XboxServices
 
     Write-Status -Types "-", $TweakType -Status "Wiping Xbox Apps completely from Windows..."
     Remove-UWPAppx -AppxPackages $XboxApps
