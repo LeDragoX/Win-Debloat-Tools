@@ -50,9 +50,6 @@ function Main() {
     # List all Windows Packages:
     #Get-WindowsPackage -Online | Select-Object -Property ReleaseType, PackageName, PackageState, InstallTime | Sort-Object ReleaseType, PackageState, PackageName | Format-Table
 
-    # List all Windows Capabilities:
-    #Get-WindowsCapability -Online | Select-Object -Property State, Name | Sort-Object State, Name | Format-Table
-
     If (!$Revert) {
         Optimize-WindowsFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
     } Else {

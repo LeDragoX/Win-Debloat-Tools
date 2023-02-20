@@ -22,9 +22,9 @@ function Remove-CapabilitiesList() {
 
     If ($Revert) {
         Write-Status -Types "*", "Capability" -Status "Reverting the tweaks is set to '$Revert'." -Warning
-        Set-CapabilityState -Capabilities $DisableCapabilities -State Enabled
+        Set-CapabilityState -State Enabled -Capabilities $DisableCapabilities
     } Else {
-        Set-CapabilityState -Capabilities $DisableCapabilities -State Disabled
+        Set-CapabilityState -State Disabled -Capabilities $DisableCapabilities
 
     }
 }

@@ -36,7 +36,7 @@ jobs:
           path: .\
           recurse: true 
           # Exclude rules that will not be worked on / are invalid
-          # Command: invoke-scriptanalyzer . -excludeRule: "PSAvoidUsingInvokeExpression", "PSAvoidUsingWriteHost", "PSUseShouldProcessForStateChangingFunctions"
+          # Command: invoke-scriptanalyzer . -recurse -excludeRule: "PSAvoidUsingInvokeExpression", "PSAvoidUsingWriteHost", "PSUseShouldProcessForStateChangingFunctions"
           excludeRule: '"PSAvoidUsingInvokeExpression", "PSAvoidUsingWriteHost", "PSUseShouldProcessForStateChangingFunctions"'
           output: results.sarif
 

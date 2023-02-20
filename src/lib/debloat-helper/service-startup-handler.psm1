@@ -1,21 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 
-function Find-Service() {
-    [CmdletBinding()]
-    [OutputType([Bool])]
-    param (
-        [Parameter(Mandatory = $true)]
-        [String] $Service
-    )
-
-    If (Get-Service $Service -ErrorAction SilentlyContinue) {
-        return $true
-    } Else {
-        Write-Status -Types "?", $TweakType -Status "The $Service service was not found." -Warning
-        return $false
-    }
-}
-
 function Set-ServiceStartup() {
     [CmdletBinding()]
     param (
@@ -33,11 +17,18 @@ function Set-ServiceStartup() {
         [ScriptBlock] $CustomMessage
     )
 
-    $Script:SecurityFilterOnEnable = @("RemoteAccess", "RemoteRegistry")
-    $Script:TweakType = "Service"
+    Begin {
+        $Script:SecurityFilterOnEnable = @("RemoteAccess", "RemoteRegistry")
+        $Script:TweakType = "Service"
+    }
 
-    ForEach ($Service in $Services) {
-        If (Find-Service $Service) {
+    Process {
+        ForEach ($Service in $Services) {
+            If (!(Get-Service $Service -ErrorAction SilentlyContinue)) {
+                Write-Status -Types "?", $TweakType -Status "The $Service service was not found." -Warning
+                Continue
+            }
+
             If (($Service -in $SecurityFilterOnEnable) -and (($Automatic) -or ($Manual))) {
                 Write-Status -Types "?", $TweakType -Status "Skipping $Service ($((Get-Service $Service).DisplayName)) to avoid a security vulnerability..." -Warning
                 Continue
