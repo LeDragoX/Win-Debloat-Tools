@@ -33,14 +33,13 @@ function Optimize-WindowsFeaturesList() {
 
     If ($Revert) {
         Write-Status -Types "*", "OptionalFeature" -Status "Reverting the tweaks is set to '$Revert'." -Warning
-        $CustomMessage = { "Re-Installing the $OptionalFeature optional feature..." }
-        Set-OptionalFeatureState -Enabled -OptionalFeatures $DisableFeatures -CustomMessage $CustomMessage
+        Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures $DisableFeatures
     } Else {
-        Set-OptionalFeatureState -Disabled -OptionalFeatures $DisableFeatures
+        Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures $DisableFeatures
     }
 
     Write-Section -Text "Install Optional Features from Windows"
-    Set-OptionalFeatureState -Enabled -OptionalFeatures $EnableFeatures
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures $EnableFeatures
 }
 
 function Main() {

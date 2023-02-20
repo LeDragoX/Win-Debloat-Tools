@@ -3,16 +3,13 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 function Set-OptionalFeatureState() {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)]
-        [Switch] $Disabled,
-        [Parameter(Mandatory = $false)]
-        [Switch] $Enabled,
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('Disabled', 'Enabled')]
+        [String] $State,
         [Parameter(Mandatory = $true)]
         [Array] $OptionalFeatures,
         [Parameter(Mandatory = $false)]
-        [Array] $Filter,
-        [Parameter(Mandatory = $false)]
-        [ScriptBlock] $CustomMessage
+        [Array] $Filter
     )
 
     Begin {
@@ -27,7 +24,7 @@ function Set-OptionalFeatureState() {
                 Continue
             }
 
-            If (($OptionalFeature -in $SecurityFilterOnEnable) -and ($Enabled)) {
+            If (($OptionalFeature -in $SecurityFilterOnEnable) -and ($State -eq 'Enabled')) {
                 Write-Status -Types "?", $TweakType -Status "Skipping $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) to avoid a security vulnerability..." -Warning
                 Continue
             }
@@ -37,21 +34,11 @@ function Set-OptionalFeatureState() {
                 Continue
             }
 
-            If (!$CustomMessage) {
-                If ($Disabled) {
-                    Write-Status -Types "-", $TweakType -Status "Uninstalling the $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) optional feature..."
-                } ElseIf ($Enabled) {
-                    Write-Status -Types "+", $TweakType -Status "Installing the $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) optional feature..."
-                } Else {
-                    Write-Status -Types "?", $TweakType -Status "No parameter received (valid params: -Disabled or -Enabled)" -Warning
-                }
-            } Else {
-                Write-Status -Types "@", $TweakType -Status $(Invoke-Expression "$CustomMessage")
-            }
-
-            If ($Disabled) {
-                Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart
-            } ElseIf ($Enabled) {
+            If ($State -eq 'Disabled') {
+                Write-Status -Types "-", $TweakType -Status "Uninstalling the $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) optional feature..."
+                Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature | Where-Object State -Like "Enabled" | Disable-WindowsOptionalFeature -Online -NoRestart -Remove
+            } ElseIf ($State -eq 'Enabled') {
+                Write-Status -Types "+", $TweakType -Status "Installing the $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) optional feature..."
                 Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature | Where-Object State -Like "Disabled*" | Enable-WindowsOptionalFeature -Online -NoRestart
             }
         }
@@ -59,11 +46,11 @@ function Set-OptionalFeatureState() {
 }
 
 <#
-Set-OptionalFeatureState -Disabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3")
-Set-OptionalFeatureState -Disabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3") -Filter @("OptionalFeature3")
-Set-OptionalFeatureState -Disabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3") -Filter @("OptionalFeature3") -CustomMessage { "Uninstalling $OptionalFeature feature!"}
+Set-OptionalFeatureState -State Disabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3")
+Set-OptionalFeatureState -State Disabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3") -Filter @("OptionalFeature3")
+Set-OptionalFeatureState -State Disabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3") -Filter @("OptionalFeature3") -CustomMessage { "Uninstalling $OptionalFeature feature!"}
 
-Set-OptionalFeatureState -Enabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3")
-Set-OptionalFeatureState -Enabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3") -Filter @("OptionalFeature3")
-Set-OptionalFeatureState -Enabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3") -Filter @("OptionalFeature3") -CustomMessage { "Installing $OptionalFeature feature!"}
+Set-OptionalFeatureState -State Enabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3")
+Set-OptionalFeatureState -State Enabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3") -Filter @("OptionalFeature3")
+Set-OptionalFeatureState -State Enabled -OptionalFeatures @("OptionalFeature1", "OptionalFeature2", "OptionalFeature3") -Filter @("OptionalFeature3") -CustomMessage { "Installing $OptionalFeature feature!"}
 #>

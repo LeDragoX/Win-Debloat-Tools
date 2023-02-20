@@ -19,7 +19,7 @@ function Install-WSL() {
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
     }
 
-    Set-OptionalFeatureState -Enabled -OptionalFeatures @("VirtualMachinePlatform", "HypervisorPlatform") # VM Platform / Hypervisor Platform from Windows
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("VirtualMachinePlatform", "HypervisorPlatform") # VM Platform / Hypervisor Platform from Windows
 
     Try {
         Write-Status -Types "?", $TweakType "Installing WSL from MS Store..." -Warning
@@ -41,7 +41,7 @@ function Install-WSLTwo() {
     [CmdletBinding()] param()
     $OSArchList = Get-OSArchitecture
 
-    Set-OptionalFeatureState -Enabled -OptionalFeatures @("Microsoft-Windows-Subsystem-Linux") # WSL (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Microsoft-Windows-Subsystem-Linux") # WSL (VT-d (Intel) or SVM (AMD) need to be enabled on BIOS)
 
     ForEach ($OSArch in $OSArchList) {
         If ($OSArch -like "x64" -or "arm64") {

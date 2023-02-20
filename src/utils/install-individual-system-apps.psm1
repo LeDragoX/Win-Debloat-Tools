@@ -80,7 +80,7 @@ function Install-Xbox() {
     $XboxApps = @("9MWPM2CQNLHN", "9MV0B5HZVK9Z", "9WZDNCRD1HKW", "9NZKPSTSNW4P")
 
     Write-Status -Types "*", $TweakType -Status "Enabling ALL Xbox Services..."
-    Set-ServiceStartup -Manual -Services $XboxServices
+    Set-ServiceStartup -State 'Manual' -Services $XboxServices
 
     Write-Status -Types "*", $TweakType -Status "Installing Xbox Apps again..."
     Install-Software -Name "Missing Xbox Apps" -Packages $XboxApps -ViaMSStore -NoDialog

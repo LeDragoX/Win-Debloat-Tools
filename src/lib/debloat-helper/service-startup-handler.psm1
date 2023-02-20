@@ -3,12 +3,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 function Set-ServiceStartup() {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)]
-        [Switch] $Automatic,
-        [Parameter(Mandatory = $false)]
-        [Switch] $Disabled,
-        [Parameter(Mandatory = $false)]
-        [Switch] $Manual,
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('Automatic', 'Boot', 'Disabled', 'Manual', 'System')]
+        [String] $State,
         [Parameter(Mandatory = $true)]
         [Array] $Services,
         [Parameter(Mandatory = $false)]
@@ -29,7 +26,7 @@ function Set-ServiceStartup() {
                 Continue
             }
 
-            If (($Service -in $SecurityFilterOnEnable) -and (($Automatic) -or ($Manual))) {
+            If (($Service -in $SecurityFilterOnEnable) -and (($State -eq 'Automatic') -or ($State -eq 'Manual'))) {
                 Write-Status -Types "?", $TweakType -Status "Skipping $Service ($((Get-Service $Service).DisplayName)) to avoid a security vulnerability..." -Warning
                 Continue
             }
@@ -40,40 +37,22 @@ function Set-ServiceStartup() {
             }
 
             If (!$CustomMessage) {
-                If ($Automatic) {
-                    Write-Status -Types "+", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Automatic' on Startup..."
-                } ElseIf ($Disabled) {
-                    Write-Status -Types "-", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Disabled' on Startup..."
-                } ElseIf ($Manual) {
-                    Write-Status -Types "-", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup..."
-                } Else {
-                    Write-Status -Types "?", $TweakType -Status "No parameter received (valid params: -Automatic, -Disabled or -Manual)" -Warning
-                }
+                Write-Status -Types "@", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as '$State' on Startup..."
             } Else {
-                Write-Status -Types "@", $TweakType -Status $(Invoke-Expression "$CustomMessage")
+                Write-Status -Types "?", $TweakType -Status $(Invoke-Expression "$CustomMessage") -Warning
             }
-
-            If ($Automatic) {
-                Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic
-            } ElseIf ($Disabled) {
-                Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
-            } ElseIf ($Manual) {
-                Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType Manual
-            }
+            Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType $State
         }
     }
 }
 
 <#
-Set-ServiceStartup -Automatic -Services @("Service1", "Service2", "Service3")
-Set-ServiceStartup -Automatic -Services @("Service1", "Service2", "Service3") -Filter @("Service3")
-Set-ServiceStartup -Automatic -Services @("Service1", "Service2", "Service3") -Filter @("Service3") -CustomMessage { "Setting $Service as Automatic!"}
+Set-ServiceStartup -State Automatic -Services @("Service1", "Service2", "Service3")
+Set-ServiceStartup -State Automatic -Services @("Service1", "Service2", "Service3") -Filter @("Service3")
 
-Set-ServiceStartup -Disabled -Services @("Service1", "Service2", "Service3")
-Set-ServiceStartup -Disabled -Services @("Service1", "Service2", "Service3") -Filter @("Service3")
-Set-ServiceStartup -Disabled -Services @("Service1", "Service2", "Service3") -Filter @("Service3") -CustomMessage { "Setting $Service as Disabled!"}
+Set-ServiceStartup -State Disabled -Services @("Service1", "Service2", "Service3")
+Set-ServiceStartup -State Disabled -Services @("Service1", "Service2", "Service3") -Filter @("Service3")
 
-Set-ServiceStartup -Manual -Services @("Service1", "Service2", "Service3")
-Set-ServiceStartup -Manual -Services @("Service1", "Service2", "Service3") -Filter @("Service3")
-Set-ServiceStartup -Manual -Services @("Service1", "Service2", "Service3") -Filter @("Service3") -CustomMessage { "Setting $Service as Manual!"}
+Set-ServiceStartup -State Manual -Services @("Service1", "Service2", "Service3")
+Set-ServiceStartup -State Manual -Services @("Service1", "Service2", "Service3") -Filter @("Service3")
 #>
