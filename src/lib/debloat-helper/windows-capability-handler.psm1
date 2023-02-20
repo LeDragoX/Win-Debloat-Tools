@@ -4,10 +4,10 @@ function Set-CapabilityState() {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
-        [Array] $Capabilities,
-        [Parameter(Mandatory = $true)]
         [ValidateSet('Disabled', 'Enabled')]
-        [String] $State
+        [String] $State,
+        [Parameter(Mandatory = $true)]
+        [Array] $Capabilities
     )
 
     Begin {
@@ -22,12 +22,18 @@ function Set-CapabilityState() {
             }
 
             If ($State -eq 'Disabled') {
-                Write-Status -Types "-", $TweakType -Status "Uninstalling the $((Get-WindowsCapability -Online -Name $Capability).Name) capability..."
-                Get-WindowsCapability -Online | Where-Object Name -Like "$Capability" | Remove-WindowsCapability -Online
+                Write-Status -Types "-", $TweakType -Status "Uninstalling the $Capability ($((Get-WindowsCapability -Online -Name $Capability).DisplayName)) capability..."
+                Get-WindowsCapability -Online -Name "$Capability" | Where-Object State -eq "Installed" | Remove-WindowsCapability -Online
             } ElseIf ($State -eq 'Enabled') {
-                Write-Status -Types "+", $TweakType -Status "Installing the $((Get-WindowsCapability -Online -Name $Capability).Name) capability..."
-                Get-WindowsCapability -Online | Where-Object Name -Like "$Capability" | Add-WindowsCapability -Online
+                Write-Status -Types "+", $TweakType -Status "Installing the $Capability ($((Get-WindowsCapability -Online -Name $Capability).DisplayName)) capability..."
+                Get-WindowsCapability -Online -Name "$Capability" | Where-Object State -eq "NotPresent" | Add-WindowsCapability -Online
             }
         }
     }
 }
+
+<#
+Set-CapabilityState -State Disabled -Capabilities "Capability*"
+Set-CapabilityState -State Disabled -Capabilities @("Capability1", "Capability2")
+Set-CapabilityState -State Enabled -Capabilities @("Capability1", "Capability*")
+#>

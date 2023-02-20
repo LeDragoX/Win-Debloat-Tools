@@ -1,21 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 
-function Find-OptionalFeature() {
-    [CmdletBinding()]
-    [OutputType([Bool])]
-    param (
-        [Parameter(Mandatory = $true)]
-        [String] $OptionalFeature
-    )
-
-    If (Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature) {
-        return $true
-    } Else {
-        Write-Status -Types "?", $TweakType -Status "The $OptionalFeature optional feature was not found." -Warning
-        return $false
-    }
-}
-
 function Set-OptionalFeatureState() {
     [CmdletBinding()]
     param (
@@ -31,11 +15,18 @@ function Set-OptionalFeatureState() {
         [ScriptBlock] $CustomMessage
     )
 
-    $Script:SecurityFilterOnEnable = @("IIS-*")
-    $Script:TweakType = "OptionalFeature"
+    Begin {
+        $Script:SecurityFilterOnEnable = @("IIS-*")
+        $Script:TweakType = "OptionalFeature"
+    }
 
-    ForEach ($OptionalFeature in $OptionalFeatures) {
-        If (Find-OptionalFeature $OptionalFeature) {
+    Process {
+        ForEach ($OptionalFeature in $OptionalFeatures) {
+            If (!(Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature)) {
+                Write-Status -Types "?", $TweakType -Status "The $OptionalFeature optional feature was not found." -Warning
+                Continue
+            }
+
             If (($OptionalFeature -in $SecurityFilterOnEnable) -and ($Enabled)) {
                 Write-Status -Types "?", $TweakType -Status "Skipping $OptionalFeature ($((Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature).DisplayName)) to avoid a security vulnerability..." -Warning
                 Continue
