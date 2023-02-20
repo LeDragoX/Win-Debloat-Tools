@@ -1,10 +1,10 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"grant-registry-permission.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"new-shortcut.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-windows-feature-state.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"service-startup-handler.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-appx-handler.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"windows-feature-handler.psm1"
 
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
 $PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"

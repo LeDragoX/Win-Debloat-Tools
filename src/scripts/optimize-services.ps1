@@ -1,6 +1,6 @@
 ﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"service-startup-handler.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
 # Adapted from: https://github.com/ChrisTitusTech/win10script
@@ -112,7 +112,7 @@ function Optimize-ServicesRunning() {
 
 function Main() {
     # List all services:
-    #Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Out-GridView
+    #Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Format-Table
 
     If (!$Revert) {
         Optimize-ServicesRunning # Enable essential Services and Disable bloating Services
