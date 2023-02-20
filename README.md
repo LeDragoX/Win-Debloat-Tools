@@ -27,7 +27,7 @@ _These scripts will Customize, Debloat and Improve Privacy/Performance and Syste
 
 This has a collection of scripts to tweak the system per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
 
-> _Use on a fresh Windows install to note the differences. Using an admin account is recommended to avoid any compatibility issues._
+> _Use on a fresh Windows install to notice the differences. Using an admin account is recommended to avoid any compatibility issues._
 
 ⚠️ **DISCLAIMER:** _You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored._
 
@@ -118,6 +118,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - [Download AdwCleaner and Run the latest version for _Virus/Adware_ scan and from OOShutUp10 and import all Recommended settings from a file](./src/scripts/silent-debloat-softwares.ps1);
 - [Disable _non-essential_ Telemetry from Scheduled Tasks and Optimize it](./src/scripts/optimize-task-scheduler.ps1);
 - [Disable _heavy_ Services, but enable some on SSDs for optimum performance](./src/scripts/optimize-services.ps1);
+- [Remove some of the legacy system components called "_capabilities_", except the most popular ones](./src/scripts/remove-windows-capabilities.ps1);
 - [Remove _Bloatware_ UWP Apps that comes with Windows 10+, except from my choice](./src/scripts/remove-bloatware-apps.ps1);
 - [Optimize Privacy by disabling more telemetry parts and changing GPOs, all through changing registry keys](./src/scripts/optimize-privacy.ps1);
 - [Optimize Performance by changing away from default settings that slowdowns the system, utilizing _PowerShell_ commands and changing registries to disable features](./src/scripts/optimize-performance.ps1);
