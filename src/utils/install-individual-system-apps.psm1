@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 function Install-Cortana() {
@@ -28,7 +29,7 @@ function Install-MicrosoftEdge() {
 
 function Install-OneDrive() {
     Write-Status -Types "*" -Status "Installing OneDrive..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 0
     Start-Process -FilePath "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
 }
 
@@ -86,10 +87,7 @@ function Install-Xbox() {
     Install-Software -Name "Missing Xbox Apps" -Packages $XboxApps -ViaMSStore -NoDialog
 
     Write-Status -Types "*", $TweakType -Status "Enabling Xbox Game Monitoring..."
-    If (!(Test-Path "$PathToLMServicesXbgm")) {
-        New-Item -Path "$PathToLMServicesXbgm" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMServicesXbgm" -Name "Start" -Type DWord -Value 3
+    Set-ItemPropertyVerified -Path "$PathToLMServicesXbgm" -Name "Start" -Type DWord -Value 3
 
     Enable-XboxGameBarDVRandMode
 }
