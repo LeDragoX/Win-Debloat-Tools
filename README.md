@@ -63,25 +63,15 @@ Code located in the `main` branch is considered stable, the `develop` branch con
   </table>
 </div>
 
-## 🔄️ Roll-Back
+## ✨ Usage
 
-**If something breaks you can rely on:**
-
-1. If you want (almost) everything to it's original state, use the `Undo Tweaks` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1).
-2. A restoration point done by the script itself;
-3. The `Repair Windows` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1);
-
-## ❗ Usage Requirements
-
-The `Win10Script(CLI/GUI).ps1` does not make everything automatically, so follow these steps.
+**To run a variant of the script, follow these steps:**
 
 - Extract the `.zip` file to another folder.
 - Run `OpenTerminalHere.cmd` (try as admin if nothing happens at all).
-- Enable execution of PowerShell scripts and Unblock PowerShell scripts and modules within this directory (Down below).
+- Copy and Paste one of the lines below on your **Terminal** to unblock the scripts and execute it:
 
-### **GUI Version**
-
-- Copy and Paste this entire line below on **PowerShell**:
+### GUI Version
 
 ```ps1
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
@@ -93,13 +83,19 @@ _The `Apply Tweaks` button is the main one for debloating._
 
 ### **CLI Version** (Minimal, good for automation)
 
-- Copy and Paste this entire line below on **PowerShell**:
-
 ```ps1
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptCLI.ps1"
 ```
 
 **[Scripts](./src/scripts) can be run individually, pick what you need.**
+
+## 🔄️ Roll-Back
+
+**If something breaks you can rely on:**
+
+1. If you want **(almost)** everything to it's original state, use the `Undo Tweaks` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1).
+2. A restoration point done by the script itself;
+3. The `Repair Windows` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1);
 
 ## ☑️ Common Script Features
 
@@ -264,7 +260,8 @@ Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automati
 
 ## ➕ Contributing
 
-Found a _bug_ or want a _new feature_? Please check out the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+Found a _bug_ or want a _new feature_? You can open a new `Issue` [here](https://github.com/LeDragoX/Win-Debloat-Tools/issues/new/choose).
+Wanting to add improvements or fixes? Please check out the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## 📝 License
 
