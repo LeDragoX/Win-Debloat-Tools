@@ -3,7 +3,6 @@
 ⚠ **Warning**: this file is subject to changing without notice.
 
 I would be happy to extend the collection of scripts.
-If you found a **BUG** or if you want a new **FEATURE REQUEST**, open an issue on the tab `ISSUES`.
 If you want to send me a **PULL REQUEST**, please use the `develop` branch to be up to date, and send PRs there, or i'll close it.
 
 ## 🖌 Coding Style
