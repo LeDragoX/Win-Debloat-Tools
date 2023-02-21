@@ -2,7 +2,9 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"grant-registry-permissi
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"new-shortcut.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-item-verified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"service-startup-handler.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-appx-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"windows-feature-handler.psm1"
 
@@ -20,14 +22,9 @@ $PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
 
 function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
-
-    If (!(Test-Path "$PathToLMPoliciesSystem")) {
-        New-Item -Path "$PathToLMPoliciesSystem" -Force | Out-Null
-    }
-
-    Set-ItemProperty -Path $PathToLMPoliciesSystem -Name "EnableActivityFeed" -Type DWord -Value 0
-    Set-ItemProperty -Path $PathToLMPoliciesSystem -Name "PublishUserActivities" -Type DWord -Value 0
-    Set-ItemProperty -Path $PathToLMPoliciesSystem -Name "UploadUserActivities" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path $PathToLMPoliciesSystem -Name "EnableActivityFeed" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path $PathToLMPoliciesSystem -Name "PublishUserActivities" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path $PathToLMPoliciesSystem -Name "UploadUserActivities" -Type DWord -Value 0
 }
 
 function Enable-ActivityHistory() {
@@ -39,32 +36,26 @@ function Enable-ActivityHistory() {
 
 function Disable-AutomaticWindowsUpdate() {
     Write-Status -Types "-", "WU" -Status "Disabling Automatic Download and Installation of Windows Updates..."
-    If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
-        New-Item -Path "$PathToLMPoliciesWindowsUpdate" -Force | Out-Null
-    }
     # [@] (2 = Notify before download, 3 = Automatically download and notify of installation)
     # [@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)
-    Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
 }
 
 function Enable-AutomaticWindowsUpdate() {
     Write-Status -Types "*", "WU" -Status "Enabling Automatic Download and Installation of Windows Updates..."
-    If (!(Test-Path "$PathToLMPoliciesWindowsUpdate")) {
-        New-Item -Path "$PathToLMPoliciesWindowsUpdate" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 5
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 5
 }
 
 function Disable-BackgroundAppsToogle() {
     Write-Status -Types "-", "Misc" -Status "Disabling Background Apps..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 0
 }
 
 function Enable-BackgroundAppsToogle() {
     Write-Status -Types "*", "Misc" -Status "Enabling Background Apps..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BackgroundAppGlobalToggle" -Type DWord -Value 1
 }
 
 function Disable-ClipboardHistory() {
@@ -75,23 +66,13 @@ function Disable-ClipboardHistory() {
 
 function Enable-ClipboardHistory() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Clipboard History (requires reboot!)..."
-
-    If (!(Test-Path "$PathToLMPoliciesSystem")) {
-        New-Item -Path "$PathToLMPoliciesSystem" -Force | Out-Null
-    }
-
-    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowClipboardHistory" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUClipboard" -Name "EnableClipboardHistory" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesSystem" -Name "AllowClipboardHistory" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUClipboard" -Name "EnableClipboardHistory" -Type DWord -Value 1
 }
 
 function Disable-ClipboardSyncAcrossDevice() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Clipboard across devices (must be using MS account)..."
-
-    If (!(Test-Path "$PathToLMPoliciesSystem")) {
-        New-Item -Path "$PathToLMPoliciesSystem" -Force | Out-Null
-    }
-
-    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 0
     If ((Get-Item "$PathToCUClipboard").Property -contains "CloudClipboardAutomaticUpload") {
         Remove-ItemProperty -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload"
     }
@@ -104,42 +85,37 @@ function Disable-ClipboardSyncAcrossDevice() {
 
 function Enable-ClipboardSyncAcrossDevice() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Clipboard across devices (must be using MS account)..."
-
-    If (!(Test-Path "$PathToLMPoliciesSystem")) {
-        New-Item -Path "$PathToLMPoliciesSystem" -Force | Out-Null
-    }
-
-    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUClipboard" -Name "EnableCloudClipboard " -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUClipboard" -Name "EnableCloudClipboard " -Type DWord -Value 1
 }
 
 function Disable-Cortana() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Cortana..."
-    Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "AllowCortana" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "AllowCloudSearch" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "ConnectedSearchUseWeb" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "DisableWebSearch" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCortana" -Name "AllowCortana" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCortana" -Name "AllowCloudSearch" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCortana" -Name "ConnectedSearchUseWeb" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCortana" -Name "DisableWebSearch" -Type DWord -Value 1
 }
 
 function Enable-Cortana() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Cortana..."
-    Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "AllowCortana" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "AllowCloudSearch" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "ConnectedSearchUseWeb" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToLMPoliciesCortana" -Name "DisableWebSearch" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCortana" -Name "AllowCortana" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCortana" -Name "AllowCloudSearch" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCortana" -Name "ConnectedSearchUseWeb" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCortana" -Name "DisableWebSearch" -Type DWord -Value 0
 }
 
 function Disable-DarkTheme() {
     Write-Status -Types "*", "Personal" -Status "Disabling Dark Theme..."
-    Set-ItemProperty -Path "$PathToCUThemes" -Name "AppsUseLightTheme" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUThemes" -Name "SystemUsesLightTheme" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUThemes" -Name "AppsUseLightTheme" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUThemes" -Name "SystemUsesLightTheme" -Type DWord -Value 1
 }
 
 function Enable-DarkTheme() {
     Write-Status -Types "+", "Personal" -Status "Enabling Dark Theme..."
-    Set-ItemProperty -Path "$PathToCUThemes" -Name "AppsUseLightTheme" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToCUThemes" -Name "SystemUsesLightTheme" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUThemes" -Name "AppsUseLightTheme" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUThemes" -Name "SystemUsesLightTheme" -Type DWord -Value 0
 }
 
 function Disable-EncryptedDNS() {
@@ -164,7 +140,7 @@ function Enable-EncryptedDNS() {
 
 function Disable-FastShutdownShortcut() {
     Write-Status -Types "*" -Status "Removing the shortcut to shutdown the computer on the Desktop..." -Warning
-    Remove-Item -Path "$DesktopPath\Fast Shutdown.lnk"
+    Remove-ItemVerified -Path "$DesktopPath\Fast Shutdown.lnk"
 }
 
 function Enable-FastShutdownShortcut() {
@@ -197,7 +173,7 @@ function Disable-GodMode() {
 "@ -ForegroundColor Cyan
 
     $DesktopPath = [Environment]::GetFolderPath("Desktop");
-    Remove-Item -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}"
+    Remove-ItemVerified -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}"
 }
 
 function Enable-GodMode() {
@@ -233,14 +209,14 @@ function Enable-InternetExplorer() {
 function Disable-MouseNaturalScroll() {
     Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
         Write-Status -Types "*" -Status "Disabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
-        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 0
+        Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 0
     }
 }
 
 function Enable-MouseNaturalScroll() {
     Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
         Write-Status -Types "+" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
-        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 1
+        Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 1
     }
 }
 
@@ -251,41 +227,33 @@ function Disable-OldVolumeControl() {
 
 function Enable-OldVolumeControl() {
     Write-Status -Types "+", "Misc" -Status "Enabling Old Volume Control..."
-    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc" -Type DWord -Value 0
 }
 
 function Disable-OnlineSpeechRecognition() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Online Speech Recognition..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization" -Type DWord -Value 0
-
-    If (!(Test-Path "$PathToCUOnlineSpeech")) {
-        New-Item -Path "$PathToCUOnlineSpeech" -Force | Out-Null
-    }
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization" -Type DWord -Value 0
     # [@] (0 = Decline, 1 = Accept)
-    Set-ItemProperty -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 0
 }
 
 function Enable-OnlineSpeechRecognition() {
     Write-Status -Types "+", "Privacy" -Status "Enabling Online Speech Recognition..."
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization"
-
-    If (!(Test-Path "$PathToCUOnlineSpeech")) {
-        New-Item -Path "$PathToCUOnlineSpeech" -Force | Out-Null
-    }
     # [@] (0 = Decline, 1 = Accept)
-    Set-ItemProperty -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 1
 }
 
 function Disable-PhoneLink() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Phone Link (Your Phone)..."
-    Set-ItemProperty -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 0
 }
 
 function Enable-PhoneLink() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Phone Link (Your Phone)..."
-    Set-ItemProperty -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 1
 }
 
 function Disable-PrintToPDFServicesToogle() {
@@ -306,27 +274,21 @@ function Enable-PrintingXPSServicesToogle() {
 
 function Disable-SearchAppForUnknownExt() {
     Write-Status -Types "-", "Misc" -Status "Disabling Search for App in Store for Unknown Extensions..."
-    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
-        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith" -Type DWord -Value 1
 }
 
 function Enable-SearchAppForUnknownExt() {
     Write-Status -Types "*", "Misc" -Status "Enabling Search for App in Store for Unknown Extensions..."
-    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
-        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Force | Out-Null
-    }
     Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith"
 }
 
 function Disable-Telemetry() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Telemetry..."
     # [@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 
     Stop-Service "DiagTrack" -NoWait -Force
     Set-ServiceStartup -State 'Disabled' -Services "DiagTrack"
@@ -367,54 +329,46 @@ function Enable-WSearchService() {
 function Disable-XboxGameBarDVRandMode() {
     # Adapted from: https://docs.microsoft.com/en-us/answers/questions/241800/completely-disable-and-remove-xbox-apps-and-relate.html
     Write-Status -Types "-", "Performance" -Status "Disabling Xbox Game Bar DVR..."
-    Set-ItemProperty -Path "$PathToLMPoliciesAppGameDVR" -Name "value" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
-    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
-    If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
-        New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesAppGameDVR" -Name "value" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
     Set-ServiceStartup -State 'Disabled' -Services "BcastDVRUserService*"
 
     Write-Status -Types "-", "Performance" -Status "Enabling Game mode..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 0
     Write-Status -Types "-", "Performance" -Status "Enabling Game Mode Notifications..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowGameModeNotifications" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "ShowGameModeNotifications" -Type DWord -Value 0
     Write-Status -Types "-", "Performance" -Status "Enabling Game Bar tips..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowStartupPanel" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "ShowStartupPanel" -Type DWord -Value 0
     Write-Status -Types "-", "Performance" -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 0
 
     Grant-RegistryPermission -Key "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter"
     Write-Status -Types "-", "Performance" -Status "Disabling GameBar Presence Writer..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 0
 }
 
 function Enable-XboxGameBarDVRandMode() {
     Write-Status -Types "*", "Performance" -Status "Enabling Xbox Game Bar DVR..."
     Write-Status -Types "*", "Performance" -Status "Removing GameDVR policies..."
-    If ((Test-Path "$PathToLMPoliciesAppGameDVR")) {
-        Remove-Item -Path "$PathToLMPoliciesAppGameDVR" -Recurse
-    }
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
-    Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
-    If (!(Test-Path "$PathToLMPoliciesGameDVR")) {
-        New-Item -Path "$PathToLMPoliciesGameDVR" -Force | Out-Null
-    }
+    Remove-ItemVerified -Path "$PathToLMPoliciesAppGameDVR" -Recurse
+    Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
     Remove-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR"
 
     Set-ServiceStartup -State 'Manual' -Services "BcastDVRUserService*"
 
     Write-Status -Types "*", "Performance" -Status "Enabling Game mode..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 1
     Write-Status -Types "*", "Performance" -Status "Enabling Game Mode Notifications..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowGameModeNotifications" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "ShowGameModeNotifications" -Type DWord -Value 1
     Write-Status -Types "*", "Performance" -Status "Enabling Game Bar tips..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "ShowStartupPanel" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "ShowStartupPanel" -Type DWord -Value 1
     Write-Status -Types "*", "Performance" -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
-    Set-ItemProperty -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 1
 
     Grant-RegistryPermission -Key "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter"
     Write-Status -Types "*", "Performance" -Status "Enabling GameBar Presence Writer..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 1
 }

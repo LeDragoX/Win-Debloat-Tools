@@ -1,5 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"open-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-item-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script
@@ -62,154 +64,123 @@ function Register-PersonalTweaksList() {
         } Until ($preferences)
         Stop-Process $taskmgr
         $preferences.Preferences[28] = 0
-        Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+        Set-ItemPropertyVerified -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
     } Else {
         Write-Status -Types "?", $TweakType -Status "Task Manager patch not run in builds 22557+ due to bug" -Warning
     }
 
     Write-Section -Text "Windows Explorer Tweaks"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Quick Access from Windows Explorer..."
-    Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToCUExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToCUExplorer" -Name "HubMode" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "HubMode" -Type DWord -Value $One
 
     Write-Status -Types "-", $TweakType -Status "Removing 3D Objects from This PC..."
-    If (Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
-        Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
-    }
-    If (Test-Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}") {
-        Remove-Item -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
-    }
+    Remove-ItemVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
+    Remove-ItemVerified -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse
 
     Write-Status -Types "-", $TweakType -Status "Removing 'Edit with Paint 3D' from the Context Menu..."
     $Paint3DFileTypes = @(".3mf", ".bmp", ".fbx", ".gif", ".jfif", ".jpe", ".jpeg", ".jpg", ".png", ".tif", ".tiff")
     ForEach ($FileType in $Paint3DFileTypes) {
-        If (Test-Path "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\$FileType\Shell\3D Edit") {
-            Write-Status -Types "-", $TweakType -Status "Removing Paint 3D from file type: $FileType"
-            Remove-Item -Path "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\$FileType\Shell\3D Edit" -Recurse
-        }
+        Write-Status -Types "-", $TweakType -Status "Removing Paint 3D from file type: $FileType"
+        Remove-ItemVerified -Path "Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\$FileType\Shell\3D Edit" -Recurse
     }
 
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Show Drives without Media..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) MRU lists (jump lists) of XAML apps in Start Menu..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Aero-Shake Minimize feature..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
 
     Write-Status -Types "+", $TweakType -Status "Setting Windows Explorer to start on This PC instead of Quick Access..."
     # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT, BREAKS EXPLORER.EXE
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "LaunchTo" -Type DWord -Value 1
 
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Show hidden files in Explorer..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "Hidden" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Hidden" -Type DWord -Value $One
 
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Showing file transfer details..."
-    If (!(Test-Path "$PathToCUExplorer\OperationStatusManager")) {
-        New-Item -Path "$PathToCUExplorer\OperationStatusManager" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToCUExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "$PathToCUExplorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value $One
 
     Write-Status -Types "-", $TweakType -Status "Disabling '- Shortcut' name after creating a shortcut..."
-    Set-ItemProperty -Path "$PathToCUExplorer" -Name "link" -Type Binary -Value ([byte[]](0x00, 0x00, 0x00, 0x00))
+    Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "link" -Type Binary -Value ([byte[]](0x00, 0x00, 0x00, 0x00))
 
     Write-Section -Text "Task Bar Tweaks"
     Write-Caption -Text "Task Bar - Windows 10 Compatible"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Search Box' from taskbar..."
     # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
-    Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Windows search highlights from taskbar..."
-    If (!(Test-Path "$PathToLMPoliciesWindowsSearch")) {
-        New-Item -Path "$PathToLMPoliciesWindowsSearch" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMPoliciesWindowsSearch" -Name "EnableDynamicContentInWSB" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsSearch" -Name "EnableDynamicContentInWSB" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Task View' icon from taskbar..."
     # [@] (0 = Hide Task view, 1 = Show Task view)
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Open on Hover from 'News and Interest' from taskbar..."
-    If (!(Test-Path "$PathToCUNewsAndInterest")) {
-        New-Item -Path "$PathToCUNewsAndInterest" -Force | Out-Null
-    }
     # [@] (0 = Disable, 1 = Enable)
-    Set-ItemProperty -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'News and Interest' from taskbar..."
-    If (!(Test-Path "$PathToLMPoliciesNewsAndInterest")) {
-        New-Item -Path "$PathToLMPoliciesNewsAndInterest" -Force | Out-Null
-    }
     # [@] (0 = Disable, 1 = Enable)
-    Set-ItemProperty -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'People' icon from taskbar..."
-    If (!(Test-Path "$PathToCUExplorerAdvanced\People")) {
-        New-Item -Path "$PathToCUExplorerAdvanced\People" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Live Tiles..."
-    If (!(Test-Path "$PathToCUPoliciesLiveTiles")) {
-        New-Item -Path "$PathToCUPoliciesLiveTiles" -Force | Out-Null
-    }
-    Set-ItemProperty -Path $PathToCUPoliciesLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path $PathToCUPoliciesLiveTiles -Name "NoTileApplicationNotification" -Type DWord -Value $One
 
     Write-Status -Types "*", $TweakType -Status "Enabling Auto tray icons..."
-    Set-ItemProperty -Path "$PathToCUExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Meet now' icon on taskbar..."
-    If (!(Test-Path "$PathToLMPoliciesExplorer")) {
-        New-Item -Path "$PathToLMPoliciesExplorer" -Force | Out-Null
-    }
     # [@] (0 = Show Meet Now, 1 = Hide Meet Now)
-    Set-ItemProperty -Path "$PathToLMPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
 
     Write-Caption -Text "Task Bar - Windows 11 Compatible"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Widgets' icon from taskbar..."
     # [@] (0 = Hide Widgets, 1 = Show Widgets)
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Chat' icon from taskbar..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "TaskbarMn" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "TaskbarMn" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) creation of Thumbs.db thumbnail cache files..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Write-Caption -Text "Colors"
     Write-Status -Types "*", $TweakType -Status "Re-Enabling taskbar transparency..."
-    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 
     Write-Section -Text "System"
     Write-Caption -Text "Multitasking"
     Write-Status -Types "-", $TweakType -Status "Disabling Edge multi tabs showing on Alt + Tab..."
-    Set-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
     Write-Section -Text "Devices"
     Write-Caption -Text "Bluetooth & other devices"
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) driver download over metered connections..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
 
     Write-Section -Text "Cortana Tweaks"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Bing Search in Start Menu..."
-    Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
-    Set-ItemProperty -Path "$PathToCUWindowsSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
-
-    If (!(Test-Path "$PathToCUPoliciesExplorer")) {
-        New-Item -Path "$PathToCUPoliciesExplorer" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToCUPoliciesExplorer" -Name "DisableSearchBoxSuggestions" -Type DWord -Value $One
+    Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesExplorer" -Name "DisableSearchBoxSuggestions" -Type DWord -Value $One
 
     Write-Section -Text "Ease of Access"
     Write-Caption -Text "Keyboard"
     Write-Status -Types "-", $TweakType -Status "Disabling Sticky Keys..."
-    Set-ItemProperty -Path "$PathToCUAccessibility\StickyKeys" -Name "Flags" -Value "506"
-    Set-ItemProperty -Path "$PathToCUAccessibility\Keyboard Response" -Name "Flags" -Value "122"
-    Set-ItemProperty -Path "$PathToCUAccessibility\ToggleKeys" -Name "Flags" -Value "58"
+    Set-ItemPropertyVerified -Path "$PathToCUAccessibility\StickyKeys" -Name "Flags" -Value "506"
+    Set-ItemPropertyVerified -Path "$PathToCUAccessibility\Keyboard Response" -Name "Flags" -Value "122"
+    Set-ItemPropertyVerified -Path "$PathToCUAccessibility\ToggleKeys" -Name "Flags" -Value "58"
 
     Write-Section -Text "Microsoft Edge Policies"
     Write-Caption -Text "Privacy, search and services / Address bar and search"
@@ -220,7 +191,7 @@ function Register-PersonalTweaksList() {
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
 
     Write-Status -Types "*", $TweakType -Status "Re-Enabling Error reporting..."
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
 
     Write-Status -Types "+", $TweakType -Status "Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy

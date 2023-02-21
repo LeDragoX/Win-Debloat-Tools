@@ -2,6 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"manage-software.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"select-folder-gui.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"remove-item-verified.psm1"
 
 function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
@@ -106,7 +107,7 @@ function Set-SSHKey() {
 
     If (!(Test-Path "$SSHPath")) {
         Write-Host "Creating folder on '$SSHPath'"
-        mkdir "$SSHPath" | Out-Null
+        New-Item -Path "$SSHPath" | Out-Null
     }
     Push-Location "$SSHPath"
 
@@ -135,7 +136,7 @@ function Set-GPGKey() {
 
     If (!(Test-Path "$GnuPGPath")) {
         Write-Host "Creating folder on '$GnuPGPath'"
-        mkdir "$GnuPGPath" | Out-Null
+        New-Item -Path "$GnuPGPath" | Out-Null
     }
 
     Push-Location "$GnuPGPath"
@@ -160,8 +161,8 @@ function Set-GPGKey() {
 
     Write-Host "Copying all files to $GnuPGPath"
     Copy-Item -Path "$GnuPGGeneratePath/*" -Destination "$GnuPGPath/" -Recurse
-    Remove-Item -Path "$GnuPGPath/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev" -Recurse
-    Remove-Item -Path "$GnuPGPath/trustdb.gpg"
+    Remove-ItemVerified -Path "$GnuPGPath/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev" -Recurse
+    Remove-ItemVerified -Path "$GnuPGPath/trustdb.gpg"
 
     Write-Host "Export public and private key to files:`n- $GnuPGPath\$($GnuPGFileName)_public.gpg`n- $GnuPGPath\$($GnuPGFileName)_secret.gpg"
     gpg --output "$($GnuPGFileName)_public.gpg" --armor --export "$(git config --global user.email)"

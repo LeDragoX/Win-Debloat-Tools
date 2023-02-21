@@ -1,4 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"set-item-property-verified.psm1"
 
 function New-SystemColor() {
     $ColorHistory = Get-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\History\Colors"
@@ -44,41 +45,41 @@ function New-SystemColor() {
     Write-Verbose "$RandomBytes"
 
     # Taskbar and Settings color
-    Set-ItemProperty -Path "$PathToCUExplorerAccent" -Name "AccentPalette" -Type Binary -Value ([byte[]]($RandomBytes[0], $RandomBytes[1], $RandomBytes[2], $RandomBytes[3], $RandomBytes[4], $RandomBytes[5], $RandomBytes[6], $RandomBytes[7], $RandomBytes[8], $RandomBytes[9], $RandomBytes[10], $RandomBytes[11], $RandomBytes[12], $RandomBytes[13], $RandomBytes[14], $RandomBytes[15], $RandomBytes[16], $RandomBytes[17], $RandomBytes[18], $RandomBytes[19], $RandomBytes[20], $RandomBytes[21], $RandomBytes[22], $RandomBytes[23], $RandomBytes[24], $RandomBytes[25], $RandomBytes[26], $RandomBytes[27], $RandomBytes[28], $RandomBytes[29], $RandomBytes[30], $RandomBytes[31]))
+    Set-ItemPropertyTested -Path "$PathToCUExplorerAccent" -Name "AccentPalette" -Type Binary -Value ([byte[]]($RandomBytes[0], $RandomBytes[1], $RandomBytes[2], $RandomBytes[3], $RandomBytes[4], $RandomBytes[5], $RandomBytes[6], $RandomBytes[7], $RandomBytes[8], $RandomBytes[9], $RandomBytes[10], $RandomBytes[11], $RandomBytes[12], $RandomBytes[13], $RandomBytes[14], $RandomBytes[15], $RandomBytes[16], $RandomBytes[17], $RandomBytes[18], $RandomBytes[19], $RandomBytes[20], $RandomBytes[21], $RandomBytes[22], $RandomBytes[23], $RandomBytes[24], $RandomBytes[25], $RandomBytes[26], $RandomBytes[27], $RandomBytes[28], $RandomBytes[29], $RandomBytes[30], $RandomBytes[31]))
 
     # Window Top Color
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "AccentColor" -Type DWord -Value 0xff$HexColor
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationAfterglow" -Type DWord -Value 0xc4$HexColor
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationColor" -Type DWord -Value 0xc4$HexColor
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "AccentColor" -Type DWord -Value 0xff$HexColor
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "ColorizationAfterglow" -Type DWord -Value 0xc4$HexColor
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "ColorizationColor" -Type DWord -Value 0xc4$HexColor
 
     # Window Border Color
-    Set-ItemProperty -Path "$PathToCUExplorerAccent" -Name "AccentColorMenu" -Type DWord -Value 0xff$HexColorBGR
-    Set-ItemProperty -Path "$PathToCUExplorerAccent" -Name "StartColorMenu" -Type DWord -Value 0xff$HexColor
+    Set-ItemPropertyTested -Path "$PathToCUExplorerAccent" -Name "AccentColorMenu" -Type DWord -Value 0xff$HexColorBGR
+    Set-ItemPropertyTested -Path "$PathToCUExplorerAccent" -Name "StartColorMenu" -Type DWord -Value 0xff$HexColor
 
     # Start, Taskbar and Action center
-    Set-ItemProperty -Path "$PathToCUThemesPersonalize" -Name "ColorPrevalence" -Type DWord -Value 0
+    Set-ItemPropertyTested -Path "$PathToCUThemesPersonalize" -Name "ColorPrevalence" -Type DWord -Value 0
 
     # Title Bars and Windows Borders
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorPrevalence" -Type DWord -Value 1
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "ColorPrevalence" -Type DWord -Value 1
 
     # Window Color History
-    Set-ItemProperty -Path "$PathToCUThemesColorHistory" -Name "ColorHistory0" -Type DWord -Value 0xff$HexColorBGR
-    Set-ItemProperty -Path "$PathToCUThemesColorHistory" -Name "ColorHistory1" -Type DWord -Value $ColorHistory.ColorHistory0
-    Set-ItemProperty -Path "$PathToCUThemesColorHistory" -Name "ColorHistory2" -Type DWord -Value $ColorHistory.ColorHistory1
-    Set-ItemProperty -Path "$PathToCUThemesColorHistory" -Name "ColorHistory3" -Type DWord -Value $ColorHistory.ColorHistory2
-    Set-ItemProperty -Path "$PathToCUThemesColorHistory" -Name "ColorHistory4" -Type DWord -Value $ColorHistory.ColorHistory3
-    Set-ItemProperty -Path "$PathToCUThemesColorHistory" -Name "ColorHistory5" -Type DWord -Value $ColorHistory.ColorHistory4
+    Set-ItemPropertyTested -Path "$PathToCUThemesColorHistory" -Name "ColorHistory0" -Type DWord -Value 0xff$HexColorBGR
+    Set-ItemPropertyTested -Path "$PathToCUThemesColorHistory" -Name "ColorHistory1" -Type DWord -Value $ColorHistory.ColorHistory0
+    Set-ItemPropertyTested -Path "$PathToCUThemesColorHistory" -Name "ColorHistory2" -Type DWord -Value $ColorHistory.ColorHistory1
+    Set-ItemPropertyTested -Path "$PathToCUThemesColorHistory" -Name "ColorHistory3" -Type DWord -Value $ColorHistory.ColorHistory2
+    Set-ItemPropertyTested -Path "$PathToCUThemesColorHistory" -Name "ColorHistory4" -Type DWord -Value $ColorHistory.ColorHistory3
+    Set-ItemPropertyTested -Path "$PathToCUThemesColorHistory" -Name "ColorHistory5" -Type DWord -Value $ColorHistory.ColorHistory4
 
     # Miscellaneous stuff (didn't work)
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationAfterglowBalance" -Type DWord -Value 10
-    # Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationBlurBalance" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationColorBalance" -Type DWord -Value 89
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationGlassAttribute" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "ColorizationGlassAttribute" -Type DWord -Value 1
-    Set-ItemProperty -Path "$PathToCUWindowsDWM" -Name "EnableWindowColorization" -Type DWord -Value 1
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "ColorizationAfterglowBalance" -Type DWord -Value 10
+    # Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "ColorizationBlurBalance" -Type DWord -Value 1
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "ColorizationColorBalance" -Type DWord -Value 89
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "ColorizationGlassAttribute" -Type DWord -Value 0
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "ColorizationGlassAttribute" -Type DWord -Value 1
+    Set-ItemPropertyTested -Path "$PathToCUWindowsDWM" -Name "EnableWindowColorization" -Type DWord -Value 1
 
-    Set-ItemProperty -Path "$PathToCUDesktop" -Name "AutoColorization" -Type DWord -Value 0
-    Set-ItemProperty -Path "$PathToCUThemesHistory" -Name "AutoColor" -Type DWord -Value 0
+    Set-ItemPropertyTested -Path "$PathToCUDesktop" -Name "AutoColorization" -Type DWord -Value 0
+    Set-ItemPropertyTested -Path "$PathToCUThemesHistory" -Name "AutoColor" -Type DWord -Value 0
 }
 
 New-SystemColor

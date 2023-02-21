@@ -1,4 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script
 
@@ -45,7 +46,7 @@ function Repair-System() {
     Write-Caption -Text "Closing Windows Explorer..."
     taskkill /F /IM explorer.exe
     Write-Caption -Text "Re-registering all Windows Apps via AppXManifest.xml ..."
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableXamlStartMenu" -Type Dword -Value 0
+    Set-ItemPropertyVerified -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "EnableXamlStartMenu" -Type Dword -Value 0
     Get-AppxPackage -AllUsers | ForEach-Object {
         Write-Status -Types "@" -Status "Trying to register package: $($_.InstallLocation)"
         Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"

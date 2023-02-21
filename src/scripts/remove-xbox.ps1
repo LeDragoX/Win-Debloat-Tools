@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-appx-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
@@ -49,10 +50,7 @@ function Remove-Xbox() {
     Remove-UWPAppx -AppxPackages $XboxApps
 
     Write-Status -Types "-", $TweakType -Status "Disabling Xbox Game Monitoring..."
-    If (!(Test-Path "$PathToLMServicesXbgm")) {
-        New-Item -Path "$PathToLMServicesXbgm" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMServicesXbgm" -Name "Start" -Type DWord -Value 4
+    Set-ItemPropertyVerified -Path "$PathToLMServicesXbgm" -Name "Start" -Type DWord -Value 4
 
     Disable-XboxGameBarDVRandMode
 }

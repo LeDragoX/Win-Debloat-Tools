@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"install-font.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"remove-item-verified.psm1"
 
 $FontsFolder = "fonts"
 
@@ -18,7 +19,7 @@ function Install-NerdFont() {
     Write-Status -Types "+" -Status "Installing downloaded fonts on $pwd\$FontsFolder..."
     Install-Font -FontSourceFolder "$FontsFolder"
     Write-Status -Types "@" -Status "Cleaning up..."
-    Remove-Item -Path "$FontsFolder" -Recurse
+    Remove-ItemVerified -Path "$FontsFolder" -Recurse
     Pop-Location
 }
 

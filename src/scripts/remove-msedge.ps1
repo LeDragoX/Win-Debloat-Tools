@@ -1,5 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-item-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
 
 function Main() {
     $Ask = "Are you sure you want to remove Microsoft Edge from Windows?`nYou can reinstall it anytime.`nNote: all users logged in will remain."
@@ -39,17 +41,14 @@ function Remove-MSEdge() {
     }
 
     Write-Status -Types "@" -Status "Preventing Edge from reinstalling..."
-    If (!(Test-Path "$PathToLMEdgeUpdate")) {
-        New-Item -Path "$PathToLMEdgeUpdate" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMEdgeUpdate" -Name "DoNotUpdateToEdgeWithChromium" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMEdgeUpdate" -Name "DoNotUpdateToEdgeWithChromium" -Type DWord -Value 1
 
     Write-Status -Types "@" -Status "Deleting Edge appdata\local folders from current user..."
-    Remove-Item -Path "$env:LOCALAPPDATA\Packages\Microsoft.MicrosoftEdge*_*" -Recurse -Force | Out-Host
+    Remove-ItemVerified -Path "$env:LOCALAPPDATA\Packages\Microsoft.MicrosoftEdge*_*" -Recurse -Force | Out-Host
 
     Write-Status -Types "@" -Status "Deleting Edge from Program Files (x86)..."
-    Remove-Item -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Edge*" -Recurse -Force | Out-Host
-    Remove-Item -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Temp" -Recurse -Force | Out-Host
+    Remove-ItemVerified -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Edge*" -Recurse -Force | Out-Host
+    Remove-ItemVerified -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Temp" -Recurse -Force | Out-Host
 }
 
 Main

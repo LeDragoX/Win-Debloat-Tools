@@ -1,5 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-item-verified.psm1"
 
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
@@ -14,7 +15,7 @@ function Use-DebloatSoftware() {
         $AdwCleanerOutput = Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe"
         Write-Status -Types "+" -Status "Running MalwareBytes AdwCleaner scanner..."
         Start-Process -FilePath $AdwCleanerOutput -ArgumentList "/eula", "/clean", "/noreboot" -Wait
-        Remove-Item $AdwCleanerOutput -Force
+        Remove-ItemVerified $AdwCleanerOutput -Force
     }
 
     $ShutUpDl = "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe"
@@ -30,7 +31,7 @@ function Use-DebloatSoftware() {
         Start-Process -FilePath $ShutUpOutput -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # Wait until the process closes #
     }
 
-    Remove-Item "$ShutUpOutput" -Force # Leave no extra files
+    Remove-ItemVerified "$ShutUpOutput" -Force # Leave no extra files
     Pop-Location
 }
 
