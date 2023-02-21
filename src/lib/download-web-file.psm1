@@ -13,7 +13,7 @@ function Request-FileDownload {
     Write-Verbose "[?] I'm at: $PWD"
     If (!(Test-Path "$PSScriptRoot\..\tmp")) {
         Write-Status -Types "@" -Status "$PSScriptRoot\..\tmp doesn't exist, creating folder..."
-        mkdir "$PSScriptRoot\..\tmp" | Out-Null
+        New-Item -Path "$PSScriptRoot\..\tmp"
     }
 
     $FileLocation = $(Join-Path -Path "$PSScriptRoot\..\tmp\" -ChildPath "$OutputFile")
@@ -21,7 +21,7 @@ function Request-FileDownload {
     If ($OutputFolder) {
         If (!(Test-Path "$PSScriptRoot\..\tmp\$OutputFolder")) {
             Write-Status -Types "@" -Status "$PSScriptRoot\..\tmp\$OutputFolder doesn't exist, creating folder..."
-            mkdir "$PSScriptRoot\..\tmp\$OutputFolder"
+            New-Item -Path "$PSScriptRoot\..\tmp\$OutputFolder"
         }
 
         $FileLocation = $(Join-Path -Path "$PSScriptRoot\..\tmp\" -ChildPath "$OutputFolder\$OutputFile")
