@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"title-templates.psm1"
 
 function Request-FileDownload {
     [CmdletBinding()]

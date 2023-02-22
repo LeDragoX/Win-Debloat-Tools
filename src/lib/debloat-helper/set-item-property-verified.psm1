@@ -4,12 +4,12 @@ function Set-ItemPropertyVerified() {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [String] $Path,
+        [String[]] $Path,
         [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [String] $Name,
+        [String]   $Name,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [ValidateSet('Binary', 'DWord', 'ExpandString', 'MultiString', 'Qword', 'String', 'Unknown')]
-        [String] $Type,
+        [String]   $Type,
         [Parameter(Position = 2, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         $Value <# Will have dynamic typing #>
     )
