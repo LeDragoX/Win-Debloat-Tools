@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 
 # Adapted from: https://stackoverflow.com/a/35965782
 # Adapted from: https://www.osdeploy.com/modules/pshot/technical/resolution-scale-and-dpi
@@ -158,7 +158,9 @@ function New-Form() {
         [String] $BackColor = "#252525", # Windows Dark
         [Bool]   $Minimize = $true,
         [Bool]   $Maximize = $true,
-        [String] $FormBorderStyle = 'FixedSingle', # FixedSingle, Fixed3D, FixedDialog, Sizable, FixedToolWindow, SizableToolWindow
+        [ValidateSet('FixedSingle', 'FixedSingle', 'Fixed3D', 'FixedDialog', 'Sizable', 'FixedToolWindow', 'SizableToolWindow')]
+        [String] $FormBorderStyle = 'FixedSingle',
+        [ValidateSet('Manual', 'CenterScreen', 'WindowsDefaultLocation', 'WindowsDefaultBounds', 'CenterParent')]
         [String] $StartPosition = 'CenterScreen',
         [Bool]   $TopMost = $false
     )
@@ -284,6 +286,7 @@ function New-Label() {
         [Int]           $FontSize = 14,
         [String]        $FontStyle = "Regular",
         [String]        $ForeColor = "#55EE00", # Green
+        [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleCenter"
     )
 
@@ -320,8 +323,10 @@ function New-Button() {
         [String]        $FontStyle = "Regular",
         [String]        $ForeColor = "#FFFFFF", # White
         [String]        $BackColor = "#2C2C2C", # Dark Gray
+        [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleCenter",
-        [String]        $FlatStyle = "Flat", # Flat, Popup, Standard, System
+        [ValidateSet('Flat', 'Popup', 'Standard', 'System')]
+        [String]        $FlatStyle = "Flat",
         [String]        $BorderSize = 1
     )
 
@@ -361,6 +366,7 @@ function New-CheckBox() {
         [String]        $FontStyle = "Italic",
         [String]        $ForeColor = "#FFFFFF", # White
         [String]        $BackColor = "#2C2C2C", # Dark Gray
+        [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleLeft"
     )
 
@@ -396,7 +402,8 @@ function New-PictureBox() {
         [Int]           $MarginTop = 0,
         [Int]           $LocationX,
         [Int]           $LocationY,
-        [String]        $SizeMode = 'Zoom' # Autosize, CenterImage, Normal, StretchImage, Zoom
+        [ValidateSet('Autosize', 'CenterImage', 'Normal', 'StretchImage', 'Zoom')]
+        [String]        $SizeMode = 'Zoom'
     )
 
     Write-Verbose "PictureBox: IL $ImageLocation, W$Width, H$Height, X$LocationX, Y$LocationY, SM $SizeMode"

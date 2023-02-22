@@ -1,16 +1,17 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-dialog.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Open-PowerShellFilesCollection {
     [CmdletBinding()]
     param (
-        [String] $RelativeLocation,
-        [Array]  $Scripts,
-        [String] $DoneTitle,
-        [String] $DoneMessage,
-        [Parameter(Mandatory = $false)]
-        [Bool]   $OpenFromGUI = $true,
-        [Switch] $NoDialog
+        [Parameter(Position = 0, Mandatory)]
+        [String]   $RelativeLocation,
+        [Parameter(Position = 1, Mandatory)]
+        [String[]] $Scripts,
+        [String]   $DoneTitle,
+        [String]   $DoneMessage,
+        [Bool]     $OpenFromGUI = $true,
+        [Switch]   $NoDialog
     )
 
     Push-Location -Path $(Join-Path -Path "$PSScriptRoot\..\.." -ChildPath "$RelativeLocation")
@@ -29,7 +30,7 @@ function Open-PowerShellFilesCollection {
     Pop-Location
 
     If (!($NoDialog)) {
-        Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
     }
 }
 
@@ -54,7 +55,7 @@ function Open-RegFilesCollection {
     Pop-Location
 
     If (!($NoDialog)) {
-        Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
     }
 }
 

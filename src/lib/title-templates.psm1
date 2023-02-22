@@ -1,6 +1,7 @@
 ﻿function Write-Title() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0)]
         [String] $Text = "No Text"
     )
 
@@ -12,6 +13,7 @@
 function Write-Section() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0)]
         [String] $Text = "No Text"
     )
 
@@ -23,6 +25,7 @@ function Write-Section() {
 function Write-Caption() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0)]
         [String] $Text = "No Text"
     )
 
@@ -33,11 +36,11 @@ function Write-Caption() {
 function Write-Status() {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory)]
-        [Array]  $Types,
-        [Parameter(Mandatory)]
-        [String] $Status,
-        [Switch] $Warning
+        [Parameter(Position = 0, Mandatory)]
+        [String[]] $Types,
+        [Parameter(Position = 1, Mandatory)]
+        [String]   $Status,
+        [Switch]   $Warning
     )
 
     ForEach ($Type in $Types) {
@@ -57,13 +60,16 @@ function Write-TitleCounter() {
     [CmdletBinding()]
     [OutputType([System.Int32])]
     param (
+        [Parameter(Position = 0)]
         [String] $Text = "No Text",
+        [Parameter(Position = 1)]
         [Int]    $Counter = 0,
+        [Parameter(Position = 2)]
         [Int] 	 $MaxLength
     )
 
     $Counter += 1
-    Write-Title -Text "($Counter/$MaxLength) – $Text"
+    Write-Title -Text "($Counter/$MaxLength) - $Text"
 
     return $Counter
 }

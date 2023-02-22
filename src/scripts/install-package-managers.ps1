@@ -8,14 +8,14 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Install-PackageManager() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String]	  $PackageManagerFullName,
+        [Parameter(Position = 1, Mandatory)]
         [ScriptBlock] $CheckExistenceBlock,
+        [Parameter(Position = 2, Mandatory)]
         [ScriptBlock] $InstallCommandBlock,
-        [Parameter(Mandatory = $false)]
         [String]      $Time,
-        [Parameter(Mandatory = $false)]
         [ScriptBlock] $UpdateScriptBlock,
-        [Parameter(Mandatory = $false)]
         [ScriptBlock] $PostInstallBlock
     )
 

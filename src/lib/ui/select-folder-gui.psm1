@@ -3,7 +3,9 @@
 function Select-Folder() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0)]
         [String] $Description = "Select a folder",
+        [Parameter(Position = 1)]
         [String] $InitialDirectory = "$env:SystemDrive"
     )
 

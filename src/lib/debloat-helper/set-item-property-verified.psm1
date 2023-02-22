@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 
 function Set-ItemPropertyVerified() {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String] $Path,
@@ -29,8 +29,5 @@ function Set-ItemPropertyVerified() {
         } Else {
             Set-ItemProperty -Path "$Path" -Name "$Name" -Value $Value
         }
-    }
-
-    End {
     }
 }

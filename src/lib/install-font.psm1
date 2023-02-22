@@ -5,6 +5,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Install-Font() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0)]
         [String] $FontSourceFolder = "$PSScriptRoot\src\tmp\fonts"
     )
 

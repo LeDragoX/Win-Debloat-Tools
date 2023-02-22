@@ -1,18 +1,18 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 
 function Remove-ItemVerified() {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [String] $Path,
+        [String]   $Path,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String[]] $Include,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String[]] $Exclude,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [Switch] $Recurse,
+        [Switch]   $Recurse,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [Switch] $Force
+        [Switch]   $Force
     )
 
     Begin {
@@ -37,8 +37,5 @@ function Remove-ItemVerified() {
         } Else {
             Write-Status -Types "?", $TweakType -Status "The path $Path does not exist" -Warning
         }
-    }
-
-    End {
     }
 }
