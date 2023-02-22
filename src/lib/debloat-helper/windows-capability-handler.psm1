@@ -3,11 +3,11 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 function Set-CapabilityState() {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Position = 0, Mandatory)]
         [ValidateSet('Disabled', 'Enabled')]
         [String] $State,
-        [Parameter(Mandatory = $true)]
-        [Array] $Capabilities
+        [Parameter(Position = 1, Mandatory)]
+        [String[]] $Capabilities
     )
 
     Begin {

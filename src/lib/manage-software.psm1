@@ -1,14 +1,15 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-dialog.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 
 function Install-Software() {
     [CmdletBinding()]
     [OutputType([String])]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String]      $Name,
-        [Array]       $Packages,
+        [Parameter(Position = 1, Mandatory)]
+        [String[]]    $Packages,
         [ScriptBlock] $InstallBlock = { winget install --silent --source "winget" --id $Package },
-        [Parameter(Mandatory = $false)]
         [Switch]      $NoDialog,
         [String]      $PkgMngr = 'Winget',
         [Switch]      $ViaChocolatey,
@@ -74,7 +75,7 @@ function Install-Software() {
     Write-Host "$DoneMessage" -ForegroundColor Cyan
 
     If (!($NoDialog)) {
-        Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
     }
 
     return $DoneMessage
@@ -84,8 +85,10 @@ function Uninstall-Software() {
     [CmdletBinding()]
     [OutputType([String])]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String]      $Name,
-        [Array]       $Packages,
+        [Parameter(Position = 1, Mandatory)]
+        [String[]]    $Packages,
         [ScriptBlock] $UninstallBlock = { winget uninstall --source "winget" --id $Package },
         [Parameter(Mandatory = $false)]
         [Switch]      $NoDialog,
@@ -151,7 +154,7 @@ function Uninstall-Software() {
     Write-Host "$DoneMessage" -ForegroundColor Cyan
 
     If (!($NoDialog)) {
-        Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
     }
 
     return $DoneMessage

@@ -5,7 +5,6 @@ function Get-CPU() {
     [OutputType([String])]
     param (
         [Switch] $NameOnly,
-        [Parameter(Mandatory = $false)]
         [String] $Separator = '|'
     )
 
@@ -88,7 +87,6 @@ function Get-DriveSpace() {
     [CmdletBinding()]
     [OutputType([String])]
     param (
-        [Parameter(Mandatory = $false)]
         [String] $DriveLetter = $env:SystemDrive[0]
     )
 
@@ -104,11 +102,10 @@ function Get-SystemSpec() {
     [CmdletBinding()]
     [OutputType([System.Object[]])]
     param (
-        [Parameter(Mandatory = $false)]
         [String] $Separator = '|'
     )
 
-    Write-Status -Types "@" -Status "Loading system specs..."
+    Write-Status -Types "@", "Info" -Status "Loading system specs..."
     # Adapted From: https://www.delftstack.com/howto/powershell/find-windows-version-in-powershell/#using-the-wmi-class-with-get-wmiobject-cmdlet-in-powershell-to-get-the-windows-version
     $WinVer = (Get-CimInstance -class Win32_OperatingSystem).Caption -replace 'Microsoft ', ''
     $DisplayVersion = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").DisplayVersion

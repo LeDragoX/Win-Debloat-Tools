@@ -5,6 +5,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Grant-RegistryPermission() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String] $Key
     )
 

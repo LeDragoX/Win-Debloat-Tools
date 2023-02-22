@@ -1,8 +1,8 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"manage-software.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"select-folder-gui.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"remove-item-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"select-folder-gui.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"show-message-dialog.psm1"
 
 function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
@@ -204,10 +204,9 @@ function Import-KeysSshGpg() {
         Push-Location $Folder
         ssh-add $(Get-ChildItem)
         Pop-Location
-
+        $Folder = $null
     }
 
-    $Folder = $null
     $Folder = Select-Folder -Description "Select the existing GPG keys folder"
     If ($null -ne $Folder) {
         Write-Host "Importing GPG keys from: $Folder" -ForegroundColor Cyan

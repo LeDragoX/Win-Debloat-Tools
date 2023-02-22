@@ -3,13 +3,13 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 function Set-ScheduledTaskState() {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Position = 0, Mandatory)]
         [ValidateSet('Disabled', 'Enabled')]
         [String] $State,
-        [Parameter(Mandatory = $true)]
-        [Array] $ScheduledTasks,
-        [Parameter(Mandatory = $false)]
-        [Array] $Filter
+        [Parameter(Position = 1, Mandatory)]
+        [String[]]  $ScheduledTasks,
+        [Parameter(Position = 2)]
+        [String[]]  $Filter
     )
 
     Begin {

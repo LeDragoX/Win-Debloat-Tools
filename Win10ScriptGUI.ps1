@@ -9,13 +9,13 @@ function Main() {
 
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"ui-helper.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"manage-software.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"show-message-dialog.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"ui-helper.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"individual-tweaks.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"install-individual-system-apps.psm1" -Force
 
@@ -44,19 +44,19 @@ function Request-AdminPrivilege() {
 }
 
 function Show-GUI() {
-    Write-Status -Types "@" -Status "Loading GUI Layout..."
+    Write-Status -Types "@", "UI" -Status "Loading GUI Layout..."
     # Loading System Libs
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
     [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
 
-    Set-UIFont # Load the Layout Font
-    $ScreenWidth, $ScreenHeight = Get-CurrentResolution # Get the Screen Size
-    $ScreenProportion = $ScreenWidth / $ScreenHeight # 16:9 ~1.777...
-
     $Script:NeedRestart = $false
     $DoneTitle = "Information"
     $DoneMessage = "Process Completed!"
+
+    Set-UIFont # Load the Layout Font
+    $ScreenWidth, $ScreenHeight = Get-CurrentResolution # Get the Screen Size
+    $ScreenProportion = $ScreenWidth / $ScreenHeight # 16:9 ~1.777...
 
     # <===== PERSONAL LAYOUT =====>
 
@@ -1532,7 +1532,7 @@ function Show-GUI() {
             }
 
             If (($AppsSelected.WingetApps.Count -ge 1) -or ($AppsSelected.MSStoreApps.Count -ge 1) -or ($AppsSelected.ChocolateyApps.Count -ge 1) -or ($AppsSelected.WSLDistros.Count -ge 1)) {
-                Show-Message -Title "$DoneTitle" -Message "$SoftwareList"
+                Show-MessageDialog -Title "$DoneTitle" -Message "$SoftwareList"
             }
             $SoftwareList = ""
         })
