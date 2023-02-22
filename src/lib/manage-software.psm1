@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-message-dialog.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\ui\"show-message-dialog.psm1"
 
 function Install-Software() {
     [CmdletBinding()]

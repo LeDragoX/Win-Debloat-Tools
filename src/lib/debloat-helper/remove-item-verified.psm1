@@ -4,7 +4,7 @@ function Remove-ItemVerified() {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [String]   $Path,
+        [String[]] $Path,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String[]] $Include,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
