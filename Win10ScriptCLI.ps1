@@ -5,9 +5,9 @@ function Main() {
 
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
-    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"show-dialog-window.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
     Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
+    Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"show-message-dialog.psm1" -Force
 
     Set-ConsoleStyle   # Makes the console look cooler
     Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
@@ -38,11 +38,11 @@ function Open-Script() {
         "optimize-task-scheduler.ps1",
         "optimize-services.ps1",
         "remove-bloatware-apps.ps1",
+        "remove-windows-capabilities.ps1",
         "optimize-privacy.ps1",
         "optimize-performance.ps1",
         "personal-tweaks.ps1",
         "optimize-security.ps1",
-        #"remove-onedrive.ps1",
         "optimize-windows-features.ps1"
     )
 
