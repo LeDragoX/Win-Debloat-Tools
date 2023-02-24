@@ -123,19 +123,18 @@ function Main() {
         {
             $WingetDepOutput = Install-WingetDependency
             $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "Microsoft.DesktopAppInstaller.msixbundle"
-            $WingetLicenseOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*License*.xml" -PropertyValue "browser_download_url" -OutputFile "WingetLicense.xml"
             $AppName = Split-Path -Path $WingetOutput -Leaf
 
             Try {
                 # Method from: https://github.com/microsoft/winget-cli/blob/master/doc/troubleshooting/README.md#machine-wide-provisioning
                 If ($WingetDepOutput) {
-                    Write-Status -Types "@" -Status "Trying to install the App (w/ license + dependency): $AppName" -Warning
-                    $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -LicensePath $WingetLicenseOutput -DependencyPackagePath $WingetDepOutput | Out-Null }
+                    Write-Status -Types "@" -Status "Trying to install the App (w/ dependency): $AppName" -Warning
+                    $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -SkipLicense -DependencyPackagePath $WingetDepOutput | Out-Null }
                     Invoke-Expression "$InstallPackageCommand"
                 }
 
-                Write-Status -Types "@" -Status "Trying to install the App (w/ license): $AppName" -Warning
-                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -LicensePath $WingetLicenseOutput | Out-Null }
+                Write-Status -Types "@" -Status "Trying to install the App (no dependency): $AppName" -Warning
+                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -SkipLicense | Out-Null }
                 Invoke-Expression "$InstallPackageCommand"
             } Catch {
                 Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
@@ -143,7 +142,6 @@ function Main() {
             }
 
             Remove-Item -Path $WingetOutput
-            Remove-Item -Path $WingetLicenseOutput
         }
     }
 
