@@ -39,6 +39,7 @@ function Set-ServiceStartup() {
             } Else {
                 Write-Status -Types "?", $TweakType -Status $(Invoke-Expression "$CustomMessage") -Warning
             }
+
             Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType $State
         }
     }

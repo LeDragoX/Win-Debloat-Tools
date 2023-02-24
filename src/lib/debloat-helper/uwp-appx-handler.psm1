@@ -13,13 +13,14 @@ function Remove-UWPAppx() {
 
     Process {
         ForEach ($AppxPackage in $AppxPackages) {
-            If ((Get-AppxPackage -AllUsers -Name $AppxPackage) -or (Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $AppxPackage)) {
-                Write-Status -Types "-", $TweakType -Status "Trying to remove $AppxPackage from ALL users..."
-                Get-AppxPackage -AllUsers -Name $AppxPackage | Remove-AppxPackage # App
-                Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $AppxPackage | Remove-AppxProvisionedPackage -Online -AllUsers # Payload
-            } Else {
+            If (!((Get-AppxPackage -AllUsers -Name "*$AppxPackage*") -or (Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like "*$AppxPackage*"))) {
                 Write-Status -Types "?", $TweakType -Status "$AppxPackage was already removed or not found..." -Warning
+                Continue
             }
+
+            Write-Status -Types "-", $TweakType -Status "Trying to remove $AppxPackage from ALL users..."
+            Get-AppxPackage -AllUsers -Name "*$AppxPackage*" | Remove-AppxPackage -AllUsers
+            Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like "*$AppxPackage*" | Remove-AppxProvisionedPackage -Online -AllUsers
         }
     }
 }
