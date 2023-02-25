@@ -9,54 +9,6 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3 (Win 11)
 
-function Get-CurrentResolution {
-    [CmdletBinding()]
-    [OutputType([System.Object[]])]
-    param ()
-
-    # Adapted from: https://www.reddit.com/r/PowerShell/comments/67no9x/comment/dgrry3b/?utm_source=share&utm_medium=web2x&context=3
-    $NumberOfScreens = (Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorBasicDisplayParams | Where-Object { $_.Active -like "True" }).Active.Count
-    $ScreenWidth = $null
-    $ScreenHeight = $null
-
-    Write-Verbose "Num. of Monitors: $NumberOfScreens"
-
-    If ($NumberOfScreens -eq 1) {
-        # Accepts Scaling/DPI
-        [System.Windows.Forms.SystemInformation]::VirtualScreen | ForEach-Object {
-            Write-Verbose "W: $($_.Width) | H: $($_.Height)"
-
-            If (!$ScreenWidth -or !$ScreenHeight) {
-                $ScreenWidth = $_.Width
-                $ScreenHeight = $_.Height
-            }
-
-            If (($_.Width) -and ($_.Width -le $ScreenWidth)) {
-                $ScreenWidth = $_.Width
-                $ScreenHeight = $_.Height
-            }
-        }
-    } Else {
-        # Doesn't accepts Scaling/DPI (rollback method)
-        Get-CimInstance -Class "Win32_VideoController" | ForEach-Object {
-            Write-Verbose "W: $($_.CurrentHorizontalResolution) | H: $($_.CurrentVerticalResolution)"
-
-            If (!$ScreenWidth -or !$ScreenHeight) {
-                $ScreenWidth = $_.CurrentHorizontalResolution
-                $ScreenHeight = $_.CurrentVerticalResolution
-            }
-
-            If (($_.CurrentHorizontalResolution) -and ($_.CurrentHorizontalResolution -le $ScreenWidth)) {
-                $ScreenWidth = $_.CurrentHorizontalResolution
-                $ScreenHeight = $_.CurrentVerticalResolution
-            }
-        }
-    }
-
-    Write-Verbose "Width: $ScreenWidth, Height: $ScreenHeight"
-    return $ScreenWidth, $ScreenHeight
-}
-
 function Set-UIFont() {
     [CmdletBinding()] param ()
 
@@ -283,7 +235,8 @@ function New-Label() {
         [Int]           $LocationX,
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
-        [Int]           $FontSize = 14,
+        [Parameter(Mandatory)]
+        [Int]           $FontSize,
         [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Regular",
         [String]        $ForeColor = "#55EE00", # Green
@@ -320,7 +273,8 @@ function New-Button() {
         [Int]           $LocationX,
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
-        [Int]           $FontSize = 12,
+        [Parameter(Mandatory)]
+        [Int]           $FontSize,
         [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Regular",
         [String]        $ForeColor = "#FFFFFF", # White
@@ -364,7 +318,8 @@ function New-CheckBox() {
         [Int]           $LocationX,
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
-        [Int]           $FontSize = 12,
+        [Parameter(Mandatory)]
+        [Int]           $FontSize,
         [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Italic",
         [String]        $ForeColor = "#FFFFFF", # White

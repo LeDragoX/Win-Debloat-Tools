@@ -9,41 +9,31 @@ function Install-Software() {
         [String]      $Name,
         [Parameter(Position = 1, Mandatory)]
         [String[]]    $Packages,
-        [ScriptBlock] $InstallBlock = { winget install --silent --source "winget" --id $Package },
-        [Switch]      $NoDialog,
-        [String]      $PkgMngr = 'Winget',
-        [Switch]      $ViaChocolatey,
-        [Switch]      $ViaMSStore,
-        [Switch]      $ViaWSL
+        [Parameter(Position = 2)]
+        [ValidateSet('Winget', 'MsStore', 'Chocolatey', 'WSL')]
+        [String]      $PackageProvider = 'Winget',
+        [Parameter(Position = 3)]
+        [ScriptBlock] $InstallBlock = { winget install --exact $Package --accept-source-agreements --accept-package-agreements --silent },
+        [Switch]      $NoDialog
     )
 
     $DoneTitle = "Information"
     $DoneMessage = "$Name installed successfully!"
 
-    If ($ViaChocolatey) {
-        $ViaMSStore, $ViaWSL = $false, $false
-        $PkgMngr = 'Chocolatey'
+    If ($PackageProvider -eq 'Chocolatey') {
         $InstallBlock = { choco install --ignore-dependencies --yes $Package }
         Write-Status -Types "?" -Status "Chocolatey is configured to ignore dependencies (bloat), you may need to install it before using any program." -Warning
     }
 
-    If ($ViaMSStore) {
-        $ViaChocolatey, $ViaWSL = $false, $false
-        $PkgMngr = 'Winget (MS Store)'
-        $InstallBlock = { winget install --source "msstore" --id $Package --accept-package-agreements }
-    }
-
-    If ($ViaWSL) {
-        $ViaChocolatey, $ViaMSStore = $false, $false
-        $PkgMngr = 'WSL'
+    If ($PackageProvider -eq 'WSL') {
         $InstallBlock = { wsl --install --distribution $Package }
     }
 
-    Write-Title "Installing $($Name) via $PkgMngr"
-    $DoneMessage += "`n`nInstalled via $PkgMngr`:`n"
+    Write-Title "Installing $($Name) via $PackageProvider"
+    $DoneMessage += "`n`nInstalled via $PackageProvider`:`n"
 
     ForEach ($Package in $Packages) {
-        If ($ViaMSStore) {
+        If ($PackageProvider -eq 'MsStore') {
             Write-Status -Types "?" -Status "Reminder: Press 'Y' and ENTER to continue if stuck (1st time only) ..." -Warning
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
             $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
@@ -55,15 +45,15 @@ function Install-Software() {
             Invoke-Expression "$InstallBlock" | Out-Host
             If (($LASTEXITCODE)) { throw "Couldn't install package." } # 0 = False, 1 = True
 
-            If ($ViaMSStore) {
+            If ($PackageProvider -eq 'MsStore') {
                 $DoneMessage += "+ $PackageName ($Package)`n"
             } Else {
                 $DoneMessage += "+ $Package`n"
             }
         } Catch {
-            Write-Status -Types "!" -Status "Failed to install package via $PkgMngr" -Warning
+            Write-Status -Types "!" -Status "Failed to install package via $PackageProvider" -Warning
 
-            If ($ViaMSStore) {
+            If ($PackageProvider -eq 'MsStore') {
                 Start-Process "ms-windows-store://pdp/?ProductId=$Package"
                 $DoneMessage += "! $PackageName ($Package)`n"
             } Else {
@@ -89,42 +79,31 @@ function Uninstall-Software() {
         [String]      $Name,
         [Parameter(Position = 1, Mandatory)]
         [String[]]    $Packages,
-        [ScriptBlock] $UninstallBlock = { winget uninstall --source "winget" --id $Package },
-        [Parameter(Mandatory = $false)]
-        [Switch]      $NoDialog,
-        [String]      $PkgMngr = 'Winget',
-        [Switch]      $ViaChocolatey,
-        [Switch]      $ViaMSStore,
-        [Switch]      $ViaWSL
+        [Parameter(Position = 2)]
+        [ValidateSet('Winget', 'MsStore', 'Chocolatey', 'WSL')]
+        [String]      $PackageProvider = 'Winget',
+        [Parameter(Position = 3)]
+        [ScriptBlock] $UninstallBlock = { winget uninstall --exact $Package --accept-source-agreements --purge --silent },
+        [Switch]      $NoDialog
     )
 
     $DoneTitle = "Information"
     $DoneMessage = "$Name uninstalled successfully!"
 
-    If ($ViaChocolatey) {
-        $ViaMSStore, $ViaWSL = $false, $false
-        $PkgMngr = 'Chocolatey'
+    If ($PackageProvider -eq 'Chocolatey') {
         $UninstallBlock = { choco uninstall --remove-dependencies --yes $Package }
         Write-Status -Types "?" -Status "Chocolatey is configured to remove dependencies (bloat), you may need to install it before using any program." -Warning
     }
 
-    If ($ViaMSStore) {
-        $ViaChocolatey, $ViaWSL = $false, $false
-        $PkgMngr = 'Winget (MS Store)'
-        $UninstallBlock = { winget uninstall --source "msstore" --id $Package }
-    }
-
-    If ($ViaWSL) {
-        $ViaChocolatey, $ViaMSStore = $false, $false
-        $PkgMngr = 'WSL'
+    If ($PackageProvider -eq 'WSL') {
         $UninstallBlock = { wsl --unregister $Package }
     }
 
-    Write-Title "Uninstalling $($Name) via $PkgMngr"
-    $DoneMessage += "`n`nUninstalled via $PkgMngr`:`n"
+    Write-Title "Uninstalling $($Name) via $PackageProvider"
+    $DoneMessage += "`n`nUninstalled via $PackageProvider`:`n"
 
     ForEach ($Package in $Packages) {
-        If ($ViaMSStore) {
+        If ($PackageProvider -eq 'MsStore') {
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
             $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
         } Else {
@@ -135,15 +114,15 @@ function Uninstall-Software() {
             Invoke-Expression "$UninstallBlock" | Out-Host
             If (($LASTEXITCODE)) { throw "Couldn't uninstall package." } # 0 = False, 1 = True
 
-            If ($ViaMSStore) {
+            If ($PackageProvider -eq 'MsStore') {
                 $DoneMessage += "- $PackageName ($Package)`n"
             } Else {
                 $DoneMessage += "- $Package`n"
             }
         } Catch {
-            Write-Status -Types "!" -Status "Failed to uninstall package via $PkgMngr" -Warning
+            Write-Status -Types "!" -Status "Failed to uninstall package via $PackageProvider" -Warning
 
-            If ($ViaMSStore) {
+            If ($PackageProvider -eq 'MsStore') {
                 $DoneMessage += "! $PackageName ($Package)`n"
             } Else {
                 $DoneMessage += "! $Package`n"
@@ -164,19 +143,19 @@ function Uninstall-Software() {
 Example:
 Install-Software -Name "Brave Browser" -Packages "BraveSoftware.BraveBrowser"
 Install-Software -Name "Brave Browser" -Packages "BraveSoftware.BraveBrowser" -NoDialog
-Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -ViaChocolatey
-Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -ViaChocolatey -NoDialog
-Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -ViaMSStore
-Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -ViaMSStore -NoDialog
-Install-Software -Name "Ubuntu" -Packages "Ubuntu" -ViaWSL
-Install-Software -Name "Ubuntu" -Packages "Ubuntu" -ViaWSL -NoDialog
+Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -PackageProvider 'Chocolatey'
+Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -PackageProvider 'Chocolatey' -NoDialog
+Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -PackageProvider 'MsStore'
+Install-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -PackageProvider 'MsStore' -NoDialog
+Install-Software -Name "Ubuntu" -Packages "Ubuntu" -PackageProvider 'WSL'
+Install-Software -Name "Ubuntu" -Packages "Ubuntu" -PackageProvider 'WSL' -NoDialog
 
 Uninstall-Software -Name "Brave Browser" -Packages "BraveSoftware.BraveBrowser"
 Uninstall-Software -Name "Brave Browser" -Packages "BraveSoftware.BraveBrowser" -NoDialog
-Uninstall-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -ViaChocolatey
-Uninstall-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -ViaChocolatey -NoDialog
-Uninstall-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -ViaMSStore
-Uninstall-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -ViaMSStore -NoDialog
-Uninstall-Software -Name "Ubuntu" -Packages "Ubuntu" -ViaWSL
-Uninstall-Software -Name "Ubuntu" -Packages "Ubuntu" -ViaWSL -NoDialog
+Uninstall-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -PackageProvider 'Chocolatey'
+Uninstall-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -PackageProvider 'Chocolatey' -NoDialog
+Uninstall-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -PackageProvider 'MsStore'
+Uninstall-Software -Name "Multiple Packages" -Packages @("Package1", "Package2", "Package3", ...) -PackageProvider 'MsStore' -NoDialog
+Uninstall-Software -Name "Ubuntu" -Packages "Ubuntu" -PackageProvider 'WSL'
+Uninstall-Software -Name "Ubuntu" -Packages "Ubuntu" -PackageProvider 'WSL' -NoDialog
 #>

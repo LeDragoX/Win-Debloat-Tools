@@ -1,0 +1,1556 @@
+﻿# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
+# Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
+# Take Ownership tweak from: https://www.howtogeek.com/howto/windows-vista/add-take-ownership-to-explorer-right-click-menu-in-vista/
+
+function Main() {
+    [CmdletBinding()]
+    param (
+        [Parameter(Position = 0)]
+        [ValidateSet('CLI', 'GUI')]
+        [String] $Mode = 'GUI'
+    )
+
+    Begin {
+        $Script:NeedRestart = $false
+        $Script:DoneTitle = "Information"
+        $Script:DoneMessage = "Process Completed!"
+    }
+
+    Process {
+        Clear-Host
+        Request-AdminPrivilege # Check admin rights
+        Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
+
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"manage-software.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"get-screen-resolution.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"new-layout-page.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"show-message-dialog.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"ui-helper.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"individual-tweaks.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"install-individual-system-apps.psm1" -Force
+
+        Set-ConsoleStyle
+        $CurrentFileName = (Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]
+        $CurrentFileLastModified = (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
+        (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
+        Start-Logging -File $CurrentFileName
+        Write-Caption "$CurrentFileName v$CurrentFileLastModified"
+        Write-Host "Your Current Folder $pwd"
+        Write-Host "Script Root Folder $PSScriptRoot"
+        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -NoDialog
+        Write-ScriptLogo
+
+        If ($args) {
+            Write-Caption "Arguments: $args"
+        } Else { Write-Caption "Arguments: None, running GUI" }
+
+        If ($Mode -eq 'CLI') {
+            Open-DebloatScript -Mode $Mode
+        } Else { Show-GUI }
+    }
+
+    End {
+        Write-Verbose "Restart: $Script:NeedRestart"
+        If ($Script:NeedRestart) {
+            Request-PcRestart
+        }
+        Stop-Logging
+    }
+}
+
+function Open-DebloatScript {
+    [CmdletBinding()]
+    param(
+        [Parameter(Position = 0)]
+        [ValidateSet('CLI', 'GUI')]
+        [String] $Mode = 'GUI'
+    )
+
+    $Scripts = @(
+        # [Recommended order]
+        "backup-system.ps1",
+        "silent-debloat-softwares.ps1",
+        "optimize-task-scheduler.ps1",
+        "optimize-services.ps1",
+        "remove-bloatware-apps.ps1",
+        "remove-windows-capabilities.ps1",
+        "optimize-privacy.ps1",
+        "optimize-performance.ps1",
+        "personal-tweaks.ps1",
+        "optimize-security.ps1",
+        "optimize-windows-features.ps1"
+    )
+
+    If ($Mode -eq 'CLI') {
+        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -OpenFromGUI $false
+    } ElseIf ($Mode -eq 'GUI') {
+        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+    }
+
+    $Script:NeedRestart = $true
+}
+
+function Request-AdminPrivilege() {
+    # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
+    If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+}
+
+function Show-GUI() {
+    Write-Status -Types "@", "UI" -Status "Loading GUI Layout..."
+    # Loading System Libs
+    Add-Type -AssemblyName System.Windows.Forms
+    Add-Type -AssemblyName System.Drawing
+    [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3
+
+    Set-UIFont # Load the Layout Font
+
+    # <===== PERSONAL COLORS =====>
+
+    $WarningYellow = "#EED202"
+    $White = "#FFFFFF"
+    $WinBlue = "#08ABF7"
+    $WinDark = "#252525"
+
+    # Miscellaneous colors
+
+    $AmdRyzenPrimaryColor = "#E4700D"
+    $IntelPrimaryColor = "#0071C5"
+    $NVIDIAPrimaryColor = "#76B900"
+
+    # <===== Specific Layout =====>
+
+    $LayoutT1 = New-LayoutPage -NumOfPanels 3 -PanelHeight 960
+    $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1725
+
+    # <===== UI =====>
+
+    # Main Window:
+    $Form = New-Form -Width $LayoutT1.FormWidth -Height $LayoutT1.FormHeight -Text "Win Debloat Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor "$WinDark" -Maximize $false # Loading the specs takes longer time to load the GUI
+
+    $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\script-icon-32px.png"
+
+    $FormTabControl = New-TabControl -Width ($LayoutT1.FormWidth - 8) -Height ($LayoutT1.FormHeight - 35) -LocationX -4 -LocationY 0
+    $TabSystemTweaks = New-TabPage -Name "Tab1" -Text "System Tweaks"
+    $TabSoftwareInstall = New-TabPage -Name "Tab2" -Text "Software Install"
+
+    $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $LayoutT1.TotalWidth -Height $LayoutT1.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT1.Heading[0] -FontStyle "Bold" -ForeColor $WinBlue
+    $ClSystemTweaks = New-Label -Text "$CurrentFileName v$CurrentFileLastModified" -Width $LayoutT1.TotalWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $TlSystemTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $White
+
+    # ==> Tab 1
+    $CurrentPanelIndex = 0
+    $T1Panel1 = New-Panel -Width $LayoutT1.PanelWidth -Height $LayoutT1.PanelHeight -LocationX ($LayoutT1.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSystemTweaks
+    $CurrentPanelIndex++
+    $T1Panel2 = New-Panel -Width $LayoutT1.PanelWidth -Height $LayoutT1.PanelHeight -LocationX ($LayoutT1.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSystemTweaks
+    $CurrentPanelIndex++
+    $T1Panel3 = New-Panel -Width $LayoutT1.PanelWidth -Height $LayoutT1.PanelHeight -LocationX ($LayoutT1.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSystemTweaks
+
+    # ==> T1 Panel 1
+    $ClCustomizeFeatures = New-Label -Text "Customize System Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -ElementBefore $CbAutomaticWindowsUpdate -MarginTop $LayoutT1.DistanceBetweenElements
+    $CbDarkTheme = New-CheckBox -Text "Enable Dark Theme" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClCustomizeFeatures -MarginTop $LayoutT1.DistanceBetweenElements
+    $CbActivityHistory = New-CheckBox -Text "Enable Activity History" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbDarkTheme
+    $CbBackgroundsApps = New-CheckBox -Text "Enable Background Apps" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbActivityHistory
+    $CbClipboardHistory = New-CheckBox -Text "Enable Clipboard History" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbBackgroundsApps
+    $CbClipboardSyncAcrossDevice = New-CheckBox -Text "Enable Clipboard Sync Across Devices" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbClipboardHistory
+    $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbClipboardSyncAcrossDevice
+    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbCortana
+    $CbOnlineSpeechRecognition = New-CheckBox -Text "Enable Online Speech Recognition" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbOldVolumeControl
+    $CbPhoneLink = New-CheckBox -Text "Enable Phone Link" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbOnlineSpeechRecognition
+    $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPhoneLink
+    $CbSearchAppForUnknownExt = New-CheckBox -Text "Enable Search App for Unknown Ext." -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPhotoViewer
+    $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbSearchAppForUnknownExt
+    $CbWSearchService = New-CheckBox -Text "Enable WSearch Service" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbTelemetry
+    $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game Bar/DVR/Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWSearchService
+
+    # ==> T1 Panel 2
+    $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2]
+    $ApplyTweaks = New-Button -Text "Apply Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -ElementBefore $ClDebloatTools -FontSize $LayoutT1.Heading[3] -FontStyle 'Bold' -ForeColor $WinBlue
+    $UndoTweaks = New-Button -Text "Undo Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ApplyTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $UndoTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveMSEdge -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $WarningYellow
+    $RemoveXbox = New-Button -Text "Remove Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveOneDrive -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $WarningYellow
+    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-image.png" -Width $LayoutT1.PanelElementWidth -Height (($LayoutT1.ButtonHeight * 4) + ($LayoutT1.DistanceBetweenElements * 4)) -LocationX $LayoutT1.PanelElementX -ElementBefore $RemoveXbox -MarginTop $LayoutT1.DistanceBetweenElements -SizeMode 'Zoom'
+
+    $ClInstallSystemApps = New-Label -Text "Install System Apps" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -ElementBefore $PictureBox1
+    $InstallCortana = New-Button -Text "Cortana" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClInstallSystemApps -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallDolbyAudio = New-Button -Text "Dolby Audio" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallCortana -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallMicrosoftEdge = New-Button -Text "Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallDolbyAudio -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallOneDrive = New-Button -Text "OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallMicrosoftEdge -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallPaintPaint3D = New-Button -Text "Paint + Paint 3D" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallOneDrive
+    $InstallPhoneLink = New-Button -Text "Phone Link" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPaintPaint3D
+    $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPhoneLink
+    $InstallTaskbarWidgets = New-Button -Text "Taskbar Widgets" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallSoundRecorder
+    $InstallUWPWMediaPlayer = New-Button -Text "Windows Media Player (UWP)" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallTaskbarWidgets -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallXbox = New-Button -Text "Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallUWPWMediaPlayer -MarginTop $LayoutT1.DistanceBetweenElements
+
+    $ClOtherTools = New-Label -Text "Other Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -ElementBefore $InstallXbox
+    $RandomizeSystemColor = New-Button -Text "Randomize System Color" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClOtherTools -MarginTop $LayoutT1.DistanceBetweenElements
+    $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RandomizeSystemColor -MarginTop $LayoutT1.DistanceBetweenElements
+    $RepairWindows = New-Button -Text "Repair Windows" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ReinstallBloatApps -MarginTop $LayoutT1.DistanceBetweenElements
+    $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RepairWindows -MarginTop $LayoutT1.DistanceBetweenElements
+
+    # ==> T1 Panel 3
+    $ClWindowsUpdate = New-Label -Text "Windows Update" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2]
+    $CbAutomaticWindowsUpdate = New-CheckBox -Text "Enable Automatic Windows Update" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsUpdate -MarginTop $LayoutT1.DistanceBetweenElements
+
+    $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -ElementBefore $CbAutomaticWindowsUpdate
+    $CbInternetExplorer = New-CheckBox -Text "Internet Explorer" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClOptionalFeatures
+    $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbInternetExplorer
+    $CbPrintingXPSServices = New-CheckBox -Text "Printing-XPSServices-Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintToPDFServices
+    $CbWindowsMediaPlayer = New-CheckBox -Text "Windows Media Player" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintingXPSServices
+
+    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -ElementBefore $CbWindowsMediaPlayer
+    $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClMiscFeatures
+    $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbEncryptedDNS
+    $CbMouseNaturalScroll = New-CheckBox -Text "Enable Mouse Natural Scroll" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbGodMode
+    $CbTakeOwnership = New-CheckBox -Text "Enable Take Ownership menu" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbMouseNaturalScroll
+    $CbFastShutdownPCShortcut = New-CheckBox -Text "Enable Fast Shutdown shortcut" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbTakeOwnership
+
+    # ==> Tab 2
+    $TlSoftwareInstall = New-Label -Text "Software Install" -Width $LayoutT2.TotalWidth -Height $LayoutT2.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT2.Heading[0] -FontStyle "Bold" -ForeColor $WinBlue
+    $ClSoftwareInstall = New-Label -Text "Package Managers: Winget and Chocolatey" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $TlSoftwareInstall -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $White
+
+    $CurrentPanelIndex = 0
+    $T2Panel1 = New-Panel -Width $LayoutT2.PanelWidth -Height $LayoutT2.PanelHeight -LocationX ($LayoutT2.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSoftwareInstall
+    $CurrentPanelIndex++
+    $T2Panel2 = New-Panel -Width $LayoutT2.PanelWidth -Height $LayoutT2.PanelHeight -LocationX ($LayoutT2.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSoftwareInstall
+    $CurrentPanelIndex++
+    $T2Panel3 = New-Panel -Width $LayoutT2.PanelWidth -Height $LayoutT2.PanelHeight -LocationX ($LayoutT2.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSoftwareInstall
+    $CurrentPanelIndex++
+    $T2Panel4 = New-Panel -Width $LayoutT2.PanelWidth -Height $LayoutT2.PanelHeight -LocationX ($LayoutT2.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSoftwareInstall
+
+    # ==> T2 Panel 1
+    $UpgradeAll = New-Button -Text "Upgrade All Softwares" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX $LayoutT2.PanelElementX -LocationY 0 -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $WinBlue
+
+    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $UpgradeAll
+    $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClCpuGpuDrivers -ForeColor $AmdRyzenPrimaryColor
+    $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAmdRyzenChipsetDriver -ForeColor $IntelPrimaryColor
+    $InstallNvidiaGeForceExperience = New-CheckBox -Text "NVIDIA GeForce Experience" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallIntelDSA -ForeColor $NVIDIAPrimaryColor
+    $InstallNVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNvidiaGeForceExperience
+
+    $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallNVCleanstall
+    $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClApplicationRequirements
+    $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDirectX
+    $InstallMsVCppX64 = New-CheckBox -Text "MSVC Redist 2005-2022 (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsDotNetFramework
+    $InstallMsVCppX86 = New-CheckBox -Text "MSVC Redist 2005-2022 (x86)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsVCppX64
+
+    $ClFileCompression = New-Label -Text "File Compression" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallMsVCppX86
+    $Install7Zip = New-CheckBox -Text "7-Zip" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClFileCompression
+    $InstallWinRar = New-CheckBox -Text "WinRAR (Trial)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $Install7Zip
+
+    $ClDocuments = New-Label -Text "Document Editors/Readers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallWinRar
+    $InstallAdobeReaderDC = New-CheckBox -Text "Adobe Reader DC (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClDocuments
+    $InstallLibreOffice = New-CheckBox -Text "LibreOffice" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAdobeReaderDC
+    $InstallOnlyOffice = New-CheckBox -Text "ONLYOFFICE DesktopEditors" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallLibreOffice
+    $InstallPDFCreator = New-CheckBox -Text "PDFCreator (PDF Converter)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallOnlyOffice
+    $InstallPowerBi = New-CheckBox -Text "Power BI" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPDFCreator
+    $InstallSumatraPDF = New-CheckBox -Text "Sumatra PDF" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPowerBi
+
+    $ClTorrent = New-Label -Text "Torrent" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallSumatraPDF
+    $InstallqBittorrent = New-CheckBox -Text "qBittorrent" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClTorrent
+
+    $ClAcademicResearch = New-Label -Text "Academic Research" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallqBittorrent
+    $InstallZotero = New-CheckBox -Text "Zotero" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClAcademicResearch
+
+    $Cl2fa = New-Label -Text "2-Factor Authentication" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallZotero
+    $InstallTwilioAuthy = New-CheckBox -Text "Twilio Authy" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $Cl2fa
+
+    $ClBootableUsb = New-Label -Text "Bootable USB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallTwilioAuthy
+    $InstallBalenaEtcher = New-CheckBox -Text "Etcher" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClBootableUsb
+    $InstallRufus = New-CheckBox -Text "Rufus" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBalenaEtcher
+    $InstallVentoy = New-CheckBox -Text "Ventoy" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRufus
+
+    $ClVirtualMachines = New-Label -Text "Virtual Machines" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallVentoy
+    $InstallOracleVirtualBox = New-CheckBox -Text "Oracle VM VirtualBox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClVirtualMachines
+    $InstallQemu = New-CheckBox -Text "QEMU" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallOracleVirtualBox
+    $InstallVmWarePlayer = New-CheckBox -Text "VMware Workstation Player" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallQemu
+
+    $ClCloudStorage = New-Label -Text "Cloud Storage" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallVmWarePlayer
+    $InstallDropbox = New-CheckBox -Text "Dropbox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClCloudStorage
+    $InstallGoogleDrive = New-CheckBox -Text "Google Drive" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDropbox
+
+    $ClUICustomization = New-Label -Text "UI Customization" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGoogleDrive
+    $InstallRoundedTB = New-CheckBox -Text "RoundedTB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClUICustomization
+    $InstallTranslucentTB = New-CheckBox -Text "TranslucentTB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRoundedTB
+
+    # ==> T2 Panel 2
+    $InstallSelected = New-Button -Text "Install Selected" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX $LayoutT2.PanelElementX -LocationY 0 -FontSize $LayoutT2.Heading[3] -FontStyle "Bold"
+
+    $ClWebBrowsers = New-Label -Text "Web Browsers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallSelected
+    $InstallBraveBrowser = New-CheckBox -Text "Brave Browser" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClWebBrowsers
+    $InstallGoogleChrome = New-CheckBox -Text "Google Chrome" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBraveBrowser
+    $InstallMozillaFirefox = New-CheckBox -Text "Mozilla Firefox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGoogleChrome
+
+    $ClAudioVideoTools = New-Label -Text "Audio/Video Tools" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallMozillaFirefox
+    $InstallAudacity = New-CheckBox -Text "Audacity (Editor)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClAudioVideoTools
+    $InstallMpcHc = New-CheckBox -Text "MPC-HC (Player)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAudacity
+    $InstallVlc = New-CheckBox -Text "VLC (Player)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMpcHc
+
+    $ClImageTools = New-Label -Text "Image Tools" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallVlc
+    $InstallGimp = New-CheckBox -Text "GIMP" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClImageTools
+    $InstallInkscape = New-CheckBox -Text "Inkscape" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGimp
+    $InstallIrfanView = New-CheckBox -Text "IrfanView" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallInkscape
+    $InstallKrita = New-CheckBox -Text "Krita" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallIrfanView
+    $InstallPaintNet = New-CheckBox -Text "Paint.NET" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKrita
+    $InstallShareX = New-CheckBox -Text "ShareX (Screenshots/GIFs)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPaintNet
+
+    $ClStreamingServices = New-Label -Text "Streaming Services" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallShareX
+    $InstallAmazonPrimeVideo = New-CheckBox -Text "Amazon Prime Video" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClStreamingServices
+    $InstallDisneyPlus = New-CheckBox -Text "Disney+" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAmazonPrimeVideo
+    $InstallNetflix = New-CheckBox -Text "Netflix" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDisneyPlus
+    $InstallSpotify = New-CheckBox -Text "Spotify" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNetflix
+
+    $ClPlanningProductivity = New-Label -Text "Planning/Productivity" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallSpotify
+    $InstallNotion = New-CheckBox -Text "Notion" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClPlanningProductivity
+    $InstallObsidian = New-CheckBox -Text "Obsidian" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNotion
+
+    $ClUtilities = New-Label -Text "⚒ Utilities" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallObsidian
+    $InstallCpuZ = New-CheckBox -Text "CPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClUtilities
+    $InstallCrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCpuZ
+    $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskInfo
+    $InstallGeekbench6 = New-CheckBox -Text "Geekbench 6" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskMark
+    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGeekbench6
+    $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGpuZ
+    $InstallInternetDownloadManager = New-CheckBox -Text "Internet Download Manager (Trial)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallHwInfo
+    $InstallMsiAfterburner = New-CheckBox -Text "MSI Afterburner" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallInternetDownloadManager
+    $InstallRtxVoice = New-CheckBox -Text "RTX Voice" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsiAfterburner
+    $InstallVoicemod = New-CheckBox -Text "Voicemod" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRtxVoice
+    $InstallVoiceMeeter = New-CheckBox -Text "Voicemeeter Potato" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVoicemod
+    $InstallWizTree = New-CheckBox -Text "WizTree" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVoiceMeeter
+
+    $ClNetworkManagement = New-Label -Text "Network Management" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallWizTree
+    $InstallHamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClNetworkManagement
+    $InstallPuTty = New-CheckBox -Text "PuTTY" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallHamachi
+    $InstallRadminVpn = New-CheckBox -Text "Radmin VPN (LAN)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPuTty
+    $InstallWinScp = New-CheckBox -Text "WinSCP" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRadminVpn
+    $InstallWireshark = New-CheckBox -Text "Wireshark" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWinScp
+
+    # ==> T2 Panel 3
+    $UninstallMode = New-Button -Text "[OFF] Uninstall Mode" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX $LayoutT2.PanelElementX -LocationY 0 -FontSize $LayoutT2.Heading[3] -FontStyle "Bold"
+
+    $ClCommunication = New-Label -Text "Communication" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $UninstallMode
+    $InstallDiscord = New-CheckBox -Text "Discord" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClCommunication
+    $InstallMSTeams = New-CheckBox -Text "Microsoft Teams" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDiscord
+    $InstallRocketChat = New-CheckBox -Text "Rocket Chat" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMSTeams
+    $InstallSignal = New-CheckBox -Text "Signal" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRocketChat
+    $InstallSkype = New-CheckBox -Text "Skype" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSignal
+    $InstallSlack = New-CheckBox -Text "Slack" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSkype
+    $InstallTelegramDesktop = New-CheckBox -Text "Telegram Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSlack
+    $InstallWhatsAppDesktop = New-CheckBox -Text "WhatsApp Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallTelegramDesktop
+    $InstallZoom = New-CheckBox -Text "Zoom" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWhatsAppDesktop
+
+    $ClGaming = New-Label -Text "Gaming" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallZoom
+    $InstallBorderlessGaming = New-CheckBox -Text "Borderless Gaming" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClGaming
+    $InstallEADesktop = New-CheckBox -Text "EA Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBorderlessGaming
+    $InstallEpicGamesLauncher = New-CheckBox -Text "Epic Games Launcher" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallEADesktop
+    $InstallGogGalaxy = New-CheckBox -Text "GOG Galaxy" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallEpicGamesLauncher
+    $InstallSteam = New-CheckBox -Text "Steam" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGogGalaxy
+    $InstallUbisoftConnect = New-CheckBox -Text "Ubisoft Connect" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSteam
+
+    $ClRemoteConnection = New-Label -Text "Remote Connection" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallUbisoftConnect
+    $InstallAnyDesk = New-CheckBox -Text "AnyDesk" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClRemoteConnection
+    $InstallParsec = New-CheckBox -Text "Parsec" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAnyDesk
+    $InstallScrCpy = New-CheckBox -Text "ScrCpy (Android)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallParsec
+    $InstallTeamViewer = New-CheckBox -Text "Team Viewer" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallScrCpy
+
+    $ClRecordingAndStreaming = New-Label -Text "Recording and Streaming" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallTeamViewer
+    $InstallElgatoStreamDeck = New-CheckBox -Text "Elgato Stream Deck" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClRecordingAndStreaming
+    $InstallHandBrake = New-CheckBox -Text "HandBrake (Transcode)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallElgatoStreamDeck
+    $InstallObsStudio = New-CheckBox -Text "OBS Studio" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallHandBrake
+    $InstallStreamlabs = New-CheckBox -Text "Streamlabs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallObsStudio
+
+    $ClEmulation = New-Label -Text "Emulation" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallStreamlabs
+    $InstallBSnesHd = New-CheckBox -Text "BSnes HD (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClEmulation
+    $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBSnesHd
+    $InstallDolphin = New-CheckBox -Text "Dolphin Stable (GC/Wii)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCemu
+    $InstallKegaFusion = New-CheckBox -Text "Kega Fusion (Sega Genesis)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDolphin
+    $InstallMGba = New-CheckBox -Text "mGBA (GBA)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKegaFusion
+    $InstallPPSSPP = New-CheckBox -Text "PPSSPP (PSP)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMGba
+    $InstallProject64 = New-CheckBox -Text "Project64 Dev (N64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPPSSPP
+    $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallProject64
+    $InstallRyujinx = New-CheckBox -Text "Ryujinx (Switch)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRetroArch
+    $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRyujinx
+
+    # ==> T2 Panel 4
+    $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -LocationY ($LayoutT2.ButtonHeight + $LayoutT2.DistanceBetweenElements) -FontSize $LayoutT2.Heading[2]
+    $InstallJetBrainsToolbox = New-CheckBox -Text "JetBrains Toolbox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClTextEditors
+    $InstallNotepadPlusPlus = New-CheckBox -Text "Notepad++" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallJetBrainsToolbox
+    $InstallVisualStudioCommunity = New-CheckBox -Text "Visual Studio 2022 Community" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNotepadPlusPlus
+    $InstallVSCode = New-CheckBox -Text "VS Code" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVisualStudioCommunity
+    $InstallVSCodium = New-CheckBox -Text "VS Codium" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVSCode
+
+    $ClWsl = New-Label -Text "Windows Subsystem For Linux" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallVSCodium
+    $InstallWSL = New-CheckBox -Text "Install WSL" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClWsl -ForeColor $WinBlue
+    $InstallArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWSL -ForeColor $WinBlue
+    $InstallDebian = New-CheckBox -Text "Debian GNU/Linux" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallArchWSL
+    $InstallKaliLinux = New-CheckBox -Text "Kali Linux Rolling" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDebian
+    $InstallOpenSuse = New-CheckBox -Text "Open SUSE 42" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKaliLinux
+    $InstallSles = New-CheckBox -Text "SLES v12" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallOpenSuse
+    $InstallUbuntu = New-CheckBox -Text "Ubuntu" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSles
+    $InstallUbuntu16Lts = New-CheckBox -Text "Ubuntu 16.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu
+    $InstallUbuntu18Lts = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu16Lts
+    $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu18Lts
+
+    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallUbuntu20Lts
+    $InstallWindowsTerminal = New-CheckBox -Text "Windows Terminal" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClDevelopment
+    $InstallNerdFonts = New-CheckBox -Text "Install Nerd Fonts" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWindowsTerminal -ForeColor $WinBlue
+    $InstallGitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNerdFonts -ForeColor $WinBlue
+    $InstallAdb = New-CheckBox -Text "Android Debug Bridge (ADB)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGitGnupgSshSetup
+    $InstallAndroidStudio = New-CheckBox -Text "Android Studio" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAdb
+    $InstallDockerDesktop = New-CheckBox -Text "Docker Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAndroidStudio
+    $InstallInsomnia = New-CheckBox -Text "Insomnia" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDockerDesktop
+    $InstallJavaJdks = New-CheckBox -Text "Java - Adoptium JDK 8/11/18" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallInsomnia
+    $InstallJavaJre = New-CheckBox -Text "Java - Oracle JRE" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallJavaJdks
+    $InstallMySql = New-CheckBox -Text "MySQL" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallJavaJre
+    $InstallNodeJs = New-CheckBox -Text "NodeJS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMySql
+    $InstallNodeJsLts = New-CheckBox -Text "NodeJS LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNodeJs
+    $InstallPostgreSql = New-CheckBox -Text "PostgreSQL" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNodeJsLts
+    $InstallPython3 = New-CheckBox -Text "Python 3" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPostgreSql
+    $InstallPythonAnaconda3 = New-CheckBox -Text "Python - Anaconda3" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPython3
+    $InstallRuby = New-CheckBox -Text "Ruby" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPythonAnaconda3
+    $InstallRubyMsys = New-CheckBox -Text "Ruby (MSYS2)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRuby
+    $InstallRustGnu = New-CheckBox -Text "Rust (GNU)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRubyMsys
+    $InstallRustMsvc = New-CheckBox -Text "Rust (MSVC)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRustGnu
+
+    # Add TabControl to the Form
+    $Form.Controls.AddRange(@($FormTabControl))
+    # Tabs
+    $FormTabControl.Controls.AddRange(@($TabSystemTweaks, $TabSoftwareInstall))
+    $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2, $T1Panel3))
+    $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
+    # Add Elements to each Tab Panel
+    $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
+    $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
+    $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallPhoneLink, $InstallSoundRecorder, $InstallXbox))
+    $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
+    $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
+    $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
+    $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
+
+    $T2Panel1.Controls.AddRange(@($UpgradeAll))
+    $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
+    $T2Panel1.Controls.AddRange(@($ClApplicationRequirements, $InstallDirectX, $InstallMsDotNetFramework, $InstallMsVCppX64, $InstallMsVCppX86))
+    $T2Panel1.Controls.AddRange(@($ClFileCompression, $Install7Zip, $InstallWinRar))
+    $T2Panel1.Controls.AddRange(@($ClDocuments, $InstallAdobeReaderDC, $InstallLibreOffice, $InstallOnlyOffice, $InstallPDFCreator, $InstallPowerBi, $InstallSumatraPDF))
+    $T2Panel1.Controls.AddRange(@($ClTorrent, $InstallqBittorrent))
+    $T2Panel1.Controls.AddRange(@($ClAcademicResearch, $InstallZotero))
+    $T2Panel1.Controls.AddRange(@($Cl2fa, $InstallTwilioAuthy))
+    $T2Panel1.Controls.AddRange(@($ClBootableUsb, $InstallBalenaEtcher, $InstallRufus, $InstallVentoy))
+    $T2Panel1.Controls.AddRange(@($ClVirtualMachines, $InstallOracleVirtualBox, $InstallQemu, $InstallVmWarePlayer))
+    $T2Panel1.Controls.AddRange(@($ClCloudStorage, $InstallDropbox, $InstallGoogleDrive))
+    $T2Panel1.Controls.AddRange(@($ClUICustomization, $InstallRoundedTB, $InstallTranslucentTB))
+    $T2Panel2.Controls.AddRange(@($InstallSelected))
+    $T2Panel2.Controls.AddRange(@($ClWebBrowsers, $InstallBraveBrowser, $InstallGoogleChrome, $InstallMozillaFirefox))
+    $T2Panel2.Controls.AddRange(@($ClAudioVideoTools, $InstallAudacity, $InstallMpcHc, $InstallVlc))
+    $T2Panel2.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
+    $T2Panel2.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallDisneyPlus, $InstallNetflix, $InstallSpotify))
+    $T2Panel2.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
+    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGeekbench6, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter, $InstallWizTree))
+    $T2Panel2.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
+    $T2Panel3.Controls.AddRange(@($UninstallMode))
+    $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
+    $T2Panel3.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
+    $T2Panel3.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
+    $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
+    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallBSnesHd, $InstallCemu, $InstallDolphin, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallProject64, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
+    $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
+    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu16Lts, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
+    $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
+
+    # <===== CLICK EVENTS =====>
+
+    $ApplyTweaks.Add_Click( {
+            Open-DebloatScript
+            $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\script-image2.png"
+            $Form.Update()
+        })
+
+    $UndoTweaks.Add_Click( {
+            $Global:Revert = $true
+            $Scripts = @(
+                "silent-debloat-softwares.ps1",
+                "optimize-task-scheduler.ps1",
+                "optimize-services.ps1",
+                "remove-windows-capabilities.ps1",
+                "optimize-privacy.ps1",
+                "optimize-performance.ps1",
+                "personal-tweaks.ps1",
+                "optimize-windows-features.ps1",
+                "reinstall-pre-installed-apps.ps1"
+            )
+            $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\peepo-leaving.gif"
+            $PictureBox1.SizeMode = 'StretchImage'
+            $Form.Update()
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            $Global:Revert = $false
+        })
+
+    $RemoveMSEdge.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-msedge.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $RemoveOneDrive.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\script-image2.png"
+            $Form.Update()
+        })
+
+    $RemoveXbox.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-xbox.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\script-image2.png"
+            $Form.Update()
+        })
+
+    $RepairWindows.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("backup-system.ps1", "repair-windows.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $InstallCortana.Add_Click( {
+            Install-Cortana
+        })
+
+    $InstallDolbyAudio.Add_Click( {
+            Install-DolbyAudio
+        })
+
+    $InstallMicrosoftEdge.Add_Click( {
+            Install-MicrosoftEdge
+        })
+
+    $InstallOneDrive.Add_Click( {
+            Install-OneDrive
+        })
+
+    $InstallPaintPaint3D.Add_Click( {
+            Install-PaintPaint3D
+        })
+
+    $InstallPhoneLink.Add_Click( {
+            Install-PhoneLink
+        })
+
+    $InstallSoundRecorder.Add_Click( {
+            Install-SoundRecorder
+        })
+
+    $InstallTaskbarWidgets.Add_Click( {
+            Install-TaskbarWidgetsApp
+        })
+
+    $InstallUWPWMediaPlayer.Add_Click( {
+            Install-UWPWindowsMediaPlayer
+        })
+
+    $InstallXbox.Add_Click( {
+            Install-Xbox
+        })
+
+    $RandomizeSystemColor.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("new-system-color.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $ReinstallBloatApps.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("reinstall-pre-installed-apps.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $ShowDebloatInfo.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("show-debloat-info.ps1") -NoDialog
+        })
+
+    $CbAutomaticWindowsUpdate.Add_Click( {
+            If ($CbAutomaticWindowsUpdate.CheckState -eq "Checked") {
+                Enable-AutomaticWindowsUpdate
+                $CbAutomaticWindowsUpdate.Text = "[ON]  Automatic Windows Update *"
+            } Else {
+                Disable-AutomaticWindowsUpdate
+                $CbAutomaticWindowsUpdate.Text = "[OFF] Automatic Windows Update"
+            }
+        })
+
+    $CbDarkTheme.Add_Click( {
+            If ($CbDarkTheme.CheckState -eq "Checked") {
+                Enable-DarkTheme
+                $CbDarkTheme.Text = "[ON]  Dark Theme"
+            } Else {
+                Disable-DarkTheme
+                $CbDarkTheme.Text = "[OFF] Dark Theme *"
+            }
+        })
+
+    $CbActivityHistory.Add_Click( {
+            If ($CbActivityHistory.CheckState -eq "Checked") {
+                Enable-ActivityHistory
+                $CbActivityHistory.Text = "[ON]  Activity History *"
+            } Else {
+                Disable-ActivityHistory
+                $CbActivityHistory.Text = "[OFF] Activity History"
+            }
+        })
+
+    $CbBackgroundsApps.Add_Click( {
+            If ($CbBackgroundsApps.CheckState -eq "Checked") {
+                Enable-BackgroundAppsToogle
+                $CbBackgroundsApps.Text = "[ON]  Background Apps *"
+            } Else {
+                Disable-BackgroundAppsToogle
+                $CbBackgroundsApps.Text = "[OFF] Background Apps"
+            }
+        })
+
+    $CbClipboardHistory.Add_Click( {
+            If ($CbClipboardHistory.CheckState -eq "Checked") {
+                Enable-ClipboardHistory
+                $CbClipboardHistory.Text = "[ON]  Clipboard History *"
+            } Else {
+                Disable-ClipboardHistory
+                $CbClipboardHistory.Text = "[OFF] Clipboard History"
+            }
+        })
+
+    $CbClipboardSyncAcrossDevice.Add_Click( {
+            If ($CbClipboardSyncAcrossDevice.CheckState -eq "Checked") {
+                Enable-ClipboardSyncAcrossDevice
+                $CbClipboardSyncAcrossDevice.Text = "[ON]  Clipboard Sync Across Devices *"
+            } Else {
+                Disable-ClipboardSyncAcrossDevice
+                $CbClipboardSyncAcrossDevice.Text = "[OFF] Clipboard Sync Across Devices"
+            }
+        })
+
+    $CbCortana.Add_Click( {
+            If ($CbCortana.CheckState -eq "Checked") {
+                Enable-Cortana
+                $CbCortana.Text = "[ON]  Cortana *"
+            } Else {
+                Disable-Cortana
+                $CbCortana.Text = "[OFF] Cortana"
+            }
+        })
+
+    $CbOldVolumeControl.Add_Click( {
+            If ($CbOldVolumeControl.CheckState -eq "Checked") {
+                Enable-OldVolumeControl
+                $CbOldVolumeControl.Text = "[ON]  Old Volume Control"
+            } Else {
+                Disable-OldVolumeControl
+                $CbOldVolumeControl.Text = "[OFF] Old Volume Control *"
+            }
+        })
+
+    $CbOnlineSpeechRecognition.Add_Click( {
+            If ($CbOnlineSpeechRecognition.CheckState -eq "Checked") {
+                Enable-OnlineSpeechRecognition
+                $CbOnlineSpeechRecognition.Text = "[ON]  Online Speech Recognition *"
+            } Else {
+                Disable-OnlineSpeechRecognition
+                $CbOnlineSpeechRecognition.Text = "[OFF] Online Speech Recognition"
+            }
+        })
+
+    $CbPhoneLink.Add_Click( {
+            If ($CbPhoneLink.CheckState -eq "Checked") {
+                Enable-PhoneLink
+                $CbPhoneLink.Text = "[ON]  Phone Link *"
+            } Else {
+                Disable-PhoneLink
+                $CbPhoneLink.Text = "[OFF] Phone Link"
+            }
+        })
+
+    $CbPhotoViewer.Add_Click( {
+            If ($CbPhotoViewer.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-photo-viewer.reg") -NoDialog
+                $CbPhotoViewer.Text = "[ON]  Photo Viewer"
+            } Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-photo-viewer.reg") -NoDialog
+                $CbPhotoViewer.Text = "[OFF] Photo Viewer *"
+            }
+        })
+
+    $CbSearchAppForUnknownExt.Add_Click( {
+            If ($CbSearchAppForUnknownExt.CheckState -eq "Checked") {
+                Enable-SearchAppForUnknownExt
+                $CbSearchAppForUnknownExt.Text = "[ON]  Search App for Unknown Ext. *"
+            } Else {
+                Disable-SearchAppForUnknownExt
+                $CbSearchAppForUnknownExt.Text = "[OFF] Search App for Unknown Ext."
+            }
+        })
+
+    $CbTelemetry.Add_Click( {
+            If ($CbTelemetry.CheckState -eq "Checked") {
+                Enable-Telemetry
+                $CbTelemetry.Text = "[ON]  Telemetry *"
+            } Else {
+                Disable-Telemetry
+                $CbTelemetry.Text = "[OFF] Telemetry"
+            }
+        })
+
+    $CbWSearchService.Add_Click( {
+            If ($CbWSearchService.CheckState -eq "Checked") {
+                Enable-WSearchService
+                $CbWSearchService.Text = "[ON]  WSearch Service *"
+            } Else {
+                Disable-WSearchService
+                $CbWSearchService.Text = "[OFF] WSearch Service"
+            }
+        })
+
+    $CbXboxGameBarDVRandMode.Add_Click( {
+            If ($CbXboxGameBarDVRandMode.CheckState -eq "Checked") {
+                Enable-XboxGameBarDVRandMode
+                $CbXboxGameBarDVRandMode.Text = "[ON]  Xbox Game Bar/DVR/Mode *"
+            } Else {
+                Disable-XboxGameBarDVRandMode
+                $CbXboxGameBarDVRandMode.Text = "[OFF] Xbox Game Bar/DVR/Mode"
+            }
+        })
+
+    $CbInternetExplorer.Add_Click( {
+            If ($CbInternetExplorer.CheckState -eq "Checked") {
+                Enable-InternetExplorer
+                $CbInternetExplorer.Text = "[ON]  Internet Explorer"
+            } Else {
+                Disable-InternetExplorer
+                $CbInternetExplorer.Text = "[OFF] Internet Explorer *"
+            }
+        })
+
+    $CbPrintToPDFServices.Add_Click( {
+            If ($CbPrintToPDFServices.CheckState -eq "Checked") {
+                Enable-PrintToPDFServicesToogle
+                $CbPrintToPDFServices.Text = "[ON]  Print To PDF Services *"
+            } Else {
+                Disable-PrintToPDFServicesToogle
+                $CbPrintToPDFServices.Text = "[OFF] Print To PDF Services"
+            }
+        })
+
+    $CbPrintingXPSServices.Add_Click( {
+            If ($CbPrintingXPSServices.CheckState -eq "Checked") {
+                Enable-PrintingXPSServicesToogle
+                $CbPrintingXPSServices.Text = "[ON]  Printing XPS Services *"
+            } Else {
+                Disable-PrintingXPSServicesToogle
+                $CbPrintingXPSServices.Text = "[OFF] Printing XPS Services"
+            }
+        })
+
+    $CbWindowsMediaPlayer.Add_Click( {
+            If ($CbWindowsMediaPlayer.CheckState -eq "Checked") {
+                Enable-WindowsMediaPlayer
+                $CbWindowsMediaPlayer.Text = "[ON]  Windows Media Player *"
+            } Else {
+                Disable-WindowsMediaPlayer
+                $CbWindowsMediaPlayer.Text = "[OFF] Windows Media Player"
+            }
+        })
+
+    $CbEncryptedDNS.Add_Click( {
+            If ($CbEncryptedDNS.CheckState -eq "Checked") {
+                Enable-EncryptedDNS
+                $CbEncryptedDNS.Text = "[ON]  Encrypted DNS"
+            } Else {
+                Disable-EncryptedDNS
+                $CbEncryptedDNS.Text = "[OFF] Encrypted DNS *"
+            }
+        })
+
+    $CbGodMode.Add_Click( {
+            If ($CbGodMode.CheckState -eq "Checked") {
+                Enable-GodMode
+                $CbGodMode.Text = "[ON]  God Mode"
+            } Else {
+                Disable-GodMode
+                $CbGodMode.Text = "[OFF] God Mode *"
+            }
+        })
+
+    $CbMouseNaturalScroll.Add_Click( {
+            If ($CbMouseNaturalScroll.CheckState -eq "Checked") {
+                Enable-MouseNaturalScroll
+                $CbMouseNaturalScroll.Text = "[ON]  Mouse Natural Scroll"
+            } Else {
+                Disable-MouseNaturalScroll
+                $CbMouseNaturalScroll.Text = "[OFF] Mouse Natural Scroll *"
+            }
+        })
+
+    $CbTakeOwnership.Add_Click( {
+            If ($CbTakeOwnership.CheckState -eq "Checked") {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("enable-take-ownership-context-menu.reg") -NoDialog
+                $CbTakeOwnership.Text = "[ON]  Take Ownership menu"
+            } Else {
+                Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts @("disable-take-ownership-context-menu.reg") -NoDialog
+                $CbTakeOwnership.Text = "[OFF] Take Ownership... *"
+            }
+        })
+
+    $CbFastShutdownPCShortcut.Add_Click( {
+            If ($CbFastShutdownPCShortcut.CheckState -eq "Checked") {
+                Enable-FastShutdownShortcut
+                $CbFastShutdownPCShortcut.Text = "[ON]  Fast Shutdown shortcut"
+            } Else {
+                Disable-FastShutdownShortcut
+                $CbFastShutdownPCShortcut.Text = "[OFF] Fast Shutdown shortcut *"
+            }
+        })
+
+    $UpgradeAll.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("update-all-packages.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $InstallSelected.Add_Click( {
+            $AppsSelected = @{
+                WingetApps     = [System.Collections.ArrayList]@()
+                MSStoreApps    = [System.Collections.ArrayList]@()
+                ChocolateyApps = [System.Collections.ArrayList]@()
+                WSLDistros     = [System.Collections.ArrayList]@()
+            }
+
+            $SoftwareList = ""
+
+            If ($InstallAmdRyzenChipsetDriver.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("amd-ryzen-chipset")
+                $InstallAmdRyzenChipsetDriver.CheckState = "Unchecked"
+            }
+
+            If ($InstallIntelDSA.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Intel.IntelDriverAndSupportAssistant")
+                $InstallIntelDSA.CheckState = "Unchecked"
+            }
+
+            If ($InstallNvidiaGeForceExperience.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Nvidia.GeForceExperience")
+                $InstallNvidiaGeForceExperience.CheckState = "Unchecked"
+            }
+
+            If ($InstallNVCleanstall.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("TechPowerUp.NVCleanstall")
+                $InstallNVCleanstall.CheckState = "Unchecked"
+            }
+
+            If ($InstallDirectX.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("directx")
+                $InstallDirectX.CheckState = "Unchecked"
+            }
+
+            If ($InstallMsDotNetFramework.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Microsoft.DotNet.Framework.DeveloperPack_4")
+                $InstallMsDotNetFramework.CheckState = "Unchecked"
+            }
+
+            If ($InstallMsVCppX64.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.AddRange(
+                    @(
+                        "Microsoft.VCRedist.2005.x64", "Microsoft.VCRedist.2008.x64", "Microsoft.VCRedist.2010.x64",
+                        "Microsoft.VCRedist.2012.x64", "Microsoft.VCRedist.2013.x64", "Microsoft.VCRedist.2015+.x64"
+                    )
+                )
+                $InstallMsVCppX64.CheckState = "Unchecked"
+            }
+
+            If ($InstallMsVCppX86.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.AddRange(
+                    @(
+                        "Microsoft.VCRedist.2005.x86", "Microsoft.VCRedist.2008.x86", "Microsoft.VCRedist.2010.x86",
+                        "Microsoft.VCRedist.2012.x86", "Microsoft.VCRedist.2013.x86", "Microsoft.VCRedist.2015+.x86"
+                    )
+                )
+                $InstallMsVCppX86.CheckState = "Unchecked"
+            }
+
+            If ($Install7Zip.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("7zip.7zip")
+                $Install7Zip.CheckState = "Unchecked"
+            }
+
+            If ($InstallWinRar.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("RARLab.WinRAR")
+                $InstallWinRar.CheckState = "Unchecked"
+            }
+
+            If ($InstallAdobeReaderDC.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Adobe.Acrobat.Reader.64-bit")
+                $InstallAdobeReaderDC.CheckState = "Unchecked"
+            }
+
+            If ($InstallLibreOffice.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("TheDocumentFoundation.LibreOffice")
+                $InstallLibreOffice.CheckState = "Unchecked"
+            }
+
+            If ($InstallOnlyOffice.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("ONLYOFFICE.DesktopEditors")
+                $InstallOnlyOffice.CheckState = "Unchecked"
+            }
+
+            If ($InstallSumatraPDF.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("SumatraPDF.SumatraPDF")
+                $InstallSumatraPDF.CheckState = "Unchecked"
+            }
+
+            If ($InstallPDFCreator.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("PDFCreator")
+                $InstallPDFCreator.CheckState = "Unchecked"
+            }
+
+            If ($InstallPowerBi.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Microsoft.PowerBI")
+                $InstallPowerBi.CheckState = "Unchecked"
+            }
+
+            If ($InstallqBittorrent.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("qBittorrent.qBittorrent")
+                $InstallqBittorrent.CheckState = "Unchecked"
+            }
+
+            If ($InstallZotero.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Zotero.Zotero")
+                $InstallZotero.CheckState = "Unchecked"
+            }
+
+            If ($InstallTwilioAuthy.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Twilio.Authy")
+                $InstallTwilioAuthy.CheckState = "Unchecked"
+            }
+
+            If ($InstallBalenaEtcher.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Balena.Etcher")
+                $InstallBalenaEtcher.CheckState = "Unchecked"
+            }
+
+            If ($InstallRufus.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9PC3H3V7Q9CH")
+                $InstallRufus.CheckState = "Unchecked"
+            }
+
+            If ($InstallVentoy.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("ventoy")
+                $InstallVentoy.CheckState = "Unchecked"
+            }
+
+            If ($InstallOracleVirtualBox.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Oracle.VirtualBox")
+                $InstallOracleVirtualBox.CheckState = "Unchecked"
+            }
+
+            If ($InstallQemu.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("SoftwareFreedomConservancy.QEMU")
+                $InstallQemu.CheckState = "Unchecked"
+            }
+
+            If ($InstallVmWarePlayer.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("VMware.WorkstationPlayer")
+                $InstallVmWarePlayer.CheckState = "Unchecked"
+            }
+
+            If ($InstallDropbox.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Dropbox.Dropbox")
+                $InstallDropbox.CheckState = "Unchecked"
+            }
+
+            If ($InstallRoundedTB.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9MTFTXSJ9M7F")
+                $InstallRoundedTB.CheckState = "Unchecked"
+            }
+
+            If ($InstallTranslucentTB.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9PF4KZ2VN4W9")
+                $InstallTranslucentTB.CheckState = "Unchecked"
+            }
+
+            If ($InstallGoogleDrive.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Google.Drive")
+                $InstallGoogleDrive.CheckState = "Unchecked"
+            }
+
+            If ($InstallBraveBrowser.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Brave.Brave")
+                $InstallBraveBrowser.CheckState = "Unchecked"
+            }
+
+            If ($InstallGoogleChrome.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Google.Chrome")
+                $InstallGoogleChrome.CheckState = "Unchecked"
+            }
+
+            If ($InstallMozillaFirefox.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Mozilla.Firefox")
+                $InstallMozillaFirefox.CheckState = "Unchecked"
+            }
+
+            If ($InstallAudacity.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Audacity.Audacity")
+                $InstallAudacity.CheckState = "Unchecked"
+            }
+
+            If ($InstallMpcHc.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("clsid2.mpc-hc")
+                $InstallMpcHc.CheckState = "Unchecked"
+            }
+
+            If ($InstallVlc.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("VideoLAN.VLC")
+                $InstallVlc.CheckState = "Unchecked"
+            }
+
+            If ($InstallGimp.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("GIMP.GIMP")
+                $InstallGimp.CheckState = "Unchecked"
+            }
+
+            If ($InstallInkscape.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Inkscape.Inkscape")
+                $InstallInkscape.CheckState = "Unchecked"
+            }
+
+            If ($InstallIrfanView.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("IrfanSkiljan.IrfanView")
+                $InstallIrfanView.CheckState = "Unchecked"
+            }
+
+            If ($InstallKrita.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("KDE.Krita")
+                $InstallKrita.CheckState = "Unchecked"
+            }
+
+            If ($InstallPaintNet.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("paint.net")
+                $InstallPaintNet.CheckState = "Unchecked"
+            }
+
+            If ($InstallShareX.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("ShareX.ShareX")
+                $InstallShareX.CheckState = "Unchecked"
+            }
+
+            If ($InstallAmazonPrimeVideo.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9P6RC76MSMMJ")
+                $InstallAmazonPrimeVideo.CheckState = "Unchecked"
+            }
+
+            If ($InstallDisneyPlus.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9NXQXXLFST89")
+                $InstallDisneyPlus.CheckState = "Unchecked"
+            }
+
+            If ($InstallNetflix.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9WZDNCRFJ3TJ")
+                $InstallNetflix.CheckState = "Unchecked"
+            }
+
+            If ($InstallSpotify.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9NCBCSZSJRSB")
+                $InstallSpotify.CheckState = "Unchecked"
+            }
+
+            If ($InstallNotion.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Notion.Notion")
+                $InstallNotion.CheckState = "Unchecked"
+            }
+
+            If ($InstallObsidian.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Obsidian.Obsidian")
+                $InstallObsidian.CheckState = "Unchecked"
+            }
+
+            If ($InstallCpuZ.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("CPUID.CPU-Z")
+                $InstallCpuZ.CheckState = "Unchecked"
+            }
+
+            If ($InstallCrystalDiskInfo.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("CrystalDewWorld.CrystalDiskInfo")
+                $InstallCrystalDiskInfo.CheckState = "Unchecked"
+            }
+
+            If ($InstallCrystalDiskMark.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("CrystalDewWorld.CrystalDiskMark")
+                $InstallCrystalDiskMark.CheckState = "Unchecked"
+            }
+
+            If ($InstallGeekbench6.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("PrimateLabs.Geekbench.6")
+                $InstallGeekbench6.CheckState = "Unchecked"
+            }
+
+            If ($InstallGpuZ.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("TechPowerUp.GPU-Z")
+                $InstallGpuZ.CheckState = "Unchecked"
+            }
+
+            If ($InstallHwInfo.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("REALiX.HWiNFO")
+                $InstallHwInfo.CheckState = "Unchecked"
+            }
+
+            If ($InstallInternetDownloadManager.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Tonec.InternetDownloadManager")
+                $InstallInternetDownloadManager.CheckState = "Unchecked"
+            }
+
+            If ($InstallMsiAfterburner.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("msiafterburner")
+                $InstallMsiAfterburner.CheckState = "Unchecked"
+            }
+
+            If ($InstallRtxVoice.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Nvidia.RTXVoice")
+                $InstallRtxVoice.CheckState = "Unchecked"
+            }
+
+            If ($InstallVoicemod.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Voicemod.Voicemod")
+                $InstallVoicemod.CheckState = "Unchecked"
+            }
+
+            If ($InstallVoiceMeeter.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("VB-Audio.Voicemeeter.Potato")
+                $InstallVoiceMeeter.CheckState = "Unchecked"
+            }
+
+            If ($InstallWizTree.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("AntibodySoftware.WizTree")
+                $InstallWizTree.CheckState = "Unchecked"
+            }
+
+            If ($InstallHamachi.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("LogMeIn.Hamachi")
+                $InstallHamachi.CheckState = "Unchecked"
+            }
+
+            If ($InstallPuTty.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("PuTTY.PuTTY")
+                $InstallPuTty.CheckState = "Unchecked"
+            }
+
+            If ($InstallRadminVpn.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Radmin.VPN")
+                $InstallRadminVpn.CheckState = "Unchecked"
+            }
+
+            If ($InstallWinScp.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("WinSCP.WinSCP")
+                $InstallWinScp.CheckState = "Unchecked"
+            }
+
+            If ($InstallWireshark.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("WiresharkFoundation.Wireshark")
+                $InstallWireshark.CheckState = "Unchecked"
+            }
+
+            If ($InstallDiscord.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Discord.Discord")
+                $InstallDiscord.CheckState = "Unchecked"
+            }
+
+            If ($InstallMSTeams.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Microsoft.Teams")
+                $InstallMSTeams.CheckState = "Unchecked"
+            }
+
+            If ($InstallRocketChat.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("RocketChat.RocketChat")
+                $InstallRocketChat.CheckState = "Unchecked"
+            }
+
+            If ($InstallSignal.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("OpenWhisperSystems.Signal")
+                $InstallSignal.CheckState = "Unchecked"
+            }
+
+            If ($InstallSkype.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Microsoft.Skype")
+                $InstallSkype.CheckState = "Unchecked"
+            }
+
+            If ($InstallSlack.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("SlackTechnologies.Slack")
+                $InstallSlack.CheckState = "Unchecked"
+            }
+
+            If ($InstallTelegramDesktop.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Telegram.TelegramDesktop")
+                $InstallTelegramDesktop.CheckState = "Unchecked"
+            }
+
+            If ($InstallWhatsAppDesktop.CheckState -eq "Checked") {
+                $AppsSelected.MSStoreApps.Add("9NKSQGP7F2NH")
+                $InstallWhatsAppDesktop.CheckState = "Unchecked"
+            }
+
+            If ($InstallZoom.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Zoom.Zoom")
+                $InstallZoom.CheckState = "Unchecked"
+            }
+
+            If ($InstallBorderlessGaming.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Codeusa.BorderlessGaming")
+                $InstallBorderlessGaming.CheckState = "Unchecked"
+            }
+
+            If ($InstallEADesktop.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("ElectronicArts.EADesktop")
+                $InstallEADesktop.CheckState = "Unchecked"
+            }
+
+            If ($InstallEpicGamesLauncher.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("EpicGames.EpicGamesLauncher")
+                $InstallEpicGamesLauncher.CheckState = "Unchecked"
+            }
+
+            If ($InstallGogGalaxy.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("GOG.Galaxy")
+                $InstallGogGalaxy.CheckState = "Unchecked"
+            }
+
+            If ($InstallSteam.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Valve.Steam")
+                $InstallSteam.CheckState = "Unchecked"
+            }
+
+            If ($InstallUbisoftConnect.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Ubisoft.Connect")
+                $InstallUbisoftConnect.CheckState = "Unchecked"
+            }
+
+            If ($InstallAnyDesk.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("AnyDeskSoftwareGmbH.AnyDesk")
+                $InstallAnyDesk.CheckState = "Unchecked"
+            }
+
+            If ($InstallParsec.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Parsec.Parsec")
+                $InstallParsec.CheckState = "Unchecked"
+            }
+
+            If ($InstallScrCpy.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("scrcpy")
+                $InstallScrCpy.CheckState = "Unchecked"
+            }
+
+            If ($InstallTeamViewer.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("TeamViewer.TeamViewer")
+                $InstallTeamViewer.CheckState = "Unchecked"
+            }
+
+            If ($InstallElgatoStreamDeck.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Elgato.StreamDeck")
+                $InstallElgatoStreamDeck.CheckState = "Unchecked"
+            }
+
+            If ($InstallHandBrake.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("HandBrake.HandBrake")
+                $InstallHandBrake.CheckState = "Unchecked"
+            }
+
+            If ($InstallObsStudio.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("OBSProject.OBSStudio")
+                $InstallObsStudio.CheckState = "Unchecked"
+            }
+
+            If ($InstallStreamlabs.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Streamlabs.Streamlabs")
+                $InstallStreamlabs.CheckState = "Unchecked"
+            }
+
+            If ($InstallBSnesHd.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("bsnes-hd")
+                $InstallBSnesHd.CheckState = "Unchecked"
+            }
+
+            If ($InstallCemu.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("cemu")
+                $InstallCemu.CheckState = "Unchecked"
+            }
+
+            If ($InstallDolphin.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("DolphinEmulator.Dolphin")
+                $InstallDolphin.CheckState = "Unchecked"
+            }
+
+            If ($InstallKegaFusion.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("kega-fusion")
+                $InstallKegaFusion.CheckState = "Unchecked"
+            }
+
+            If ($InstallMGba.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("JeffreyPfau.mGBA")
+                $InstallMGba.CheckState = "Unchecked"
+            }
+
+            If ($InstallPPSSPP.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("PPSSPPTeam.PPSSPP")
+                $InstallPPSSPP.CheckState = "Unchecked"
+            }
+
+            If ($InstallProject64.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Project64.Project64.Dev")
+                $InstallProject64.CheckState = "Unchecked"
+            }
+
+            If ($InstallRetroArch.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Libretro.RetroArch")
+                $InstallRetroArch.CheckState = "Unchecked"
+            }
+
+            If ($InstallRyujinx.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("ryujinx")
+                $InstallRyujinx.CheckState = "Unchecked"
+            }
+
+            If ($InstallSnes9x.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("snes9x")
+                $InstallSnes9x.CheckState = "Unchecked"
+            }
+
+            If ($InstallJetBrainsToolbox.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("JetBrains.Toolbox")
+                $InstallJetBrainsToolbox.CheckState = "Unchecked"
+            }
+
+            If ($InstallNotepadPlusPlus.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Notepad++.Notepad++")
+                $InstallNotepadPlusPlus.CheckState = "Unchecked"
+            }
+
+            If ($InstallVisualStudioCommunity.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Microsoft.VisualStudio.2022.Community")
+                $InstallVisualStudioCommunity.CheckState = "Unchecked"
+            }
+
+            If ($InstallVSCode.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Microsoft.VisualStudioCode")
+                $InstallVSCode.CheckState = "Unchecked"
+            }
+
+            If ($InstallVSCodium.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("VSCodium.VSCodium")
+                $InstallVSCodium.CheckState = "Unchecked"
+            }
+
+            If ($InstallWSL.CheckState -eq "Checked") {
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-wsl.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                } Else {
+                    $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
+                }
+                $InstallWSL.CheckState = "Unchecked"
+            }
+
+            If ($InstallArchWSL.CheckState -eq "Checked") {
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-archwsl.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                } Else {
+                    $AppsSelected.WSLDistros.Add("Arch")
+                }
+                $InstallArchWSL.CheckState = "Unchecked"
+            }
+
+            If ($InstallDebian.CheckState -eq "Checked") {
+                If (!($Script:UninstallSwitch)) {
+                    $AppsSelected.WSLDistros.Add("Debian")
+                }
+                $InstallDebian.CheckState = "Unchecked"
+            }
+
+            If ($InstallKaliLinux.CheckState -eq "Checked") {
+                $AppsSelected.WSLDistros.Add("kali-linux")
+                $InstallKaliLinux.CheckState = "Unchecked"
+            }
+
+            If ($InstallOpenSuse.CheckState -eq "Checked") {
+                $AppsSelected.WSLDistros.Add("openSUSE-42")
+                $InstallOpenSuse.CheckState = "Unchecked"
+            }
+
+            If ($InstallSles.CheckState -eq "Checked") {
+                $AppsSelected.WSLDistros.Add("SLES-12")
+                $InstallSles.CheckState = "Unchecked"
+            }
+
+            If ($InstallUbuntu.CheckState -eq "Checked") {
+                $AppsSelected.WSLDistros.Add("Ubuntu")
+                $InstallUbuntu.CheckState = "Unchecked"
+            }
+
+            If ($InstallUbuntu16Lts.CheckState -eq "Checked") {
+                $AppsSelected.WSLDistros.Add("Ubuntu-16.04")
+                $InstallUbuntu16Lts.CheckState = "Unchecked"
+            }
+
+            If ($InstallUbuntu18Lts.CheckState -eq "Checked") {
+                $AppsSelected.WSLDistros.Add("Ubuntu-18.04")
+                $InstallUbuntu18Lts.CheckState = "Unchecked"
+            }
+
+            If ($InstallUbuntu20Lts.CheckState -eq "Checked") {
+                $AppsSelected.WSLDistros.Add("Ubuntu-20.04")
+                $InstallUbuntu20Lts.CheckState = "Unchecked"
+            }
+
+            If ($InstallWindowsTerminal.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Microsoft.WindowsTerminal")
+                $InstallWindowsTerminal.CheckState = "Unchecked"
+            }
+
+            If ($InstallNerdFonts.CheckState -eq "Checked") {
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-nerd-fonts.ps1")
+                }
+                $InstallNerdFonts.CheckState = "Unchecked"
+            }
+
+            If ($InstallGitGnupgSshSetup.CheckState -eq "Checked") {
+                If (!($Script:UninstallSwitch)) {
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("git-gnupg-ssh-keys-setup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                } Else {
+                    $AppsSelected.WingetApps.AddRange(@("Git.Git", "GnuPG.GnuPG")) # Installed before inside the script
+                }
+                $InstallGitGnupgSshSetup.CheckState = "Unchecked"
+            }
+
+            If ($InstallAdb.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("adb")
+                $InstallAdb.CheckState = "Unchecked"
+            }
+
+            If ($InstallAndroidStudio.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Google.AndroidStudio")
+                $InstallAndroidStudio.CheckState = "Unchecked"
+            }
+
+            If ($InstallDockerDesktop.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Docker.DockerDesktop")
+                $InstallDockerDesktop.CheckState = "Unchecked"
+            }
+
+            If ($InstallInsomnia.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Insomnia.Insomnia")
+                $InstallInsomnia.CheckState = "Unchecked"
+            }
+
+            If ($InstallJavaJdks.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.18"))
+                $InstallJavaJdks.CheckState = "Unchecked"
+            }
+
+            If ($InstallJavaJre.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Oracle.JavaRuntimeEnvironment")
+                $InstallJavaJre.CheckState = "Unchecked"
+            }
+
+            If ($InstallMySql.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Oracle.MySQL")
+                $InstallMySql.CheckState = "Unchecked"
+            }
+
+            If ($InstallNodeJs.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("OpenJS.NodeJS")
+                $InstallNodeJs.CheckState = "Unchecked"
+            }
+
+            If ($InstallNodeJsLts.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("OpenJS.NodeJS.LTS")
+                $InstallNodeJsLts.CheckState = "Unchecked"
+            }
+
+            If ($InstallPostgreSql.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("PostgreSQL.PostgreSQL")
+                $InstallPostgreSql.CheckState = "Unchecked"
+            }
+
+            If ($InstallPython3.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Python.Python.3")
+                $InstallPython3.CheckState = "Unchecked"
+            }
+
+            If ($InstallPythonAnaconda3.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Anaconda.Anaconda3")
+                $InstallPythonAnaconda3.CheckState = "Unchecked"
+            }
+
+            If ($InstallRuby.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("RubyInstallerTeam.Ruby")
+                $InstallRuby.CheckState = "Unchecked"
+            }
+
+            If ($InstallRubyMsys.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("RubyInstallerTeam.RubyWithDevKit")
+                $InstallRubyMsys.CheckState = "Unchecked"
+            }
+
+            If ($InstallRustGnu.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Rustlang.Rust.GNU")
+                $InstallRustGnu.CheckState = "Unchecked"
+            }
+
+            If ($InstallRustMsvc.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Rustlang.Rust.MSVC")
+                $InstallRustMsvc.CheckState = "Unchecked"
+            }
+
+            If (!($Script:UninstallSwitch)) {
+                If ($AppsSelected.WingetApps) {
+                    $SoftwareList += Install-Software -Name "Apps from selection" -Packages $AppsSelected.WingetApps -NoDialog
+                }
+                If ($AppsSelected.MSStoreApps) {
+                    $SoftwareList += "`n" + (Install-Software -Name "Apps from selection" -Packages $AppsSelected.MSStoreApps -PackageProvider 'MsStore' -NoDialog)
+                }
+                If ($AppsSelected.ChocolateyApps) {
+                    $SoftwareList += "`n" + (Install-Software -Name "Apps from selection" -Packages $AppsSelected.ChocolateyApps -PackageProvider 'Chocolatey' -NoDialog)
+                }
+                If ($AppsSelected.WSLDistros) {
+                    $SoftwareList += "`n" + (Install-Software -Name "Apps from selection" -Packages $AppsSelected.WSLDistros -PackageProvider 'WSL' -NoDialog)
+                }
+            } Else {
+                If ($AppsSelected.WingetApps) {
+                    $SoftwareList += Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.WingetApps -NoDialog
+                }
+                If ($AppsSelected.MSStoreApps) {
+                    $SoftwareList += "`n" + (Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.MSStoreApps -PackageProvider 'MsStore' -NoDialog)
+                }
+                If ($AppsSelected.ChocolateyApps) {
+                    $SoftwareList += "`n" + (Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.ChocolateyApps -PackageProvider 'Chocolatey' -NoDialog)
+                }
+                If ($AppsSelected.WSLDistros) {
+                    $SoftwareList += "`n" + (Uninstall-Software -Name "Apps from selection" -Packages $AppsSelected.WSLDistros -PackageProvider 'WSL' -NoDialog)
+                }
+            }
+
+            If (($AppsSelected.WingetApps.Count -ge 1) -or ($AppsSelected.MSStoreApps.Count -ge 1) -or ($AppsSelected.ChocolateyApps.Count -ge 1) -or ($AppsSelected.WSLDistros.Count -ge 1)) {
+                Show-MessageDialog -Title "$DoneTitle" -Message "$SoftwareList"
+            }
+            $SoftwareList = ""
+        })
+
+    $UninstallMode.Add_Click( {
+            If ($UninstallSwitch) {
+                $Script:UninstallSwitch = $false
+                $InstallSelected.Text = "Install Selected"
+                $UninstallMode.Text = "[OFF] Uninstall Mode"
+                $UninstallMode.ForeColor = $White
+            } Else {
+                $Script:UninstallSwitch = $true
+                $InstallSelected.Text = "Uninstall Selected"
+                $UninstallMode.Text = "[ON]  Uninstall Mode"
+                $UninstallMode.ForeColor = $WarningYellow
+            }
+        })
+
+    [void] $Form.ShowDialog() # Show the Window
+    $Form.Dispose() # When done, dispose of the GUI
+}
+
+If ($args) {
+    Main -Mode $args[0]
+} Else {
+    Main
+}
