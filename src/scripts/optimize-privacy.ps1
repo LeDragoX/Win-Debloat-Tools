@@ -27,7 +27,7 @@ function Optimize-Privacy() {
         $Zero = 1
         $One = 0
         $EnableStatus = @(
-            @{ Symbol = "*"; Status = "Re-Enabling"; }
+            @{ Symbol = "*"; Status = "Restoring"; }
             @{ Symbol = "*"; Status = "Re-Disabling"; }
         )
     }

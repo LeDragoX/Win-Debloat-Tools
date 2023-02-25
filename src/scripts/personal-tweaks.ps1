@@ -26,7 +26,7 @@ function Register-PersonalTweaksList() {
         $Zero = 1
         $One = 0
         $EnableStatus = @(
-            @{ Symbol = "*"; Status = "Re-Enabling"; }
+            @{ Symbol = "*"; Status = "Restoring"; }
             @{ Symbol = "*"; Status = "Re-Disabling"; }
         )
     }
@@ -94,8 +94,8 @@ function Register-PersonalTweaksList() {
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value $Zero
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Aero-Shake Minimize feature..."
-    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Type DWord -Value $One
+    Write-Status -Types "*", $TweakType -Status "Restoring Aero-Shake Minimize feature..."
+    Remove-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Force -ErrorAction SilentlyContinue
 
     Write-Status -Types "+", $TweakType -Status "Setting Windows Explorer to start on This PC instead of Quick Access..."
     # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT, BREAKS EXPLORER.EXE
@@ -157,7 +157,7 @@ function Register-PersonalTweaksList() {
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Write-Caption -Text "Colors"
-    Write-Status -Types "*", $TweakType -Status "Re-Enabling taskbar transparency..."
+    Write-Status -Types "*", $TweakType -Status "Restoring taskbar transparency..."
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 
     Write-Section -Text "System"
@@ -191,7 +191,7 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "*", $TweakType -Status "Show me history and favorite suggestions and other data using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge", "$PathToLMPoliciesEdge" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
 
-    Write-Status -Types "*", $TweakType -Status "Re-Enabling Error reporting..."
+    Write-Status -Types "*", $TweakType -Status "Restoring Error reporting..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
 
     Write-Status -Types "+", $TweakType -Status "Bringing back F8 alternative Boot Modes..."
