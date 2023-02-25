@@ -22,15 +22,15 @@ function Install-PackageManager() {
     Try {
         $Err = (Invoke-Expression "$CheckExistenceBlock")
         If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
-        Write-Status -Types "?" -Status "$PackageManagerFullName is already installed." -Warning
+        Write-Status -Types "?", $PackageManagerFullName -Status "$PackageManagerFullName is already installed." -Warning
     } Catch {
-        Write-Status -Types "?" -Status "$PackageManagerFullName was not found." -Warning
-        Write-Status -Types "+" -Status "Downloading and Installing $PackageManagerFullName package manager."
+        Write-Status -Types "?", $PackageManagerFullName -Status "$PackageManagerFullName was not found." -Warning
+        Write-Status -Types "+", $PackageManagerFullName -Status "Downloading and Installing $PackageManagerFullName package manager."
 
         Invoke-Expression "$InstallCommandBlock"
 
         If ($PostInstallBlock) {
-            Write-Status -Types "+" -Status "Executing post install script: { $("$PostInstallBlock".Trim(' ')) }."
+            Write-Status -Types "+", $PackageManagerFullName -Status "Executing post install script: { $("$PostInstallBlock".Trim(' ')) }."
             Invoke-Expression "$PostInstallBlock"
         }
     }
@@ -38,7 +38,7 @@ function Install-PackageManager() {
     # Self-reminder, this part stay out of the Try-Catch block
     If ($UpdateScriptBlock) {
         # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-        Write-Status -Types "@" -Status "Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
+        Write-Status -Types "@", $PackageManagerFullName -Status "Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
         $JobName = "$PackageManagerFullName Daily Upgrade"
         $ScheduledJob = @{
             Name               = $JobName
@@ -48,13 +48,13 @@ function Install-PackageManager() {
         }
 
         If ((Get-ScheduledTask -TaskName $JobName -ErrorAction SilentlyContinue) -or (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue)) {
-            Write-Status -Types "@" -Status "ScheduledJob: $JobName FOUND!"
-            Write-Status -Types "@" -Status "Re-Creating with the command:"
+            Write-Status -Types "@", $PackageManagerFullName -Status "ScheduledJob: $JobName FOUND!"
+            Write-Status -Types "@", $PackageManagerFullName -Status "Re-Creating with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Unregister-ScheduledJob -Name $JobName
             Register-ScheduledJob @ScheduledJob | Out-Null
         } Else {
-            Write-Status -Types "@" -Status "Creating Scheduled Job with the command:"
+            Write-Status -Types "@", $PackageManagerFullName -Status "Creating Scheduled Job with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Register-ScheduledJob @ScheduledJob | Out-Null
         }
