@@ -483,11 +483,11 @@ function Show-GUI() {
                 "optimize-windows-features.ps1",
                 "reinstall-pre-installed-apps.ps1"
             )
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            $Global:Revert = $false
             $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\peepo-leaving.gif"
             $PictureBox1.SizeMode = 'StretchImage'
             $Form.Update()
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-            $Global:Revert = $false
         })
 
     $RemoveMSEdge.Add_Click( {
