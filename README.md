@@ -5,7 +5,7 @@ I need to change these files:
 - src\lib\title-templates.psm1 (LOGO)
 - CONTRIBUTING.md
 - README.md
-- Win10ScriptGUI.ps1 (Window Title)
+- WinDebloatTools.ps1 (Window Title)
 -->
 
 <h2 align="center">
@@ -74,7 +74,7 @@ Code located in the `main` branch is considered stable, the `develop` branch con
 ### GUI Version
 
 ```ps1
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptGUI.ps1"
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"WinDebloatTools.ps1"
 ```
 
 ![Script GUI](./src/assets/script-gui.gif)
@@ -84,7 +84,7 @@ _The `Apply Tweaks` button is the main one for debloating._
 ### **CLI Version** (Minimal, good for automation)
 
 ```ps1
-Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"Win10ScriptCLI.ps1"
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"WinDebloatTools.ps1" 'CLI'
 ```
 
 **[Scripts](./src/scripts) can be run individually, pick what you need.**
@@ -93,9 +93,9 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 **If something breaks you can rely on:**
 
-1. If you want **(almost)** everything to it's original state, use the `Undo Tweaks` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1).
+1. If you want **(almost)** everything to it's original state, use the `Undo Tweaks` button on [`WinDebloatTools.ps1`](./WinDebloatTools.ps1).
 2. A restoration point done by the script itself;
-3. The `Repair Windows` button on [`Win10ScriptGUI.ps1`](./Win10ScriptGUI.ps1);
+3. The `Repair Windows` button on [`WinDebloatTools.ps1`](./WinDebloatTools.ps1);
 
 ## ☑️ Common Script Features
 

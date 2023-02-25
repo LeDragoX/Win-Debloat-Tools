@@ -25,7 +25,7 @@ function Install-WSL() {
 
     Try {
         Write-Status -Types "?", $TweakType "Installing WSL from MS Store..." -Warning
-        $CheckExistenceBlock = (Install-Software -Name "WSL" -Packages "9P9TQF7MRM4R" -ViaMSStore -NoDialog)
+        $CheckExistenceBlock = (Install-Software -Name "WSL" -Packages "9P9TQF7MRM4R" -PackageProvider 'MsStore' -NoDialog)
         Invoke-Expression "$CheckExistenceBlock" | Out-Host
         If ($LASTEXITCODE) { Throw "Couldn't install WSL" } # 0 = False, 1 = True
 
