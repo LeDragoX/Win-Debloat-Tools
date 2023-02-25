@@ -284,6 +284,7 @@ function New-Label() {
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
         [Int]           $FontSize = 14,
+        [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Regular",
         [String]        $ForeColor = "#55EE00", # Green
         [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
@@ -320,6 +321,7 @@ function New-Button() {
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
         [Int]           $FontSize = 12,
+        [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Regular",
         [String]        $ForeColor = "#FFFFFF", # White
         [String]        $BackColor = "#2C2C2C", # Dark Gray
@@ -363,6 +365,7 @@ function New-CheckBox() {
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
         [Int]           $FontSize = 12,
+        [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Italic",
         [String]        $ForeColor = "#FFFFFF", # White
         [String]        $BackColor = "#2C2C2C", # Dark Gray
