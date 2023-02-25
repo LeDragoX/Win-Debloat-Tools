@@ -42,12 +42,12 @@ function New-LayoutPage() {
         $PanelElementX = $PanelWidth * $PanelElementMarginWidth
         # To Labels
         $TitleLabelHeight = 45
-        $CaptionLabelHeight = 40
+        $CaptionLabelHeight = 50
         $TitleLabelY = 0
         # To Buttons
         $ButtonHeight = 30
         # To CheckBox
-        $CheckBoxHeight = 35
+        $CheckBoxHeight = 40
         # To Fonts
         $Heading = @{ 0 = 32; 1 = 20; 2 = 16; 3 = 13; 4 = 12; 5 = 11; 6 = 10 }
     }

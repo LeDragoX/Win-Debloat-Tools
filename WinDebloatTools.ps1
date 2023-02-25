@@ -126,7 +126,7 @@ function Show-GUI() {
     # <===== Specific Layout =====>
 
     $LayoutT1 = New-LayoutPage -NumOfPanels 3 -PanelHeight 960
-    $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1725
+    $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1785
 
     # <===== UI =====>
 
@@ -151,7 +151,7 @@ function Show-GUI() {
     $T1Panel3 = New-Panel -Width $LayoutT1.PanelWidth -Height $LayoutT1.PanelHeight -LocationX ($LayoutT1.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSystemTweaks
 
     # ==> T1 Panel 1
-    $ClCustomizeFeatures = New-Label -Text "Customize System Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -ElementBefore $CbAutomaticWindowsUpdate -MarginTop $LayoutT1.DistanceBetweenElements
+    $ClCustomizeFeatures = New-Label -Text "Customize System Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbAutomaticWindowsUpdate -MarginTop $LayoutT1.DistanceBetweenElements
     $CbDarkTheme = New-CheckBox -Text "Enable Dark Theme" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClCustomizeFeatures -MarginTop $LayoutT1.DistanceBetweenElements
     $CbActivityHistory = New-CheckBox -Text "Enable Activity History" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbDarkTheme
     $CbBackgroundsApps = New-CheckBox -Text "Enable Background Apps" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbActivityHistory
@@ -168,7 +168,7 @@ function Show-GUI() {
     $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game Bar/DVR/Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWSearchService
 
     # ==> T1 Panel 2
-    $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2]
+    $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold'
     $ApplyTweaks = New-Button -Text "Apply Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -ElementBefore $ClDebloatTools -FontSize $LayoutT1.Heading[3] -FontStyle 'Bold' -ForeColor $WinBlue
     $UndoTweaks = New-Button -Text "Undo Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ApplyTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $WarningYellow
     $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $UndoTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $WarningYellow
@@ -176,35 +176,35 @@ function Show-GUI() {
     $RemoveXbox = New-Button -Text "Remove Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveOneDrive -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $WarningYellow
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-image.png" -Width $LayoutT1.PanelElementWidth -Height (($LayoutT1.ButtonHeight * 4) + ($LayoutT1.DistanceBetweenElements * 4)) -LocationX $LayoutT1.PanelElementX -ElementBefore $RemoveXbox -MarginTop $LayoutT1.DistanceBetweenElements -SizeMode 'Zoom'
 
-    $ClInstallSystemApps = New-Label -Text "Install System Apps" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -ElementBefore $PictureBox1
+    $ClInstallSystemApps = New-Label -Text "Install System Apps" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $PictureBox1
     $InstallCortana = New-Button -Text "Cortana" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClInstallSystemApps -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallDolbyAudio = New-Button -Text "Dolby Audio" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallCortana -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallMicrosoftEdge = New-Button -Text "Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallDolbyAudio -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallOneDrive = New-Button -Text "OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallMicrosoftEdge -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallPaintPaint3D = New-Button -Text "Paint + Paint 3D" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallOneDrive
-    $InstallPhoneLink = New-Button -Text "Phone Link" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPaintPaint3D
-    $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPhoneLink
-    $InstallTaskbarWidgets = New-Button -Text "Taskbar Widgets" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallSoundRecorder
+    $InstallPaintPaint3D = New-Button -Text "Paint + Paint 3D" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallOneDrive -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallPhoneLink = New-Button -Text "Phone Link" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPaintPaint3D -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPhoneLink -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallTaskbarWidgets = New-Button -Text "Taskbar Widgets" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallSoundRecorder -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallUWPWMediaPlayer = New-Button -Text "Windows Media Player (UWP)" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallTaskbarWidgets -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallXbox = New-Button -Text "Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallUWPWMediaPlayer -MarginTop $LayoutT1.DistanceBetweenElements
 
-    $ClOtherTools = New-Label -Text "Other Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -ElementBefore $InstallXbox
+    $ClOtherTools = New-Label -Text "Other Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallXbox
     $RandomizeSystemColor = New-Button -Text "Randomize System Color" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClOtherTools -MarginTop $LayoutT1.DistanceBetweenElements
     $ReinstallBloatApps = New-Button -Text "Reinstall Pre-Installed Apps" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RandomizeSystemColor -MarginTop $LayoutT1.DistanceBetweenElements
     $RepairWindows = New-Button -Text "Repair Windows" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ReinstallBloatApps -MarginTop $LayoutT1.DistanceBetweenElements
     $ShowDebloatInfo = New-Button -Text "Show Debloat Info" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RepairWindows -MarginTop $LayoutT1.DistanceBetweenElements
 
     # ==> T1 Panel 3
-    $ClWindowsUpdate = New-Label -Text "Windows Update" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2]
+    $ClWindowsUpdate = New-Label -Text "Windows Update" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold'
     $CbAutomaticWindowsUpdate = New-CheckBox -Text "Enable Automatic Windows Update" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsUpdate -MarginTop $LayoutT1.DistanceBetweenElements
 
-    $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -ElementBefore $CbAutomaticWindowsUpdate
+    $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbAutomaticWindowsUpdate
     $CbInternetExplorer = New-CheckBox -Text "Internet Explorer" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClOptionalFeatures
     $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbInternetExplorer
     $CbPrintingXPSServices = New-CheckBox -Text "Printing-XPSServices-Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintToPDFServices
     $CbWindowsMediaPlayer = New-CheckBox -Text "Windows Media Player" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintingXPSServices
 
-    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -ElementBefore $CbWindowsMediaPlayer
+    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsMediaPlayer
     $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClMiscFeatures
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbEncryptedDNS
     $CbMouseNaturalScroll = New-CheckBox -Text "Enable Mouse Natural Scroll" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbGodMode
@@ -227,23 +227,23 @@ function Show-GUI() {
     # ==> T2 Panel 1
     $UpgradeAll = New-Button -Text "Upgrade All Softwares" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX $LayoutT2.PanelElementX -LocationY 0 -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $WinBlue
 
-    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $UpgradeAll
+    $ClCpuGpuDrivers = New-Label -Text "CPU/GPU Drivers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $UpgradeAll
     $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClCpuGpuDrivers -ForeColor $AmdRyzenPrimaryColor
     $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAmdRyzenChipsetDriver -ForeColor $IntelPrimaryColor
     $InstallNvidiaGeForceExperience = New-CheckBox -Text "NVIDIA GeForce Experience" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallIntelDSA -ForeColor $NVIDIAPrimaryColor
     $InstallNVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNvidiaGeForceExperience
 
-    $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallNVCleanstall
+    $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallNVCleanstall
     $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClApplicationRequirements
     $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDirectX
     $InstallMsVCppX64 = New-CheckBox -Text "MSVC Redist 2005-2022 (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsDotNetFramework
     $InstallMsVCppX86 = New-CheckBox -Text "MSVC Redist 2005-2022 (x86)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsVCppX64
 
-    $ClFileCompression = New-Label -Text "File Compression" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallMsVCppX86
+    $ClFileCompression = New-Label -Text "File Compression" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallMsVCppX86
     $Install7Zip = New-CheckBox -Text "7-Zip" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClFileCompression
     $InstallWinRar = New-CheckBox -Text "WinRAR (Trial)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $Install7Zip
 
-    $ClDocuments = New-Label -Text "Document Editors/Readers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallWinRar
+    $ClDocuments = New-Label -Text "Document Editors/Readers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallWinRar
     $InstallAdobeReaderDC = New-CheckBox -Text "Adobe Reader DC (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClDocuments
     $InstallLibreOffice = New-CheckBox -Text "LibreOffice" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAdobeReaderDC
     $InstallOnlyOffice = New-CheckBox -Text "ONLYOFFICE DesktopEditors" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallLibreOffice
@@ -251,47 +251,47 @@ function Show-GUI() {
     $InstallPowerBi = New-CheckBox -Text "Power BI" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPDFCreator
     $InstallSumatraPDF = New-CheckBox -Text "Sumatra PDF" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPowerBi
 
-    $ClTorrent = New-Label -Text "Torrent" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallSumatraPDF
+    $ClTorrent = New-Label -Text "Torrent" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallSumatraPDF
     $InstallqBittorrent = New-CheckBox -Text "qBittorrent" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClTorrent
 
-    $ClAcademicResearch = New-Label -Text "Academic Research" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallqBittorrent
+    $ClAcademicResearch = New-Label -Text "Academic Research" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallqBittorrent
     $InstallZotero = New-CheckBox -Text "Zotero" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClAcademicResearch
 
-    $Cl2fa = New-Label -Text "2-Factor Authentication" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallZotero
+    $Cl2fa = New-Label -Text "2-Factor Authentication" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallZotero
     $InstallTwilioAuthy = New-CheckBox -Text "Twilio Authy" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $Cl2fa
 
-    $ClBootableUsb = New-Label -Text "Bootable USB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallTwilioAuthy
+    $ClBootableUsb = New-Label -Text "Bootable USB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallTwilioAuthy
     $InstallBalenaEtcher = New-CheckBox -Text "Etcher" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClBootableUsb
     $InstallRufus = New-CheckBox -Text "Rufus" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBalenaEtcher
     $InstallVentoy = New-CheckBox -Text "Ventoy" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRufus
 
-    $ClVirtualMachines = New-Label -Text "Virtual Machines" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallVentoy
+    $ClVirtualMachines = New-Label -Text "Virtual Machines" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallVentoy
     $InstallOracleVirtualBox = New-CheckBox -Text "Oracle VM VirtualBox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClVirtualMachines
     $InstallQemu = New-CheckBox -Text "QEMU" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallOracleVirtualBox
     $InstallVmWarePlayer = New-CheckBox -Text "VMware Workstation Player" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallQemu
 
-    $ClCloudStorage = New-Label -Text "Cloud Storage" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallVmWarePlayer
+    $ClCloudStorage = New-Label -Text "Cloud Storage" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallVmWarePlayer
     $InstallDropbox = New-CheckBox -Text "Dropbox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClCloudStorage
     $InstallGoogleDrive = New-CheckBox -Text "Google Drive" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDropbox
 
-    $ClUICustomization = New-Label -Text "UI Customization" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGoogleDrive
+    $ClUICustomization = New-Label -Text "UI Customization" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallGoogleDrive
     $InstallRoundedTB = New-CheckBox -Text "RoundedTB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClUICustomization
     $InstallTranslucentTB = New-CheckBox -Text "TranslucentTB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRoundedTB
 
     # ==> T2 Panel 2
     $InstallSelected = New-Button -Text "Install Selected" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX $LayoutT2.PanelElementX -LocationY 0 -FontSize $LayoutT2.Heading[3] -FontStyle "Bold"
 
-    $ClWebBrowsers = New-Label -Text "Web Browsers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallSelected
+    $ClWebBrowsers = New-Label -Text "Web Browsers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallSelected
     $InstallBraveBrowser = New-CheckBox -Text "Brave Browser" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClWebBrowsers
     $InstallGoogleChrome = New-CheckBox -Text "Google Chrome" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBraveBrowser
     $InstallMozillaFirefox = New-CheckBox -Text "Mozilla Firefox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGoogleChrome
 
-    $ClAudioVideoTools = New-Label -Text "Audio/Video Tools" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallMozillaFirefox
+    $ClAudioVideoTools = New-Label -Text "Audio/Video Tools" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallMozillaFirefox
     $InstallAudacity = New-CheckBox -Text "Audacity (Editor)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClAudioVideoTools
     $InstallMpcHc = New-CheckBox -Text "MPC-HC (Player)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAudacity
     $InstallVlc = New-CheckBox -Text "VLC (Player)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMpcHc
 
-    $ClImageTools = New-Label -Text "Image Tools" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallVlc
+    $ClImageTools = New-Label -Text "Image Tools" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallVlc
     $InstallGimp = New-CheckBox -Text "GIMP" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClImageTools
     $InstallInkscape = New-CheckBox -Text "Inkscape" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGimp
     $InstallIrfanView = New-CheckBox -Text "IrfanView" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallInkscape
@@ -299,17 +299,17 @@ function Show-GUI() {
     $InstallPaintNet = New-CheckBox -Text "Paint.NET" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKrita
     $InstallShareX = New-CheckBox -Text "ShareX (Screenshots/GIFs)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPaintNet
 
-    $ClStreamingServices = New-Label -Text "Streaming Services" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallShareX
+    $ClStreamingServices = New-Label -Text "Streaming Services" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallShareX
     $InstallAmazonPrimeVideo = New-CheckBox -Text "Amazon Prime Video" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClStreamingServices
     $InstallDisneyPlus = New-CheckBox -Text "Disney+" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAmazonPrimeVideo
     $InstallNetflix = New-CheckBox -Text "Netflix" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDisneyPlus
     $InstallSpotify = New-CheckBox -Text "Spotify" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNetflix
 
-    $ClPlanningProductivity = New-Label -Text "Planning/Productivity" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallSpotify
+    $ClPlanningProductivity = New-Label -Text "Planning/Productivity" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallSpotify
     $InstallNotion = New-CheckBox -Text "Notion" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClPlanningProductivity
     $InstallObsidian = New-CheckBox -Text "Obsidian" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNotion
 
-    $ClUtilities = New-Label -Text "⚒ Utilities" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallObsidian
+    $ClUtilities = New-Label -Text "⚒ Utilities" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallObsidian
     $InstallCpuZ = New-CheckBox -Text "CPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClUtilities
     $InstallCrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCpuZ
     $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskInfo
@@ -323,7 +323,7 @@ function Show-GUI() {
     $InstallVoiceMeeter = New-CheckBox -Text "Voicemeeter Potato" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVoicemod
     $InstallWizTree = New-CheckBox -Text "WizTree" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVoiceMeeter
 
-    $ClNetworkManagement = New-Label -Text "Network Management" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallWizTree
+    $ClNetworkManagement = New-Label -Text "Network Management" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallWizTree
     $InstallHamachi = New-CheckBox -Text "Hamachi (LAN)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClNetworkManagement
     $InstallPuTty = New-CheckBox -Text "PuTTY" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallHamachi
     $InstallRadminVpn = New-CheckBox -Text "Radmin VPN (LAN)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPuTty
@@ -333,7 +333,7 @@ function Show-GUI() {
     # ==> T2 Panel 3
     $UninstallMode = New-Button -Text "[OFF] Uninstall Mode" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX $LayoutT2.PanelElementX -LocationY 0 -FontSize $LayoutT2.Heading[3] -FontStyle "Bold"
 
-    $ClCommunication = New-Label -Text "Communication" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $UninstallMode
+    $ClCommunication = New-Label -Text "Communication" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $UninstallMode
     $InstallDiscord = New-CheckBox -Text "Discord" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClCommunication
     $InstallMSTeams = New-CheckBox -Text "Microsoft Teams" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDiscord
     $InstallRocketChat = New-CheckBox -Text "Rocket Chat" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMSTeams
@@ -344,7 +344,7 @@ function Show-GUI() {
     $InstallWhatsAppDesktop = New-CheckBox -Text "WhatsApp Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallTelegramDesktop
     $InstallZoom = New-CheckBox -Text "Zoom" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWhatsAppDesktop
 
-    $ClGaming = New-Label -Text "Gaming" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallZoom
+    $ClGaming = New-Label -Text "Gaming" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallZoom
     $InstallBorderlessGaming = New-CheckBox -Text "Borderless Gaming" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClGaming
     $InstallEADesktop = New-CheckBox -Text "EA Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBorderlessGaming
     $InstallEpicGamesLauncher = New-CheckBox -Text "Epic Games Launcher" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallEADesktop
@@ -352,19 +352,19 @@ function Show-GUI() {
     $InstallSteam = New-CheckBox -Text "Steam" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGogGalaxy
     $InstallUbisoftConnect = New-CheckBox -Text "Ubisoft Connect" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSteam
 
-    $ClRemoteConnection = New-Label -Text "Remote Connection" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallUbisoftConnect
+    $ClRemoteConnection = New-Label -Text "Remote Connection" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallUbisoftConnect
     $InstallAnyDesk = New-CheckBox -Text "AnyDesk" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClRemoteConnection
     $InstallParsec = New-CheckBox -Text "Parsec" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAnyDesk
     $InstallScrCpy = New-CheckBox -Text "ScrCpy (Android)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallParsec
     $InstallTeamViewer = New-CheckBox -Text "Team Viewer" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallScrCpy
 
-    $ClRecordingAndStreaming = New-Label -Text "Recording and Streaming" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallTeamViewer
+    $ClRecordingAndStreaming = New-Label -Text "Recording and Streaming" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallTeamViewer
     $InstallElgatoStreamDeck = New-CheckBox -Text "Elgato Stream Deck" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClRecordingAndStreaming
     $InstallHandBrake = New-CheckBox -Text "HandBrake (Transcode)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallElgatoStreamDeck
     $InstallObsStudio = New-CheckBox -Text "OBS Studio" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallHandBrake
     $InstallStreamlabs = New-CheckBox -Text "Streamlabs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallObsStudio
 
-    $ClEmulation = New-Label -Text "Emulation" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallStreamlabs
+    $ClEmulation = New-Label -Text "Emulation" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallStreamlabs
     $InstallBSnesHd = New-CheckBox -Text "BSnes HD (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClEmulation
     $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBSnesHd
     $InstallDolphin = New-CheckBox -Text "Dolphin Stable (GC/Wii)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCemu
@@ -377,14 +377,14 @@ function Show-GUI() {
     $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRyujinx
 
     # ==> T2 Panel 4
-    $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -LocationY ($LayoutT2.ButtonHeight + $LayoutT2.DistanceBetweenElements) -FontSize $LayoutT2.Heading[2]
+    $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -ElementBefore $InstallSelected -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold'
     $InstallJetBrainsToolbox = New-CheckBox -Text "JetBrains Toolbox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClTextEditors
     $InstallNotepadPlusPlus = New-CheckBox -Text "Notepad++" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallJetBrainsToolbox
     $InstallVisualStudioCommunity = New-CheckBox -Text "Visual Studio 2022 Community" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNotepadPlusPlus
     $InstallVSCode = New-CheckBox -Text "VS Code" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVisualStudioCommunity
     $InstallVSCodium = New-CheckBox -Text "VS Codium" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVSCode
 
-    $ClWsl = New-Label -Text "Windows Subsystem For Linux" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallVSCodium
+    $ClWsl = New-Label -Text "Windows Subsystem For Linux" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallVSCodium
     $InstallWSL = New-CheckBox -Text "Install WSL" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClWsl -ForeColor $WinBlue
     $InstallArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWSL -ForeColor $WinBlue
     $InstallDebian = New-CheckBox -Text "Debian GNU/Linux" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallArchWSL
@@ -396,7 +396,7 @@ function Show-GUI() {
     $InstallUbuntu18Lts = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu16Lts
     $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu18Lts
 
-    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -ElementBefore $InstallUbuntu20Lts
+    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallUbuntu20Lts
     $InstallWindowsTerminal = New-CheckBox -Text "Windows Terminal" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClDevelopment
     $InstallNerdFonts = New-CheckBox -Text "Install Nerd Fonts" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWindowsTerminal -ForeColor $WinBlue
     $InstallGitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNerdFonts -ForeColor $WinBlue
