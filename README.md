@@ -77,7 +77,7 @@ Code located in the `main` branch is considered stable, the `develop` branch con
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"WinDebloatTools.ps1"
 ```
 
-![Script GUI](./src/assets/script-gui.gif)
+![Script GUI](./src/assets/script-gui.png)
 
 _The `Apply Tweaks` button is the main one for debloating._
 
