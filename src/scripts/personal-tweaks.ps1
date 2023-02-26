@@ -45,7 +45,7 @@ function Register-PersonalTweaksList() {
     $PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
     $PathToLMPoliciesWindowsSearch = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 
-    Write-Title -Text "My Personal Tweaks"
+    Write-Title "My Personal Tweaks"
     If (!$Revert) {
         $Scripts = @("enable-photo-viewer.reg")
         Enable-DarkTheme
@@ -70,7 +70,7 @@ function Register-PersonalTweaksList() {
         Write-Status -Types "?", $TweakType -Status "Task Manager patch not run in builds 22557+ due to bug" -Warning
     }
 
-    Write-Section -Text "Windows Explorer Tweaks"
+    Write-Section "Windows Explorer Tweaks"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Quick Access from Windows Explorer..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "ShowFrequent" -Type DWord -Value $Zero
     Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "ShowRecent" -Type DWord -Value $Zero
@@ -110,8 +110,8 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "-", $TweakType -Status "Disabling '- Shortcut' name after creating a shortcut..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "link" -Type Binary -Value ([byte[]](0x00, 0x00, 0x00, 0x00))
 
-    Write-Section -Text "Task Bar Tweaks"
-    Write-Caption -Text "Task Bar - Windows 10 Compatible"
+    Write-Section "Task Bar Tweaks"
+    Write-Caption "Task Bar - Windows 10 Compatible"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Search Box' from taskbar..."
     # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
     Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
@@ -144,7 +144,7 @@ function Register-PersonalTweaksList() {
     # [@] (0 = Show Meet Now, 1 = Hide Meet Now)
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
 
-    Write-Caption -Text "Task Bar - Windows 11 Compatible"
+    Write-Caption "Task Bar - Windows 11 Compatible"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Widgets' icon from taskbar..."
     # [@] (0 = Hide Widgets, 1 = Show Widgets)
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
@@ -156,35 +156,35 @@ function Register-PersonalTweaksList() {
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
-    Write-Caption -Text "Colors"
+    Write-Caption "Colors"
     Write-Status -Types "*", $TweakType -Status "Restoring taskbar transparency..."
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 
-    Write-Section -Text "System"
-    Write-Caption -Text "Multitasking"
+    Write-Section "System"
+    Write-Caption "Multitasking"
     Write-Status -Types "-", $TweakType -Status "Disabling Edge multi tabs showing on Alt + Tab..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "MultiTaskingAltTabFilter" -Type DWord -Value 3
 
-    Write-Section -Text "Devices"
-    Write-Caption -Text "Bluetooth & other devices"
+    Write-Section "Devices"
+    Write-Caption "Bluetooth & other devices"
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) driver download over metered connections..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
 
-    Write-Section -Text "Cortana Tweaks"
+    Write-Section "Cortana Tweaks"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Bing Search in Start Menu..."
     Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "BingSearchEnabled" -Type DWord -Value $Zero
     Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "CortanaConsent" -Type DWord -Value $Zero
     Set-ItemPropertyVerified -Path "$PathToCUPoliciesExplorer" -Name "DisableSearchBoxSuggestions" -Type DWord -Value $One
 
-    Write-Section -Text "Ease of Access"
-    Write-Caption -Text "Keyboard"
+    Write-Section "Ease of Access"
+    Write-Caption "Keyboard"
     Write-Status -Types "-", $TweakType -Status "Disabling Sticky Keys..."
     Set-ItemPropertyVerified -Path "$PathToCUAccessibility\StickyKeys" -Name "Flags" -Value "506"
     Set-ItemPropertyVerified -Path "$PathToCUAccessibility\Keyboard Response" -Name "Flags" -Value "122"
     Set-ItemPropertyVerified -Path "$PathToCUAccessibility\ToggleKeys" -Name "Flags" -Value "58"
 
-    Write-Section -Text "Microsoft Edge Policies"
-    Write-Caption -Text "Privacy, search and services / Address bar and search"
+    Write-Section "Microsoft Edge Policies"
+    Write-Caption "Privacy, search and services / Address bar and search"
     Write-Status -Types "*", $TweakType -Status "Show me search and site suggestions using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge", "$PathToLMPoliciesEdge" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
 
@@ -197,7 +197,7 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "+", $TweakType -Status "Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
 
-    Write-Section -Text "Power Plan Tweaks"
+    Write-Section "Power Plan Tweaks"
     $TimeoutScreenBattery = 5
     $TimeoutScreenPluggedIn = 10
 

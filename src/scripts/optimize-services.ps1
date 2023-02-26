@@ -89,8 +89,8 @@ function Optimize-ServicesRunning() {
         "gupdatem"                       # DEFAULT: Manual    | Google Update Service²
     )
 
-    Write-Title -Text "Services tweaks"
-    Write-Section -Text "Disabling services from Windows"
+    Write-Title "Services tweaks"
+    Write-Section "Disabling services from Windows"
 
     If ($Revert) {
         Write-Status -Types "*", "Service" -Status "Reverting the tweaks is set to '$Revert'." -Warning
@@ -100,7 +100,7 @@ function Optimize-ServicesRunning() {
         Set-ServiceStartup -State 'Disabled' -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
     }
 
-    Write-Section -Text "Enabling services from Windows"
+    Write-Section "Enabling services from Windows"
 
     If ($IsSystemDriveSSD -or $Revert) {
         $CustomMessage = { "The $Service ($((Get-Service $Service).DisplayName)) service works better in 'Automatic' mode on SSDs..." }

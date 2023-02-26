@@ -19,7 +19,7 @@ function Open-PowerShellFilesCollection {
 
     ForEach ($FileName in $Scripts) {
         $LastAccessUtc = "v$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
-        $Private:Counter = Write-TitleCounter -Text "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
+        $Private:Counter = Write-TitleCounter "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
         If ($OpenFromGUI) {
             Import-Module -DisableNameChecking .\"$FileName" -Force
         } Else {
@@ -48,7 +48,7 @@ function Open-RegFilesCollection {
 
     ForEach ($FileName in $Scripts) {
         $LastAccessUtc = "v$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
-        $Private:Counter = Write-TitleCounter -Text "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
+        $Private:Counter = Write-TitleCounter "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
         regedit /s "$FileName"
     }
 

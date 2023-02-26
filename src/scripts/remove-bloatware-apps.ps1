@@ -149,8 +149,8 @@ function Remove-BloatwareAppsList() {
         #"Windows.ContactSupport"
     )
 
-    Write-Title -Text "Remove Bloatware Apps"
-    Write-Section -Text "Removing Windows unneeded Apps"
+    Write-Title "Remove Bloatware Apps"
+    Write-Section "Removing Windows unneeded Apps"
     Remove-UWPAppx -AppxPackages $Apps
 }
 

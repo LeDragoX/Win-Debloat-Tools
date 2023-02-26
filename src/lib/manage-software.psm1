@@ -36,9 +36,9 @@ function Install-Software() {
         If ($PackageProvider -eq 'MsStore') {
             Write-Status -Types "?" -Status "Reminder: Press 'Y' and ENTER to continue if stuck (1st time only) ..." -Warning
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
-            $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
+            $Private:Counter = Write-TitleCounter "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
         } Else {
-            $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
+            $Private:Counter = Write-TitleCounter "$Package" -Counter $Counter -MaxLength $Packages.Length
         }
 
         Try {
@@ -105,9 +105,9 @@ function Uninstall-Software() {
     ForEach ($Package in $Packages) {
         If ($PackageProvider -eq 'MsStore') {
             $PackageName = (winget search --source 'msstore' --exact $Package)[-1].Replace("$Package Unknown", '').Trim(' ')
-            $Private:Counter = Write-TitleCounter -Text "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
+            $Private:Counter = Write-TitleCounter "$Package - $PackageName" -Counter $Counter -MaxLength $Packages.Length
         } Else {
-            $Private:Counter = Write-TitleCounter -Text "$Package" -Counter $Counter -MaxLength $Packages.Length
+            $Private:Counter = Write-TitleCounter "$Package" -Counter $Counter -MaxLength $Packages.Length
         }
 
         Try {

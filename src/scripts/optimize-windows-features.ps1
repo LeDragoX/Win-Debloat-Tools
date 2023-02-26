@@ -28,8 +28,8 @@ function Optimize-WindowsFeaturesList() {
         "NetFx4Extended-ASPNET45"           # NET Framework 4.x + ASPNET 4.x
     )
 
-    Write-Title -Text "Optional Features Tweaks"
-    Write-Section -Text "Uninstall Optional Features from Windows"
+    Write-Title "Optional Features Tweaks"
+    Write-Section "Uninstall Optional Features from Windows"
 
     If ($Revert) {
         Write-Status -Types "*", "OptionalFeature" -Status "Reverting the tweaks is set to '$Revert'." -Warning
@@ -38,7 +38,7 @@ function Optimize-WindowsFeaturesList() {
         Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures $DisableFeatures
     }
 
-    Write-Section -Text "Install Optional Features from Windows"
+    Write-Section "Install Optional Features from Windows"
     Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures $EnableFeatures
 }
 
