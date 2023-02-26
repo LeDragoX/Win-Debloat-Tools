@@ -41,10 +41,10 @@ function Optimize-Performance() {
     $PathToCUControlPanelDesktop = "HKCU:\Control Panel\Desktop"
     $PathToCUGameBar = "HKCU:\SOFTWARE\Microsoft\GameBar"
 
-    Write-Title -Text "Performance Tweaks"
+    Write-Title "Performance Tweaks"
 
-    Write-Section -Text "System"
-    Write-Caption -Text "Display"
+    Write-Section "System"
+    Write-Caption "Display"
     Write-Status -Types "+", $TweakType -Status "Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
     Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
 
@@ -69,7 +69,7 @@ function Optimize-Performance() {
         Remove-ItemProperty -Path "$PathToLMPoliciesWindowsStore" -Name "AutoDownload" # [@] (2 = Disable, 4 = Enable)
     }
 
-    Write-Section -Text "Power Plan Tweaks"
+    Write-Section "Power Plan Tweaks"
 
     Write-Status -Types "+", $TweakType -Status "Setting Power Plan to High Performance..."
     powercfg -SetActive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
@@ -85,12 +85,12 @@ function Optimize-Performance() {
     Write-Status -Types "+", $TweakType -Status "Setting Hibernate size to reduced (hides hibernate option as hiberfil.sys takes less size)..."
     powercfg -Hibernate -Type Reduced
 
-    Write-Section -Text "Network & Internet"
+    Write-Section "Network & Internet"
     Write-Status -Types "+", $TweakType -Status "Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
     Set-ItemPropertyVerified -Path "$PathToLMMultimediaSystemProfile" -Name "NetworkThrottlingIndex" -Type DWord -Value 0xffffffff
 
-    Write-Section -Text "System & Apps Timeout behaviors"
+    Write-Section "System & Apps Timeout behaviors"
     Write-Status -Types "+", $TweakType -Status "Reducing Time to services app timeout to 2s to ALL users..."
     Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "WaitToKillServiceTimeout" -Type DWord -Value 2000 # Default: 20000 / 5000
     Write-Status -Types "*", $TweakType -Status "Don't clear page file at shutdown (takes more time) to ALL users..."
@@ -103,9 +103,9 @@ function Optimize-Performance() {
     ForEach ($DesktopRegistryPath in @($PathToUsersControlPanelDesktop, $PathToCUControlPanelDesktop)) {
         <# $DesktopRegistryPath is the path related to all users and current user configuration #>
         If ($DesktopRegistryPath -eq $PathToUsersControlPanelDesktop) {
-            Write-Caption -Text "TO ALL USERS"
+            Write-Caption "TO ALL USERS"
         } ElseIf ($DesktopRegistryPath -eq $PathToCUControlPanelDesktop) {
-            Write-Caption -Text "TO CURRENT USER"
+            Write-Caption "TO CURRENT USER"
         }
 
         Write-Status -Types "+", $TweakType -Status "Don't prompt user to end tasks on shutdown..."
@@ -124,7 +124,7 @@ function Optimize-Performance() {
         Set-ItemPropertyVerified -Path "$DesktopRegistryPath" -Name "WaitToKillAppTimeout" -Type DWord -Value 5000 # Default: 20000
     }
 
-    Write-Section -Text "Gaming Responsiveness Tweaks"
+    Write-Section "Gaming Responsiveness Tweaks"
 
     If (!$Revert) {
         Disable-XboxGameBarDVRandMode

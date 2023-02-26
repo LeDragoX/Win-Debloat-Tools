@@ -48,7 +48,7 @@ function Optimize-Privacy() {
     $PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
     $PathToCUSiufRules = "HKCU:\SOFTWARE\Microsoft\Siuf\Rules"
 
-    Write-Title -Text "Privacy Tweaks"
+    Write-Title "Privacy Tweaks"
     If (!$Revert) {
         Disable-ClipboardHistory
         Disable-ClipboardSyncAcrossDevice
@@ -62,8 +62,8 @@ function Optimize-Privacy() {
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) File Explorer Ads (OneDrive, New Features etc.)..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value $Zero
 
-    Write-Section -Text "Personalization"
-    Write-Caption -Text "Start & Lockscreen"
+    Write-Section "Personalization"
+    Write-Caption "Start & Lockscreen"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Show me the windows welcome experience after updates..."
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Get fun facts and tips, etc. on lock screen'..."
 
@@ -103,8 +103,8 @@ function Optimize-Privacy() {
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Show Suggestions' in Start..."
     Remove-ItemVerified -Path "$PathToCUContentDeliveryManager\SuggestedApps" -Recurse
 
-    Write-Section -Text "Privacy -> Windows Permissions"
-    Write-Caption -Text "General"
+    Write-Section "Privacy -> Windows Permissions"
+    Write-Caption "General"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Let apps use my advertising ID..."
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value $Zero
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesAdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value $One
@@ -112,20 +112,20 @@ function Optimize-Privacy() {
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Let websites provide locally relevant content by accessing my language list'..."
     Set-ItemPropertyVerified -Path "HKCU:\Control Panel\International\User Profile" -Name "HttpAcceptLanguageOptOut" -Type DWord -Value $One
 
-    Write-Caption -Text "Speech"
+    Write-Caption "Speech"
     If (!$Revert) {
         Disable-OnlineSpeechRecognition
     } Else {
         Enable-OnlineSpeechRecognition
     }
 
-    Write-Caption -Text "Inking & Typing Personalization"
+    Write-Caption "Inking & Typing Personalization"
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" -Name "AcceptedPrivacyPolicy" -Type DWord -Value $Zero
     Set-ItemPropertyVerified -Path "$PathToCUInputPersonalization\TrainedDataStore" -Name "HarvestContacts" -Type DWord -Value $Zero
     Set-ItemPropertyVerified -Path "$PathToCUInputPersonalization" -Name "RestrictImplicitInkCollection" -Type DWord -Value $One
     Set-ItemPropertyVerified -Path "$PathToCUInputPersonalization" -Name "RestrictImplicitTextCollection" -Type DWord -Value $One
 
-    Write-Caption -Text "Diagnostics & Feedback"
+    Write-Caption "Diagnostics & Feedback"
     If (!$Revert) {
         Disable-Telemetry
     } Else {
@@ -147,32 +147,32 @@ function Optimize-Privacy() {
     }
     Set-ItemPropertyVerified -Path "$PathToCUSiufRules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value $Zero
 
-    Write-Caption -Text "Activity History"
+    Write-Caption "Activity History"
     If ($Revert) {
         Enable-ActivityHistory
     } Else {
         Disable-ActivityHistory
     }
 
-    Write-Section -Text "Privacy -> Apps Permissions"
-    Write-Caption -Text "Location"
+    Write-Section "Privacy -> Apps Permissions"
+    Write-Caption "Location"
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value $Zero
     Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "EnableStatus" -Type DWord -Value $Zero
 
-    Write-Caption -Text "Notifications"
+    Write-Caption "Notifications"
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" -Name "Value" -Value "Deny"
 
-    Write-Caption -Text "App Diagnostics"
+    Write-Caption "App Diagnostics"
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" -Name "Value" -Value "Deny"
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\appDiagnostics" -Name "Value" -Value "Deny"
 
-    Write-Caption -Text "Account Info Access"
+    Write-Caption "Account Info Access"
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name "Value" -Value "Deny"
 
-    Write-Caption -Text "Other Devices"
+    Write-Caption "Other Devices"
     Write-Status -Types "-", $TweakType -Status "Denying device access..."
     # Disable sharing information with unpaired devices
     Set-ItemPropertyVerified -Path "$PathToCUDeviceAccessGlobal\LooselyCoupled" -Name "Value" -Value "Deny"
@@ -184,11 +184,11 @@ function Optimize-Privacy() {
         Set-ItemPropertyVerified -Path ("$PathToCUDeviceAccessGlobal\" + $key.PSChildName) -Name "Value" -Value "Deny"
     }
 
-    Write-Caption -Text "Background Apps"
+    Write-Caption "Background Apps"
     Enable-BackgroundAppsToogle
 
-    Write-Section -Text "Update & Security"
-    Write-Caption -Text "Windows Update"
+    Write-Section "Update & Security"
+    Write-Caption "Windows Update"
     Enable-AutomaticWindowsUpdate
 
     Write-Status -Types "*", $TweakType -Status "Enabling Automatic Updates..."
@@ -215,7 +215,7 @@ function Optimize-Privacy() {
     # [@] (3 = Local Network and Internet,  99 = Simply Download mode, 100 = Bypass mode)
     Set-ItemPropertyVerified -Path "$PathToLMDeliveryOptimizationCfg" -Name "DODownloadMode" -Type DWord -Value $One
 
-    Write-Caption -Text "Troubleshooting"
+    Write-Caption "Troubleshooting"
     Write-Status -Types "+", $TweakType -Status "Enabling Automatic Recommended Troubleshooting, then notify me..."
     Set-ItemPropertyVerified -Path "$PathToLMWindowsTroubleshoot" -Name "UserPreference" -Type DWord -Value 3
 

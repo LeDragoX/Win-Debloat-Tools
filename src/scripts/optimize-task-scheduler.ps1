@@ -47,8 +47,8 @@ function Optimize-TaskScheduler() {
         "\Microsoft\Windows\Windows Error Reporting\QueueReporting" # Windows Error Reporting event, needed to improve compatibility with your hardware
     )
 
-    Write-Title -Text "Task Scheduler tweaks"
-    Write-Section -Text "Disabling Scheduled Tasks from Windows"
+    Write-Title "Task Scheduler tweaks"
+    Write-Section "Disabling Scheduled Tasks from Windows"
 
     If ($Revert) {
         Write-Status -Types "*", "TaskScheduler" -Status "Reverting the tweaks is set to '$Revert'." -Warning
@@ -57,7 +57,7 @@ function Optimize-TaskScheduler() {
         Set-ScheduledTaskState -State 'Disabled' -ScheduledTask $DisableScheduledTasks
     }
 
-    Write-Section -Text "Enabling Scheduled Tasks from Windows"
+    Write-Section "Enabling Scheduled Tasks from Windows"
     Set-ScheduledTaskState -State 'Enabled' -ScheduledTask $EnableScheduledTasks
 }
 

@@ -20,8 +20,8 @@ function Remove-CapabilitiesList() {
     }
 
     Process {
-        Write-Title -Text "Windows Capabilities Tweaks"
-        Write-Section -Text "Uninstall Windows Capabilities from Windows"
+        Write-Title "Windows Capabilities Tweaks"
+        Write-Section "Uninstall Windows Capabilities from Windows"
 
         If ($Revert) {
             Write-Status -Types "*", "Capability" -Status "Reverting the tweaks is set to '$Revert'." -Warning
