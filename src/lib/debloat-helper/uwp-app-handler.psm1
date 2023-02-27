@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 
 function Remove-UWPApp() {
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding()]
     param (
         [Parameter(Position = 0, Mandatory)]
         [String[]] $AppxPackages

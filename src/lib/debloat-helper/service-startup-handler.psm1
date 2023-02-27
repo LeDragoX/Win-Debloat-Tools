@@ -1,7 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 
 function Set-ServiceStartup() {
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
         [ValidateSet('Automatic', 'Boot', 'Disabled', 'Manual', 'System')]
