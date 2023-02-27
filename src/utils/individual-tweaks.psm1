@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"grant-registry-permission.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"new-shortcut.psm1"
@@ -5,7 +6,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-item-verified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"service-startup-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-appx-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"windows-capability-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"windows-feature-handler.psm1"
 

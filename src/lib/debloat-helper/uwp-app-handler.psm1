@@ -1,6 +1,6 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 
-function Remove-UWPAppx() {
+function Remove-UWPApp() {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Position = 0, Mandatory)]
@@ -8,7 +8,7 @@ function Remove-UWPAppx() {
     )
 
     Begin {
-        $Script:TweakType = "UWP"
+        $Script:TweakType = "App"
     }
 
     Process {
@@ -27,6 +27,6 @@ function Remove-UWPAppx() {
 
 <#
 Example:
-Remove-UWPAppx -AppxPackages "AppX1"
-Remove-UWPAppx -AppxPackages @("AppX1", "AppX2", "AppX3")
+Remove-UWPApp -AppxPackages "AppX1"
+Remove-UWPApp -AppxPackages @("AppX1", "AppX2", "AppX3")
 #>

@@ -2,7 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-item-verified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-appx-handler.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-app-handler.psm1"
 
 function Main() {
     $Ask = "Are you sure you want to remove Microsoft Edge from Windows?`nYou can reinstall it anytime.`nNote: all users logged in will remain."
@@ -44,7 +44,7 @@ function Remove-MSEdge() {
         Write-Status -Types "?" -Status "EdgeCore folder does not exist anymore..." -Warning
     }
 
-    Remove-UWPAppx -AppxPackages "Microsoft.MicrosoftEdge"
+    Remove-UWPApp -AppxPackages "Microsoft.MicrosoftEdge"
 
     Write-Status -Types "@" -Status "Preventing Edge from reinstalling..."
     Set-ItemPropertyVerified -Path "$PathToLMEdgeUpdate" -Name "DoNotUpdateToEdgeWithChromium" -Type DWord -Value 1
