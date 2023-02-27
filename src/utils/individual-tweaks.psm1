@@ -6,6 +6,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-i
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"service-startup-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-appx-handler.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"windows-capability-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"windows-feature-handler.psm1"
 
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
@@ -254,6 +255,14 @@ function Enable-PhoneLink() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Phone Link (Your Phone)..."
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesCloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 0
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesSystem" -Name "EnableMmx" -Type DWord -Value 1
+}
+
+function Disable-PowerShellISE() {
+    Set-CapabilityState -State Disabled -Capabilities @("Microsoft.Windows.PowerShell.ISE*")
+}
+
+function Enable-PowerShellISE() {
+    Set-CapabilityState -State Enabled -Capabilities @("Microsoft.Windows.PowerShell.ISE*")
 }
 
 function Disable-PrintToPDFServicesToogle() {
