@@ -204,7 +204,10 @@ function Show-GUI() {
     $CbPrintingXPSServices = New-CheckBox -Text "Printing-XPSServices-Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintToPDFServices
     $CbWindowsMediaPlayer = New-CheckBox -Text "Windows Media Player" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintingXPSServices
 
-    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsMediaPlayer
+    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsMediaPlayer
+    $CbPowerShellISE = New-CheckBox -Text "PowerShell ISE" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsCapabilities
+
+    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbPowerShellISE
     $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClMiscFeatures
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbEncryptedDNS
     $CbMouseNaturalScroll = New-CheckBox -Text "Enable Mouse Natural Scroll" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbGodMode
@@ -430,6 +433,7 @@ function Show-GUI() {
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
     $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
+    $T1Panel3.Controls.AddRange(@($ClWindowsCapabilities, $CbPowerShellISE))
     $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
@@ -749,6 +753,16 @@ function Show-GUI() {
             } Else {
                 Disable-WindowsMediaPlayer
                 $CbWindowsMediaPlayer.Text = "[OFF] Windows Media Player"
+            }
+        })
+
+    $CbPowerShellISE.Add_Click( {
+            If ($CbPowerShellISE.CheckState -eq "Checked") {
+                Enable-PowerShellISE
+                $CbPowerShellISE.Text = "[ON]  PowerShell ISE *"
+            } Else {
+                Disable-PowerShellISE
+                $CbPowerShellISE.Text = "[OFF] PowerShell ISE"
             }
         })
 
