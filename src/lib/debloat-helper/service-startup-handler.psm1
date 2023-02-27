@@ -8,8 +8,7 @@ function Set-ServiceStartup() {
         [String]      $State,
         [Parameter(Mandatory = $true)]
         [String[]]    $Services,
-        [String[]]    $Filter,
-        [ScriptBlock] $CustomMessage
+        [String[]]    $Filter
     )
 
     Begin {
@@ -34,12 +33,7 @@ function Set-ServiceStartup() {
                 Continue
             }
 
-            If (!$CustomMessage) {
-                Write-Status -Types "@", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as '$State' on Startup..."
-            } Else {
-                Write-Status -Types "?", $TweakType -Status $(Invoke-Expression "$CustomMessage") -Warning
-            }
-
+            Write-Status -Types "@", $TweakType -Status "Setting $Service ($((Get-Service $Service).DisplayName)) as '$State' on Startup..."
             Get-Service -Name "$Service" -ErrorAction SilentlyContinue | Set-Service -StartupType $State
         }
     }

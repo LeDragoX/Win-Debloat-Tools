@@ -94,8 +94,7 @@ function Optimize-ServicesRunning() {
 
     If ($Revert) {
         Write-Status -Types "*", "Service" -Status "Reverting the tweaks is set to '$Revert'." -Warning
-        $CustomMessage = { "Resetting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup..." }
-        Set-ServiceStartup -State 'Manual' -Services $ServicesToDisabled -Filter $EnableServicesOnSSD -CustomMessage $CustomMessage
+        Set-ServiceStartup -State 'Manual' -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
     } Else {
         Set-ServiceStartup -State 'Disabled' -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
     }
@@ -103,8 +102,7 @@ function Optimize-ServicesRunning() {
     Write-Section "Enabling services from Windows"
 
     If ($IsSystemDriveSSD -or $Revert) {
-        $CustomMessage = { "The $Service ($((Get-Service $Service).DisplayName)) service works better in 'Automatic' mode on SSDs..." }
-        Set-ServiceStartup -State 'Automatic' -Services $EnableServicesOnSSD -CustomMessage $CustomMessage
+        Set-ServiceStartup -State 'Automatic' -Services $EnableServicesOnSSD
     }
 
     Set-ServiceStartup -State 'Manual' -Services $ServicesToManual
