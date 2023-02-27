@@ -2,7 +2,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-appx-handler.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-app-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 function Main() {
@@ -47,7 +47,7 @@ function Remove-Xbox() {
     Set-ServiceStartup -State 'Disabled' -Services $XboxServices
 
     Write-Status -Types "-", $TweakType -Status "Wiping Xbox Apps completely from Windows..."
-    Remove-UWPAppx -AppxPackages $XboxApps
+    Remove-UWPApp -AppxPackages $XboxApps
 
     Write-Status -Types "-", $TweakType -Status "Disabling Xbox Game Monitoring..."
     Set-ItemPropertyVerified -Path "$PathToLMServicesXbgm" -Name "Start" -Type DWord -Value 4

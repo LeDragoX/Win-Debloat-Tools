@@ -1,5 +1,5 @@
 ﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-appx-handler.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-app-handler.psm1"
 
 function Remove-BloatwareAppsList() {
     $Apps = @(
@@ -151,7 +151,7 @@ function Remove-BloatwareAppsList() {
 
     Write-Title "Remove Bloatware Apps"
     Write-Section "Removing Windows unneeded Apps"
-    Remove-UWPAppx -AppxPackages $Apps
+    Remove-UWPApp -AppxPackages $Apps
 }
 
 function Main() {
