@@ -198,6 +198,27 @@ function Enable-GodMode() {
     New-Item -Path "$DesktopPath\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}" -ItemType Directory -Force
 }
 
+function Disable-Hibernate() {
+    Write-Status -Types "-", "Performance" -Status "Disabling Hibernate (Slows boot time and deletes '$env:SystemDrive\hiberfil.sys' file)..."
+    powercfg -Hibernate off | Out-Host # On my PC booted up in 20s 32ms
+}
+
+function Enable-Hibernate() {
+    [CmdletBinding()]
+    param (
+        [Parameter(Position = 0)]
+        [ValidateSet('Full', 'Reduced')]
+        [String] $Type = 'Full'
+    )
+
+    Write-Status -Types "+", "Performance" -Status "Enabling Hibernate (Boots faster and generates '$env:SystemDrive\hiberfil.sys' file)..."
+    powercfg -Hibernate on | Out-Host # On my PC booted up in 12s 56ms Full/Reduced
+
+    # Full = Enables Hibernate power button and Fast Startup | Reduced = Enable Fast Startup only
+    Write-Status -Types "+", "Performance" -Status "Setting Hibernate size to $Type..."
+    powercfg -Hibernate -Type $Type | Out-Host
+}
+
 function Disable-InternetExplorer() {
     Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Internet-Explorer-Optional-*")
 }
