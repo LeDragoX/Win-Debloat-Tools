@@ -67,8 +67,8 @@ Code located in the `main` branch is considered stable, the `develop` branch con
 
 **To run a variant of the script, follow these steps:**
 
-- Extract the `.zip` file to another folder.
-- Run `OpenTerminalHere.cmd` (try as admin if nothing happens at all).
+- Extract the **entire** `.zip` file to another folder.
+- Run `OpenTerminalHere.cmd` (try to `run as admin` if nothing happens at all).
 - Copy and Paste one of the lines below on your **Terminal** to unblock the scripts and execute it:
 
 ### GUI Version
@@ -77,9 +77,12 @@ Code located in the `main` branch is considered stable, the `develop` branch con
 Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 | Unblock-File; .\"WinDebloatTools.ps1"
 ```
 
-![Script GUI](./src/assets/script-gui.png)
+<div align="center">
 
+![Script GUI](./src/assets/script-gui.png)
 _The `Apply Tweaks` button is the main one for debloating._
+
+</div>
 
 ### **CLI Version** (Minimal, good for automation)
 
@@ -131,6 +134,24 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ### System Tweaks
 
+#### Customize System Features ([Can be found here](src/utils/individual-tweaks.psm1))
+
+- `Enable/Disable Dark Theme`: Apply _Dark Theme_ or _Light Theme_ on Windows;
+- `Enable/Disable Activity History`: Manages the **Activity History** setting;
+- `Enable/Disable Background Apps`: Manages _ALL_ the **Background Apps** settings;
+- `Enable/Disable Clipboard History`: Manages the **Clipboard History** setting, that keeps a history from your clipboard pressing `Windows + V` key;
+- `Enable/Disable Clipboard Sync Across Devices`: Manages the **Clipboard Sync Across Devices** setting, which allows to use the same clipboard for multiple devices (must be using a MS account);
+- `Enable/Disable Cortana`: Manages the **Cortana** setting;
+- `Enable/Disable Hibernate`: Manages the **Hibernate** setting;
+- `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)** setting;
+- `Enable/Disable Online Speech Recognition`: Manages the **Online Speech Recognition** setting, by pressing the keys `Windows + H` you can speak through your mic, then use it to type text using your voice;
+- `Enable/Disable Phone Link`: Manages the **Phone Link** setting, which can link your Android/iPhone devices notifications to Windows;
+- `Enable/Disable Photo Viewer`: [_Enables_](./src/utils/enable-photo-viewer.reg) or [_Disables_](src/utils/disable-photo-viewer.reg) the old **Photo Viewer (Win 7/8.1)**;
+- `Enable/Disable Search App for Unknown Ext.`: When running a unknown extension file, be able to search through **MS Store** for an App that can open it.
+- `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level** setting;
+- `Enable/Disable WSearch Service`: Manages the **Windows Search Service** setting;
+- `Enable/Disable Xbox Game Bar/DVR/Mode`: Manages the **Xbox Game Bar/DVR/Mode** setting, that can open Game Bar anywhere, record clips from games and change Game Mode;
+
 #### System Debloat Tools
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
@@ -143,11 +164,12 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 _This section contains options to restore the system apps, by downloading them from the **MS Store** (mostly) and doing **Stock configurations** (for some Apps)._
 
-- `Get H.265 video codec`: Get the missing HEVC support to run **H.265 videos** through MS Store, it's a must have that didn't came with (Free and DIY).
+- `Cortana`;
 - `Dolby Audio`;
 - `Microsoft Edge`;
 - `OneDrive`;
 - `Paint + Paint 3D`;
+- `Phone Link`;
 - `Sound Recorder`;
 - `Taskbar Widgets`;
 - `Windows Media Player (UWP)`;
@@ -166,23 +188,6 @@ _This section contains tools to solve some Windows problems and get info about h
 
 - `Enable/Disable Automatic Windows Update`: Set Windows updates to automatic or manual;
 
-#### Customize System Features ([Can be found here](src/utils/individual-tweaks.psm1))
-
-- `Enable/Disable Dark Theme`: Apply _Dark Theme_ or _Light Theme_ on Windows;
-- `Enable/Disable Activity History`: Manages the **Activity History** setting;
-- `Enable/Disable Background Apps`: Manages _ALL_ the **Background Apps** settings;
-- `Enable/Disable Clipboard History`: Manages the **Clipboard History** setting, that keeps a history from your clipboard pressing `Windows + V` key;
-- `Enable/Disable Clipboard Sync Across Devices`: Manages the **Clipboard Sync Across Devices** setting, which allows to use the same clipboard for multiple devices (must be using a MS account);
-- `Enable/Disable Cortana`: Manages the **Cortana** setting;
-- `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)** setting;
-- `Enable/Disable Online Speech Recognition`: Manages the **Online Speech Recognition** setting, by pressing the keys `Windows + H` you can speak through your mic, then use it to type text using your voice;
-- `Enable/Disable Phone Link`: Manages the **Phone Link** setting, which can link your Android/iPhone devices notifications to Windows;
-- `Enable/Disable Photo Viewer`: [_Enables_](./src/utils/enable-photo-viewer.reg) or [_Disables_](src/utils/disable-photo-viewer.reg) the old **Photo Viewer (Win 7/8.1)**;
-- `Enable/Disable Search App for Unknown Ext.`: When running a unknown extension file, be able to search through **MS Store** for an App that can open it.
-- `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level** setting;
-- `Enable/Disable WSearch Service`: Manages the **Windows Search Service** setting;
-- `Enable/Disable Xbox Game Bar/DVR/Mode`: Manages the **Xbox Game Bar/DVR/Mode** setting, that can open Game Bar anywhere, record clips from games and change Game Mode;
-
 #### Optional Features ([Can be found here](src/utils/individual-tweaks.psm1))
 
 _This section can manually adjust `Optional Features` from the system, working as a ON/OFF toggle._
@@ -200,7 +205,7 @@ _This section can manually adjust `Optional Features` from the system, working a
 - `Upgrade All Softwares`: Upgrades all Softwares installed on your machine installed through _Winget_ and _Chocolatey_.
   - WSL will only update itself, not the distros installed.
 - `Install Selected`: Install the selected apps by marking the checkbox(es);
-- `Uninstall Mode`: Default as OFF, clicking this will switch the `Install Selected` button to `Uninstall Selected` and uninstall every selected apps (**Advice**: Blue colored buttons may not be able to uninstall completely and WSL UWP Apps, but WSL Distros will be unregistered);
+- `Uninstall Mode`: Default as OFF, clicking this will switch the `Install Selected` button to `Uninstall Selected` and uninstall every selected apps (**Advice:** differently colored buttons may not be able to uninstall completely and WSL UWP Apps, but WSL Distros will be unregistered);
 
 </details>
 
