@@ -130,6 +130,8 @@ function New-Form() {
     $Form.StartPosition = $StartPosition     # Appears on the center
     $Form.TopMost = $TopMost
 
+    $Form.Anchor = 'Top'
+
     return $Form
 }
 
@@ -170,6 +172,8 @@ function New-TabControl() {
     $FormTabControl.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $FormTabControl.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
 
+    $FormTabControl.Anchor = 'Left', 'Top', 'Right', 'Bottom'
+
     return $FormTabControl
 }
 
@@ -191,6 +195,8 @@ function New-TabPage() {
     $FormTabPage.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $FormTabPage.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $FormTabPage.AutoScroll = $True
+
+    $FormTabPage.Anchor = 'Left', 'Top', 'Right'
 
     return $FormTabPage
 }
