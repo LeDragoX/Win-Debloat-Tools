@@ -1,4 +1,4 @@
-# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
+﻿# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 # Take Ownership tweak from: https://www.howtogeek.com/howto/windows-vista/add-take-ownership-to-explorer-right-click-menu-in-vista/
 
@@ -26,6 +26,7 @@ function Main() {
         Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
         Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"manage-software.psm1" -Force
         Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-revert-status.psm1" -Force
         Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
         Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
         Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"get-default-color.psm1" -Force
@@ -459,13 +460,14 @@ function Show-GUI() {
     # <===== CLICK EVENTS =====>
 
     $ApplyTweaks.Add_Click( {
+            Set-RevertStatus -Revert $false
             Open-DebloatScript
             $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\script-image2.png"
             $Form.Update()
         })
 
     $UndoTweaks.Add_Click( {
-            $Global:Revert = $true
+            Set-RevertStatus -Revert $true
             $Scripts = @(
                 "silent-debloat-softwares.ps1",
                 "optimize-task-scheduler.ps1",
@@ -478,7 +480,7 @@ function Show-GUI() {
                 "reinstall-pre-installed-apps.ps1"
             )
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-            $Global:Revert = $false
+            Set-RevertStatus -Revert $false
             $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\peepo-leaving.gif"
             $PictureBox1.SizeMode = 'StretchImage'
             $Form.Update()
