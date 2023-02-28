@@ -1,4 +1,5 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"get-default-color.psm1"
 
 # Adapted from: https://stackoverflow.com/a/35965782
 # Adapted from: https://www.osdeploy.com/modules/pshot/technical/resolution-scale-and-dpi
@@ -8,6 +9,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3 (Win 11)
+$Colors, $BrandColors = Get-DefaultColor # Load the Colors used in this script
 
 function Set-UIFont() {
     [CmdletBinding()] param ()
@@ -107,7 +109,7 @@ function New-Form() {
         [Int]    $Width,
         [Int]    $Height,
         [String] $Text,
-        [String] $BackColor = "#252525", # Windows Dark
+        [String] $BackColor = $BrandColors.Win.Dark,
         [Bool]   $Minimize = $true,
         [Bool]   $Maximize = $true,
         [ValidateSet('FixedSingle', 'FixedSingle', 'Fixed3D', 'FixedDialog', 'Sizable', 'FixedToolWindow', 'SizableToolWindow')]
@@ -158,8 +160,8 @@ function New-TabControl() {
         [Int]    $Height,
         [Int]    $LocationX,
         [Int]    $LocationY,
-        [String] $ForeColor = "#FFFFFF", # White
-        [String] $BackColor = "#252525" # Windows Dark
+        [String] $ForeColor = $BrandColors.White,
+        [String] $BackColor = $BrandColors.WinDark
     )
 
     $FormTabControl = New-object System.Windows.Forms.TabControl
@@ -177,8 +179,8 @@ function New-TabPage() {
     param (
         [String] $Name,
         [String] $Text,
-        [String] $ForeColor = "#FFFFFF", # White
-        [String] $BackColor = "#252525" # Windows Dark
+        [String] $ForeColor = $Colors.White,
+        [String] $BackColor = $BrandColors.Win.Dark
     )
 
     $FormTabPage = New-object System.Windows.Forms.TabPage
@@ -239,7 +241,7 @@ function New-Label() {
         [Int]           $FontSize,
         [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Regular",
-        [String]        $ForeColor = "#55EE00", # Green
+        [String]        $ForeColor = "#9CFF75", # Light Green
         [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleCenter"
     )
@@ -277,8 +279,8 @@ function New-Button() {
         [Int]           $FontSize,
         [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Regular",
-        [String]        $ForeColor = "#FFFFFF", # White
-        [String]        $BackColor = "#2C2C2C", # Dark Gray
+        [String]        $ForeColor = $Colors.White,
+        [String]        $BackColor = $Colors.DarkGray,
         [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleCenter",
         [ValidateSet('Flat', 'Popup', 'Standard', 'System')]
@@ -322,8 +324,8 @@ function New-CheckBox() {
         [Int]           $FontSize,
         [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Italic",
-        [String]        $ForeColor = "#FFFFFF", # White
-        [String]        $BackColor = "#2C2C2C", # Dark Gray
+        [String]        $ForeColor = $Colors.White,
+        [String]        $BackColor = $Colors.DarkGray,
         [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleLeft"
     )
