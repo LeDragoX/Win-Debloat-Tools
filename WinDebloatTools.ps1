@@ -225,7 +225,8 @@ function Show-GUI() {
     $InstallAmdRyzenChipsetDriver = New-CheckBox -Text "AMD Ryzen Chipset Driver" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClCpuGpuDrivers -ForeColor $BrandColors.AMD.Ryzen
     $InstallIntelDSA = New-CheckBox -Text "Intel® DSA" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAmdRyzenChipsetDriver -ForeColor $BrandColors.Intel
     $InstallNvidiaGeForceExperience = New-CheckBox -Text "NVIDIA GeForce Experience" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallIntelDSA -ForeColor $BrandColors.NVIDIA
-    $InstallNVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNvidiaGeForceExperience
+    $InstallDDU = New-CheckBox -Text "Display Driver Uninstaller" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNvidiaGeForceExperience
+    $InstallNVCleanstall = New-CheckBox -Text "NVCleanstall" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDDU
 
     $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallNVCleanstall
     $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClApplicationRequirements
@@ -428,7 +429,7 @@ function Show-GUI() {
     $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
-    $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallNVCleanstall))
+    $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallDDU, $InstallNVCleanstall))
     $T2Panel1.Controls.AddRange(@($ClApplicationRequirements, $InstallDirectX, $InstallMsDotNetFramework, $InstallMsVCppX64, $InstallMsVCppX86))
     $T2Panel1.Controls.AddRange(@($ClFileCompression, $Install7Zip, $InstallWinRar))
     $T2Panel1.Controls.AddRange(@($ClDocuments, $InstallAdobeReaderDC, $InstallLibreOffice, $InstallOnlyOffice, $InstallPDFCreator, $InstallPowerBi, $InstallSumatraPDF))
@@ -845,6 +846,11 @@ function Show-GUI() {
             If ($InstallNvidiaGeForceExperience.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("Nvidia.GeForceExperience")
                 $InstallNvidiaGeForceExperience.CheckState = "Unchecked"
+            }
+
+            If ($InstallDDU.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Wagnardsoft.DisplayDriverUninstaller")
+                $InstallDDU.CheckState = "Unchecked"
             }
 
             If ($InstallNVCleanstall.CheckState -eq "Checked") {
