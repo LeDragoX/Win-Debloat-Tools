@@ -184,7 +184,7 @@ function Register-PersonalTweaksList() {
     Set-ItemPropertyVerified -Path "$PathToCUAccessibility\ToggleKeys" -Name "Flags" -Value "58"
 
     Write-Section "Microsoft Edge Policies"
-    Write-Caption "Privacy, search and services / Address bar and search"
+    Write-Caption "Privacy, search and services -> Address bar and search"
     Write-Status -Types "*", $TweakType -Status "Show me search and site suggestions using my typed characters..."
     Remove-ItemProperty -Path "$PathToCUPoliciesEdge", "$PathToLMPoliciesEdge" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
 
