@@ -1,6 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"get-hardware-info.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"remove-item-verified.psm1"
 
 function Install-ArchWSL() {
     $OSArchList = Get-OSArchitecture
@@ -17,8 +18,8 @@ function Install-ArchWSL() {
             Write-Status -Types "+" -Status "Installing ArchWSL ($OSArch)..."
             Add-AppxPackage -Path $ArchWSLOutput
             Write-Status -Types "@" -Status "Removing downloaded files..."
-            Remove-Item -Path $CertOutput
-            Remove-Item -Path $ArchWSLOutput
+            Remove-ItemVerified -Path $CertOutput
+            Remove-ItemVerified -Path $ArchWSLOutput
         } Else {
             Write-Status -Types "?" -Status "$OSArch is NOT supported!" -Warning
             Break

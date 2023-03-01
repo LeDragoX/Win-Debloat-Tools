@@ -1,16 +1,17 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\ui\"show-message-dialog.psm1"
 
 function Open-PowerShellFilesCollection {
     [CmdletBinding()]
     param (
-        [String] $RelativeLocation,
-        [Array]  $Scripts,
-        [String] $DoneTitle,
-        [String] $DoneMessage,
-        [Parameter(Mandatory = $false)]
-        [Bool]   $OpenFromGUI = $true,
-        [Switch] $NoDialog
+        [Parameter(Position = 0, Mandatory)]
+        [String]   $RelativeLocation,
+        [Parameter(Position = 1, Mandatory)]
+        [String[]] $Scripts,
+        [String]   $DoneTitle,
+        [String]   $DoneMessage,
+        [Bool]     $OpenFromGUI = $true,
+        [Switch]   $NoDialog
     )
 
     Push-Location -Path $(Join-Path -Path "$PSScriptRoot\..\.." -ChildPath "$RelativeLocation")
@@ -18,7 +19,7 @@ function Open-PowerShellFilesCollection {
 
     ForEach ($FileName in $Scripts) {
         $LastAccessUtc = "v$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
-        $Private:Counter = Write-TitleCounter -Text "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
+        $Private:Counter = Write-TitleCounter "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
         If ($OpenFromGUI) {
             Import-Module -DisableNameChecking .\"$FileName" -Force
         } Else {
@@ -29,7 +30,7 @@ function Open-PowerShellFilesCollection {
     Pop-Location
 
     If (!($NoDialog)) {
-        Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
     }
 }
 
@@ -47,14 +48,14 @@ function Open-RegFilesCollection {
 
     ForEach ($FileName in $Scripts) {
         $LastAccessUtc = "v$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
-        $Private:Counter = Write-TitleCounter -Text "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
+        $Private:Counter = Write-TitleCounter "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
         regedit /s "$FileName"
     }
 
     Pop-Location
 
     If (!($NoDialog)) {
-        Show-Message -Title "$DoneTitle" -Message "$DoneMessage"
+        Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
     }
 }
 

@@ -1,5 +1,5 @@
-﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-app-handler.psm1"
 
 function Remove-BloatwareAppsList() {
     $Apps = @(
@@ -38,6 +38,7 @@ function Remove-BloatwareAppsList() {
         "Microsoft.Whiteboard"                   # Microsoft Whiteboard
         "Microsoft.WindowsAlarms"                # Alarms
         "microsoft.windowscommunicationsapps"
+        "Microsoft.WindowsFeedbackHub"           # Feedback Hub
         "Microsoft.WindowsMaps"                  # Maps
         "Microsoft.WindowsPhone"
         "Microsoft.WindowsReadingList"
@@ -53,52 +54,52 @@ function Remove-BloatwareAppsList() {
         "MicrosoftTeams"                         # Microsoft Teams / Preview
 
         # 3rd party Apps
-        "*ACGMediaPlayer*"
-        "*ActiproSoftwareLLC*"
-        "*AdobePhotoshopExpress*"                # Adobe Photoshop Express
-        "*Amazon.com.Amazon*"                    # Amazon Shop
-        "*Asphalt8Airborne*"                     # Asphalt 8 Airbone
-        "*AutodeskSketchBook*"
-        "*BubbleWitch3Saga*"                     # Bubble Witch 3 Saga
-        "*CaesarsSlotsFreeCasino*"
-        "*CandyCrush*"                           # Candy Crush
-        "*COOKINGFEVER*"
-        "*CyberLinkMediaSuiteEssentials*"
-        "*DisneyMagicKingdoms*"
-        "*Dolby*"                                # Dolby Products (Like Atmos)
-        "*DrawboardPDF*"
-        "*Duolingo-LearnLanguagesforFree*"       # Duolingo
-        "*EclipseManager*"
-        "*Facebook*"                             # Facebook
-        "*FarmVille2CountryEscape*"
-        "*FitbitCoach*"
-        "*Flipboard*"                            # Flipboard
-        "*HiddenCity*"
-        "*Hulu*"
-        "*iHeartRadio*"
-        "*Keeper*"
-        "*LinkedInforWindows*"
-        "*MarchofEmpires*"
-        "*Netflix*"                              # Netflix
-        "*NYTCrossword*"
-        "*OneCalendar*"
-        "*PandoraMediaInc*"
-        "*PhototasticCollage*"
-        "*PicsArt-PhotoStudio*"
-        "*Plex*"                                 # Plex
-        "*PolarrPhotoEditorAcademicEdition*"
-        "*RoyalRevolt*"                          # Royal Revolt
-        "*Shazam*"
-        "*Sidia.LiveWallpaper*"                  # Live Wallpaper
-        "*SlingTV*"
-        "*Speed Test*"
-        "*Sway*"
-        "*TuneInRadio*"
-        "*Twitter*"                              # Twitter
-        "*Viber*"
-        "*WinZipUniversal*"
-        "*Wunderlist*"
-        "*XING*"
+        "ACGMediaPlayer"
+        "ActiproSoftwareLLC"
+        "AdobePhotoshopExpress"                  # Adobe Photoshop Express
+        "Amazon.com.Amazon"                      # Amazon Shop
+        "Asphalt8Airborne"                       # Asphalt 8 Airbone
+        "AutodeskSketchBook"
+        "BubbleWitch3Saga"                       # Bubble Witch 3 Saga
+        "CaesarsSlotsFreeCasino"
+        "CandyCrush"                             # Candy Crush
+        "COOKINGFEVER"
+        "CyberLinkMediaSuiteEssentials"
+        "DisneyMagicKingdoms"
+        "Dolby"                                  # Dolby Products (Like Atmos)
+        "DrawboardPDF"
+        "Duolingo-LearnLanguagesforFree"         # Duolingo
+        "EclipseManager"
+        "Facebook"                               # Facebook
+        "FarmVille2CountryEscape"
+        "FitbitCoach"
+        "Flipboard"                              # Flipboard
+        "HiddenCity"
+        "Hulu"
+        "iHeartRadio"
+        "Keeper"
+        "LinkedInforWindows"
+        "MarchofEmpires"
+        "Netflix"                                # Netflix
+        "NYTCrossword"
+        "OneCalendar"
+        "PandoraMediaInc"
+        "PhototasticCollage"
+        "PicsArt-PhotoStudio"
+        "Plex"                                   # Plex
+        "PolarrPhotoEditorAcademicEdition"
+        "RoyalRevolt"                            # Royal Revolt
+        "Shazam"
+        "Sidia.LiveWallpaper"                    # Live Wallpaper
+        "SlingTV"
+        "Speed Test"
+        "Sway"
+        "TuneInRadio"
+        "Twitter"                                # Twitter
+        "Viber"
+        "WinZipUniversal"
+        "Wunderlist"
+        "XING"
 
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"
@@ -132,12 +133,11 @@ function Remove-BloatwareAppsList() {
         #"Microsoft.WindowsCalculator"      # Calculator
         #"Microsoft.WindowsCamera"          # Camera
         #"Microsoft.ScreenSketch"           # Snip and Sketch (now called Snipping tool, replaces the Win32 version in clean installs)
-        #"Microsoft.WindowsFeedbackHub"     # Feedback Hub
         #"Microsoft.Windows.Photos"         # Photos
 
         # [DIY] Common Streaming services
 
-        #"*SpotifyMusic*"                   # Spotify
+        #"SpotifyMusic"                   # Spotify
 
         # [DIY] Can't be reinstalled
 
@@ -149,17 +149,17 @@ function Remove-BloatwareAppsList() {
         #"Windows.ContactSupport"
     )
 
-    Write-Title -Text "Remove Bloatware Apps"
-    Write-Section -Text "Removing Windows unneeded Apps"
-    Remove-UWPAppx -AppxPackages $Apps
+    Write-Title "Remove Bloatware Apps"
+    Write-Section "Removing Windows unneeded Apps"
+    Remove-UWPApp -AppxPackages $Apps
 }
 
 function Main() {
     # List all Packages:
-    #Get-AppxPackage | Select-Object -Property Name, Architecture, Version, Publisher, InstallLocation, IsFramework, IsBundle, IsDevelopmentMode, NonRemovable, SignatureKind, Status, Dependencies | Sort-Object Publisher, Name, Architecture | Out-GridView
+    #Get-AppxPackage | Select-Object -Property Name, Architecture, Version, Publisher, InstallLocation, IsFramework, IsBundle, IsDevelopmentMode, NonRemovable, SignatureKind, Status, Dependencies | Sort-Object Publisher, Name, Architecture | Format-Table
 
     # List all Provisioned Packages:
-    #Get-AppxProvisionedPackage -Online | Select-Object -Property DisplayName, Architecture, Version, PublisherId, InstallLocation, Region, ResourceId | Sort-Object PublisherId, DisplayName, Architecture | Out-GridView
+    #Get-AppxProvisionedPackage -Online | Select-Object -Property DisplayName, Architecture, Version, PublisherId, InstallLocation, Region, ResourceId | Sort-Object PublisherId, DisplayName, Architecture | Format-Table
 
     Remove-BloatwareAppsList # Remove the main Bloat from Pre-installed Apps
 }

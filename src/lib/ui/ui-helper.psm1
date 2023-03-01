@@ -1,4 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"get-default-color.psm1"
 
 # Adapted from: https://stackoverflow.com/a/35965782
 # Adapted from: https://www.osdeploy.com/modules/pshot/technical/resolution-scale-and-dpi
@@ -8,54 +9,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 [System.Windows.Forms.Application]::EnableVisualStyles() # Rounded Buttons :3 (Win 11)
-
-function Get-CurrentResolution {
-    [CmdletBinding()]
-    [OutputType([System.Object[]])]
-    param ()
-
-    # Adapted from: https://www.reddit.com/r/PowerShell/comments/67no9x/comment/dgrry3b/?utm_source=share&utm_medium=web2x&context=3
-    $NumberOfScreens = (Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorBasicDisplayParams | Where-Object { $_.Active -like "True" }).Active.Count
-    $ScreenWidth = $null
-    $ScreenHeight = $null
-
-    Write-Verbose "Num. of Monitors: $NumberOfScreens"
-
-    If ($NumberOfScreens -eq 1) {
-        # Accepts Scaling/DPI
-        [System.Windows.Forms.SystemInformation]::VirtualScreen | ForEach-Object {
-            Write-Verbose "W: $($_.Width) | H: $($_.Height)"
-
-            If (!$ScreenWidth -or !$ScreenHeight) {
-                $ScreenWidth = $_.Width
-                $ScreenHeight = $_.Height
-            }
-
-            If (($_.Width) -and ($_.Width -le $ScreenWidth)) {
-                $ScreenWidth = $_.Width
-                $ScreenHeight = $_.Height
-            }
-        }
-    } Else {
-        # Doesn't accepts Scaling/DPI (rollback method)
-        Get-CimInstance -Class "Win32_VideoController" | ForEach-Object {
-            Write-Verbose "W: $($_.CurrentHorizontalResolution) | H: $($_.CurrentVerticalResolution)"
-
-            If (!$ScreenWidth -or !$ScreenHeight) {
-                $ScreenWidth = $_.CurrentHorizontalResolution
-                $ScreenHeight = $_.CurrentVerticalResolution
-            }
-
-            If (($_.CurrentHorizontalResolution) -and ($_.CurrentHorizontalResolution -le $ScreenWidth)) {
-                $ScreenWidth = $_.CurrentHorizontalResolution
-                $ScreenHeight = $_.CurrentVerticalResolution
-            }
-        }
-    }
-
-    Write-Verbose "Width: $ScreenWidth, Height: $ScreenHeight"
-    return $ScreenWidth, $ScreenHeight
-}
+$Colors, $BrandColors = Get-DefaultColor # Load the Colors used in this script
 
 function Set-UIFont() {
     [CmdletBinding()] param ()
@@ -155,10 +109,12 @@ function New-Form() {
         [Int]    $Width,
         [Int]    $Height,
         [String] $Text,
-        [String] $BackColor = "#252525", # Windows Dark
+        [String] $BackColor = $BrandColors.Win.Dark,
         [Bool]   $Minimize = $true,
         [Bool]   $Maximize = $true,
-        [String] $FormBorderStyle = 'FixedSingle', # FixedSingle, Fixed3D, FixedDialog, Sizable, FixedToolWindow, SizableToolWindow
+        [ValidateSet('FixedSingle', 'FixedSingle', 'Fixed3D', 'FixedDialog', 'Sizable', 'FixedToolWindow', 'SizableToolWindow')]
+        [String] $FormBorderStyle = 'FixedSingle',
+        [ValidateSet('Manual', 'CenterScreen', 'WindowsDefaultLocation', 'WindowsDefaultBounds', 'CenterParent')]
         [String] $StartPosition = 'CenterScreen',
         [Bool]   $TopMost = $false
     )
@@ -173,6 +129,8 @@ function New-Form() {
     $Form.FormBorderStyle = $FormBorderStyle # Not adjustable
     $Form.StartPosition = $StartPosition     # Appears on the center
     $Form.TopMost = $TopMost
+
+    $Form.Anchor = 'Top'
 
     return $Form
 }
@@ -204,8 +162,8 @@ function New-TabControl() {
         [Int]    $Height,
         [Int]    $LocationX,
         [Int]    $LocationY,
-        [String] $ForeColor = "#FFFFFF", # White
-        [String] $BackColor = "#252525" # Windows Dark
+        [String] $ForeColor = $BrandColors.White,
+        [String] $BackColor = $BrandColors.WinDark
     )
 
     $FormTabControl = New-object System.Windows.Forms.TabControl
@@ -213,6 +171,8 @@ function New-TabControl() {
     $FormTabControl.Location = "$LocationX,$LocationY"
     $FormTabControl.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $FormTabControl.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
+
+    $FormTabControl.Anchor = 'Left', 'Top', 'Right', 'Bottom'
 
     return $FormTabControl
 }
@@ -223,8 +183,8 @@ function New-TabPage() {
     param (
         [String] $Name,
         [String] $Text,
-        [String] $ForeColor = "#FFFFFF", # White
-        [String] $BackColor = "#252525" # Windows Dark
+        [String] $ForeColor = $Colors.White,
+        [String] $BackColor = $BrandColors.Win.Dark
     )
 
     $FormTabPage = New-object System.Windows.Forms.TabPage
@@ -235,6 +195,8 @@ function New-TabPage() {
     $FormTabPage.ForeColor = [System.Drawing.ColorTranslator]::FromHtml($ForeColor)
     $FormTabPage.BackColor = [System.Drawing.ColorTranslator]::FromHtml($BackColor)
     $FormTabPage.AutoScroll = $True
+
+    $FormTabPage.Anchor = 'Left', 'Top', 'Right'
 
     return $FormTabPage
 }
@@ -281,9 +243,12 @@ function New-Label() {
         [Int]           $LocationX,
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
-        [Int]           $FontSize = 14,
+        [Parameter(Mandatory)]
+        [Int]           $FontSize,
+        [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Regular",
-        [String]        $ForeColor = "#55EE00", # Green
+        [String]        $ForeColor = "#9CFF75", # Light Green
+        [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleCenter"
     )
 
@@ -312,16 +277,20 @@ function New-Button() {
         [Int]           $Width,
         [Int]           $Height,
         [System.Object] $ElementBefore,
-        [Int]           $MarginTop = 5,
+        [Int]           $MarginTop = 0,
         [Int]           $LocationX,
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
-        [Int]           $FontSize = 12,
+        [Parameter(Mandatory)]
+        [Int]           $FontSize,
+        [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Regular",
-        [String]        $ForeColor = "#FFFFFF", # White
-        [String]        $BackColor = "#2C2C2C", # Dark Gray
+        [String]        $ForeColor = $Colors.White,
+        [String]        $BackColor = $Colors.DarkGray,
+        [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleCenter",
-        [String]        $FlatStyle = "Flat", # Flat, Popup, Standard, System
+        [ValidateSet('Flat', 'Popup', 'Standard', 'System')]
+        [String]        $FlatStyle = "Flat",
         [String]        $BorderSize = 1
     )
 
@@ -353,14 +322,17 @@ function New-CheckBox() {
         [Int]           $Width,
         [Int]           $Height,
         [System.Object] $ElementBefore,
-        [Int]           $MarginTop = 5,
+        [Int]           $MarginTop = 0,
         [Int]           $LocationX,
         [Int]           $LocationY,
         [String]        $Font = $MainFont,
-        [Int]           $FontSize = 12,
+        [Parameter(Mandatory)]
+        [Int]           $FontSize,
+        [ValidateSet('Bold', 'Italic', 'Regular', 'Strikeout', 'Underline')]
         [String]        $FontStyle = "Italic",
-        [String]        $ForeColor = "#FFFFFF", # White
-        [String]        $BackColor = "#2C2C2C", # Dark Gray
+        [String]        $ForeColor = $Colors.White,
+        [String]        $BackColor = $Colors.DarkGray,
+        [ValidateSet('TopLeft', 'TopCenter', 'TopRight', 'MiddleLeft', 'MiddleCenter', 'MiddleRight', 'BottomLeft', 'BottomCenter', 'BottomRight')]
         [String]        $TextAlign = "MiddleLeft"
     )
 
@@ -396,7 +368,8 @@ function New-PictureBox() {
         [Int]           $MarginTop = 0,
         [Int]           $LocationX,
         [Int]           $LocationY,
-        [String]        $SizeMode = 'Zoom' # Autosize, CenterImage, Normal, StretchImage, Zoom
+        [ValidateSet('Autosize', 'CenterImage', 'Normal', 'StretchImage', 'Zoom')]
+        [String]        $SizeMode = 'Zoom'
     )
 
     Write-Verbose "PictureBox: IL $ImageLocation, W$Width, H$Height, X$LocationX, Y$LocationY, SM $SizeMode"

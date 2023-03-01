@@ -3,7 +3,6 @@
 ⚠ **Warning**: this file is subject to changing without notice.
 
 I would be happy to extend the collection of scripts.
-If you found a **BUG** or if you want a new **FEATURE REQUEST**, open an issue on the tab `ISSUES`.
 If you want to send me a **PULL REQUEST**, please use the `develop` branch to be up to date, and send PRs there, or i'll close it.
 
 ## 🖌 Coding Style
@@ -79,11 +78,7 @@ By using [SysInternal Suite](https://docs.microsoft.com/en-us/sysinternals/downl
   and searching the Registry Key inside `Procmon(64).exe`.
 - Also make sure to disable the Events being captured `(Ctrl + E)` after applying a specific config.
 
-![Grab the current tweak on registry with Procmon64.exe](./src/assets/grab-the-current-tweak-on-registry-with-procmon64.png)
-
 After finding the right register Key, you just need to Right-Click and select `Jump To... (Ctrl + J)` to get on it's directory.
-
-![Showing on regedit](./src/assets/showing-on-regedit.png)
 
 </details>
 

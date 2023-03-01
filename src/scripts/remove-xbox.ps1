@@ -1,7 +1,8 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"remove-uwp-appx.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-app-handler.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
 
 function Main() {
@@ -43,16 +44,13 @@ function Remove-Xbox() {
     )
 
     Write-Status -Types "-", $TweakType -Status "Disabling ALL Xbox Services..."
-    Set-ServiceStartup -Disabled -Services $XboxServices
+    Set-ServiceStartup -State 'Disabled' -Services $XboxServices
 
     Write-Status -Types "-", $TweakType -Status "Wiping Xbox Apps completely from Windows..."
-    Remove-UWPAppx -AppxPackages $XboxApps
+    Remove-UWPApp -AppxPackages $XboxApps
 
     Write-Status -Types "-", $TweakType -Status "Disabling Xbox Game Monitoring..."
-    If (!(Test-Path "$PathToLMServicesXbgm")) {
-        New-Item -Path "$PathToLMServicesXbgm" -Force | Out-Null
-    }
-    Set-ItemProperty -Path "$PathToLMServicesXbgm" -Name "Start" -Type DWord -Value 4
+    Set-ItemPropertyVerified -Path "$PathToLMServicesXbgm" -Name "Start" -Type DWord -Value 4
 
     Disable-XboxGameBarDVRandMode
 }

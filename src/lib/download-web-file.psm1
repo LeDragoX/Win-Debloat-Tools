@@ -1,19 +1,21 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"title-templates.psm1"
 
 function Request-FileDownload {
     [CmdletBinding()]
     [OutputType([String])]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String] $FileURI,
-        [Parameter(Mandatory = $false)]
+        [Parameter(Position = 1)]
         [String] $OutputFolder,
+        [Parameter(Position = 2, Mandatory)]
         [String] $OutputFile
     )
 
     Write-Verbose "[?] I'm at: $PWD"
     If (!(Test-Path "$PSScriptRoot\..\tmp")) {
         Write-Status -Types "@" -Status "$PSScriptRoot\..\tmp doesn't exist, creating folder..."
-        mkdir "$PSScriptRoot\..\tmp" | Out-Null
+        New-Item -Path "$PSScriptRoot\..\tmp"
     }
 
     $FileLocation = $(Join-Path -Path "$PSScriptRoot\..\tmp\" -ChildPath "$OutputFile")
@@ -21,7 +23,7 @@ function Request-FileDownload {
     If ($OutputFolder) {
         If (!(Test-Path "$PSScriptRoot\..\tmp\$OutputFolder")) {
             Write-Status -Types "@" -Status "$PSScriptRoot\..\tmp\$OutputFolder doesn't exist, creating folder..."
-            mkdir "$PSScriptRoot\..\tmp\$OutputFolder"
+            New-Item -Path "$PSScriptRoot\..\tmp\$OutputFolder"
         }
 
         $FileLocation = $(Join-Path -Path "$PSScriptRoot\..\tmp\" -ChildPath "$OutputFolder\$OutputFile")
@@ -39,12 +41,17 @@ function Request-FileDownload {
 function Get-APIFile {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String] $URI,
+        [Parameter(Position = 1, Mandatory)]
         [String] $ObjectProperty,
+        [Parameter(Position = 2, Mandatory)]
         [String] $FileNameLike,
+        [Parameter(Position = 3, Mandatory)]
         [String] $PropertyValue,
-        [Parameter(Mandatory = $false)]
+        [Parameter(Position = 4)]
         [String] $OutputFolder,
+        [Parameter(Position = 5, Mandatory)]
         [String] $OutputFile
     )
 

@@ -1,44 +1,49 @@
 # Adapted From: https://shellgeek.com/create-shortcuts-on-user-desktop-using-powershell/
 # Short circuit code: https://stackoverflow.com/a/26768902
+Import-Module -DisableNameChecking $PSScriptRoot\"title-templates.psm1"
 
 function New-Shortcut() {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String] $SourcePath,
+        [Parameter(Position = 1)]
         [String] $ShortcutPath = "$([Environment]::GetFolderPath("Desktop"))\$((Split-Path -Path $SourcePath -Leaf).Split('.')[0]).lnk",
-        [Parameter(Mandatory = $false)]
         [String] $Description = "Opens $(Split-Path -Path $SourcePath -Leaf)",
-        [Parameter(Mandatory = $false)]
+        [Parameter(Position = 2)]
         [String] $IconLocation = "$SourcePath, 0",
-        [Parameter(Mandatory = $false)]
+        [Parameter(Position = 3)]
         [String] $Arguments = '',
-        [Parameter(Mandatory = $false)]
+        [Parameter(Position = 4)]
         [String] $Hotkey = '',
-        [Parameter(Mandatory = $false)]
-        [String] $WindowStyle = 1 # I'm not sure, but i'll take the UI as example: 1 = Normal, 2 = Minimized, 3 = Maximized
+        [Parameter(Position = 5)]
+        [ValidateSet(1, 2, 3)]
+        [Int] $WindowStyle = 1 # I'm not sure, but i'll take the UI as example: 1 = Normal, 2 = Minimized, 3 = Maximized
     )
 
-    If (!(Test-Path -Path (Split-Path -Path $ShortcutPath))) {
-        Write-Status -Types "?" -Status "$((Split-Path -Path $ShortcutPath)) does not exist, creating it..."
-        New-Item -Path (Split-Path -Path $ShortcutPath) -ItemType Directory -Force
+    Process {
+        If (!(Test-Path -Path (Split-Path -Path $ShortcutPath))) {
+            Write-Status -Types "?" -Status "$((Split-Path -Path $ShortcutPath)) does not exist, creating it..."
+            New-Item -Path (Split-Path -Path $ShortcutPath) -ItemType Directory -Force
+        }
+
+        $WScriptObj = New-Object -ComObject ("WScript.Shell")
+        $Shortcut = $WScriptObj.CreateShortcut($ShortcutPath)
+        $Shortcut.TargetPath = $SourcePath
+
+        If ($Hotkey) {
+            $Shortcut.Description = "$Description ($Hotkey)"
+        } Else {
+            $Shortcut.Description = $Description
+        }
+
+        $Shortcut.Arguments = $Arguments
+        $ShortCut.Hotkey = $Hotkey
+        $Shortcut.IconLocation = $IconLocation
+        $Shortcut.WindowStyle = $WindowStyle
+
+        $Shortcut.Save()
     }
-
-    $WScriptObj = New-Object -ComObject ("WScript.Shell")
-    $Shortcut = $WScriptObj.CreateShortcut($ShortcutPath)
-    $Shortcut.TargetPath = $SourcePath
-
-    If ($Hotkey) {
-        $Shortcut.Description = "$Description ($Hotkey)"
-    } Else {
-        $Shortcut.Description = $Description
-    }
-
-    $Shortcut.Arguments = $Arguments
-    $ShortCut.Hotkey = $Hotkey
-    $Shortcut.IconLocation = $IconLocation
-    $Shortcut.WindowStyle = $WindowStyle
-
-    $Shortcut.Save()
 }
 
 <#

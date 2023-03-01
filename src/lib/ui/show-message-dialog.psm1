@@ -3,13 +3,19 @@ function Use-WindowsForm() {
     [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null # Load assembly
 }
 
-function Show-Message() {
+function Show-MessageDialog() {
     [CmdletBinding()]
     [OutputType([System.Windows.Forms.DialogResult])]
     param (
+        [Parameter(Position = 0)]
         [String] $Title = "Insert title here",
-        [Array]  $Message = "`nCrash`nBandicoot",
-        [String] $BoxButtons = "OK", # AbortRetryIgnore, OK, OKCancel, RetryCancel, YesNo, YesNoCancel
+        [Parameter(Position = 1)]
+        [String] $Message = "`nCrash`nBandicoot",
+        [Parameter(Position = 2)]
+        [ValidateSet('AbortRetryIgnore', 'OK', 'OKCancel', 'RetryCancel', 'YesNo', 'YesNoCancel')]
+        [String] $BoxButtons = "OK",
+        [Parameter(Position = 3)]
+        [ValidateSet('Information', 'Question', 'Warning', 'Error', 'None')]
         [String] $BoxIcon = "Information" # Information, Question, Warning, Error or None
     )
 
@@ -21,9 +27,15 @@ function Show-Question() {
     [CmdletBinding()]
     [OutputType([System.Windows.Forms.DialogResult])]
     param (
+        [Parameter(Position = 0)]
         [String] $Title = "Insert title here",
-        [Array]  $Message = "Crash`nBandicoot",
+        [Parameter(Position = 1)]
+        [String] $Message = "Crash`nBandicoot",
+        [Parameter(Position = 2)]
+        [ValidateSet('AbortRetryIgnore', 'OK', 'OKCancel', 'RetryCancel', 'YesNo', 'YesNoCancel')]
         [String] $BoxButtons = "YesNoCancel", # With Yes, No and Cancel, the user can press Esc to exit
+        [Parameter(Position = 3)]
+        [ValidateSet('Information', 'Question', 'Warning', 'Error', 'None')]
         [String] $BoxIcon = "Question"
     )
 
@@ -53,7 +65,7 @@ function Request-PcRestart() {
 
 <#
 Example:
-Show-Message -Title "Title" -Message "Message"
+Show-MessageDialog -Title "Title" -Message "Message"
 $Question = Show-Question -Title "Title" -Message "Message"
 Request-PcRestart
 Returns Yes or No or Cancel

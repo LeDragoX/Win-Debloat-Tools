@@ -8,29 +8,29 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
 function Install-PackageManager() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String]	  $PackageManagerFullName,
+        [Parameter(Position = 1, Mandatory)]
         [ScriptBlock] $CheckExistenceBlock,
+        [Parameter(Position = 2, Mandatory)]
         [ScriptBlock] $InstallCommandBlock,
-        [Parameter(Mandatory = $false)]
         [String]      $Time,
-        [Parameter(Mandatory = $false)]
         [ScriptBlock] $UpdateScriptBlock,
-        [Parameter(Mandatory = $false)]
         [ScriptBlock] $PostInstallBlock
     )
 
     Try {
         $Err = (Invoke-Expression "$CheckExistenceBlock")
         If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
-        Write-Status -Types "?" -Status "$PackageManagerFullName is already installed." -Warning
+        Write-Status -Types "?", $PackageManagerFullName -Status "$PackageManagerFullName is already installed." -Warning
     } Catch {
-        Write-Status -Types "?" -Status "$PackageManagerFullName was not found." -Warning
-        Write-Status -Types "+" -Status "Downloading and Installing $PackageManagerFullName package manager."
+        Write-Status -Types "?", $PackageManagerFullName -Status "$PackageManagerFullName was not found." -Warning
+        Write-Status -Types "+", $PackageManagerFullName -Status "Downloading and Installing $PackageManagerFullName package manager."
 
         Invoke-Expression "$InstallCommandBlock"
 
         If ($PostInstallBlock) {
-            Write-Status -Types "+" -Status "Executing post install script: { $("$PostInstallBlock".Trim(' ')) }."
+            Write-Status -Types "+", $PackageManagerFullName -Status "Executing post install script: { $("$PostInstallBlock".Trim(' ')) }."
             Invoke-Expression "$PostInstallBlock"
         }
     }
@@ -38,7 +38,7 @@ function Install-PackageManager() {
     # Self-reminder, this part stay out of the Try-Catch block
     If ($UpdateScriptBlock) {
         # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
-        Write-Status -Types "@" -Status "Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
+        Write-Status -Types "@", $PackageManagerFullName -Status "Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
         $JobName = "$PackageManagerFullName Daily Upgrade"
         $ScheduledJob = @{
             Name               = $JobName
@@ -48,13 +48,13 @@ function Install-PackageManager() {
         }
 
         If ((Get-ScheduledTask -TaskName $JobName -ErrorAction SilentlyContinue) -or (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue)) {
-            Write-Status -Types "@" -Status "ScheduledJob: $JobName FOUND!"
-            Write-Status -Types "@" -Status "Re-Creating with the command:"
+            Write-Status -Types "@", $PackageManagerFullName -Status "ScheduledJob: $JobName FOUND!"
+            Write-Status -Types "@", $PackageManagerFullName -Status "Re-Creating with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Unregister-ScheduledJob -Name $JobName
             Register-ScheduledJob @ScheduledJob | Out-Null
         } Else {
-            Write-Status -Types "@" -Status "Creating Scheduled Job with the command:"
+            Write-Status -Types "@", $PackageManagerFullName -Status "Creating Scheduled Job with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Register-ScheduledJob @ScheduledJob | Out-Null
         }
@@ -111,6 +111,7 @@ function Main() {
             Remove-Item -Path "$env:TEMP\Win-DT-Logs\*" -Include "WingetDailyUpgrade_*.log"
             Start-Transcript -Path "$env:TEMP\Win-DT-Logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
             Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force # Only needed to run Winget
+            winget source update --disable-interactivity | Out-Host
             winget upgrade --all --silent | Out-Host
             Stop-Transcript
         }
@@ -123,19 +124,18 @@ function Main() {
         {
             $WingetDepOutput = Install-WingetDependency
             $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "Microsoft.DesktopAppInstaller.msixbundle"
-            $WingetLicenseOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*License*.xml" -PropertyValue "browser_download_url" -OutputFile "WingetLicense.xml"
             $AppName = Split-Path -Path $WingetOutput -Leaf
 
             Try {
                 # Method from: https://github.com/microsoft/winget-cli/blob/master/doc/troubleshooting/README.md#machine-wide-provisioning
                 If ($WingetDepOutput) {
-                    Write-Status -Types "@" -Status "Trying to install the App (w/ license + dependency): $AppName" -Warning
-                    $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -LicensePath $WingetLicenseOutput -DependencyPackagePath $WingetDepOutput | Out-Null }
+                    Write-Status -Types "@" -Status "Trying to install the App (w/ dependency): $AppName" -Warning
+                    $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -SkipLicense -DependencyPackagePath $WingetDepOutput | Out-Null }
                     Invoke-Expression "$InstallPackageCommand"
                 }
 
-                Write-Status -Types "@" -Status "Trying to install the App (w/ license): $AppName" -Warning
-                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -LicensePath $WingetLicenseOutput | Out-Null }
+                Write-Status -Types "@" -Status "Trying to install the App (no dependency): $AppName" -Warning
+                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -SkipLicense | Out-Null }
                 Invoke-Expression "$InstallPackageCommand"
             } Catch {
                 Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
@@ -143,7 +143,6 @@ function Main() {
             }
 
             Remove-Item -Path $WingetOutput
-            Remove-Item -Path $WingetLicenseOutput
         }
     }
 

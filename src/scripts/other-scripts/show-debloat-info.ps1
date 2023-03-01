@@ -1,10 +1,10 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"show-dialog-window.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"ui-helper.psm1" # Load UI libs
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"show-message-dialog.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"ui-helper.psm1" # Load UI libs
 
 function Show-DebloatInfo {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false)]
+        [Parameter(Position = 0)]
         [String] $PostMessage,
         [Switch] $Silent
     )
@@ -54,7 +54,7 @@ Storage Used ($env:SystemDrive): $($UsedStorage.ToString("#.#"))/$($TotalStorage
     Write-Host "`n$Message`n" -ForegroundColor Cyan
 
     If (!($Silent)) {
-        Show-Message -Title "$Title" -Message "$Message"
+        Show-MessageDialog -Title "$Title" -Message "$Message"
     }
 }
 

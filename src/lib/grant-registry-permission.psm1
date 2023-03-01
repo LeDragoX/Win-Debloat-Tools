@@ -1,10 +1,11 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"title-templates.psm1"
 
 # Adapted from: https://www.ipswitch.com/blog/how-to-change-registry-permissions-with-powershell
 
 function Grant-RegistryPermission() {
     [CmdletBinding()]
     param (
+        [Parameter(Position = 0, Mandatory)]
         [String] $Key
     )
 

@@ -1,6 +1,6 @@
 ﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"service-startup-handler.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
 # Adapted from: https://github.com/ChrisTitusTech/win10script
@@ -89,30 +89,28 @@ function Optimize-ServicesRunning() {
         "gupdatem"                       # DEFAULT: Manual    | Google Update Service²
     )
 
-    Write-Title -Text "Services tweaks"
-    Write-Section -Text "Disabling services from Windows"
+    Write-Title "Services tweaks"
+    Write-Section "Disabling services from Windows"
 
     If ($Revert) {
         Write-Status -Types "*", "Service" -Status "Reverting the tweaks is set to '$Revert'." -Warning
-        $CustomMessage = { "Resetting $Service ($((Get-Service $Service).DisplayName)) as 'Manual' on Startup..." }
-        Set-ServiceStartup -Manual -Services $ServicesToDisabled -Filter $EnableServicesOnSSD -CustomMessage $CustomMessage
+        Set-ServiceStartup -State 'Manual' -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
     } Else {
-        Set-ServiceStartup -Disabled -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
+        Set-ServiceStartup -State 'Disabled' -Services $ServicesToDisabled -Filter $EnableServicesOnSSD
     }
 
-    Write-Section -Text "Enabling services from Windows"
+    Write-Section "Enabling services from Windows"
 
     If ($IsSystemDriveSSD -or $Revert) {
-        $CustomMessage = { "The $Service ($((Get-Service $Service).DisplayName)) service works better in 'Automatic' mode on SSDs..." }
-        Set-ServiceStartup -Automatic -Services $EnableServicesOnSSD -CustomMessage $CustomMessage
+        Set-ServiceStartup -State 'Automatic' -Services $EnableServicesOnSSD
     }
 
-    Set-ServiceStartup -Manual -Services $ServicesToManual
+    Set-ServiceStartup -State 'Manual' -Services $ServicesToManual
 }
 
 function Main() {
     # List all services:
-    #Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Out-GridView
+    #Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Format-Table
 
     If (!$Revert) {
         Optimize-ServicesRunning # Enable essential Services and Disable bloating Services
