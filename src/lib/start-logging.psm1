@@ -1,20 +1,21 @@
+Import-Module -DisableNameChecking $PSScriptRoot\"get-temp-script-folder.psm1"
+
 function Start-Logging {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Position = 0)]
-        [String] $Path = "$env:TEMP\Win-DT-Logs",
+        [String] $Path = "$(Get-TempScriptFolder)\logs",
         [Parameter(Position = 1, Mandatory)]
         [String] $File
     )
 
     Begin {
-        $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
-        $File = "$File`_$Date.log"
+        $File = "$File.log"
     }
 
     Process {
         Write-Host -NoNewline "[@] " -ForegroundColor Blue
-        Start-Transcript -Path "$Path\$File"
+        Start-Transcript -Path "$Path\$File" -Append
         Write-Host
     }
 }
@@ -28,6 +29,6 @@ function Stop-Logging {
 <#
 Example:
 Start-Logging -File (Split-Path -Path $PSCommandPath -Leaf).Split(".")[0]
-Start-Logging -Path "$env:TEMP\Win-DT-Logs" -File "WingetDailyUpgrade" # Automatically uses .log format
+Start-Logging -Path "$env:TEMP\Win-Debloat-Tools\logs" -File "WingetDailyUpgrade" # Automatically uses .log format
 Stop-Logging # Only after logging has started
 #>
