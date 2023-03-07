@@ -75,7 +75,7 @@ body:
       label: Logs
       description: |
         **Only needed if it's error related**
-        Put your log file from: C:\Users\{ Your User }\AppData\Local\Temp\Win-DT-Logs\Win10ScriptXXX_YYYY-MM-DD_hh-mm-ss.txt
+        Put your log file from: C:\Users\{ Your User }\AppData\Local\Temp\Win-Debloat-Tools\logs\WinDebloatTools.log
         TIP: press `Win + R` and type `%Temp%` then hit `ENTER`, now find the log file
     validations:
       required: false
