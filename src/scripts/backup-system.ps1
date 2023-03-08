@@ -1,5 +1,7 @@
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
 
+$Script:TweakType = "Backup"
+
 function New-RestorePoint() {
     Write-Status -Types "+", $TweakType -Status "Enabling system drive Restore Point..."
     Enable-ComputerRestore -Drive "$env:SystemDrive\"
@@ -25,10 +27,5 @@ function Backup-HostsFile() {
     Pop-Location
 }
 
-function Main() {
-    $Script:TweakType = "Backup"
-    New-RestorePoint # This makes a restoration point before the script begins
-    Backup-HostsFile # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system
-}
-
-Main
+New-RestorePoint # This makes a restoration point before the script begins
+Backup-HostsFile # Backup the Hosts file found on "X:\Windows\System32\drivers\etc" of the current system

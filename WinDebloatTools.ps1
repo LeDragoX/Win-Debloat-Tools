@@ -478,7 +478,7 @@ function Show-GUI() {
                 "Optimize-Performance.ps1",
                 "Register-PersonalTweaksList.ps1",
                 "Optimize-WindowsFeaturesList.ps1",
-                "Install-PreInstalledApps.ps1"
+                "Install-DefaultAppsList.ps1"
             )
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             Set-RevertStatus -Revert $false
@@ -504,7 +504,7 @@ function Show-GUI() {
         })
 
     $RepairWindows.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Backup-System.ps1", "Repair-Windows.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Backup-System.ps1", "Repair-WindowsSystem.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallCortana.Add_Click( {
@@ -552,7 +552,7 @@ function Show-GUI() {
         })
 
     $ReinstallBloatApps.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Install-PreInstalledApps.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Install-DefaultAppsList.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ShowDebloatInfo.Add_Click( {

@@ -32,15 +32,11 @@ function Remove-CapabilitiesList() {
     }
 }
 
-function Main() {
-    # List all Windows Capabilities:
-    #Get-WindowsCapability -Online | Select-Object -Property State, Name, Online, RestartNeeded, LogPath, LogLevel | Sort-Object State, Name | Format-Table
+# List all Windows Capabilities:
+#Get-WindowsCapability -Online | Select-Object -Property State, Name, Online, RestartNeeded, LogPath, LogLevel | Sort-Object State, Name | Format-Table
 
-    If (!$Revert) {
-        Remove-CapabilitiesList # Disable useless capabilities which came with Windows, but are legacy now and almost nobody cares
-    } Else {
-        Remove-CapabilitiesList -Revert
-    }
+If (!$Revert) {
+    Remove-CapabilitiesList # Disable useless capabilities which came with Windows, but are legacy now and almost nobody cares
+} Else {
+    Remove-CapabilitiesList -Revert
 }
-
-Main

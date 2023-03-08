@@ -290,12 +290,9 @@ function Optimize-Privacy() {
     }
 }
 
-function Main() {
-    If (!$Revert) {
-        Optimize-Privacy # Disable Registries that causes slowdowns and privacy invasion
-    } Else {
-        Optimize-Privacy -Revert
-    }
+If (!$Revert) {
+    Optimize-Privacy # Disable Registries that causes slowdowns and privacy invasion
+} Else {
+    Optimize-Privacy -Revert
 }
 
-Main
