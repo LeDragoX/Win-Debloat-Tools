@@ -227,12 +227,8 @@ function Register-PersonalTweaksList() {
     powercfg -Change Hibernate-Timeout-DC $TimeoutHibernateBattery
 }
 
-function Main() {
-    If (!$Revert) {
-        Register-PersonalTweaksList # Personal UI, Network, Energy and Accessibility Optimizations
-    } Else {
-        Register-PersonalTweaksList -Revert
-    }
+If (!$Revert) {
+    Register-PersonalTweaksList # Personal UI, Network, Energy and Accessibility Optimizations
+} Else {
+    Register-PersonalTweaksList -Revert
 }
-
-Main

@@ -36,12 +36,9 @@ function Use-DebloatSoftware() {
     Pop-Location
 }
 
-function Main() {
-    If (!$Revert) {
-        Use-DebloatSoftware # [AUTOMATED] ShutUp10 with recommended configs and AdwCleaner for Adware/Virus Scanning.
-    } Else {
-        Use-DebloatSoftware -Revert
-    }
+If (!$Revert) {
+    Use-DebloatSoftware # [AUTOMATED] ShutUp10 with recommended configs and AdwCleaner for Adware/Virus Scanning.
+} Else {
+    Use-DebloatSoftware -Revert
 }
 
-Main

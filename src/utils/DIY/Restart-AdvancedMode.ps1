@@ -1,4 +1,4 @@
-function Main() {
+function Restart-AdvancedMode() {
     # -r: Restart after shutdown
     # -o: Reboot into the advanced menu
     # -t: Time before shutdown
@@ -6,4 +6,4 @@ function Main() {
     shutdown -o -r -f -t 0
 }
 
-Main
+Restart-AdvancedMode

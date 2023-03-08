@@ -108,15 +108,11 @@ function Optimize-ServicesRunning() {
     Set-ServiceStartup -State 'Manual' -Services $ServicesToManual
 }
 
-function Main() {
-    # List all services:
-    #Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Format-Table
+# List all services:
+#Get-Service | Select-Object StartType, Status, Name, DisplayName, ServiceType | Sort-Object StartType, Status, Name | Format-Table
 
-    If (!$Revert) {
-        Optimize-ServicesRunning # Enable essential Services and Disable bloating Services
-    } Else {
-        Optimize-ServicesRunning -Revert
-    }
+If (!$Revert) {
+    Optimize-ServicesRunning # Enable essential Services and Disable bloating Services
+} Else {
+    Optimize-ServicesRunning -Revert
 }
-
-Main
