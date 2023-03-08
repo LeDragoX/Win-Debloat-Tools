@@ -1,6 +1,6 @@
-Import-Module -DisableNameChecking $PSScriptRoot\"get-temp-script-folder.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"Get-TempScriptFolder.psm1"
 
-function Start-Logging {
+function Start-Logging() {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Position = 0)]
@@ -20,7 +20,7 @@ function Start-Logging {
     }
 }
 
-function Stop-Logging {
+function Stop-Logging() {
     Write-Host -NoNewline "[@] " -ForegroundColor Blue
     Stop-Transcript
     Write-Host

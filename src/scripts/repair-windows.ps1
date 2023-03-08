@@ -1,9 +1,9 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script
 
-function Repair-System() {
+function Repair-Windows() {
     Write-Title "Repair major Windows problems"
 
     Write-Section "Reset Windows Hosts file"
@@ -73,7 +73,7 @@ function Repair-System() {
 }
 
 function Main() {
-    Repair-System
+    Repair-Windows
 }
 
 Main

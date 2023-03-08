@@ -1,6 +1,6 @@
 # Adapted From: https://shellgeek.com/create-shortcuts-on-user-desktop-using-powershell/
 # Short circuit code: https://stackoverflow.com/a/26768902
-Import-Module -DisableNameChecking $PSScriptRoot\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"Title-Templates.psm1"
 
 function New-Shortcut() {
     [CmdletBinding(SupportsShouldProcess)]

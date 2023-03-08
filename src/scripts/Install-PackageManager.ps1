@@ -1,7 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-temp-script-folder.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Get-HardwareInfo.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Request-FileDownload.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script/blob/master/win10debloat.ps1
 # Adapted from: https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1

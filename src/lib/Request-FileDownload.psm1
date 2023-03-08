@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\"get-temp-script-folder.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"Title-Templates.psm1"
 
 function Request-FileDownload {
     [CmdletBinding()]
