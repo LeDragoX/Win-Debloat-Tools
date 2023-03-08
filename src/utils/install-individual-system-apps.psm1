@@ -19,11 +19,6 @@ function Install-DolbyAudio() {
     Install-Software -Name "Dolby Audio" -Packages $Apps -PackageProvider 'MsStore'
 }
 
-function Install-HEVCSupport() {
-    Write-Status -Types "+", $TweakType -Status "Installing HEVC/H.265 video codec (MUST HAVE)..."
-    Install-Software -Name "HEVC Video Extensions from Device Manufacturer" -Packages "9N4WGH0Z6VHQ" -PackageProvider 'MsStore' # Gives error
-}
-
 function Install-MicrosoftEdge() {
     Write-Status -Types "*", $TweakType -Status "Installing Microsoft Edge..."
     Install-Software -Name "Microsoft Edge" -Packages "Microsoft.Edge"
