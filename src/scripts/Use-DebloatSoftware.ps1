@@ -1,6 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-item-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Request-FileDownload.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
 
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
@@ -18,10 +19,10 @@ function Use-DebloatSoftware() {
         Remove-ItemVerified $AdwCleanerOutput -Force
     }
 
+    Copy-Item -Path "$PSScriptRoot\..\configs\shutup10" -Destination "$(Get-TempScriptFolder)\downloads" -Recurse -Force
     $ShutUpDl = "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe"
-    $ShutUpOutput = Request-FileDownload -FileURI $ShutUpDl -OutputFolder "ShutUp10" -OutputFile "OOSU10.exe"
-    $ShutUpFolder = "$PSScriptRoot\..\tmp\ShutUp10"
-    Push-Location -Path $ShutUpFolder
+    $ShutUpOutput = Request-FileDownload -FileURI $ShutUpDl -ExtendFolder "shutup10" -OutputFile "OOSU10.exe"
+    Push-Location -Path (Split-Path -Path $ShutUpOutput)
 
     If ($Revert) {
         Write-Status -Types "*" -Status "Running ShutUp10 and REVERTING to default settings..."

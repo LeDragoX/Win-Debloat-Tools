@@ -1,8 +1,8 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"open-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"unregister-duplicated-power-plans.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Open-File.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Unregister-DuplicatedPowerPlan.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"Individual-Tweaks.psm1"
 
 # Adapted from: https://youtu.be/hQSkPmZRCjc
 # Adapted from: https://github.com/ChrisTitusTech/win10script

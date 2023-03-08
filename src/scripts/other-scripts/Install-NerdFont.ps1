@@ -1,13 +1,14 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"install-font.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"remove-item-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Install-Font.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Request-FileDownload.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
 
 $FontsFolder = "fonts"
 
 function Install-NerdFont() {
-    Push-Location -Path "$PSScriptRoot\..\..\tmp"
-    New-Item -Path "Fonts" -ItemType Directory | Out-Null
+    Push-Location -Path "$(Get-TempScriptFolder)\downloads"
+    New-Item -Path "$FontsFolder" -ItemType Directory | Out-Null
 
     Write-Status -Types "@" -Status "Downloading Fira Code..."
     Install-FiraCode
@@ -42,7 +43,7 @@ function Install-MesloLGS() {
     $FontFiles = @("MesloLGS NF Regular.ttf", "MesloLGS NF Bold.ttf", "MesloLGS NF Italic.ttf", "MesloLGS NF Bold Italic.ttf")
 
     ForEach ($Font in $FontFiles) {
-        Request-FileDownload -FileURI "$MesloLgsURI/$Font" -OutputFolder "$FontsFolder" -OutputFile "$Font"
+        Request-FileDownload -FileURI "$MesloLgsURI/$Font" -ExtendFolder "$FontsFolder" -OutputFile "$Font"
     }
 }
 

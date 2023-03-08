@@ -21,21 +21,21 @@ function Main() {
         Request-AdminPrivilege # Check admin rights
         Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"download-web-file.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"get-hardware-info.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"open-file.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"manage-software.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-console-style.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"set-revert-status.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"start-logging.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"title-templates.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"get-default-color.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"get-screen-resolution.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"new-layout-page.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"show-message-dialog.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"ui-helper.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"individual-tweaks.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"install-individual-system-apps.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Get-HardwareInfo.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Open-File.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Manage-Software.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Request-FileDownload.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Set-ConsoleStyle.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Set-RevertStatus.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Start-Logging.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Title-Templates.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"Get-CurrentResolution.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"Get-DefaultColor.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"New-LayoutPage.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"Show-MessageDialog.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"Ui-Helper.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"Individual-Tweaks.psm1" -Force
+        Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"Install-Individual-System-Apps.psm1" -Force
 
         Set-ConsoleStyle
         $CurrentFileName = (Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]
@@ -45,7 +45,7 @@ function Main() {
         Write-Caption "$CurrentFileName v$CurrentFileLastModified"
         Write-Host "Your Current Folder $pwd"
         Write-Host "Script Root Folder $PSScriptRoot"
-        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "install-package-managers.ps1" -NoDialog
+        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts "Install-PackageManager.ps1" -NoDialog
         Write-ScriptLogo
 
         If ($args) {
@@ -76,17 +76,17 @@ function Open-DebloatScript {
 
     $Scripts = @(
         # [Recommended order]
-        "backup-system.ps1",
-        "silent-debloat-softwares.ps1",
-        "optimize-task-scheduler.ps1",
-        "optimize-services.ps1",
-        "remove-bloatware-apps.ps1",
-        "remove-windows-capabilities.ps1",
-        "optimize-privacy.ps1",
-        "optimize-performance.ps1",
-        "personal-tweaks.ps1",
-        "optimize-security.ps1",
-        "optimize-windows-features.ps1"
+        "Backup-System.ps1",
+        "Use-DebloatSoftware.ps1",
+        "Optimize-TaskScheduler.ps1",
+        "Optimize-ServicesRunning.ps1",
+        "Remove-BloatwareAppsList.ps1",
+        "Remove-CapabilitiesList.ps1",
+        "Optimize-Privacy.ps1",
+        "Optimize-Performance.ps1",
+        "Register-PersonalTweaksList.ps1",
+        "Optimize-Security.ps1",
+        "Optimize-WindowsFeaturesList.ps1"
     )
 
     If ($Mode -eq 'CLI') {
@@ -421,7 +421,7 @@ function Show-GUI() {
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
-    $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallPhoneLink, $InstallSoundRecorder, $InstallXbox))
+    $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
     $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
@@ -470,15 +470,15 @@ function Show-GUI() {
     $UndoTweaks.Add_Click( {
             Set-RevertStatus -Revert $true
             $Scripts = @(
-                "silent-debloat-softwares.ps1",
-                "optimize-task-scheduler.ps1",
-                "optimize-services.ps1",
-                "remove-windows-capabilities.ps1",
-                "optimize-privacy.ps1",
-                "optimize-performance.ps1",
-                "personal-tweaks.ps1",
-                "optimize-windows-features.ps1",
-                "reinstall-pre-installed-apps.ps1"
+                "Use-DebloatSoftware.ps1",
+                "Optimize-TaskScheduler.ps1",
+                "Optimize-ServicesRunning.ps1",
+                "Remove-CapabilitiesList.ps1",
+                "Optimize-Privacy.ps1",
+                "Optimize-Performance.ps1",
+                "Register-PersonalTweaksList.ps1",
+                "Optimize-WindowsFeaturesList.ps1",
+                "Install-PreInstalledApps.ps1"
             )
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             Set-RevertStatus -Revert $false
@@ -488,23 +488,23 @@ function Show-GUI() {
         })
 
     $RemoveMSEdge.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-msedge.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Remove-MSEdge.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RemoveOneDrive.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-onedrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Remove-OneDrive.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\script-image2.png"
             $Form.Update()
         })
 
     $RemoveXbox.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("remove-xbox.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Remove-Xbox.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\script-image2.png"
             $Form.Update()
         })
 
     $RepairWindows.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("backup-system.ps1", "repair-windows.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Backup-System.ps1", "Repair-Windows.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallCortana.Add_Click( {
@@ -552,11 +552,11 @@ function Show-GUI() {
         })
 
     $ReinstallBloatApps.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("reinstall-pre-installed-apps.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Install-PreInstalledApps.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ShowDebloatInfo.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("show-debloat-info.ps1") -NoDialog
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Show-DebloatInfo.ps1") -NoDialog
         })
 
     $CbAutomaticWindowsUpdate.Add_Click( {
@@ -820,7 +820,7 @@ function Show-GUI() {
         })
 
     $UpgradeAll.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("update-all-packages.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Update-AllPackage.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $InstallSelected.Add_Click( {
@@ -1360,7 +1360,7 @@ function Show-GUI() {
 
             If ($InstallWSL.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-wsl.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Install-WSL.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
                 }
@@ -1369,7 +1369,7 @@ function Show-GUI() {
 
             If ($InstallArchWSL.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-archwsl.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Install-ArchWSL.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.WSLDistros.Add("Arch")
                 }
@@ -1425,14 +1425,14 @@ function Show-GUI() {
 
             If ($InstallNerdFonts.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("install-nerd-fonts.ps1")
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Install-NerdFont.ps1")
                 }
                 $InstallNerdFonts.CheckState = "Unchecked"
             }
 
             If ($InstallGitGnupgSshSetup.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
-                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("git-gnupg-ssh-keys-setup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Git-GnupgSshKeysSetup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.WingetApps.AddRange(@("Git.Git", "GnuPG.GnuPG")) # Installed before inside the script
                 }

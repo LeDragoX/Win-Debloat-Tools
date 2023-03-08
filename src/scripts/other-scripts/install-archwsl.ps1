@@ -1,7 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"get-hardware-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"remove-item-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Get-HardwareInfo.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Request-FileDownload.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
 
 function Install-ArchWSL() {
     $OSArchList = Get-OSArchitecture

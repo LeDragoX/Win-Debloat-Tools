@@ -1,6 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"get-hardware-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Get-HardwareInfo.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Request-FileDownload.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script/blob/master/win10debloat.ps1
 # Adapted from: https://github.com/W4RH4WK/Debloat-Windows-10/blob/master/utils/install-basic-software.ps1
@@ -51,6 +52,7 @@ function Install-PackageManager() {
             Write-Status -Types "@", $PackageManagerFullName -Status "ScheduledJob: $JobName FOUND!"
             Write-Status -Types "@", $PackageManagerFullName -Status "Re-Creating with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
+            Stop-ScheduledTask -TaskPath "\Microsoft\Windows\PowerShell\ScheduledJobs" -TaskName $JobName
             Unregister-ScheduledJob -Name $JobName
             Register-ScheduledJob @ScheduledJob | Out-Null
         } Else {
@@ -97,19 +99,19 @@ function Main() {
         CheckExistenceBlock = { winget --version }
         InstallCommandBlock =
         {
-            New-Item -Path "$PWD\..\tmp\" -Name "winget-install" -ItemType Directory -Force | Out-Null
-            Push-Location -Path "$PWD\..\tmp\winget-install\"
+            New-Item -Path "$(Get-TempScriptFolder)\downloads\" -Name "winget-install" -ItemType Directory -Force | Out-Null
+            Push-Location -Path "$(Get-TempScriptFolder)\downloads\winget-install\"
             Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
             Install-Script -Name winget-install -Force
             winget-install.ps1
             Pop-Location
-            Remove-Item -Path "$PWD\..\tmp\winget-install\"
+            Remove-Item -Path "$(Get-TempScriptFolder)\downloads\winget-install\"
         }
         Time                = "12:00"
         UpdateScriptBlock   =
         {
-            Remove-Item -Path "$env:TEMP\Win-DT-Logs\*" -Include "WingetDailyUpgrade_*.log"
-            Start-Transcript -Path "$env:TEMP\Win-DT-Logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
+            Remove-Item -Path "$env:TEMP\Win-Debloat-Tools\logs\*" -Include "WingetDailyUpgrade_*.log"
+            Start-Transcript -Path "$env:TEMP\Win-Debloat-Tools\logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
             Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force # Only needed to run Winget
             winget source update --disable-interactivity | Out-Host
             winget upgrade --all --silent | Out-Host
@@ -143,6 +145,7 @@ function Main() {
             }
 
             Remove-Item -Path $WingetOutput
+            Remove-Item -Path $WingetDepOutput
         }
     }
 
@@ -158,8 +161,8 @@ function Main() {
         Time                = "13:00"
         UpdateScriptBlock   =
         {
-            Remove-Item -Path "$env:TEMP\Win-DT-Logs\*" -Include "ChocolateyDailyUpgrade_*.log"
-            Start-Transcript -Path "$env:TEMP\Win-DT-Logs\ChocolateyDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
+            Remove-Item -Path "$env:TEMP\Win-Debloat-Tools\logs\*" -Include "ChocolateyDailyUpgrade_*.log"
+            Start-Transcript -Path "$env:TEMP\Win-Debloat-Tools\logs\ChocolateyDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
             choco upgrade all --ignore-dependencies --yes | Out-Host
             Stop-Transcript
         }

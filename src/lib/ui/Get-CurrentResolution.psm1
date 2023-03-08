@@ -1,6 +1,6 @@
-Import-Module -DisableNameChecking $PSScriptRoot\"ui-helper.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"Ui-Helper.psm1"
 
-function Get-CurrentResolution {
+function Get-CurrentResolution() {
     [CmdletBinding()]
     [OutputType([System.Object[]])]
     param ()

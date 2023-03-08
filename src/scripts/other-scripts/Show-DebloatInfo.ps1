@@ -1,7 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"show-message-dialog.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"ui-helper.psm1" # Load UI libs
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"Show-MessageDialog.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"Ui-Helper.psm1" # Load UI libs
 
-function Show-DebloatInfo {
+function Show-DebloatInfo() {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0)]

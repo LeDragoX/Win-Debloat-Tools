@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"set-item-property-verified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
 
 function New-SystemColor() {
     Begin {
