@@ -115,7 +115,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $LayoutT1 = New-LayoutPage -NumOfPanels 3 -PanelHeight 960
+    $LayoutT1 = New-LayoutPage -NumOfPanels 3 -PanelHeight 985
     $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1785
 
     # <===== UI =====>
@@ -174,7 +174,8 @@ function Show-GUI() {
     $InstallOneDrive = New-Button -Text "OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallMicrosoftEdge -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallPaintPaint3D = New-Button -Text "Paint + Paint 3D" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallOneDrive -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallPhoneLink = New-Button -Text "Phone Link" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPaintPaint3D -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPhoneLink -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallQuickAssist = New-Button -Text "Quick Assist" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPhoneLink -MarginTop $LayoutT1.DistanceBetweenElements
+    $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallQuickAssist -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallTaskbarWidgets = New-Button -Text "Taskbar Widgets" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallSoundRecorder -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallUWPWMediaPlayer = New-Button -Text "Windows Media Player (UWP)" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallTaskbarWidgets -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallXbox = New-Button -Text "Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallUWPWMediaPlayer -MarginTop $LayoutT1.DistanceBetweenElements
@@ -421,7 +422,7 @@ function Show-GUI() {
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
-    $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
+    $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallQuickAssist, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
     $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
@@ -529,6 +530,10 @@ function Show-GUI() {
 
     $InstallPhoneLink.Add_Click( {
             Install-PhoneLink
+        })
+
+    $InstallQuickAssist.Add_Click( {
+            Install-QuickAssist
         })
 
     $InstallSoundRecorder.Add_Click( {
