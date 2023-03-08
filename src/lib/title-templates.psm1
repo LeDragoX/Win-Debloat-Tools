@@ -15,11 +15,11 @@ function Write-Caption() {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0)]
-        [System.Object] $Object = "No Text"
+        [System.Object] $Object = ''
     )
 
-    Write-Style "••> " -Style Bold -Color Cyan -NoNewline
-    Write-Style "$Object" -Style Italic -Color White
+    Write-Style "••>" -Style Bold -Color DarkGray -BackColor Cyan -NoNewline
+    Write-Style " $Object" -Style Italic -Color White -BackColor DarkGray
 }
 
 function Write-ScriptLogo() {
@@ -50,14 +50,15 @@ function Write-Section() {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0)]
-        [System.Object] $Object = "No Text"
+        [System.Object] $Object = ''
     )
 
-    $Art = @('<••••••••••{', '}••••••••••>')
+    $Art = @('<••••••••••', '••••••••••>')
 
-    Write-Style "`n$($Art[0]) " -Style Bold -Color Cyan -NoNewline
-    Write-Style "$Object " -Style Italic -Color White -NoNewline
-    Write-Style "$($Art[1])`n" -Style Bold -Color Cyan
+    Write-Style "`n$($Art[0])" -Style Bold -Color DarkGray -BackColor Cyan -NoNewline
+    Write-Style "{ $Object }" -Style Italic -Color White -BackColor DarkGray -NoNewline
+    Write-Style "$($Art[1])" -Style Bold -Color DarkGray -BackColor Cyan
+    Write-Host
 }
 
 function Write-Status() {
@@ -70,14 +71,18 @@ function Write-Status() {
         [Switch]   $Warning
     )
 
+    $TypesDone = ""
+
     ForEach ($Type in $Types) {
-        Write-Style "$([char]0x1b)[94m[$([char]0x1b)[97m$Type$([char]0x1b)[94m] " -Style Bold -NoNewline
+        $TypesDone += "$([char]0x1b)[96m[$([char]0x1b)[97m$Type$([char]0x1b)[96m] "
     }
 
+    Write-Style "$TypesDone".Trim() -Style Bold -BackColor DarkGray -NoNewline
+
     If ($Warning) {
-        Write-Style "$Status" -Color Yellow
+        Write-Style " $Status" -Color Yellow -BackColor DarkBlue
     } Else {
-        Write-Style "$Status" -Color Green
+        Write-Style " $Status" -Color Green -BackColor Black
     }
 }
 
@@ -85,18 +90,41 @@ function Write-Style() {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0)]
-        [System.Object] $Object = "No Text",
+        [System.Object] $Object = '',
         [Parameter(Position = 1)]
-        [ValidateSet("Blink", "Bold", "Italic", "Regular", "Strikethrough", "Underline")]
-        [String]        $Style = "Regular",
+        [ValidateSet('Blink', 'Bold', 'Italic', 'Regular', 'Strikethrough', 'Underline')]
+        [String]        $Style = 'Regular',
+        [Alias('Color')]
         [Parameter(Position = 2)]
-        [ValidateSet("Black", "Blue", "DarkBlue", "DarkCyan", "DarkGray", "DarkGreen", "DarkMagenta", "DarkRed", "DarkYellow", "Cyan", "Gray", "Green", "Red", "Magenta", "White", "Yellow")]
-        [String]        $Color = "White",
+        [ValidateSet('Black', 'Blue', 'DarkBlue', 'DarkCyan', 'DarkGray', 'DarkGreen', 'DarkMagenta', 'DarkRed', 'DarkYellow', 'Cyan', 'Gray', 'Green', 'Red', 'Magenta', 'White', 'Yellow')]
+        [String]        $ForeColor = 'White',
         [Parameter(Position = 3)]
+        [ValidateSet('Black', 'Blue', 'DarkBlue', 'DarkCyan', 'DarkGray', 'DarkGreen', 'DarkMagenta', 'DarkRed', 'DarkYellow', 'Cyan', 'Gray', 'Green', 'Red', 'Magenta', 'White', 'Yellow')]
+        [String]        $BackColor = 'Black',
+        [Parameter(Position = 4)]
         [Switch]        $NoNewline
     )
 
-    $Colors = @{
+    $BackColors = @{
+        "Black"       = "$([char]0x1b)[40m"
+        "DarkBlue"    = "$([char]0x1b)[44m"
+        "DarkGreen"   = "$([char]0x1b)[42m"
+        "DarkCyan"    = "$([char]0x1b)[46m"
+        "DarkGray"    = "$([char]0x1b)[100m"
+        "DarkRed"     = "$([char]0x1b)[41m"
+        "DarkMagenta" = "$([char]0x1b)[45m" # Doesn't work on PowerShell, but works on the Terminal
+        "DarkYellow"  = "$([char]0x1b)[43m"
+        "Gray"        = "$([char]0x1b)[47m"
+        "Blue"        = "$([char]0x1b)[104m"
+        "Green"       = "$([char]0x1b)[102m"
+        "Cyan"        = "$([char]0x1b)[106m"
+        "Red"         = "$([char]0x1b)[101m"
+        "Magenta"     = "$([char]0x1b)[105m"
+        "Yellow"      = "$([char]0x1b)[103m"
+        "White"       = "$([char]0x1b)[107m"
+    }
+
+    $ForeColors = @{
         "Black"       = "$([char]0x1b)[30m"
         "DarkBlue"    = "$([char]0x1b)[34m"
         "DarkGreen"   = "$([char]0x1b)[32m"
@@ -125,24 +153,24 @@ function Write-Style() {
     }
 
     If ($NoNewline) {
-        return Write-Host "$($Styles.$Style)$($Colors.$Color)$Object" -NoNewline
+        return Write-Host "$($Styles.$Style)$($BackColors.$BackColor)$($ForeColors.$ForeColor)$Object" -NoNewline
     }
 
-    Write-Host "$($Styles.$Style)$($Colors.$Color)$Object"
+    Write-Host "$($Styles.$Style)$($BackColors.$BackColor)$($ForeColors.$ForeColor)$Object"
 }
 
 function Write-Title() {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0)]
-        [System.Object] $Object = "No Text"
+        [System.Object] $Object = ''
     )
 
     $Art = "<•••••••••••••••••••••••••••••••••••••••••••••••••••••••>"
 
-    Write-Style "`n$([char]0x1b)[94m$Art" -Style Bold -NoNewline
-    Write-Style "`n$([char]0x1b)[97m   $Object" -Style Italic -NoNewline
-    Write-Style "`n$([char]0x1b)[94m$Art" -Style Bold
+    Write-Style "`n$([char]0x1b)[94m$Art" -Style Bold -BackColor Black -NoNewline
+    Write-Style "`n$([char]0x1b)[97m   $Object" -Style Italic -BackColor Black -NoNewline
+    Write-Style "`n$([char]0x1b)[94m$Art" -Style Bold -BackColor Black
 }
 
 function Write-TitleCounter() {
@@ -150,7 +178,7 @@ function Write-TitleCounter() {
     [OutputType([System.Int32])]
     param (
         [Parameter(Position = 0)]
-        [System.Object] $Object = "No Text",
+        [System.Object] $Object = '',
         [Parameter(Position = 1)]
         [Int]           $Counter = 0,
         [Parameter(Position = 2)]

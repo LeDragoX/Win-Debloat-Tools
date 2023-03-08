@@ -1,9 +1,9 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"set-service-startup.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"show-dialog-window.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"uwp-app-handler.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Set-ServiceStartup.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Show-MessageDialog.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-UWPApp.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"Individual-Tweaks.psm1"
 
 function Main() {
     $Ask = "This will remove and/or disable all the Xbox:`n  - Apps;`n  - Services and;`n  - GameBar;`n  - GameDVR.`n`nDo you want to proceed?"

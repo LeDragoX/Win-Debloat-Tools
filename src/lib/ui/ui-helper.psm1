@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\"get-default-color.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\"Get-DefaultColor.psm1"
 
 # Adapted from: https://stackoverflow.com/a/35965782
 # Adapted from: https://www.osdeploy.com/modules/pshot/technical/resolution-scale-and-dpi

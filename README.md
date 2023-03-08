@@ -109,21 +109,21 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - [Import all necessary _modules_ before executing everything](./src/lib/);
 - Logs both script runs on `C:\Users\<<USERNAME>>\AppData\Local\Temp\Win-DT-Logs`;
-- [Make a Restore Point and Backup the Hosts file](./src/scripts/backup-system.ps1);
-- [Install _Winget/Chocolatey_ package managers by default](./src/scripts/install-package-managers.ps1);
+- [Make a Restore Point and Backup the Hosts file](./src/scripts/Backup-System.ps1);
+- [Install _Winget/Chocolatey_ package managers by default](./src/scripts/Install-PackageManager.ps1);
   - Creates a new Scheduled Task to daily upgrade all available softwares via _Winget_ at **12:00** and _Chocolatey_ at **13:00**;
   - Find the Scheduled Task on `Task Scheduler > Microsoft > Windows > PowerShell > ScheduledJobs > Chocolatey/Winget Daily Upgrade`;
   - Register daily upgrade logs on `C:\Users\<<USERNAME>>\AppData\Local\Temp\Win-DT-Logs` and remove old log files;
 - [Download AdwCleaner and Run the latest version for _Virus/Adware_ scan and from OOShutUp10 and import all Recommended settings from a file](./src/scripts/silent-debloat-softwares.ps1);
-- [Disable _non-essential_ Telemetry from Scheduled Tasks and Optimize it](./src/scripts/optimize-task-scheduler.ps1);
-- [Disable _heavy_ Services, but enable some on SSDs for optimum performance](./src/scripts/optimize-services.ps1);
-- [Remove some of the legacy system components called "_capabilities_", except the most popular ones](./src/scripts/remove-windows-capabilities.ps1);
-- [Remove _Bloatware_ UWP Apps that comes with Windows 10+, except from my choice](./src/scripts/remove-bloatware-apps.ps1);
-- [Optimize Privacy by disabling more telemetry parts and changing GPOs, all through changing registry keys](./src/scripts/optimize-privacy.ps1);
-- [Optimize Performance by changing away from default settings that slowdowns the system, utilizing _PowerShell_ commands and changing registries to disable features](./src/scripts/optimize-performance.ps1);
-- [Apply General Personalization tweaks via Registry and _PowerShell_ commands](./src/scripts/personal-tweaks.ps1);
-- [Help improve the Security of Windows while maintaining performance](./src/scripts/optimize-security.ps1);
-- [Disable _obsolete_ Windows optional features and enable some that might help](./src/scripts/optimize-windows-features.ps1);
+- [Disable _non-essential_ Telemetry from Scheduled Tasks and Optimize it](./src/scripts/Optimize-TaskScheduler.ps1);
+- [Disable _heavy_ Services, but enable some on SSDs for optimum performance](./src/scripts/Optimize-ServicesRunning.ps1);
+- [Remove some of the legacy system components called "_capabilities_", except the most popular ones](./src/scripts/Remove-CapabilitiesList.ps1);
+- [Remove _Bloatware_ UWP Apps that comes with Windows 10+, except from my choice](./src/scripts/Remove-BloatwareAppsList.ps1);
+- [Optimize Privacy by disabling more telemetry parts and changing GPOs, all through changing registry keys](./src/scripts/Optimize-Privacy.ps1);
+- [Optimize Performance by changing away from default settings that slowdowns the system, utilizing _PowerShell_ commands and changing registries to disable features](./src/scripts/Optimize-Performance.ps1);
+- [Apply General Personalization tweaks via Registry and _PowerShell_ commands](./src/scripts/Register-PersonalTweaksList.ps1);
+- [Help improve the Security of Windows while maintaining performance](./src/scripts/Optimize-Security.ps1);
+- [Disable _obsolete_ Windows optional features and enable some that might help](./src/scripts/Optimize-WindowsFeaturesList.ps1);
 
 </details>
 
@@ -134,7 +134,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ### System Tweaks
 
-#### Customize System Features ([Can be found here](src/utils/individual-tweaks.psm1))
+#### Customize System Features ([Can be found here](src/utils/Individual-Tweaks.psm1))
 
 - `Enable/Disable Dark Theme`: Apply _Dark Theme_ or _Light Theme_ on Windows;
 - `Enable/Disable Activity History`: Manages the **Activity History** setting;
@@ -156,11 +156,11 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
 - `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the, `ShutUp10 settings`, `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
-- [`Remove Microsoft Edge`](./src/scripts/remove-msedge.ps1): uninstalls Microsoft Edge/WebView, then remove the remaining files;
-- [`Remove OneDrive`](./src/scripts/remove-onedrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
-- [`Remove Xbox`](./src/scripts/remove-xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
+- [`Remove Microsoft Edge`](./src/scripts/Remove-MSEdge.ps1): uninstalls Microsoft Edge/WebView, then remove the remaining files;
+- [`Remove OneDrive`](./src/scripts/Remove-OneDrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
+- [`Remove Xbox`](./src/scripts/Remove-Xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
 
-#### Install System Apps ([Can be found here](src/utils/install-individual-system-apps.psm1))
+#### Install System Apps ([Can be found here](src/utils/Install-Individual-System-Apps.psm1))
 
 _This section contains options to restore the system apps, by downloading them from the **MS Store** (mostly) and doing **Stock configurations** (for some Apps)._
 
@@ -179,20 +179,20 @@ _This section contains options to restore the system apps, by downloading them f
 
 _This section contains tools to solve some Windows problems and get info about how much debloated the system is._
 
-- [`Randomize System Color`](./src/scripts/other-scripts/new-system-color.ps1): Changes the Windows color pallette to a random generated hex color;
-- [`Reinstall Pre-Installed Apps`](./src/scripts/reinstall-pre-installed-apps.ps1): Rebloat Windows with all the Pre-Installed Apps;
-- [`Repair Windows`](./src/scripts/repair-windows.ps1): Try to Completely fix the Windows worst problems via Command Line;
-- [`Show Debloat Info`](./src/scripts/other-scripts/show-debloat-info.ps1): Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference);
+- [`Randomize System Color`](./src/scripts/other-scripts/New-SystemColor.ps1): Changes the Windows color pallette to a random generated hex color;
+- [`Reinstall Pre-Installed Apps`](./src/scripts/Install-PreInstalledApps.ps1): Rebloat Windows with all the Pre-Installed Apps;
+- [`Repair Windows`](./src/scripts/Repair-Windows.ps1): Try to Completely fix the Windows worst problems via Command Line;
+- [`Show Debloat Info`](./src/scripts/other-scripts/Show-DebloatInfo.ps1): Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference);
 
-#### Windows Update ([Can be found here](src/utils/individual-tweaks.psm1))
+#### Windows Update ([Can be found here](src/utils/Individual-Tweaks.psm1))
 
 - `Enable/Disable Automatic Windows Update`: Set Windows updates to automatic or manual;
 
-#### Optional Features ([Can be found here](src/utils/individual-tweaks.psm1))
+#### Optional Features ([Can be found here](src/utils/Individual-Tweaks.psm1))
 
 _This section can manually adjust `Optional Features` from the system, working as a ON/OFF toggle._
 
-#### Miscellaneous Features ([Can be found here](src/utils/individual-tweaks.psm1))
+#### Miscellaneous Features ([Can be found here](src/utils/Individual-Tweaks.psm1))
 
 - `Enable/Disable Encrypted DNS`: Sets the DNS Client Servers to **Cloudflare's** and **Google's** (ipv4 and ipv6), and enables **DNS Over HTTPS** on _Windows 11_.
 - `Enable/Disable God Mode`: Manages the hidden Desktop folder called "**God Mode**";

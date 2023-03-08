@@ -1,8 +1,8 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"open-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"remove-item-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Open-File.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"Individual-Tweaks.psm1"
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script
 # Adapted from: https://github.com/Sycnex/Windows10Debloater

@@ -1,10 +1,10 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"download-web-file.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"get-hardware-info.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"manage-software.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"remove-item-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"set-item-property-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"windows-feature-handler.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Get-HardwareInfo.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Manage-Software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Request-FileDownload.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"Set-OptionalFeatureState.psm1"
 
 function Install-WSL() {
     [CmdletBinding()] param()

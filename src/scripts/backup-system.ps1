@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
 
 function New-RestorePoint() {
     Write-Status -Types "+", $TweakType -Status "Enabling system drive Restore Point..."

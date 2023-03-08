@@ -1,7 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"manage-software.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"title-templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"set-item-property-verified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"individual-tweaks.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Manage-Software.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"Individual-Tweaks.psm1"
 
 $Script:TweakType = "App"
 
@@ -17,11 +17,6 @@ function Install-DolbyAudio() {
 
     Write-Status -Types "*", $TweakType -Status "Installing Dolby Audio..."
     Install-Software -Name "Dolby Audio" -Packages $Apps -PackageProvider 'MsStore'
-}
-
-function Install-HEVCSupport() {
-    Write-Status -Types "+", $TweakType -Status "Installing HEVC/H.265 video codec (MUST HAVE)..."
-    Install-Software -Name "HEVC Video Extensions from Device Manufacturer" -Packages "9N4WGH0Z6VHQ" -PackageProvider 'MsStore' # Gives error
 }
 
 function Install-MicrosoftEdge() {
