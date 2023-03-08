@@ -7,7 +7,7 @@ function Remove-CapabilitiesList() {
         [Switch] $Revert
     )
 
-    $DisableCapabilities = @(
+    $DisableCapabilities = [System.Collections.ArrayList] @(
         "App.StepsRecorder*"                # Steps Recorder
         "Browser.InternetExplorer*"         # Internet Explorer (Also has on Optional Features)
         "MathRecognizer*"                   # Math Recognizer
@@ -16,6 +16,12 @@ function Remove-CapabilitiesList() {
         "Print.Fax.Scan*"                   # Fax features
         "Print.Management.Console*"         # printmanagement.msc
     )
+
+    If (Get-AppxPackage -AllUsers -Name "MicrosoftCorporationII.QuickAssist") {
+        $DisableCapabilities.Add("App.Support.QuickAssist*")
+    }
+
+    $DisableCapabilities.Sort()
 
     Write-Title "Windows Capabilities Tweaks"
     Write-Section "Uninstall Windows Capabilities from Windows"
