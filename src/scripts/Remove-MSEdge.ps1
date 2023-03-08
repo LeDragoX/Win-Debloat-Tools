@@ -4,22 +4,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-I
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-UWPApp.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
 
-function Main() {
-    $Ask = "Are you sure you want to remove Microsoft Edge from Windows?`nYou can reinstall it anytime.`nNote: all users logged in will remain."
-
-    switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
-        'Yes' {
-            Remove-MSEdge
-        }
-        'No' {
-            Write-Host "Aborting..."
-        }
-        'Cancel' {
-            Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit
-        }
-    }
-}
-
 function Remove-MSEdge() {
     $PathToLMEdgeUpdate = "HKLM:\SOFTWARE\Microsoft\EdgeUpdate"
 
@@ -57,4 +41,16 @@ function Remove-MSEdge() {
     Remove-ItemVerified -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Temp" -Recurse -Force | Out-Host
 }
 
-Main
+$Ask = "Are you sure you want to remove Microsoft Edge from Windows?`nYou can reinstall it anytime.`nNote: all users logged in will remain."
+
+switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
+    'Yes' {
+        Remove-MSEdge
+    }
+    'No' {
+        Write-Host "Aborting..."
+    }
+    'Cancel' {
+        Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit
+    }
+}

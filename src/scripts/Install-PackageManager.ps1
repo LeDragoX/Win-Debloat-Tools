@@ -93,88 +93,85 @@ function Install-WingetDependency() {
     Return $false
 }
 
-function Main() {
-    $WingetParams = @{
-        Name                = "Winget"
-        CheckExistenceBlock = { winget --version }
-        InstallCommandBlock =
-        {
-            New-Item -Path "$(Get-TempScriptFolder)\downloads\" -Name "winget-install" -ItemType Directory -Force | Out-Null
-            Push-Location -Path "$(Get-TempScriptFolder)\downloads\winget-install\"
-            Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
-            Install-Script -Name winget-install -Force
-            winget-install.ps1
-            Pop-Location
-            Remove-Item -Path "$(Get-TempScriptFolder)\downloads\winget-install\"
-        }
-        Time                = "12:00"
-        UpdateScriptBlock   =
-        {
-            Remove-Item -Path "$env:TEMP\Win-Debloat-Tools\logs\*" -Include "WingetDailyUpgrade_*.log"
-            Start-Transcript -Path "$env:TEMP\Win-Debloat-Tools\logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
-            Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force # Only needed to run Winget
-            winget source update --disable-interactivity | Out-Host
-            winget upgrade --all --silent | Out-Host
-            Stop-Transcript
-        }
+$WingetParams = @{
+    Name                = "Winget"
+    CheckExistenceBlock = { winget --version }
+    InstallCommandBlock =
+    {
+        New-Item -Path "$(Get-TempScriptFolder)\downloads\" -Name "winget-install" -ItemType Directory -Force | Out-Null
+        Push-Location -Path "$(Get-TempScriptFolder)\downloads\winget-install\"
+        Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+        Install-Script -Name winget-install -Force
+        winget-install.ps1
+        Pop-Location
+        Remove-Item -Path "$(Get-TempScriptFolder)\downloads\winget-install\"
     }
-
-    $WingetParams2 = @{
-        Name                = "Winget (Method 2)"
-        CheckExistenceBlock = { winget --version }
-        InstallCommandBlock =
-        {
-            $WingetDepOutput = Install-WingetDependency
-            $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "Microsoft.DesktopAppInstaller.msixbundle"
-            $AppName = Split-Path -Path $WingetOutput -Leaf
-
-            Try {
-                # Method from: https://github.com/microsoft/winget-cli/blob/master/doc/troubleshooting/README.md#machine-wide-provisioning
-                If ($WingetDepOutput) {
-                    Write-Status -Types "@" -Status "Trying to install the App (w/ dependency): $AppName" -Warning
-                    $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -SkipLicense -DependencyPackagePath $WingetDepOutput | Out-Null }
-                    Invoke-Expression "$InstallPackageCommand"
-                }
-
-                Write-Status -Types "@" -Status "Trying to install the App (no dependency): $AppName" -Warning
-                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -SkipLicense | Out-Null }
-                Invoke-Expression "$InstallPackageCommand"
-            } Catch {
-                Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
-                Start-Process "ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1" -Wait # GUI App installer can't install itself
-            }
-
-            Remove-Item -Path $WingetOutput
-            Remove-Item -Path $WingetDepOutput
-        }
+    Time                = "12:00"
+    UpdateScriptBlock   =
+    {
+        Remove-Item -Path "$env:TEMP\Win-Debloat-Tools\logs\*" -Include "WingetDailyUpgrade_*.log"
+        Start-Transcript -Path "$env:TEMP\Win-Debloat-Tools\logs\WingetDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
+        Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force # Only needed to run Winget
+        winget source update --disable-interactivity | Out-Host
+        winget upgrade --all --silent | Out-Host
+        Stop-Transcript
     }
-
-    $ChocolateyParams = @{
-        Name                = "Chocolatey"
-        CheckExistenceBlock = { choco --version }
-        InstallCommandBlock =
-        {
-            Set-ExecutionPolicy Bypass -Scope Process -Force
-            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-            Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-        }
-        Time                = "13:00"
-        UpdateScriptBlock   =
-        {
-            Remove-Item -Path "$env:TEMP\Win-Debloat-Tools\logs\*" -Include "ChocolateyDailyUpgrade_*.log"
-            Start-Transcript -Path "$env:TEMP\Win-Debloat-Tools\logs\ChocolateyDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
-            choco upgrade all --ignore-dependencies --yes | Out-Host
-            Stop-Transcript
-        }
-        PostInstallBlock    = { choco install --ignore-dependencies --yes "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
-    }
-
-    # Install Winget on Windows (Method 1)
-    Install-PackageManager -PackageManagerFullName $WingetParams.Name -CheckExistenceBlock $WingetParams.CheckExistenceBlock -InstallCommandBlock $WingetParams.InstallCommandBlock -Time $WingetParams.Time -UpdateScriptBlock $WingetParams.UpdateScriptBlock
-    # Install Winget on Windows (Method 2)
-    Install-PackageManager -PackageManagerFullName $WingetParams2.Name -CheckExistenceBlock $WingetParams2.CheckExistenceBlock -InstallCommandBlock $WingetParams2.InstallCommandBlock
-    # Install Chocolatey on Windows
-    Install-PackageManager -PackageManagerFullName $ChocolateyParams.Name -CheckExistenceBlock $ChocolateyParams.CheckExistenceBlock -InstallCommandBlock $ChocolateyParams.InstallCommandBlock -Time $ChocolateyParams.Time -UpdateScriptBlock $ChocolateyParams.UpdateScriptBlock -PostInstallBlock $ChocolateyParams.PostInstallBlock
 }
 
-Main
+$WingetParams2 = @{
+    Name                = "Winget (Method 2)"
+    CheckExistenceBlock = { winget --version }
+    InstallCommandBlock =
+    {
+        $WingetDepOutput = Install-WingetDependency
+        $WingetOutput = Get-APIFile -URI "https://api.github.com/repos/microsoft/winget-cli/releases/latest" -ObjectProperty "assets" -FileNameLike "*.msixbundle" -PropertyValue "browser_download_url" -OutputFile "Microsoft.DesktopAppInstaller.msixbundle"
+        $AppName = Split-Path -Path $WingetOutput -Leaf
+
+        Try {
+            # Method from: https://github.com/microsoft/winget-cli/blob/master/doc/troubleshooting/README.md#machine-wide-provisioning
+            If ($WingetDepOutput) {
+                Write-Status -Types "@" -Status "Trying to install the App (w/ dependency): $AppName" -Warning
+                $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -SkipLicense -DependencyPackagePath $WingetDepOutput | Out-Null }
+                Invoke-Expression "$InstallPackageCommand"
+            }
+
+            Write-Status -Types "@" -Status "Trying to install the App (no dependency): $AppName" -Warning
+            $InstallPackageCommand = { Add-AppxProvisionedPackage -Online -PackagePath $WingetOutput -SkipLicense | Out-Null }
+            Invoke-Expression "$InstallPackageCommand"
+        } Catch {
+            Write-Status -Types "@" -Status "Couldn't install '$AppName' automatically, trying to install the App manually..." -Warning
+            Start-Process "ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1" -Wait # GUI App installer can't install itself
+        }
+
+        Remove-Item -Path $WingetOutput
+        Remove-Item -Path $WingetDepOutput
+    }
+}
+
+$ChocolateyParams = @{
+    Name                = "Chocolatey"
+    CheckExistenceBlock = { choco --version }
+    InstallCommandBlock =
+    {
+        Set-ExecutionPolicy Bypass -Scope Process -Force
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    }
+    Time                = "13:00"
+    UpdateScriptBlock   =
+    {
+        Remove-Item -Path "$env:TEMP\Win-Debloat-Tools\logs\*" -Include "ChocolateyDailyUpgrade_*.log"
+        Start-Transcript -Path "$env:TEMP\Win-Debloat-Tools\logs\ChocolateyDailyUpgrade_$(Get-Date -Format "yyyy-MM-dd_HH-mm-ss").log"
+        choco upgrade all --ignore-dependencies --yes | Out-Host
+        Stop-Transcript
+    }
+    PostInstallBlock    = { choco install --ignore-dependencies --yes "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
+}
+
+# Install Winget on Windows (Method 1)
+Install-PackageManager -PackageManagerFullName $WingetParams.Name -CheckExistenceBlock $WingetParams.CheckExistenceBlock -InstallCommandBlock $WingetParams.InstallCommandBlock -Time $WingetParams.Time -UpdateScriptBlock $WingetParams.UpdateScriptBlock
+# Install Winget on Windows (Method 2)
+Install-PackageManager -PackageManagerFullName $WingetParams2.Name -CheckExistenceBlock $WingetParams2.CheckExistenceBlock -InstallCommandBlock $WingetParams2.InstallCommandBlock
+# Install Chocolatey on Windows
+Install-PackageManager -PackageManagerFullName $ChocolateyParams.Name -CheckExistenceBlock $ChocolateyParams.CheckExistenceBlock -InstallCommandBlock $ChocolateyParams.InstallCommandBlock -Time $ChocolateyParams.Time -UpdateScriptBlock $ChocolateyParams.UpdateScriptBlock -PostInstallBlock $ChocolateyParams.PostInstallBlock
+

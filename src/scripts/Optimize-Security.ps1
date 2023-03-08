@@ -87,8 +87,5 @@ function Optimize-Security() {
     #Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows Script Host\Settings" -Name "Enabled" -Type DWord -Value 0
 }
 
-function Main() {
-    Optimize-Security # Improve the Windows Security
-}
+Optimize-Security # Improve the Windows Security
 
-Main

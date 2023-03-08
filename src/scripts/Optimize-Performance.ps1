@@ -149,12 +149,9 @@ function Optimize-Performance() {
     Set-ItemPropertyVerified -Path "$PathToLMMultimediaSystemProfileOnGameTasks" -Name "Scheduling Category" -Type String -Value "High" # Default: "Medium"
 }
 
-function Main() {
-    If (!$Revert) {
-        Optimize-Performance # Change from stock configurations that slowdowns the system to improve performance
-    } Else {
-        Optimize-Performance -Revert
-    }
+If (!$Revert) {
+    Optimize-Performance # Change from stock configurations that slowdowns the system to improve performance
+} Else {
+    Optimize-Performance -Revert
 }
 
-Main

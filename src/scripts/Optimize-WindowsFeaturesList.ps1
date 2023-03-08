@@ -42,18 +42,14 @@ function Optimize-WindowsFeaturesList() {
     Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures $EnableFeatures
 }
 
-function Main() {
-    # List all Optional Features:
-    #Get-WindowsOptionalFeature -Online | Select-Object -Property State, FeatureName, DisplayName, Description | Sort-Object State, FeatureName | Format-Table
+# List all Optional Features:
+#Get-WindowsOptionalFeature -Online | Select-Object -Property State, FeatureName, DisplayName, Description | Sort-Object State, FeatureName | Format-Table
 
-    # List all Windows Packages:
-    #Get-WindowsPackage -Online | Select-Object -Property ReleaseType, PackageName, PackageState, InstallTime | Sort-Object ReleaseType, PackageState, PackageName | Format-Table
+# List all Windows Packages:
+#Get-WindowsPackage -Online | Select-Object -Property ReleaseType, PackageName, PackageState, InstallTime | Sort-Object ReleaseType, PackageState, PackageName | Format-Table
 
-    If (!$Revert) {
-        Optimize-WindowsFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
-    } Else {
-        Optimize-WindowsFeaturesList -Revert
-    }
+If (!$Revert) {
+    Optimize-WindowsFeaturesList # Disable useless features and Enable features claimed as Optional on Windows, but actually, they are useful
+} Else {
+    Optimize-WindowsFeaturesList -Revert
 }
-
-Main

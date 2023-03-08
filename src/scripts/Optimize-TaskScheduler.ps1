@@ -61,15 +61,11 @@ function Optimize-TaskScheduler() {
     Set-ScheduledTaskState -State 'Enabled' -ScheduledTask $EnableScheduledTasks
 }
 
-function Main() {
-    # List all Scheduled Tasks:
-    #Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Format-Table
+# List all Scheduled Tasks:
+#Get-ScheduledTask | Select-Object -Property State, TaskPath, TaskName, Description | Sort-Object State, TaskPath, TaskName | Format-Table
 
-    If (!$Revert) {
-        Optimize-TaskScheduler # Disable Scheduled Tasks that causes slowdowns
-    } Else {
-        Optimize-TaskScheduler -Revert
-    }
+If (!$Revert) {
+    Optimize-TaskScheduler # Disable Scheduled Tasks that causes slowdowns
+} Else {
+    Optimize-TaskScheduler -Revert
 }
-
-Main

@@ -5,22 +5,6 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-U
 Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"Individual-Tweaks.psm1"
 
-function Main() {
-    $Ask = "This will remove and/or disable all the Xbox:`n  - Apps;`n  - Services and;`n  - GameBar;`n  - GameDVR.`n`nDo you want to proceed?"
-
-    switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
-        'Yes' {
-            Remove-Xbox # Remove all Xbox related Apps, services, etc.
-        }
-        'No' {
-            Write-Host "Aborting..."
-        }
-        'Cancel' {
-            Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit
-        }
-    }
-}
-
 function Remove-Xbox() {
     $PathToLMServicesXbgm = "HKLM:\SYSTEM\CurrentControlSet\Services\xbgm"
     $TweakType = "Xbox"
@@ -55,4 +39,16 @@ function Remove-Xbox() {
     Disable-XboxGameBarDVRandMode
 }
 
-Main
+$Ask = "This will remove and/or disable all the Xbox:`n  - Apps;`n  - Services and;`n  - GameBar;`n  - GameDVR.`n`nDo you want to proceed?"
+
+switch (Show-Question -Title "Warning" -Message $Ask -BoxIcon "Warning") {
+    'Yes' {
+        Remove-Xbox # Remove all Xbox related Apps, services, etc.
+    }
+    'No' {
+        Write-Host "Aborting..."
+    }
+    'Cancel' {
+        Write-Host "Aborting..." # With Yes, No and Cancel, the user can press Esc to exit
+    }
+}

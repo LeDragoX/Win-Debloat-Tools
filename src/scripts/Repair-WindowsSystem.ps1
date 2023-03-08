@@ -3,7 +3,7 @@ Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-Item
 
 # Adapted from: https://github.com/ChrisTitusTech/win10script
 
-function Repair-Windows() {
+function Repair-WindowsSystem() {
     Write-Title "Repair major Windows problems"
 
     Write-Section "Reset Windows Hosts file"
@@ -72,8 +72,4 @@ function Repair-Windows() {
     netsh winsock reset | Out-Host
 }
 
-function Main() {
-    Repair-Windows
-}
-
-Main
+Repair-WindowsSystem

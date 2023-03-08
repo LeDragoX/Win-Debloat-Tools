@@ -180,8 +180,8 @@ _This section contains options to restore the system apps, by downloading them f
 _This section contains tools to solve some Windows problems and get info about how much debloated the system is._
 
 - [`Randomize System Color`](./src/scripts/other-scripts/New-SystemColor.ps1): Changes the Windows color pallette to a random generated hex color;
-- [`Reinstall Pre-Installed Apps`](./src/scripts/Install-PreInstalledApps.ps1): Rebloat Windows with all the Pre-Installed Apps;
-- [`Repair Windows`](./src/scripts/Repair-Windows.ps1): Try to Completely fix the Windows worst problems via Command Line;
+- [`Reinstall Pre-Installed Apps`](./src/scripts/Install-DefaultAppsList.ps1): Rebloat Windows with all the Pre-Installed Apps;
+- [`Repair Windows`](./src/scripts/Repair-WindowsSystem.ps1): Try to Completely fix the Windows worst problems via Command Line;
 - [`Show Debloat Info`](./src/scripts/other-scripts/Show-DebloatInfo.ps1): Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference);
 
 #### Windows Update ([Can be found here](src/utils/Individual-Tweaks.psm1))

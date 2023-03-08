@@ -154,14 +154,11 @@ function Remove-BloatwareAppsList() {
     Remove-UWPApp -AppxPackages $Apps
 }
 
-function Main() {
-    # List all Packages:
-    #Get-AppxPackage | Select-Object -Property Name, Architecture, Version, Publisher, InstallLocation, IsFramework, IsBundle, IsDevelopmentMode, NonRemovable, SignatureKind, Status, Dependencies | Sort-Object Publisher, Name, Architecture | Format-Table
+# List all Packages:
+#Get-AppxPackage | Select-Object -Property Name, Architecture, Version, Publisher, InstallLocation, IsFramework, IsBundle, IsDevelopmentMode, NonRemovable, SignatureKind, Status, Dependencies | Sort-Object Publisher, Name, Architecture | Format-Table
 
-    # List all Provisioned Packages:
-    #Get-AppxProvisionedPackage -Online | Select-Object -Property DisplayName, Architecture, Version, PublisherId, InstallLocation, Region, ResourceId | Sort-Object PublisherId, DisplayName, Architecture | Format-Table
+# List all Provisioned Packages:
+#Get-AppxProvisionedPackage -Online | Select-Object -Property DisplayName, Architecture, Version, PublisherId, InstallLocation, Region, ResourceId | Sort-Object PublisherId, DisplayName, Architecture | Format-Table
 
-    Remove-BloatwareAppsList # Remove the main Bloat from Pre-installed Apps
-}
+Remove-BloatwareAppsList # Remove the main Bloat from Pre-installed Apps
 
-Main
