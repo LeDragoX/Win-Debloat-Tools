@@ -81,11 +81,11 @@ function Open-DebloatScript {
         "Optimize-TaskScheduler.ps1",
         "Optimize-ServicesRunning.ps1",
         "Remove-BloatwareAppsList.ps1",
-        "Remove-CapabilitiesList.ps1",
         "Optimize-Privacy.ps1",
         "Optimize-Performance.ps1",
         "Register-PersonalTweaksList.ps1",
         "Optimize-Security.ps1",
+        "Remove-CapabilitiesList.ps1",
         "Optimize-WindowsFeaturesList.ps1"
     )
 
@@ -473,10 +473,10 @@ function Show-GUI() {
                 "Use-DebloatSoftware.ps1",
                 "Optimize-TaskScheduler.ps1",
                 "Optimize-ServicesRunning.ps1",
-                "Remove-CapabilitiesList.ps1",
                 "Optimize-Privacy.ps1",
                 "Optimize-Performance.ps1",
                 "Register-PersonalTweaksList.ps1",
+                "Remove-CapabilitiesList.ps1",
                 "Optimize-WindowsFeaturesList.ps1",
                 "Install-DefaultAppsList.ps1"
             )
