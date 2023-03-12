@@ -3,7 +3,7 @@
 ⚠ **Warning**: this file is subject to changing without notice.
 
 I would be happy to extend the collection of scripts.
-If you want to send me a **PULL REQUEST**, please use the `develop` branch to be up to date, and send PRs there, or i'll close it.
+If you want to send me a **PULL REQUEST**, you can send PRs to `main` branch, i'll check your code, request changes if necessary or approve, and merge directly unless it's a "Draft PR".
 
 ## 🖌 Coding Style
 
