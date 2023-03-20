@@ -21,11 +21,14 @@ function Request-FileDownload {
 
     Write-Verbose "[?] I'm at: $PWD"
     Write-Verbose "[?] Downloading at: $OutputFolder + $ExtendFolder"
-    $OutputFolder = Join-Path -Path $OutputFolder -ChildPath $ExtendFolder
+
+    If ($ExtendFolder) {
+        $OutputFolder = Join-Path -Path $OutputFolder -ChildPath $ExtendFolder
+    }
 
     If (!(Test-Path $OutputFolder)) {
         Write-Status -Types "@" -Status "$OutputFolder doesn't exist, creating folder..."
-        New-Item -Path $OutputFolder
+        New-Item -Path $OutputFolder -ItemType Directory
     }
 
     $FileLocation = $(Join-Path -Path $OutputFolder -ChildPath "$OutputFile")
