@@ -13,7 +13,7 @@ function Use-DebloatSoftware() {
 
     If (!$Revert) {
         $AdwCleanerDl = "https://downloads.malwarebytes.com/file/adwcleaner"
-        $AdwCleanerOutput = Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe"
+        [String] $AdwCleanerOutput = Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe"
         Write-Status -Types "+" -Status "Running MalwareBytes AdwCleaner scanner..."
         Start-Process -FilePath $AdwCleanerOutput -ArgumentList "/eula", "/clean", "/noreboot" -Wait
         Remove-ItemVerified $AdwCleanerOutput -Force
@@ -21,7 +21,7 @@ function Use-DebloatSoftware() {
 
     Copy-Item -Path "$PSScriptRoot\..\configs\shutup10" -Destination "$(Get-TempScriptFolder)\downloads" -Recurse -Force
     $ShutUpDl = "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe"
-    $ShutUpOutput = Request-FileDownload -FileURI $ShutUpDl -ExtendFolder "shutup10" -OutputFile "OOSU10.exe"
+    [String] $ShutUpOutput = Request-FileDownload -FileURI $ShutUpDl -ExtendFolder "shutup10" -OutputFile "OOSU10.exe"
     Push-Location -Path (Split-Path -Path $ShutUpOutput)
 
     If ($Revert) {
@@ -32,7 +32,7 @@ function Use-DebloatSoftware() {
         Start-Process -FilePath $ShutUpOutput -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # Wait until the process closes #
     }
 
-    Remove-ItemVerified "$ShutUpOutput" -Force # Leave no extra files
+    Remove-ItemVerified $ShutUpOutput -Force # Leave no extra files
     Pop-Location
 }
 
