@@ -1,7 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\utils\"Individual-Tweaks.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm1"
 
 # Adapted from: https://youtu.be/qWESrvP_uU8
 # Adapted from: https://youtu.be/hQSkPmZRCjc

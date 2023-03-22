@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\"Get-TempScriptFolder.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\"Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\Title-Templates.psm1"
 
 function Request-FileDownload {
     [CmdletBinding()]
@@ -31,7 +31,7 @@ function Request-FileDownload {
         New-Item -Path $OutputFolder -ItemType Directory
     }
 
-    $FileLocation = $(Join-Path -Path $OutputFolder -ChildPath "$OutputFile")
+    [String] $FileLocation = $(Join-Path -Path $OutputFolder -ChildPath "$OutputFile")
 
     Import-Module BitsTransfer
     Write-Host

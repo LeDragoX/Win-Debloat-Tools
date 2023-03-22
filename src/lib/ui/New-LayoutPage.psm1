@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\"Ui-Helper.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\"Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\Ui-Helper.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"
 
 function New-LayoutPage() {
     [CmdletBinding()]

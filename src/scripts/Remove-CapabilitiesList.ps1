@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-CapabilityState.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-CapabilityState.psm1"
 
 function Remove-CapabilitiesList() {
     [CmdletBinding()]

@@ -1,8 +1,8 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Manage-Software.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\"Title-Templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"Select-Folder.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\..\lib\ui\"Show-MessageDialog.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\Manage-Software.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\debloat-helper\Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\ui\Select-Folder.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\ui\Show-MessageDialog.psm1"
 
 function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!

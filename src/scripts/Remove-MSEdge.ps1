@@ -1,8 +1,8 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\ui\"Show-MessageDialog.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-UWPApp.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-UWPApp.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\ui\Show-MessageDialog.psm1"
 
 function Remove-MSEdge() {
     $PathToLMEdgeUpdate = "HKLM:\SOFTWARE\Microsoft\EdgeUpdate"
