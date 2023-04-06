@@ -21,7 +21,7 @@ function Open-PowerShellFilesCollection {
         $LastAccessUtc = "v$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd")"
         $Private:Counter = Write-TitleCounter "$FileName ($LastAccessUtc)" -Counter $Counter -MaxLength $Scripts.Length
         If ($OpenFromGUI) {
-            Import-Module -DisableNameChecking .\"$FileName" -Force
+            Import-Module .\"$FileName" -Force
         } Else {
             PowerShell -NoProfile -ExecutionPolicy Bypass -File .\"$FileName"
         }
