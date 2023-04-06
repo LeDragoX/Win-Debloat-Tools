@@ -209,28 +209,6 @@ _This section can manually adjust `Optional Features` from the system, working a
 
 </details>
 
-## ⚡ Troubleshooting Known Issues
-
-> For each issue, expand the issue you're looking for,
-> and Open PowerShell as admin to copy + paste it's content:
-
-<details>
-  <summary>Fix <code>NVIDIA Control Panel</code></summary>
-
-> Only this time (Recommended - Consumes less RAM after boot)
-
-```Powershell
-Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Manual -PassThru | Start-Service
-```
-
-> Permanently (Keeps the service running along with the system)
-
-```Powershell
-Get-Service "NVDisplay.ContainerLocalSystem" | Set-Service -StartupType Automatic -PassThru | Start-Service
-```
-
-</details>
-
 ## 🏅 More Debloat Scripts (Community)
 
 <details>

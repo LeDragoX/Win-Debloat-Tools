@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking $PSScriptRoot\"Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\Get-TempScriptFolder.psm1"
 
 function Start-Logging() {
     [CmdletBinding(SupportsShouldProcess)]

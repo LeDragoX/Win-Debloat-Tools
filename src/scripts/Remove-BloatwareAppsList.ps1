@@ -1,5 +1,5 @@
-﻿Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-UWPApp.psm1"
+﻿Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-UWPApp.psm1"
 
 function Remove-BloatwareAppsList() {
     $Apps = @(
