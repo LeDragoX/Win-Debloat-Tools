@@ -1,5 +1,5 @@
-Import-Module -DisableNameChecking $PSScriptRoot\"Get-TempScriptFolder.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\"Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\Title-Templates.psm1"
 
 # Adapted From: https://gist.github.com/anthonyeden/0088b07de8951403a643a8485af2709b?permalink_comment_id=3651336#gistcomment-3651336
 

@@ -21,21 +21,21 @@ function Main() {
         Request-AdminPrivilege # Check admin rights
         Get-ChildItem -Recurse $PSScriptRoot\*.ps*1 | Unblock-File
 
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Get-HardwareInfo.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Open-File.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Manage-Software.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Request-FileDownload.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Set-ConsoleStyle.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Set-RevertStatus.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Start-Logging.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\"Title-Templates.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"Get-CurrentResolution.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"Get-DefaultColor.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"New-LayoutPage.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"Show-MessageDialog.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\lib\ui\"Ui-Helper.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"Individual-Tweaks.psm1" -Force
-        Import-Module -DisableNameChecking $PSScriptRoot\src\utils\"Install-Individual-System-Apps.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\Get-HardwareInfo.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\Open-File.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\Manage-Software.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\Request-FileDownload.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\Set-ConsoleStyle.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\Set-RevertStatus.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\Start-Logging.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\Title-Templates.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Get-CurrentResolution.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Get-DefaultColor.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\New-LayoutPage.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Show-MessageDialog.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Ui-Helper.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Individual-Tweaks.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Install-Individual-System-Apps.psm1" -Force
 
         Set-ConsoleStyle
         $CurrentFileName = (Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]

@@ -1,9 +1,10 @@
-Import-Module -DisableNameChecking $PSScriptRoot\"Get-TempScriptFolder.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\"Title-Templates.psm1"
+Import-Module BitsTransfer
+Import-Module -DisableNameChecking "$PSScriptRoot\Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\Title-Templates.psm1"
 
 function Request-FileDownload {
     [CmdletBinding()]
-    [OutputType([String])]
+    [OutputType([String[]])]
     param (
         [Alias('URI')]
         [Parameter(Position = 0, Mandatory)]
@@ -16,11 +17,12 @@ function Request-FileDownload {
         [String] $OutputFile,
         [Alias('RelativeFolder')]
         [Parameter(Position = 3)]
-        [String] $ExtendFolder = ""
+        [String] $ExtendFolder
     )
 
     Write-Verbose "[?] I'm at: $PWD"
     Write-Verbose "[?] Downloading at: $OutputFolder + $ExtendFolder"
+    Write-Verbose "START '$OutputFolder' $($OutputFolder.GetType())"
 
     If ($ExtendFolder) {
         $OutputFolder = Join-Path -Path $OutputFolder -ChildPath $ExtendFolder
@@ -28,17 +30,16 @@ function Request-FileDownload {
 
     If (!(Test-Path $OutputFolder)) {
         Write-Status -Types "@" -Status "$OutputFolder doesn't exist, creating folder..."
-        New-Item -Path $OutputFolder -ItemType Directory
+        New-Item -Path $OutputFolder -ItemType Directory -Force
     }
 
-    $FileLocation = $(Join-Path -Path $OutputFolder -ChildPath "$OutputFile")
+    $FileLocation = Join-Path -Path $OutputFolder -ChildPath $OutputFile
 
-    Import-Module BitsTransfer
-    Write-Host
     Write-Status -Types "@" -Status "Downloading from: '$FileURI' as '$OutputFile'"
     Write-Status -Types "@" -Status "On: '$FileLocation'"
-    Start-BitsTransfer -Dynamic -RetryTimeout 60 -TransferType Download -Source $FileURI -Destination $FileLocation
+    Start-BitsTransfer -Source "$FileURI" -Destination "$FileLocation" -Dynamic -DisplayName $OutputFile -TransferType Download | Wait-Job
 
+    Write-Verbose "END '$FileLocation' $($FileLocation.GetType())"
     return "$FileLocation"
 }
 

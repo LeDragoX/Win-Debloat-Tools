@@ -1,7 +1,7 @@
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Get-TempScriptFolder.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Request-FileDownload.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\"Title-Templates.psm1"
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\debloat-helper\"Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-TempScriptFolder.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Request-FileDownload.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
 
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
@@ -13,9 +13,9 @@ function Use-DebloatSoftware() {
 
     If (!$Revert) {
         $AdwCleanerDl = "https://downloads.malwarebytes.com/file/adwcleaner"
-        [String] $AdwCleanerOutput = Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe"
+        $AdwCleanerOutput = (Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe")[-1]
         Write-Status -Types "+" -Status "Running MalwareBytes AdwCleaner scanner..."
-        Start-Process -FilePath $AdwCleanerOutput -ArgumentList "/eula", "/clean", "/noreboot" -Wait
+        Start-Process -FilePath "$AdwCleanerOutput" -ArgumentList '/eula', '/clean', '/noreboot' -Wait
         Remove-ItemVerified $AdwCleanerOutput -Force
     }
 
