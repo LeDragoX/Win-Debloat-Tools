@@ -1,5 +1,4 @@
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
-Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Grant-RegistryPermission.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\New-Shortcut.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
@@ -363,7 +362,6 @@ function Disable-XboxGameBarDVRandMode() {
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
     Set-ItemPropertyVerified -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
-    Set-ServiceStartup -State 'Disabled' -Services "BcastDVRUserService*"
 
     Write-Status -Types "-", "Performance" -Status "Enabling Game mode..."
     Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 0
@@ -374,7 +372,6 @@ function Disable-XboxGameBarDVRandMode() {
     Write-Status -Types "-", "Performance" -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
     Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 0
 
-    Grant-RegistryPermission -Key "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter"
     Write-Status -Types "-", "Performance" -Status "Disabling GameBar Presence Writer..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 0
 }
@@ -398,7 +395,6 @@ function Enable-XboxGameBarDVRandMode() {
     Write-Status -Types "*", "Performance" -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
     Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 1
 
-    Grant-RegistryPermission -Key "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter"
     Write-Status -Types "*", "Performance" -Status "Enabling GameBar Presence Writer..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 1
 }
