@@ -54,52 +54,56 @@ function Remove-BloatwareAppsList() {
         "MicrosoftTeams"                         # Microsoft Teams / Preview
 
         # 3rd party Apps
-        "ACGMediaPlayer"
-        "ActiproSoftwareLLC"
-        "AdobePhotoshopExpress"                  # Adobe Photoshop Express
+        "5319275A.WhatsAppDesktop"               # WhatsApp
+        "*ACGMediaPlayer*"
+        "*ActiproSoftwareLLC*"
+        "*AdobePhotoshopExpress*"                # Adobe Photoshop Express
         "Amazon.com.Amazon"                      # Amazon Shop
-        "Asphalt8Airborne"                       # Asphalt 8 Airbone
-        "AutodeskSketchBook"
-        "BubbleWitch3Saga"                       # Bubble Witch 3 Saga
-        "CaesarsSlotsFreeCasino"
-        "CandyCrush"                             # Candy Crush
-        "COOKINGFEVER"
-        "CyberLinkMediaSuiteEssentials"
-        "DisneyMagicKingdoms"
-        "Dolby"                                  # Dolby Products (Like Atmos)
-        "DrawboardPDF"
-        "Duolingo-LearnLanguagesforFree"         # Duolingo
-        "EclipseManager"
-        "Facebook"                               # Facebook
-        "FarmVille2CountryEscape"
-        "FitbitCoach"
-        "Flipboard"                              # Flipboard
-        "HiddenCity"
-        "Hulu"
-        "iHeartRadio"
-        "Keeper"
-        "LinkedInforWindows"
-        "MarchofEmpires"
-        "Netflix"                                # Netflix
-        "NYTCrossword"
-        "OneCalendar"
-        "PandoraMediaInc"
-        "PhototasticCollage"
-        "PicsArt-PhotoStudio"
-        "Plex"                                   # Plex
-        "PolarrPhotoEditorAcademicEdition"
-        "RoyalRevolt"                            # Royal Revolt
-        "Shazam"
-        "Sidia.LiveWallpaper"                    # Live Wallpaper
-        "SlingTV"
-        "Speed Test"
-        "Sway"
-        "TuneInRadio"
-        "Twitter"                                # Twitter
-        "Viber"
-        "WinZipUniversal"
-        "Wunderlist"
-        "XING"
+        "AmazonVideo.PrimeVideo"                 # Amazon Prime Video
+        "*Asphalt8Airborne*"                     # Asphalt 8 Airbone
+        "*AutodeskSketchBook*"
+        "*BubbleWitch3Saga*"                     # Bubble Witch 3 Saga
+        "BytedancePte.Ltd.TikTok"                # TikTok
+        "*CaesarsSlotsFreeCasino*"
+        "*CandyCrush*"                           # Candy Crush
+        "*COOKINGFEVER*"
+        "*CyberLinkMediaSuiteEssentials*"
+        "*DisneyMagicKingdoms*"
+        "*Dolby*"                                # Dolby Products (Like Atmos)
+        "*DrawboardPDF*"
+        "*Duolingo-LearnLanguagesforFree*"       # Duolingo
+        "*EclipseManager*"
+        "FACEBOOK.FACEBOOK"                      # Facebook
+        "Facebook.Instagram*"                    # Instagram / Beta
+        "*FarmVille2CountryEscape*"
+        "*FitbitCoach*"
+        "*Flipboard*"                            # Flipboard
+        "*HiddenCity*"
+        "*Hulu*"
+        "*iHeartRadio*"
+        "*Keeper*"
+        "*LinkedInforWindows*"
+        "*MarchofEmpires*"
+        "*Netflix*"                              # Netflix
+        "*NYTCrossword*"
+        "*OneCalendar*"
+        "*PandoraMediaInc*"
+        "*PhototasticCollage*"
+        "*PicsArt-PhotoStudio*"
+        "*Plex*"                                 # Plex
+        "*PolarrPhotoEditorAcademicEdition*"
+        "*RoyalRevolt*"                          # Royal Revolt
+        "*Shazam*"
+        "*Sidia.LiveWallpaper*"                  # Live Wallpaper
+        "*SlingTV*"
+        "*Speed Test*"
+        "*Sway*"
+        "*TuneInRadio*"
+        "*Twitter*"                              # Twitter
+        "*Viber*"
+        "*WinZipUniversal*"
+        "*Wunderlist*"
+        "*XING*"
 
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"
@@ -137,7 +141,7 @@ function Remove-BloatwareAppsList() {
 
         # [DIY] Common Streaming services
 
-        #"SpotifyMusic"                   # Spotify
+        #"SpotifyAB.SpotifyMusic"           # Spotify
 
         # [DIY] Can't be reinstalled
 
