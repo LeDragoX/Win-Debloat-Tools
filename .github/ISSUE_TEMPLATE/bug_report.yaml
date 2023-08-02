@@ -11,19 +11,19 @@ body:
       value: |
         ## Important: Read First
         
-        - If some section doesn't apply, use "N/A"
+        - If some section doesn't apply, use "N/A".
   - type: textarea
     id: description
     attributes:
       label: Describe the Bug
-      description: A clear and concise description of what the bug is
+      description: A clear and concise description of what the bug "is". You can also add Screenshots.
     validations:
       required: true
   - type: textarea
     id: reproduction
     attributes:
       label: How can this issue be reproduced?
-      description: Steps to reproduce the behavior
+      description: Steps to reproduce the behavior.
       placeholder: |
         Example:
         1. Go to '...'
@@ -36,7 +36,7 @@ body:
     id: expectedBehavior
     attributes:
       label: Expected behavior?
-      description: A clear and concise description of what you expected to happen
+      description: A clear and concise description of what you expected to happen.
     validations:
       required: false
   - type: markdown
@@ -47,7 +47,7 @@ body:
     id: os
     attributes:
       label: Operating System
-      description: Versions before Windows 10 are not supported
+      description: Versions before Windows 10 are not supported.
       options:
       - Windows 11
       - Windows 10
@@ -57,18 +57,10 @@ body:
     id: osVer
     attributes:
       label: Operating System Version
-      description: Versions before 1809 are not supported
+      description: Versions before 1809 are not supported.
       placeholder: "Example: 21H2"
     validations:
       required: true
-  - type: textarea
-    id: screenshots
-    attributes:
-      label: Screenshots
-      description: |
-        If your issue is better illustrated with screenshots, you may do that here
-    validations:
-      required: false
   - type: textarea
     id: logs
     attributes:
@@ -76,14 +68,6 @@ body:
       description: |
         **Only needed if it's error related**
         Put your log file from: C:\Users\{ Your User }\AppData\Local\Temp\Win-Debloat-Tools\logs\WinDebloatTools.log
-        TIP: press `Win + R` and type `%Temp%` then hit `ENTER`, now find the log file
-    validations:
-      required: false
-  - type: textarea
-    id: context
-    attributes:
-      label: Additional Info
-      description: |
-        Please feel free to add any additional info here
+        TIP: press `Win + R` and type `%Temp%` then hit `ENTER`, now find the log file.
     validations:
       required: false
