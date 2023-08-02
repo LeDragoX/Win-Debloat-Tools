@@ -49,9 +49,11 @@ function Register-PersonalTweaksList() {
     If (!$Revert) {
         $Scripts = @("enable-photo-viewer.reg")
         Enable-DarkTheme
+        Enable-LegacyContextMenu
     } Else {
         $Scripts = @("disable-photo-viewer.reg")
         Disable-DarkTheme
+        Disable-LegacyContextMenu
     }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
 

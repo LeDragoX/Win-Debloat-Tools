@@ -226,6 +226,16 @@ function Enable-InternetExplorer() {
     Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Internet-Explorer-Optional-*")
 }
 
+function Disable-LegacyContextMenu() {
+    Write-Status -Types "*", "Personal" -Status "Disabling legacy context menu on Windows 11 (requires reboot!)..."
+    Remove-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
+}
+
+function Enable-LegacyContextMenu() {
+    Write-Status -Types "+", "Personal" -Status "Enabling legacy context menu on Windows 11 (requires reboot!)..."
+    New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value "" -Force
+}
+
 # Code from: https://answers.microsoft.com/en-us/windows/forum/all/set-the-mouse-scroll-direction-to-reverse-natural/ede4ccc4-3846-4184-a86d-a028515040c0
 function Disable-MouseNaturalScroll() {
     Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
