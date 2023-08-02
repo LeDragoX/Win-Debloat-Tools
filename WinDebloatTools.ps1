@@ -41,7 +41,7 @@ function Main() {
         $CurrentFileName = (Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]
         $CurrentFileLastModified = (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
         (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
-        Start-Logging -File $CurrentFileName
+        Start-Logging -File "$CurrentFileName-$(Get-Date -Format "yyyy-MM")"
         Write-Caption "$CurrentFileName v$CurrentFileLastModified"
         Write-Host "Your Current Folder $pwd"
         Write-Host "Script Root Folder $PSScriptRoot"
