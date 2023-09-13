@@ -44,6 +44,7 @@ function Register-PersonalTweaksList() {
     $PathToLMPoliciesExplorer = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
     $PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
     $PathToLMPoliciesWindowsSearch = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
+    $PathToLMRemovableDevices = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"
 
     Write-Title "My Personal Tweaks"
     If (!$Revert) {
@@ -112,10 +113,16 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "-", $TweakType -Status "Disabling '- Shortcut' name after creating a shortcut..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "link" -Type Binary -Value ([byte[]](0x00, 0x00, 0x00, 0x00))
 
+    Write-Status -Types "-", $TweakType -Status "Hiding duplicated Removable Devices on Navigation Pane..."
+    Remove-ItemVerified -Path $PathToLMRemovableDevices -Recurse
+
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) expand to folder in Navigation Pane..."
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value $Zero
+
     Write-Section "Task Bar Tweaks"
     Write-Caption "Task Bar - Windows 10 Compatible"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Search Box' from taskbar..."
-    # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
+    # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box, 3 = Search Icon and Label (Windows 11))
     Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Windows search highlights from taskbar..."
