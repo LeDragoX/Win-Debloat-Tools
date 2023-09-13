@@ -116,8 +116,8 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "-", $TweakType -Status "Hiding duplicated Removable Devices on Navigation Pane..."
     Remove-ItemVerified -Path $PathToLMRemovableDevices -Recurse
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) expand to folder in Navigation Pane..."
-    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value $Zero
+    Write-Status -Types "*", $TweakType -Status "Disabling expand to folder in Navigation Pane..."
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value 0
 
     Write-Section "Task Bar Tweaks"
     Write-Caption "Task Bar - Windows 10 Compatible"
