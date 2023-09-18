@@ -108,6 +108,22 @@ function Remove-BloatwareAppsList() {
         # Apps which other apps depend on
         "Microsoft.Advertising.Xaml"
 
+        # Dell Bloat
+        "DB6EA5DB.MediaSuiteEssentialsforDell"
+        "DB6EA5DB.PowerDirectorforDell"
+        "DB6EA5DB.Power2GoforDell"
+        "DB6EA5DB.PowerMediaPlayerforDell"
+        #"DellInc.423703F9C7E0E"                # Alienware OC Controls
+        #"DellInc.6066037A8FCF7"                # Alienware Control Center
+        #"DellInc.AlienwareCommandCenter"       # Alienware Command Center
+        #"DellInc.AlienwareFXAW*"               # Alienware FX AWxx versions
+        #"DellInc.AlienwareFXAW21"              # Alienware FX AW21
+        "DellInc.DellCustomerConnect"           # Dell Customer Connect
+        "DellInc.DellDigitalDelivery"           # Dell Digital Delivery
+        "DellInc.DellHelpSupport"
+        "DellInc.DellProductRegistration"
+        "DellInc.MyDell"                        # My Dell
+
         # SAMSUNG Bloat
         #"SAMSUNGELECTRONICSCO.LTD.SamsungSettings1.2"          # Allow user to Tweak some hardware settings
         "SAMSUNGELECTRONICSCO.LTD.1412377A9806A"
