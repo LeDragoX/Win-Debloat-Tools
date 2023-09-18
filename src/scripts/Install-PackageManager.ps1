@@ -1,3 +1,4 @@
+Import-Module PSScheduledJob
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-TempScriptFolder.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Request-FileDownload.psm1"
@@ -174,4 +175,3 @@ Install-PackageManager -PackageManagerFullName $WingetParams.Name -CheckExistenc
 Install-PackageManager -PackageManagerFullName $WingetParams2.Name -CheckExistenceBlock $WingetParams2.CheckExistenceBlock -InstallCommandBlock $WingetParams2.InstallCommandBlock
 # Install Chocolatey on Windows
 Install-PackageManager -PackageManagerFullName $ChocolateyParams.Name -CheckExistenceBlock $ChocolateyParams.CheckExistenceBlock -InstallCommandBlock $ChocolateyParams.InstallCommandBlock -Time $ChocolateyParams.Time -UpdateScriptBlock $ChocolateyParams.UpdateScriptBlock -PostInstallBlock $ChocolateyParams.PostInstallBlock
-
