@@ -28,7 +28,7 @@ function Remove-MSEdge() {
         Write-Status -Types "?" -Status "EdgeCore folder does not exist anymore..." -Warning
     }
 
-    Remove-UWPApp -AppxPackages "Microsoft.MicrosoftEdge"
+    Remove-UWPApp -AppxPackages @("Microsoft.MicrosoftEdge", "Microsoft.MicrosoftEdge.Stable", "Microsoft.MicrosoftEdge.*", "Microsoft.MicrosoftEdgeDevToolsClient")
 
     Write-Status -Types "@" -Status "Preventing Edge from reinstalling..."
     Set-ItemPropertyVerified -Path "$PathToLMEdgeUpdate" -Name "DoNotUpdateToEdgeWithChromium" -Type DWord -Value 1
