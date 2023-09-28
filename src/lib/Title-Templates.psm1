@@ -41,9 +41,9 @@ function Write-ScriptLogo() {
                                ██║   ╚██████╔╝╚██████╔╝███████╗███████║
                                ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
 "@
-    Write-Style $ASCIIText -Style Blink -Color Green
-    Write-Style "`n<•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -Color White
-    Write-Style "                                    It's Time to Debloat Windows!" -Style Blink -Color Cyan
+    Write-Style $ASCIIText -Style Blink -Color Green -BackColor Black
+    Write-Style "`n        <•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••>" -Color White -BackColor Black
+    Write-Style "                          It's Time to Debloat Windows! By LeDragoX & Community" -Style Blink -Color Cyan
 }
 
 function Write-Section() {
@@ -74,15 +74,15 @@ function Write-Status() {
     $TypesDone = ""
 
     ForEach ($Type in $Types) {
-        $TypesDone += "$([char]0x1b)[96m[$([char]0x1b)[97m$Type$([char]0x1b)[96m] "
+        $TypesDone += "$([char]0x1b)[100m$([char]0x1b)[96m[$([char]0x1b)[97m$Type$([char]0x1b)[96m]$([char]0x1b)[m "
     }
 
-    Write-Style "$TypesDone".Trim() -Style Bold -BackColor DarkGray -NoNewline
+    Write-Style "$TypesDone".Trim() -Style Bold -NoNewline
 
     If ($Warning) {
-        Write-Style " $Status" -Color Yellow -BackColor DarkBlue
+        Write-Style " $Status" -Color Yellow
     } Else {
-        Write-Style " $Status" -Color Green -BackColor Black
+        Write-Style " $Status" -Color Green
     }
 }
 
@@ -100,7 +100,7 @@ function Write-Style() {
         [String]        $ForeColor = 'White',
         [Parameter(Position = 3)]
         [ValidateSet('Black', 'Blue', 'DarkBlue', 'DarkCyan', 'DarkGray', 'DarkGreen', 'DarkMagenta', 'DarkRed', 'DarkYellow', 'Cyan', 'Gray', 'Green', 'Red', 'Magenta', 'White', 'Yellow')]
-        [String]        $BackColor = 'Black',
+        [String]        $BackColor = 'None',
         [Parameter(Position = 4)]
         [Switch]        $NoNewline
     )
@@ -152,11 +152,14 @@ function Write-Style() {
         "Underline"     = "$([char]0x1b)[4m"
     }
 
+    $FormattedText = "$($Styles.$Style)$($BackColors.$BackColor)$($ForeColors.$ForeColor)$Object"
+
     If ($NoNewline) {
-        return Write-Host "$($Styles.$Style)$($BackColors.$BackColor)$($ForeColors.$ForeColor)$Object" -NoNewline
+        return Write-Host "$FormattedText" -NoNewline
     }
 
-    Write-Host "$($Styles.$Style)$($BackColors.$BackColor)$($ForeColors.$ForeColor)$Object"
+    Write-Host "$FormattedText"
+    Write-Verbose "Reference ^^^ S: $Style, F: $ForeColor, B: $BackColor"
 }
 
 function Write-Title() {

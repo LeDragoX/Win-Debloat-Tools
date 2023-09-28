@@ -121,7 +121,7 @@ function Show-GUI() {
     # <===== UI =====>
 
     # Main Window:
-    $Form = New-Form -Width $LayoutT1.FormWidth -Height $LayoutT1.FormHeight -Text "Win Debloat Tools (LeDragoX) | $(Get-SystemSpec)" -BackColor $BrandColors.Win.Dark -FormBorderStyle 'Sizable' # Loading the specs takes longer time to load the GUI
+    $Form = New-Form -Width $LayoutT1.FormWidth -Height $LayoutT1.FormHeight -Text "Win Debloat Tools | $(Get-SystemSpec)" -BackColor $BrandColors.Win.Dark -FormBorderStyle 'Sizable' # Loading the specs takes longer time to load the GUI
 
     $Form = New-FormIcon -Form $Form -ImageLocation "$PSScriptRoot\src\assets\script-icon-32px.png"
 
