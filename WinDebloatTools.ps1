@@ -197,8 +197,9 @@ function Show-GUI() {
     $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbInternetExplorer
     $CbPrintingXPSServices = New-CheckBox -Text "Printing-XPSServices-Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintToPDFServices
     $CbWindowsMediaPlayer = New-CheckBox -Text "Windows Media Player" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintingXPSServices
+    $CbWindowsSandbox = New-CheckBox -Text "Windows Sandbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWindowsMediaPlayer
 
-    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsMediaPlayer
+    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSandbox
     $CbPowerShellISE = New-CheckBox -Text "PowerShell ISE" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsCapabilities
 
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbPowerShellISE
@@ -427,7 +428,7 @@ function Show-GUI() {
     $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallCortana, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallQuickAssist, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
-    $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbHyperV, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer))
+    $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbHyperV, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer, $CbWindowsSandbox))
     $T1Panel3.Controls.AddRange(@($ClWindowsCapabilities, $CbPowerShellISE))
     $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
@@ -783,6 +784,16 @@ function Show-GUI() {
             } Else {
                 Disable-WindowsMediaPlayer
                 $CbWindowsMediaPlayer.Text = "[OFF] Windows Media Player"
+            }
+        })
+
+    $CbWindowsSandbox.Add_Click( {
+            If ($CbWindowsSandbox.CheckState -eq "Checked") {
+                Enable-WindowsSandbox
+                $CbWindowsSandbox.Text = "[ON]  Windows Sandbox"
+            } Else {
+                Disable-WindowsSandbox
+                $CbWindowsSandbox.Text = "[OFF] Windows Sandbox *"
             }
         })
 

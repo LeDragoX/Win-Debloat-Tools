@@ -361,6 +361,14 @@ function Enable-WindowsMediaPlayer() {
     Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("MediaPlayback")
 }
 
+function Disable-WindowsSandbox() {
+    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Containers-DisposableClientVM")
+}
+
+function Enable-WindowsSandbox() {
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Containers-DisposableClientVM")
+}
+
 function Disable-WSearchService() {
     Write-Status -Types "-", "Service" -Status "Disabling Search Indexing (Recommended for HDDs)..."
     Get-Service -Name "WSearch" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
