@@ -93,10 +93,6 @@ function Register-PersonalTweaksList() {
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Show Drives without Media..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) MRU lists (jump lists) of XAML apps in Start Menu..."
-    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
-    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value $Zero
-
     Write-Status -Types "*", $TweakType -Status "Restoring Aero-Shake Minimize feature..."
     Remove-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Force -ErrorAction SilentlyContinue
 
@@ -178,6 +174,16 @@ function Register-PersonalTweaksList() {
     Write-Caption "Bluetooth & other devices"
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) driver download over metered connections..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
+
+    Write-Section "Personalization"
+    Write-Caption "Start"
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Most Recent Used (MRU) items in Start, Jump Lists and File Explorer..."
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
+
+    Write-Section "Privacy"
+    Write-Caption "General"
+    Write-Status -Types "*", $TweakType -Status "Enabling Let Windows track app launches to improve Start and search results (Run Dialog History)..."
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value 1
 
     Write-Section "Cortana Tweaks"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Bing Search in Start Menu..."
