@@ -218,6 +218,14 @@ function Enable-Hibernate() {
     powercfg -Hibernate -Type $Type | Out-Host
 }
 
+function Disable-HyperV() {
+    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Microsoft-Hyper-V-All")
+}
+
+function Enable-HyperV() {
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Microsoft-Hyper-V-All")
+}
+
 function Disable-InternetExplorer() {
     Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Internet-Explorer-Optional-*")
 }
