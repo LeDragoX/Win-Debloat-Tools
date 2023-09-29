@@ -26,7 +26,7 @@ function Register-DailyUpgradeJob() {
         Write-Status -Types "@", $PackageManagerFullName -Status "Creating a daily task to automatically upgrade $PackageManagerFullName packages at $Time."
 
         If ((Get-ScheduledTask -TaskPath $ScheduledJobsPath -TaskName $JobName -ErrorAction SilentlyContinue) -or (Get-ScheduledJob -Name $JobName -ErrorAction SilentlyContinue)) {
-            Write-Status -Types "@", $PackageManagerFullName -Status "ScheduledJob: $JobName FOUND!"
+            Write-Status -Types "@", $PackageManagerFullName -Status "The ScheduledJob '$JobName' already exists!" -Warning
             Write-Status -Types "@", $PackageManagerFullName -Status "Re-Creating with the command:"
             Write-Host " { $("$UpdateScriptBlock".Trim(' ')) }`n" -ForegroundColor Cyan
             Stop-ScheduledTask -TaskPath $ScheduledJobsPath -TaskName $JobName
