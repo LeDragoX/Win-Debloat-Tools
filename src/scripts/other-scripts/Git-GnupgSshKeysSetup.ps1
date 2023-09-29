@@ -1,6 +1,6 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\debloat-helper\Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\package-managers\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\ui\Select-Folder.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\ui\Show-MessageDialog.psm1"
 
