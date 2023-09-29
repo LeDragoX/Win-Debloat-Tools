@@ -36,7 +36,6 @@ function Remove-BloatwareAppsList() {
         "Microsoft.Todos"                        # Microsoft To Do
         "Microsoft.Wallet"
         "Microsoft.Whiteboard"                   # Microsoft Whiteboard
-        "Microsoft.Windows.DevHome"              # Dev Home
         "Microsoft.WindowsAlarms"                # Alarms
         "microsoft.windowscommunicationsapps"
         "Microsoft.WindowsFeedbackHub"           # Feedback Hub
@@ -65,6 +64,7 @@ function Remove-BloatwareAppsList() {
         #"Microsoft.WindowsCalculator"      # Calculator
         #"Microsoft.WindowsCamera"          # Camera
         #"Microsoft.ScreenSketch"           # Snip and Sketch (now called Snipping tool, replaces the Win32 version in clean installs)
+        #"Microsoft.Windows.DevHome"        # Dev Home
         #"Microsoft.Windows.Photos"         # Photos
 
         # [DIY] Can't be reinstalled
