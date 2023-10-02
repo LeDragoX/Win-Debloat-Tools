@@ -77,7 +77,6 @@ function Remove-BloatwareAppsList() {
     )
 
     $ThirdPartyApps = @(
-        # 3rd party Apps
         "*ACGMediaPlayer*"
         "*ActiproSoftwareLLC*"
         "*AdobePhotoshopExpress*"                # Adobe Photoshop Express
