@@ -19,6 +19,7 @@ function Remove-Xbox() {
     $XboxApps = @(
         "Microsoft.GamingServices"          # Gaming Services
         "Microsoft.XboxApp"                 # Xbox Console Companion (Replaced by new App)
+        "Microsoft.GamingApp"
         "Microsoft.XboxGameCallableUI"
         "Microsoft.XboxGameOverlay"
         "Microsoft.XboxSpeechToTextOverlay"
