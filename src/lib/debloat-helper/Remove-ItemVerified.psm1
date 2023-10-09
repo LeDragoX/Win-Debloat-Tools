@@ -1,7 +1,6 @@
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"
 
 function Remove-ItemVerified() {
-    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String[]] $Path,
@@ -16,24 +15,47 @@ function Remove-ItemVerified() {
     )
 
     Begin {
+        $ScriptBlock = "Remove-Item"
         $Script:TweakType = "Exp/Reg"
     }
 
     Process {
         If (Test-Path "$Path") {
             Write-Status -Types "-", $TweakType -Status "Removing: '$Path'"
-            If ($Recurse -and $Force) {
-                Remove-Item -Path "$Path" -Include $Include -Exclude $Exclude -Recurse -Force
-                Continue
+
+            If ($Path) {
+                $ScriptBlock += " -Path "
+                ForEach ($PathParam in $Path) {
+                    $ScriptBlock += "`"$PathParam`", "
+                }
+                $ScriptBlock = $ScriptBlock.TrimEnd(", ")
+            }
+
+            If ($Include) {
+                $ScriptBlock += " -Include "
+                ForEach ($IncludeParam in $Include) {
+                    $ScriptBlock += "`"$IncludeParam`", "
+                }
+                $ScriptBlock = $ScriptBlock.TrimEnd(", ")
+            }
+
+            If ($Exclude) {
+                $ScriptBlock += " -Exclude "
+                ForEach ($ExcludeParam in $Exclude) {
+                    $ScriptBlock += "`"$ExcludeParam`", "
+                }
+                $ScriptBlock = $ScriptBlock.TrimEnd(", ")
             }
 
             If ($Recurse) {
-                Remove-Item -Path "$Path" -Include $Include -Exclude $Exclude -Recurse
-            } ElseIf ($Force) {
-                Remove-Item -Path "$Path" -Include $Include -Exclude $Exclude -Force
-            } Else {
-                Remove-Item -Path "$Path" -Include $Include -Exclude $Exclude
+                $ScriptBlock += " -Recurse"
             }
+
+            If ($Force) {
+                $ScriptBlock += " -Force"
+            }
+
+            Invoke-Expression "$ScriptBlock"
         } Else {
             Write-Status -Types "?", $TweakType -Status "The path $Path does not exist" -Warning
         }
