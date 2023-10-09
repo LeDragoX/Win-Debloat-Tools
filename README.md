@@ -153,7 +153,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
 - `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the, `ShutUp10 settings`, `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
-- [`Remove Microsoft Edge`](./src/scripts/Remove-MSEdge.ps1): uninstalls Microsoft Edge/WebView, then remove the remaining files;
+- [`Remove Microsoft Edge`](./src/scripts/Remove-MSEdge.ps1): uninstalls **Microsoft Edge**, then remove the remaining files, **Edge Web View** files will remain untouched;
 - [`Remove OneDrive`](./src/scripts/Remove-OneDrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
 - [`Remove Xbox`](./src/scripts/Remove-Xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
 

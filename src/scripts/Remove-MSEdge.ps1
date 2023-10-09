@@ -10,13 +10,13 @@ function Remove-MSEdge() {
     Write-Status -Types "@" -Status "Stopping all 'msedge' processes before uninstalling..."
     Get-Process -Name msedge | Stop-Process -PassThru -Force
 
-    If ((Test-Path -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Edge\Application") -or (Test-Path -Path "$env:SystemDrive\Program Files (x86)\Microsoft\EdgeWebView\Application")) {
-        ForEach ($FullName in (Get-ChildItem -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Edge*\Application\*\Installer\setup.exe").FullName) {
+    If (Test-Path -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Edge\Application") {
+        ForEach ($FullName in (Get-ChildItem -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Edge*\Application\*\Installer\setup.exe" -Exclude "*EdgeWebView*").FullName) {
             Write-Status -Types "@" -Status "Uninstalling MS Edge from $FullName..."
-            Start-Process -FilePath $FullName -ArgumentList "--uninstall", "--msedgewebview", "--system-level", "--verbose-logging", "--force-uninstall" -Wait
+            Start-Process -FilePath $FullName -ArgumentList "--uninstall", "--system-level", "--verbose-logging", "--force-uninstall" -Wait
         }
     } Else {
-        Write-Status -Types "?" -Status "Edge/EdgeWebView folder does not exist anymore..." -Warning
+        Write-Status -Types "?" -Status "Edge folder does not exist anymore..." -Warning
     }
 
     If (Test-Path -Path "$env:SystemDrive\Program Files (x86)\Microsoft\EdgeCore") {
@@ -34,10 +34,10 @@ function Remove-MSEdge() {
     Set-ItemPropertyVerified -Path "$PathToLMEdgeUpdate" -Name "DoNotUpdateToEdgeWithChromium" -Type DWord -Value 1
 
     Write-Status -Types "@" -Status "Deleting Edge appdata\local folders from current user..."
-    Remove-ItemVerified -Path "$env:LOCALAPPDATA\Packages\Microsoft.MicrosoftEdge*_*" -Recurse -Force | Out-Host
+    Remove-ItemVerified -Path "$env:LOCALAPPDATA\Packages\Microsoft.MicrosoftEdge*_*" -Exclude "*EdgeWebView*" -Recurse -Force | Out-Host # -Exclude is for future-proof in this case.
 
     Write-Status -Types "@" -Status "Deleting Edge from Program Files (x86)..."
-    Remove-ItemVerified -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Edge*" -Recurse -Force | Out-Host
+    Remove-ItemVerified -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Edge*" -Exclude "*EdgeWebView*" -Recurse -Force | Out-Host
     Remove-ItemVerified -Path "$env:SystemDrive\Program Files (x86)\Microsoft\Temp" -Recurse -Force | Out-Host
 }
 
