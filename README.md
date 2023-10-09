@@ -161,7 +161,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 _This section contains options to restore the system apps, by downloading them from the **MS Store** (mostly) and doing **Stock configurations** (for some Apps)._
 
-- `Cortana`;
 - `Dolby Audio`;
 - `Microsoft Edge`;
 - `OneDrive`;

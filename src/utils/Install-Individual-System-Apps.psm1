@@ -5,11 +5,6 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm
 
 $Script:TweakType = "App"
 
-function Install-Cortana() {
-    $Apps = @("9NFFX4SZZ23L")
-    Install-Software -Name "Cortana" -Packages $Apps -PackageProvider 'MsStore'
-}
-
 function Install-DolbyAudio() {
     $Apps = @("9NJZD5S7QN99")
     Install-Software -Name "Dolby Audio" -Packages $Apps -PackageProvider 'MsStore'
