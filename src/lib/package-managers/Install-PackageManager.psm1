@@ -12,14 +12,16 @@ function Install-PackageManager() {
         [ScriptBlock] $CheckExistenceBlock,
         [Parameter(Position = 2, Mandatory)]
         [ScriptBlock] $InstallCommandBlock,
-        [ScriptBlock] $PostInstallBlock
+        [ScriptBlock] $PostInstallBlock,
+        [Switch]      $Force
     )
 
     Try {
         $Err = (Invoke-Expression "$CheckExistenceBlock")
-        If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
+        If (($LASTEXITCODE -or $Force)) { throw $Err } # 0 = False, 1 = True
         Write-Status -Types "?", $PackageManagerFullName -Status "$PackageManagerFullName is already installed." -Warning
     } Catch {
+        Write-Status -Types "@", $PackageManagerFullName -Status "FORCE INSTALLING $PackageManagerFullName." -Warning
         Write-Status -Types "?", $PackageManagerFullName -Status "$PackageManagerFullName was not found." -Warning
         Write-Status -Types "+", $PackageManagerFullName -Status "Downloading and Installing $PackageManagerFullName package manager."
 

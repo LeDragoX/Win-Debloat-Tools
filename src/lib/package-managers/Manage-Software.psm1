@@ -1,3 +1,6 @@
+Import-Module -DisableNameChecking "$PSScriptRoot\Manage-Chocolatey.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\Manage-Winget.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\Open-File.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\ui\Show-MessageDialog.psm1"
 
@@ -17,16 +20,39 @@ function Install-Software() {
         [Switch]      $NoDialog
     )
 
-    $DoneTitle = "Information"
-    $DoneMessage = "$Name installed successfully!"
+    [ScriptBlock] $CheckVersionCommand
+    $Script:DoneTitle = "Information"
+    $Script:DoneMessage = "$Name installed successfully!"
+
+    If ($PackageProvider -in @('Winget', 'MsStore')) {
+        $CheckVersionCommand = { winget --version }
+    }
 
     If ($PackageProvider -eq 'Chocolatey') {
+        $CheckVersionCommand = { choco --version }
         $InstallBlock = { choco install --ignore-dependencies --yes $Package }
         Write-Status -Types "?" -Status "Chocolatey is configured to ignore dependencies (bloat), you may need to install it before using any program." -Warning
     }
 
     If ($PackageProvider -eq 'WSL') {
+        $CheckVersionCommand = { wsl --version }
         $InstallBlock = { wsl --install --distribution $Package }
+    }
+
+    Try {
+        $Err = (Invoke-Expression "$CheckVersionCommand")
+        If (($LASTEXITCODE)) { throw $Err } # 0 = False, 1 = True
+        Write-Status -Types "?", $PackageProvider -Status "$PackageProvider is already installed." -Warning
+    } Catch {
+        If ($PackageProvider -in @('Winget', 'MsStore')) {
+            Install-Winget -Force
+        }
+        If ($PackageProvider -in @('Chocolatey')) {
+            Install-Chocolatey -Force
+        }
+        If ($PackageProvider -in @('WSL')) {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Install-WSL.ps1") -NoDialog
+        }
     }
 
     Write-Title "Installing $($Name) via $PackageProvider"

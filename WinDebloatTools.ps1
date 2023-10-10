@@ -420,8 +420,7 @@ function Show-GUI() {
     $InstallOpenSuse = New-CheckBox -Text "Open SUSE 42" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKaliLinux
     $InstallSles = New-CheckBox -Text "SLES v12" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallOpenSuse
     $InstallUbuntu = New-CheckBox -Text "Ubuntu" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSles
-    $InstallUbuntu16Lts = New-CheckBox -Text "Ubuntu 16.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu
-    $InstallUbuntu18Lts = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu16Lts
+    $InstallUbuntu18Lts = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu
     $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu18Lts
 
     $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallUbuntu20Lts
@@ -491,7 +490,7 @@ function Show-GUI() {
     $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
     $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallBSnesHd, $InstallCemu, $InstallDolphin, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallProject64, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
     $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
-    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu16Lts, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
+    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
     $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
 
     # <===== CLICK EVENTS =====>
@@ -1499,11 +1498,6 @@ function Show-GUI() {
             If ($InstallUbuntu.CheckState -eq "Checked") {
                 $AppsSelected.WSLDistros.Add("Ubuntu")
                 $InstallUbuntu.CheckState = "Unchecked"
-            }
-
-            If ($InstallUbuntu16Lts.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("Ubuntu-16.04")
-                $InstallUbuntu16Lts.CheckState = "Unchecked"
             }
 
             If ($InstallUbuntu18Lts.CheckState -eq "Checked") {

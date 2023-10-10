@@ -13,6 +13,11 @@ $Script:DoneTitle = "Information"
 $Script:DoneMessage = "Process Completed!"
 
 function Install-Winget() {
+    [CmdletBinding()]
+    param (
+        [Switch] $Force
+    )
+
     Begin {
         $WingetParams = @{
             Name                = "Winget"
@@ -61,12 +66,21 @@ function Install-Winget() {
     }
 
     Process {
-        # Install Winget on Windows (Method 1)
-        Install-PackageManager -PackageManagerFullName $WingetParams.Name -CheckExistenceBlock $WingetParams.CheckExistenceBlock -InstallCommandBlock $WingetParams.InstallCommandBlock
-        # Install Winget on Windows (Method 2)
+        If ($Force) {
+            # Install Winget on Windows (Method 1)
+            Install-PackageManager -PackageManagerFullName $WingetParams.Name -CheckExistenceBlock $WingetParams.CheckExistenceBlock -InstallCommandBlock $WingetParams.InstallCommandBlock -Force
+            # Install Winget on Windows (Method 2)
+        } Else {
+            # Install Winget on Windows (Method 1)
+            Install-PackageManager -PackageManagerFullName $WingetParams.Name -CheckExistenceBlock $WingetParams.CheckExistenceBlock -InstallCommandBlock $WingetParams.InstallCommandBlock
+            # Install Winget on Windows (Method 2)
+        }
+
         Install-PackageManager -PackageManagerFullName $WingetParams2.Name -CheckExistenceBlock $WingetParams2.CheckExistenceBlock -InstallCommandBlock $WingetParams2.InstallCommandBlock
 
-        Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
+        If (!$Force) {
+            Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
+        }
     }
 }
 

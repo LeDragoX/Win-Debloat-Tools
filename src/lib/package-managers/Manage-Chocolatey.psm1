@@ -1,6 +1,5 @@
 Import-Module -DisableNameChecking "$PSScriptRoot\Install-PackageManager.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\Manage-DailyUpgradeJob.psm1"
-Import-Module -DisableNameChecking "$PSScriptRoot\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\ui\Show-MessageDialog.psm1"
 
@@ -8,6 +7,11 @@ $Script:DoneTitle = "Information"
 $Script:DoneMessage = "Process Completed!"
 
 function Install-Chocolatey() {
+    [CmdletBinding()]
+    param (
+        [Switch] $Force
+    )
+
     Begin {
         $ChocolateyParams = @{
             Name                = "Chocolatey"
@@ -18,14 +22,21 @@ function Install-Chocolatey() {
                 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
                 Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
             }
-            PostInstallBlock    = { choco install --ignore-dependencies --yes "chocolatey-core.extension" "chocolatey-fastanswers.extension" "dependency-windows10" }
+            PostInstallBlock    = { choco install --ignore-dependencies --yes "chocolatey-core.extension" "chocolatey-fastanswers.extension" }
         }
     }
 
     Process {
-        # Install Chocolatey on Windows
-        Install-PackageManager -PackageManagerFullName $ChocolateyParams.Name -CheckExistenceBlock $ChocolateyParams.CheckExistenceBlock -InstallCommandBlock $ChocolateyParams.InstallCommandBlock -PostInstallBlock $ChocolateyParams.PostInstallBlock
-        Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
+        If ($Force) {
+            # Install Chocolatey on Windows
+            Install-PackageManager -PackageManagerFullName $ChocolateyParams.Name -CheckExistenceBlock $ChocolateyParams.CheckExistenceBlock -InstallCommandBlock $ChocolateyParams.InstallCommandBlock -PostInstallBlock $ChocolateyParams.PostInstallBlock -Force
+        } Else {
+            Install-PackageManager -PackageManagerFullName $ChocolateyParams.Name -CheckExistenceBlock $ChocolateyParams.CheckExistenceBlock -InstallCommandBlock $ChocolateyParams.InstallCommandBlock -PostInstallBlock $ChocolateyParams.PostInstallBlock
+        }
+
+        If (!$Force) {
+            Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
+        }
     }
 }
 
@@ -169,12 +180,12 @@ function Unregister-ChocolateyDailyUpgrade() {
 
 function Remove-AllChocolateyPackage() {
     Begin {
+        Import-Module -DisableNameChecking "$PSScriptRoot\Manage-Software.psm1"
         $Ask = "Are you sure you want to remove:`n$((choco list) -match '\w \d.*\d' | ForEach-Object { "`n- $_" })`n`nPress YES to confirm."
         $Question = Show-Question -Title "Remove ALL Chocolatey Packages?" -Message $Ask -BoxIcon "Warning"
     }
 
     Process {
-
         switch ($Question) {
             'Yes' {
                 Uninstall-Software -Name "All Chocolatey Packages" -Packages @("all") -PackageProvider 'Chocolatey'
