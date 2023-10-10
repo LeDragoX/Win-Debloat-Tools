@@ -1,4 +1,4 @@
-# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
+﻿# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 # Take Ownership tweak from: https://www.howtogeek.com/howto/windows-vista/add-take-ownership-to-explorer-right-click-menu-in-vista/
 
@@ -40,6 +40,11 @@ function Main() {
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Ui-Helper.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Individual-Tweaks.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Install-Individual-System-Apps.psm1" -Force
+
+        If ("$pwd" -notlike "$PSScriptRoot") {
+            Write-Host "Wrong location detected, changing to script folder!" -BackgroundColor Yellow
+            Set-Location -Path "$PSScriptRoot"
+        }
 
         Set-ConsoleStyle
         $CurrentFileName = (Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]
@@ -103,7 +108,14 @@ function Open-DebloatScript {
 
 function Request-AdminPrivilege() {
     # Used from https://stackoverflow.com/a/31602095 because it preserves the working directory!
-    If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+    If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+        Try {
+            winget --version
+            Start-Process -Verb RunAs -FilePath "wt.exe" -ArgumentList "--startingDirectory `"$PSScriptRoot`" --profile `"Windows PowerShell`"", "cmd /c powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""; taskkill.exe /f /im $PID; exit
+        } Catch {
+            Start-Process -Verb RunAs -FilePath powershell.exe -ArgumentList "-NoProfile", "-ExecutionPolicy Bypass", "-File `"$PSCommandPath`""; exit
+        }
+    }
 }
 
 function Show-GUI() {
