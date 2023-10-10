@@ -1,4 +1,4 @@
-﻿# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
+# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 # Take Ownership tweak from: https://www.howtogeek.com/howto/windows-vista/add-take-ownership-to-explorer-right-click-menu-in-vista/
 
@@ -32,6 +32,7 @@ function Main() {
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\package-managers\Manage-DailyUpgradeJob.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\package-managers\Manage-Software.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\package-managers\Manage-Winget.psm1" -Force
+        Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\package-managers\Update-AllPackage.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Get-CurrentResolution.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Get-DefaultColor.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\New-LayoutPage.psm1" -Force
@@ -905,7 +906,7 @@ function Show-GUI() {
         })
 
     $UpgradeAll.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Update-AllPackage.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Update-AllPackage
         })
 
     $InstallSelected.Add_Click( {

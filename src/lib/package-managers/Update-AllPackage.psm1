@@ -1,4 +1,8 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\ui\Show-MessageDialog.psm1"
+
+$Script:DoneTitle = "Information"
+$Script:DoneMessage = "Process Completed!"
 
 function Update-AllPackage() {
     Write-Section "Upgrade all Packages"
@@ -22,6 +26,6 @@ function Update-AllPackage() {
     } Catch {
         Write-Status -Types "!" -Status "Failed to upgrade packages through WSL (maybe it's uninstalled?)" -Warning
     }
-}
 
-Update-AllPackage
+    Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
+}
