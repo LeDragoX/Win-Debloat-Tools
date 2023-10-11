@@ -414,15 +414,15 @@ function Enable-WindowsSandbox() {
     Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Containers-DisposableClientVM")
 }
 
-function Disable-WSearchService() {
+function Disable-WindowsSearch() {
     Write-Status -Types "-", "Service" -Status "Disabling Search Indexing (Recommended for HDDs)..."
-    Get-Service -Name "WSearch" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
+    Set-ServiceStartup -State 'Disabled' -Services "WSearch"
     Stop-Service "WSearch" -Force -NoWait
 }
 
-function Enable-WSearchService() {
+function Enable-WindowsSearch() {
     Write-Status -Types "*", "Service" -Status "Enabling Search Indexing (Recommended for SSDs)..."
-    Get-Service -Name "WSearch" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic
+    Set-ServiceStartup -State 'Automatic' -Services "WSearch"
     Start-Service "WSearch"
 }
 

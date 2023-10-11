@@ -171,8 +171,7 @@ function Show-GUI() {
     $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPhoneLink
     $CbSearchAppForUnknownExt = New-CheckBox -Text "Enable Search App for Unknown Ext." -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPhotoViewer
     $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbSearchAppForUnknownExt
-    $CbWSearchService = New-CheckBox -Text "Enable WSearch Service" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbTelemetry
-    $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game Bar/DVR/Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWSearchService
+    $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game Bar/DVR/Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWindowsSearch
 
     # ==> T1 Panel 2
     $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold'
@@ -216,7 +215,10 @@ function Show-GUI() {
     $ClTaskScheduler = New-Label -Text "Task Scheduler" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSandbox
     $CbFamilySafety = New-CheckBox -Text "Family Safety Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClTaskScheduler
 
-    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbFamilySafety
+    $ClServices = New-Label -Text "Services" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbFamilySafety
+    $CbWindowsSearch = New-CheckBox -Text "Windows Search Indexing" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClServices
+
+    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSearch
     $CbPowerShellISE = New-CheckBox -Text "PowerShell ISE" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsCapabilities
 
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbPowerShellISE
@@ -455,13 +457,14 @@ function Show-GUI() {
     $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2, $T1Panel3))
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2PanelPackageManagersSettings, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Tab Panel
-    $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWSearchService, $CbXboxGameBarDVRandMode))
+    $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallQuickAssist, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
     $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbHyperV, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer, $CbWindowsSandbox))
     $T1Panel3.Controls.AddRange(@($ClTaskScheduler, $CbFamilySafety))
+    $T1Panel3.Controls.AddRange(@($ClServices, $CbWindowsSearch))
     $T1Panel3.Controls.AddRange(@($ClWindowsCapabilities, $CbPowerShellISE))
     $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseAcceleration, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
@@ -749,16 +752,6 @@ function Show-GUI() {
             }
         })
 
-    $CbWSearchService.Add_Click( {
-            If ($CbWSearchService.CheckState -eq "Checked") {
-                Enable-WSearchService
-                $CbWSearchService.Text = "[ON]  WSearch Service *"
-            } Else {
-                Disable-WSearchService
-                $CbWSearchService.Text = "[OFF] WSearch Service"
-            }
-        })
-
     $CbXboxGameBarDVRandMode.Add_Click( {
             If ($CbXboxGameBarDVRandMode.CheckState -eq "Checked") {
                 Enable-XboxGameBarDVRandMode
@@ -836,6 +829,16 @@ function Show-GUI() {
             } Else {
                 Disable-FamilySafety
                 $CbFamilySafety.Text = "[OFF] Family Safety Features"
+            }
+        })
+
+    $CbWindowsSearch.Add_Click( {
+            If ($CbWindowsSearch.CheckState -eq "Checked") {
+                Enable-WindowsSearch
+                $CbWindowsSearch.Text = "[ON]  Windows Search Indexing *"
+            } Else {
+                Disable-WindowsSearch
+                $CbWindowsSearch.Text = "[OFF] Windows Search Indexing"
             }
         })
 
