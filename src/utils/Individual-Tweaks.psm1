@@ -274,19 +274,19 @@ function Enable-LegacyContextMenu() {
 function Disable-MouseAcceleration() {
     Write-Status -Types "-", "Misc" -Status "Disabling Mouse Acceleration..."
     $SysPvParam = @(0, 0, 0)
-    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseSpeed" -Type DWord -Value $SysPvParam[0]
-    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold1" -Type DWord -Value $SysPvParam[1]
-    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold2" -Type DWord -Value $SysPvParam[2]
     [System.Win32]::SystemParametersInfo(4, 0, $SysPvParam, 2)
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseSpeed" -Type String -Value $SysPvParam[0]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold1" -Type String -Value $SysPvParam[1]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold2" -Type String -Value $SysPvParam[2]
 }
 
 function Enable-MouseAcceleration() {
     Write-Status -Types "*", "Misc" -Status "Enabling Mouse Acceleration..."
     $SysPvParam = @(1, 6, 10)
-    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseSpeed" -Type DWord -Value $SysPvParam[0]
-    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold1" -Type DWord -Value $SysPvParam[1]
-    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold2" -Type DWord -Value $SysPvParam[2]
     [System.Win32]::SystemParametersInfo(4, 0, $SysPvParam, 2)
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseSpeed" -Type String -Value $SysPvParam[0]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold1" -Type String -Value $SysPvParam[1]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold2" -Type String -Value $SysPvParam[2]
 }
 
 # Code from: https://answers.microsoft.com/en-us/windows/forum/all/set-the-mouse-scroll-direction-to-reverse-natural/ede4ccc4-3846-4184-a86d-a028515040c0
