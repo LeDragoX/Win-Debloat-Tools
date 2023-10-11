@@ -213,7 +213,10 @@ function Show-GUI() {
     $CbWindowsMediaPlayer = New-CheckBox -Text "Windows Media Player" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintingXPSServices
     $CbWindowsSandbox = New-CheckBox -Text "Windows Sandbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWindowsMediaPlayer
 
-    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSandbox
+    $ClTaskScheduler = New-Label -Text "Task Scheduler" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSandbox
+    $CbFamilySafety = New-CheckBox -Text "Family Safety Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClTaskScheduler
+
+    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbFamilySafety
     $CbPowerShellISE = New-CheckBox -Text "PowerShell ISE" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsCapabilities
 
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbPowerShellISE
@@ -458,6 +461,7 @@ function Show-GUI() {
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
     $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbHyperV, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer, $CbWindowsSandbox))
+    $T1Panel3.Controls.AddRange(@($ClTaskScheduler, $CbFamilySafety))
     $T1Panel3.Controls.AddRange(@($ClWindowsCapabilities, $CbPowerShellISE))
     $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseAcceleration, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
@@ -825,6 +829,16 @@ function Show-GUI() {
             }
         })
 
+    $CbFamilySafety.Add_Click( {
+            If ($CbFamilySafety.CheckState -eq "Checked") {
+                Enable-FamilySafety
+                $CbFamilySafety.Text = "[ON]  Family Safety Features *"
+            } Else {
+                Disable-FamilySafety
+                $CbFamilySafety.Text = "[OFF] Family Safety Features"
+            }
+        })
+
     $CbPowerShellISE.Add_Click( {
             If ($CbPowerShellISE.CheckState -eq "Checked") {
                 Enable-PowerShellISE
@@ -855,7 +869,7 @@ function Show-GUI() {
             }
         })
 
-        $CbMouseAcceleration.Add_Click( {
+    $CbMouseAcceleration.Add_Click( {
             If ($CbMouseAcceleration.CheckState -eq "Checked") {
                 Enable-MouseAcceleration
                 $CbMouseAcceleration.Text = "[ON]  Mouse Acceleration *"

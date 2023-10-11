@@ -5,6 +5,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-I
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-CapabilityState.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-OptionalFeatureState.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ScheduledTaskState.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ServiceStartup.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\package-managers\Manage-Software.psm1"
 
@@ -144,6 +145,22 @@ function Enable-EncryptedDNS() {
     #Get-DnsClientServerAddress # To look up the current config.           # Cloudflare, Google,         Cloudflare,              Google
     Set-DNSClientServerAddress -InterfaceAlias "Ethernet*" -ServerAddresses ("1.1.1.1", "8.8.8.8", "2606:4700:4700::1111", "2001:4860:4860::8888")
     Set-DNSClientServerAddress -InterfaceAlias    "Wi-Fi*" -ServerAddresses ("1.1.1.1", "8.8.8.8", "2606:4700:4700::1111", "2001:4860:4860::8888")
+}
+
+function Disable-FamilySafety() {
+    Set-ScheduledTaskState -State 'Disabled' -ScheduledTask @(
+        "\Microsoft\Windows\Shell\FamilySafetyMonitor",
+        "\Microsoft\Windows\Shell\FamilySafetyRefreshTask",
+        "\Microsoft\Windows\Shell\FamilySafetyUpload"
+    )
+}
+
+function Enable-FamilySafety() {
+    Set-ScheduledTaskState -State 'Enabled' -ScheduledTask @(
+        "\Microsoft\Windows\Shell\FamilySafetyMonitor",
+        "\Microsoft\Windows\Shell\FamilySafetyRefreshTask",
+        "\Microsoft\Windows\Shell\FamilySafetyUpload"
+    )
 }
 
 function Disable-FastShutdownShortcut() {
