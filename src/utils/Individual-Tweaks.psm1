@@ -8,6 +8,13 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-Opti
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ServiceStartup.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\package-managers\Manage-Software.psm1"
 
+$MouseAccelerationCode = @'
+[DllImport("user32.dll", EntryPoint = "SystemParametersInfo")]
+ public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, int[] pvParam, uint fWinIni);
+'@
+
+Add-Type $MouseAccelerationCode -name Win32 -NameSpace System
+
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
 $PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $PathToLMPoliciesAppGameDVR = "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR"
@@ -19,6 +26,7 @@ $PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
 $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
 $PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 $PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
+$PathToCUMouse = "HKCU:\Control Panel\Mouse"
 
 function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
@@ -244,17 +252,37 @@ function Enable-LegacyContextMenu() {
     New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value "" -Force
 }
 
+# Adapted from: https://www.reddit.com/r/gaming/comments/qs0387/i_created_a_powershell_script_to_enabledisable/
+
+function Disable-MouseAcceleration() {
+    Write-Status -Types "-", "Misc" -Status "Disabling Mouse Acceleration..."
+    $SysPvParam = @(0, 0, 0)
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseSpeed" -Type DWord -Value $SysPvParam[0]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold1" -Type DWord -Value $SysPvParam[1]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold2" -Type DWord -Value $SysPvParam[2]
+    [System.Win32]::SystemParametersInfo(4, 0, $SysPvParam, 2)
+}
+
+function Enable-MouseAcceleration() {
+    Write-Status -Types "*", "Misc" -Status "Enabling Mouse Acceleration..."
+    $SysPvParam = @(1, 6, 10)
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseSpeed" -Type DWord -Value $SysPvParam[0]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold1" -Type DWord -Value $SysPvParam[1]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold2" -Type DWord -Value $SysPvParam[2]
+    [System.Win32]::SystemParametersInfo(4, 0, $SysPvParam, 2)
+}
+
 # Code from: https://answers.microsoft.com/en-us/windows/forum/all/set-the-mouse-scroll-direction-to-reverse-natural/ede4ccc4-3846-4184-a86d-a028515040c0
 function Disable-MouseNaturalScroll() {
     Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
-        Write-Status -Types "*" -Status "Disabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
+        Write-Status -Types "*", "Misc" -Status "Disabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
         Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 0
     }
 }
 
 function Enable-MouseNaturalScroll() {
     Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
-        Write-Status -Types "+" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
+        Write-Status -Types "+", "Misc" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
         Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 1
     }
 }
