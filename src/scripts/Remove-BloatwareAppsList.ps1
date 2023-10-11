@@ -79,23 +79,23 @@ function Remove-BloatwareAppsList() {
     $ThirdPartyApps = @(
         "*ACGMediaPlayer*"
         "*ActiproSoftwareLLC*"
-        "*AdobePhotoshopExpress*"                # Adobe Photoshop Express
-        "Amazon.com.Amazon"                      # Amazon Shop
-        "*Asphalt8Airborne*"                     # Asphalt 8 Airbone
+        "*AdobePhotoshopExpress*"           # Adobe Photoshop Express
+        "Amazon.com.Amazon"                 # Amazon Shop
+        "*Asphalt8Airborne*"                # Asphalt 8 Airbone
         "*AutodeskSketchBook*"
-        "*BubbleWitch3Saga*"                     # Bubble Witch 3 Saga
+        "*BubbleWitch3Saga*"                # Bubble Witch 3 Saga
         "*CaesarsSlotsFreeCasino*"
-        "*CandyCrush*"                           # Candy Crush
+        "*CandyCrush*"                      # Candy Crush
         "*COOKINGFEVER*"
         "*CyberLinkMediaSuiteEssentials*"
         "*DisneyMagicKingdoms*"
-        "*Dolby*"                                # Dolby Products (Like Atmos)
+        "*Dolby*"                           # Dolby Products (Like Atmos)
         "*DrawboardPDF*"
-        "*Duolingo-LearnLanguagesforFree*"       # Duolingo
+        "*Duolingo-LearnLanguagesforFree*"  # Duolingo
         "*EclipseManager*"
         "*FarmVille2CountryEscape*"
         "*FitbitCoach*"
-        "*Flipboard*"                            # Flipboard
+        "*Flipboard*"                       # Flipboard
         "*HiddenCity*"
         "*Keeper*"
         "*LinkedInforWindows*"
@@ -106,9 +106,9 @@ function Remove-BloatwareAppsList() {
         "*PhototasticCollage*"
         "*PicsArt-PhotoStudio*"
         "*PolarrPhotoEditorAcademicEdition*"
-        "*RoyalRevolt*"                          # Royal Revolt
+        "*RoyalRevolt*"                     # Royal Revolt
         "*Shazam*"
-        "*Sidia.LiveWallpaper*"                  # Live Wallpaper
+        "*Sidia.LiveWallpaper*"             # Live Wallpaper
         "*Speed Test*"
         "*Sway*"
         "*WinZipUniversal*"
@@ -134,7 +134,7 @@ function Remove-BloatwareAppsList() {
         "DellInc.MyDell"                        # My Dell
 
         # SAMSUNG Bloat
-        #"SAMSUNGELECTRONICSCO.LTD.SamsungSettings1.2"          # Allow user to Tweak some hardware settings
+        #"SAMSUNGELECTRONICSCO.LTD.SamsungSettings1.2"      # Allow user to Tweak some hardware settings
         "SAMSUNGELECTRONICSCO.LTD.1412377A9806A"
         "SAMSUNGELECTRONICSCO.LTD.NewVoiceNote"
         "SAMSUNGELECTRONICSCoLtd.SamsungNotes"
@@ -144,7 +144,7 @@ function Remove-BloatwareAppsList() {
         "SAMSUNGELECTRONICSCO.LTD.SamsungUpdate"
         "SAMSUNGELECTRONICSCO.LTD.SamsungSecurity1.2"
         "SAMSUNGELECTRONICSCO.LTD.SamsungScreenRecording"
-        #"SAMSUNGELECTRONICSCO.LTD.SamsungRecovery"             # Used to Factory Reset
+        #"SAMSUNGELECTRONICSCO.LTD.SamsungRecovery"         # Used to Factory Reset
         "SAMSUNGELECTRONICSCO.LTD.SamsungQuickSearch"
         "SAMSUNGELECTRONICSCO.LTD.SamsungPCCleaner"
         "SAMSUNGELECTRONICSCO.LTD.SamsungCloudBluetoothSync"
@@ -154,25 +154,24 @@ function Remove-BloatwareAppsList() {
     )
 
     $SocialMediaApps = @(
-        "5319275A.WhatsAppDesktop"               # WhatsApp
-        "BytedancePte.Ltd.TikTok"                # TikTok
-        "FACEBOOK.FACEBOOK"                      # Facebook
-        "Facebook.Instagram*"                    # Instagram / Beta
-        "*Twitter*"                              # Twitter
+        "5319275A.WhatsAppDesktop"  # WhatsApp
+        "BytedancePte.Ltd.TikTok"   # TikTok
+        "FACEBOOK.317180B0BB486"    # Messenger
+        "FACEBOOK.FACEBOOK"         # Facebook
+        "Facebook.Instagram*"       # Instagram / Beta
+        "*Twitter*"                 # Twitter
         "*Viber*"
     )
 
     $StreamingServicesApps = @(
-        "AmazonVideo.PrimeVideo"                 # Amazon Prime Video
+        "AmazonVideo.PrimeVideo"    # Amazon Prime Video
         "*Hulu*"
         "*iHeartRadio*"
-        "*Netflix*"                              # Netflix
-        "*Plex*"                                 # Plex
+        "*Netflix*"                 # Netflix
+        "*Plex*"                    # Plex
         "*SlingTV*"
+        "SpotifyAB.SpotifyMusic"    # Spotify
         "*TuneInRadio*"
-
-        # [DIY] Common Streaming apps i'll keep
-        #"SpotifyAB.SpotifyMusic"           # Spotify
     )
 
     Write-Title "Remove Windows unneeded Apps (Bloatware)"
