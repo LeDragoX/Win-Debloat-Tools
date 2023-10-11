@@ -6,7 +6,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\ui\Show-MessageDialog.psm1"
 
 function Install-Software() {
     [CmdletBinding()]
-    [OutputType([String])]
+    [OutputType([ScriptBlock])]
     param (
         [Parameter(Position = 0, Mandatory)]
         [String]      $Name,
@@ -21,8 +21,8 @@ function Install-Software() {
     )
 
     [ScriptBlock] $CheckVersionCommand
-    $Script:DoneTitle = "Information"
-    $Script:DoneMessage = "$Name installed successfully!"
+    [String]      $Script:DoneTitle = "Information"
+    [String]      $Script:DoneMessage = "$Name installed successfully!"
 
     If ($PackageProvider -in @('Winget', 'MsStore')) {
         $CheckVersionCommand = { winget --version }
