@@ -8,7 +8,7 @@ function Set-ItemPropertyVerified() {
         [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String]   $Name,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [ValidateSet('Binary', 'DWord', 'ExpandString', 'MultiString', 'Qword', 'String', 'Unknown')]
+        [ValidateSet('Binary', 'DWord', 'ExpandString', 'MultiString', 'None', 'Qword', 'String', 'Unknown')]
         [String]   $Type,
         [Parameter(Position = 2, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         $Value <# Will have dynamic typing #>

@@ -110,10 +110,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - [Import all necessary _modules_ before executing everything](./src/lib/);
 - Logs both script runs on `C:\Users\<<USERNAME>>\AppData\Local\Temp\Win-DT-Logs`;
 - [Make a Restore Point and Backup the Hosts file](./src/scripts/Backup-System.ps1);
-- [Install _Winget/Chocolatey_ package managers by default](./src/scripts/Install-PackageManager.ps1);
-  - Creates a new Scheduled Task to daily upgrade all available softwares via _Winget_ at **12:00** and _Chocolatey_ at **13:00**;
-  - Find the Scheduled Task on `Task Scheduler > Microsoft > Windows > PowerShell > ScheduledJobs > Chocolatey/Winget Daily Upgrade`;
-  - Register daily upgrade logs on `C:\Users\<<USERNAME>>\AppData\Local\Temp\Win-DT-Logs` and remove old log files;
 - [Download AdwCleaner and Run the latest version for _Virus/Adware_ scan and from OOShutUp10 and import all Recommended settings from a file](./src/scripts/silent-debloat-softwares.ps1);
 - [Disable _non-essential_ Telemetry from Scheduled Tasks and Optimize it](./src/scripts/Optimize-TaskScheduler.ps1);
 - [Disable _heavy_ Services, but enable some on SSDs for optimum performance](./src/scripts/Optimize-ServicesRunning.ps1);
@@ -143,6 +139,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Enable/Disable Clipboard Sync Across Devices`: Manages the **Clipboard Sync Across Devices** setting, which allows to use the same clipboard for multiple devices (must be using a MS account);
 - `Enable/Disable Cortana`: Manages the **Cortana** setting;
 - `Enable/Disable Hibernate`: Manages the **Hibernate** setting;
+- `Enable/Disable Legacy Context Menu`: Bring back the Windows 10 **context menu** from right-clicking or default on Windows 11;
 - `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)** setting;
 - `Enable/Disable Online Speech Recognition`: Manages the **Online Speech Recognition** setting, by pressing the keys `Windows + H` you can speak through your mic, then use it to type text using your voice;
 - `Enable/Disable Phone Link`: Manages the **Phone Link** setting, which can link your Android/iPhone devices notifications to Windows;
@@ -156,7 +153,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
 - `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the, `ShutUp10 settings`, `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
-- [`Remove Microsoft Edge`](./src/scripts/Remove-MSEdge.ps1): uninstalls Microsoft Edge/WebView, then remove the remaining files;
+- [`Remove Microsoft Edge`](./src/scripts/Remove-MSEdge.ps1): uninstalls **Microsoft Edge**, then remove the remaining files, **Edge Web View** files will remain untouched;
 - [`Remove OneDrive`](./src/scripts/Remove-OneDrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
 - [`Remove Xbox`](./src/scripts/Remove-Xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
 
@@ -164,7 +161,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 _This section contains options to restore the system apps, by downloading them from the **MS Store** (mostly) and doing **Stock configurations** (for some Apps)._
 
-- `Cortana`;
 - `Dolby Audio`;
 - `Microsoft Edge`;
 - `OneDrive`;
@@ -201,6 +197,17 @@ _This section can manually adjust `Optional Features` from the system, working a
 - `Enable/Disable Shutdown PC shortcut`: Manages the **Shutdown Computer desktop shortcut**;
 
 ### Software Install
+
+- [Install _Winget/Chocolatey_ package managers](./src/lib/package-managers/);
+
+  - Be able to install the listed software in this script! Even from System apps.
+
+- [**Create** or **Remove** a Daily Upgrade Task for _Winget/Chocolatey_ packages](./src/lib/package-managers/);
+
+  - Creates a new Scheduled Job to daily upgrade all available softwares via _Winget_ at **12:00** and _Chocolatey_ at **13:00**;
+  - Register daily upgrade logs on `C:\Users\<<USERNAME>>\AppData\Local\Temp\Win-DT-Logs` and remove old log files;
+
+- `Remove All Chocolatey Packages`: List all packages from Chocolatey which are installed and remove everything at once;
 
 - `Upgrade All Softwares`: Upgrades all Softwares installed on your machine installed through _Winget_ and _Chocolatey_.
   - WSL will only update itself, not the distros installed.
