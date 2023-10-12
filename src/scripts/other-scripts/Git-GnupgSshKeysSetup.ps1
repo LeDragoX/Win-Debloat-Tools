@@ -181,7 +181,7 @@ function Set-GPGKey() {
         git config --global commit.gpgsign true
 
         Write-Host "Copy and Paste the lines below on your`nGithub/Gitlab > Settings > SSH and GPG Keys > New GPG Key"
-        Get-Content "$GnuPGPath/$($GnuPGFileName)_public.gpg"
+        Get-Content -Path "$GnuPGPath/$($GnuPGFileName)_public.gpg" -Encoding UTF8
     } Else {
         Write-Host "Failed to retrieve your key_id: $key_id"
     }
