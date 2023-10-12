@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Open-File.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
@@ -7,6 +8,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm
 # Adapted from: https://github.com/ChrisTitusTech/win10script
 # Adapted from: https://github.com/Sycnex/Windows10Debloater
 # Adapted from: https://github.com/kalaspuffar/windows-debloat
+# Adapted From: https://learn.microsoft.com/en-us/answers/questions/288732/url-associate-with-internet-browser
 
 function Register-PersonalTweaksList() {
     [CmdletBinding()]
@@ -57,6 +59,44 @@ function Register-PersonalTweaksList() {
         Disable-LegacyContextMenu
     }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
+
+    If ((Get-SystemSpec)[2] -like '*Windows 10*') {
+        Write-Status -Types "+", $TweakType -Status "Fixing .URL file association with Internet Browser..."
+
+        # Changing .url to Internet Browser by enforcing
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\DefaultIcon" -Name "(default)" -Type ExpandString -Value "C:\Windows\System32\url.dll,5"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\Shell\Open" -Name "CLSID" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\Shell\Open" -Name "LegacyDisable" -Type String -Value ""
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\Shell\Open\Command" -Name "(default)" -Type String -Value "`"C:\Windows\System32\rundll32.exe`" `"C:\Windows\System32\ieframe.dll`",OpenURL %l"
+        New-Item -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx" -Force | Out-Null
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{000214EE-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{000214F9-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{00021500-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{CABB0DA0-DA57-11CF-9974-0020AFD79762}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{FBF23B80-E3F0-101B-8488-00AA003E56F8}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+
+        # Linking InternetShortcut to url files
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url" -Name "(default)" -Type String -Value "InternetShortcut"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\OpenWithProgIds" -Name "InternetShortcut" -Type String -Value ""
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\PersistentHandler" -Name "(default)" -Type String -Value "{8CD34779-9F10-4f9b-ADFB-B3FAEABDAB5A}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{000214EE-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{000214F9-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{00021500-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{CABB0DA0-DA57-11CF-9974-0020AFD79762}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{FBF23B80-E3F0-101B-8488-00AA003E56F8}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\InternetShortcut" -Name "(default)" -Type String -Value "InternetShortcut"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\InternetShortcut\DefaultIcon" -Name "(default)" -Type ExpandString -Value "%SystemRoot%\System32\url.dll,5"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\InternetShortcut\tabsets" -Name "selection" -Type DWord -Value 0x00000705
+
+        # Doing changes to Current User
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.url\OpenWithList" -Force | Out-Null
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.url\OpenWithProgids" -Name "InternetShortcut" -Type None -Value ([byte[]]@())
+        Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts "fix-url-association.reg" -NoDialog
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.url\UserChoice" -Name "Hash" -Type String -Value "wMx4BywX2RI="
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.url\UserChoice" -Name "ProgId" -Type String -Value "IE.AssocFile.URL"
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\Roaming\OpenWith\FileExts\.url\UserChoice" -Name "Hash" -Type String -Value "wMx4BywX2RI="
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\Roaming\OpenWith\FileExts\.url\UserChoice" -Name "ProgId" -Type String -Value "IE.AssocFile.URL"
+    }
 
     # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
     If ((Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name CurrentBuild).CurrentBuild -lt 22557) {

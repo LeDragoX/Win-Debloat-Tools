@@ -266,7 +266,7 @@ function Disable-LegacyContextMenu() {
 
 function Enable-LegacyContextMenu() {
     Write-Status -Types "+", "Personal" -Status "Enabling legacy context menu on Windows 11 (requires reboot!)..."
-    New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value "" -Force
+    New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value "" -Force | Out-Null
 }
 
 # Adapted from: https://www.reddit.com/r/gaming/comments/qs0387/i_created_a_powershell_script_to_enabledisable/

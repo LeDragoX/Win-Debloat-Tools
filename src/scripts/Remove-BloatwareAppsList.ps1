@@ -65,7 +65,7 @@ function Remove-BloatwareAppsList() {
         #"Microsoft.WindowsCamera"          # Camera
         #"Microsoft.ScreenSketch"           # Snip and Sketch (now called Snipping tool, replaces the Win32 version in clean installs)
         #"Microsoft.Windows.DevHome"        # Dev Home
-        #"Microsoft.Windows.Photos"         # Photos
+        #"Microsoft.Windows.Photos"         # Photos / Video Editor
 
         # [DIY] Can't be reinstalled
         #"Microsoft.WindowsStore"           # Windows Store
