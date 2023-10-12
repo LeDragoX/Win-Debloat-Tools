@@ -1,3 +1,4 @@
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Open-File.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
@@ -7,6 +8,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm
 # Adapted from: https://github.com/ChrisTitusTech/win10script
 # Adapted from: https://github.com/Sycnex/Windows10Debloater
 # Adapted from: https://github.com/kalaspuffar/windows-debloat
+# Adapted From: https://learn.microsoft.com/en-us/answers/questions/288732/url-associate-with-internet-browser
 
 function Register-PersonalTweaksList() {
     [CmdletBinding()]
@@ -44,16 +46,57 @@ function Register-PersonalTweaksList() {
     $PathToLMPoliciesExplorer = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
     $PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
     $PathToLMPoliciesWindowsSearch = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
+    $PathToLMRemovableDevices = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"
 
     Write-Title "My Personal Tweaks"
     If (!$Revert) {
         $Scripts = @("enable-photo-viewer.reg")
         Enable-DarkTheme
+        Enable-LegacyContextMenu
     } Else {
         $Scripts = @("disable-photo-viewer.reg")
         Disable-DarkTheme
+        Disable-LegacyContextMenu
     }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
+
+    If ((Get-SystemSpec)[2] -like '*Windows 10*') {
+        Write-Status -Types "+", $TweakType -Status "Fixing .URL file association with Internet Browser..."
+
+        # Changing .url to Internet Browser by enforcing
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\DefaultIcon" -Name "(default)" -Type ExpandString -Value "C:\Windows\System32\url.dll,5"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\Shell\Open" -Name "CLSID" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\Shell\Open" -Name "LegacyDisable" -Type String -Value ""
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\Shell\Open\Command" -Name "(default)" -Type String -Value "`"C:\Windows\System32\rundll32.exe`" `"C:\Windows\System32\ieframe.dll`",OpenURL %l"
+        New-Item -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx" -Force | Out-Null
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{000214EE-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{000214F9-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{00021500-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{CABB0DA0-DA57-11CF-9974-0020AFD79762}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Classes\IE.AssocFile.URL\ShellEx\{FBF23B80-E3F0-101B-8488-00AA003E56F8}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+
+        # Linking InternetShortcut to url files
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url" -Name "(default)" -Type String -Value "InternetShortcut"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\OpenWithProgIds" -Name "InternetShortcut" -Type String -Value ""
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\PersistentHandler" -Name "(default)" -Type String -Value "{8CD34779-9F10-4f9b-ADFB-B3FAEABDAB5A}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{000214EE-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{000214F9-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{00021500-0000-0000-C000-000000000046}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{CABB0DA0-DA57-11CF-9974-0020AFD79762}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\.url\ShellEx\{FBF23B80-E3F0-101B-8488-00AA003E56F8}" -Name "(default)" -Type String -Value "{FBF23B40-E3F0-101B-8488-00AA003E56F8}"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\InternetShortcut" -Name "(default)" -Type String -Value "InternetShortcut"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\InternetShortcut\DefaultIcon" -Name "(default)" -Type ExpandString -Value "%SystemRoot%\System32\url.dll,5"
+        Set-ItemPropertyVerified -Path "Registry::HKEY_CLASSES_ROOT\InternetShortcut\tabsets" -Name "selection" -Type DWord -Value 0x00000705
+
+        # Doing changes to Current User
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.url\OpenWithList" -Force | Out-Null
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.url\OpenWithProgids" -Name "InternetShortcut" -Type None -Value ([byte[]]@())
+        Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts "fix-url-association.reg" -NoDialog
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.url\UserChoice" -Name "Hash" -Type String -Value "wMx4BywX2RI="
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.url\UserChoice" -Name "ProgId" -Type String -Value "IE.AssocFile.URL"
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\Roaming\OpenWith\FileExts\.url\UserChoice" -Name "Hash" -Type String -Value "wMx4BywX2RI="
+        Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\Roaming\OpenWith\FileExts\.url\UserChoice" -Name "ProgId" -Type String -Value "IE.AssocFile.URL"
+    }
 
     # Show Task Manager details - Applicable to 1607 and later - Although this functionality exist even in earlier versions, the Task Manager's behavior is different there and is not compatible with this tweak
     If ((Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name CurrentBuild).CurrentBuild -lt 22557) {
@@ -90,10 +133,6 @@ function Register-PersonalTweaksList() {
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) Show Drives without Media..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) MRU lists (jump lists) of XAML apps in Start Menu..."
-    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
-    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value $Zero
-
     Write-Status -Types "*", $TweakType -Status "Restoring Aero-Shake Minimize feature..."
     Remove-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Force -ErrorAction SilentlyContinue
 
@@ -110,10 +149,16 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "-", $TweakType -Status "Disabling '- Shortcut' name after creating a shortcut..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "link" -Type Binary -Value ([byte[]](0x00, 0x00, 0x00, 0x00))
 
+    Write-Status -Types "-", $TweakType -Status "Hiding duplicated Removable Devices on Navigation Pane..."
+    Remove-ItemVerified -Path $PathToLMRemovableDevices -Recurse
+
+    Write-Status -Types "*", $TweakType -Status "Disabling expand to folder in Navigation Pane..."
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value 0
+
     Write-Section "Task Bar Tweaks"
     Write-Caption "Task Bar - Windows 10 Compatible"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Search Box' from taskbar..."
-    # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box)
+    # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box, 3 = Search Icon and Label (Windows 11))
     Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Windows search highlights from taskbar..."
@@ -169,6 +214,16 @@ function Register-PersonalTweaksList() {
     Write-Caption "Bluetooth & other devices"
     Write-Status -Types $EnableStatus[1].Symbol, $TweakType -Status "$($EnableStatus[1].Status) driver download over metered connections..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceSetup" -Name "CostedNetworkPolicy" -Type DWord -Value $One
+
+    Write-Section "Personalization"
+    Write-Caption "Start"
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Most Recent Used (MRU) items in Start, Jump Lists and File Explorer..."
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackDocs" -Type DWord -Value $Zero
+
+    Write-Section "Privacy"
+    Write-Caption "General"
+    Write-Status -Types "*", $TweakType -Status "Enabling Let Windows track app launches to improve Start and search results (Run Dialog History)..."
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "Start_TrackProgs" -Type DWord -Value 1
 
     Write-Section "Cortana Tweaks"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Bing Search in Start Menu..."

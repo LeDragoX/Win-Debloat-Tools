@@ -11,12 +11,12 @@ body:
       value: |
         ## Important: Read First
         
-        - If some section doesn't apply, use "N/A"
+        - If some section doesn't apply, use "N/A".
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: A clear and concise description of what you want to happen
+      description: A clear and concise description of what you want to happen.
     validations:
       required: true
   - type: textarea
@@ -24,7 +24,7 @@ body:
     attributes:
       label: Reason
       description: |
-        Give a reason why you want this feature
+        Give a reason why you want this feature:
         - How will it make things easier for you?
         - What does it provide that isn't being provided currently?
         - How does it benefit?
@@ -35,8 +35,7 @@ body:
     attributes:
       label: Examples
       description: |
-        Provide examples of the feature as implemented by other software
-
-        Include screenshots or video if you like to help demonstrate how you'd like this feature to work
+        Provide examples of the feature as implemented by other software.
+        Include screenshots or video if you can demonstrate how you'd like this feature to work.
     validations:
       required: false

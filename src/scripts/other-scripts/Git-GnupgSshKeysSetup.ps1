@@ -1,6 +1,6 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\debloat-helper\Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\package-managers\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\ui\Select-Folder.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\..\lib\ui\Show-MessageDialog.psm1"
 
@@ -181,7 +181,7 @@ function Set-GPGKey() {
         git config --global commit.gpgsign true
 
         Write-Host "Copy and Paste the lines below on your`nGithub/Gitlab > Settings > SSH and GPG Keys > New GPG Key"
-        Get-Content "$GnuPGPath/$($GnuPGFileName)_public.gpg"
+        Get-Content -Path "$GnuPGPath/$($GnuPGFileName)_public.gpg" -Encoding UTF8
     } Else {
         Write-Host "Failed to retrieve your key_id: $key_id"
     }

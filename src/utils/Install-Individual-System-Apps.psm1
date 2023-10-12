@@ -1,14 +1,9 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\package-managers\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm1"
 
 $Script:TweakType = "App"
-
-function Install-Cortana() {
-    $Apps = @("9NFFX4SZZ23L")
-    Install-Software -Name "Cortana" -Packages $Apps -PackageProvider 'MsStore'
-}
 
 function Install-DolbyAudio() {
     $Apps = @("9NJZD5S7QN99")

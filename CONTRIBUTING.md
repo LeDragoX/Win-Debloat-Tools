@@ -3,7 +3,7 @@
 ⚠ **Warning**: this file is subject to changing without notice.
 
 I would be happy to extend the collection of scripts.
-If you want to send me a **PULL REQUEST**, you can send PRs to `main` branch, i'll check your code, request changes if necessary or approve, and merge directly unless it's a "Draft PR".
+If you want to send me a **PULL REQUEST**, send you PRs to the `develop` branch, select your `local branch (from)` and put into `develop`, i'll check your code, request changes if necessary or approve, and merge directly unless it's a "Draft PR".
 
 ## 🖌 Coding Style
 

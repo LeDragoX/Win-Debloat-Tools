@@ -1,13 +1,20 @@
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
-Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Grant-RegistryPermission.psm1"
-Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Manage-Software.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\New-Shortcut.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-CapabilityState.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-OptionalFeatureState.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ScheduledTaskState.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ServiceStartup.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\package-managers\Manage-Software.psm1"
+
+$MouseAccelerationCode = @'
+[DllImport("user32.dll", EntryPoint = "SystemParametersInfo")]
+ public static extern bool SystemParametersInfo(uint uiAction, uint uiParam, int[] pvParam, uint fWinIni);
+'@
+
+Add-Type $MouseAccelerationCode -name Win32 -NameSpace System
 
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
 $PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
@@ -20,6 +27,7 @@ $PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
 $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
 $PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 $PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
+$PathToCUMouse = "HKCU:\Control Panel\Mouse"
 
 function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
@@ -139,6 +147,22 @@ function Enable-EncryptedDNS() {
     Set-DNSClientServerAddress -InterfaceAlias    "Wi-Fi*" -ServerAddresses ("1.1.1.1", "8.8.8.8", "2606:4700:4700::1111", "2001:4860:4860::8888")
 }
 
+function Disable-FamilySafety() {
+    Set-ScheduledTaskState -State 'Disabled' -ScheduledTask @(
+        "\Microsoft\Windows\Shell\FamilySafetyMonitor",
+        "\Microsoft\Windows\Shell\FamilySafetyRefreshTask",
+        "\Microsoft\Windows\Shell\FamilySafetyUpload"
+    )
+}
+
+function Enable-FamilySafety() {
+    Set-ScheduledTaskState -State 'Enabled' -ScheduledTask @(
+        "\Microsoft\Windows\Shell\FamilySafetyMonitor",
+        "\Microsoft\Windows\Shell\FamilySafetyRefreshTask",
+        "\Microsoft\Windows\Shell\FamilySafetyUpload"
+    )
+}
+
 function Disable-FastShutdownShortcut() {
     Write-Status -Types "*" -Status "Removing the shortcut to shutdown the computer on the Desktop..." -Warning
     Remove-ItemVerified -Path "$DesktopPath\Fast Shutdown.lnk"
@@ -219,6 +243,14 @@ function Enable-Hibernate() {
     powercfg -Hibernate -Type $Type | Out-Host
 }
 
+function Disable-HyperV() {
+    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Microsoft-Hyper-V-All")
+}
+
+function Enable-HyperV() {
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Microsoft-Hyper-V-All")
+}
+
 function Disable-InternetExplorer() {
     Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Internet-Explorer-Optional-*")
 }
@@ -227,17 +259,47 @@ function Enable-InternetExplorer() {
     Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Internet-Explorer-Optional-*")
 }
 
+function Disable-LegacyContextMenu() {
+    Write-Status -Types "*", "Personal" -Status "Disabling legacy context menu on Windows 11 (requires reboot!)..."
+    Remove-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
+}
+
+function Enable-LegacyContextMenu() {
+    Write-Status -Types "+", "Personal" -Status "Enabling legacy context menu on Windows 11 (requires reboot!)..."
+    New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value "" -Force | Out-Null
+}
+
+# Adapted from: https://www.reddit.com/r/gaming/comments/qs0387/i_created_a_powershell_script_to_enabledisable/
+
+function Disable-MouseAcceleration() {
+    Write-Status -Types "-", "Misc" -Status "Disabling Mouse Acceleration..."
+    $SysPvParam = @(0, 0, 0)
+    [System.Win32]::SystemParametersInfo(4, 0, $SysPvParam, 2)
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseSpeed" -Type String -Value $SysPvParam[0]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold1" -Type String -Value $SysPvParam[1]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold2" -Type String -Value $SysPvParam[2]
+}
+
+function Enable-MouseAcceleration() {
+    Write-Status -Types "*", "Misc" -Status "Enabling Mouse Acceleration..."
+    $SysPvParam = @(1, 6, 10)
+    [System.Win32]::SystemParametersInfo(4, 0, $SysPvParam, 2)
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseSpeed" -Type String -Value $SysPvParam[0]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold1" -Type String -Value $SysPvParam[1]
+    Set-ItemPropertyVerified -Path "$PathToCUMouse" -Name "MouseThreshold2" -Type String -Value $SysPvParam[2]
+}
+
 # Code from: https://answers.microsoft.com/en-us/windows/forum/all/set-the-mouse-scroll-direction-to-reverse-natural/ede4ccc4-3846-4184-a86d-a028515040c0
 function Disable-MouseNaturalScroll() {
     Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
-        Write-Status -Types "*" -Status "Disabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
+        Write-Status -Types "*", "Misc" -Status "Disabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
         Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 0
     }
 }
 
 function Enable-MouseNaturalScroll() {
     Get-PnpDevice -Class Mouse -PresentOnly -Status OK | ForEach-Object {
-        Write-Status -Types "+" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
+        Write-Status -Types "+", "Misc" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
         Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 1
     }
 }
@@ -344,15 +406,23 @@ function Enable-WindowsMediaPlayer() {
     Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("MediaPlayback")
 }
 
-function Disable-WSearchService() {
+function Disable-WindowsSandbox() {
+    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Containers-DisposableClientVM")
+}
+
+function Enable-WindowsSandbox() {
+    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures @("Containers-DisposableClientVM")
+}
+
+function Disable-WindowsSearch() {
     Write-Status -Types "-", "Service" -Status "Disabling Search Indexing (Recommended for HDDs)..."
-    Get-Service -Name "WSearch" -ErrorAction SilentlyContinue | Set-Service -StartupType Disabled
+    Set-ServiceStartup -State 'Disabled' -Services "WSearch"
     Stop-Service "WSearch" -Force -NoWait
 }
 
-function Enable-WSearchService() {
+function Enable-WindowsSearch() {
     Write-Status -Types "*", "Service" -Status "Enabling Search Indexing (Recommended for SSDs)..."
-    Get-Service -Name "WSearch" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic
+    Set-ServiceStartup -State 'Automatic' -Services "WSearch"
     Start-Service "WSearch"
 }
 
@@ -363,7 +433,6 @@ function Disable-XboxGameBarDVRandMode() {
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
     Set-ItemPropertyVerified -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 0
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
-    Set-ServiceStartup -State 'Disabled' -Services "BcastDVRUserService*"
 
     Write-Status -Types "-", "Performance" -Status "Enabling Game mode..."
     Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "AutoGameModeEnabled" -Type DWord -Value 0
@@ -374,7 +443,6 @@ function Disable-XboxGameBarDVRandMode() {
     Write-Status -Types "-", "Performance" -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
     Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 0
 
-    Grant-RegistryPermission -Key "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter"
     Write-Status -Types "-", "Performance" -Status "Disabling GameBar Presence Writer..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 0
 }
@@ -398,7 +466,6 @@ function Enable-XboxGameBarDVRandMode() {
     Write-Status -Types "*", "Performance" -Status "Enabling Open Xbox Game Bar using Xbox button on Game Controller..."
     Set-ItemPropertyVerified -Path "$PathToCUXboxGameBar" -Name "UseNexusForGameBarEnabled" -Type DWord -Value 1
 
-    Grant-RegistryPermission -Key "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter"
     Write-Status -Types "*", "Performance" -Status "Enabling GameBar Presence Writer..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\Windows.Gaming.GameBar.PresenceServer.Internal.PresenceWriter" -Name "ActivationType" -Type DWord -Value 1
 }
