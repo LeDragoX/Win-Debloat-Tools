@@ -1,3 +1,4 @@
+Import-Module PSScheduledJob
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"
 
 # Adapted from: https://blogs.technet.microsoft.com/heyscriptingguy/2013/11/23/using-scheduled-tasks-and-scheduled-jobs-in-powershell/
