@@ -11,7 +11,7 @@ I need to change these files:
 <h2 align="center">
 <img src="src/assets/script-logo.png" style="vertical-align: bottom" width="90%">
 
-[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell-linter.yml)
+[![PSScriptAnalyzer](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell.yaml/badge.svg?style=flat)](https://github.com/LeDragoX/Win-Debloat-Tools/actions/workflows/powershell.yaml)
 ![GitHub issues](https://img.shields.io/github/issues/LeDragoX/Win-Debloat-Tools?label=Issues)
 ![GitHub license](https://img.shields.io/github/license/LeDragoX/Win-Debloat-Tools?color=blue&label=License)
 [![Commit rate](https://img.shields.io/github/commit-activity/m/LeDragoX/Win-Debloat-Tools?label=Commit%20rate)](https://github.com/LeDragoX/Win-Debloat-Tools/commits/master)
@@ -153,7 +153,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
 - `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the, `ShutUp10 settings`, `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
-- [`Remove Microsoft Edge`](./src/scripts/Remove-MSEdge.ps1): uninstalls **Microsoft Edge**, then remove the remaining files, **Edge Web View** files will remain untouched;
+- [`Remove Microsoft Edge`](./src/scripts/Remove-MSEdge.ps1): uninstalls **Microsoft Edge**, disables Scheduled Tasks and Services related to Edge, then remove the remaining files, **Edge Web View** files will remain untouched, but apps which depends on **WebView2** will not install unless you install Microsoft Edge;
 - [`Remove OneDrive`](./src/scripts/Remove-OneDrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
 - [`Remove Xbox`](./src/scripts/Remove-Xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
 
@@ -166,6 +166,7 @@ _This section contains options to restore the system apps, by downloading them f
 - `OneDrive`;
 - `Paint + Paint 3D`;
 - `Phone Link`;
+- `Quick Assist`;
 - `Sound Recorder`;
 - `Taskbar Widgets`;
 - `Windows Media Player (UWP)`;
@@ -188,10 +189,23 @@ _This section contains tools to solve some Windows problems and get info about h
 
 _This section can manually adjust `Optional Features` from the system, working as a ON/OFF toggle._
 
+#### Task Scheduler ([Can be found here](src/utils/Individual-Tweaks.psm1))
+
+_This section can manually adjust `Scheduled Tasks` from the system, working as a ON/OFF toggle._
+
+#### Services ([Can be found here](src/utils/Individual-Tweaks.psm1))
+
+_This section can manually adjust `Services` from the system, working as a ON/OFF toggle._
+
+#### Windows Capabilities ([Can be found here](src/utils/Individual-Tweaks.psm1))
+
+_This section can manually adjust `Windows Capabilities` from the system, working as a ON/OFF toggle._
+
 #### Miscellaneous Features ([Can be found here](src/utils/Individual-Tweaks.psm1))
 
 - `Enable/Disable Encrypted DNS`: Sets the DNS Client Servers to **Cloudflare's** and **Google's** (ipv4 and ipv6), and enables **DNS Over HTTPS** on _Windows 11_.
 - `Enable/Disable God Mode`: Manages the hidden Desktop folder called "**God Mode**";
+- `Enable/Disable Mouse Acceleration`: Manages the **Enhance Pointer Precision** setting from mouse settings;
 - `Enable/Disable Mouse Natural Scroll`: Sets the mac-like mouse scrolling behavior, basically reverts mouse scroll direction;
 - `Enable/Disable Take Ownership menu`: [_Enables_](./src/utils/enable-take-ownership-context-menu.reg) or [_Disables_](src/utils/disable-take-ownership-context-menu.reg) the **Take Ownership context menu**;
 - `Enable/Disable Shutdown PC shortcut`: Manages the **Shutdown Computer desktop shortcut**;
@@ -201,6 +215,7 @@ _This section can manually adjust `Optional Features` from the system, working a
 - [Install _Winget/Chocolatey_ package managers](./src/lib/package-managers/);
 
   - Be able to install the listed software in this script! Even from System apps.
+  - **Importante Note:** When proceeding to install a new app, the script will automatically install the required package manager for that operation.
 
 - [**Create** or **Remove** a Daily Upgrade Task for _Winget/Chocolatey_ packages](./src/lib/package-managers/);
 
