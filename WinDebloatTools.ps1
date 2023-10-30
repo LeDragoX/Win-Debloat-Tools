@@ -85,7 +85,7 @@ function Open-DebloatScript {
     $Scripts = @(
         # [Recommended order]
         "Backup-System.ps1",
-        "Use-DebloatSoftware.ps1",
+        "Invoke-DebloatSoftware.ps1",
         "Optimize-TaskScheduler.ps1",
         "Optimize-ServicesRunning.ps1",
         "Remove-BloatwareAppsList.ps1",
@@ -513,7 +513,7 @@ function Show-GUI() {
     $UndoTweaks.Add_Click( {
             Set-RevertStatus -Revert $true
             $Scripts = @(
-                "Use-DebloatSoftware.ps1",
+                "Invoke-DebloatSoftware.ps1",
                 "Optimize-TaskScheduler.ps1",
                 "Optimize-ServicesRunning.ps1",
                 "Optimize-Privacy.ps1",

@@ -5,7 +5,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-I
 
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
-function Use-DebloatSoftware() {
+function Invoke-DebloatSoftware() {
     [CmdletBinding()]
     param (
         [Switch] $Revert
@@ -37,8 +37,8 @@ function Use-DebloatSoftware() {
 }
 
 If (!$Revert) {
-    Use-DebloatSoftware # [AUTOMATED] ShutUp10 with recommended configs and AdwCleaner for Adware/Virus Scanning.
+    Invoke-DebloatSoftware # [AUTOMATED] ShutUp10 with recommended configs and AdwCleaner for Adware/Virus Scanning.
 } Else {
-    Use-DebloatSoftware -Revert
+    Invoke-DebloatSoftware -Revert
 }
 
