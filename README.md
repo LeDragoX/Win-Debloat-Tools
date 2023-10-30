@@ -29,6 +29,8 @@ This has a collection of scripts to tweak the system per category, using differe
 
 > [!IMPORTANT]
 > _Use on a fresh Windows install to notice the differences. Using an admin account is recommended to avoid any compatibility issues._
+
+> [!WARNING]
 > ⚠️ **DISCLAIMER:** _You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored._
 
 ## 🚀 Download Latest Version
