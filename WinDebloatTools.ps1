@@ -591,7 +591,7 @@ function Show-GUI() {
         })
 
     $RandomizeSystemColor.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("new-system-color.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("New-SystemColor.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ReinstallBloatApps.Add_Click( {
