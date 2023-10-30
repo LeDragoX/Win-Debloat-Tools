@@ -27,9 +27,9 @@ _These scripts will Customize, Debloat and Improve Privacy/Performance and Syste
 
 This has a collection of scripts to tweak the system per category, using different functions to adjust the system settings and make Windows great again! You can also install your favorite softwares through the GUI with just one click after being selected.
 
+> [!IMPORTANT]
 > _Use on a fresh Windows install to notice the differences. Using an admin account is recommended to avoid any compatibility issues._
-
-⚠️ **DISCLAIMER:** _You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored._
+> ⚠️ **DISCLAIMER:** _You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored._
 
 ## 🚀 Download Latest Version
 
@@ -161,16 +161,8 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 _This section contains options to restore the system apps, by downloading them from the **MS Store** (mostly) and doing **Stock configurations** (for some Apps)._
 
-- `Dolby Audio`;
-- `Microsoft Edge`;
-- `OneDrive`;
-- `Paint + Paint 3D`;
-- `Phone Link`;
-- `Quick Assist`;
-- `Sound Recorder`;
-- `Taskbar Widgets`;
-- `Windows Media Player (UWP)`;
-- `Xbox`: Re-enable Xbox related functionalities and reinstall the Xbox Apps available on MS Store.
+> [!NOTE]
+> The Xbox button uses a script to restore functionalities and reinstall the Xbox Apps available on MS Store.
 
 #### Other Tools
 
@@ -185,21 +177,9 @@ _This section contains tools to solve some Windows problems and get info about h
 
 - `Enable/Disable Automatic Windows Update`: Set Windows updates to automatic or manual;
 
-#### Optional Features ([Can be found here](src/utils/Individual-Tweaks.psm1))
+#### Optional Features/Task Scheduler/Services/Windows Capabilities ([Can be found here](src/utils/Individual-Tweaks.psm1))
 
-_This section can manually adjust `Optional Features` from the system, working as a ON/OFF toggle._
-
-#### Task Scheduler ([Can be found here](src/utils/Individual-Tweaks.psm1))
-
-_This section can manually adjust `Scheduled Tasks` from the system, working as a ON/OFF toggle._
-
-#### Services ([Can be found here](src/utils/Individual-Tweaks.psm1))
-
-_This section can manually adjust `Services` from the system, working as a ON/OFF toggle._
-
-#### Windows Capabilities ([Can be found here](src/utils/Individual-Tweaks.psm1))
-
-_This section can manually adjust `Windows Capabilities` from the system, working as a ON/OFF toggle._
+_These sections can manually adjust **Features** from the system, working as a ON/OFF toggle._
 
 #### Miscellaneous Features ([Can be found here](src/utils/Individual-Tweaks.psm1))
 
@@ -231,42 +211,33 @@ _This section can manually adjust `Windows Capabilities` from the system, workin
 
 </details>
 
-## 🏅 More Debloat Scripts (Community)
+## ➕ Contributing
 
-<details>
-  <summary>Click to expand</summary>
-  <p>The scripts are designed to run With/Without (GUI/CLI) any user interaction. Modify them beforehand. If you want a more interactive approach then check out:</p>
-
-- [win10script](https://github.com/ChrisTitusTech/win10script) and [winutil](https://github.com/ChrisTitusTech/winutil) (Recommended) from [ChrisTitusTech](https://github.com/ChrisTitusTech);
-- [Windows10Debloater](https://github.com/Sycnex/Windows10Debloater) from [Sycnex](https://github.com/Sycnex);
-- [Sophia-Script-for-Windows](https://github.com/farag2/Sophia-Script-for-Windows) from [farag2](https://github.com/farag2);
-- [Windows-Optimize-Harden-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Harden-Debloat) and [Windows-Optimize-Debloat](https://github.com/simeononsecurity/Windows-Optimize-Debloat) from [SimeonOnSecurity](https://github.com/simeononsecurity);
-
-</details>
-
-## 🔧 Tweak Testers
-
-- All of _my friends and people_ who trusted on me to run the script;
-- [yCr-shiddy](https://github.com/yCr-shiddy) - Helped giving more ideas and fixes;
+Found a _bug_ or want a _new feature_? You can open a new `Issue` [here](https://github.com/LeDragoX/Win-Debloat-Tools/issues/new/choose).
+Wanting to add improvements or fixes? Please check out the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## 🤍 Credits
 
 - Special thanks to [LowSpecGamer](https://youtu.be/IU5F01oOzQQ?t=324), he is the reason i've adapted this script.
 - Special thanks to [Fabio Akita](https://youtu.be/sjrW74Hx5Po?t=318), for believing in this project and making this script famous 🤍.
 - [W4RH4WK](https://github.com/W4RH4WK) - For his project ^^
+- [Tester] All of _my friends and people_ who trusted on me to run the script;
+- [Tester] [yCr-shiddy](https://github.com/yCr-shiddy) - Helped giving more ideas and fixes;
+- [Code] [Adamx's](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [_this video_](https://youtu.be/hQSkPmZRCjc) (and script);
+- [Code] [Baboo's](https://www.youtube.com/user/baboo) - by [_this video_](https://youtu.be/qWESrvP_uU8) (and commands);
+- [Code] [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - by having taught how to mess with _PowerShell_ in [this Stream](https://youtu.be/ER27pGt5wH0) (and his _open-source_ debloat script);
+- [Code] [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [_this video_](https://youtu.be/EfrT_Bvgles) (and script explanation);
+- [Code] [matthewjberger](https://gist.github.com/matthewjberger) - by [_this script_](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
 
-## 📚 Used code references
+## 🛣️ Roadmap
 
-- [Adamx's](https://www.youtube.com/channel/UCjidjWX76LR1g5yx18NSrLA) - by [_this video_](https://youtu.be/hQSkPmZRCjc) (and script);
-- [Baboo's](https://www.youtube.com/user/baboo) - by [_this video_](https://youtu.be/qWESrvP_uU8) (and commands);
-- [ChrisTitusTech](https://www.youtube.com/channel/UCg6gPGh8HU2U01vaFCAsvmQ) - by having taught how to mess with _PowerShell_ in [this Stream](https://youtu.be/ER27pGt5wH0) (and his _open-source_ debloat script);
-- [Daniel Persson](https://www.youtube.com/channel/UCnG-TN23lswO6QbvWhMtxpA) - by [_this video_](https://youtu.be/EfrT_Bvgles) (and script explanation);
-- [matthewjberger](https://gist.github.com/matthewjberger) - by [_this script_](https://gist.github.com/matthewjberger/2f4295887d6cb5738fa34e597f457b7f).
+List of all changes made on the script since the beginning, the file can be accessed [here](ROADMAP.md).
 
-## ➕ Contributing
+## 🏅 Recommended Alternative
 
-Found a _bug_ or want a _new feature_? You can open a new `Issue` [here](https://github.com/LeDragoX/Win-Debloat-Tools/issues/new/choose).
-Wanting to add improvements or fixes? Please check out the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+The scripts are designed to run without any user interaction. Modify them beforehand. If you want a more interactive approach then check out:
+
+- [winutil](https://github.com/ChrisTitusTech/winutil) from [ChrisTitusTech](https://github.com/ChrisTitusTech);
 
 ## 📝 License
 
