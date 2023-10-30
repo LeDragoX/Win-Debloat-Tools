@@ -147,6 +147,11 @@ function Optimize-Performance() {
     Set-ItemPropertyVerified -Path "$PathToLMMultimediaSystemProfileOnGameTasks" -Name "GPU Priority" -Type DWord -Value 8 # Default: 8
     Set-ItemPropertyVerified -Path "$PathToLMMultimediaSystemProfileOnGameTasks" -Name "Priority" -Type DWord -Value 6 # Default: 2
     Set-ItemPropertyVerified -Path "$PathToLMMultimediaSystemProfileOnGameTasks" -Name "Scheduling Category" -Type String -Value "High" # Default: "Medium"
+
+    # Details: https://winbuzzer.com/2020/08/18/how-to-enable-or-disable-windows-10-reserved-storage-xcxwbt/
+    Write-Section "Storage Tweaks"
+    Write-Status -Types "-", $TweakType -Status "Disabling Reserved Storage (Windows 10 1903+)..."
+    DISM /Online /Set-ReservedStorageState /State:Disabled | Out-Host
 }
 
 If (!$Revert) {
