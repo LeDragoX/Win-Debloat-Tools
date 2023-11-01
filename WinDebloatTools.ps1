@@ -1,4 +1,4 @@
-# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
+﻿# Learned from: https://docs.microsoft.com/en-us/powershell/scripting/samples/creating-a-custom-input-box?view=powershell-7.1
 # Adapted majorly from https://github.com/ChrisTitusTech/win10script and https://github.com/Sycnex/Windows10Debloater
 # Take Ownership tweak from: https://www.howtogeek.com/howto/windows-vista/add-take-ownership-to-explorer-right-click-menu-in-vista/
 
@@ -177,7 +177,10 @@ function Show-GUI() {
     $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold'
     $ApplyTweaks = New-Button -Text "Apply Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -ElementBefore $ClDebloatTools -FontSize $LayoutT1.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
     $UndoTweaks = New-Button -Text "Undo Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ApplyTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
-    $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $UndoTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
+    $DiskCleanUp = New-Button -Text "Run a Disk Cleanup" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $UndoTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
+    $RemoveTemporaryFiles = New-Button -Text "Remove Temporary Files" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $DiskCleanUp -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
+    $RemoveWindowsOld = New-Button -Text "Remove Windows.old Folder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveTemporaryFiles -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
+    $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveWindowsOld -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveMSEdge -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $RemoveXbox = New-Button -Text "Remove Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveOneDrive -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-image.png" -Width $LayoutT1.PanelElementWidth -Height (($LayoutT1.ButtonHeight * 4) + ($LayoutT1.DistanceBetweenElements * 4)) -LocationX $LayoutT1.PanelElementX -ElementBefore $RemoveXbox -MarginTop $LayoutT1.DistanceBetweenElements -SizeMode 'Zoom'
@@ -458,7 +461,7 @@ function Show-GUI() {
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2PanelPackageManagersSettings, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbXboxGameBarDVRandMode))
-    $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
+    $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $DiskCleanUp, $RemoveTemporaryFiles, $RemoveWindowsOld, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallQuickAssist, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
@@ -528,6 +531,18 @@ function Show-GUI() {
             $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\peepo-leaving.gif"
             $PictureBox1.SizeMode = 'StretchImage'
             $Form.Update()
+        })
+
+    $DiskCleanUp.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Start-DiskCleanUp.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $RemoveTemporaryFiles.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Remove-TemporaryFiles.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $RemoveWindowsOld.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Remove-WindowsOld.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RemoveMSEdge.Add_Click( {
