@@ -29,8 +29,9 @@ function Remove-BloatwareAppsList() {
         "Microsoft.Office.OneNote"               # MS Office One Note
         "Microsoft.Office.Sway"
         "Microsoft.OneConnect"
-        "Microsoft.People"                       # People
         "Microsoft.MSPaint"                      # Paint 3D
+        "Microsoft.People"                       # People
+        "Microsoft.PowerAutomateDesktop"         # Power Automate
         "Microsoft.Print3D"                      # Print 3D
         "Microsoft.SkypeApp"                     # Skype (Who still uses Skype? Use Discord)
         "Microsoft.Todos"                        # Microsoft To Do
