@@ -45,12 +45,6 @@ function Optimize-Security() {
     Write-Status -Types "+", $TweakType -Status "Disabling SMB 1.0 protocol..."
     Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
 
-    Write-Section "Old .NET cryptography"
-    # Enable strong cryptography for .NET Framework (version 4 and above) - https://stackoverflow.com/a/47682111
-    Write-Status -Types "+", $TweakType -Status "Enabling .NET strong cryptography..."
-    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
-    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319" -Name "SchUseStrongCrypto" -Type DWord -Value 1
-
     Write-Section "Autoplay and Autorun (Removable Devices)"
     Write-Status -Types "-", $TweakType -Status "Disabling Autoplay..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 1
