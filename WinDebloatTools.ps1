@@ -111,9 +111,9 @@ function Request-AdminPrivilege() {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
         Try {
             winget --version
-            Start-Process -Verb RunAs -FilePath "wt.exe" -ArgumentList "--startingDirectory `"$PSScriptRoot`" --profile `"Windows PowerShell`"", "cmd /c powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""; taskkill.exe /f /im $PID; exit
+            Start-Process -Verb RunAs -FilePath "wt.exe" -ArgumentList "--startingDirectory `"$PSScriptRoot`" --profile `"Windows PowerShell`"", "cmd /c powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $ArgsList"; taskkill.exe /f /im $PID; exit
         } Catch {
-            Start-Process -Verb RunAs -FilePath powershell.exe -ArgumentList "-NoProfile", "-ExecutionPolicy Bypass", "-File `"$PSCommandPath`""; exit
+            Start-Process -Verb RunAs -FilePath powershell.exe -ArgumentList "-NoProfile", "-ExecutionPolicy Bypass", "-File `"$PSCommandPath`" $ArgsList" ; exit
         }
     }
 }
@@ -1706,6 +1706,7 @@ function Show-GUI() {
     $Form.Dispose() # When done, dispose of the GUI
 }
 
+$Script:ArgsList = $args
 If ($args) {
     Main -Mode $args[0]
 } Else {
