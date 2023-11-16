@@ -1144,7 +1144,7 @@ function Show-GUI() {
             }
 
             If ($InstallMozillaFirefox.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("Mozilla.Firefox")
+                $AppsSelected.ChocolateyApps.Add("firefox")
                 $InstallMozillaFirefox.CheckState = "Unchecked"
             }
 
