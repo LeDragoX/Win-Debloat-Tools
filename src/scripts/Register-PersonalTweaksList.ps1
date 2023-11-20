@@ -35,28 +35,22 @@ function Register-PersonalTweaksList() {
 
     # Initialize all Path variables used to Registry Tweaks
     $PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
-    $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
     $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToCUPoliciesExplorer = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
     $PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-    $PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
     $PathToCUWindowsSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
     $PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToLMPoliciesExplorer = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-    $PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
     $PathToLMPoliciesWindowsSearch = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
     $PathToLMRemovableDevices = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"
 
     Write-Title "My Personal Tweaks"
     If (!$Revert) {
         $Scripts = @("enable-photo-viewer.reg")
-        Enable-DarkTheme
-        Enable-LegacyContextMenu
     } Else {
         $Scripts = @("disable-photo-viewer.reg")
-        Disable-DarkTheme
-        Disable-LegacyContextMenu
     }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
 
@@ -155,6 +149,10 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "*", $TweakType -Status "Disabling expand to folder in Navigation Pane..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value 0
 
+    Write-Caption "Windows Explorer - Windows 11 Compatible"
+
+    If (!$Revert) { Enable-LegacyContextMenu } Else { Disable-LegacyContextMenu }
+
     Write-Section "Task Bar Tweaks"
     Write-Caption "Task Bar - Windows 10 Compatible"
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Search Box' from taskbar..."
@@ -168,13 +166,7 @@ function Register-PersonalTweaksList() {
     # [@] (0 = Hide Task view, 1 = Show Task view)
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Open on Hover from 'News and Interest' from taskbar..."
-    # [@] (0 = Disable, 1 = Enable)
-    Set-ItemPropertyVerified -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
-
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'News and Interest' from taskbar..."
-    # [@] (0 = Disable, 1 = Enable)
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value $Zero
+    If (!$Revert) { Disable-NewsAndInterest } Else { Enable-NewsAndInterest }
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'People' icon from taskbar..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value $Zero
@@ -202,6 +194,9 @@ function Register-PersonalTweaksList() {
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Write-Caption "Colors"
+
+    If (!$Revert) { Enable-DarkTheme } Else { Disable-DarkTheme }
+
     Write-Status -Types "*", $TweakType -Status "Restoring taskbar transparency..."
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 

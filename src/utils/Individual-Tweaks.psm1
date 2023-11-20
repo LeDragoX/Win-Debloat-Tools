@@ -17,17 +17,19 @@ $MouseAccelerationCode = @'
 Add-Type $MouseAccelerationCode -name Win32 -NameSpace System
 
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
-$PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-$PathToLMPoliciesAppGameDVR = "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR"
-$PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
-$PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
-$PathToLMPoliciesSystem = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
-$PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
 $PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
 $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
 $PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 $PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
 $PathToCUMouse = "HKCU:\Control Panel\Mouse"
+$PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
+$PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+$PathToLMPoliciesAppGameDVR = "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR"
+$PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
+$PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+$PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
+$PathToLMPoliciesSystem = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+$PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
 
 function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
@@ -302,6 +304,26 @@ function Enable-MouseNaturalScroll() {
         Write-Status -Types "+", "Misc" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
         Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 1
     }
+}
+
+function Disable-NewsAndInterest() {
+    Write-Status -Types "-", "Personal" -Status "Disabling Open on Hover from 'News and Interest' from taskbar..."
+    # [@] (0 = Disable, 1 = Enable)
+    Set-ItemPropertyVerified -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value 0
+
+    Write-Status -Types "-", "Personal" -Status "Disabling 'News and Interest' from taskbar..."
+    # [@] (0 = Disable, 1 = Enable)
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value 0
+}
+
+function Enable-NewsAndInterest() {
+    Write-Status -Types "*", "Personal" -Status "Enabling Open on Hover from 'News and Interest' from taskbar..."
+    # [@] (0 = Disable, 1 = Enable)
+    Set-ItemPropertyVerified -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value 1
+
+    Write-Status -Types "*", "Personal" -Status "Enabling 'News and Interest' from taskbar..."
+    # [@] (0 = Disable, 1 = Enable)
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value 1
 }
 
 function Disable-OldVolumeControl() {

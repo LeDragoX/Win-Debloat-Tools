@@ -165,7 +165,8 @@ function Show-GUI() {
     $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbClipboardSyncAcrossDevice
     $CbHibernate = New-CheckBox -Text "Enable Hibernate" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbCortana
     $CbLegacyContextMenu = New-CheckBox -Text "Enable Legacy Context Menu" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbHibernate
-    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbLegacyContextMenu
+    $CbNewsAndInterest = New-CheckBox -Text "Enable News And Interest" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbLegacyContextMenu
+    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbNewsAndInterest
     $CbOnlineSpeechRecognition = New-CheckBox -Text "Enable Online Speech Recognition" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbOldVolumeControl
     $CbPhoneLink = New-CheckBox -Text "Enable Phone Link" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbOnlineSpeechRecognition
     $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPhoneLink
@@ -460,7 +461,7 @@ function Show-GUI() {
     $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2, $T1Panel3))
     $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2PanelPackageManagersSettings, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     # Add Elements to each Tab Panel
-    $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbXboxGameBarDVRandMode))
+    $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbNewsAndInterest, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $DiskCleanUp, $RemoveTemporaryFiles, $RemoveWindowsOld, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallQuickAssist, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
@@ -704,6 +705,16 @@ function Show-GUI() {
             } Else {
                 Disable-LegacyContextMenu
                 $CbLegacyContextMenu.Text = "[OFF] Legacy Context Menu *"
+            }
+        })
+
+    $CbNewsAndInterest.Add_Click( {
+            If ($CbNewsAndInterest.CheckState -eq "Checked") {
+                Enable-NewsAndInterest
+                $CbNewsAndInterest.Text = "[ON]  News And Interest *"
+            } Else {
+                Disable-NewsAndInterest
+                $CbNewsAndInterest.Text = "[OFF] News And Interest"
             }
         })
 
