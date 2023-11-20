@@ -323,7 +323,7 @@ function Enable-NewsAndInterest() {
 
     Write-Status -Types "*", "Personal" -Status "Enabling 'News and Interest' from taskbar..."
     # [@] (0 = Disable, 1 = Enable)
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value 1
+    Remove-ItemProperty -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds"
 }
 
 function Disable-OldVolumeControl() {
