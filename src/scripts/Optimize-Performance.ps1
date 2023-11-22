@@ -1,4 +1,5 @@
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Open-File.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Unregister-DuplicatedPowerPlan.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
@@ -32,6 +33,7 @@ function Optimize-Performance() {
         )
     }
 
+    $PCSystemType = Get-PCSystemType
     # Initialize all Path variables used to Registry Tweaks
     $PathToLMMultimediaSystemProfile = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile"
     $PathToLMMultimediaSystemProfileOnGameTasks = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
@@ -80,8 +82,14 @@ function Optimize-Performance() {
 
     Write-Section "Power Plan Tweaks"
 
-    Write-Status -Types "+", $TweakType -Status "Setting Power Plan to High Performance..."
-    powercfg -SetActive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+    If ($PCSystemType -eq 1) {
+        Write-Status -Types "+", $TweakType -Status "Desktop ($PCSystemType): Setting Power Plan to High Performance..."
+        powercfg -SetActive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+    } ElseIf ($PCSystemType -eq 2) {
+        Write-Status -Types "@", $TweakType -Status "Laptop ($PCSystemType): Keeping current power plan..." -Warning
+    } Else {
+        Write-Status -Types "@", $TweakType -Status "Unknown ($PCSystemType): Keeping current power plan..." -Warning
+    }
 
     Write-Status -Types "+", $TweakType -Status "Creating the Ultimate Performance hidden Power Plan..."
     powercfg -DuplicateScheme e9a42b02-d5df-448d-aa00-03f14749eb61

@@ -98,6 +98,22 @@ function Get-DriveSpace() {
     return "$DriveLetter`: $($AvailableStorage.ToString("#.#"))/$($TotalStorage.ToString("#.#")) GB ($((($AvailableStorage / $TotalStorage) * 100).ToString("#.#"))%)"
 }
 
+function Get-PCSystemType() {
+    [CmdletBinding()]
+
+    $PCSystemType = Get-CimInstance -Class Win32_ComputerSystem | Select-Object -ExpandProperty PCSystemType
+
+    If ($PCSystemType -eq 1) {
+        Write-Status -Types "@", "Info" -Status "Your PC is a Desktop ($PCSystemType)" -Warning
+    } ElseIf ($PCSystemType -eq 2) {
+        Write-Status -Types "@", "Info" -Status "Your PC is a Laptop ($PCSystemType)" -Warning
+    } Else {
+        Write-Status -Types "?", "Info" -Status "Your PC system type is Unknown ($PCSystemType)" -Warning
+    }
+
+    return $PCSystemType
+}
+
 function Get-SystemSpec() {
     [CmdletBinding()]
     [OutputType([System.Object[]])]
