@@ -13,9 +13,9 @@ function Use-DebloatSoftware() {
 
     If (!$Revert) {
         $AdwCleanerDl = "https://downloads.malwarebytes.com/file/adwcleaner"
-        $AdwCleanerOutput = (Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe")[-1]
+        [String] $AdwCleanerOutput = (Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe")
         Write-Status -Types "+" -Status "Running MalwareBytes AdwCleaner scanner..."
-        Start-Process -FilePath "$AdwCleanerOutput" -ArgumentList '/eula', '/clean', '/noreboot' -Wait
+        Start-Process -FilePath "$AdwCleanerOutput" -ArgumentList "/eula", "/clean", "/noreboot" -Wait
         Remove-ItemVerified $AdwCleanerOutput -Force
     }
 
