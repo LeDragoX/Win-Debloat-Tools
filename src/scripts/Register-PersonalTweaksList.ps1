@@ -47,11 +47,7 @@ function Register-PersonalTweaksList() {
     $PathToLMRemovableDevices = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"
 
     Write-Title "My Personal Tweaks"
-    If (!$Revert) {
-        $Scripts = @("enable-photo-viewer.reg")
-    } Else {
-        $Scripts = @("disable-photo-viewer.reg")
-    }
+    If (!$Revert) { $Scripts = @("enable-photo-viewer.reg") } Else { $Scripts = @("disable-photo-viewer.reg") }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
 
     If ((Get-SystemSpec)[2] -like '*Windows 10*') {

@@ -14,6 +14,7 @@ function Main() {
         $Script:NeedRestart = $false
         $Script:DoneTitle = "Information"
         $Script:DoneMessage = "Process Completed!"
+        $Host.UI.RawUI.WindowTitle = '🚀 Win Debloat Tools'
     }
 
     Process {
@@ -41,19 +42,20 @@ function Main() {
         Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Individual-Tweaks.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Install-Individual-System-Apps.psm1" -Force
 
+        Set-ConsoleStyle
+
         If ("$pwd" -notlike "$PSScriptRoot") {
-            Write-Host "Wrong location detected, changing to script folder!" -BackgroundColor Yellow
+            Write-Style "Wrong location detected, changing to script folder! ($pwd)" -Color Yellow -BackColor Black -Style Bold
             Set-Location -Path "$PSScriptRoot"
         }
 
-        Set-ConsoleStyle
         $CurrentFileName = (Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]
         $CurrentFileLastModified = (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy.MM.dd"
-        (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
+        (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy.MM.dd"
         Start-Logging -File "$CurrentFileName-$(Get-Date -Format "yyyy-MM")"
         Write-Caption "$CurrentFileName v$CurrentFileLastModified"
-        Write-Host "Your Current Folder $pwd"
-        Write-Host "Script Root Folder $PSScriptRoot"
+        Write-Style "Your Current Folder $pwd" -Color Cyan -BackColor Black -Style Bold
+        Write-Style "Script Root Folder $PSScriptRoot" -Color Cyan -BackColor Black -Style Bold
         Write-ScriptLogo
 
         If ($args) {
