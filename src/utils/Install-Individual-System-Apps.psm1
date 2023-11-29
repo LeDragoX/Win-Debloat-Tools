@@ -17,7 +17,7 @@ function Install-MicrosoftEdge() {
 function Install-OneDrive() {
     Write-Status -Types "*" -Status "Installing OneDrive..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 0
-    Start-Process -FilePath "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
+    Start-Process -FilePath "$env:SystemRoot\System32\OneDriveSetup.exe"
 }
 
 function Install-PaintPaint3D() {

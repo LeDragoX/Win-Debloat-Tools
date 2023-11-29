@@ -31,7 +31,7 @@ function Invoke-DebloatSoftware() {
         Write-Status -Types "+" -Status "Running ShutUp10 and applying Recommended settings..."
         Start-Process -FilePath "$ShutUpOutput" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # Wait until the process closes #
     }
-    
+
     Pop-Location
     Remove-ItemVerified (Split-Path -Path $ShutUpOutput) -Force -Recurse # Leave no extra files
 }
