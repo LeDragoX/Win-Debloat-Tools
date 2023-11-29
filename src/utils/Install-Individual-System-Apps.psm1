@@ -4,6 +4,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\package-managers\Manage
 Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm1"
 
 $Script:TweakType = "App"
+$OneDriveFolders = @("System32", "SysWOW64") # W11+/W10
 
 function Install-DolbyAudio() {
     $Apps = @("9NJZD5S7QN99")
@@ -17,7 +18,14 @@ function Install-MicrosoftEdge() {
 function Install-OneDrive() {
     Write-Status -Types "*" -Status "Installing OneDrive..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 0
-    Start-Process -FilePath "$env:SystemRoot\System32\OneDriveSetup.exe"
+
+    ForEach ($Folder in $OneDriveFolders) {
+        If (Test-Path "$env:SystemRoot\$Folder\OneDriveSetup.exe") {
+            Start-Process -FilePath "$env:SystemRoot\$Folder\OneDriveSetup.exe"
+        } Else {
+            Write-Status -Types "?", $TweakType -Status "The path `"$env:SystemRoot\$Folder\OneDriveSetup.exe`" does not exist" -Warning
+        }
+    }
 }
 
 function Install-PaintPaint3D() {
