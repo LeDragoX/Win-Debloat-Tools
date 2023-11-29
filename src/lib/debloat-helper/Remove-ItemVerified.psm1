@@ -57,7 +57,7 @@ function Remove-ItemVerified() {
 
             Invoke-Expression "$ScriptBlock"
         } Else {
-            Write-Status -Types "?", $TweakType -Status "The path $Path does not exist" -Warning
+            Write-Status -Types "?", $TweakType -Status "The path `"$Path`" does not exist" -Warning
         }
     }
 }

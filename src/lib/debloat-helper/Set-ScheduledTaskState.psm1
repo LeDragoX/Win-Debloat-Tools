@@ -19,7 +19,7 @@ function Set-ScheduledTaskState() {
     Process {
         ForEach ($ScheduledTask in $ScheduledTasks) {
             If (!(Get-ScheduledTask -TaskName (Split-Path -Path $ScheduledTask -Leaf) -ErrorAction SilentlyContinue)) {
-                Write-Status -Types "?", $TweakType -Status "The $ScheduledTask task was not found." -Warning
+                Write-Status -Types "?", $TweakType -Status "The `"$ScheduledTask`" task was not found." -Warning
                 Continue
             }
 

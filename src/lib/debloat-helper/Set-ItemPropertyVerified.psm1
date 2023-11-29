@@ -20,7 +20,7 @@ function Set-ItemPropertyVerified() {
 
     Process {
         If (!(Test-Path "$Path")) {
-            Write-Status -Types "?", $TweakType -Status "Creating new path in '$Path'..." -Warning
+            Write-Status -Types "?", $TweakType -Status "Creating new path in `"$Path`"..." -Warning
             New-Item -Path "$Path" -Force | Out-Null
         }
 
