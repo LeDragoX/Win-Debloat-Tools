@@ -26,7 +26,7 @@ I need to change these files:
 ***Re-imagining Windows like a minimal OS install, already debloated with minimal impact for most functionality.***
 
 > [!WARNING]
-> ⚠️ **DISCLAIMER:** *You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored.*
+> **DISCLAIMER:** *You're doing this at your own risk, I am not responsible for any data loss or damage that may occur. It's not guaranteed that every feature removed from the system can be easily restored.*
 
 ## 🚀 Download Latest Version
 
