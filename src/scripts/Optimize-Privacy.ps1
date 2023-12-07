@@ -201,7 +201,7 @@ function Optimize-Privacy() {
 
     Write-Status -Types "-", $TweakType -Status "Setting Scheduled time to 03h00m..."
     # [@] (0-23 = The time of day in 24-hour format)
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 2
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Automatic Reboot after update..."
     # [@] (0 = Enable Automatic Reboot after update, 1 = Disable Automatic Reboot after update)

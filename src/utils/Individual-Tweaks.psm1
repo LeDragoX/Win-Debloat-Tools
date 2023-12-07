@@ -46,15 +46,19 @@ function Enable-ActivityHistory() {
 }
 
 function Disable-AutomaticWindowsUpdate() {
+    # https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings
+    # 1: Keep my computer up to date is disabled in Automatic Updates
+    # 2: Notify of download and installation. 3: Automatically download and notify of installation
+    # 4: Automatically download and schedule installation
+    # 5: Allow local admin to select the configuration mode. This option isn't available for Windows 10 or later versions
+    # 7: Notify for install and notify for restart. (Windows Server 2016 and later only)
     Write-Status -Types "-", "WU" -Status "Disabling Automatic Download and Installation of Windows Updates..."
-    # [@] (2 = Notify before download, 3 = Automatically download and notify of installation)
-    # [@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
 }
 
 function Enable-AutomaticWindowsUpdate() {
     Write-Status -Types "*", "WU" -Status "Enabling Automatic Download and Installation of Windows Updates..."
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 5
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 4
 }
 
 function Disable-BackgroundAppsToogle() {
