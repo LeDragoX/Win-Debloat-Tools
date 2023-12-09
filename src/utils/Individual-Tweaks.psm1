@@ -54,11 +54,26 @@ function Disable-AutomaticWindowsUpdate() {
     # 7: Notify for install and notify for restart. (Windows Server 2016 and later only)
     Write-Status -Types "-", "WU" -Status "Disabling Automatic Download and Installation of Windows Updates..."
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
+    Write-Status -Types "-", "WU" -Status "Disabling Automatic Updates..."
+    # 0 = Enable Automatic Updates, 1 = Disable Automatic Updates
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value 1
+    Write-Status -Types "+", "WU" -Status "Setting Scheduled Day to Every day..."
+    # 0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4)
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
+    Write-Status -Types "+", "WU" -Status "Setting Scheduled time to 03h00m..."
+    # 0-23 = The time of day in 24-hour format (Only valid if AUOptions = 4)
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
 }
 
 function Enable-AutomaticWindowsUpdate() {
     Write-Status -Types "*", "WU" -Status "Enabling Automatic Download and Installation of Windows Updates..."
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 4
+    Write-Status -Types "*", "WU" -Status "Removing Automatic Updates policies..."
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions"
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate"
+    Write-Status -Types "*", "WU" -Status "Removing Scheduled Day policy..."
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay"
+    Write-Status -Types "*", "WU" -Status "Removing Scheduled time policy..."
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime"
 }
 
 function Disable-BackgroundAppsToogle() {

@@ -191,18 +191,6 @@ function Optimize-Privacy() {
     Write-Caption "Windows Update"
     Enable-AutomaticWindowsUpdate
 
-    Write-Status -Types "*", $TweakType -Status "Enabling Automatic Updates..."
-    # [@] (0 = Enable Automatic Updates, 1 = Disable Automatic Updates)
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value 0
-
-    Write-Status -Types "+", $TweakType -Status "Setting Scheduled Day to Every day..."
-    # [@] (0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4))
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
-
-    Write-Status -Types "-", $TweakType -Status "Setting Scheduled time to 03h00m..."
-    # [@] (0-23 = The time of day in 24-hour format)
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 2
-
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Automatic Reboot after update..."
     # [@] (0 = Enable Automatic Reboot after update, 1 = Disable Automatic Reboot after update)
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoRebootWithLoggedOnUsers" -Type DWord -Value $One
