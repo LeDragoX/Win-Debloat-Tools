@@ -292,7 +292,7 @@ function Enable-LegacyContextMenu() {
 }
 
 function Disable-LocationTracking() {
-    Write-Status -Types "-", "Location" -Status "Disabling Locations Sensors and Services settings..."
+    Write-Status -Types "-", "Privacy" -Status "Disabling Locations Sensors and Services settings..."
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocation" -Type DWord -Value 1
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocationScripting" -Type DWord -Value 1
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableWindowsLocationProvider" -Type DWord -Value 1
@@ -302,7 +302,7 @@ function Disable-LocationTracking() {
 }
 
 function Enable-LocationTracking() {
-    Write-Status -Types "*", "Location" -Status "Enabling Locations Sensors and Services settings..."
+    Write-Status -Types "*", "Privacy" -Status "Enabling Locations Sensors and Services settings..."
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocation" -Type DWord -Value 0
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocationScripting" -Type DWord -Value 0
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableWindowsLocationProvider" -Type DWord -Value 0
