@@ -27,6 +27,7 @@ $PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Cloud
 $PathToLMPoliciesAppGameDVR = "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR"
 $PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+$PathToLMPoliciesLocationAndSensors = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors"
 $PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
 $PathToLMPoliciesSystem = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
 $PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
@@ -288,6 +289,26 @@ function Disable-LegacyContextMenu() {
 function Enable-LegacyContextMenu() {
     Write-Status -Types "+", "Personal" -Status "Enabling legacy context menu on Windows 11 (requires reboot!)..."
     New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value "" -Force | Out-Null
+}
+
+function Disable-LocationTracking() {
+    Write-Status -Types "-", "Location" -Status "Disabling Locations Sensors and Services settings..."
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocation" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocationScripting" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableWindowsLocationProvider" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
+}
+
+function Enable-LocationTracking() {
+    Write-Status -Types "*", "Location" -Status "Enabling Locations Sensors and Services settings..."
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocation" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocationScripting" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableWindowsLocationProvider" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Allow"
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 1
 }
 
 # Adapted from: https://www.reddit.com/r/gaming/comments/qs0387/i_created_a_powershell_script_to_enabledisable/
