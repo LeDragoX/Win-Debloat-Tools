@@ -144,6 +144,7 @@ function Show-GUI() {
     $FormTabControl = New-TabControl -Width ($LayoutT1.FormWidth - 8) -Height ($LayoutT1.FormHeight - 35) -LocationX -4 -LocationY 0
     $TabSystemTweaks = New-TabPage -Name "Tab1" -Text "System Tweaks"
     $TabSoftwareInstall = New-TabPage -Name "Tab2" -Text "Software Install"
+    $TabSettings = New-TabPage -Name "Tab3" -Text "Settings"
 
     $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $LayoutT1.TotalWidth -Height $LayoutT1.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT1.Heading[0] -FontStyle "Bold" -ForeColor $Colors.Cyan
     $ClSystemTweaks = New-Label -Text "Version $CurrentFileLastModified" -Width $LayoutT1.TotalWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $TlSystemTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.White
@@ -238,21 +239,7 @@ function Show-GUI() {
     # ==> Tab 2
     $TlSoftwareInstall = New-Label -Text "Software Install" -Width $LayoutT2.TotalWidth -Height $LayoutT2.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT2.Heading[0] -FontStyle "Bold" -ForeColor $Colors.Cyan
 
-    $T2PanelPackageManagersSettings = New-Panel -Width $LayoutT2.TotalWidth -Height ($LayoutT2.ButtonHeight * 7) -ElementBefore $TlSoftwareInstall
-
-    $ClWingetSettings = New-Label -Text "Winget Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -LocationY 0 -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.White
-    $InstallWinget = New-Button -Text "Install Winget" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $EnableWingetDailyUpgrade = New-Button -Text "Enable Winget Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 2) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $RemoveWingetDailyUpgrade = New-Button -Text "Remove Winget Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 3) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-
-    $ClChocolateySettings = New-Label -Text "Chocolatey Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $InstallWinget -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.White
-    $InstallChocolatey = New-Button -Text "Install Chocolatey" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $UninstallChocolatey = New-Button -Text "Uninstall Chocolatey" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 1) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $EnableChocolateyDailyUpgrade = New-Button -Text "Enable Chocolatey Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 2) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $RemoveChocolateyDailyUpgrade = New-Button -Text "Remove Chocolatey Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 3) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $RemoveAllChocolateyPackages = New-Button -Text "Remove All Chocolatey Packages" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $InstallChocolatey -MarginTop $LayoutT2.DistanceBetweenElements -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.WarningYellow
-
-    $ClSoftwareInstall = New-Label -Text "Install/Uninstall" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $T2PanelPackageManagersSettings -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.LightGreen
+    $ClSoftwareInstall = New-Label -Text "Install/Uninstall" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $T3PanelPackageManagersSettings -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.LightGreen
 
     $CurrentPanelIndex = 0
     $T2Panel1 = New-Panel -Width $LayoutT2.PanelWidth -Height $LayoutT2.PanelHeight -LocationX ($LayoutT2.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSoftwareInstall
@@ -456,12 +443,29 @@ function Show-GUI() {
     $InstallRustGnu = New-CheckBox -Text "Rust (GNU)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRubyMsys
     $InstallRustMsvc = New-CheckBox -Text "Rust (MSVC)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRustGnu
 
+    # ==> Tab 3
+    $TlSettings = New-Label -Text "Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT2.Heading[0] -FontStyle "Bold" -ForeColor $Colors.Cyan
+    $T3PanelPackageManagersSettings = New-Panel -Width $LayoutT2.TotalWidth -Height ($LayoutT2.ButtonHeight * 7) -ElementBefore $TlSettings
+
+    $ClWingetSettings = New-Label -Text "Winget Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -LocationY 0 -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.White
+    $InstallWinget = New-Button -Text "Install Winget" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $EnableWingetDailyUpgrade = New-Button -Text "Enable Winget Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 2) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $RemoveWingetDailyUpgrade = New-Button -Text "Remove Winget Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 3) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+
+    $ClChocolateySettings = New-Label -Text "Chocolatey Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $InstallWinget -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.White
+    $InstallChocolatey = New-Button -Text "Install Chocolatey" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $UninstallChocolatey = New-Button -Text "Uninstall Chocolatey" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 1) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $EnableChocolateyDailyUpgrade = New-Button -Text "Enable Chocolatey Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 2) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $RemoveChocolateyDailyUpgrade = New-Button -Text "Remove Chocolatey Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 3) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $RemoveAllChocolateyPackages = New-Button -Text "Remove All Chocolatey Packages" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $InstallChocolatey -MarginTop $LayoutT2.DistanceBetweenElements -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.WarningYellow
+
     # Add TabControl to the Form
     $Form.Controls.AddRange(@($FormTabControl))
     # Tabs
-    $FormTabControl.Controls.AddRange(@($TabSystemTweaks, $TabSoftwareInstall))
+    $FormTabControl.Controls.AddRange(@($TabSystemTweaks, $TabSoftwareInstall, $TabSettings))
     $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2, $T1Panel3))
-    $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2PanelPackageManagersSettings, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
+    $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
+    $TabSettings.Controls.AddRange(@($TlSettings, $T3PanelPackageManagersSettings))
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbLocationTracking, $CbNewsAndInterest, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $DiskCleanUp, $RemoveTemporaryFiles, $RemoveWindowsOld, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
@@ -473,9 +477,6 @@ function Show-GUI() {
     $T1Panel3.Controls.AddRange(@($ClServices, $CbWindowsSearch))
     $T1Panel3.Controls.AddRange(@($ClWindowsCapabilities, $CbPowerShellISE))
     $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseAcceleration, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
-
-    $T2PanelPackageManagersSettings.Controls.AddRange(@($ClWingetSettings, $InstallWinget, $EnableWingetDailyUpgrade, $RemoveWingetDailyUpgrade))
-    $T2PanelPackageManagersSettings.Controls.AddRange(@($ClChocolateySettings, $InstallChocolatey, $UninstallChocolatey, $EnableChocolateyDailyUpgrade, $RemoveChocolateyDailyUpgrade, $RemoveAllChocolateyPackages))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
     $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallDDU, $InstallNVCleanstall))
@@ -506,6 +507,9 @@ function Show-GUI() {
     $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
     $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
     $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
+
+    $T3PanelPackageManagersSettings.Controls.AddRange(@($ClWingetSettings, $InstallWinget, $EnableWingetDailyUpgrade, $RemoveWingetDailyUpgrade))
+    $T3PanelPackageManagersSettings.Controls.AddRange(@($ClChocolateySettings, $InstallChocolatey, $UninstallChocolatey, $EnableChocolateyDailyUpgrade, $RemoveChocolateyDailyUpgrade, $RemoveAllChocolateyPackages))
 
     # <===== CLICK EVENTS =====>
 
@@ -948,38 +952,6 @@ function Show-GUI() {
                 Disable-FastShutdownShortcut
                 $CbFastShutdownPCShortcut.Text = "[OFF] Fast Shutdown shortcut *"
             }
-        })
-
-    $InstallWinget.Add_Click( {
-            Install-Winget
-        })
-
-    $EnableWingetDailyUpgrade.Add_Click( {
-            Register-WingetDailyUpgrade
-        })
-
-    $RemoveWingetDailyUpgrade.Add_Click( {
-            Unregister-WingetDailyUpgrade
-        })
-
-    $InstallChocolatey.Add_Click( {
-            Install-Chocolatey
-        })
-
-    $UninstallChocolatey.Add_Click( {
-            Uninstall-Chocolatey
-        })
-
-    $EnableChocolateyDailyUpgrade.Add_Click( {
-            Register-ChocolateyDailyUpgrade
-        })
-
-    $RemoveChocolateyDailyUpgrade.Add_Click( {
-            Unregister-ChocolateyDailyUpgrade
-        })
-
-    $RemoveAllChocolateyPackages.Add_Click( {
-            Remove-AllChocolateyPackage
         })
 
     $UpgradeAll.Add_Click( {
@@ -1723,6 +1695,38 @@ function Show-GUI() {
                 $UninstallMode.Text = "[ON]  Uninstall Mode"
                 $UninstallMode.ForeColor = $Colors.WarningYellow
             }
+        })
+
+    $InstallWinget.Add_Click( {
+            Install-Winget
+        })
+
+    $EnableWingetDailyUpgrade.Add_Click( {
+            Register-WingetDailyUpgrade
+        })
+
+    $RemoveWingetDailyUpgrade.Add_Click( {
+            Unregister-WingetDailyUpgrade
+        })
+
+    $InstallChocolatey.Add_Click( {
+            Install-Chocolatey
+        })
+
+    $UninstallChocolatey.Add_Click( {
+            Uninstall-Chocolatey
+        })
+
+    $EnableChocolateyDailyUpgrade.Add_Click( {
+            Register-ChocolateyDailyUpgrade
+        })
+
+    $RemoveChocolateyDailyUpgrade.Add_Click( {
+            Unregister-ChocolateyDailyUpgrade
+        })
+
+    $RemoveAllChocolateyPackages.Add_Click( {
+            Remove-AllChocolateyPackage
         })
 
     [void] $Form.ShowDialog() # Show the Window
