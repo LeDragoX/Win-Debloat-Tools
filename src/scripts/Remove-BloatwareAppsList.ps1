@@ -57,7 +57,7 @@ function Remove-BloatwareAppsList() {
         "MicrosoftWindows.Client.WebExperience"  # Taskbar Widgets
         "MicrosoftTeams"                         # Microsoft Teams / Preview
 
-        # <==========[ DIY ]==========> (Remove the # to Uninstall)
+        # [DIY] Remove the # to Uninstall
 
         # [DIY] Default apps i'll keep
         #"Microsoft.FreshPaint"             # Paint
@@ -155,7 +155,7 @@ function Remove-BloatwareAppsList() {
     )
 
     $SocialMediaApps = @(
-        "5319275A.WhatsAppDesktop"  # WhatsApp
+        # "5319275A.WhatsAppDesktop"  # WhatsApp
         "BytedancePte.Ltd.TikTok"   # TikTok
         "FACEBOOK.317180B0BB486"    # Messenger
         "FACEBOOK.FACEBOOK"         # Facebook
