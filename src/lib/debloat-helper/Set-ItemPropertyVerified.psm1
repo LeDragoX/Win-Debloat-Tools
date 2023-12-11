@@ -8,26 +8,54 @@ function Set-ItemPropertyVerified() {
         [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String]   $Name,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [ValidateSet('Binary', 'DWord', 'ExpandString', 'MultiString', 'None', 'Qword', 'String', 'Unknown')]
+        [ValidateSet('Binary', 'DWord', 'ExpandString', 'MultiString', 'None', 'QWord', 'String', 'Unknown')]
         [String]   $Type,
         [Parameter(Position = 2, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         $Value <# Will have dynamic typing #>
     )
 
     Begin {
+        $ScriptBlock = "Set-ItemProperty"
         $Script:TweakType = "Registry"
     }
 
     Process {
-        If (!(Test-Path "$Path")) {
-            Write-Status -Types "?", $TweakType -Status "Creating new path in `"$Path`"..." -Warning
-            New-Item -Path "$Path" -Force | Out-Null
+        ForEach ($PathParam in $Path) {
+            If (!(Test-Path "$PathParam")) {
+                Write-Status -Types "?", $TweakType -Status "Creating new path in `"$PathParam`"..." -Warning
+                New-Item -Path "$PathParam" -Force | Out-Null
+            }
         }
 
-        If ($Type) {
-            Set-ItemProperty -Path "$Path" -Name "$Name" -Type $Type -Value $Value
-        } Else {
-            Set-ItemProperty -Path "$Path" -Name "$Name" -Value $Value
+        If ($null -ne $Path) {
+            $ScriptBlock += " -Path "
+            ForEach ($PathParam in $Path) {
+                $ScriptBlock += "`"$PathParam`", "
+            }
+            $ScriptBlock = $ScriptBlock.TrimEnd(", ")
         }
+
+        If ($null -ne $Name) {
+            $ScriptBlock += " -Name "
+            $ScriptBlock += "`"$Name`""
+        }
+
+        If (($null -ne $Type) -and ($Type -notlike '')) {
+            $ScriptBlock += " -Type "
+            $ScriptBlock += "$Type"
+        }
+
+        If ($null -ne $Value) {
+            $ScriptBlock += " -Value "
+
+            If ($Type -like 'Binary') {
+                $ScriptBlock += "([byte[]]($($Value -join ", ")))"
+            } Else {
+                $ScriptBlock += "$Value"
+            }
+        }
+
+        Write-Verbose "> $ScriptBlock"
+        Invoke-Expression "$ScriptBlock"
     }
 }
