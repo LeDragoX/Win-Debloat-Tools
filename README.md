@@ -213,8 +213,9 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 ## ➕ Contributing
 
+FIRST of all, if have any *questions* or *concerns* about the project, please refer to the [DISCUSSION](https://github.com/LeDragoX/Win-Debloat-Tools/discussions/new/choose) page, not the **ISSUES**, this helps keeping the project organized, thanks!
 Found a *bug* or want a *new feature*? You can open a new `Issue` [here](https://github.com/LeDragoX/Win-Debloat-Tools/issues/new/choose).
-Wanting to add improvements or fixes? Please check out the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+Wanting to add *improvements* or *fixes*? Please check out the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 ## 🤍 Credits
 
@@ -235,12 +236,13 @@ List of all changes made on the script since the beginning, the file can be acce
 
 ## 🏅 Recommended Alternative
 
-The scripts are designed to run without any user interaction. Modify them beforehand. If you want a more interactive approach then check out:
+The scripts are designed to run without any user interaction. Modify them beforehand. If you want a more interactive approach (also more maintained) then check out:
 
 - [winutil](https://github.com/ChrisTitusTech/winutil) from [ChrisTitusTech](https://github.com/ChrisTitusTech);
 
-## 📝 License
+## 📝 Legal / License
+
+*This project is NOT associated to **MalwareBytes** and **O&O Software GmbH** in any form.*
+**MalwareBytes AdwCleaner** and **O&O ShutUp10++** have their own licenses.
 
 Licensed under the [MIT](LICENSE.txt) license.
-
-**MalwareBytes AdwCleaner** and **O&O ShutUp10++** have their own licenses.
