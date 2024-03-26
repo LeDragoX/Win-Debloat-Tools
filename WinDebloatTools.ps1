@@ -392,14 +392,13 @@ function Show-GUI() {
     $InstallStreamlabs = New-CheckBox -Text "Streamlabs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallObsStudio
 
     $ClEmulation = New-Label -Text "Emulation" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallStreamlabs
-    $InstallBSnesHd = New-CheckBox -Text "BSnes HD (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClEmulation
-    $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBSnesHd
+    $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClEmulation
     $InstallDolphin = New-CheckBox -Text "Dolphin Stable (GC/Wii)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCemu
-    $InstallKegaFusion = New-CheckBox -Text "Kega Fusion (Sega Genesis)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDolphin
+    $InstallDuckstation = New-CheckBox -Text "Duckstation (PS1)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDolphin
+    $InstallKegaFusion = New-CheckBox -Text "Kega Fusion (SG/CD/32X/MS/GG)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDuckstation
     $InstallMGba = New-CheckBox -Text "mGBA (GBA)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKegaFusion
     $InstallPPSSPP = New-CheckBox -Text "PPSSPP (PSP)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMGba
-    $InstallProject64 = New-CheckBox -Text "Project64 Dev (N64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPPSSPP
-    $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallProject64
+    $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPPSSPP
     $InstallRyujinx = New-CheckBox -Text "Ryujinx (Switch)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRetroArch
     $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRyujinx
 
@@ -503,7 +502,7 @@ function Show-GUI() {
     $T2Panel3.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
     $T2Panel3.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
     $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
-    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallBSnesHd, $InstallCemu, $InstallDolphin, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallProject64, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
+    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallCemu, $InstallDolphin, $InstallDuckstation, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
     $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
     $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
     $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
@@ -1418,11 +1417,6 @@ function Show-GUI() {
                 $InstallStreamlabs.CheckState = "Unchecked"
             }
 
-            If ($InstallBSnesHd.CheckState -eq "Checked") {
-                $AppsSelected.ChocolateyApps.Add("bsnes-hd")
-                $InstallBSnesHd.CheckState = "Unchecked"
-            }
-
             If ($InstallCemu.CheckState -eq "Checked") {
                 $AppsSelected.ChocolateyApps.Add("cemu")
                 $InstallCemu.CheckState = "Unchecked"
@@ -1431,6 +1425,11 @@ function Show-GUI() {
             If ($InstallDolphin.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("DolphinEmulator.Dolphin")
                 $InstallDolphin.CheckState = "Unchecked"
+            }
+
+            If ($InstallDuckstation.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Stenzek.DuckStation")
+                $InstallDuckstation.CheckState = "Unchecked"
             }
 
             If ($InstallKegaFusion.CheckState -eq "Checked") {
@@ -1444,13 +1443,8 @@ function Show-GUI() {
             }
 
             If ($InstallPPSSPP.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("PPSSPPTeam.PPSSPP")
+                $AppsSelected.ChocolateyApps.Add("ppsspp")
                 $InstallPPSSPP.CheckState = "Unchecked"
-            }
-
-            If ($InstallProject64.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("Project64.Project64.Dev")
-                $InstallProject64.CheckState = "Unchecked"
             }
 
             If ($InstallRetroArch.CheckState -eq "Checked") {
