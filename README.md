@@ -50,7 +50,7 @@ Code located in the `main` branch is considered stable, the `develop` branch con
         <td>
             <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main</a></h4>(Stable)
         </td>
-        <td rowspan="2">22H2 or Older</td>
+        <td rowspan="2">23H2 or Older</td>
         <td rowspan="2">Home / Pro</td>
         <td rowspan="2"><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
       </tr>

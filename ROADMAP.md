@@ -1,3 +1,8 @@
+### Future
+
+- [ ] Unpin All "mocked" apps (Apps on the Start Menu which are not installed, but are there).
+- [ ] Install Winget via Chocolatey as an another option.
+
 ### 2023v2
 
 - [x] Rename all powershell scripts to match it's naming convention.

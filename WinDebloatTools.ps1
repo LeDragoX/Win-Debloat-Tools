@@ -1492,6 +1492,7 @@ function Show-GUI() {
                     Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Install-WSL.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
+                    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Microsoft-Windows-Subsystem-Linux")
                 }
                 $InstallWSL.CheckState = "Unchecked"
             }

@@ -48,7 +48,7 @@ function Optimize-Performance() {
 
     Write-Section "System"
     Write-Caption "Display"
-    Write-Status -Types "+", $TweakType -Status "Enable Hardware Accelerated GPU Scheduling... (Windows 10 20H1+ - Needs Restart)"
+    Write-Status -Types "+", $TweakType, "20H1" -Status "Enable Hardware Accelerated GPU Scheduling... (Windows 10+ - Needs Restart)"
     Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name "HwSchMode" -Type DWord -Value 2
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Remote Assistance..."
