@@ -19,6 +19,7 @@ Add-Type $MouseAccelerationCode -name Win32 -NameSpace System
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
 $PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
 $PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
+$PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 $PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
 $PathToCUMouse = "HKCU:\Control Panel\Mouse"
@@ -486,6 +487,21 @@ function Enable-WindowsSearch() {
     Write-Status -Types "*", "Service" -Status "Enabling Search Indexing (Recommended for SSDs)..."
     Set-ServiceStartup -State 'Automatic' -Services "WSearch"
     Start-Service "WSearch"
+}
+
+function Disable-WindowsSpotlight() {
+    Write-Status -Types "-", "Privacy" -Status "Disabling Windows Spotlight Features..."
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightFeatures" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightOnActionCenter" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightOnSettings" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightWindowsWelcomeExperience" -Type DWord -Value 1
+}
+
+function Enable-WindowsSpotlight() {
+    Write-Status -Types "*", "Privacy" -Status "Enabling Windows Spotlight Features..."
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightFeatures" -Type DWord -Value 0
 }
 
 function Disable-XboxGameBarDVRandMode() {
