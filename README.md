@@ -110,7 +110,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - [Import all necessary _modules_ before executing everything](./src/lib/);
 - Logs both script runs on `C:\Users\<<USERNAME>>\AppData\Local\Temp\Win-DT-Logs`;
 - [Make a Restore Point and Backup the Hosts file](./src/scripts/Backup-System.ps1);
-- [Download AdwCleaner and Run the latest version for _Virus/Adware_ scan and from OOShutUp10 and import all Recommended settings from a file](./src/scripts/silent-debloat-softwares.ps1);
+- [Download AdwCleaner and Run the latest version for _Virus/Adware_ scan and from OOShutUp10 and import all Recommended settings from a file](./src/scripts/Use-DebloatSoftware.ps1);
 - [Disable _non-essential_ Telemetry from Scheduled Tasks and Optimize it](./src/scripts/Optimize-TaskScheduler.ps1);
 - [Disable _heavy_ Services, but enable some on SSDs for optimum performance](./src/scripts/Optimize-ServicesRunning.ps1);
 - [Remove some of the legacy system components called "_capabilities_", except the most popular ones](./src/scripts/Remove-CapabilitiesList.ps1);
