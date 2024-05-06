@@ -35,29 +35,19 @@ function Register-PersonalTweaksList() {
 
     # Initialize all Path variables used to Registry Tweaks
     $PathToCUAccessibility = "HKCU:\Control Panel\Accessibility"
-    $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToCUExplorer = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
     $PathToCUExplorerAdvanced = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    $PathToCUPoliciesEdge = "HKCU:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToCUPoliciesExplorer = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
     $PathToCUPoliciesLiveTiles = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
-    $PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
     $PathToCUWindowsSearch = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search"
     $PathToLMPoliciesEdge = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
     $PathToLMPoliciesExplorer = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-    $PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
     $PathToLMPoliciesWindowsSearch = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
     $PathToLMRemovableDevices = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"
 
     Write-Title "My Personal Tweaks"
-    If (!$Revert) {
-        $Scripts = @("enable-photo-viewer.reg")
-        Enable-DarkTheme
-        Enable-LegacyContextMenu
-    } Else {
-        $Scripts = @("disable-photo-viewer.reg")
-        Disable-DarkTheme
-        Disable-LegacyContextMenu
-    }
+    If (!$Revert) { $Scripts = @("enable-photo-viewer.reg") } Else { $Scripts = @("disable-photo-viewer.reg") }
     Open-RegFilesCollection -RelativeLocation "src\utils" -Scripts $Scripts -NoDialog
 
     If ((Get-SystemSpec)[2] -like '*Windows 10*') {
@@ -155,28 +145,26 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "*", $TweakType -Status "Disabling expand to folder in Navigation Pane..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value 0
 
+    Write-Caption "Windows Explorer - Windows 11 Compatible"
+
+    If (!$Revert) { Enable-LegacyContextMenu } Else { Disable-LegacyContextMenu }
+
     Write-Section "Task Bar Tweaks"
     Write-Caption "Task Bar - Windows 10 Compatible"
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Search Box' from taskbar..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Search Box' from Taskbar..."
     # [@] (0 = Hide completely, 1 = Show icon only, 2 = Show long Search Box, 3 = Search Icon and Label (Windows 11))
     Set-ItemPropertyVerified -Path "$PathToCUWindowsSearch" -Name "SearchboxTaskbarMode" -Type DWord -Value $Zero
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Windows search highlights from taskbar..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Windows search highlights from Taskbar..."
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsSearch" -Name "EnableDynamicContentInWSB" -Type DWord -Value $Zero
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Task View' icon from taskbar..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) the 'Task View' icon from Taskbar..."
     # [@] (0 = Hide Task view, 1 = Show Task view)
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "ShowTaskViewButton" -Type DWord -Value $Zero
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Open on Hover from 'News and Interest' from taskbar..."
-    # [@] (0 = Disable, 1 = Enable)
-    Set-ItemPropertyVerified -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value $Zero
+    If (!$Revert) { Disable-NewsAndInterest } Else { Enable-NewsAndInterest }
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'News and Interest' from taskbar..."
-    # [@] (0 = Disable, 1 = Enable)
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value $Zero
-
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'People' icon from taskbar..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'People' icon from Taskbar..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced\People" -Name "PeopleBand" -Type DWord -Value $Zero
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) Live Tiles..."
@@ -185,24 +173,30 @@ function Register-PersonalTweaksList() {
     Write-Status -Types "*", $TweakType -Status "Enabling Auto tray icons..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorer" -Name "EnableAutoTray" -Type DWord -Value 1
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Meet now' icon on taskbar..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Meet now' icon on Taskbar..."
     # [@] (0 = Show Meet Now, 1 = Hide Meet Now)
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesExplorer" -Name "HideSCAMeetNow" -Type DWord -Value $One
 
     Write-Caption "Task Bar - Windows 11 Compatible"
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Widgets' icon from taskbar..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Widgets' icon from Taskbar..."
     # [@] (0 = Hide Widgets, 1 = Show Widgets)
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "TaskbarDa" -Type DWord -Value $Zero
 
-    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Chat' icon from taskbar..."
+    Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) 'Chat' icon from Taskbar..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "TaskbarMn" -Type DWord -Value $Zero
+
+    Write-Status -Types "*", $TweakType, "23H2" -Status "Enabling 'Show Desktop Button' on the Taskbar corner..."
+    Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "TaskbarSd" -Type DWord -Value 1
 
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) creation of Thumbs.db thumbnail cache files..."
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbnailCache" -Type DWord -Value $One
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisableThumbsDBOnNetworkFolders" -Type DWord -Value $One
 
     Write-Caption "Colors"
-    Write-Status -Types "*", $TweakType -Status "Restoring taskbar transparency..."
+
+    If (!$Revert) { Enable-DarkTheme } Else { Disable-DarkTheme }
+
+    Write-Status -Types "*", $TweakType -Status "Restoring Taskbar transparency..."
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 1
 
     Write-Section "System"

@@ -14,7 +14,7 @@ function Remove-UWPApp() {
     Process {
         ForEach ($AppxPackage in $AppxPackages) {
             If (!((Get-AppxPackage -AllUsers -Name "$AppxPackage") -or (Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like "$AppxPackage"))) {
-                Write-Status -Types "?", $TweakType -Status "$AppxPackage was already removed or not found..." -Warning
+                Write-Status -Types "?", $TweakType -Status "`"$AppxPackage`" was already removed or not found..." -Warning
                 Continue
             }
 

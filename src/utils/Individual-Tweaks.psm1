@@ -17,17 +17,21 @@ $MouseAccelerationCode = @'
 Add-Type $MouseAccelerationCode -name Win32 -NameSpace System
 
 $DesktopPath = [Environment]::GetFolderPath("Desktop");
+$PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
+$PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
+$PathToCUPoliciesCloudContent = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+$PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
+$PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
+$PathToCUMouse = "HKCU:\Control Panel\Mouse"
+$PathToCUNewsAndInterest = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds"
 $PathToLMPoliciesCloudContent = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $PathToLMPoliciesAppGameDVR = "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR"
 $PathToLMPoliciesCortana = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search"
 $PathToLMPoliciesGameDVR = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+$PathToLMPoliciesLocationAndSensors = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LocationAndSensors"
+$PathToLMPoliciesNewsAndInterest = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds"
 $PathToLMPoliciesSystem = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
 $PathToLMPoliciesWindowsUpdate = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
-$PathToCUClipboard = "HKCU:\Software\Microsoft\Clipboard"
-$PathToCUOnlineSpeech = "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy"
-$PathToCUThemes = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize"
-$PathToCUXboxGameBar = "HKCU:\Software\Microsoft\GameBar"
-$PathToCUMouse = "HKCU:\Control Panel\Mouse"
 
 function Disable-ActivityHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Activity History..."
@@ -44,15 +48,34 @@ function Enable-ActivityHistory() {
 }
 
 function Disable-AutomaticWindowsUpdate() {
+    # https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings
+    # 1: Keep my computer up to date is disabled in Automatic Updates
+    # 2: Notify of download and installation. 3: Automatically download and notify of installation
+    # 4: Automatically download and schedule installation
+    # 5: Allow local admin to select the configuration mode. This option isn't available for Windows 10 or later versions
+    # 7: Notify for install and notify for restart. (Windows Server 2016 and later only)
     Write-Status -Types "-", "WU" -Status "Disabling Automatic Download and Installation of Windows Updates..."
-    # [@] (2 = Notify before download, 3 = Automatically download and notify of installation)
-    # [@] (4 = Automatically download and schedule installation, 5 = Automatic Updates is required and users can configure it)
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 2
+    Write-Status -Types "-", "WU" -Status "Disabling Automatic Updates..."
+    # 0 = Enable Automatic Updates, 1 = Disable Automatic Updates
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate" -Type DWord -Value 1
+    Write-Status -Types "+", "WU" -Status "Setting Scheduled Day to Every day..."
+    # 0 = Every day, 1~7 = The days of the week from Sunday (1) to Saturday (7) (Only valid if AUOptions = 4)
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay" -Type DWord -Value 0
+    Write-Status -Types "+", "WU" -Status "Setting Scheduled time to 03h00m..."
+    # 0-23 = The time of day in 24-hour format (Only valid if AUOptions = 4)
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime" -Type DWord -Value 3
 }
 
 function Enable-AutomaticWindowsUpdate() {
     Write-Status -Types "*", "WU" -Status "Enabling Automatic Download and Installation of Windows Updates..."
-    Set-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions" -Type DWord -Value 5
+    Write-Status -Types "*", "WU" -Status "Removing Automatic Updates policies..."
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions"
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate"
+    Write-Status -Types "*", "WU" -Status "Removing Scheduled Day policy..."
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay"
+    Write-Status -Types "*", "WU" -Status "Removing Scheduled time policy..."
+    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime"
 }
 
 function Disable-BackgroundAppsToogle() {
@@ -136,10 +159,10 @@ function Disable-EncryptedDNS() {
 }
 
 function Enable-EncryptedDNS() {
-    # Adapted from: https://techcommunity.microsoft.com/t5/networking-blog/windows-insiders-gain-new-dns-over-https-controls/ba-p/2494644
-    Write-Status -Types "+" -Status "Setting up the DNS over HTTPS for Google and Cloudflare (ipv4 and ipv6)..."
-    Set-DnsClientDohServerAddress -ServerAddress ("8.8.8.8", "8.8.4.4", "2001:4860:4860::8888", "2001:4860:4860::8844") -AutoUpgrade $true -AllowFallbackToUdp $true
-    Set-DnsClientDohServerAddress -ServerAddress ("1.1.1.1", "1.0.0.1", "2606:4700:4700::1111", "2606:4700:4700::1001") -AutoUpgrade $true -AllowFallbackToUdp $true
+    # Adapted from: https://learn.microsoft.com/en-us/windows-server/networking/dns/doh-client-support
+    Write-Status -Types "+" -Status "Setting up the DNS over HTTPS for Cloudflare and Google (ipv4 and ipv6)..."
+    Set-DnsClientDohServerAddress -ServerAddress ("1.1.1.1", "1.0.0.1", "2606:4700:4700::1111", "2606:4700:4700::1001") -AllowFallbackToUdp $false -AutoUpgrade $false -DohTemplate "https://cloudflare-dns.com/dns-query"
+    Set-DnsClientDohServerAddress -ServerAddress ("8.8.8.8", "8.8.4.4", "2001:4860:4860::8888", "2001:4860:4860::8844") -AllowFallbackToUdp $false -AutoUpgrade $false -DohTemplate "https://dns.google/dns-query"
 
     Write-Status -Types "+" -Status "Setting up the DNS from Cloudflare and Google (ipv4 and ipv6)..."
     #Get-DnsClientServerAddress # To look up the current config.           # Cloudflare, Google,         Cloudflare,              Google
@@ -269,6 +292,26 @@ function Enable-LegacyContextMenu() {
     New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -Value "" -Force | Out-Null
 }
 
+function Disable-LocationTracking() {
+    Write-Status -Types "-", "Privacy" -Status "Disabling Locations Sensors and Services settings..."
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocation" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocationScripting" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableWindowsLocationProvider" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Deny"
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
+}
+
+function Enable-LocationTracking() {
+    Write-Status -Types "*", "Privacy" -Status "Enabling Locations Sensors and Services settings..."
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocation" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableLocationScripting" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesLocationAndSensors" -Name "DisableWindowsLocationProvider" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Value "Allow"
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 1
+}
+
 # Adapted from: https://www.reddit.com/r/gaming/comments/qs0387/i_created_a_powershell_script_to_enabledisable/
 
 function Disable-MouseAcceleration() {
@@ -302,6 +345,26 @@ function Enable-MouseNaturalScroll() {
         Write-Status -Types "+", "Misc" -Status "Enabling mouse natural mode on $($_.Name): $($_.DeviceID) (requires reboot!)"
         Set-ItemPropertyVerified -Path "HKLM:\SYSTEM\CurrentControlSet\Enum\$($_.DeviceID)\Device Parameters" -Name "FlipFlopWheel" -Type DWord -Value 1
     }
+}
+
+function Disable-NewsAndInterest() {
+    Write-Status -Types "-", "Personal" -Status "Disabling Open on Hover from 'News and Interest' from taskbar..."
+    # [@] (0 = Disable, 1 = Enable)
+    Set-ItemPropertyVerified -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value 0
+
+    Write-Status -Types "-", "Personal" -Status "Disabling 'News and Interest' from taskbar..."
+    # [@] (0 = Disable, 1 = Enable)
+    Set-ItemPropertyVerified -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds" -Type DWord -Value 0
+}
+
+function Enable-NewsAndInterest() {
+    Write-Status -Types "*", "Personal" -Status "Enabling Open on Hover from 'News and Interest' from taskbar..."
+    # [@] (0 = Disable, 1 = Enable)
+    Set-ItemPropertyVerified -Path "$PathToCUNewsAndInterest" -Name "ShellFeedsTaskbarOpenOnHover" -Type DWord -Value 1
+
+    Write-Status -Types "*", "Personal" -Status "Enabling 'News and Interest' from taskbar..."
+    # [@] (0 = Disable, 1 = Enable)
+    Remove-ItemProperty -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds"
 }
 
 function Disable-OldVolumeControl() {
@@ -424,6 +487,21 @@ function Enable-WindowsSearch() {
     Write-Status -Types "*", "Service" -Status "Enabling Search Indexing (Recommended for SSDs)..."
     Set-ServiceStartup -State 'Automatic' -Services "WSearch"
     Start-Service "WSearch"
+}
+
+function Disable-WindowsSpotlight() {
+    Write-Status -Types "-", "Privacy" -Status "Disabling Windows Spotlight Features..."
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "ConfigureWindowsSpotlight" -Type DWord -Value 2
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "IncludeEnterpriseSpotlight" -Type DWord -Value 0
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightFeatures" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightOnActionCenter" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightOnSettings" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightWindowsWelcomeExperience" -Type DWord -Value 1
+}
+
+function Enable-WindowsSpotlight() {
+    Write-Status -Types "*", "Privacy" -Status "Enabling Windows Spotlight Features..."
+    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightFeatures" -Type DWord -Value 0
 }
 
 function Disable-XboxGameBarDVRandMode() {

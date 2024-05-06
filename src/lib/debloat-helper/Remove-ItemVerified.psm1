@@ -23,7 +23,7 @@ function Remove-ItemVerified() {
         If (Test-Path "$Path") {
             Write-Status -Types "-", $TweakType -Status "Removing: '$Path'"
 
-            If ($Path) {
+            If ($null -ne $Path) {
                 $ScriptBlock += " -Path "
                 ForEach ($PathParam in $Path) {
                     $ScriptBlock += "`"$PathParam`", "
@@ -31,7 +31,7 @@ function Remove-ItemVerified() {
                 $ScriptBlock = $ScriptBlock.TrimEnd(", ")
             }
 
-            If ($Include) {
+            If ($null -ne $Include) {
                 $ScriptBlock += " -Include "
                 ForEach ($IncludeParam in $Include) {
                     $ScriptBlock += "`"$IncludeParam`", "
@@ -39,7 +39,7 @@ function Remove-ItemVerified() {
                 $ScriptBlock = $ScriptBlock.TrimEnd(", ")
             }
 
-            If ($Exclude) {
+            If ($null -ne $Exclude) {
                 $ScriptBlock += " -Exclude "
                 ForEach ($ExcludeParam in $Exclude) {
                     $ScriptBlock += "`"$ExcludeParam`", "
@@ -47,17 +47,18 @@ function Remove-ItemVerified() {
                 $ScriptBlock = $ScriptBlock.TrimEnd(", ")
             }
 
-            If ($Recurse) {
+            If ($null -ne $Recurse) {
                 $ScriptBlock += " -Recurse"
             }
 
-            If ($Force) {
+            If ($null -ne $Force) {
                 $ScriptBlock += " -Force"
             }
 
+            Write-Verbose "> $ScriptBlock"
             Invoke-Expression "$ScriptBlock"
         } Else {
-            Write-Status -Types "?", $TweakType -Status "The path $Path does not exist" -Warning
+            Write-Status -Types "?", $TweakType -Status "The path `"$Path`" does not exist" -Warning
         }
     }
 }

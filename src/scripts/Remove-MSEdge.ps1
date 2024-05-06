@@ -6,6 +6,12 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\ui\Show-MessageDialog.p
 
 function Remove-MSEdge() {
     $PathToLMEdgeUpdate = "HKLM:\SOFTWARE\Microsoft\EdgeUpdate"
+    $PathToLMUninstallMSEdge = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft Edge"
+    $PathToLMUninstallMSEdgeUpdate = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft Edge Update"
+    $PathToLMUninstallMSEdgeWebView = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft EdgeWebView"
+
+    Write-Status -Types "+" -Status "Enabling uninstall button to Microsoft Edge..."
+    Set-ItemPropertyVerified -Path "$PathToLMUninstallMSEdge", "$PathToLMUninstallMSEdgeUpdate", "$PathToLMUninstallMSEdgeWebView" -Name "NoRemove" -Type DWord -Value 0
 
     Write-Status -Types "@" -Status "Stopping all 'msedge' processes before uninstalling..."
     Get-Process -Name msedge | Stop-Process -PassThru -Force
