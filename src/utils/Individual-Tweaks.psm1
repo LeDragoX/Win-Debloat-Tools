@@ -266,7 +266,7 @@ function Enable-Hibernate() {
     powercfg -Hibernate -Type $Type | Out-Host
 
     Write-Status -Types "+", "Performance" -Status "Restoring the Sleep Button at the Start Menu..."
-    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings " -Name "ShowSleepOption" -Type DWord -Value 1
+    Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowSleepOption" -Type DWord -Value 1
 }
 
 function Disable-HyperV() {
