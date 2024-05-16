@@ -416,13 +416,9 @@ function Show-GUI() {
     $InstallArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWSL -ForeColor $Colors.Cyan
     $InstallDebian = New-CheckBox -Text "Debian GNU/Linux" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallArchWSL
     $InstallKaliLinux = New-CheckBox -Text "Kali Linux Rolling" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDebian
-    $InstallOpenSuse = New-CheckBox -Text "Open SUSE 42" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKaliLinux
-    $InstallSles = New-CheckBox -Text "SLES v12" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallOpenSuse
-    $InstallUbuntu = New-CheckBox -Text "Ubuntu" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSles
-    $InstallUbuntu18Lts = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu
-    $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu18Lts
+    $InstallUbuntu = New-CheckBox -Text "Ubuntu" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKaliLinux
 
-    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallUbuntu20Lts
+    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallUbuntu
     $InstallWindowsTerminal = New-CheckBox -Text "Windows Terminal" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClDevelopment
     $InstallNerdFonts = New-CheckBox -Text "Install Nerd Fonts" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWindowsTerminal -ForeColor $Colors.Cyan
     $InstallGitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNerdFonts -ForeColor $Colors.Cyan
@@ -505,7 +501,7 @@ function Show-GUI() {
     $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
     $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallCemu, $InstallDolphin, $InstallDuckstation, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
     $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
-    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
+    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallUbuntu))
     $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
 
     $T3PanelPackageManagersSettings.Controls.AddRange(@($ClWingetSettings, $InstallWinget, $EnableWingetDailyUpgrade, $RemoveWingetDailyUpgrade))
@@ -1529,29 +1525,9 @@ function Show-GUI() {
                 $InstallKaliLinux.CheckState = "Unchecked"
             }
 
-            If ($InstallOpenSuse.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("openSUSE-42")
-                $InstallOpenSuse.CheckState = "Unchecked"
-            }
-
-            If ($InstallSles.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("SLES-12")
-                $InstallSles.CheckState = "Unchecked"
-            }
-
             If ($InstallUbuntu.CheckState -eq "Checked") {
                 $AppsSelected.WSLDistros.Add("Ubuntu")
                 $InstallUbuntu.CheckState = "Unchecked"
-            }
-
-            If ($InstallUbuntu18Lts.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("Ubuntu-18.04")
-                $InstallUbuntu18Lts.CheckState = "Unchecked"
-            }
-
-            If ($InstallUbuntu20Lts.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("Ubuntu-20.04")
-                $InstallUbuntu20Lts.CheckState = "Unchecked"
             }
 
             If ($InstallWindowsTerminal.CheckState -eq "Checked") {
