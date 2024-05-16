@@ -140,6 +140,8 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Enable/Disable Cortana`: Manages the **Cortana** setting;
 - `Enable/Disable Hibernate`: Manages the **Hibernate** setting;
 - `Enable/Disable Legacy Context Menu`: Bring back the Windows 10 **context menu** from right-clicking or default on Windows 11;
+- `Enable/Disable Location Tracking`: Allow or block **location sensors and trackers** on Windows;
+- `Enable/Disable News And Interest`: Show or hide the **temperature and climate** on the taskbar;
 - `Enable/Disable Old Volume Control`: Manages the **Old Volume Control (Win 7/8.1)** setting;
 - `Enable/Disable Online Speech Recognition`: Manages the **Online Speech Recognition** setting, by pressing the keys `Windows + H` you can speak through your mic, then use it to type text using your voice;
 - `Enable/Disable Phone Link`: Manages the **Phone Link** setting, which can link your Android/iPhone devices notifications to Windows;
@@ -147,6 +149,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 - `Enable/Disable Search App for Unknown Ext.`: When running a unknown extension file, be able to search through **MS Store** for an App that can open it.
 - `Enable/Disable Telemetry`: Manages the **Windows Telemetry Level** setting;
 - `Enable/Disable WSearch Service`: Manages the **Windows Search Service** setting;
+- `Enable/Disable Windows Spotlight`: Manages the spotlight setting in personalization settings, giving a new desktop and lockscreen wallpaper daily;
 - `Enable/Disable Xbox Game Bar/DVR/Mode`: Manages the **Xbox Game Bar/DVR/Mode** setting, that can open Game Bar anywhere, record clips from games and change Game Mode;
 
 #### System Debloat Tools
@@ -161,7 +164,6 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 
 *This section contains options to restore the system apps, by downloading them from the **MS Store** (mostly) and doing **Stock configurations** (for some Apps).*
 
-> [!NOTE]
 > The Xbox button uses a script to restore functionalities and reinstall the Xbox Apps available on MS Store.
 
 #### Other Tools
