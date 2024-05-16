@@ -24,7 +24,6 @@ function Optimize-WindowsFeaturesList() {
 
     $EnableFeatures = @(
         "NetFx3"                            # NET Framework 3.5
-        "NetFx4-AdvSrvs"                    # NET Framework 4
         "NetFx4Extended-ASPNET45"           # NET Framework 4.x + ASPNET 4.x
     )
 

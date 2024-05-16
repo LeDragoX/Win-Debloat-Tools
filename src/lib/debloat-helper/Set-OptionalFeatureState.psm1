@@ -19,7 +19,7 @@ function Set-OptionalFeatureState() {
     Process {
         ForEach ($OptionalFeature in $OptionalFeatures) {
             If (!(Get-WindowsOptionalFeature -Online -FeatureName $OptionalFeature)) {
-                Write-Status -Types "?", $TweakType -Status "The $OptionalFeature optional feature was not found." -Warning
+                Write-Status -Types "?", $TweakType -Status "The `"$OptionalFeature`" optional feature was not found." -Warning
                 Continue
             }
 

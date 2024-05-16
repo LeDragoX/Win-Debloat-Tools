@@ -20,7 +20,7 @@ function Unregister-DuplicatedPowerPlan() {
             $PowerPlanName = $PowerCfgString.Split('(')[-1].Replace(')', '').Trim()
 
             If (($PowerPlanGUID -in $BuiltInPowerPlans.Values)) {
-                Write-Status -Types "@" -Status "The '$PowerPlanName' power plan is built-in, skipping $PowerPlanGUID..." -Warning
+                Write-Status -Types "@" -Status "The `"$PowerPlanName`" power plan is built-in, skipping $PowerPlanGUID..." -Warning
                 Continue
             }
 
@@ -28,11 +28,11 @@ function Unregister-DuplicatedPowerPlan() {
                 If (($PowerPlanName -notin $UniquePowerPlans.Keys) -and ($PowerPlanGUID -notin $UniquePowerPlans.Values)) {
                     $UniquePowerPlans.Add($PowerPlanName, $PowerPlanGUID)
                 } Else {
-                    Write-Status -Types "-" -Status "Duplicated '$PowerPlanName' power plan found, deleting $PowerPlanGUID..."
+                    Write-Status -Types "-" -Status "Duplicated `"$PowerPlanName`" power plan found, deleting $PowerPlanGUID..."
                     powercfg -Delete $PowerPlanGUID
                 }
             } Catch {
-                Write-Status -Types "-" -Status "Duplicated '$PowerPlanName' power plan found, deleting $PowerPlanGUID..."
+                Write-Status -Types "-" -Status "Duplicated `"$PowerPlanName`" power plan found, deleting $PowerPlanGUID..."
                 powercfg -Delete $PowerPlanGUID
             }
         }

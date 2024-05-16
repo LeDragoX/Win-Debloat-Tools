@@ -1,32 +1,40 @@
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"
 
-function Remove-ItemVerified() {
+function Remove-ItemPropertyVerified() {
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String[]] $Path,
+        [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [String[]] $Name,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String[]] $Include,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String[]] $Exclude,
         [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [Switch]   $Recurse,
-        [Parameter(ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Switch]   $Force
     )
 
     Begin {
-        $ScriptBlock = "Remove-Item"
+        $ScriptBlock = "Remove-ItemProperty"
         $Script:TweakType = "Exp/Reg"
     }
 
     Process {
-        If (Test-Path "$Path") {
-            Write-Status -Types "-", $TweakType -Status "Removing: '$Path'"
+        If ((Get-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU\").Property -ccontains $Name) {
+            Write-Status -Types "-", $TweakType -Status "Removing: `"$Path>$Name`""
 
             If ($null -ne $Path) {
                 $ScriptBlock += " -Path "
                 ForEach ($PathParam in $Path) {
                     $ScriptBlock += "`"$PathParam`", "
+                }
+                $ScriptBlock = $ScriptBlock.TrimEnd(", ")
+            }
+
+            If ($null -ne $Name) {
+                $ScriptBlock += " -Name "
+                ForEach ($NameParam in $Name) {
+                    $ScriptBlock += "`"$NameParam`", "
                 }
                 $ScriptBlock = $ScriptBlock.TrimEnd(", ")
             }
@@ -47,10 +55,6 @@ function Remove-ItemVerified() {
                 $ScriptBlock = $ScriptBlock.TrimEnd(", ")
             }
 
-            If ($null -ne $Recurse) {
-                $ScriptBlock += " -Recurse"
-            }
-
             If ($null -ne $Force) {
                 $ScriptBlock += " -Force"
             }
@@ -58,7 +62,7 @@ function Remove-ItemVerified() {
             Write-Verbose "> $ScriptBlock"
             Invoke-Expression "$ScriptBlock"
         } Else {
-            Write-Status -Types "?", $TweakType -Status "The path `"$Path`" does not exist." -Warning
+            Write-Status -Types "?", $TweakType -Status "The property `"$Path>$Name`" does not exist." -Warning
         }
     }
 }

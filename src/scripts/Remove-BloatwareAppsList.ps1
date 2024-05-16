@@ -29,8 +29,9 @@ function Remove-BloatwareAppsList() {
         "Microsoft.Office.OneNote"               # MS Office One Note
         "Microsoft.Office.Sway"
         "Microsoft.OneConnect"
-        "Microsoft.People"                       # People
         "Microsoft.MSPaint"                      # Paint 3D
+        "Microsoft.People"                       # People
+        "Microsoft.PowerAutomateDesktop"         # Power Automate
         "Microsoft.Print3D"                      # Print 3D
         "Microsoft.SkypeApp"                     # Skype (Who still uses Skype? Use Discord)
         "Microsoft.Todos"                        # Microsoft To Do
@@ -56,7 +57,7 @@ function Remove-BloatwareAppsList() {
         "MicrosoftWindows.Client.WebExperience"  # Taskbar Widgets
         "MicrosoftTeams"                         # Microsoft Teams / Preview
 
-        # <==========[ DIY ]==========> (Remove the # to Uninstall)
+        # [DIY] Remove the # to Uninstall
 
         # [DIY] Default apps i'll keep
         #"Microsoft.FreshPaint"             # Paint
@@ -154,7 +155,7 @@ function Remove-BloatwareAppsList() {
     )
 
     $SocialMediaApps = @(
-        "5319275A.WhatsAppDesktop"  # WhatsApp
+        # "5319275A.WhatsAppDesktop"  # WhatsApp
         "BytedancePte.Ltd.TikTok"   # TikTok
         "FACEBOOK.317180B0BB486"    # Messenger
         "FACEBOOK.FACEBOOK"         # Facebook

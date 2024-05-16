@@ -13,17 +13,17 @@ function Install-Font() {
     $PathToLMWindowsFonts = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Fonts"
     $SystemFontsPath = "$env:SystemRoot\Fonts"
 
-    ForEach ($FontFile in Get-ChildItem $FontSourceFolder -Include '*.ttf', '*.ttc', '*.otf' -Recurse) {
+    ForEach ($FontFile in Get-ChildItem $FontSourceFolder -Include "*.ttf", "*.ttc", "*.otf" -Recurse) {
         $TargetPath = Join-Path $SystemFontsPath $FontFile.Name
 
-        Write-Status -Types "+" -Status "Installing '$($FontFile.Name)' Font on $TargetPath ..."
+        Write-Status -Types "+" -Status "Installing `"$($FontFile.Name)`" Font on $TargetPath ..."
 
         Try {
             # Extract Font information for Reqistry
             $ShellFolder = (New-Object -COMObject Shell.Application).Namespace($FontSourceFolder)
             $ShellFile = $ShellFolder.ParseName($FontFile.Name)
             $ShellFileType = $ShellFolder.GetDetailsOf($ShellFile, 2)
-            If ($ShellFileType -Like '*TrueType font file*') { $FontType = '(TrueType)' }
+            If ($ShellFileType -Like "*TrueType font file*") { $FontType = "(TrueType)" }
 
             # Update Registry and copy Font to Font directory
             $RegName = $ShellFolder.GetDetailsOf($ShellFile, 21) + ' ' + $FontType

@@ -189,7 +189,7 @@ function Write-TitleCounter() {
     )
 
     $Counter += 1
-    Write-Title "($Counter/$MaxLength) - $Object"
+    Write-Title "[$Counter/$MaxLength] | $Object"
 
     return $Counter
 }
