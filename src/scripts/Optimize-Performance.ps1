@@ -2,6 +2,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Open-File.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Unregister-DuplicatedPowerPlan.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm1"
 
@@ -68,9 +69,7 @@ function Optimize-Performance() {
     If (!(Test-Path "$PathToLMPoliciesWindowsStore")) {
         New-Item -Path "$PathToLMPoliciesWindowsStore" -Force | Out-Null
     }
-    If ((Get-Item "$PathToLMPoliciesWindowsStore").GetValueNames() -like "AutoDownload") {
-        Remove-ItemProperty -Path "$PathToLMPoliciesWindowsStore" -Name "AutoDownload" # [@] (2 = Disable, 4 = Enable)
-    }
+    Remove-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsStore" -Name "AutoDownload" # [@] (2 = Disable, 4 = Enable)
 
     Write-Section "Microsoft Edge Tweaks"
     Write-Caption "System and Performance"
@@ -124,9 +123,7 @@ function Optimize-Performance() {
         Set-ItemPropertyVerified -Path "$DesktopRegistryPath" -Name "AutoEndTasks" -Type DWord -Value 1 # Default: Removed or 0
 
         Write-Status -Types "*", $TweakType -Status "Returning 'Hung App Timeout' to default..."
-        If ((Get-Item "$DesktopRegistryPath").Property -contains "HungAppTimeout") {
-            Remove-ItemProperty -Path "$DesktopRegistryPath" -Name "HungAppTimeout"
-        }
+        Remove-ItemPropertyVerified -Path "$DesktopRegistryPath" -Name "HungAppTimeout"
 
         Write-Status -Types "+", $TweakType -Status "Reducing mouse and keyboard hooks timeout to 1s..."
         Set-ItemPropertyVerified -Path "$DesktopRegistryPath" -Name "LowLevelHooksTimeout" -Type DWord -Value 1000 # Default: Removed or 5000

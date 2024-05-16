@@ -2,6 +2,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Open-File.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm1"
 
@@ -100,7 +101,7 @@ function Register-PersonalTweaksList() {
         $preferences.Preferences[28] = 0
         Set-ItemPropertyVerified -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
     } Else {
-        Write-Status -Types "?", $TweakType -Status "Task Manager patch not run in builds 22557+ due to bug" -Warning
+        Write-Status -Types "?", $TweakType -Status "Task Manager patch will not run in builds from 22557+ due to bug" -Warning
     }
 
     Write-Section "Windows Explorer Tweaks"
@@ -124,7 +125,7 @@ function Register-PersonalTweaksList() {
     Set-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "HideDrivesWithNoMedia" -Type DWord -Value $Zero
 
     Write-Status -Types "*", $TweakType -Status "Restoring Aero-Shake Minimize feature..."
-    Remove-ItemProperty -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Force -ErrorAction SilentlyContinue
+    Remove-ItemPropertyVerified -Path "$PathToCUExplorerAdvanced" -Name "DisallowShaking" -Force
 
     Write-Status -Types "+", $TweakType -Status "Setting Windows Explorer to start on This PC instead of Quick Access..."
     # [@] (1 = This PC, 2 = Quick access) # DO NOT REVERT, BREAKS EXPLORER.EXE
@@ -235,10 +236,10 @@ function Register-PersonalTweaksList() {
     Write-Section "Microsoft Edge Policies"
     Write-Caption "Privacy, search and services -> Address bar and search"
     Write-Status -Types "*", $TweakType -Status "Show me search and site suggestions using my typed characters..."
-    Remove-ItemProperty -Path "$PathToCUPoliciesEdge", "$PathToLMPoliciesEdge" -Name "SearchSuggestEnabled" -Force -ErrorAction SilentlyContinue
+    Remove-ItemPropertyVerified -Path "$PathToCUPoliciesEdge", "$PathToLMPoliciesEdge" -Name "SearchSuggestEnabled" -Force
 
     Write-Status -Types "*", $TweakType -Status "Show me history and favorite suggestions and other data using my typed characters..."
-    Remove-ItemProperty -Path "$PathToCUPoliciesEdge", "$PathToLMPoliciesEdge" -Name "LocalProvidersEnabled" -Force -ErrorAction SilentlyContinue
+    Remove-ItemPropertyVerified -Path "$PathToCUPoliciesEdge", "$PathToLMPoliciesEdge" -Name "LocalProvidersEnabled" -Force
 
     Write-Status -Types "*", $TweakType -Status "Restoring Error reporting..."
     Set-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0

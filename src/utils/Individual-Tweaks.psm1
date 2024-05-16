@@ -2,6 +2,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\New-Shortcut.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-CapabilityState.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-OptionalFeatureState.psm1"
@@ -42,9 +43,9 @@ function Disable-ActivityHistory() {
 
 function Enable-ActivityHistory() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Activity History..."
-    Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "EnableActivityFeed"
-    Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "PublishUserActivities"
-    Remove-ItemProperty -Path $PathToLMPoliciesSystem -Name "UploadUserActivities"
+    Remove-ItemPropertyVerified -Path $PathToLMPoliciesSystem -Name "EnableActivityFeed"
+    Remove-ItemPropertyVerified -Path $PathToLMPoliciesSystem -Name "PublishUserActivities"
+    Remove-ItemPropertyVerified -Path $PathToLMPoliciesSystem -Name "UploadUserActivities"
 }
 
 function Disable-AutomaticWindowsUpdate() {
@@ -70,12 +71,12 @@ function Disable-AutomaticWindowsUpdate() {
 function Enable-AutomaticWindowsUpdate() {
     Write-Status -Types "*", "WU" -Status "Enabling Automatic Download and Installation of Windows Updates..."
     Write-Status -Types "*", "WU" -Status "Removing Automatic Updates policies..."
-    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions"
-    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate"
+    Remove-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "AUOptions"
+    Remove-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "NoAutoUpdate"
     Write-Status -Types "*", "WU" -Status "Removing Scheduled Day policy..."
-    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay"
+    Remove-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallDay"
     Write-Status -Types "*", "WU" -Status "Removing Scheduled time policy..."
-    Remove-ItemProperty -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime"
+    Remove-ItemPropertyVerified -Path "$PathToLMPoliciesWindowsUpdate" -Name "ScheduledInstallTime"
 }
 
 function Disable-BackgroundAppsToogle() {
@@ -92,8 +93,8 @@ function Enable-BackgroundAppsToogle() {
 
 function Disable-ClipboardHistory() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Clipboard History (requires reboot!)..."
-    Remove-ItemProperty -Path "$PathToLMPoliciesSystem" -Name "AllowClipboardHistory"
-    Remove-ItemProperty -Path "$PathToCUClipboard" -Name "EnableClipboardHistory"
+    Remove-ItemPropertyVerified -Path "$PathToLMPoliciesSystem" -Name "AllowClipboardHistory"
+    Remove-ItemPropertyVerified -Path "$PathToCUClipboard" -Name "EnableClipboardHistory"
 }
 
 function Enable-ClipboardHistory() {
@@ -105,14 +106,8 @@ function Enable-ClipboardHistory() {
 function Disable-ClipboardSyncAcrossDevice() {
     Write-Status -Types "-", "Privacy" -Status "Disabling Clipboard across devices (must be using MS account)..."
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesSystem" -Name "AllowCrossDeviceClipboard" -Type DWord -Value 0
-    If ((Get-Item "$PathToCUClipboard").Property -contains "CloudClipboardAutomaticUpload") {
-        Remove-ItemProperty -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload"
-    }
-
-    If ((Get-Item "$PathToCUClipboard").Property -contains "EnableCloudClipboard") {
-        Remove-ItemProperty -Path "$PathToCUClipboard" -Name "EnableCloudClipboard"
-    }
-
+    Remove-ItemPropertyVerified -Path "$PathToCUClipboard" -Name "CloudClipboardAutomaticUpload"
+    Remove-ItemPropertyVerified -Path "$PathToCUClipboard" -Name "EnableCloudClipboard"
 }
 
 function Enable-ClipboardSyncAcrossDevice() {
@@ -367,12 +362,12 @@ function Enable-NewsAndInterest() {
 
     Write-Status -Types "*", "Personal" -Status "Enabling 'News and Interest' from taskbar..."
     # [@] (0 = Disable, 1 = Enable)
-    Remove-ItemProperty -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds"
+    Remove-ItemPropertyVerified -Path "$PathToLMPoliciesNewsAndInterest" -Name "EnableFeeds"
 }
 
 function Disable-OldVolumeControl() {
     Write-Status -Types "*", "Misc" -Status "Disabling Old Volume Control..."
-    Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc"
+    Remove-ItemPropertyVerified -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\MTCUVC" -Name "EnableMtcUvc"
 }
 
 function Enable-OldVolumeControl() {
@@ -389,7 +384,7 @@ function Disable-OnlineSpeechRecognition() {
 
 function Enable-OnlineSpeechRecognition() {
     Write-Status -Types "+", "Privacy" -Status "Enabling Online Speech Recognition..."
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization"
+    Remove-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\InputPersonalization" -Name "AllowInputPersonalization"
     # [@] (0 = Decline, 1 = Accept)
     Set-ItemPropertyVerified -Path "$PathToCUOnlineSpeech" -Name "HasAccepted" -Type DWord -Value 1
 }
@@ -437,7 +432,7 @@ function Disable-SearchAppForUnknownExt() {
 
 function Enable-SearchAppForUnknownExt() {
     Write-Status -Types "*", "Misc" -Status "Enabling Search for App in Store for Unknown Extensions..."
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith"
+    Remove-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "NoUseStoreOpenWith"
 }
 
 function Disable-Telemetry() {
@@ -455,10 +450,10 @@ function Disable-Telemetry() {
 function Enable-Telemetry() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Telemetry..."
     # [@] (0 = Security (Enterprise only), 1 = Basic Telemetry, 2 = Enhanced Telemetry, 3 = Full Telemetry)
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry"
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry"
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
-    Remove-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
+    Remove-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry"
+    Remove-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowDeviceNameInTelemetry"
+    Remove-ItemPropertyVerified -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
+    Remove-ItemPropertyVerified -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry"
 
     Set-ServiceStartup -State 'Manual' -Services "DiagTrack"
     Start-Service "DiagTrack"
@@ -534,7 +529,7 @@ function Enable-XboxGameBarDVRandMode() {
     Remove-ItemVerified -Path "$PathToLMPoliciesAppGameDVR" -Recurse
     Set-ItemPropertyVerified -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 1
     Set-ItemPropertyVerified -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
-    Remove-ItemProperty -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR"
+    Remove-ItemPropertyVerified -Path "$PathToLMPoliciesGameDVR" -Name "AllowGameDVR"
 
     Set-ServiceStartup -State 'Manual' -Services "BcastDVRUserService*"
 
