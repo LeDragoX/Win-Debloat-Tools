@@ -65,7 +65,6 @@ function Optimize-ServicesRunning() {
         <# Network Services #>
         "iphlpsvc"                       # DEFAULT: Automatic | IP Helper Service (IPv6 (6to4, ISATAP, Port Proxy and Teredo) and IP-HTTPS)
         "lmhosts"                        # DEFAULT: Manual    | TCP/IP NetBIOS Helper
-        "ndu"                            # DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
         #"NetTcpPortSharing"             # DEFAULT: Disabled  | Net.Tcp Port Sharing Service
         "SharedAccess"                   # DEFAULT: Manual    | Internet Connection Sharing (ICS)
         <# Telemetry Services #>
@@ -86,6 +85,10 @@ function Optimize-ServicesRunning() {
         "gupdatem"                       # DEFAULT: Manual    | Google Update Service²
     )
 
+    $ServicesToAutomatic = @(
+        "ndu"                            # DEFAULT: Automatic | Windows Network Data Usage Monitoring Driver (Shows network usage per-process on Task Manager)
+    )
+
     Write-Title "Services tweaks"
     Write-Section "Disabling services from Windows"
 
@@ -103,6 +106,7 @@ function Optimize-ServicesRunning() {
     }
 
     Set-ServiceStartup -State 'Manual' -Services $ServicesToManual
+    Set-ServiceStartup -State 'Automatic' -Services $ServicesToAutomatic
 }
 
 # List all services:
