@@ -19,7 +19,7 @@ function Set-ServiceStartup() {
     Process {
         ForEach ($Service in $Services) {
             If (!(Get-Service $Service -ErrorAction SilentlyContinue)) {
-                Write-Status -Types "?", $TweakType -Status "The $Service service was not found." -Warning
+                Write-Status -Types "?", $TweakType -Status "The `"$Service`" service was not found." -Warning
                 Continue
             }
 

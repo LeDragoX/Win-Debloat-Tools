@@ -14,6 +14,7 @@ function Main() {
         $Script:NeedRestart = $false
         $Script:DoneTitle = "Information"
         $Script:DoneMessage = "Process Completed!"
+        $Host.UI.RawUI.WindowTitle = '🚀 Win Debloat Tools'
     }
 
     Process {
@@ -41,19 +42,19 @@ function Main() {
         Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Individual-Tweaks.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Install-Individual-System-Apps.psm1" -Force
 
+        Set-ConsoleStyle
+
         If ("$pwd" -notlike "$PSScriptRoot") {
-            Write-Host "Wrong location detected, changing to script folder!" -BackgroundColor Yellow
+            Write-Style "Wrong location detected, changing to script folder! ($pwd)" -Color Yellow -BackColor Black -Style Bold
             Set-Location -Path "$PSScriptRoot"
         }
 
-        Set-ConsoleStyle
         $CurrentFileName = (Split-Path -Path $PSCommandPath -Leaf).Split('.')[0]
-        $CurrentFileLastModified = (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
-        (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy-MM-dd"
+        $CurrentFileLastModified = (Get-Item "$(Split-Path -Path $PSCommandPath -Leaf)").LastWriteTimeUtc | Get-Date -Format "yyyy.MM.dd"
         Start-Logging -File "$CurrentFileName-$(Get-Date -Format "yyyy-MM")"
         Write-Caption "$CurrentFileName v$CurrentFileLastModified"
-        Write-Host "Your Current Folder $pwd"
-        Write-Host "Script Root Folder $PSScriptRoot"
+        Write-Style "Your Current Folder $pwd" -Color Cyan -BackColor Black -Style Bold
+        Write-Style "Script Root Folder $PSScriptRoot" -Color Cyan -BackColor Black -Style Bold
         Write-ScriptLogo
 
         If ($args) {
@@ -85,7 +86,7 @@ function Open-DebloatScript {
     $Scripts = @(
         # [Recommended order]
         "Backup-System.ps1",
-        "Use-DebloatSoftware.ps1",
+        "Invoke-DebloatSoftware.ps1",
         "Optimize-TaskScheduler.ps1",
         "Optimize-ServicesRunning.ps1",
         "Remove-BloatwareAppsList.ps1",
@@ -111,9 +112,9 @@ function Request-AdminPrivilege() {
     If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
         Try {
             winget --version
-            Start-Process -Verb RunAs -FilePath "wt.exe" -ArgumentList "--startingDirectory `"$PSScriptRoot`" --profile `"Windows PowerShell`"", "cmd /c powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""; taskkill.exe /f /im $PID; exit
+            Start-Process -Verb RunAs -FilePath "wt.exe" -ArgumentList "--startingDirectory `"$PSScriptRoot`" --profile `"Windows PowerShell`"", "cmd /c powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`" $ArgsList"; taskkill.exe /f /im $PID; exit
         } Catch {
-            Start-Process -Verb RunAs -FilePath powershell.exe -ArgumentList "-NoProfile", "-ExecutionPolicy Bypass", "-File `"$PSCommandPath`""; exit
+            Start-Process -Verb RunAs -FilePath powershell.exe -ArgumentList "-NoProfile", "-ExecutionPolicy Bypass", "-File `"$PSCommandPath`" $ArgsList" ; exit
         }
     }
 }
@@ -130,7 +131,7 @@ function Show-GUI() {
 
     # <===== Specific Layout =====>
 
-    $LayoutT1 = New-LayoutPage -NumOfPanels 3 -PanelHeight 985
+    $LayoutT1 = New-LayoutPage -NumOfPanels 3 -PanelHeight 1065
     $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1785
 
     # <===== UI =====>
@@ -143,9 +144,10 @@ function Show-GUI() {
     $FormTabControl = New-TabControl -Width ($LayoutT1.FormWidth - 8) -Height ($LayoutT1.FormHeight - 35) -LocationX -4 -LocationY 0
     $TabSystemTweaks = New-TabPage -Name "Tab1" -Text "System Tweaks"
     $TabSoftwareInstall = New-TabPage -Name "Tab2" -Text "Software Install"
+    $TabSettings = New-TabPage -Name "Tab3" -Text "Settings"
 
     $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $LayoutT1.TotalWidth -Height $LayoutT1.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT1.Heading[0] -FontStyle "Bold" -ForeColor $Colors.Cyan
-    $ClSystemTweaks = New-Label -Text "$CurrentFileName v$CurrentFileLastModified" -Width $LayoutT1.TotalWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $TlSystemTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.White
+    $ClSystemTweaks = New-Label -Text "Version $CurrentFileLastModified" -Width $LayoutT1.TotalWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $TlSystemTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.White
 
     # ==> Tab 1
     $CurrentPanelIndex = 0
@@ -165,24 +167,30 @@ function Show-GUI() {
     $CbCortana = New-CheckBox -Text "Enable Cortana" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbClipboardSyncAcrossDevice
     $CbHibernate = New-CheckBox -Text "Enable Hibernate" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbCortana
     $CbLegacyContextMenu = New-CheckBox -Text "Enable Legacy Context Menu" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbHibernate
-    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbLegacyContextMenu
+    $CbLocationTracking = New-CheckBox -Text "Enable Location Tracking" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbLegacyContextMenu
+    $CbNewsAndInterest = New-CheckBox -Text "Enable News And Interest" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbLocationTracking
+    $CbOldVolumeControl = New-CheckBox -Text "Enable Old Volume Control" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbNewsAndInterest
     $CbOnlineSpeechRecognition = New-CheckBox -Text "Enable Online Speech Recognition" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbOldVolumeControl
     $CbPhoneLink = New-CheckBox -Text "Enable Phone Link" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbOnlineSpeechRecognition
     $CbPhotoViewer = New-CheckBox -Text "Enable Photo Viewer" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPhoneLink
     $CbSearchAppForUnknownExt = New-CheckBox -Text "Enable Search App for Unknown Ext." -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPhotoViewer
     $CbTelemetry = New-CheckBox -Text "Enable Telemetry" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbSearchAppForUnknownExt
-    $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game Bar/DVR/Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWindowsSearch
+    $CbWindowsSpotlight = New-CheckBox -Text "Enable Windows Spotlight" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbTelemetry
+    $CbXboxGameBarDVRandMode = New-CheckBox -Text "Enable Xbox Game Bar/DVR/Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWindowsSpotlight
 
     # ==> T1 Panel 2
     $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold'
     $ApplyTweaks = New-Button -Text "Apply Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -ElementBefore $ClDebloatTools -FontSize $LayoutT1.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
     $UndoTweaks = New-Button -Text "Undo Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ApplyTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
-    $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $UndoTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
+    $DiskCleanUp = New-Button -Text "Run a Disk Cleanup" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $UndoTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
+    $RemoveTemporaryFiles = New-Button -Text "Remove Temporary Files" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $DiskCleanUp -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
+    $RemoveWindowsOld = New-Button -Text "Remove Windows.old Folder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveTemporaryFiles -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
+    $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveWindowsOld -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveMSEdge -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $RemoveXbox = New-Button -Text "Remove Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveOneDrive -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-image.png" -Width $LayoutT1.PanelElementWidth -Height (($LayoutT1.ButtonHeight * 4) + ($LayoutT1.DistanceBetweenElements * 4)) -LocationX $LayoutT1.PanelElementX -ElementBefore $RemoveXbox -MarginTop $LayoutT1.DistanceBetweenElements -SizeMode 'Zoom'
 
-    $ClInstallSystemApps = New-Label -Text "Install System Apps" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $PictureBox1
+    $ClInstallSystemApps = New-Label -Text "Install System Apps" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $PictureBox1
     $InstallDolbyAudio = New-Button -Text "Dolby Audio" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClInstallSystemApps -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallMicrosoftEdge = New-Button -Text "Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallDolbyAudio -MarginTop $LayoutT1.DistanceBetweenElements
     $InstallOneDrive = New-Button -Text "OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallMicrosoftEdge -MarginTop $LayoutT1.DistanceBetweenElements
@@ -204,7 +212,7 @@ function Show-GUI() {
     $ClWindowsUpdate = New-Label -Text "Windows Update" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold'
     $CbAutomaticWindowsUpdate = New-CheckBox -Text "Enable Automatic Windows Update" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsUpdate
 
-    $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbAutomaticWindowsUpdate
+    $ClOptionalFeatures = New-Label -Text "Optional Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbAutomaticWindowsUpdate
     $CbHyperV = New-CheckBox -Text "Hyper-V" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClOptionalFeatures
     $CbInternetExplorer = New-CheckBox -Text "Internet Explorer" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbHyperV
     $CbPrintToPDFServices = New-CheckBox -Text "Printing-PrintToPDFServices-Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbInternetExplorer
@@ -212,16 +220,16 @@ function Show-GUI() {
     $CbWindowsMediaPlayer = New-CheckBox -Text "Windows Media Player" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbPrintingXPSServices
     $CbWindowsSandbox = New-CheckBox -Text "Windows Sandbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWindowsMediaPlayer
 
-    $ClTaskScheduler = New-Label -Text "Task Scheduler" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSandbox
+    $ClTaskScheduler = New-Label -Text "Task Scheduler" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSandbox
     $CbFamilySafety = New-CheckBox -Text "Family Safety Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClTaskScheduler
 
-    $ClServices = New-Label -Text "Services" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbFamilySafety
+    $ClServices = New-Label -Text "Services" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbFamilySafety
     $CbWindowsSearch = New-CheckBox -Text "Windows Search Indexing" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClServices
 
-    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSearch
+    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSearch
     $CbPowerShellISE = New-CheckBox -Text "PowerShell ISE" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsCapabilities
 
-    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbPowerShellISE
+    $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbPowerShellISE
     $CbEncryptedDNS = New-CheckBox -Text "Enable Encrypted DNS" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClMiscFeatures
     $CbGodMode = New-CheckBox -Text "Enable God Mode" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbEncryptedDNS
     $CbMouseAcceleration = New-CheckBox -Text "Enable Mouse Acceleration" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbGodMode
@@ -232,21 +240,7 @@ function Show-GUI() {
     # ==> Tab 2
     $TlSoftwareInstall = New-Label -Text "Software Install" -Width $LayoutT2.TotalWidth -Height $LayoutT2.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT2.Heading[0] -FontStyle "Bold" -ForeColor $Colors.Cyan
 
-    $T2PanelPackageManagersSettings = New-Panel -Width $LayoutT2.TotalWidth -Height ($LayoutT2.ButtonHeight * 7) -ElementBefore $TlSoftwareInstall
-
-    $ClWingetSettings = New-Label -Text "Winget Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -LocationY 0 -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.White
-    $InstallWinget = New-Button -Text "Install Winget" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $EnableWingetDailyUpgrade = New-Button -Text "Enable Winget Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 2) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $RemoveWingetDailyUpgrade = New-Button -Text "Remove Winget Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 3) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-
-    $ClChocolateySettings = New-Label -Text "Chocolatey Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $InstallWinget -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.White
-    $InstallChocolatey = New-Button -Text "Install Chocolatey" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $UninstallChocolatey = New-Button -Text "Uninstall Chocolatey" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 1) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $EnableChocolateyDailyUpgrade = New-Button -Text "Enable Chocolatey Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 2) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $RemoveChocolateyDailyUpgrade = New-Button -Text "Remove Chocolatey Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 3) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
-    $RemoveAllChocolateyPackages = New-Button -Text "Remove All Chocolatey Packages" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $InstallChocolatey -MarginTop $LayoutT2.DistanceBetweenElements -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.WarningYellow
-
-    $ClSoftwareInstall = New-Label -Text "Select and Install/Uninstall" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $T2PanelPackageManagersSettings -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.LightGreen
+    $ClSoftwareInstall = New-Label -Text "Install/Uninstall" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $T3PanelPackageManagersSettings -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.LightGreen
 
     $CurrentPanelIndex = 0
     $T2Panel1 = New-Panel -Width $LayoutT2.PanelWidth -Height $LayoutT2.PanelHeight -LocationX ($LayoutT2.PanelWidth * $CurrentPanelIndex) -ElementBefore $ClSoftwareInstall
@@ -399,14 +393,13 @@ function Show-GUI() {
     $InstallStreamlabs = New-CheckBox -Text "Streamlabs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallObsStudio
 
     $ClEmulation = New-Label -Text "Emulation" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallStreamlabs
-    $InstallBSnesHd = New-CheckBox -Text "BSnes HD (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClEmulation
-    $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBSnesHd
+    $InstallCemu = New-CheckBox -Text "Cemu (Wii U)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClEmulation
     $InstallDolphin = New-CheckBox -Text "Dolphin Stable (GC/Wii)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCemu
-    $InstallKegaFusion = New-CheckBox -Text "Kega Fusion (Sega Genesis)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDolphin
+    $InstallDuckstation = New-CheckBox -Text "Duckstation (PS1)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDolphin
+    $InstallKegaFusion = New-CheckBox -Text "Kega Fusion (SG/CD/32X/MS/GG)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDuckstation
     $InstallMGba = New-CheckBox -Text "mGBA (GBA)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKegaFusion
     $InstallPPSSPP = New-CheckBox -Text "PPSSPP (PSP)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMGba
-    $InstallProject64 = New-CheckBox -Text "Project64 Dev (N64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPPSSPP
-    $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallProject64
+    $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPPSSPP
     $InstallRyujinx = New-CheckBox -Text "Ryujinx (Switch)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRetroArch
     $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRyujinx
 
@@ -423,13 +416,9 @@ function Show-GUI() {
     $InstallArchWSL = New-CheckBox -Text "ArchWSL (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWSL -ForeColor $Colors.Cyan
     $InstallDebian = New-CheckBox -Text "Debian GNU/Linux" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallArchWSL
     $InstallKaliLinux = New-CheckBox -Text "Kali Linux Rolling" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDebian
-    $InstallOpenSuse = New-CheckBox -Text "Open SUSE 42" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKaliLinux
-    $InstallSles = New-CheckBox -Text "SLES v12" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallOpenSuse
-    $InstallUbuntu = New-CheckBox -Text "Ubuntu" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSles
-    $InstallUbuntu18Lts = New-CheckBox -Text "Ubuntu 18.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu
-    $InstallUbuntu20Lts = New-CheckBox -Text "Ubuntu 20.04 LTS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallUbuntu18Lts
+    $InstallUbuntu = New-CheckBox -Text "Ubuntu" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKaliLinux
 
-    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallUbuntu20Lts
+    $ClDevelopment = New-Label -Text "⌨ Development on Windows" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallUbuntu
     $InstallWindowsTerminal = New-CheckBox -Text "Windows Terminal" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClDevelopment
     $InstallNerdFonts = New-CheckBox -Text "Install Nerd Fonts" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWindowsTerminal -ForeColor $Colors.Cyan
     $InstallGitGnupgSshSetup = New-CheckBox -Text "Git + GnuPG + SSH (Setup)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNerdFonts -ForeColor $Colors.Cyan
@@ -450,15 +439,32 @@ function Show-GUI() {
     $InstallRustGnu = New-CheckBox -Text "Rust (GNU)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRubyMsys
     $InstallRustMsvc = New-CheckBox -Text "Rust (MSVC)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRustGnu
 
+    # ==> Tab 3
+    $TlSettings = New-Label -Text "Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT2.Heading[0] -FontStyle "Bold" -ForeColor $Colors.Cyan
+    $T3PanelPackageManagersSettings = New-Panel -Width $LayoutT2.TotalWidth -Height ($LayoutT2.ButtonHeight * 7) -ElementBefore $TlSettings
+
+    $ClWingetSettings = New-Label -Text "Winget Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -LocationY 0 -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.White
+    $InstallWinget = New-Button -Text "Install Winget" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $EnableWingetDailyUpgrade = New-Button -Text "Enable Winget Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 2) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $RemoveWingetDailyUpgrade = New-Button -Text "Remove Winget Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 3) + $LayoutT2.PanelElementX) -ElementBefore $ClWingetSettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+
+    $ClChocolateySettings = New-Label -Text "Chocolatey Settings" -Width $LayoutT2.TotalWidth -Height $LayoutT2.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $InstallWinget -MarginTop $LayoutT2.DistanceBetweenElements -ForeColor $Colors.White
+    $InstallChocolatey = New-Button -Text "Install Chocolatey" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $UninstallChocolatey = New-Button -Text "Uninstall Chocolatey" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 1) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $EnableChocolateyDailyUpgrade = New-Button -Text "Enable Chocolatey Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 2) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $RemoveChocolateyDailyUpgrade = New-Button -Text "Remove Chocolatey Daily Upgrade" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 3) + $LayoutT2.PanelElementX) -ElementBefore $ClChocolateySettings -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.Cyan
+    $RemoveAllChocolateyPackages = New-Button -Text "Remove All Chocolatey Packages" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX (($LayoutT2.PanelWidth * 0) + $LayoutT2.PanelElementX) -ElementBefore $InstallChocolatey -MarginTop $LayoutT2.DistanceBetweenElements -FontSize $LayoutT2.Heading[3] -FontStyle 'Bold' -ForeColor $Colors.WarningYellow
+
     # Add TabControl to the Form
     $Form.Controls.AddRange(@($FormTabControl))
     # Tabs
-    $FormTabControl.Controls.AddRange(@($TabSystemTweaks, $TabSoftwareInstall))
+    $FormTabControl.Controls.AddRange(@($TabSystemTweaks, $TabSoftwareInstall, $TabSettings))
     $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2, $T1Panel3))
-    $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2PanelPackageManagersSettings, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
+    $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
+    $TabSettings.Controls.AddRange(@($TlSettings, $T3PanelPackageManagersSettings))
     # Add Elements to each Tab Panel
-    $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbXboxGameBarDVRandMode))
-    $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
+    $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbLocationTracking, $CbNewsAndInterest, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWindowsSpotlight, $CbXboxGameBarDVRandMode))
+    $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $DiskCleanUp, $RemoveTemporaryFiles, $RemoveWindowsOld, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallQuickAssist, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
@@ -467,9 +473,6 @@ function Show-GUI() {
     $T1Panel3.Controls.AddRange(@($ClServices, $CbWindowsSearch))
     $T1Panel3.Controls.AddRange(@($ClWindowsCapabilities, $CbPowerShellISE))
     $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseAcceleration, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
-
-    $T2PanelPackageManagersSettings.Controls.AddRange(@($ClWingetSettings, $InstallWinget, $EnableWingetDailyUpgrade, $RemoveWingetDailyUpgrade))
-    $T2PanelPackageManagersSettings.Controls.AddRange(@($ClChocolateySettings, $InstallChocolatey, $UninstallChocolatey, $EnableChocolateyDailyUpgrade, $RemoveChocolateyDailyUpgrade, $RemoveAllChocolateyPackages))
 
     $T2Panel1.Controls.AddRange(@($UpgradeAll))
     $T2Panel1.Controls.AddRange(@($ClCpuGpuDrivers, $InstallAmdRyzenChipsetDriver, $InstallIntelDSA, $InstallNvidiaGeForceExperience, $InstallDDU, $InstallNVCleanstall))
@@ -496,10 +499,13 @@ function Show-GUI() {
     $T2Panel3.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
     $T2Panel3.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
     $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
-    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallBSnesHd, $InstallCemu, $InstallDolphin, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallProject64, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
+    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallCemu, $InstallDolphin, $InstallDuckstation, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
     $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
-    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallOpenSuse, $InstallSles, $InstallUbuntu, $InstallUbuntu18Lts, $InstallUbuntu20Lts))
+    $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallUbuntu))
     $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
+
+    $T3PanelPackageManagersSettings.Controls.AddRange(@($ClWingetSettings, $InstallWinget, $EnableWingetDailyUpgrade, $RemoveWingetDailyUpgrade))
+    $T3PanelPackageManagersSettings.Controls.AddRange(@($ClChocolateySettings, $InstallChocolatey, $UninstallChocolatey, $EnableChocolateyDailyUpgrade, $RemoveChocolateyDailyUpgrade, $RemoveAllChocolateyPackages))
 
     # <===== CLICK EVENTS =====>
 
@@ -513,7 +519,7 @@ function Show-GUI() {
     $UndoTweaks.Add_Click( {
             Set-RevertStatus -Revert $true
             $Scripts = @(
-                "Use-DebloatSoftware.ps1",
+                "Invoke-DebloatSoftware.ps1",
                 "Optimize-TaskScheduler.ps1",
                 "Optimize-ServicesRunning.ps1",
                 "Optimize-Privacy.ps1",
@@ -528,6 +534,18 @@ function Show-GUI() {
             $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\peepo-leaving.gif"
             $PictureBox1.SizeMode = 'StretchImage'
             $Form.Update()
+        })
+
+    $DiskCleanUp.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Start-DiskCleanUp.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $RemoveTemporaryFiles.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Remove-TemporaryFiles.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $RemoveWindowsOld.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Remove-WindowsOld.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $RemoveMSEdge.Add_Click( {
@@ -591,7 +609,7 @@ function Show-GUI() {
         })
 
     $RandomizeSystemColor.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("new-system-color.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("New-SystemColor.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ReinstallBloatApps.Add_Click( {
@@ -692,6 +710,26 @@ function Show-GUI() {
             }
         })
 
+    $CbLocationTracking.Add_Click( {
+            If ($CbLocationTracking.CheckState -eq "Checked") {
+                Enable-LocationTracking
+                $CbLocationTracking.Text = "[ON]  Location Tracking *"
+            } Else {
+                Disable-LocationTracking
+                $CbLocationTracking.Text = "[OFF] Location Tracking"
+            }
+        })
+
+    $CbNewsAndInterest.Add_Click( {
+            If ($CbNewsAndInterest.CheckState -eq "Checked") {
+                Enable-NewsAndInterest
+                $CbNewsAndInterest.Text = "[ON]  News And Interest *"
+            } Else {
+                Disable-NewsAndInterest
+                $CbNewsAndInterest.Text = "[OFF] News And Interest"
+            }
+        })
+
     $CbOldVolumeControl.Add_Click( {
             If ($CbOldVolumeControl.CheckState -eq "Checked") {
                 Enable-OldVolumeControl
@@ -749,6 +787,16 @@ function Show-GUI() {
             } Else {
                 Disable-Telemetry
                 $CbTelemetry.Text = "[OFF] Telemetry"
+            }
+        })
+
+    $CbWindowsSpotlight.Add_Click( {
+            If ($CbWindowsSpotlight.CheckState -eq "Checked") {
+                Enable-WindowsSpotlight
+                $CbWindowsSpotlight.Text = "[ON]  Windows Spotlight *"
+            } Else {
+                Disable-WindowsSpotlight
+                $CbWindowsSpotlight.Text = "[OFF] Windows Spotlight"
             }
         })
 
@@ -910,38 +958,6 @@ function Show-GUI() {
                 Disable-FastShutdownShortcut
                 $CbFastShutdownPCShortcut.Text = "[OFF] Fast Shutdown shortcut *"
             }
-        })
-
-    $InstallWinget.Add_Click( {
-            Install-Winget
-        })
-
-    $EnableWingetDailyUpgrade.Add_Click( {
-            Register-WingetDailyUpgrade
-        })
-
-    $RemoveWingetDailyUpgrade.Add_Click( {
-            Unregister-WingetDailyUpgrade
-        })
-
-    $InstallChocolatey.Add_Click( {
-            Install-Chocolatey
-        })
-
-    $UninstallChocolatey.Add_Click( {
-            Uninstall-Chocolatey
-        })
-
-    $EnableChocolateyDailyUpgrade.Add_Click( {
-            Register-ChocolateyDailyUpgrade
-        })
-
-    $RemoveChocolateyDailyUpgrade.Add_Click( {
-            Unregister-ChocolateyDailyUpgrade
-        })
-
-    $RemoveAllChocolateyPackages.Add_Click( {
-            Remove-AllChocolateyPackage
         })
 
     $UpgradeAll.Add_Click( {
@@ -1129,7 +1145,7 @@ function Show-GUI() {
             }
 
             If ($InstallMozillaFirefox.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("Mozilla.Firefox")
+                $AppsSelected.ChocolateyApps.Add("firefox")
                 $InstallMozillaFirefox.CheckState = "Unchecked"
             }
 
@@ -1408,11 +1424,6 @@ function Show-GUI() {
                 $InstallStreamlabs.CheckState = "Unchecked"
             }
 
-            If ($InstallBSnesHd.CheckState -eq "Checked") {
-                $AppsSelected.ChocolateyApps.Add("bsnes-hd")
-                $InstallBSnesHd.CheckState = "Unchecked"
-            }
-
             If ($InstallCemu.CheckState -eq "Checked") {
                 $AppsSelected.ChocolateyApps.Add("cemu")
                 $InstallCemu.CheckState = "Unchecked"
@@ -1421,6 +1432,11 @@ function Show-GUI() {
             If ($InstallDolphin.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("DolphinEmulator.Dolphin")
                 $InstallDolphin.CheckState = "Unchecked"
+            }
+
+            If ($InstallDuckstation.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("Stenzek.DuckStation")
+                $InstallDuckstation.CheckState = "Unchecked"
             }
 
             If ($InstallKegaFusion.CheckState -eq "Checked") {
@@ -1434,13 +1450,8 @@ function Show-GUI() {
             }
 
             If ($InstallPPSSPP.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("PPSSPPTeam.PPSSPP")
+                $AppsSelected.ChocolateyApps.Add("ppsspp")
                 $InstallPPSSPP.CheckState = "Unchecked"
-            }
-
-            If ($InstallProject64.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("Project64.Project64.Dev")
-                $InstallProject64.CheckState = "Unchecked"
             }
 
             If ($InstallRetroArch.CheckState -eq "Checked") {
@@ -1488,6 +1499,7 @@ function Show-GUI() {
                     Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Install-WSL.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
                 } Else {
                     $AppsSelected.MSStoreApps.Add("9P9TQF7MRM4R")
+                    Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures @("Microsoft-Windows-Subsystem-Linux")
                 }
                 $InstallWSL.CheckState = "Unchecked"
             }
@@ -1513,29 +1525,9 @@ function Show-GUI() {
                 $InstallKaliLinux.CheckState = "Unchecked"
             }
 
-            If ($InstallOpenSuse.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("openSUSE-42")
-                $InstallOpenSuse.CheckState = "Unchecked"
-            }
-
-            If ($InstallSles.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("SLES-12")
-                $InstallSles.CheckState = "Unchecked"
-            }
-
             If ($InstallUbuntu.CheckState -eq "Checked") {
                 $AppsSelected.WSLDistros.Add("Ubuntu")
                 $InstallUbuntu.CheckState = "Unchecked"
-            }
-
-            If ($InstallUbuntu18Lts.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("Ubuntu-18.04")
-                $InstallUbuntu18Lts.CheckState = "Unchecked"
-            }
-
-            If ($InstallUbuntu20Lts.CheckState -eq "Checked") {
-                $AppsSelected.WSLDistros.Add("Ubuntu-20.04")
-                $InstallUbuntu20Lts.CheckState = "Unchecked"
             }
 
             If ($InstallWindowsTerminal.CheckState -eq "Checked") {
@@ -1687,10 +1679,43 @@ function Show-GUI() {
             }
         })
 
+    $InstallWinget.Add_Click( {
+            Install-Winget
+        })
+
+    $EnableWingetDailyUpgrade.Add_Click( {
+            Register-WingetDailyUpgrade
+        })
+
+    $RemoveWingetDailyUpgrade.Add_Click( {
+            Unregister-WingetDailyUpgrade
+        })
+
+    $InstallChocolatey.Add_Click( {
+            Install-Chocolatey
+        })
+
+    $UninstallChocolatey.Add_Click( {
+            Uninstall-Chocolatey
+        })
+
+    $EnableChocolateyDailyUpgrade.Add_Click( {
+            Register-ChocolateyDailyUpgrade
+        })
+
+    $RemoveChocolateyDailyUpgrade.Add_Click( {
+            Unregister-ChocolateyDailyUpgrade
+        })
+
+    $RemoveAllChocolateyPackages.Add_Click( {
+            Remove-AllChocolateyPackage
+        })
+
     [void] $Form.ShowDialog() # Show the Window
     $Form.Dispose() # When done, dispose of the GUI
 }
 
+$Script:ArgsList = $args
 If ($args) {
     Main -Mode $args[0]
 } Else {

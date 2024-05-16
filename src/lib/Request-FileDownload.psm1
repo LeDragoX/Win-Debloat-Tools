@@ -30,7 +30,7 @@ function Request-FileDownload {
 
     If (!(Test-Path $OutputFolder)) {
         Write-Status -Types "@" -Status "$OutputFolder doesn't exist, creating folder..."
-        New-Item -Path $OutputFolder -ItemType Directory -Force
+        $OutputFolder = New-Item -Path $OutputFolder -ItemType Directory -Force
     }
 
     $FileLocation = Join-Path -Path $OutputFolder -ChildPath $OutputFile

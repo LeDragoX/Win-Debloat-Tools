@@ -17,7 +17,7 @@ function Set-CapabilityState() {
     Process {
         ForEach ($Capability in $Capabilities) {
             If (!(Get-WindowsCapability -Online -Name $Capability).Name) {
-                Write-Status -Types "?", $TweakType -Status "The $Capability capability was not found." -Warning
+                Write-Status -Types "?", $TweakType -Status "The `"$Capability`" capability was not found." -Warning
                 Continue
             }
 

@@ -5,7 +5,7 @@ Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-I
 
 # Adapted from this ChrisTitus script: https://github.com/ChrisTitusTech/win10script
 
-function Use-DebloatSoftware() {
+function Invoke-DebloatSoftware() {
     [CmdletBinding()]
     param (
         [Switch] $Revert
@@ -13,10 +13,10 @@ function Use-DebloatSoftware() {
 
     If (!$Revert) {
         $AdwCleanerDl = "https://downloads.malwarebytes.com/file/adwcleaner"
-        [String] $AdwCleanerOutput = (Request-FileDownload -FileURI $AdwCleanerDl -OutputFile "adwcleaner.exe")
+        [String] $AdwCleanerOutput = (Request-FileDownload -FileURI $AdwCleanerDl -ExtendFolder "adwcleaner" -OutputFile "adwcleaner.exe")
         Write-Status -Types "+" -Status "Running MalwareBytes AdwCleaner scanner..."
         Start-Process -FilePath "$AdwCleanerOutput" -ArgumentList "/eula", "/clean", "/noreboot" -Wait
-        Remove-ItemVerified $AdwCleanerOutput -Force
+        Remove-ItemVerified (Split-Path -Path $AdwCleanerOutput) -Force -Recurse
     }
 
     Copy-Item -Path "$PSScriptRoot\..\configs\shutup10" -Destination "$(Get-TempScriptFolder)\downloads" -Recurse -Force
@@ -26,19 +26,19 @@ function Use-DebloatSoftware() {
 
     If ($Revert) {
         Write-Status -Types "*" -Status "Running ShutUp10 and REVERTING to default settings..."
-        Start-Process -FilePath $ShutUpOutput -ArgumentList "ooshutup10-default.cfg", "/quiet" -Wait # Wait until the process closes #
+        Start-Process -FilePath "$ShutUpOutput" -ArgumentList "ooshutup10-default.cfg", "/quiet" -Wait # Wait until the process closes #
     } Else {
         Write-Status -Types "+" -Status "Running ShutUp10 and applying Recommended settings..."
-        Start-Process -FilePath $ShutUpOutput -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # Wait until the process closes #
+        Start-Process -FilePath "$ShutUpOutput" -ArgumentList "ooshutup10.cfg", "/quiet" -Wait # Wait until the process closes #
     }
 
-    Remove-ItemVerified $ShutUpOutput -Force # Leave no extra files
     Pop-Location
+    Remove-ItemVerified (Split-Path -Path $ShutUpOutput) -Force -Recurse # Leave no extra files
 }
 
 If (!$Revert) {
-    Use-DebloatSoftware # [AUTOMATED] ShutUp10 with recommended configs and AdwCleaner for Adware/Virus Scanning.
+    Invoke-DebloatSoftware # [AUTOMATED] ShutUp10 with recommended configs and AdwCleaner for Adware/Virus Scanning.
 } Else {
-    Use-DebloatSoftware -Revert
+    Invoke-DebloatSoftware -Revert
 }
 
