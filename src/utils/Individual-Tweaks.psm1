@@ -499,7 +499,12 @@ function Disable-WindowsSpotlight() {
 
 function Enable-WindowsSpotlight() {
     Write-Status -Types "*", "Privacy" -Status "Enabling Windows Spotlight Features..."
-    Set-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightFeatures" -Type DWord -Value 0
+    Remove-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "ConfigureWindowsSpotlight"
+    Remove-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "IncludeEnterpriseSpotlight"
+    Remove-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightFeatures"
+    Remove-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightOnActionCenter"
+    Remove-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightOnSettings"
+    Remove-ItemPropertyVerified -Path "$PathToCUPoliciesCloudContent" -Name "DisableWindowsSpotlightWindowsWelcomeExperience"
 }
 
 function Disable-XboxGameBarDVRandMode() {
