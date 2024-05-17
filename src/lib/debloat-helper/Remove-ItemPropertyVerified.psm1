@@ -20,7 +20,7 @@ function Remove-ItemPropertyVerified() {
     }
 
     Process {
-        If ((Get-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU\").Property -ccontains $Name) {
+        If ((Get-Item -Path "$Path").Property -ccontains $Name) {
             Write-Status -Types "-", $TweakType -Status "Removing: `"$Path>$Name`""
 
             If ($null -ne $Path) {
