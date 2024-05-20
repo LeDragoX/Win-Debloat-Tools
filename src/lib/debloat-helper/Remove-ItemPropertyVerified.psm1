@@ -20,49 +20,54 @@ function Remove-ItemPropertyVerified() {
     }
 
     Process {
-        If ((Get-Item -Path "$Path").Property -ccontains $Name) {
-            Write-Status -Types "-", $TweakType -Status "Removing: `"$Path>$Name`""
+        If (Test-Path "$Path") {
+            If ((Get-Item -Path "$Path").Property -ccontains $Name) {
+                Write-Status -Types "-", $TweakType -Status "Removing: `"$Path>$Name`""
 
-            If ($null -ne $Path) {
-                $ScriptBlock += " -Path "
-                ForEach ($PathParam in $Path) {
-                    $ScriptBlock += "`"$PathParam`", "
+                If ($null -ne $Path) {
+                    $ScriptBlock += " -Path "
+                    ForEach ($PathParam in $Path) {
+                        $ScriptBlock += "`"$PathParam`", "
+                    }
+                    $ScriptBlock = $ScriptBlock.TrimEnd(", ")
                 }
-                $ScriptBlock = $ScriptBlock.TrimEnd(", ")
-            }
 
-            If ($null -ne $Name) {
-                $ScriptBlock += " -Name "
-                ForEach ($NameParam in $Name) {
-                    $ScriptBlock += "`"$NameParam`", "
+                If ($null -ne $Name) {
+                    $ScriptBlock += " -Name "
+                    ForEach ($NameParam in $Name) {
+                        $ScriptBlock += "`"$NameParam`", "
+                    }
+                    $ScriptBlock = $ScriptBlock.TrimEnd(", ")
                 }
-                $ScriptBlock = $ScriptBlock.TrimEnd(", ")
-            }
 
-            If ($null -ne $Include) {
-                $ScriptBlock += " -Include "
-                ForEach ($IncludeParam in $Include) {
-                    $ScriptBlock += "`"$IncludeParam`", "
+                If ($null -ne $Include) {
+                    $ScriptBlock += " -Include "
+                    ForEach ($IncludeParam in $Include) {
+                        $ScriptBlock += "`"$IncludeParam`", "
+                    }
+                    $ScriptBlock = $ScriptBlock.TrimEnd(", ")
                 }
-                $ScriptBlock = $ScriptBlock.TrimEnd(", ")
-            }
 
-            If ($null -ne $Exclude) {
-                $ScriptBlock += " -Exclude "
-                ForEach ($ExcludeParam in $Exclude) {
-                    $ScriptBlock += "`"$ExcludeParam`", "
+                If ($null -ne $Exclude) {
+                    $ScriptBlock += " -Exclude "
+                    ForEach ($ExcludeParam in $Exclude) {
+                        $ScriptBlock += "`"$ExcludeParam`", "
+                    }
+                    $ScriptBlock = $ScriptBlock.TrimEnd(", ")
                 }
-                $ScriptBlock = $ScriptBlock.TrimEnd(", ")
-            }
 
-            If ($null -ne $Force) {
-                $ScriptBlock += " -Force"
-            }
+                If ($null -ne $Force) {
+                    $ScriptBlock += " -Force"
+                }
 
-            Write-Verbose "> $ScriptBlock"
-            Invoke-Expression "$ScriptBlock"
+                Write-Verbose "> $ScriptBlock"
+                Invoke-Expression "$ScriptBlock"
+            } Else {
+                Write-Status -Types "?", $TweakType -Status "The property `"$Path>$Name`" does not exist." -Warning
+
+            }
         } Else {
-            Write-Status -Types "?", $TweakType -Status "The property `"$Path>$Name`" does not exist." -Warning
+            Write-Status -Types "?", $TweakType -Status "The path(s) `"$Path`" to the property `"$Name`" couldn't be found." -Warning
         }
     }
 }
