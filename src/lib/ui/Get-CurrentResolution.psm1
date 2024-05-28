@@ -8,12 +8,11 @@ function Get-CurrentResolution() {
     Add-Type -AssemblyName System.Windows.Forms
 
     # Get the primary screen's working area, which takes DPI scaling into account
-    $primaryScreen = [System.Windows.Forms.Screen]::PrimaryScreen
-    $bounds = $primaryScreen.Bounds
-    $workingArea = $primaryScreen.WorkingArea
+    $PrimaryScreen = [System.Windows.Forms.Screen]::PrimaryScreen
+    $WorkingArea = $PrimaryScreen.WorkingArea
 
-    $ScreenWidth = $workingArea.Width
-    $ScreenHeight = $workingArea.Height
+    $ScreenWidth = $WorkingArea.Width
+    $ScreenHeight = $WorkingArea.Height
 
     Write-Verbose "Primary Monitor: Width: $ScreenWidth, Height: $ScreenHeight (DPI Scaled)"
 
