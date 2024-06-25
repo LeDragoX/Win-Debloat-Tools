@@ -1544,7 +1544,9 @@ function Show-GUI() {
 
             If ($InstallGitGnupgSshSetup.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
+                    Stop-Logging # Don't log any credential info after this point
                     Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Git-GnupgSshKeysSetup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Start-Logging -File "$CurrentFileName-$(Get-Date -Format "yyyy-MM")"
                 } Else {
                     $AppsSelected.WingetApps.AddRange(@("Git.Git", "GnuPG.GnuPG")) # Installed before inside the script
                 }
