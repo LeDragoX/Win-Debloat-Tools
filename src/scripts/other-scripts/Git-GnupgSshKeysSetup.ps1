@@ -145,11 +145,11 @@ function Set-GPGKey() {
     Write-Host "Before exporting your public and private keys, add manually an email." -ForegroundColor Cyan
     Write-Host "Type: 1 (RSA and RSA) [ENTER]." -ForegroundColor Cyan
     Write-Host "Type: 4096 [ENTER]." -ForegroundColor Cyan
-    Write-Host "Then: 0 (does not expire at all) [ENTER]." -ForegroundColor Cyan
+    Write-Host "Then: 0 (does not expire at all) or `"10y`" [ENTER]." -ForegroundColor Cyan
     Write-Host "Then: y [ENTER]." -ForegroundColor Cyan
     Write-Host "Then: $(git config --global user.name) [ENTER]." -ForegroundColor Cyan
     Write-Host "Then: $(git config --global user.email) [ENTER]" -ForegroundColor Cyan
-    Write-Host "Then: Anything you want (e.g. git keys) [ENTER]." -ForegroundColor Cyan
+    Write-Host "Then: Anything you want (e.g. Git Keys) [ENTER]." -ForegroundColor Cyan
     Write-Host "Then: O (Ok) [ENTER]." -ForegroundColor Cyan
     Write-Host "Then: [your passphrase] [ENTER]." -ForegroundColor Cyan
     Write-Host "Then: [your passphrase again] [ENTER]." -ForegroundColor Cyan
@@ -160,7 +160,7 @@ function Set-GPGKey() {
     Write-Status -Types "@" -Status 'gpg --delete-keys $(git config --global user.name)'
 
     Write-Host "Copying all files to $GnuPGPath"
-    Copy-Item -Path "$GnuPGGeneratePath/*" -Destination "$GnuPGPath/" -Recurse
+    Copy-Item -Path "$GnuPGGeneratePath/*" -Destination "$GnuPGPath/" -Recurse -Force
     Remove-ItemVerified -Path "$GnuPGPath/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev" -Recurse
     Remove-ItemVerified -Path "$GnuPGPath/trustdb.gpg"
 
@@ -169,12 +169,13 @@ function Set-GPGKey() {
     gpg --output "$($GnuPGFileName)_secret.gpg" --armor --export-secret-key "$(git config --global user.email)"
 
     # Get the exact Key ID from the system
-    $key_id = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
+    $KeyId = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
+    $CurrentGPGKey = $(git config --global user.signingkey)
 
-    If (!(($key_id -eq "") -or ($null -eq $key_id))) {
-        Write-Host "GPG Key id found: $key_id."
+    If (($KeyId -eq "") -or ($null -eq $KeyId) -or ($KeyId -ne $CurrentGPGKey)) {
+        Write-Host "GPG Key id found: $KeyId."
         Write-Host "Registering the GPG Key ID to git user..."
-        git config --global user.signingkey "$key_id"
+        git config --global user.signingkey "$KeyId"
         Write-Host "Your user.signingkey on git is: $(git config --global user.signingkey)"
 
         Write-Host "Enabling commit.gpgsign on git..."
@@ -183,7 +184,7 @@ function Set-GPGKey() {
         Write-Host "Copy and Paste the lines below on your`nGithub/Gitlab > Settings > SSH and GPG Keys > New GPG Key"
         Get-Content -Path "$GnuPGPath/$($GnuPGFileName)_public.gpg" -Encoding UTF8
     } Else {
-        Write-Host "Failed to retrieve your key_id: $key_id"
+        Write-Host "Failed to retrieve your key_id: $KeyId"
     }
 
     Write-Host "Importing your key on $GnuPGPath\$($GnuPGFileName)_public.gpg and $($GnuPGFileName)_secret.gpg"
