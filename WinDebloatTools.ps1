@@ -1574,7 +1574,7 @@ function Show-GUI() {
             }
 
             If ($InstallJavaJdks.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.18"))
+                $AppsSelected.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8.JDK", "EclipseAdoptium.Temurin.11.JDK", "EclipseAdoptium.Temurin.18.JDK"))
                 $InstallJavaJdks.CheckState = "Unchecked"
             }
 
