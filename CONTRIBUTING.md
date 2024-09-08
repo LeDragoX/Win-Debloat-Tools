@@ -60,6 +60,15 @@ git clone -b develop --filter=tree:0 https://github.com/LeDragoX/Win-Debloat-Too
 git clone -b develop --filter=tree:0 git@github.com:LeDragoX/Win-Debloat-Tools.git
 ```
 
+## 👾 Debugging with all modules
+
+On VSCode the modules seems to not load all the divergent variables and functions dynamically, to fix that, all modules should be imported manually:
+
+```ps1
+Get-Item .\src\lib\*.psm1 | Import-Module -PassThru -Force
+Get-Item .\src\lib\**\*.psm1 | Import-Module -PassThru -Force
+```
+
 ## 🔎 How to find specific Tweaks? (One method)
 
 The most registry tweaks can be easily found on the Internet, but what about the ones no one covered?
