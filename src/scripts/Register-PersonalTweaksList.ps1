@@ -252,7 +252,7 @@ function Register-PersonalTweaksList() {
     $TimeoutScreenPluggedIn = 10
 
     $TimeoutStandByBattery = 15
-    $TimeoutStandByPluggedIn = 180
+    $TimeoutStandByPluggedIn = 30
 
     $TimeoutDiskBattery = 20
     $TimeoutDiskPluggedIn = 30
