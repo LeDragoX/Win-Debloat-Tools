@@ -3,7 +3,7 @@
 ⚠ **Warning**: this file is subject to changing without notice.
 
 I would be happy to extend the collection of scripts.
-If you want to send me a **PULL REQUEST**, send you PRs to the `develop` branch, select your `local branch (from)` and put into `develop`, i'll check your code, request changes if necessary or approve, and merge directly unless it's a "Draft PR".
+If you want to send me a **PULL REQUEST**, send you PRs to the `main` branch, I'll check your code, request changes if necessary or approve, and merge directly unless it's a "Draft PR".
 
 ## 🖌 Coding Style
 
@@ -51,13 +51,7 @@ Follow at least the minimal required to help.
 ### Via HTTPS
 
 ```sh
-git clone -b develop --filter=tree:0 https://github.com/LeDragoX/Win-Debloat-Tools.git
-```
-
-### Or SSH
-
-```sh
-git clone -b develop --filter=tree:0 git@github.com:LeDragoX/Win-Debloat-Tools.git
+git clone --filter=tree:0 https://github.com/LeDragoX/Win-Debloat-Tools.git
 ```
 
 ## 👾 Debugging with all modules
