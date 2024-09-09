@@ -22,11 +22,6 @@ function Optimize-WindowsFeaturesList() {
         "WorkFolders-Client"                   # Work Folders Client
     )
 
-    $EnableFeatures = @(
-        "NetFx3"                            # NET Framework 3.5
-        "NetFx4Extended-ASPNET45"           # NET Framework 4.x + ASPNET 4.x
-    )
-
     Write-Title "Optional Features Tweaks"
     Write-Section "Uninstall Optional Features from Windows"
 
@@ -36,9 +31,6 @@ function Optimize-WindowsFeaturesList() {
     } Else {
         Set-OptionalFeatureState -State 'Disabled' -OptionalFeatures $DisableFeatures
     }
-
-    Write-Section "Install Optional Features from Windows"
-    Set-OptionalFeatureState -State 'Enabled' -OptionalFeatures $EnableFeatures
 }
 
 # List all Optional Features:

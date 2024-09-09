@@ -1544,7 +1544,9 @@ function Show-GUI() {
 
             If ($InstallGitGnupgSshSetup.CheckState -eq "Checked") {
                 If (!($Script:UninstallSwitch)) {
+                    Stop-Logging # Don't log any credential info after this point
                     Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("Git-GnupgSshKeysSetup.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+                    Start-Logging -File "$CurrentFileName-$(Get-Date -Format "yyyy-MM")"
                 } Else {
                     $AppsSelected.WingetApps.AddRange(@("Git.Git", "GnuPG.GnuPG")) # Installed before inside the script
                 }
@@ -1572,7 +1574,7 @@ function Show-GUI() {
             }
 
             If ($InstallJavaJdks.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8", "EclipseAdoptium.Temurin.11", "EclipseAdoptium.Temurin.18"))
+                $AppsSelected.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8.JDK", "EclipseAdoptium.Temurin.11.JDK", "EclipseAdoptium.Temurin.18.JDK"))
                 $InstallJavaJdks.CheckState = "Unchecked"
             }
 

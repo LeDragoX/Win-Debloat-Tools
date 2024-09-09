@@ -54,8 +54,9 @@ function Remove-BloatwareAppsList() {
 
         # Default Windows 11 apps
         "Clipchamp.Clipchamp"				     # Clipchamp – Video Editor
+        "Microsoft.OutlookForWindows"            # Microsoft Outlook
+        "MicrosoftTeams"                         # Microsoft Teams
         "MicrosoftWindows.Client.WebExperience"  # Taskbar Widgets
-        "MicrosoftTeams"                         # Microsoft Teams / Preview
 
         # [DIY] Remove the # to Uninstall
 

@@ -30,7 +30,7 @@ I need to change these files:
 
 ## 🚀 Download Latest Version
 
-Code located in the `main` branch is considered stable, the `develop` branch contains the most recent features.
+Code located in the `main` branch is considered bleeding-edge, but big features/reworks will be implemented in a separate branch.
 
 > [!IMPORTANT]
 > *Use on a fresh Windows install to notice the differences. Using an admin account is recommended to avoid any compatibility issues.*
@@ -42,22 +42,22 @@ Code located in the `main` branch is considered stable, the `develop` branch con
         <th>Branch to Download</th>
         <th>Version(s) Supported</th>
         <th>Edition(s)</th>
+        <th>Architecture</th>
         <th>PowerShell Version</th>
       </tr>
     </thead>
     <tbody align="center">
       <tr>
         <td>
-            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main</a></h4>(Stable)
+            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/main.zip">⬇️ Main</a></h4>(Current)
         </td>
         <td rowspan="2">23H2 or Older</td>
         <td rowspan="2">Home / Pro</td>
-        <td rowspan="2"><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
-      </tr>
-      <tr>
-        <td>
-            <h4><a href="https://github.com/LeDragoX/Win-Debloat-Tools/archive/develop.zip">⬇️ Develop</a></h4>(Newer)
+        <td rowspan="2">
+          x86/x64 ONLY<br>
+          ARM/ARM64 will break your installation (<a href="https://github.com/LeDragoX/Win-Debloat-Tools/issues/97">#97</a>)
         </td>
+        <td rowspan="2"><img width=20px src="src/assets/powershell-icon.png" style="vertical-align: bottom" /> v5.1+</td>
       </tr>
     </tbody>
   </table>
