@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\Manage-Chocolatey.psm1"
+﻿Import-Module -DisableNameChecking "$PSScriptRoot\Manage-Chocolatey.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\Manage-Winget.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Open-File.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"

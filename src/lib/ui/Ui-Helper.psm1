@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\Get-DefaultColor.psm1"
+﻿Import-Module -DisableNameChecking "$PSScriptRoot\Get-DefaultColor.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Title-Templates.psm1"
 
 # Adapted from: https://stackoverflow.com/a/35965782

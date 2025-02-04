@@ -1,4 +1,4 @@
-# Adapted from: https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
+﻿# Adapted from: https://stackoverflow.com/questions/25690038/how-do-i-properly-use-the-folderbrowserdialog-in-powershell
 
 function Select-Folder() {
     [CmdletBinding()]
