@@ -1,4 +1,4 @@
-function Get-DefaultColor() {
+﻿function Get-DefaultColor() {
     $Colors = @{
         Cyan          = "#25F7D8"
         DarkGray      = "#2C2C2C"

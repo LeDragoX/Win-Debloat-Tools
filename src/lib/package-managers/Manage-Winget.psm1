@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\Install-PackageManager.psm1"
+﻿Import-Module -DisableNameChecking "$PSScriptRoot\Install-PackageManager.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\Manage-DailyUpgradeJob.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\Get-TempScriptFolder.psm1"

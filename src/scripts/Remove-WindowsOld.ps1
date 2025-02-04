@@ -1,4 +1,4 @@
-Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
+﻿Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\ui\Show-MessageDialog.psm1"
 
 function Remove-WindowsOld() {

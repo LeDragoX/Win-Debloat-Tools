@@ -1,4 +1,4 @@
-function Set-RevertStatus() {
+﻿function Set-RevertStatus() {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0, Mandatory)]

@@ -1,4 +1,4 @@
-Import-Module BitsTransfer
+﻿Import-Module BitsTransfer
 Import-Module -DisableNameChecking "$PSScriptRoot\Get-TempScriptFolder.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\Title-Templates.psm1"
 
