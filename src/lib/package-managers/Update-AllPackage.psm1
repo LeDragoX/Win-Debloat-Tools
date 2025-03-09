@@ -20,12 +20,5 @@ function Update-AllPackage() {
         Write-Status -Types "!" -Status "Failed to upgrade packages through Chocolatey (maybe it's uninstalled?)" -Warning
     }
 
-    Try {
-        Write-Caption "WSL"
-        wsl --update | Out-Host
-    } Catch {
-        Write-Status -Types "!" -Status "Failed to upgrade packages through WSL (maybe it's uninstalled?)" -Warning
-    }
-
     Show-MessageDialog -Title "$DoneTitle" -Message "$DoneMessage"
 }
