@@ -132,7 +132,7 @@ function Show-GUI() {
     # <===== Specific Layout =====>
 
     $LayoutT1 = New-LayoutPage -NumOfPanels 3 -PanelHeight 1065
-    $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1830
+    $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1870
 
     # <===== UI =====>
 
@@ -342,7 +342,8 @@ function Show-GUI() {
     $InstallCpuZ = New-CheckBox -Text "CPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClUtilities
     $InstallCrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCpuZ
     $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskInfo
-    $InstallGeekbench6 = New-CheckBox -Text "Geekbench 6" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskMark
+    $InstallFileConverter = New-CheckBox -Text "File Converter" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskMark
+    $InstallGeekbench6 = New-CheckBox -Text "Geekbench 6" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallFileConverter
     $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGeekbench6
     $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGpuZ
     $InstallInternetDownloadManager = New-CheckBox -Text "Internet Download Manager (Trial)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallHwInfo
@@ -493,7 +494,7 @@ function Show-GUI() {
     $T2Panel2.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
     $T2Panel2.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallCrunchyroll, $InstallDisneyPlus, $InstallNetflix, $InstallSpotify))
     $T2Panel2.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
-    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallGeekbench6, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter, $InstallWizTree))
+    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallFileConverter, $InstallGeekbench6, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter, $InstallWizTree))
     $T2Panel2.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
     $T2Panel3.Controls.AddRange(@($UninstallMode))
     $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
@@ -1243,6 +1244,11 @@ function Show-GUI() {
             If ($InstallCrystalDiskMark.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("CrystalDewWorld.CrystalDiskMark")
                 $InstallCrystalDiskMark.CheckState = "Unchecked"
+            }
+
+            If ($InstallFileConverter.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("AdrienAllard.FileConverter")
+                $InstallFileConverter.CheckState = "Unchecked"
             }
 
             If ($InstallGeekbench6.CheckState -eq "Checked") {
