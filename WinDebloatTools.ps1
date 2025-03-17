@@ -402,8 +402,7 @@ function Show-GUI() {
     $InstallMGba = New-CheckBox -Text "mGBA (GBA)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallKegaFusion
     $InstallPPSSPP = New-CheckBox -Text "PPSSPP (PSP)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMGba
     $InstallRetroArch = New-CheckBox -Text "RetroArch (All In One)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallPPSSPP
-    $InstallRyujinx = New-CheckBox -Text "Ryujinx (Switch)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRetroArch
-    $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRyujinx
+    $InstallSnes9x = New-CheckBox -Text "Snes9x (SNES)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRetroArch
 
     # ==> T2 Panel 4
     $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -ElementBefore $InstallSelected -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold'
@@ -501,7 +500,7 @@ function Show-GUI() {
     $T2Panel3.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
     $T2Panel3.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
     $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
-    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallCemu, $InstallDolphin, $InstallDuckstation, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallRetroArch, $InstallRyujinx, $InstallSnes9x))
+    $T2Panel3.Controls.AddRange(@($ClEmulation, $InstallCemu, $InstallDolphin, $InstallDuckstation, $InstallKegaFusion, $InstallMGba, $InstallPPSSPP, $InstallRetroArch, $InstallSnes9x))
     $T2Panel4.Controls.AddRange(@($ClTextEditors, $InstallJetBrainsToolbox, $InstallNotepadPlusPlus, $InstallVisualStudioCommunity, $InstallVSCode, $InstallVSCodium))
     $T2Panel4.Controls.AddRange(@($ClWsl, $InstallWSL, $InstallArchWSL, $InstallDebian, $InstallKaliLinux, $InstallUbuntu))
     $T2Panel4.Controls.AddRange(@($ClDevelopment, $InstallWindowsTerminal, $InstallNerdFonts, $InstallGitGnupgSshSetup, $InstallAdb, $InstallAndroidStudio, $InstallDockerDesktop, $InstallInsomnia, $InstallJavaJdks, $InstallJavaJre, $InstallMySql, $InstallNodeJs, $InstallNodeJsLts, $InstallPostgreSql, $InstallPython3, $InstallPythonAnaconda3, $InstallRuby, $InstallRubyMsys, $InstallRustGnu, $InstallRustMsvc))
@@ -1469,11 +1468,6 @@ function Show-GUI() {
             If ($InstallRetroArch.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("Libretro.RetroArch")
                 $InstallRetroArch.CheckState = "Unchecked"
-            }
-
-            If ($InstallRyujinx.CheckState -eq "Checked") {
-                $AppsSelected.ChocolateyApps.Add("ryujinx")
-                $InstallRyujinx.CheckState = "Unchecked"
             }
 
             If ($InstallSnes9x.CheckState -eq "Checked") {
