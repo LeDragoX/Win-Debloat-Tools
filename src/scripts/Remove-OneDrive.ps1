@@ -1,4 +1,5 @@
 ﻿Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemVerified.psm1"
+Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-UWPApp.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
 
 function Remove-OneDrive() {
@@ -46,6 +47,9 @@ function Remove-OneDrive() {
 
     Write-Host "Removing scheduled task..."
     Get-ScheduledTask -TaskPath '\' -TaskName 'OneDrive*' -ea SilentlyContinue | Unregister-ScheduledTask -Confirm:$false
+
+    Write-Host "Removing One Drive Sync app..."
+    Remove-UWPApp -AppxPackages "Microsoft.OneDriveSync"
 
     Write-Host "Restarting explorer..."
     Start-Process "explorer.exe"
