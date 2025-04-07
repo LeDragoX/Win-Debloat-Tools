@@ -343,12 +343,12 @@ function Show-GUI() {
     $InstallCrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCpuZ
     $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskInfo
     $InstallFileConverter = New-CheckBox -Text "File Converter" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskMark
-    $InstallGeekbench6 = New-CheckBox -Text "Geekbench 6" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallFileConverter
-    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGeekbench6
+    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallFileConverter
     $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGpuZ
     $InstallInternetDownloadManager = New-CheckBox -Text "Internet Download Manager (Trial)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallHwInfo
     $InstallMsiAfterburner = New-CheckBox -Text "MSI Afterburner" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallInternetDownloadManager
-    $InstallRtxVoice = New-CheckBox -Text "RTX Voice" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsiAfterburner
+    $InstallNeatDownloadManager = New-CheckBox -Text "Neat Download Manager" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsiAfterburner
+    $InstallRtxVoice = New-CheckBox -Text "RTX Voice" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNeatDownloadManager
     $InstallVoicemod = New-CheckBox -Text "Voicemod" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRtxVoice
     $InstallVoiceMeeter = New-CheckBox -Text "Voicemeeter Potato" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVoicemod
     $InstallWizTree = New-CheckBox -Text "WizTree" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVoiceMeeter
@@ -493,7 +493,7 @@ function Show-GUI() {
     $T2Panel2.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
     $T2Panel2.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallCrunchyroll, $InstallDisneyPlus, $InstallNetflix, $InstallSpotify))
     $T2Panel2.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
-    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallFileConverter, $InstallGeekbench6, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter, $InstallWizTree))
+    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallFileConverter, $InstallNeatDownloadManager, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter, $InstallWizTree))
     $T2Panel2.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
     $T2Panel3.Controls.AddRange(@($UninstallMode))
     $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSkype, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
@@ -1250,9 +1250,9 @@ function Show-GUI() {
                 $InstallFileConverter.CheckState = "Unchecked"
             }
 
-            If ($InstallGeekbench6.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("PrimateLabs.Geekbench.6")
-                $InstallGeekbench6.CheckState = "Unchecked"
+            If ($InstallNeatDownloadManager.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("JavadMotallebi.NeatDownloadManager")
+                $InstallNeatDownloadManager.CheckState = "Unchecked"
             }
 
             If ($InstallGpuZ.CheckState -eq "Checked") {
