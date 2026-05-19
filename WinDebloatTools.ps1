@@ -132,7 +132,7 @@ function Show-GUI() {
     # <===== Specific Layout =====>
 
     $LayoutT1 = New-LayoutPage -NumOfPanels 3 -PanelHeight 1065
-    $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1870
+    $LayoutT2 = New-LayoutPage -NumOfPanels 4 -PanelHeight 1925
 
     # <===== UI =====>
 
@@ -343,7 +343,8 @@ function Show-GUI() {
     $InstallCrystalDiskInfo = New-CheckBox -Text "Crystal Disk Info" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCpuZ
     $InstallCrystalDiskMark = New-CheckBox -Text "Crystal Disk Mark" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskInfo
     $InstallFileConverter = New-CheckBox -Text "File Converter" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallCrystalDiskMark
-    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallFileConverter
+    $InstallFileZilla = New-CheckBox -Text "FileZilla" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallFileConverter
+    $InstallGpuZ = New-CheckBox -Text "GPU-Z" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallFileZilla
     $InstallHwInfo = New-CheckBox -Text "HWiNFO" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallGpuZ
     $InstallInternetDownloadManager = New-CheckBox -Text "Internet Download Manager (Trial)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallHwInfo
     $InstallMsiAfterburner = New-CheckBox -Text "MSI Afterburner" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallInternetDownloadManager
@@ -492,7 +493,7 @@ function Show-GUI() {
     $T2Panel2.Controls.AddRange(@($ClImageTools, $InstallGimp, $InstallInkscape, $InstallIrfanView, $InstallKrita, $InstallPaintNet, $InstallShareX))
     $T2Panel2.Controls.AddRange(@($ClStreamingServices, $InstallAmazonPrimeVideo, $InstallCrunchyroll, $InstallDisneyPlus, $InstallNetflix, $InstallSpotify))
     $T2Panel2.Controls.AddRange(@($ClPlanningProductivity, $InstallNotion, $InstallObsidian))
-    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallFileConverter, $InstallNeatDownloadManager, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter, $InstallWizTree))
+    $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallFileConverter, $InstallFileZilla, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallNeatDownloadManager, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter, $InstallWizTree))
     $T2Panel2.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
     $T2Panel3.Controls.AddRange(@($UninstallMode))
     $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
@@ -1249,9 +1250,9 @@ function Show-GUI() {
                 $InstallFileConverter.CheckState = "Unchecked"
             }
 
-            If ($InstallNeatDownloadManager.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("JavadMotallebi.NeatDownloadManager")
-                $InstallNeatDownloadManager.CheckState = "Unchecked"
+            If ($InstallFileZilla.CheckState -eq "Checked") {
+                $AppsSelected.ChocolateyApps.Add("filezilla")
+                $InstallFileZilla.CheckState = "Unchecked"
             }
 
             If ($InstallGpuZ.CheckState -eq "Checked") {
@@ -1272,6 +1273,11 @@ function Show-GUI() {
             If ($InstallMsiAfterburner.CheckState -eq "Checked") {
                 $AppsSelected.ChocolateyApps.Add("msiafterburner")
                 $InstallMsiAfterburner.CheckState = "Unchecked"
+            }
+
+            If ($InstallNeatDownloadManager.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("JavadMotallebi.NeatDownloadManager")
+                $InstallNeatDownloadManager.CheckState = "Unchecked"
             }
 
             If ($InstallRtxVoice.CheckState -eq "Checked") {
