@@ -307,7 +307,7 @@ function Show-GUI() {
     $InstallTranslucentTB = New-CheckBox -Text "TranslucentTB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRoundedTB
 
     # ==> T2 Panel 2
-    $InstallSelected = New-Button -Text "Install Selected" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX $LayoutT2.PanelElementX -LocationY 0 -FontSize $LayoutT2.Heading[3] -FontStyle "Bold" -BackColor $Colors.White -ForeColor $Colors.DarkGray
+    $InstallSelected = New-Button -Text "Install Selected" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.ButtonHeight -LocationX $LayoutT2.PanelElementX -LocationY 0 -FontSize $LayoutT2.Heading[3] -FontStyle "Bold" -BackColor $Colors.Cyan -ForeColor $Colors.DarkGray
 
     $ClWebBrowsers = New-Label -Text "Web Browsers" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallSelected
     $InstallBraveBrowser = New-CheckBox -Text "Brave Browser" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClWebBrowsers
@@ -1001,7 +1001,7 @@ function Show-GUI() {
             }
 
             If ($InstallDirectX.CheckState -eq "Checked") {
-                $AppsSelected.ChocolateyApps.Add("directx")
+                $AppsSelected.WingetApps.Add("Microsoft.DirectX")
                 $InstallDirectX.CheckState = "Unchecked"
             }
 
