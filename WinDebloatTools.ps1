@@ -264,8 +264,8 @@ function Show-GUI() {
     $ClApplicationRequirements = New-Label -Text "Application Requirements" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallNVCleanstall
     $InstallDirectX = New-CheckBox -Text "DirectX End-User Runtime" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClApplicationRequirements
     $InstallMsDotNetFramework = New-CheckBox -Text "Microsoft .NET Framework" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDirectX
-    $InstallMsVCppX64 = New-CheckBox -Text "MSVC Redist 2005-2022 (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsDotNetFramework
-    $InstallMsVCppX86 = New-CheckBox -Text "MSVC Redist 2005-2022 (x86)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsVCppX64
+    $InstallMsVCppX64 = New-CheckBox -Text "MSVC Redist 2005-2015+ (x64)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsDotNetFramework
+    $InstallMsVCppX86 = New-CheckBox -Text "MSVC Redist 2005-2015+ (x86)" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMsVCppX64
 
     $ClFileCompression = New-Label -Text "File Compression" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallMsVCppX86
     $Install7Zip = New-CheckBox -Text "7-Zip" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClFileCompression
@@ -285,10 +285,7 @@ function Show-GUI() {
     $ClAcademicResearch = New-Label -Text "Academic Research" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallqBittorrent
     $InstallZotero = New-CheckBox -Text "Zotero" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClAcademicResearch
 
-    $Cl2fa = New-Label -Text "2-Factor Authentication" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallZotero
-    $InstallTwilioAuthy = New-CheckBox -Text "Twilio Authy" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $Cl2fa
-
-    $ClBootableUsb = New-Label -Text "Bootable USB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallTwilioAuthy
+    $ClBootableUsb = New-Label -Text "Bootable USB" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallZotero
     $InstallBalenaEtcher = New-CheckBox -Text "Etcher" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClBootableUsb
     $InstallRufus = New-CheckBox -Text "Rufus" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallBalenaEtcher
     $InstallVentoy = New-CheckBox -Text "Ventoy" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRufus
@@ -370,7 +367,8 @@ function Show-GUI() {
     $InstallRocketChat = New-CheckBox -Text "Rocket Chat" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMSTeams
     $InstallSignal = New-CheckBox -Text "Signal" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallRocketChat
     $InstallSlack = New-CheckBox -Text "Slack" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSignal
-    $InstallTelegramDesktop = New-CheckBox -Text "Telegram Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSlack
+    $InstallTeamSpeak6 = New-CheckBox -Text "TeamSpeak 6 Beta" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallSlack
+    $InstallTelegramDesktop = New-CheckBox -Text "Telegram Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallTeamSpeak6
     $InstallWhatsAppDesktop = New-CheckBox -Text "WhatsApp Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallTelegramDesktop
     $InstallZoom = New-CheckBox -Text "Zoom" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallWhatsAppDesktop
 
@@ -408,7 +406,7 @@ function Show-GUI() {
     $ClTextEditors = New-Label -Text "Text Editors/IDEs" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CaptionLabelHeight -LocationX $LayoutT2.PanelElementX -ElementBefore $InstallSelected -FontSize $LayoutT2.Heading[2] -FontStyle 'Bold'
     $InstallJetBrainsToolbox = New-CheckBox -Text "JetBrains Toolbox" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $ClTextEditors
     $InstallNotepadPlusPlus = New-CheckBox -Text "Notepad++" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallJetBrainsToolbox
-    $InstallVisualStudioCommunity = New-CheckBox -Text "Visual Studio 2022 Community" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNotepadPlusPlus
+    $InstallVisualStudioCommunity = New-CheckBox -Text "Visual Studio Community" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallNotepadPlusPlus
     $InstallVSCode = New-CheckBox -Text "VS Code" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVisualStudioCommunity
     $InstallVSCodium = New-CheckBox -Text "VS Codium" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallVSCode
 
@@ -427,7 +425,7 @@ function Show-GUI() {
     $InstallAndroidStudio = New-CheckBox -Text "Android Studio" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAdb
     $InstallDockerDesktop = New-CheckBox -Text "Docker Desktop" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallAndroidStudio
     $InstallInsomnia = New-CheckBox -Text "Insomnia" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallDockerDesktop
-    $InstallJavaJdks = New-CheckBox -Text "Java - Adoptium JDK 8/11/18" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallInsomnia
+    $InstallJavaJdks = New-CheckBox -Text "Java - Adoptium JDK 8/11/25" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallInsomnia
     $InstallJavaJre = New-CheckBox -Text "Java - Oracle JRE" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallJavaJdks
     $InstallMySql = New-CheckBox -Text "MySQL" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallJavaJre
     $InstallNodeJs = New-CheckBox -Text "NodeJS" -Width $LayoutT2.PanelElementWidth -Height $LayoutT2.CheckBoxHeight -LocationX $LayoutT2.PanelElementX -FontSize $LayoutT2.Heading[3] -ElementBefore $InstallMySql
@@ -496,7 +494,7 @@ function Show-GUI() {
     $T2Panel2.Controls.AddRange(@($ClUtilities, $InstallCpuZ, $InstallCrystalDiskInfo, $InstallCrystalDiskMark, $InstallFileConverter, $InstallFileZilla, $InstallGpuZ, $InstallHwInfo, $InstallInternetDownloadManager, $InstallMsiAfterburner, $InstallNeatDownloadManager, $InstallRtxVoice, $InstallVoicemod, $InstallVoiceMeeter, $InstallWizTree))
     $T2Panel2.Controls.AddRange(@($ClNetworkManagement, $InstallHamachi, $InstallPuTty, $InstallRadminVpn, $InstallWinScp, $InstallWireshark))
     $T2Panel3.Controls.AddRange(@($UninstallMode))
-    $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSlack, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
+    $T2Panel3.Controls.AddRange(@($ClCommunication, $InstallDiscord, $InstallMSTeams, $InstallRocketChat, $InstallSignal, $InstallSlack, $InstallTeamSpeak6, $InstallTelegramDesktop, $InstallWhatsAppDesktop, $InstallZoom))
     $T2Panel3.Controls.AddRange(@($ClGaming, $InstallBorderlessGaming, $InstallEADesktop, $InstallEpicGamesLauncher, $InstallGogGalaxy, $InstallSteam, $InstallUbisoftConnect))
     $T2Panel3.Controls.AddRange(@($ClRemoteConnection, $InstallAnyDesk, $InstallParsec, $InstallScrCpy, $InstallTeamViewer))
     $T2Panel3.Controls.AddRange(@($ClRecordingAndStreaming, $InstallElgatoStreamDeck, $InstallHandBrake, $InstallObsStudio, $InstallStreamlabs))
@@ -1350,6 +1348,11 @@ function Show-GUI() {
                 $InstallSlack.CheckState = "Unchecked"
             }
 
+            If ($InstallTeamSpeak6.CheckState -eq "Checked") {
+                $AppsSelected.WingetApps.Add("TeamSpeakSystems.TeamSpeakClient.Beta.6")
+                $InstallTeamSpeak6.CheckState = "Unchecked"
+            }
+
             If ($InstallTelegramDesktop.CheckState -eq "Checked") {
                 $AppsSelected.WingetApps.Add("Telegram.TelegramDesktop")
                 $InstallTelegramDesktop.CheckState = "Unchecked"
@@ -1486,7 +1489,7 @@ function Show-GUI() {
             }
 
             If ($InstallVisualStudioCommunity.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("Microsoft.VisualStudio.2022.Community")
+                $AppsSelected.WingetApps.Add("Microsoft.VisualStudio.Community")
                 $InstallVisualStudioCommunity.CheckState = "Unchecked"
             }
 
@@ -1580,7 +1583,7 @@ function Show-GUI() {
             }
 
             If ($InstallJavaJdks.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8.JDK", "EclipseAdoptium.Temurin.11.JDK", "EclipseAdoptium.Temurin.18.JDK"))
+                $AppsSelected.WingetApps.AddRange(@("EclipseAdoptium.Temurin.8.JDK", "EclipseAdoptium.Temurin.11.JDK", "EclipseAdoptium.Temurin.25.JDK"))
                 $InstallJavaJdks.CheckState = "Unchecked"
             }
 
@@ -1610,7 +1613,7 @@ function Show-GUI() {
             }
 
             If ($InstallPython3.CheckState -eq "Checked") {
-                $AppsSelected.WingetApps.Add("Python.Python.3")
+                $AppsSelected.WingetApps.Add("Python.Python.3.14")
                 $InstallPython3.CheckState = "Unchecked"
             }
 
