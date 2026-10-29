@@ -88,6 +88,8 @@ function Set-FileNamePrefix() {
 }
 
 function Enable-SshAndGpgAgent() {
+    [Array] $GPGPaths = @("${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe", "${env:ProgramFiles}\gnupg\bin\gpg.exe")
+
     Write-Host "Starting ssh-agent Service (Requires Admin)" -ForegroundColor Cyan
     Get-Service -Name "ssh-agent" -ErrorAction SilentlyContinue | Set-Service -StartupType Automatic
     Start-Service -Name "ssh-agent"
@@ -95,8 +97,16 @@ function Enable-SshAndGpgAgent() {
     Write-Host "Checking if ssh-agent.exe is running before adding the keys..." -ForegroundColor Cyan
     ssh-agent.exe
 
-    Write-Host "Setting git config GnuPG program path to ${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe ..." -ForegroundColor Cyan
-    git config --global gpg.program "${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe"
+    Write-Host "Setting git config GnuPG program path to `"${env:ProgramFiles(x86)}\gnupg\bin\gpg.exe`" ..." -ForegroundColor Cyan
+
+    ForEach ($Path in $GPGPaths) {
+        If (Test-Path "$Path") {
+            Write-Host "Found GPG binaries at: ${Path}" -ForegroundColor Cyan
+            git config --global gpg.program "$Path"
+        } Else {
+            Write-Host "The path to `"$Path`" does not exist." -ForegroundColor Yellow
+        }
+    }
 }
 
 function Set-SSHKey() {
@@ -132,7 +142,7 @@ function Set-GPGKey() {
     $GnuPGPath = "~\.gnupg"
     $GnuPGEncryptionSize = "4096"
     $GnuPGEncryptionType = "rsa$GnuPGEncryptionSize"
-    $GnuPGFileName = Set-FileNamePrefix -FixedFileName "_$GnuPGEncryptionType" -KeyType "GPG"
+    $GnuPGFileName = Set-FileNamePrefix -FixedFileName "-$GnuPGEncryptionType" -KeyType "GPG"
 
     If (!(Test-Path "$GnuPGPath")) {
         Write-Host "Creating folder on '$GnuPGPath'"
@@ -141,7 +151,7 @@ function Set-GPGKey() {
 
     Push-Location "$GnuPGPath"
 
-    Write-Host "Generating new GPG key in $GnuPGPath/$GnuPGFileName..."
+    Write-Host "Generating new GPG key in $GnuPGGeneratePath/$GnuPGFileName..."
     Write-Host "Before exporting your public and private keys, add manually an email." -ForegroundColor Cyan
     Write-Host "Type: 1 (RSA and RSA) [ENTER]." -ForegroundColor Cyan
     Write-Host "Type: 4096 [ENTER]." -ForegroundColor Cyan
@@ -159,18 +169,16 @@ function Set-GPGKey() {
     Write-Status -Types "@" -Status 'gpg --delete-secret-keys $(git config --global user.name)'
     Write-Status -Types "@" -Status 'gpg --delete-keys $(git config --global user.name)'
 
-    Write-Host "Copying all files to $GnuPGPath"
-    Copy-Item -Path "$GnuPGGeneratePath/*" -Destination "$GnuPGPath/" -Recurse -Force
-    Remove-ItemVerified -Path "$GnuPGPath/*" -Exclude "*.gpg", "*.key", "*.pub", "*.rev" -Recurse
-    Remove-ItemVerified -Path "$GnuPGPath/trustdb.gpg"
-
-    Write-Host "Export public and private key to files:`n- $GnuPGPath\$($GnuPGFileName)_public.gpg`n- $GnuPGPath\$($GnuPGFileName)_secret.gpg"
-    gpg --output "$($GnuPGFileName)_public.gpg" --armor --export "$(git config --global user.email)"
-    gpg --output "$($GnuPGFileName)_secret.gpg" --armor --export-secret-key "$(git config --global user.email)"
+    Write-Host "Export public and private key to files:`n- $GnuPGPath\$($GnuPGFileName)-pubkeys.gpg`n- $GnuPGPath\$($GnuPGFileName)-privkeys.gpg"
+    gpg --output "$($GnuPGFileName)-pubkeys.gpg" --armor --export "$(git config --global user.email)"
+    gpg --output "$($GnuPGFileName)-privkeys.gpg" --armor --export-secret-key "$(git config --global user.email)"
 
     # Get the exact Key ID from the system
     $KeyId = $((gpg --list-keys --keyid-format LONG).Split(" ")[5].Split("/")[1])
     $CurrentGPGKey = $(git config --global user.signingkey)
+
+    Write-Host "Enabling commit.gpgsign on git..."
+    git config --global commit.gpgsign true
 
     If (($KeyId -eq "") -or ($null -eq $KeyId) -or ($KeyId -ne $CurrentGPGKey)) {
         Write-Host "GPG Key id found: $KeyId."
@@ -178,17 +186,14 @@ function Set-GPGKey() {
         git config --global user.signingkey "$KeyId"
         Write-Host "Your user.signingkey on git is: $(git config --global user.signingkey)"
 
-        Write-Host "Enabling commit.gpgsign on git..."
-        git config --global commit.gpgsign true
-
         Write-Host "Copy and Paste the lines below on your`nGithub/Gitlab > Settings > SSH and GPG Keys > New GPG Key"
-        Get-Content -Path "$GnuPGPath/$($GnuPGFileName)_public.gpg" -Encoding UTF8
+        Get-Content -Path "$GnuPGPath/$($GnuPGFileName)-pubkeys.gpg" -Encoding ASCII
     } Else {
         Write-Host "Failed to retrieve your key_id: $KeyId"
     }
 
-    Write-Host "Importing your key on $GnuPGPath\$($GnuPGFileName)_public.gpg and $($GnuPGFileName)_secret.gpg"
-    gpg --import $GnuPGFileName * .gpg # Remind: No QUOTES in variables
+    Write-Host "Importing your key on $GnuPGPath\$($GnuPGFileName)-pubkeys.gpg and $($GnuPGFileName)-privkeys.gpg"
+    gpg --import $GnuPGFileName * *.gpg # Remind: No QUOTES in variables
     Write-Host "Importing all GPG keys on $GnuPGPath" -ForegroundColor Cyan
     gpg --import *
 
@@ -215,6 +220,9 @@ function Import-KeysSshGpg() {
         gpg --import *
         Pop-Location
     }
+
+    Write-Host "Enabling commit.gpgsign on git..."
+    git config --global commit.gpgsign true
 }
 
 $Ask = "Before everything, your data will only be keep locally, only in YOUR PC.`nI've made this to be more productive and not to lose time setting up signing keys on Windows.`n`nThis setup cover:`n- Git user name and email`n- SSH and GPG keys full creation and import (even other keys from ~\.ssh and ~\.gnupg)`n- Or import existing SSH and GPG keys (only changes git config gpg.program)`n`nDo you want to proceed?"
